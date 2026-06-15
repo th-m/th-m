@@ -40,7 +40,7 @@ Most of the engineering questions I return to live between product intent and sy
 
 ## Public Artifacts
 
-A few public projects where these interests show up in code or writing:
+These are mostly a decade old or unfinished 😅. Most moonlight work goes to [soundsculpt.app](https://soundsculpt.app), and my day job gets my daylight work.
 
 - **[firebase-typed](https://github.com/th-m/firebase-typed):** TypeScript utility layer that adds type inference and safer ergonomics to Firebase realtime database access.
 - **[fullstack-code-gen](https://github.com/th-m/fullstack-code-gen):** Proto-driven generation pipeline for Go, GraphQL, OpenAPI, TypeScript, Dockerized generators, migrations, and typed database access.
