@@ -13,7 +13,7 @@ Where is complexity collecting? What would make the next change easier without o
 - **[SOLID and dependency direction](https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design):** vocabulary for responsibility boundaries, extension, substitutability, interface size, and dependency inversion.
 - **[Tracer bullets, DRY, and orthogonality](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/):** ideas from *The Pragmatic Programmer* for learning through running systems, avoiding duplicated knowledge, and keeping decisions independently changeable.
 - **[Deep modules and information hiding](https://web.stanford.edu/~ouster/cgi-bin/book.php):** Ousterhout's frame for reducing cognitive load: simple interfaces that hide meaningful complexity.
-- **[Microservice boundaries](https://samnewman.io/books/building_microservices_2nd_edition/):** services should follow ownership, data, deployment, and change patterns, not architecture fashion.
+- **[Bounded contexts](https://martinfowler.com/bliki/BoundedContext.html):** service boundaries should follow domain language, ownership, and model boundaries rather than architecture fashion.
 - **[Martin Fowler's Bliki](https://martinfowler.com/bliki/):** field notes on architecture, refactoring, delivery, and the language engineers use to reason about change.
 - **[Refactoring.Guru](https://refactoring.guru/):** a practical catalog of refactoring techniques, code smells, and design patterns.
 - **[AI-ready codebases](https://wearehypercube.com/ready-for-ai-preparing-your-codebase-for-assistants/):** strong names, local context, types, tests, and explicit boundaries make code easier for people and tools to navigate.
