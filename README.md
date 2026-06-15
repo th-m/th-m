@@ -4,6 +4,21 @@ I am interested in how software systems become understandable enough to change.
 
 Most of the engineering questions I return to live between product intent and system design: What is the real shape of the domain? Which boundaries are durable, and which ones are just artifacts of the current implementation? Where is complexity collecting? What would make the next change easier without over-designing for an imagined future?
 
+## Principles
+
+- **SOLID:** keep responsibilities narrow, dependencies explicit, and extension points intentional instead of abstract by default.
+- **The Pragmatic Programmer:** favor tracer bullets, fast feedback, automation, orthogonality, and fixing small design breaks before they compound.
+- **A Philosophy of Software Design:** build deep modules with simple interfaces, reduce cognitive load, and avoid tactical programming that trades today for every future change.
+- **DORA:** treat delivery as an engineering system; improve lead time, deployment frequency, change failure rate, and recovery time with real feedback loops.
+- **AI-ready engineering:** make codebases legible to humans and tools through strong boundaries, types, tests, naming, and local context.
+
+Useful references I keep coming back to:
+
+- [Your codebase is NOT ready for AI](https://www.youtube.com/watch?v=uC44zFz7JSM)
+- [Design Microservice Architectures the Right Way](https://www.youtube.com/watch?v=j6ow-UemzBc)
+- [Mastering Chaos - A Netflix Guide to Microservices](https://www.youtube.com/watch?v=CZ3wIuvmHeM)
+- [The Philosophy of Software Design - with John Ousterhout](https://www.youtube.com/watch?v=lz451zUlF-k)
+
 ## Questions I Keep Working On
 
 - **Architecture:** When does an abstraction reduce cognitive load, and when does it only move confusion somewhere else?
@@ -30,18 +45,3 @@ Most of the engineering questions I return to live between product intent and sy
 | [fullstack-code-gen](https://github.com/th-m/fullstack-code-gen) | Proto-driven generation pipeline for Go, GraphQL, OpenAPI, TypeScript, Dockerized generators, migrations, and typed database access. |
 | [gambit](https://github.com/th-m/gambit) | Realtime multiplayer game architecture with React Router, TypeScript, Supabase, Netlify, database migrations, and test coverage. |
 | [platonic-values](https://github.com/th-m/platonic-values) | Long-form systems thinking: organizing complex, abstract domains into clearer frameworks. |
-
-## Principles
-
-- **SOLID:** keep responsibilities narrow, dependencies explicit, and extension points intentional instead of abstract by default.
-- **The Pragmatic Programmer:** favor tracer bullets, fast feedback, automation, orthogonality, and fixing small design breaks before they compound.
-- **A Philosophy of Software Design:** build deep modules with simple interfaces, reduce cognitive load, and avoid tactical programming that trades today for every future change.
-- **DORA:** treat delivery as an engineering system; improve lead time, deployment frequency, change failure rate, and recovery time with real feedback loops.
-- **AI-ready engineering:** make codebases legible to humans and tools through strong boundaries, types, tests, naming, and local context.
-
-Useful references I keep coming back to:
-
-- [Your codebase is NOT ready for AI](https://www.youtube.com/watch?v=uC44zFz7JSM)
-- [Design Microservice Architectures the Right Way](https://www.youtube.com/watch?v=j6ow-UemzBc)
-- [Mastering Chaos - A Netflix Guide to Microservices](https://www.youtube.com/watch?v=CZ3wIuvmHeM)
-- [The Philosophy of Software Design - with John Ousterhout](https://www.youtube.com/watch?v=lz451zUlF-k)
