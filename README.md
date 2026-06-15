@@ -43,6 +43,7 @@ Useful references I keep coming back to:
 - [Your codebase is NOT ready for AI](https://www.youtube.com/watch?v=uC44zFz7JSM)
 - [Design Microservice Architectures the Right Way](https://www.youtube.com/watch?v=j6ow-UemzBc)
 - [Mastering Chaos - A Netflix Guide to Microservices](https://www.youtube.com/watch?v=CZ3wIuvmHeM)
+- [The Philosophy of Software Design - with John Ousterhout](https://www.youtube.com/watch?v=lz451zUlF-k)
 
 ## Technical Range
 
