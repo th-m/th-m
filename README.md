@@ -2,7 +2,9 @@
 
 I am interested in how software systems become understandable enough to change.
 
-Most of the engineering questions I return to live between product intent and system design: What is the real shape of the domain? Which boundaries are durable, and which ones are just artifacts of the current implementation? Where is complexity collecting? What would make the next change easier without over-designing for an imagined future?
+Most of the engineering questions I return to live between product intent and system design: What is the real shape of the domain? Which boundaries are durable, and which ones are just artifacts of the current implementation?
+
+Where is complexity collecting? What would make the next change easier without over-designing for an imagined future?
 
 ## Concepts Worth Knowing
 
@@ -38,9 +40,13 @@ Most of the engineering questions I return to live between product intent and sy
 - **[Multipliers](https://thewisemangroup.com/books/multipliers/):** leadership as the practice of increasing the intelligence, ownership, and capacity of the people around you.
 - **[The Infinite Game](https://simonsinek.com/books/the-infinite-game/):** long-horizon thinking, durable purpose, and playing to keep improving rather than simply to win the current round.
 
+## Current Focus
+
+Most current side-project energy is going into [soundsculpt.app](https://soundsculpt.app): exploring AI-assisted audio generation, creative tooling, and product workflows around prompt-driven media.
+
 ## Public Artifacts
 
-These are mostly a decade old or unfinished 😅. Most moonlight work goes to [soundsculpt.app](https://soundsculpt.app), and my day job gets my daylight work.
+Some are old, some are unfinished 😅. Most moonlight work goes to [soundsculpt.app](https://soundsculpt.app), and my day job gets my daylight work.
 
 - **[firebase-typed](https://github.com/th-m/firebase-typed):** TypeScript utility layer that adds type inference and safer ergonomics to Firebase realtime database access.
 - **[fullstack-code-gen](https://github.com/th-m/fullstack-code-gen):** Proto-driven generation pipeline for Go, GraphQL, OpenAPI, TypeScript, Dockerized generators, migrations, and typed database access.
