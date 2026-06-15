@@ -35,4 +35,4 @@ Useful references I keep coming back to:
 | [firebase-typed](https://github.com/th-m/firebase-typed) | TypeScript utility layer that adds type inference and safer ergonomics to Firebase realtime database access. |
 | [fullstack-code-gen](https://github.com/th-m/fullstack-code-gen) | Proto-driven generation pipeline for Go, GraphQL, OpenAPI, TypeScript, Dockerized generators, migrations, and typed database access. |
 | [gambit](https://github.com/th-m/gambit) | Realtime multiplayer game architecture with React Router, TypeScript, Supabase, Netlify, database migrations, and test coverage. |
-| [platonic-values](https://github.com/th-m/platonic-values) | Long-form systems thinking: organizing complex, abstract domains into clearer frameworks. |
+| [platonic-values](https://github.com/th-m/platonic-values) | An exploration of which values or "commodities" are fundamental: how virtues, principles, and character qualities might compose into an ontological map. |
