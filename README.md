@@ -4,20 +4,15 @@ I am interested in how software systems become understandable enough to change.
 
 Most of the engineering questions I return to live between product intent and system design: What is the real shape of the domain? Which boundaries are durable, and which ones are just artifacts of the current implementation? Where is complexity collecting? What would make the next change easier without over-designing for an imagined future?
 
-## Principles
+## Concepts Worth Knowing
 
-- **SOLID:** keep responsibilities narrow, dependencies explicit, and extension points intentional instead of abstract by default.
-- **The Pragmatic Programmer:** favor tracer bullets, fast feedback, automation, orthogonality, and fixing small design breaks before they compound.
-- **A Philosophy of Software Design:** build deep modules with simple interfaces, reduce cognitive load, and avoid tactical programming that trades today for every future change.
-- **DORA:** treat delivery as an engineering system; improve lead time, deployment frequency, change failure rate, and recovery time with real feedback loops.
-- **AI-ready engineering:** make codebases legible to humans and tools through strong boundaries, types, tests, naming, and local context.
-
-Useful references I keep coming back to:
-
-- [Your codebase is NOT ready for AI](https://www.youtube.com/watch?v=uC44zFz7JSM)
-- [Design Microservice Architectures the Right Way](https://www.youtube.com/watch?v=j6ow-UemzBc)
-- [Mastering Chaos - A Netflix Guide to Microservices](https://www.youtube.com/watch?v=CZ3wIuvmHeM)
-- [The Philosophy of Software Design - with John Ousterhout](https://www.youtube.com/watch?v=lz451zUlF-k)
+- **[SOLID and dependency direction](https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design):** vocabulary for responsibility boundaries, extension, substitutability, interface size, and dependency inversion.
+- **[Tracer bullets, DRY, and orthogonality](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/):** ideas from *The Pragmatic Programmer* for learning through running systems, avoiding duplicated knowledge, and keeping decisions independently changeable.
+- **[Deep modules and information hiding](https://web.stanford.edu/~ouster/cgi-bin/book.php):** Ousterhout's frame for reducing cognitive load: simple interfaces that hide meaningful complexity.
+- **[DORA delivery metrics](https://dora.dev/guides/dora-metrics/):** a way to inspect delivery as a system of throughput and instability, not just output.
+- **[Microservice boundaries](https://samnewman.io/books/building_microservices_2nd_edition/):** services should follow ownership, data, deployment, and change patterns, not architecture fashion.
+- **[Chaos engineering and resilience](https://cloud.google.com/blog/products/devops-sre/getting-started-with-chaos-engineering):** controlled failure experiments test whether systems behave the way teams believe they do.
+- **[AI-ready codebases](https://wearehypercube.com/ready-for-ai-preparing-your-codebase-for-assistants/):** strong names, local context, types, tests, and explicit boundaries make code easier for people and tools to navigate.
 
 ## Questions I Keep Working On
 
