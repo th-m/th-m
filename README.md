@@ -13,6 +13,8 @@ Most of the engineering questions I return to live between product intent and sy
 - **[Microservice boundaries](https://samnewman.io/books/building_microservices_2nd_edition/):** services should follow ownership, data, deployment, and change patterns, not architecture fashion.
 - **[Chaos engineering and resilience](https://cloud.google.com/blog/products/devops-sre/getting-started-with-chaos-engineering):** controlled failure experiments test whether systems behave the way teams believe they do.
 - **[AI-ready codebases](https://wearehypercube.com/ready-for-ai-preparing-your-codebase-for-assistants/):** strong names, local context, types, tests, and explicit boundaries make code easier for people and tools to navigate.
+- **[Laws of UX](https://lawsofux.com/):** a compact map of psychology, perception, cognitive load, and interaction patterns that shape how interfaces feel.
+- **[Schema.org](https://schema.org/):** a shared vocabulary for structured data that makes entities, relationships, and actions easier for systems to understand.
 
 ## Questions I Keep Working On
 
