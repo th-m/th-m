@@ -1,16 +1,17 @@
 # Thomas Valadez
 
-Principal-level software engineer focused on product architecture, type-safe systems, and pragmatic delivery.
+I am interested in how software systems become understandable enough to change.
 
-I build full-stack products from the domain model up: data shape, API boundaries, realtime flows, UI behavior, deployment, and the tooling that keeps teams moving. My strongest work is at the intersection of product engineering and platform thinking: taking ambiguous requirements, finding the durable core, and shipping systems that other engineers can understand, extend, and trust.
+Most of the engineering questions I return to live between product intent and system design: What is the real shape of the domain? Which boundaries are durable, and which ones are just artifacts of the current implementation? Where is complexity collecting? What would make the next change easier without over-designing for an imagined future?
 
-## What I Bring
+## Questions I Keep Working On
 
-- **Architecture with a shipping bias** - I like clean abstractions, but only when they reduce real complexity for the team.
-- **Deep TypeScript and product engineering** - React, React Router, Node, typed APIs, auth, payments, serverless functions, and production-grade frontend workflows.
-- **Data and realtime systems** - PostgreSQL, Supabase, Firebase, realtime subscriptions, schema design, migrations, and event/audit trails.
-- **Developer tooling and automation** - code generation, typed clients, CI/CD, AI-ready codebases, and internal tools that compound engineering velocity.
-- **Principal-engineer habits** - clarify tradeoffs, make technical decisions explicit, mentor through code and design review, and keep implementation tied to business outcomes.
+- **Architecture:** When does an abstraction reduce cognitive load, and when does it only move confusion somewhere else?
+- **Type systems:** How much product knowledge can be made explicit in types before the model becomes harder to use than the problem itself?
+- **Realtime data:** Where should state live when many users, devices, services, and events all need to agree on what happened?
+- **Developer tools:** Which repeated decisions should become code generation, conventions, checks, or internal tools?
+- **Delivery systems:** What feedback loops help a team move faster without quietly trading away reliability?
+- **AI-ready codebases:** What makes a codebase navigable for both humans and increasingly capable tools?
 
 ## Selected History
 
