@@ -28,15 +28,6 @@ Most of the engineering questions I return to live between product intent and sy
 - **[Multipliers](https://thewisemangroup.com/books/multipliers/):** leadership as the practice of increasing the intelligence, ownership, and capacity of the people around you.
 - **[The Infinite Game](https://simonsinek.com/books/the-infinite-game/):** long-horizon thinking, durable purpose, and playing to keep improving rather than simply to win the current round.
 
-## Questions I Keep Working On
-
-- **Architecture:** When does an abstraction reduce cognitive load, and when does it only move confusion somewhere else?
-- **Type systems:** How much product knowledge can be made explicit in types before the model becomes harder to use than the problem itself?
-- **Realtime data:** Where should state live when many users, devices, services, and events all need to agree on what happened?
-- **Developer tools:** Which repeated decisions should become code generation, conventions, checks, or internal tools?
-- **Delivery systems:** What feedback loops help a team move faster without quietly trading away reliability?
-- **AI-ready codebases:** What makes a codebase navigable for both humans and increasingly capable tools?
-
 ## Public Artifacts
 
 | Artifact | What it shows |
