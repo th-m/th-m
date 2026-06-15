@@ -16,6 +16,13 @@ Most of the engineering questions I return to live between product intent and sy
 - **[Laws of UX](https://lawsofux.com/):** a compact map of psychology, perception, cognitive load, and interaction patterns that shape how interfaces feel.
 - **[Schema.org](https://schema.org/):** a shared vocabulary for structured data that makes entities, relationships, and actions easier for systems to understand.
 
+## Books I Return To
+
+- **[The 4 Disciplines of Execution](https://www.franklincovey.com/books/the-4-disciplines-of-execution/):** focus, lead measures, scoreboards, and accountability rhythms for making important work survive daily urgency.
+- **[Atomic Habits](https://jamesclear.com/atomic-habits):** small systems, environment design, and identity-based habits as a way to make change compound.
+- **[Multipliers](https://thewisemangroup.com/books/multipliers/):** leadership as the practice of increasing the intelligence, ownership, and capacity of the people around you.
+- **[The Infinite Game](https://simonsinek.com/books/the-infinite-game/):** long-horizon thinking, durable purpose, and playing to keep improving rather than simply to win the current round.
+
 ## Questions I Keep Working On
 
 - **Architecture:** When does an abstraction reduce cognitive load, and when does it only move confusion somewhere else?
