@@ -26,6 +26,7 @@ Most of the engineering questions I return to live between product intent and sy
 ### Product, UX, and Semantics
 
 - **[Laws of UX](https://lawsofux.com/):** a compact map of psychology, perception, cognitive load, and interaction patterns that shape how interfaces feel.
+- **[Atomic Design](https://atomicdesign.bradfrost.com/table-of-contents/):** a way to think about interfaces as nested systems, from small reusable parts to full product screens.
 - **[Schema.org](https://schema.org/):** a shared vocabulary for structured data that makes entities, relationships, and actions easier for systems to understand.
 
 ## Books and Operating Models
