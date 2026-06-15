@@ -28,15 +28,6 @@ Useful references I keep coming back to:
 - **Delivery systems:** What feedback loops help a team move faster without quietly trading away reliability?
 - **AI-ready codebases:** What makes a codebase navigable for both humans and increasingly capable tools?
 
-## Selected History
-
-| Chapter | Engineering signal |
-| --- | --- |
-| **Weave** | Product and platform engineering in communication-heavy workflows: frontend systems, service boundaries, integrations, and delivery practices that keep production teams moving. |
-| **Kolla** | API, SDK, and developer-experience work: validating product surfaces, integrating auth, and building tools that make third-party systems easier to consume safely. |
-| **MangoVoice** | Voice and telecom product engineering: realtime user experiences, communication workflows, operational systems, and pragmatic modernization across a large product surface. |
-| **Soundsculpt** | AI/audio experimentation: prompt-driven music generation, notebook-based exploration, and turning emerging model capabilities into usable creative workflows. |
-
 ## Public Artifacts
 
 | Artifact | What it shows |
