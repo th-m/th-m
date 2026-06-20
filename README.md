@@ -16,6 +16,7 @@ Where is complexity collecting? What would make the next change easier without o
 - **[Bounded contexts](https://martinfowler.com/bliki/BoundedContext.html):** service boundaries should follow domain language, ownership, and model boundaries rather than architecture fashion.
 - **[Martin Fowler's Bliki](https://martinfowler.com/bliki/):** field notes on architecture, refactoring, delivery, and the language engineers use to reason about change.
 - **[Refactoring.Guru](https://refactoring.guru/):** a practical catalog of refactoring techniques, code smells, and design patterns.
+- **[Famous laws of software development](https://www.timsommer.be/famous-laws-of-software-development/):** a compact index of named heuristics like Brooks's Law, Hofstadter's Law, Conway's Law, Postel's Law, and Knuth's optimization principle.
 - **[AI-ready codebases](https://wearehypercube.com/ready-for-ai-preparing-your-codebase-for-assistants/):** strong names, local context, types, tests, and explicit boundaries make code easier for people and tools to navigate.
 
 ### Delivery, Operations, and Security
