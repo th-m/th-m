@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-08-13T04:07:06.874Z",
+  "method": "Raw pixel mismatch at 0.1 is the M acceptance gate. Content-normalized pixelmatch remains informational; silhouette uses a luminance-18 mask for the luminous M field, and width, height, and density are measured at luminance 18, 55, and 140.",
+  "legacyAverageMismatchRatio": 0.18891927083333332,
+  "averageStrictMismatchRatio": 0.20580729166666667,
+  "strictDeltaFromLegacyBaseline": 0.01688802083333335,
+  "strictVisualFidelityResult": "regressed",
+  "averagePerceptualMismatchRatio": 0.09768229166666667,
+  "mStrictBaselineRatio": 0.136,
+  "mStrictImprovement": 0.2339728860294118,
+  "glyphs": [
+    {
+      "glyph": "t",
+      "strictMismatchRatio": 0.2842578125,
+      "perceptualMismatchRatio": 0.14005208333333333,
+      "improvementFromLegacyBaseline": 0.45102842852038993,
+      "silhouetteIoU": 0.5123774159763878,
+      "referenceCoverage": 0.2083984375,
+      "currentCoverage": 0.20526041666666667,
+      "coverageDelta": 0.003138020833333338,
+      "quadrantDistributionDelta": 0.028684895833333328
+    },
+    {
+      "glyph": "h",
+      "strictMismatchRatio": 0.24641927083333334,
+      "perceptualMismatchRatio": 0.17024739583333334,
+      "improvementFromLegacyBaseline": 0.20463531845002736,
+      "silhouetteIoU": 0.21414265049515968,
+      "referenceCoverage": 0.13212239583333332,
+      "currentCoverage": 0.15203125,
+      "coverageDelta": 0.019908854166666684,
+      "quadrantDistributionDelta": 0.019908854166666663
+    },
+    {
+      "glyph": "o",
+      "strictMismatchRatio": 0.18837239583333334,
+      "perceptualMismatchRatio": 0.0508984375,
+      "improvementFromLegacyBaseline": 0.680140741346862,
+      "silhouetteIoU": 0.16322415390484496,
+      "referenceCoverage": 0.12666666666666668,
+      "currentCoverage": 0.15125,
+      "coverageDelta": 0.024583333333333318,
+      "quadrantDistributionDelta": 0.024583333333333336
+    },
+    {
+      "glyph": "m",
+      "strictMismatchRatio": 0.1041796875,
+      "perceptualMismatchRatio": 0.02953125,
+      "improvementFromLegacyBaseline": 0.7681692732290708,
+      "silhouetteIoU": 0.6419320528061064,
+      "referenceCoverage": 0.17432291666666666,
+      "currentCoverage": 0.1673828125,
+      "coverageDelta": 0.006940104166666655,
+      "quadrantDistributionDelta": 0.007200520833333335,
+      "thresholdMetrics": [
+        {
+          "threshold": 18,
+          "reference": {
+            "width": 269,
+            "height": 136,
+            "density": 0.2930516072600044
+          },
+          "current": {
+            "width": 260,
+            "height": 135,
+            "density": 0.2978347578347578
+          },
+          "widthDelta": 0.03345724907063197,
+          "heightDelta": 0.007352941176470588,
+          "densityDelta": 0.01632187115257712
+        },
+        {
+          "threshold": 55,
+          "reference": {
+            "width": 254,
+            "height": 133,
+            "density": 0.17482683085666922
+          },
+          "current": {
+            "width": 258,
+            "height": 131,
+            "density": 0.15903307888040713
+          },
+          "widthDelta": 0.015748031496062992,
+          "heightDelta": 0.015037593984962405,
+          "densityDelta": 0.0903394055641866
+        },
+        {
+          "threshold": 140,
+          "reference": {
+            "width": 230,
+            "height": 120,
+            "density": 0.07942028985507246
+          },
+          "current": {
+            "width": 224,
+            "height": 115,
+            "density": 0.08618012422360248
+          },
+          "widthDelta": 0.02608695652173913,
+          "heightDelta": 0.041666666666666664,
+          "densityDelta": 0.08511470281543271
+        }
+      ]
+    }
+  ]
+}
