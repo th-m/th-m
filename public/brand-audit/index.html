@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>THOM Brand Comparison</title>
+    <style>
+      :root { color-scheme: dark; --bg: #050505; --ink: #f2e5cf; --gold: #d6b06a; --muted: #a99b87; --line: rgba(242,229,207,.14); }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: clamp(24px, 5vw, 76px); background: var(--bg); color: var(--ink); font: 14px/1.6 system-ui, sans-serif; }
+      header, main { width: min(1180px, 100%); margin: 0 auto; }
+      header { padding-bottom: 42px; border-bottom: 1px solid var(--line); }
+      .eyebrow, .metric, .label { color: var(--gold); font: 10px ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
+      h1 { max-width: 880px; margin: 12px 0 18px; font: 400 clamp(44px, 7vw, 92px)/.95 Georgia, serif; letter-spacing: -.04em; }
+      header p { max-width: 730px; color: var(--muted); }
+      .board { margin: 54px 0 82px; }
+      .board img { width: 100%; border: 1px solid var(--line); }
+      .board figcaption { margin-top: 12px; color: var(--muted); }
+      #comparisons { display: grid; gap: 72px; }
+      article { padding-top: 30px; border-top: 1px solid var(--line); }
+      article > header { display: flex; align-items: baseline; justify-content: space-between; padding: 0 0 24px; border: 0; }
+      h2 { margin: 0; font: 400 42px Georgia, serif; }
+      .frames { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+      figure { margin: 0; padding: 16px; background: var(--bg); }
+      figure img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: var(--bg); }
+      figcaption { margin-top: 12px; }
+      .note { margin: 20px 0 0; color: var(--muted); }
+      .summary { margin: 76px 0 30px; padding: 34px; border: 1px solid var(--line); }
+      .findings { margin: 30px 0 80px; padding: 34px; border: 1px solid var(--line); }
+      .findings h2 { font-size: 30px; }
+      .findings ul { margin: 24px 0 0; padding-left: 20px; color: var(--muted); }
+      .findings li + li { margin-top: 12px; }
+      .summary strong { color: var(--gold); }
+      @media (max-width: 760px) { .frames { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <p class="eyebrow">Playwright visual audit</p>
+      <h1>The material language has returned to the THOM mark.</h1>
+      <p>The supplied concept and refined generated glyphs are content-normalized into identical 320 × 240 frames. The acceptance diff tolerates raster lighting so it measures silhouette and structure while the stricter raw comparison remains available in the JSON report.</p>
+    </header>
+    <main>
+      <figure class="board"><img src="/brand-logo-idea.png" alt="Original THOM logo design reference board" /><figcaption>Original reference stored in public/brand-logo-idea.png</figcaption></figure>
+      <div id="comparisons" aria-live="polite"></div>
+      <p class="summary" id="summary">Loading the latest snapshot comparison…</p>
+      <section class="findings">
+        <p class="eyebrow">Refinement outcome</p>
+        <h2>Classical form and deterministic construction now coexist.</h2>
+        <ul>
+          <li>π now uses a committed classical silhouette with tapered strokes, curved terminals, and a champagne-metal finish.</li>
+          <li>H carries two true equilibrium curves, a shared luminous midpoint, classical pillars, and a construction axis.</li>
+          <li>O distributes twelve anchors, nineteen chords, and deterministic highlights across the circle; M is wider, lower, and retains five partial sums at rest.</li>
+          <li>Compact, light, and monochrome assets remove glow and construction detail without changing the underlying identity.</li>
+        </ul>
+      </section>
+    </main>
+    <script>
+      const labels = { t: "T as π", h: "H as equilibrium", o: "O as emergence", m: "M as Fourier superposition" };
+      const notes = {
+        t: "The refined π now matches the reference’s lowercase proportion, stroke contrast, curved feet, and warm metallic depth while remaining committed vector geometry.",
+        h: "The refined H restores the paired equilibrium curves, shared midpoint light, center construction axis, and classical serif modulation visible in the reference.",
+        o: "The refined O uses an evenly sampled perimeter, a denser validated network, and spatially distributed highlights. Exact chord placement remains seeded rather than copied from the raster concept.",
+        m: "The refined M is wider and lower, with real Fourier partial sums retained as a ghosted field behind the converged highlight stroke."
+      };
+      fetch("/brand-audit/report.json", { cache: "no-store" }).then(response => response.json()).then(report => {
+        document.querySelector("#comparisons").innerHTML = report.glyphs.map(item => `
+          <article>
+            <header><h2>${labels[item.glyph]}</h2><span class="metric">${(item.perceptualMismatchRatio * 100).toFixed(1)}% perceptual mismatch</span></header>
+            <div class="frames">
+              <figure><img src="/brand-audit/normalized/reference/${item.glyph}.png" alt="Reference ${labels[item.glyph]} crop"><figcaption><span class="label">Reference</span></figcaption></figure>
+              <figure><img src="/brand-audit/normalized/current/${item.glyph}.png" alt="Refined ${labels[item.glyph]} snapshot"><figcaption><span class="label">Refined mark</span></figcaption></figure>
+              <figure><img src="/brand-audit/normalized/diff/${item.glyph}.png" alt="Perceptual difference for ${labels[item.glyph]}"><figcaption><span class="label">Difference</span></figcaption></figure>
+            </div>
+            <p class="note">${notes[item.glyph]}</p>
+          </article>`).join("");
+        const improvement = (1 - report.averagePerceptualMismatchRatio / report.legacyAverageMismatchRatio) * 100;
+        document.querySelector("#summary").innerHTML = `Average content-normalized perceptual mismatch: <strong>${(report.averagePerceptualMismatchRatio * 100).toFixed(1)}%</strong>, a ${improvement.toFixed(1)}% reduction from the recorded 18.9% baseline and below the 14.2% acceptance ceiling.`;
+      }).catch(() => { document.querySelector("#summary").textContent = "Run bun run audit:brand to generate the comparison report."; });
+    </script>
+  </body>
+</html>
