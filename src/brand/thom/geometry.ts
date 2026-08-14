@@ -1,7 +1,9 @@
 import mCalibration from "./m-calibration.json";
+import oCalibration from "./o-calibration.json";
 
 export type Point = { x: number; y: number };
-export type Segment = { a: number; b: number };
+export type Segment = { a: number; b: number; weight?: number };
+export type CubicBezierSegment = { start: Point; control1: Point; control2: Point; end: Point };
 
 export type PathCommand =
   | { type: "M" | "L"; x: number; y: number }
@@ -31,6 +33,7 @@ export type FourierData = {
   restingLayers: Array<{ partialIndex: number; amplitudeScale: number; width: number; opacity: number; haloWidth: number; haloOpacity: number }>;
   target: Point[];
   components: Point[][];
+  componentWidths: number[];
   partialSums: Point[][];
   hero: Point[];
   compact: Point[];
@@ -38,19 +41,21 @@ export type FourierData = {
 
 export type ComplexValue = { re: number; im: number };
 
+export type HData = {
+  paths: FilledPath[];
+  straight: Point[];
+  curve: Point[];
+  companionStraight: Point[];
+  companion: Point[];
+  midpoint: Point;
+  axis: Point[];
+};
+
 export type BrandData = {
   master: { width: number; height: number };
   placements: Record<"t" | "h" | "o" | "m", { x: number; scaleX: number; width: number }>;
   pi: { display: FilledPath; compact: FilledPath };
-  h: {
-    paths: FilledPath[];
-    straight: Point[];
-    curve: Point[];
-    companionStraight: Point[];
-    companion: Point[];
-    midpoint: Point;
-    axis: Point[];
-  };
+  h: HData;
   o: {
     canonical: ChordNetwork;
     compact: ChordNetwork;
@@ -75,82 +80,220 @@ export const BRAND_COLORS = {
   lightGold: "#8a652a",
 } as const;
 
+export const PI_MATERIAL = {
+  shadow: "#50382f",
+  gold: "#a67f50",
+  ivory: "#beb19f",
+  highlight: "#f1dfbd",
+  edge: "#ead7b5",
+  strokeWidth: 0.38,
+} as const;
+
+export const PI_ANIMATION = {
+  durationMs: 450,
+  traceHoldEnd: 0.58,
+} as const;
+
 export const M_FINAL_MATERIAL = {
-  halo: { width: 8, opacity: 0.12 },
-  middle: { width: 5.6, opacity: 0.58 },
+  halo: { width: 8.8, opacity: 0.11 },
+  middle: { width: 6.85, opacity: 0.56 },
   core: { width: 3.1, opacity: 0.96 },
+} as const;
+
+export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
+export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
+
+export const O_DISPLAY_MATERIAL = {
+  circle: { haloWidth: 8, haloOpacity: 0.055, middleWidth: 4.8, middleOpacity: 0.3, coreWidth: 2.15, coreOpacity: 1 },
+  chord: { haloWidth: 4, haloOpacity: 0.025, coreWidth: 0.7, coreOpacity: 0.62 },
+  anchor: { haloRadius: 3.1, haloOpacity: 0.07, coreRadius: 0.8, coreOpacity: 0.98 },
+  intersection: { radius: 0.4, opacity: 0.3 },
+  highlight: { haloRadius: 3.5, haloOpacity: 0.1, coreRadius: 1.15, coreOpacity: 1 },
+} as const;
+
+export const O_ANIMATION = {
+  introDelay: 0.48,
+  introDuration: 0.72,
+  circle: { start: 0, duration: 0.22, stagger: 0 },
+  anchor: { start: 0.1, duration: 0.2, stagger: 0.12 },
+  chord: { start: 0.18, duration: 0.3, stagger: 0.2 },
+  intersection: { start: 0.58, duration: 0.16, stagger: 0.1 },
+  highlight: { start: 0.78, duration: 0.16, stagger: 0.06 },
+} as const;
+
+export const M_ANIMATION = {
+  delayMs: 780,
+  durationMs: 820,
+  endMs: 1600,
+  componentFanEnd: 0.34,
+  partialStart: 0.195,
+  partialEnd: 0.695,
+  partialRevealDuration: 0.085,
+  finalStart: 0.659,
+  replayDurationMs: 820,
+} as const;
+
+export const H_ISOLATED_VIEW = { x: -2.8, y: 4, width: 137, height: 110, scaleX: 1.37 } as const;
+export const H_STROKE_WORLD_PER_PIXEL = 0.7;
+export const hStrokeWorldWidth = (referencePixels: number) => referencePixels * H_STROKE_WORLD_PER_PIXEL;
+
+export const H_MATERIAL = {
+  axis: { width: 0.8, opacity: 0.42, dash: 4, gap: 3 },
+  primary: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
+  companion: { haloWidth: 2.3, haloOpacity: 0.038, middleWidth: 0.96, middleOpacity: 0.19, coreWidth: 0.5, coreOpacity: 0.68 },
+  midpoint: { haloRadius: 5.2, haloOpacity: 0.14, middleRadius: 2.85, middleOpacity: 0.72, coreRadius: 1.35, coreOpacity: 1 },
+} as const;
+
+export const H_ANIMATION = {
+  delayMs: 220,
+  durationMs: 520,
+  endMs: 740,
+  overshoot: 1.04,
+  overshootAt: 0.76,
+  primaryRevealStart: 0.28,
+  companionRevealStart: 0.44,
+  midpointIgnitionStart: 0.62,
 } as const;
 
 export const MASTER = { width: 416, height: 120 } as const;
 export const GLYPH_PLACEMENTS = {
   t: { x: 5.5, scaleX: 0.86, width: 86 },
-  h: { x: 102.5, scaleX: 0.86, width: 86 },
+  h: { x: 95.5, scaleX: 1, width: 100 },
   o: { x: 199.5, scaleX: 0.88, width: 88 },
   m: { x: 288.5, scaleX: 1.22, width: 122 },
 } as const;
 
-const classicalPi: FilledPath = {
+const classicalPiOutline: FilledPath = {
   commands: [
-    { type: "M", x: 4, y: 34 },
-    { type: "C", x1: 7, y1: 22, x2: 16, y2: 14, x: 29, y: 14 },
+    { type: "M", x: 2, y: 40 },
+    { type: "C", x1: 5, y1: 27, x2: 16, y2: 14, x: 29, y: 14 },
     { type: "C", x1: 48, y1: 14, x2: 71, y2: 14.5, x: 91, y: 13.5 },
     { type: "C", x1: 95, y1: 13.2, x2: 97, y2: 10, x: 97.5, y: 7.5 },
     { type: "L", x: 99, y: 7.5 },
     { type: "C", x1: 98.5, y1: 18, x2: 94, y2: 24, x: 86, y: 24.5 },
-    { type: "L", x: 75.5, y: 24.5 },
-    { type: "C", x1: 73.5, y1: 35, x2: 71.5, y2: 49, x: 70.5, y: 64 },
-    { type: "C", x1: 69.3, y1: 82, x2: 71.8, y2: 94, x: 79.5, y: 97 },
-    { type: "C", x1: 86, y1: 99.5, x2: 92.5, y2: 95, x: 96.5, y: 87.5 },
-    { type: "L", x: 99, y: 90 },
-    { type: "C", x1: 94.5, y1: 103.5, x2: 85.5, y2: 110.5, x: 75.5, y: 108.5 },
-    { type: "C", x1: 62, y1: 106, x2: 59, y2: 96.5, x: 60.2, y: 80 },
-    { type: "C", x1: 61.5, y1: 61, x2: 64.5, y2: 40, x: 66.8, y: 24.5 },
+    { type: "L", x: 72.5, y: 24.5 },
+    { type: "C", x1: 70.5, y1: 35, x2: 68.5, y2: 49, x: 67.5, y: 64 },
+    { type: "C", x1: 66.3, y1: 82, x2: 68.8, y2: 94, x: 76.5, y: 97 },
+    { type: "C", x1: 83, y1: 99.5, x2: 89.5, y2: 92, x: 93.5, y: 82 },
+    { type: "L", x: 96, y: 82 },
+    { type: "C", x1: 91.5, y1: 101, x2: 82.5, y2: 110.5, x: 72.5, y: 108.5 },
+    { type: "C", x1: 59, y1: 106, x2: 56, y2: 96.5, x: 57.2, y: 80 },
+    { type: "C", x1: 58.5, y1: 61, x2: 61.5, y2: 40, x: 63.8, y: 24.5 },
     { type: "L", x: 39.5, y: 24.5 },
     { type: "C", x1: 38.5, y1: 37, x2: 36.8, y2: 55, x: 34, y: 72 },
     { type: "C", x1: 31.2, y1: 90.5, x2: 26, y2: 102.5, x: 17.5, y: 108 },
     { type: "C", x1: 13, y1: 110.5, x2: 8, y2: 109.5, x: 5, y: 108 },
     { type: "C", x1: 16, y1: 93, x2: 21, y2: 77, x: 23.5, y: 60 },
     { type: "C", x1: 25.5, y1: 46, x2: 27.5, y2: 33, x: 28.5, y: 24.5 },
-    { type: "C", x1: 18, y1: 24.5, x2: 10.5, y2: 28.5, x: 6.5, y: 36 },
+    { type: "C", x1: 18, y1: 24.5, x2: 8, y2: 31, x: 3, y: 42 },
     { type: "Z" },
   ],
 };
 
-const compactPi: FilledPath = {
+const compactPiOutline: FilledPath = {
   commands: [
-    { type: "M", x: 5, y: 34 },
-    { type: "C", x1: 9, y1: 21, x2: 18, y2: 15, x: 30, y: 15 },
-    { type: "L", x: 91, y: 15 },
-    { type: "C", x1: 95, y1: 15, x2: 97, y2: 11, x: 98, y: 8 },
-    { type: "C", x1: 98, y1: 19, x2: 94, y2: 24, x: 86, y: 25 },
-    { type: "L", x: 75, y: 25 },
-    { type: "C", x1: 72, y1: 45, x2: 69, y2: 75, x: 71, y: 88 },
-    { type: "C", x1: 73, y1: 101, x2: 88, y2: 102, x: 97, y: 89 },
-    { type: "C", x1: 94, y1: 103, x2: 85, y2: 109, x: 76, y: 108 },
-    { type: "C", x1: 62, y1: 106, x2: 59, y2: 96, x: 61, y: 80 },
-    { type: "L", x: 67, y: 25 },
+    { type: "M", x: 3, y: 40 },
+    { type: "C", x1: 7, y1: 26, x2: 17, y2: 15, x: 30, y: 15 },
+    { type: "C", x1: 50, y1: 15, x2: 72, y2: 15, x: 91, y: 14 },
+    { type: "C", x1: 96, y1: 14, x2: 98, y2: 10, x: 99, y: 8 },
+    { type: "C", x1: 99, y1: 19, x2: 94, y2: 24, x: 86, y: 25 },
+    { type: "L", x: 72, y: 25 },
+    { type: "C", x1: 69, y1: 45, x2: 65, y2: 76, x: 67, y: 88 },
+    { type: "C", x1: 69, y1: 101, x2: 83, y2: 102, x: 96, y: 82 },
+    { type: "C", x1: 93, y1: 101, x2: 83, y2: 109, x: 73, y: 108 },
+    { type: "C", x1: 59, y1: 106, x2: 55, y2: 96, x: 57, y: 80 },
+    { type: "L", x: 64, y: 25 },
     { type: "L", x: 40, y: 25 },
     { type: "C", x1: 38, y1: 48, x2: 35, y2: 78, x: 29, y: 94 },
-    { type: "C", x1: 24, y1: 106, x2: 14, y2: 110, x: 6, y: 108 },
+    { type: "C", x1: 24, y1: 106, x2: 14, y2: 110, x: 5, y: 108 },
     { type: "C", x1: 18, y1: 91, x2: 24, y2: 61, x: 29, y: 25 },
-    { type: "C", x1: 17, y1: 25, x2: 10, y2: 29, x: 6, y: 36 },
+    { type: "C", x1: 17, y1: 25, x2: 9, y2: 31, x: 4, y: 42 },
     { type: "Z" },
   ],
 };
+
+function compressPathHeight(path: FilledPath, top: number, scale: number): FilledPath {
+  const mapY = (y: number) => top + (y - top) * scale;
+  return {
+    commands: path.commands.map((command) => {
+      if (command.type === "Z") return command;
+      if (command.type === "C") return { ...command, y1: mapY(command.y1), y2: mapY(command.y2), y: mapY(command.y) };
+      return { ...command, y: mapY(command.y) };
+    }),
+  };
+}
+
+export const PI_GEOMETRY = {
+  display: compressPathHeight(classicalPiOutline, 7.5, 0.91),
+  compact: compressPathHeight(compactPiOutline, 8, 0.92),
+} as const;
+
+export function samplePathOutline(path: FilledPath, count = 192): Point[] {
+  const raw: Point[] = [];
+  let current = { x: 0, y: 0 };
+  let start = { x: 0, y: 0 };
+  const push = (point: Point) => {
+    const previous = raw.at(-1);
+    if (!previous || previous.x !== point.x || previous.y !== point.y) raw.push(point);
+  };
+  path.commands.forEach((command) => {
+    if (command.type === "M") {
+      current = { x: command.x, y: command.y };
+      start = current;
+      push(current);
+    } else if (command.type === "L") {
+      current = { x: command.x, y: command.y };
+      push(current);
+    } else if (command.type === "C") {
+      const from = current;
+      for (let step = 1; step <= 18; step += 1) {
+        const t = step / 18;
+        const inverse = 1 - t;
+        push({
+          x: inverse ** 3 * from.x + 3 * inverse ** 2 * t * command.x1 + 3 * inverse * t ** 2 * command.x2 + t ** 3 * command.x,
+          y: inverse ** 3 * from.y + 3 * inverse ** 2 * t * command.y1 + 3 * inverse * t ** 2 * command.y2 + t ** 3 * command.y,
+        });
+      }
+      current = { x: command.x, y: command.y };
+    } else {
+      current = start;
+      push(start);
+    }
+  });
+  const lengths = raw.slice(1).map((point, index) => Math.hypot(point.x - raw[index].x, point.y - raw[index].y));
+  const total = lengths.reduce((sum, length) => sum + length, 0);
+  const sampled: Point[] = [];
+  let segment = 0;
+  let traversed = 0;
+  for (let index = 0; index < count; index += 1) {
+    const target = total * (index / Math.max(1, count - 1));
+    while (segment < lengths.length - 1 && traversed + lengths[segment] < target) {
+      traversed += lengths[segment];
+      segment += 1;
+    }
+    const length = lengths[segment] || 1;
+    const progress = Math.min(1, Math.max(0, (target - traversed) / length));
+    sampled.push({
+      x: raw[segment].x + (raw[segment + 1].x - raw[segment].x) * progress,
+      y: raw[segment].y + (raw[segment + 1].y - raw[segment].y) * progress,
+    });
+  }
+  return sampled;
+}
 
 function pillarPath(center: number): FilledPath {
   return {
     commands: [
-      { type: "M", x: center - 14, y: 104 },
-      { type: "C", x1: center - 8.5, y1: 103.5, x2: center - 5.5, y2: 101.5, x: center - 4.2, y: 98.5 },
-      { type: "L", x: center - 3.8, y: 23 },
-      { type: "C", x1: center - 5.2, y1: 20, x2: center - 8.5, y2: 18.5, x: center - 12, y: 18.2 },
-      { type: "L", x: center - 12, y: 15 },
-      { type: "L", x: center + 12, y: 15 },
-      { type: "L", x: center + 12, y: 18.2 },
-      { type: "C", x1: center + 8.5, y1: 18.5, x2: center + 5.2, y2: 20, x: center + 3.8, y: 23 },
-      { type: "L", x: center + 4.2, y: 98.5 },
-      { type: "C", x1: center + 5.5, y1: 101.5, x2: center + 8.5, y2: 103.5, x: center + 14, y: 104 },
+      { type: "M", x: center - 9.3, y: 104 },
+      { type: "C", x1: center - 6.2, y1: 103.7, x2: center - 3.9, y2: 101.8, x: center - 3, y: 98.5 },
+      { type: "L", x: center - 3, y: 23 },
+      { type: "C", x1: center - 3.2, y1: 20.2, x2: center - 5.6, y2: 18.5, x: center - 8.8, y: 18.2 },
+      { type: "L", x: center - 8.8, y: 15 },
+      { type: "L", x: center + 8.8, y: 15 },
+      { type: "L", x: center + 8.8, y: 18.2 },
+      { type: "C", x1: center + 5.6, y1: 18.5, x2: center + 3.2, y2: 20.2, x: center + 3, y: 23 },
+      { type: "L", x: center + 3, y: 98.5 },
+      { type: "C", x1: center + 3.9, y1: 101.8, x2: center + 6.2, y2: 103.7, x: center + 9.3, y: 104 },
       { type: "Z" },
     ],
   };
@@ -223,7 +366,7 @@ function segmentIntersection(p1: Point, p2: Point, p3: Point, p4: Point): Point 
   return { x: p1.x + t * (p2.x - p1.x), y: p1.y + t * (p2.y - p1.y) };
 }
 
-function findIntersections(anchors: Point[], chords: Segment[]): Point[] {
+export function findIntersections(anchors: Point[], chords: Segment[]): Point[] {
   const intersections: Point[] = [];
   for (let first = 0; first < chords.length; first += 1) {
     for (let second = first + 1; second < chords.length; second += 1) {
@@ -252,15 +395,87 @@ function distanceToSegment(point: Point, start: Point, end: Point): number {
   return Math.hypot(point.x - (start.x + progress * dx), point.y - (start.y + progress * dy));
 }
 
+function chordOrientationBin(anchors: Point[], chord: Segment): number {
+  const start = anchors[chord.a];
+  const end = anchors[chord.b];
+  const orientation = (Math.atan2(end.y - start.y, end.x - start.x) + Math.PI) % Math.PI;
+  return Math.min(3, Math.floor(orientation / (Math.PI / 4)));
+}
+
 function clampNumber(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
-function selectHighlights(points: Point[], count = 8): Point[] {
+function pointQuadrant(point: Point): number {
+  return (point.x >= 50 ? 1 : 0) + (point.y >= 59 ? 2 : 0);
+}
+
+export function selectHighlights(points: Point[], count = 8, balanced = false, sourceAligned = false): Point[] {
   if (points.length <= count) return [...points];
+  if (balanced && count === 8) {
+    const sourceTargets = sourceAligned ? [
+      { x: 43.2, y: 40.5 }, { x: 21.1, y: 49.7 },
+      { x: 61.8, y: 57.2 }, { x: 77.1, y: 47.9 },
+      { x: 35.7, y: 69.3 }, { x: 43.8, y: 76.2 },
+      { x: 56.1, y: 82.2 }, { x: 75.3, y: 69 },
+    ] : [];
+    const selected: Point[] = [];
+    for (const target of sourceTargets) {
+      const quadrant = pointQuadrant(target);
+      const candidate = points
+        .filter((point) => pointQuadrant(point) === quadrant && !selected.includes(point))
+        .sort((first, second) => Math.hypot(first.x - target.x, first.y - target.y) - Math.hypot(second.x - target.x, second.y - target.y))[0];
+      if (candidate) selected.push(candidate);
+    }
+    if (sourceAligned && selected.length === count) return selected;
+    const pairsByQuadrant = Array.from({ length: 4 }, (_, quadrant) => {
+      const quadrantPoints = points.filter((point) => pointQuadrant(point) === quadrant);
+      const interior = quadrantPoints.filter((point) => Math.hypot(point.x - 50, point.y - 59) <= 32);
+      const candidates = interior.length >= 2 ? interior : quadrantPoints;
+      const pairs: Array<[Point, Point]> = [];
+      for (let first = 0; first < candidates.length; first += 1) {
+        for (let second = first + 1; second < candidates.length; second += 1) {
+          pairs.push([candidates[first], candidates[second]]);
+        }
+      }
+      return pairs
+        .sort((a, b) => {
+          const pairScore = (pair: [Point, Point]) => {
+            const radii = pair.map((point) => Math.hypot(point.x - 50, point.y - 59)).sort((first, second) => first - second);
+            return Math.hypot(pair[0].x - pair[1].x, pair[0].y - pair[1].y) - Math.abs(radii[0] - 18) * 1.8 - Math.abs(radii[1] - 28) * 0.8;
+          };
+          return pairScore(b) - pairScore(a);
+        })
+        .slice(0, 12);
+    });
+    let selectedFallback: Point[] = [];
+    let bestScore = -Infinity;
+    for (const topLeft of pairsByQuadrant[0]) {
+      for (const topRight of pairsByQuadrant[1]) {
+        for (const bottomLeft of pairsByQuadrant[2]) {
+          for (const bottomRight of pairsByQuadrant[3]) {
+            const candidate = [...topLeft, ...topRight, ...bottomLeft, ...bottomRight];
+            const distances = candidate.flatMap((point, first) => candidate.slice(first + 1).map((other) => Math.hypot(point.x - other.x, point.y - other.y)));
+            const minimum = Math.min(...distances);
+            const mean = distances.reduce((sum, distance) => sum + distance, 0) / distances.length;
+            const radii = candidate.map((point) => Math.hypot(point.x - 50, point.y - 59)).sort((a, b) => a - b);
+            const radialPenalty = radii.reduce((sum, radius, index) => sum + Math.abs(radius - (index < 4 ? 18 : 28)), 0);
+            const angles = candidate.map((point) => (Math.atan2(point.y - 59, point.x - 50) + Math.PI * 2) % (Math.PI * 2)).sort((a, b) => a - b);
+            const minimumAngularGap = Math.min(...angles.map((angle, index) => (angles[(index + 1) % angles.length] - angle + Math.PI * 2) % (Math.PI * 2)));
+            const score = minimum * 3 + mean - radialPenalty * 6 + minimumAngularGap * 120;
+            if (score > bestScore) {
+              bestScore = score;
+              selectedFallback = candidate;
+            }
+          }
+        }
+      }
+    }
+    return selectedFallback;
+  }
   const selected: Point[] = [];
   for (let quadrant = 0; quadrant < 4; quadrant += 1) {
-    const candidates = points.filter((point) => (point.x >= 50 ? 1 : 0) + (point.y >= 59 ? 2 : 0) === quadrant);
+    const candidates = points.filter((point) => pointQuadrant(point) === quadrant);
     if (!candidates.length) continue;
     candidates.sort((a, b) => Math.hypot(b.x - 50, b.y - 59) - Math.hypot(a.x - 50, a.y - 59));
     selected.push(candidates[0]);
@@ -276,12 +491,122 @@ function selectHighlights(points: Point[], count = 8): Point[] {
   return selected.slice(0, count);
 }
 
+function displayNetworkScore(anchors: Point[], chords: Segment[]): number {
+  const degrees = Array.from({ length: anchors.length }, () => 0);
+  const orientationCounts = [0, 0, 0, 0];
+  let centralChordCount = 0;
+  chords.forEach((chord) => {
+    degrees[chord.a] += 1;
+    degrees[chord.b] += 1;
+    orientationCounts[chordOrientationBin(anchors, chord)] += 1;
+    if (distanceToSegment({ x: 50, y: 59 }, anchors[chord.a], anchors[chord.b]) <= 24) centralChordCount += 1;
+  });
+  const degreePenalty = Math.max(0, 1 - Math.min(...degrees)) * 50 + Math.max(0, Math.max(...degrees) - 5) * 50;
+  const intersections = findIntersections(anchors, chords);
+  const quadrantCounts = Array.from({ length: 4 }, (_, quadrant) => intersections.filter((point) => pointQuadrant(point) === quadrant).length);
+  const centroid = intersections.reduce((sum, point) => ({ x: sum.x + point.x, y: sum.y + point.y }), { x: 0, y: 0 });
+  centroid.x /= intersections.length;
+  centroid.y /= intersections.length;
+  const centroidDistance = Math.hypot(centroid.x - 50, centroid.y - 59);
+  const degreeMean = chords.length * 2 / anchors.length;
+  const degreeVariance = degrees.reduce((sum, degree) => sum + (degree - degreeMean) ** 2, 0) / degrees.length;
+  return degreePenalty
+    + Math.max(0, 32 - intersections.length) * 20
+    + Math.max(0, intersections.length - 60) * 20
+    + Math.max(0, 5 - Math.min(...quadrantCounts)) * 25
+    + Math.abs(intersections.length - 40) * 1.4
+    + (Math.max(...quadrantCounts) - Math.min(...quadrantCounts)) * 2.1
+    + centroidDistance * 2.4
+    + (Math.max(...orientationCounts) - Math.min(...orientationCounts)) * 20
+    + degreeVariance * 2.2
+    + Math.max(0, 11 - centralChordCount) * 40;
+}
+
+function generateDisplayNetwork(seed: string): ChordNetwork {
+  const seedFactory = xmur3(`${seed}:display`);
+  const random = mulberry32(seedFactory());
+  const center = { x: 50, y: 59 };
+  const anchorCount = 12;
+  const chordCount = 19;
+  const radius = 41;
+  const slice = (Math.PI * 2) / anchorCount;
+  const calibrated = seed === oCalibration.seed
+    ? { anchorAngles: oCalibration.anchorAngles, chords: oCalibration.chords }
+    : oCalibration.alternates.find((alternate) => alternate.seed === seed);
+  if (calibrated) {
+    const anchors = calibrated.anchorAngles.map((angle) => {
+      return { x: center.x + radius * Math.cos(angle), y: center.y + radius * Math.sin(angle) };
+    });
+    const chords = calibrated.chords.map((chord) => ({ a: chord.a, b: chord.b, weight: "weight" in chord ? chord.weight : undefined }));
+    const intersections = findIntersections(anchors, chords);
+    return { seed, profile: "display", anchors, chords, intersections, highlights: selectHighlights(intersections, 8, true, seed === oCalibration.seed) };
+  }
+  let best: ChordNetwork | null = null;
+  let bestScore = Number.POSITIVE_INFINITY;
+
+  for (let attempt = 0; attempt < 160; attempt += 1) {
+    const offset = random() * Math.PI * 2;
+    const angles = Array.from({ length: anchorCount }, (_, index) => {
+      const jitter = (random() - 0.5) * slice * 0.44;
+      return (offset + index * slice + jitter + Math.PI * 2) % (Math.PI * 2);
+    }).sort((a, b) => a - b);
+    const anchors = angles.map((angle) => ({ x: center.x + radius * Math.cos(angle), y: center.y + radius * Math.sin(angle) }));
+    const pairs: Segment[] = [];
+    for (let a = 0; a < anchorCount; a += 1) {
+      for (let b = a + 1; b < anchorCount; b += 1) {
+        if (angularDistance(angles[a], angles[b]) >= Math.PI / 4) pairs.push({ a, b });
+      }
+    }
+    const degrees = Array.from({ length: anchorCount }, () => 0);
+    const orientationCounts = [0, 0, 0, 0];
+    const chords: Segment[] = [];
+    let remaining = shuffled(pairs, random);
+    while (chords.length < chordCount) {
+      const desiredIntersections = Math.round(((chords.length + 1) / chordCount) ** 2 * 42);
+      const candidates = remaining
+        .filter((pair) => degrees[pair.a] < 5 && degrees[pair.b] < 5)
+        .map((pair) => ({
+          pair,
+          score: (degrees[pair.a] ** 2 + degrees[pair.b] ** 2) * 0.72
+            + orientationCounts[chordOrientationBin(anchors, pair)] * 0.9
+            + Math.abs(findIntersections(anchors, [...chords, pair]).length - desiredIntersections) * 0.35
+            + (distanceToSegment(center, anchors[pair.a], anchors[pair.b]) <= 24 ? 0 : 1.8),
+        }))
+        .sort((a, b) => a.score - b.score);
+      if (!candidates.length) break;
+      const chosen = candidates[Math.floor(random() * Math.min(7, candidates.length))].pair;
+      chords.push(chosen);
+      degrees[chosen.a] += 1;
+      degrees[chosen.b] += 1;
+      orientationCounts[chordOrientationBin(anchors, chosen)] += 1;
+      remaining = remaining.filter((pair) => pair !== chosen);
+    }
+    if (chords.length !== chordCount || Math.min(...degrees) < 1) continue;
+    const intersections = findIntersections(anchors, chords);
+    const quadrantCounts = Array.from({ length: 4 }, (_, quadrant) => intersections.filter((point) => pointQuadrant(point) === quadrant).length);
+    if (intersections.length < 32 || intersections.length > 60 || Math.min(...quadrantCounts) < 4) continue;
+    const centroid = intersections.reduce((sum, point) => ({ x: sum.x + point.x, y: sum.y + point.y }), { x: 0, y: 0 });
+    centroid.x /= intersections.length;
+    centroid.y /= intersections.length;
+    if (Math.max(...quadrantCounts) - Math.min(...quadrantCounts) > 10 || Math.hypot(centroid.x - 50, centroid.y - 59) > 5) continue;
+    const score = displayNetworkScore(anchors, chords);
+    if (score < bestScore) {
+      bestScore = score;
+      best = { seed, profile: "display", anchors, chords, intersections, highlights: [] };
+    }
+  }
+  if (!best) throw new Error(`Unable to produce a balanced display chord network for ${seed}`);
+  best.highlights = selectHighlights(best.intersections, 8, true);
+  return best;
+}
+
 const networkSpecs = {
   display: { anchors: 12, chords: 19, intersections: [16, 24] as const, quadrants: 4, centroidRadius: 8, minDegree: 1, maxDegree: 5, centralChords: 11 },
   compact: { anchors: 10, chords: 13, intersections: [8, 14] as const, quadrants: 3, centroidRadius: 12, minDegree: 1, maxDegree: 4, centralChords: 0 },
 };
 
 export function generateChordNetwork(seed: string, profile: NetworkProfile = "display"): ChordNetwork {
+  if (profile === "display") return generateDisplayNetwork(seed);
   const spec = networkSpecs[profile];
   const seedFactory = xmur3(`${seed}:${profile}`);
   const random = mulberry32(seedFactory());
@@ -431,7 +756,7 @@ export function generateFourier(sampleCount = 128, displayHarmonicCount = 12, co
     }
     return value;
   };
-  const preferredOrder = [2, 3, 12, 9, 6, 5, 4, 10, 8, 11, 7, 1];
+  const preferredOrder = [2, 5, 4, 12, 9, 6, 10, 8, 3, 11, 7, 1];
   const harmonicOrder = [
     ...preferredOrder.filter((harmonic) => harmonic <= displayHarmonicCount),
     ...Array.from({ length: displayHarmonicCount }, (_, index) => index + 1).filter((harmonic) => !preferredOrder.includes(harmonic)),
@@ -440,22 +765,29 @@ export function generateFourier(sampleCount = 128, displayHarmonicCount = 12, co
     Array.from({ length: sampleCount }, (_, index) => ({ x: xFor(index), y: seriesAt(index / (sampleCount - 1), harmonicOrder.slice(0, term + 1)) })),
   );
   const baseline = coefficients[0].a / 2;
-  const components = Array.from({ length: displayHarmonicCount }, (_, componentIndex) => {
-    const coefficient = coefficients[componentIndex + 1];
+  const components = harmonicOrder.map((harmonic) => {
+    const coefficient = coefficients[harmonic];
     return Array.from({ length: sampleCount }, (_, index) => {
       const angle = Math.PI * 2 * coefficient.n * (index / (sampleCount - 1));
       return { x: xFor(index), y: baseline + coefficient.a * Math.cos(angle) + coefficient.b * Math.sin(angle) };
     });
   });
+  const componentEnergies = harmonicOrder.map((harmonic) => Math.hypot(coefficients[harmonic].a, coefficients[harmonic].b));
+  const maxComponentEnergy = Math.max(...componentEnergies);
+  const componentWidths = componentEnergies.map((energy, index) => {
+    const energyWeight = Math.log1p(energy) / Math.log1p(maxComponentEnergy);
+    return Number((0.38 + energyWeight * 0.82 + index * 0.003).toFixed(3));
+  });
   const restingLayers = Array.from({ length: displayHarmonicCount - 1 }, (_, index) => {
     const progress = index / Math.max(1, displayHarmonicCount - 2);
+    const width = Number((0.72 - progress * 0.2 + (componentWidths[index] - 0.38) * 0.02).toFixed(3));
     return {
       partialIndex: index,
-      amplitudeScale: 0.45 + progress * 0.55,
-      width: 0.56 + progress * 0.35,
-      opacity: 0.27 + progress * 0.3,
-      haloWidth: 3.6,
-      haloOpacity: 0.08,
+      amplitudeScale: 1,
+      width,
+      opacity: Number((0.5 - progress * 0.28).toFixed(3)),
+      haloWidth: Number((2.8 + (componentWidths[index] - 0.38) * 0.35).toFixed(3)),
+      haloOpacity: 0.045,
     };
   });
   return {
@@ -469,6 +801,7 @@ export function generateFourier(sampleCount = 128, displayHarmonicCount = 12, co
     restingLayers,
     target: Array.from({ length: sampleCount }, (_, index) => ({ x: xFor(index), y: sampleHermite(index / (sampleCount - 1)) })),
     components,
+    componentWidths,
     partialSums,
     hero: partialSums[displayHarmonicCount - 1],
     compact: Array.from({ length: sampleCount }, (_, index) => ({
@@ -482,20 +815,95 @@ export function scaleFourierLayer(points: Point[], baseline: number, amplitudeSc
   return points.map((point) => ({ ...point, y: baseline + (point.y - baseline) * amplitudeScale }));
 }
 
+function fourierValueAndDerivative(data: FourierData, harmonics: number[], progress: number, amplitudeScale: number) {
+  const baseline = data.coefficients[0].a / 2;
+  let value = baseline;
+  let derivative = 0;
+  for (const harmonic of harmonics) {
+    const coefficient = data.coefficients[harmonic];
+    if (!coefficient) throw new Error(`Missing Fourier coefficient ${harmonic}`);
+    const angle = Math.PI * 2 * harmonic * progress;
+    value += amplitudeScale * (coefficient.a * Math.cos(angle) + coefficient.b * Math.sin(angle));
+    derivative += amplitudeScale * Math.PI * 2 * harmonic * (-coefficient.a * Math.sin(angle) + coefficient.b * Math.cos(angle));
+  }
+  return { value, derivative };
+}
+
+export function fourierBezierChain(data: FourierData, harmonics: number[], segmentCount = 64, amplitudeScale = 1): CubicBezierSegment[] {
+  if (!Number.isInteger(segmentCount) || segmentCount < 1) throw new Error("Fourier Bézier segment count must be a positive integer");
+  const xStart = 2;
+  const xSpan = 96;
+  const step = 1 / segmentCount;
+  return Array.from({ length: segmentCount }, (_, index) => {
+    const startProgress = index * step;
+    const endProgress = (index + 1) * step;
+    const startSeries = fourierValueAndDerivative(data, harmonics, startProgress, amplitudeScale);
+    const endSeries = fourierValueAndDerivative(data, harmonics, endProgress, amplitudeScale);
+    const start = { x: xStart + xSpan * startProgress, y: startSeries.value };
+    const end = { x: xStart + xSpan * endProgress, y: endSeries.value };
+    const handleProgress = step / 3;
+    return {
+      start,
+      control1: { x: start.x + xSpan * handleProgress, y: start.y + startSeries.derivative * handleProgress },
+      control2: { x: end.x - xSpan * handleProgress, y: end.y - endSeries.derivative * handleProgress },
+      end,
+    };
+  });
+}
+
+export function fourierPartialBezier(data: FourierData, partialIndex: number, segmentCount = 64, amplitudeScale = 1): CubicBezierSegment[] {
+  if (!Number.isInteger(partialIndex) || partialIndex < 0 || partialIndex >= data.displayHarmonicCount) {
+    throw new Error(`Fourier partial index ${partialIndex} is out of range`);
+  }
+  return fourierBezierChain(data, data.harmonicOrder.slice(0, partialIndex + 1), segmentCount, amplitudeScale);
+}
+
+export function fourierComponentBezier(data: FourierData, componentIndex: number, segmentCount = 64): CubicBezierSegment[] {
+  if (!Number.isInteger(componentIndex) || componentIndex < 0 || componentIndex >= data.displayHarmonicCount) {
+    throw new Error(`Fourier component index ${componentIndex} is out of range`);
+  }
+  return fourierBezierChain(data, [data.harmonicOrder[componentIndex]], segmentCount);
+}
+
+export function fourierCompactBezier(data: FourierData, segmentCount = 64): CubicBezierSegment[] {
+  return fourierBezierChain(data, Array.from({ length: data.compactHarmonicCount }, (_, index) => index + 1), segmentCount);
+}
+
+export function sampleBezierChain(chain: CubicBezierSegment[], subdivisions = 4): Point[] {
+  if (!Number.isInteger(subdivisions) || subdivisions < 1) throw new Error("Bézier subdivisions must be a positive integer");
+  if (!chain.length) return [];
+  const points: Point[] = [chain[0].start];
+  chain.forEach((segment) => {
+    for (let index = 1; index <= subdivisions; index += 1) {
+      const progress = index / subdivisions;
+      const inverse = 1 - progress;
+      points.push({
+        x: inverse ** 3 * segment.start.x + 3 * inverse ** 2 * progress * segment.control1.x + 3 * inverse * progress ** 2 * segment.control2.x + progress ** 3 * segment.end.x,
+        y: inverse ** 3 * segment.start.y + 3 * inverse ** 2 * progress * segment.control1.y + 3 * inverse * progress ** 2 * segment.control2.y + progress ** 3 * segment.end.y,
+      });
+    }
+  });
+  return points;
+}
+
+export function createHData(): HData {
+  return {
+    paths: [pillarPath(17), pillarPath(83)],
+    straight: sampleStraight(),
+    curve: sampleCatenary(),
+    companionStraight: sampleStraight(128, 60),
+    companion: sampleCompanionCatenary(),
+    midpoint: { x: 50, y: 70 },
+    axis: [{ x: 50, y: 8 }, { x: 50, y: 112 }],
+  };
+}
+
 export function createBrandData(): BrandData {
   return {
     master: MASTER,
     placements: GLYPH_PLACEMENTS,
-    pi: { display: classicalPi, compact: compactPi },
-    h: {
-      paths: [pillarPath(17), pillarPath(83)],
-      straight: sampleStraight(),
-      curve: sampleCatenary(),
-      companionStraight: sampleStraight(128, 60),
-      companion: sampleCompanionCatenary(),
-      midpoint: { x: 50, y: 70 },
-      axis: [{ x: 50, y: 23 }, { x: 50, y: 101 }],
-    },
+    pi: PI_GEOMETRY,
+    h: createHData(),
     o: {
       canonical: generateChordNetwork("THOM-01", "display"),
       compact: generateChordNetwork("THOM-01", "compact"),

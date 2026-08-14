@@ -1,5 +1,16 @@
-import type { BrandData, ChordNetwork, FilledPath, PathCommand, Point } from "./geometry";
-import { BRAND_COLORS, M_FINAL_MATERIAL, scaleFourierLayer } from "./geometry";
+import type { BrandData, ChordNetwork, CubicBezierSegment, FilledPath, PathCommand, Point } from "./geometry";
+import {
+  BRAND_COLORS,
+  displayStrokeWorldWidth,
+  H_ISOLATED_VIEW,
+  H_MATERIAL,
+  hStrokeWorldWidth,
+  M_FINAL_MATERIAL,
+  O_DISPLAY_MATERIAL,
+  PI_MATERIAL,
+  fourierCompactBezier,
+  fourierPartialBezier,
+} from "./geometry";
 
 type SvgTheme = "dark" | "light" | "monochrome";
 
@@ -19,8 +30,21 @@ function pathData(path: FilledPath): string {
 const filledPath = (path: FilledPath, fill: string, luminous: boolean) =>
   `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` stroke="${BRAND_COLORS.gold}" stroke-width=".34" filter="url(#thom-fill-glow)"` : ""}/>`;
 
-const polyline = (points: Point[], stroke: string, width: number, opacity = 1, extra = "") =>
-  `<polyline points="${pointList(points)}" fill="none" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}" vector-effect="non-scaling-stroke"${extra}/>`;
+const piPath = (path: FilledPath, fill: string, luminous: boolean) =>
+  `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` stroke="${PI_MATERIAL.edge}" stroke-width="${PI_MATERIAL.strokeWidth}" filter="url(#thom-pi-glow)"` : ""}/>`;
+
+const polyline = (points: Point[], stroke: string, width: number, opacity = 1, extra = "", widthInWorldUnits = false) =>
+  `<polyline points="${pointList(points)}" fill="none" stroke="${stroke}" stroke-width="${widthInWorldUnits ? width : displayStrokeWorldWidth(width)}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}"${extra}/>`;
+
+const bezierPathData = (chain: CubicBezierSegment[]) => {
+  if (!chain.length) return "";
+  return `M${pathNumber(chain[0].start.x)} ${pathNumber(chain[0].start.y)} ${chain.map((segment) =>
+    `C${pathNumber(segment.control1.x)} ${pathNumber(segment.control1.y)} ${pathNumber(segment.control2.x)} ${pathNumber(segment.control2.y)} ${pathNumber(segment.end.x)} ${pathNumber(segment.end.y)}`
+  ).join(" ")}`;
+};
+
+const bezierPath = (chain: CubicBezierSegment[], stroke: string, width: number, opacity = 1, extra = "") =>
+  `<path d="${bezierPathData(chain)}" fill="none" stroke="${stroke}" stroke-width="${displayStrokeWorldWidth(width)}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}"${extra}/>`;
 
 const node = (point: Point, fill: string, radius: number, opacity = 1, extra = "") =>
   `<circle cx="${point.x.toFixed(3)}" cy="${point.y.toFixed(3)}" r="${radius}" fill="${fill}" opacity="${opacity}"${extra}/>`;
@@ -41,6 +65,13 @@ function defs(theme: SvgTheme, compact: boolean): string {
       <stop offset=".7" stop-color="${BRAND_COLORS.ivory}"/>
       <stop offset="1" stop-color="${BRAND_COLORS.shadow}"/>
     </linearGradient>
+    <linearGradient id="thom-pi-metal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="120">
+      <stop offset="0" stop-color="${PI_MATERIAL.shadow}"/>
+      <stop offset=".28" stop-color="${PI_MATERIAL.gold}"/>
+      <stop offset=".49" stop-color="${PI_MATERIAL.highlight}"/>
+      <stop offset=".7" stop-color="${PI_MATERIAL.ivory}"/>
+      <stop offset="1" stop-color="${PI_MATERIAL.shadow}"/>
+    </linearGradient>
     <linearGradient id="thom-m-highlight" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="${BRAND_COLORS.shadow}"/>
       <stop offset=".08" stop-color="${BRAND_COLORS.gold}"/>
@@ -49,13 +80,36 @@ function defs(theme: SvgTheme, compact: boolean): string {
       <stop offset=".92" stop-color="${BRAND_COLORS.gold}"/>
       <stop offset="1" stop-color="${BRAND_COLORS.shadow}"/>
     </linearGradient>
+    <linearGradient id="thom-m-partial" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="${BRAND_COLORS.shadow}"/>
+      <stop offset=".14" stop-color="${BRAND_COLORS.gold}"/>
+      <stop offset=".86" stop-color="${BRAND_COLORS.gold}"/>
+      <stop offset="1" stop-color="${BRAND_COLORS.shadow}"/>
+    </linearGradient>
+    <linearGradient id="thom-h-metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="${BRAND_COLORS.shadow}"/>
+      <stop offset=".16" stop-color="${BRAND_COLORS.gold}"/>
+      <stop offset=".28" stop-color="${BRAND_COLORS.highlight}"/>
+      <stop offset=".46" stop-color="${BRAND_COLORS.ivory}"/>
+      <stop offset=".76" stop-color="${BRAND_COLORS.gold}"/>
+      <stop offset="1" stop-color="${BRAND_COLORS.shadow}"/>
+    </linearGradient>
     <filter id="thom-fill-glow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
       <feGaussianBlur in="SourceGraphic" stdDeviation="1.35" result="blur"/>
       <feColorMatrix in="blur" type="matrix" values="1 0 0 0 .17 0 .72 0 0 .08 0 0 .38 0 .02 0 0 0 .34 0" result="warm"/>
       <feMerge><feMergeNode in="warm"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="thom-pi-glow" x="-24%" y="-24%" width="148%" height="148%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation=".9" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values=".72 0 0 0 .12 0 .54 0 0 .06 0 0 .3 0 .02 0 0 0 .22 0" result="warm"/>
+      <feMerge><feMergeNode in="warm"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
     <filter id="thom-line-glow" x="-45%" y="-45%" width="190%" height="190%" color-interpolation-filters="sRGB">
       <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="thom-o-glow" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>`;
@@ -65,20 +119,29 @@ function luminousLine(points: Point[], core: string, width = 1.2, opacity = 1): 
   return `${polyline(points, BRAND_COLORS.gold, width * 4.6, opacity * 0.09)}${polyline(points, BRAND_COLORS.gold, width * 1.9, opacity * 0.34)}${polyline(points, core, width, opacity, ` filter="url(#thom-line-glow)"`)}`;
 }
 
+function oCircleMarkup(points: Point[]): string {
+  const material = O_DISPLAY_MATERIAL.circle;
+  return `${polyline(points, BRAND_COLORS.gold, material.haloWidth, material.haloOpacity)}${polyline(points, BRAND_COLORS.gold, material.middleWidth, material.middleOpacity)}${polyline(points, BRAND_COLORS.ivory, material.coreWidth, material.coreOpacity, ` filter="url(#thom-o-glow)"`)}`;
+}
+
+function hLuminousLine(points: Point[], core: string, material: typeof H_MATERIAL.primary | typeof H_MATERIAL.companion): string {
+  return `${polyline(points, BRAND_COLORS.gold, hStrokeWorldWidth(material.haloWidth), material.haloOpacity, "", true)}${polyline(points, BRAND_COLORS.gold, hStrokeWorldWidth(material.middleWidth), material.middleOpacity, "", true)}${polyline(points, core, hStrokeWorldWidth(material.coreWidth), material.coreOpacity, ` filter="url(#thom-line-glow)"`, true)}`;
+}
+
 function mDisplayMarkup(data: BrandData, colors: ReturnType<typeof palette>, luminous: boolean): string {
-  const baseline = data.m.coefficients[0].a / 2;
   const partials = data.m.restingLayers.map((layer) => {
-    const points = scaleFourierLayer(data.m.partialSums[layer.partialIndex], baseline, layer.amplitudeScale);
-    const halo = luminous && layer.haloOpacity > 0 ? polyline(points, BRAND_COLORS.gold, layer.haloWidth, layer.haloOpacity) : "";
-    return `${halo}${polyline(points, luminous ? BRAND_COLORS.gold : colors.ivory, layer.width, layer.opacity)}`;
+    const chain = fourierPartialBezier(data.m, layer.partialIndex, 64, layer.amplitudeScale);
+    const halo = luminous && layer.haloOpacity > 0 ? bezierPath(chain, BRAND_COLORS.gold, layer.haloWidth, layer.haloOpacity) : "";
+    return `${halo}${bezierPath(chain, luminous ? "url(#thom-m-partial)" : colors.ivory, layer.width, layer.opacity)}`;
   }).join("");
+  const finalChain = fourierPartialBezier(data.m, data.m.displayHarmonicCount - 1);
   const final = luminous
-    ? `${polyline(data.m.hero, BRAND_COLORS.gold, M_FINAL_MATERIAL.halo.width, M_FINAL_MATERIAL.halo.opacity)}${polyline(data.m.hero, BRAND_COLORS.gold, M_FINAL_MATERIAL.middle.width, M_FINAL_MATERIAL.middle.opacity)}${polyline(data.m.hero, "url(#thom-m-highlight)", M_FINAL_MATERIAL.core.width, M_FINAL_MATERIAL.core.opacity, ` filter="url(#thom-line-glow)"`)}`
-    : polyline(data.m.hero, colors.ivory, 1.35, 0.96);
+    ? `${bezierPath(finalChain, BRAND_COLORS.gold, M_FINAL_MATERIAL.halo.width, M_FINAL_MATERIAL.halo.opacity)}${bezierPath(finalChain, BRAND_COLORS.gold, M_FINAL_MATERIAL.middle.width, M_FINAL_MATERIAL.middle.opacity)}${bezierPath(finalChain, "url(#thom-m-highlight)", M_FINAL_MATERIAL.core.width, M_FINAL_MATERIAL.core.opacity, ` filter="url(#thom-line-glow)"`)}`
+    : bezierPath(finalChain, colors.ivory, 1.35, 0.96);
   return `${partials}${final}`;
 }
 
-function chordMarkup(network: ChordNetwork, color: string, luminous: boolean): string {
+function chordMarkup(network: ChordNetwork, color: string, luminous: boolean, compact: boolean): string {
   const chordLines = network.chords.map((chord) => {
     const start = network.anchors[chord.a];
     const end = network.anchors[chord.b];
@@ -86,18 +149,22 @@ function chordMarkup(network: ChordNetwork, color: string, luminous: boolean): s
     const dy = end.y - start.y;
     const length = Math.hypot(dx, dy);
     const inset = 1.7;
+    const weight = chord.weight ?? 0.55;
+    const haloWidth = O_DISPLAY_MATERIAL.chord.haloWidth * (0.7 + weight * 0.6);
+    const coreWidth = 0.5 + weight * 0.58;
+    const coreOpacity = 0.38 + weight * 0.46;
     const a = { x: start.x + (dx / length) * inset, y: start.y + (dy / length) * inset };
     const b = { x: end.x - (dx / length) * inset, y: end.y - (dy / length) * inset };
     return luminous
-      ? `${polyline([a, b], color, 2.4, 0.045)}${polyline([a, b], color, 0.76, 0.44)}`
-      : polyline([a, b], color, 0.9, 0.55);
+      ? `${polyline([a, b], color, haloWidth, O_DISPLAY_MATERIAL.chord.haloOpacity)}${polyline([a, b], color, coreWidth, coreOpacity)}`
+      : polyline([a, b], color, compact ? 1.65 : 0.9, 0.55, "", compact);
   });
 
   const anchors = network.anchors.map((point) => luminous
-    ? `${node(point, color, 3.5, 0.08)}${node(point, BRAND_COLORS.highlight, 1.02, 0.94, ` filter="url(#thom-line-glow)"`)}`
+    ? `${node(point, color, O_DISPLAY_MATERIAL.anchor.haloRadius, O_DISPLAY_MATERIAL.anchor.haloOpacity)}${node(point, BRAND_COLORS.highlight, O_DISPLAY_MATERIAL.anchor.coreRadius, O_DISPLAY_MATERIAL.anchor.coreOpacity, ` filter="url(#thom-o-glow)"`)}`
     : node(point, color, 1.15, 0.8));
-  const intersections = network.intersections.map((point) => node(point, color, luminous ? 0.72 : 0.85, luminous ? 0.58 : 0.78));
-  const highlights = luminous ? network.highlights.map((point) => `${node(point, color, 4.2, 0.11)}${node(point, BRAND_COLORS.highlight, 1.25, 1, ` filter="url(#thom-line-glow)"`)}`) : [];
+  const intersections = network.intersections.map((point) => node(point, color, luminous ? O_DISPLAY_MATERIAL.intersection.radius : 0.85, luminous ? O_DISPLAY_MATERIAL.intersection.opacity : 0.78));
+  const highlights = luminous ? network.highlights.map((point) => `${node(point, color, O_DISPLAY_MATERIAL.highlight.haloRadius, O_DISPLAY_MATERIAL.highlight.haloOpacity)}${node(point, BRAND_COLORS.highlight, O_DISPLAY_MATERIAL.highlight.coreRadius, O_DISPLAY_MATERIAL.highlight.coreOpacity, ` filter="url(#thom-o-glow)"`)}`) : [];
   return [...chordLines, ...anchors, ...intersections, ...highlights].join("");
 }
 
@@ -106,25 +173,26 @@ export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m"
   const luminous = theme === "dark" && !compact;
   const fill = luminous ? "url(#thom-metal)" : colors.ivory;
 
-  if (glyph === "t") return filledPath(compact ? data.pi.compact : data.pi.display, fill, luminous);
+  if (glyph === "t") return piPath(compact ? data.pi.compact : data.pi.display, luminous ? "url(#thom-pi-metal)" : fill, luminous);
   if (glyph === "h") {
-    const pillars = data.h.paths.map((path) => filledPath(path, fill, luminous)).join("");
-    if (compact) return `${pillars}${polyline(data.h.curve, colors.gold, 1.2)}`;
-    const axis = polyline(data.h.axis, colors.gold, 0.72, luminous ? 0.22 : 0.35, ` stroke-dasharray="3 4"`);
+    const hFill = luminous ? "url(#thom-h-metal)" : fill;
+    const pillars = data.h.paths.map((path) => filledPath(path, hFill, luminous)).join("");
+    if (compact) return `${pillars}${polyline(data.h.curve, colors.gold, 2.8, 1, "", true)}`;
+    const axis = polyline(data.h.axis, colors.gold, hStrokeWorldWidth(H_MATERIAL.axis.width), luminous ? H_MATERIAL.axis.opacity : 0.3, ` stroke-dasharray="${H_MATERIAL.axis.dash} ${H_MATERIAL.axis.gap}"`, true);
     const curves = luminous
-      ? `${luminousLine(data.h.curve, BRAND_COLORS.highlight, 1.15)}${luminousLine(data.h.companion, BRAND_COLORS.ivory, 0.72, 0.72)}`
-      : `${polyline(data.h.curve, colors.gold, 1.15)}${polyline(data.h.companion, colors.gold, 0.72, 0.72)}`;
+      ? `${hLuminousLine(data.h.curve, BRAND_COLORS.highlight, H_MATERIAL.primary)}${hLuminousLine(data.h.companion, BRAND_COLORS.ivory, H_MATERIAL.companion)}`
+      : `${polyline(data.h.curve, colors.gold, hStrokeWorldWidth(1.15), 1, "", true)}${polyline(data.h.companion, colors.gold, hStrokeWorldWidth(0.72), 0.72, "", true)}`;
     const midpoint = luminous
-      ? `${node(data.h.midpoint, colors.gold, 5.4, 0.16)}${node(data.h.midpoint, colors.highlight, 1.85, 1, ` filter="url(#thom-line-glow)"`)}`
+      ? `${node(data.h.midpoint, colors.gold, H_MATERIAL.midpoint.haloRadius, H_MATERIAL.midpoint.haloOpacity)}${node(data.h.midpoint, colors.gold, H_MATERIAL.midpoint.middleRadius, H_MATERIAL.midpoint.middleOpacity)}${node(data.h.midpoint, colors.highlight, H_MATERIAL.midpoint.coreRadius, H_MATERIAL.midpoint.coreOpacity, ` filter="url(#thom-line-glow)"`)}`
       : node(data.h.midpoint, colors.gold, 1.75);
     return `${axis}${pillars}${curves}${midpoint}`;
   }
   if (glyph === "o") {
     const network = compact ? data.o.compact : data.o.canonical;
-    const circle = luminous ? luminousLine(data.o.circle, BRAND_COLORS.ivory, 1.05) : polyline(data.o.circle, colors.ivory, compact ? 1.35 : 1.15);
-    return `${circle}${chordMarkup(network, colors.gold, luminous)}`;
+    const circle = luminous ? oCircleMarkup(data.o.circle) : polyline(data.o.circle, colors.ivory, compact ? 2.8 : displayStrokeWorldWidth(1.15), 1, "", true);
+    return `${circle}${chordMarkup(network, colors.gold, luminous, compact)}`;
   }
-  if (compact) return polyline(data.m.compact, colors.ivory, 1.8);
+  if (compact) return `<path d="${bezierPathData(fourierCompactBezier(data.m))}" fill="none" stroke="${colors.ivory}" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>`;
   return mDisplayMarkup(data, colors, luminous);
 }
 
@@ -149,6 +217,11 @@ export function renderGlyphSvg(data: BrandData, glyph: "t" | "h" | "o" | "m", th
   if (glyph === "m") {
     const content = `<g transform="scale(${data.placements.m.scaleX} 1)">${renderGlyphContent(data, glyph, theme, compact)}</g>`;
     return svgShell(`0 0 ${data.placements.m.width} 120`, content, theme, compact);
+  }
+  if (glyph === "h") {
+    const view = H_ISOLATED_VIEW;
+    const content = `<g transform="scale(${view.scaleX} 1)">${renderGlyphContent(data, glyph, theme, compact)}</g>`;
+    return svgShell(`${view.x} ${view.y} ${view.width} ${view.height}`, content, theme, compact);
   }
   return svgShell("0 0 100 120", renderGlyphContent(data, glyph, theme, compact), theme, compact);
 }
