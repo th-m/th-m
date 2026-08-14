@@ -1,0 +1,38 @@
+[
+  {
+    "viewport": {
+      "width": 668,
+      "height": 900
+    },
+    "hero": {
+      "width": 648,
+      "height": 188
+    },
+    "crop": {
+      "left": 318,
+      "top": 22,
+      "width": 123,
+      "height": 140
+    },
+    "lineScale": "1.5577",
+    "renderLoop": "stopped"
+  },
+  {
+    "viewport": {
+      "width": 1746,
+      "height": 900
+    },
+    "hero": {
+      "width": 1180,
+      "height": 341
+    },
+    "crop": {
+      "left": 578,
+      "top": 40,
+      "width": 225,
+      "height": 255
+    },
+    "lineScale": "2.8365",
+    "renderLoop": "stopped"
+  }
+]

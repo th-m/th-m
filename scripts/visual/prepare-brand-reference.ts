@@ -10,7 +10,7 @@ await mkdir(outputDirectory, { recursive: true });
 const crops = {
   t: { left: 74, top: 202, width: 214, height: 154 },
   h: { left: 414, top: 202, width: 232, height: 164 },
-  o: { left: 780, top: 198, width: 222, height: 188 },
+  o: { left: 778, top: 205, width: 224, height: 175 },
   m: { left: 1094, top: 200, width: 370, height: 174 },
 } as const;
 
