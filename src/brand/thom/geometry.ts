@@ -57,7 +57,7 @@ export type HData = {
 
 export type BrandData = {
   master: { width: number; height: number };
-  placements: Record<"t" | "h" | "o" | "m", { x: number; scaleX: number; width: number }>;
+  placements: Record<"t" | "h" | "o" | "m", { x: number; y: number; scaleX: number; width: number }>;
   pi: { display: FilledPath; compact: FilledPath };
   h: HData;
   o: {
@@ -143,13 +143,19 @@ export const PI_LEG_INSET = {
   compact: 5,
 } as const;
 
+export const M_SPATIAL_ADJUSTMENT = {
+  centerY: 60,
+  scaleY: 1.06,
+  offsetY: 4,
+} as const;
+
 export const M_FINAL_MATERIAL = {
   halo: { width: Number((8.8 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.11 },
   middle: { width: Number((6.85 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.56 },
   core: { width: Number((3.1 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.96 },
 } as const;
 
-export const M_WEBGL_CORE_PARITY_SCALE = 1.12;
+export const M_WEBGL_CORE_PARITY_SCALE = 1.148;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
 export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
@@ -244,10 +250,10 @@ export const H_ANIMATION = {
 
 export const MASTER = { width: 416, height: 120 } as const;
 export const GLYPH_PLACEMENTS = {
-  t: { x: 20.1, scaleX: 0.86, width: 86 },
-  h: { x: 98.1, scaleX: 1, width: 100 },
-  o: { x: 185, scaleX: 0.88, width: 88 },
-  m: { x: 274.6, scaleX: 1.22, width: 122 },
+  t: { x: 20.1, y: 1.5, scaleX: 0.86, width: 86 },
+  h: { x: 98.975, y: 0, scaleX: 1, width: 100 },
+  o: { x: 185.625, y: 0, scaleX: 0.88, width: 88 },
+  m: { x: 274.6, y: 0, scaleX: 1.22, width: 122 },
 } as const;
 
 export const H_PILLAR_CENTERS = [25, 75] as const;
@@ -808,7 +814,14 @@ function circlePoints(count = 128): Point[] {
   });
 }
 
-export const M_SPLINE_CONTROLS: Point[] = mCalibration.controls;
+const adjustMVertical = (y: number) => M_SPATIAL_ADJUSTMENT.centerY
+  + (y - M_SPATIAL_ADJUSTMENT.centerY) * M_SPATIAL_ADJUSTMENT.scaleY
+  + M_SPATIAL_ADJUSTMENT.offsetY;
+
+export const M_SPLINE_CONTROLS: Point[] = mCalibration.controls.map((point) => ({
+  x: point.x,
+  y: adjustMVertical(point.y),
+}));
 
 function sampleHermite(x: number): number {
   let index = 0;

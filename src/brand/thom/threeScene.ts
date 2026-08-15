@@ -586,6 +586,7 @@ export class ThomSceneController {
     this.buildScene();
     if (this.view === "t") {
       this.tGroup.position.x = 0;
+      this.tGroup.position.y = 0;
       this.tGroup.scale.x = 1;
     } else if (this.view === "h") this.hGroup.scale.x = H_ISOLATED_VIEW.scaleX;
     else if (this.view === "o") this.oGroup.scale.x = 1;
@@ -600,6 +601,7 @@ export class ThomSceneController {
     const group = new Group();
     group.name = glyph;
     group.position.x = placement.x;
+    group.position.y = -placement.y;
     group.scale.x = placement.scaleX;
     this.scene.add(group);
     return group;
@@ -831,6 +833,7 @@ export class ThomSceneController {
     this.canvas.dataset.glyphView = view;
     const tPlacement = brandData.placements.t;
     this.tGroup.position.x = view === "t" ? 0 : tPlacement.x;
+    this.tGroup.position.y = view === "t" ? 0 : -tPlacement.y;
     this.tGroup.scale.x = view === "t" ? 1 : tPlacement.scaleX;
     const placement = brandData.placements.h;
     this.hGroup.position.x = placement.x;

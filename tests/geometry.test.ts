@@ -24,6 +24,7 @@ import {
   H_UNIT_BRACE,
   hStrokeWorldWidth,
   M_ANIMATION,
+  M_SPATIAL_ADJUSTMENT,
   M_WEBGL_CORE_PARITY_SCALE,
   M_SPLINE_CONTROLS,
   MASTER,
@@ -68,7 +69,7 @@ function pathBounds(path: FilledPath) {
 describe("THOM geometry", () => {
   it("keeps the bounded source-energy update explicit and deterministic", () => {
     expect(SOURCE_ENERGY_Q).toEqual({ t: 0.852298, h: 1.116686, o: 1.096325, m: 1.113872 });
-    expect(M_WEBGL_CORE_PARITY_SCALE).toBe(1.12);
+    expect(M_WEBGL_CORE_PARITY_SCALE).toBe(1.148);
     expect(PI_WEBGL_MATERIAL).toMatchObject({ shadow: "#50382f", highlight: "#f1dfbd", opacity: 1 });
     expect(PI_FILL_ENERGY_SCALE).toBeCloseTo(0.6658887, 6);
     for (const glyph of ["t", "h", "o", "m"] as const) {
@@ -324,6 +325,7 @@ describe("THOM geometry", () => {
   });
 
   it("commits paired reference-calibrated M spline controls", () => {
+    expect(M_SPATIAL_ADJUSTMENT).toEqual({ centerY: 60, scaleY: 1.06, offsetY: 4 });
     expect(M_SPLINE_CONTROLS).toHaveLength(11);
     M_SPLINE_CONTROLS.forEach((point, index) => {
       const mirror = M_SPLINE_CONTROLS[M_SPLINE_CONTROLS.length - 1 - index];
@@ -385,10 +387,10 @@ describe("THOM geometry", () => {
   it("keeps the master grid centered with a measured optical spacing rhythm", () => {
     const data = createBrandData();
     expect(data.placements).toEqual({
-      t: { x: 20.1, scaleX: 0.86, width: 86 },
-      h: { x: 98.1, scaleX: 1, width: 100 },
-      o: { x: 185, scaleX: 0.88, width: 88 },
-      m: { x: 274.6, scaleX: 1.22, width: 122 },
+      t: { x: 20.1, y: 1.5, scaleX: 0.86, width: 86 },
+      h: { x: 98.975, y: 0, scaleX: 1, width: 100 },
+      o: { x: 185.625, y: 0, scaleX: 0.88, width: 88 },
+      m: { x: 274.6, y: 0, scaleX: 1.22, width: 122 },
     });
     const visibleEdges = {
       tLeft: data.placements.t.x + 2 * data.placements.t.scaleX,
@@ -400,9 +402,16 @@ describe("THOM geometry", () => {
       mLeft: data.placements.m.x + 2 * data.placements.m.scaleX,
       mRight: data.placements.m.x + 98 * data.placements.m.scaleX,
     };
-    expect(visibleEdges.hLeft - visibleEdges.tRight).toBeCloseTo(10.06, 2);
-    expect(visibleEdges.oLeft - visibleEdges.hRight).toBeCloseTo(12.02, 2);
-    expect(visibleEdges.mLeft - visibleEdges.oRight).toBeCloseTo(11.96, 2);
+    const gaps = [
+      visibleEdges.hLeft - visibleEdges.tRight,
+      visibleEdges.oLeft - visibleEdges.hRight,
+      visibleEdges.mLeft - visibleEdges.oRight,
+    ];
+    expect(gaps[0]).toBeCloseTo(10.935, 3);
+    expect(gaps[1]).toBeCloseTo(11.77, 3);
+    expect(gaps[2]).toBeCloseTo(11.335, 3);
+    const gapMean = gaps.reduce((sum, gap) => sum + gap, 0) / gaps.length;
+    expect(Math.max(...gaps.map((gap) => Math.abs(gap - gapMean) / gapMean))).toBeLessThan(0.04);
     expect((visibleEdges.tLeft + visibleEdges.mRight) / 2).toBeCloseTo(MASTER.width / 2, 1);
     expect(data.h.proportion.aLength / data.h.proportion.bLength).toBeCloseTo(GOLDEN_RATIO, 10);
   });
