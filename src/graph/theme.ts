@@ -1,3 +1,5 @@
+import { thomToolFoundation } from "../tooling/theme";
+
 export interface GraphTheme {
   id: "thom-dark";
   color: {
@@ -34,21 +36,8 @@ export interface GraphTheme {
 
 export const thomTheme: GraphTheme = {
   id: "thom-dark",
-  color: {
-    background: "#050505",
-    surface: "#0c0b09",
-    surfaceRaised: "#15120d",
-    ivory: "#f2e5cf",
-    gold: "#d6b06a",
-    highlight: "#fff5dc",
-    muted: "#a99b87",
-    line: "#554936",
-    danger: "#dc806f",
-  },
-  typography: {
-    display: '"Newsreader Variable", Newsreader, Georgia, serif',
-    mono: '"IBM Plex Mono", ui-monospace, monospace',
-  },
+  color: thomToolFoundation.color,
+  typography: thomToolFoundation.typography,
   geometry: {
     propositionMin: 184,
     propositionMax: 296,
@@ -60,10 +49,7 @@ export const thomTheme: GraphTheme = {
     width: 2,
     arrowSize: 11,
   },
-  effect: {
-    glow: "0 0 42px rgba(214,176,106,.14)",
-    grainOpacity: 0.045,
-  },
+  effect: thomToolFoundation.effect,
 };
 
 export const graphThemeCssVariables = {
