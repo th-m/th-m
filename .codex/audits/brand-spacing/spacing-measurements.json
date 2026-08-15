@@ -1,0 +1,32 @@
+{
+  "sourceT": "/Users/thom/Desktop/Screenshot 2026-08-14 at 10.31.34 PM.png",
+  "sourceH": "/Users/thom/Desktop/Screenshot 2026-08-14 at 10.31.39 PM.png",
+  "priorLockup": "/Users/thom/Sites/th-m/th-m/.codex/audits/brand-current/01-home-desktop.jpg",
+  "currentLockup": "/Users/thom/Sites/th-m/th-m/.codex/audits/brand-spacing/01-final-desktop.jpg",
+  "browserViewport": {
+    "width": 1440,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "geometry": {
+    "tLegInset": {
+      "display": 4.5,
+      "compact": 4
+    },
+    "tInnerLegGap": 15.3,
+    "hPillarCenters": [
+      21,
+      79
+    ],
+    "hPillarSpan": 58,
+    "hCurveAnchors": [
+      28,
+      72
+    ],
+    "opticalGaps": {
+      "tToH": 10,
+      "hToO": 12,
+      "oToM": 12
+    }
+  }
+}

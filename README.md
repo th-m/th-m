@@ -6,6 +6,10 @@ Most of the engineering questions I return to live between product intent and sy
 
 Where is complexity collecting? What would make the next change easier without over-designing for an imagined future?
 
+## Design Tool
+
+[Paper](https://paper.design/) is the specified design tool for this project. Use Paper for brand exploration, visual design, review, and design handoff instead of Figma.
+
 ## Proposition Graph Authoring
 
 Run `bun run graph` to open the local-only proposition graph editor. Use `bun run build:graph` for its isolated build and `bun run test:graph:e2e` for its browser and accessibility checks; none of these commands add the editor to the public portfolio build.
