@@ -23,7 +23,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:graph:e2e": "playwright test --config playwright.graph.config.ts",
-    "test:e2e": "playwright test --project=desktop --project=mobile",
+    "test:e2e": "playwright test tests/e2e/site.spec.ts --project=desktop --project=mobile",
     "audit:brand": "bun run build && bun run scripts/visual/prepare-brand-reference.ts && playwright test tests/visual/brand-compare.spec.ts --project=brand-audit && bun run scripts/visual/compose-brand-qa.ts",
     "audit:brand:update": "bun run build && bun run scripts/visual/prepare-brand-reference.ts && playwright test tests/visual/brand-compare.spec.ts --project=brand-audit --update-snapshots && bun run scripts/visual/compose-brand-qa.ts",
     "check": "bun run typecheck && bun run test && bun run build"

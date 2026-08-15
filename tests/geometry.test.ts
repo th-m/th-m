@@ -72,7 +72,7 @@ function pathBounds(path: FilledPath) {
 describe("THOM geometry", () => {
   it("keeps the bounded source-energy update explicit and deterministic", () => {
     expect(SOURCE_ENERGY_Q).toEqual({ t: 0.852298, h: 1.116686, o: 1.096325, m: 1.113872 });
-    expect(M_WEBGL_CORE_PARITY_SCALE).toBe(1.148);
+    expect(M_WEBGL_CORE_PARITY_SCALE).toBe(1.12);
     expect(PI_WEBGL_MATERIAL).toMatchObject({ shadow: "#50382f", highlight: "#f1dfbd", opacity: 1 });
     expect(PI_FILL_ENERGY_SCALE).toBeCloseTo(0.6658887, 6);
     for (const glyph of ["t", "h", "o", "m"] as const) {
@@ -161,7 +161,7 @@ describe("THOM geometry", () => {
     expect(H_PHI_STRATEGIES.material).toEqual({
       plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
       coreOpacity: 1,
-      halo: { width: 50, height: 72, opacity: 0.319 },
+      halo: { width: 50, height: 72, opacity: 0.717 },
     });
     expect(hAnimationWeights(H_ANIMATION.phiHoldEnd, "material")).toEqual({ phi: 1, h: 0 });
     const midpoint = hAnimationWeights((H_ANIMATION.phiHoldEnd + H_ANIMATION.crossfadeEnd) / 2, "material");
@@ -339,7 +339,7 @@ describe("THOM geometry", () => {
   });
 
   it("commits paired reference-calibrated M spline controls", () => {
-    expect(M_SPATIAL_ADJUSTMENT).toEqual({ centerY: 60, scaleY: 1.06, offsetY: 4 });
+    expect(M_SPATIAL_ADJUSTMENT).toEqual({ centerY: 60, scaleY: 1, offsetY: 0 });
     expect(M_SPLINE_CONTROLS).toHaveLength(11);
     M_SPLINE_CONTROLS.forEach((point, index) => {
       const mirror = M_SPLINE_CONTROLS[M_SPLINE_CONTROLS.length - 1 - index];
@@ -436,7 +436,7 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("3bc82f087d9d8dda27f084ec9dad1230c20b252c00cabed725e01855296393c4");
+    expect(hash).toBe("31f68844e1b9f90dd028eeafdebe04a8269e711b418b849c7bc24cbff8093719");
     expect(first).toContain("<title id=\"title\">THOM</title>");
     expect(first).toContain('viewBox="0 0 416 120"');
     expect(first).toContain('id="thom-metal"');
@@ -464,6 +464,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("4bd2a55f36d04b62c4205deb6e17ff7ca73d8922392c797cdb46a6c7e984f7fa");
+    expect(hash.digest("hex")).toBe("9527fb8710f93b2b0dfc6fc42e87d0afb52b518bde2f2321615ea3b5af7b4297");
   });
 });

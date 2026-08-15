@@ -145,8 +145,8 @@ export const PI_LEG_INSET = {
 
 export const M_SPATIAL_ADJUSTMENT = {
   centerY: 60,
-  scaleY: 1.06,
-  offsetY: 4,
+  scaleY: 1,
+  offsetY: 0,
 } as const;
 
 export const M_FINAL_MATERIAL = {
@@ -155,7 +155,7 @@ export const M_FINAL_MATERIAL = {
   core: { width: Number((3.1 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.96 },
 } as const;
 
-export const M_WEBGL_CORE_PARITY_SCALE = 1.148;
+export const M_WEBGL_CORE_PARITY_SCALE = 1.12;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
 export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
@@ -257,7 +257,7 @@ export const H_PHI_STRATEGIES = {
   material: {
     plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
     coreOpacity: 1,
-    halo: { width: 50, height: 72, opacity: 0.319 },
+    halo: { width: 50, height: 72, opacity: 0.717 },
   },
 } as const;
 

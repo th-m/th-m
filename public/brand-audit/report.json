@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T14:50:09.567Z",
+  "generatedAt": "2026-08-15T15:08:06.455Z",
   "method": "Raw pixel mismatch at 0.1 gates T/O/M against the source board. H uses pillar-only source regions because its former catenary is intentionally superseded by the golden-ratio crossbar; H center geometry is gated structurally and by SVG/WebGL parity.",
   "legacyAverageMismatchRatio": 0.18891927083333332,
   "averageStrictMismatchRatio": 0.18893057374680247,
