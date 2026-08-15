@@ -1010,7 +1010,7 @@ export class ThomSceneController {
       this.canvas.dataset.hSawPhi = "false";
       this.canvas.dataset.hSawCrossfade = "false";
       this.state.h = 0;
-      control = animate(this.state, { h: 1 }, { duration: H_ANIMATION.durationMs / 1000, ease: "linear" });
+      control = animate(this.state, { h: [0, 1] }, { duration: H_ANIMATION.durationMs / 1000, ease: "linear" });
     } else if (glyph === "o") {
       control = animate(this.state, { oAlt: [0, 1, 1, 0] }, { duration: 0.76, ease: [0.22, 1, 0.36, 1], times: [0, 0.58, 0.8, 1] });
     } else {
