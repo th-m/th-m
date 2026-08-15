@@ -6,9 +6,13 @@ import sharp from "sharp";
 import {
   GLYPH_PLACEMENTS,
   H_ANIMATION,
+  H_PHI_STRATEGIES,
+  H_PHI_STRATEGY,
   H_PROPORTION,
   MASTER,
   createBrandData,
+  hAnimationWeights,
+  type HPhiStrategyName,
 } from "../../src/brand/thom/geometry";
 import { renderGlyphContent, renderLogoSvg } from "../../src/brand/thom/svg";
 
@@ -39,6 +43,13 @@ const OPTICAL_GAP_BLUR_DESIGN_UNITS = 1.25;
 const variantArgument = process.argv.find((argument) => argument.startsWith("--variant="));
 const variant = (variantArgument?.slice("--variant=".length) || process.env.THOM_BALANCE_VARIANT || "baseline")
   .replace(/[^a-zA-Z0-9._-]/g, "-");
+const motionStrategyArgument = process.argv.find((argument) => argument.startsWith("--motion-strategy="));
+const requestedMotionStrategy = motionStrategyArgument?.slice("--motion-strategy=".length) || H_PHI_STRATEGY;
+if (!(requestedMotionStrategy in H_PHI_STRATEGIES)) {
+  throw new Error(`Unknown H motion strategy: ${requestedMotionStrategy}`);
+}
+const motionStrategyName = requestedMotionStrategy as HPhiStrategyName;
+const motionStrategy = H_PHI_STRATEGIES[motionStrategyName];
 const outputRoot = resolve(process.cwd(), ".codex/audits/logo-balance", variant);
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
@@ -225,18 +236,136 @@ async function comparisonSheet(production: Buffer, monochrome: Buffer, output: s
     .toFile(output);
 }
 
+function labelSvg(width: number, height: number, title: string, subtitle = "") {
+  return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+    <rect width="100%" height="100%" fill="#11100e"/>
+    <text x="24" y="38" fill="#f5eee3" font-family="system-ui, sans-serif" font-size="24" font-weight="700">${title}</text>
+    <text x="24" y="68" fill="#bcae9a" font-family="ui-monospace, monospace" font-size="18">${subtitle}</text>
+  </svg>`);
+}
+
+function phaseForProgress(progress: number) {
+  if (progress < H_ANIMATION.phiFadeInEnd) return "φ-in";
+  if (progress < H_ANIMATION.phiHoldEnd) return "φ-hold";
+  if (progress < H_ANIMATION.crossfadeEnd) return "crossfade";
+  return "settled";
+}
+
+async function animationContactSheet(
+  frames: Array<{ buffer: Buffer; ms: number; phase: string }>,
+  output: string,
+) {
+  if (!frames.length) return;
+  const metadata = await sharp(frames[0].buffer).metadata();
+  const tileWidth = metadata.width!;
+  const tileHeight = metadata.height!;
+  const labelHeight = 88;
+  const columns = 4;
+  const rows = Math.ceil(frames.length / columns);
+  const background = { r: 5, g: 5, b: 5, alpha: 1 };
+  const tiles = await Promise.all(frames.map(async (frame) => sharp({
+    create: { width: tileWidth, height: tileHeight + labelHeight, channels: 4, background },
+  }).composite([
+    { input: labelSvg(tileWidth, labelHeight, frame.phase, `${frame.ms} ms · ${motionStrategyName}`), left: 0, top: 0 },
+    { input: frame.buffer, left: 0, top: labelHeight },
+  ]).png().toBuffer()));
+  await sharp({
+    create: { width: tileWidth * columns, height: (tileHeight + labelHeight) * rows, channels: 4, background },
+  }).composite(tiles.map((input, index) => ({
+    input,
+    left: index % columns * tileWidth,
+    top: Math.floor(index / columns) * (tileHeight + labelHeight),
+  }))).png().toFile(output);
+}
+
+async function temporalPlot(
+  frames: Array<{ ms: number; opticalEnergy: number; centroid: { x: number } }>,
+  settledEnergy: number,
+  settledCentroidX: number,
+  outputRootPath: string,
+) {
+  const width = 1440;
+  const height = 760;
+  const left = 96;
+  const right = 48;
+  const top = 82;
+  const panelHeight = 250;
+  const panelGap = 96;
+  const plotWidth = width - left - right;
+  const x = (ms: number) => left + ms / H_ANIMATION.durationMs * plotWidth;
+  const energyY = (energy: number) => top + panelHeight - energy / (settledEnergy * 1.1) * panelHeight;
+  const centroidTop = top + panelHeight + panelGap;
+  const centroidY = (centroidX: number) => centroidTop + panelHeight / 2
+    - (centroidX - settledCentroidX) / 1.2 * (panelHeight / 2);
+  const linePath = (points: Array<[number, number]>) => points
+    .map(([pointX, pointY], index) => `${index ? "L" : "M"}${round(pointX, 3)} ${round(pointY, 3)}`)
+    .join(" ");
+  const energyPath = linePath(frames.map((frame) => [x(frame.ms), energyY(frame.opticalEnergy)]));
+  const centroidPath = linePath(frames.map((frame) => [x(frame.ms), centroidY(frame.centroid.x)]));
+  const phaseLines = [
+    { progress: H_ANIMATION.phiFadeInEnd, label: "φ-in end" },
+    { progress: H_ANIMATION.phiHoldEnd, label: "crossfade start" },
+    { progress: H_ANIMATION.crossfadeEnd, label: "settled" },
+  ];
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <rect width="100%" height="100%" fill="#050505"/>
+    <text x="${left}" y="42" fill="#f5eee3" font-family="system-ui, sans-serif" font-size="28" font-weight="700">H temporal balance · ${motionStrategyName}</text>
+    <text x="${left}" y="68" fill="#bcae9a" font-family="ui-monospace, monospace" font-size="16">25 ms cadence · 0–700 ms · target energy ${round(settledEnergy, 3)}</text>
+    <rect x="${left}" y="${energyY(settledEnergy * 1.05)}" width="${plotWidth}" height="${energyY(settledEnergy * .95) - energyY(settledEnergy * 1.05)}" fill="#6fa879" opacity=".14"/>
+    <line x1="${left}" x2="${width - right}" y1="${energyY(settledEnergy)}" y2="${energyY(settledEnergy)}" stroke="#8fbf96" stroke-dasharray="8 8" opacity=".8"/>
+    <path d="${energyPath}" fill="none" stroke="#e1bc78" stroke-width="4"/>
+    <text x="24" y="${top + 18}" fill="#d5c7b5" font-family="system-ui, sans-serif" font-size="18" transform="rotate(-90 24 ${top + 18})">optical energy</text>
+    <rect x="${left}" y="${centroidY(settledCentroidX + 1)}" width="${plotWidth}" height="${centroidY(settledCentroidX - 1) - centroidY(settledCentroidX + 1)}" fill="#6f8fa8" opacity=".12"/>
+    <line x1="${left}" x2="${width - right}" y1="${centroidY(settledCentroidX)}" y2="${centroidY(settledCentroidX)}" stroke="#8cb8d1" stroke-dasharray="8 8" opacity=".8"/>
+    <path d="${centroidPath}" fill="none" stroke="#8fc7dc" stroke-width="4"/>
+    <text x="24" y="${centroidTop + 62}" fill="#d5c7b5" font-family="system-ui, sans-serif" font-size="18" transform="rotate(-90 24 ${centroidTop + 62})">centroid x</text>
+    ${phaseLines.map(({ progress, label }) => {
+      const lineX = x(progress * H_ANIMATION.durationMs);
+      return `<line x1="${lineX}" x2="${lineX}" y1="${top}" y2="${centroidTop + panelHeight}" stroke="#ffffff" opacity=".18"/><text x="${lineX + 8}" y="${centroidTop + panelHeight + 28}" fill="#9d9183" font-family="ui-monospace, monospace" font-size="14">${label}</text>`;
+    }).join("")}
+    ${[0, 100, 200, 300, 400, 500, 600, 700].map((ms) => `<text x="${x(ms)}" y="${height - 28}" fill="#9d9183" font-family="ui-monospace, monospace" font-size="14" text-anchor="middle">${ms} ms</text>`).join("")}
+  </svg>`;
+  await Bun.write(resolve(outputRootPath, "h-animation-plot.svg"), `${svg}\n`);
+  await sharp(Buffer.from(svg)).png().toFile(resolve(outputRootPath, "h-animation-plot.png"));
+}
+
+async function multiscaleComparison(
+  scenarios: Array<{ label: string; detail: string; buffer: Buffer }>,
+  output: string,
+) {
+  const width = 1920;
+  const rowHeight = 360;
+  const labelWidth = 420;
+  const background = { r: 5, g: 5, b: 5, alpha: 1 };
+  const rows = await Promise.all(scenarios.map(async (scenario) => {
+    const artwork = await sharp(scenario.buffer)
+      .resize({ width: width - labelWidth - 80, height: rowHeight - 64, fit: "contain", withoutEnlargement: true })
+      .toBuffer();
+    const artworkMetadata = await sharp(artwork).metadata();
+    return sharp({ create: { width, height: rowHeight, channels: 4, background } }).composite([
+      { input: labelSvg(labelWidth, rowHeight, scenario.label, scenario.detail), left: 0, top: 0 },
+      {
+        input: artwork,
+        left: labelWidth + 40,
+        top: Math.round((rowHeight - artworkMetadata.height!) / 2),
+      },
+    ]).png().toBuffer();
+  }));
+  await sharp({ create: { width, height: rowHeight * rows.length, channels: 4, background } })
+    .composite(rows.map((input, index) => ({ input, left: 0, top: index * rowHeight })))
+    .png()
+    .toFile(output);
+}
+
 function phiFrameSvg(hContent: string, definitions: string, phiHref: string, progress: number) {
-  const phiIn = clamp(progress / H_ANIMATION.phiFadeInEnd);
-  const phiOut = 1 - clamp(
-    (progress - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd),
-  );
-  const phiOpacity = phiIn * phiOut;
-  const hOpacity = clamp(
-    (progress - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd),
-  );
+  const weights = hAnimationWeights(progress, motionStrategyName);
+  const plane = motionStrategy.plane;
+  const halo = motionStrategy.halo;
+  const planeX = plane.centerX - plane.width / 2;
+  const planeY = plane.centerY - plane.height / 2;
   return svgDocument(
-    `<g opacity="${hOpacity}">${hContent}</g><image href="${phiHref}" x="29" y="28" width="42" height="64" opacity="${phiOpacity}"/>`,
-    definitions,
+    `<g opacity="${weights.h}">${hContent}</g><ellipse cx="${plane.centerX}" cy="${plane.centerY}" rx="${halo.width / 2}" ry="${halo.height / 2}" fill="url(#thom-phi-halo)" opacity="${weights.phi * halo.opacity}"/><image href="${phiHref}" x="${planeX}" y="${planeY}" width="${plane.width}" height="${plane.height}" opacity="${weights.phi * motionStrategy.coreOpacity}"/>`,
+    `${definitions}<defs><radialGradient id="thom-phi-halo"><stop offset="0" stop-color="#d6b477" stop-opacity="1"/><stop offset=".58" stop-color="#b68a4e" stop-opacity=".45"/><stop offset="1" stop-color="#8a6438" stop-opacity="0"/></radialGradient></defs>`,
     "0 0 100 120",
   );
 }
@@ -378,16 +507,82 @@ const aCrossbar = analyzePng(
 const bCrossbar = analyzePng(
   rasterize(svgDocument(renderGlyphContent(bData, "h"), definitions, "0 0 100 120"), MASTER.height * SUPERSAMPLE),
 );
+const multiscaleSurvival: Record<string, unknown> = {};
+for (const height of [24, 48] as const) {
+  const renderHeight = height * SUPERSAMPLE;
+  const hTicksData = {
+    ...data,
+    h: {
+      ...data.h,
+      paths: [],
+      proportion: { ...data.h.proportion, a: [], b: [], brace: [] },
+    },
+  };
+  const hBraceData = {
+    ...data,
+    h: {
+      ...data.h,
+      paths: [],
+      proportion: { ...data.h.proportion, a: [], b: [], ticks: [] },
+    },
+  };
+  const oCircleData = {
+    ...data,
+    o: {
+      ...data.o,
+      canonical: {
+        ...data.o.canonical,
+        anchors: [],
+        chords: [],
+        intersections: [],
+        highlights: [],
+      },
+    },
+  };
+  const oNetworkData = { ...data, o: { ...data.o, circle: [] } };
+  const mMarkup = renderGlyphContent(data, "m");
+  const mPaths = mMarkup.match(/<path[^>]*\/>/g) ?? [];
+  const mLayerMarkup = mPaths.slice(0, -3).join("");
+  const mCoreMarkup = mPaths.slice(-3).join("");
+  const featureMetrics = (content: string, glyph: Glyph) => {
+    const placement = data.placements[glyph];
+    return publicMetrics(analyzePng(rasterize(svgDocument(
+      `<g transform="translate(${placement.x} 0) scale(${placement.scaleX} 1)">${content}</g>`,
+      definitions,
+    ), renderHeight)), height);
+  };
+  const features = {
+    hTicks: featureMetrics(renderGlyphContent(hTicksData, "h"), "h"),
+    hBrace: featureMetrics(renderGlyphContent(hBraceData, "h"), "h"),
+    oCircumference: featureMetrics(renderGlyphContent(oCircleData, "o"), "o"),
+    oNetwork: featureMetrics(renderGlyphContent(oNetworkData, "o"), "o"),
+    mCore: featureMetrics(mCoreMarkup, "m"),
+    mLayers: featureMetrics(mLayerMarkup, "m"),
+  };
+  multiscaleSurvival[String(height)] = {
+    features,
+    acceptance: {
+      hTicksVisible: features.hTicks.opticalEnergy > 0 && features.hTicks.occupiedBounds.width > 0,
+      hBraceVisible: features.hBrace.opticalEnergy > 0 && features.hBrace.occupiedBounds.width > 0,
+      oCircumferenceVisible: features.oCircumference.highContrastCoreArea > 0,
+      oNetworkVisible: features.oNetwork.opticalEnergy > 0 && features.oNetwork.occupiedBounds.width > 0,
+      mCoreVisible: features.mCore.highContrastCoreArea > 0,
+      mLayersVisible: features.mLayers.opticalEnergy > 0 && features.mLayers.occupiedBounds.width > 0,
+    },
+  };
+}
 const phiBuffer = Buffer.from(await Bun.file(resolve(process.cwd(), "public/brand/h-phi.png")).arrayBuffer());
 const phiHref = `data:image/png;base64,${phiBuffer.toString("base64")}`;
 const temporalFrames = [];
-const temporalPngs: Buffer[] = [];
+const temporalPngs: Array<{ buffer: Buffer; ms: number; phase: string }> = [];
 for (let ms = 0; ms <= H_ANIMATION.durationMs; ms += 25) {
   const progress = ms / H_ANIMATION.durationMs;
   const frame = rasterize(phiFrameSvg(hContent, definitions, phiHref, progress), MASTER.height * SUPERSAMPLE);
   const metrics = analyzePng(frame);
   temporalFrames.push({ ms, progress: round(progress), ...publicMetrics(metrics, MASTER.height) });
-  if ([0, 100, 175, 250, 350, 475, 575, 700].includes(ms)) temporalPngs.push(frame);
+  if ([0, 100, 175, 250, 350, 475, 575, 700].includes(ms)) {
+    temporalPngs.push({ buffer: frame, ms, phase: phaseForProgress(progress) });
+  }
 }
 const settled = temporalFrames.at(-1)!;
 const settledEnergy = settled.opticalEnergy;
@@ -414,16 +609,21 @@ const maximumCrossfadeEnergyDeviation = Math.max(
 );
 const motionScore = motionEnergyError + 0.25 * motionCentroidDrift;
 
-if (temporalPngs.length) {
-  const decoded = temporalPngs.map((buffer) => PNG.sync.read(buffer));
-  const tileWidth = decoded[0].width;
-  const tileHeight = decoded[0].height;
-  const sheet = new PNG({ width: tileWidth * decoded.length, height: tileHeight });
-  decoded.forEach((png, index) => {
-    PNG.bitblt(png, sheet, 0, 0, tileWidth, tileHeight, index * tileWidth, 0);
-  });
-  await Bun.write(resolve(outputRoot, "h-animation-contact-sheet.png"), PNG.sync.write(sheet));
-}
+await animationContactSheet(temporalPngs, resolve(outputRoot, "h-animation-contact-sheet.png"));
+await temporalPlot(temporalFrames, settledEnergy, settled.centroid.x, outputRoot);
+
+const settledDesktop = rasterize(renderLogoSvg(data), 120 * SUPERSAMPLE);
+const compact = rasterize(renderLogoSvg(data, "dark", true), 48 * SUPERSAMPLE);
+const mobile = rasterize(renderLogoSvg(data, "dark", true), 24 * SUPERSAMPLE);
+const reducedMotion = rasterize(renderLogoSvg(data), 120 * SUPERSAMPLE);
+const staticFallback = rasterize(renderLogoSvg(data), 120 * SUPERSAMPLE);
+await multiscaleComparison([
+  { label: "Desktop", detail: "120 px · full settled construction", buffer: settledDesktop },
+  { label: "Compact", detail: "48 px · compact deterministic SVG", buffer: compact },
+  { label: "Mobile", detail: "24 px · compact deterministic SVG", buffer: mobile },
+  { label: "Reduced motion", detail: "120 px · immediate settled state", buffer: reducedMotion },
+  { label: "Static fallback", detail: "120 px · thom-master.svg", buffer: staticFallback },
+], resolve(outputRoot, "responsive-motion-static-comparison.png"));
 
 const sizeScores = Object.values(scoreInputs);
 const components = {
@@ -467,6 +667,8 @@ const report = {
     },
   },
   temporal: {
+    strategy: motionStrategyName,
+    strategyParameters: motionStrategy,
     durationMs: H_ANIMATION.durationMs,
     cadenceMs: 25,
     settledEnergy,
@@ -474,7 +676,21 @@ const report = {
     phiHoldDeviationRatio: round(Math.abs(holdEnergy - settledEnergy) / Math.max(settledEnergy, 1e-9)),
     maximumCrossfadeEnergyDeviationRatio: round(maximumCrossfadeEnergyDeviation),
     maximumCentroidDrift: round(motionCentroidDrift),
+    acceptance: {
+      cadenceAndDuration: temporalFrames.length === 29
+        && temporalFrames[0]?.ms === 0
+        && temporalFrames.at(-1)?.ms === H_ANIMATION.durationMs,
+      phiHoldWithinFivePercent: Math.abs(holdEnergy - settledEnergy) / Math.max(settledEnergy, 1e-9) <= 0.05,
+      crossfadeWithinSevenPercent: maximumCrossfadeEnergyDeviation <= 0.07,
+      centroidWithinOneDesignUnit: motionCentroidDrift <= 1,
+      distinctPhiCore: holdFrames.every((frame) => frame.highContrastCoreArea > 0 && frame.occupiedBounds.width > 0),
+    },
     frames: temporalFrames,
+  },
+  multiscaleSurvival,
+  fallbackParity: {
+    reducedMotionMatchesSettled: reducedMotion.equals(settledDesktop),
+    staticFallbackMatchesSettled: staticFallback.equals(settledDesktop),
   },
   score: {
     formula: "0.40*mass + 0.20*core + 0.15*moments + 0.10*gaps + 0.15*motion",
@@ -491,7 +707,7 @@ await comparisonSheet(
 );
 await Bun.write(
   resolve(outputRoot, "index.html"),
-  `<!doctype html><meta charset="utf-8"><title>THOM ${variant}</title><style>body{background:#050505;color:#eee;font:14px system-ui;padding:24px}img{max-width:100%;display:block;margin:16px 0;background:#050505}</style><h1>THOM logo balance: ${variant}</h1><p>Revision ${revision}</p>${DISPLAY_HEIGHTS.map((height) => `<h2>${height}px @ 8x</h2><img src="production-${height}px@8x.png"><img src="monochrome-${height}px@8x.png">`).join("")}<h2>H animation</h2><img src="h-animation-contact-sheet.png"><pre>${JSON.stringify(report.score, null, 2)}</pre>`,
+  `<!doctype html><meta charset="utf-8"><title>THOM ${variant}</title><style>body{background:#050505;color:#eee;font:14px system-ui;padding:24px}img{max-width:100%;display:block;margin:16px 0;background:#050505}</style><h1>THOM logo balance: ${variant}</h1><p>Revision ${revision}</p>${DISPLAY_HEIGHTS.map((height) => `<h2>${height}px @ 8x</h2><img src="production-${height}px@8x.png"><img src="monochrome-${height}px@8x.png">`).join("")}<h2>H animation phases</h2><img src="h-animation-contact-sheet.png"><h2>Temporal plot</h2><img src="h-animation-plot.png"><h2>Responsive, reduced-motion, and static states</h2><img src="responsive-motion-static-comparison.png"><pre>${JSON.stringify(report.score, null, 2)}</pre>`,
 );
 
 console.log(JSON.stringify({ variant, revision, output: outputRoot, score: report.score }, null, 2));

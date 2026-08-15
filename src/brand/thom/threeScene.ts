@@ -29,9 +29,12 @@ import {
   H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
+  H_PHI_STRATEGIES,
+  H_PHI_STRATEGY,
   H_PILLAR_CENTERS,
   H_PILLAR_SHAPE,
   hStrokeWorldWidth,
+  hAnimationWeights,
   M_ANIMATION,
   M_FINAL_MATERIAL,
   M_WEBGL_CORE_PARITY_SCALE,
@@ -99,6 +102,35 @@ function pointMaterial(color: string, opacity = 1) {
     opacity,
     depthWrite: false,
     side: DoubleSide,
+  });
+}
+
+function phiHaloMaterial() {
+  return new ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    side: DoubleSide,
+    uniforms: {
+      uColor: { value: new Color(BRAND_COLORS.gold) },
+      uOpacity: { value: 0 },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 uColor;
+      uniform float uOpacity;
+      varying vec2 vUv;
+      void main() {
+        float radius = length((vUv - 0.5) * 2.0);
+        float halo = 1.0 - smoothstep(0.0, 1.0, radius);
+        gl_FragColor = vec4(uColor, halo * uOpacity);
+      }
+    `,
   });
 }
 
@@ -561,7 +593,9 @@ export class ThomSceneController {
   private hTicks: HStrokeStack[] = [];
   private hBrace!: HStrokeStack;
   private hPhi!: Mesh;
+  private hPhiHalo!: Mesh;
   private hPhiMaterial = new MeshBasicMaterial({ color: new Color(BRAND_COLORS.highlight), transparent: true, opacity: 0, depthWrite: false, side: DoubleSide });
+  private hPhiHaloMaterial = phiHaloMaterial();
   private assetReady: Promise<void> = Promise.resolve();
   private disposed = false;
   private piGuide!: LineRecord;
@@ -640,8 +674,12 @@ export class ThomSceneController {
     addHStack(this.hGroup, this.hB);
     this.hTicks.forEach((tick) => addHStack(this.hGroup, tick));
     addHStack(this.hGroup, this.hBrace);
-    this.hPhi = new Mesh(new PlaneGeometry(42, 64), this.hPhiMaterial);
-    this.hPhi.position.set(50, 60, 1.2);
+    const phiStrategy = H_PHI_STRATEGIES[H_PHI_STRATEGY];
+    this.hPhiHalo = new Mesh(new PlaneGeometry(phiStrategy.halo.width, phiStrategy.halo.height), this.hPhiHaloMaterial);
+    this.hPhiHalo.position.set(phiStrategy.plane.centerX, 120 - phiStrategy.plane.centerY, 1.1);
+    this.hGroup.add(this.hPhiHalo);
+    this.hPhi = new Mesh(new PlaneGeometry(phiStrategy.plane.width, phiStrategy.plane.height), this.hPhiMaterial);
+    this.hPhi.position.set(phiStrategy.plane.centerX, 120 - phiStrategy.plane.centerY, 1.2);
     this.hGroup.add(this.hPhi);
     this.assetReady = hPhiTexture.then((texture) => {
       if (this.disposed) return;
@@ -759,10 +797,10 @@ export class ThomSceneController {
     this.piTracer.position.y = 120 - tracePoint.y;
     (this.piTracer.material as MeshBasicMaterial).opacity = s.piGuide;
 
-    const phiIn = clamp(s.h / H_ANIMATION.phiFadeInEnd);
-    const phiOut = 1 - clamp((s.h - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd));
-    const phiOpacity = phiIn * phiOut;
-    const hOpacity = clamp((s.h - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd));
+    const phiStrategy = H_PHI_STRATEGIES[H_PHI_STRATEGY];
+    const hWeights = hAnimationWeights(s.h);
+    const phiOpacity = hWeights.phi * phiStrategy.coreOpacity;
+    const hOpacity = hWeights.h;
     this.hMaterials.forEach((fill) => {
       fill.uniforms.uOpacity.value = hOpacity;
       fill.uniforms.uProgress.value = 1;
@@ -775,6 +813,8 @@ export class ThomSceneController {
     setHStackOpacity(this.hBrace, hOpacity);
     this.hPhiMaterial.opacity = phiOpacity;
     this.hPhi.visible = phiOpacity > 0.001;
+    this.hPhiHaloMaterial.uniforms.uOpacity.value = hWeights.phi * phiStrategy.halo.opacity;
+    this.hPhiHalo.visible = this.hPhiHaloMaterial.uniforms.uOpacity.value > 0.001;
     const hPhase = s.h < H_ANIMATION.phiFadeInEnd
       ? "phi-in"
       : s.h < H_ANIMATION.phiHoldEnd
