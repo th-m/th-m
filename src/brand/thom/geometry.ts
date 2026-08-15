@@ -141,7 +141,7 @@ export const M_FINAL_MATERIAL = {
   core: { width: Number((3.1 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.96 },
 } as const;
 
-export const M_WEBGL_CORE_PARITY_SCALE = 1.07;
+export const M_WEBGL_CORE_PARITY_SCALE = 1.12;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
 export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
