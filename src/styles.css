@@ -145,6 +145,10 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 .glyph-stage__fallback { opacity: 1; transition: opacity .25s ease; }
 .glyph-stage.is-webgl-ready .glyph-stage__canvas { opacity: 1; }
 .glyph-stage.is-webgl-ready .glyph-stage__fallback { opacity: .055; }
+@media (prefers-reduced-motion: no-preference) {
+  .glyph-stage--h.is-webgl-ready .glyph-stage__fallback { opacity: 0; }
+  .thom-logo--hero.is-webgl-ready:has(.thom-logo__canvas[data-h-phase="phi-in"], .thom-logo__canvas[data-h-phase="phi-hold"], .thom-logo__canvas[data-h-phase="crossfade"]) .thom-logo__fallback { opacity: 0; }
+}
 .glyph-list { border-top: 1px solid var(--line); }
 .glyph-list button { width: 100%; min-height: 146px; display: grid; grid-template-columns: 48px 72px 1fr 30px; gap: 18px; align-items: start; padding: 28px 0; color: var(--brand-muted); text-align: left; background: transparent; border: 0; border-bottom: 1px solid var(--line); cursor: pointer; transition: color .3s ease, padding .3s var(--ease-draw); }
 .glyph-list button:hover, .glyph-list button:focus-visible, .glyph-list button.is-active { color: var(--brand-ivory); padding-left: 12px; }

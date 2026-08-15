@@ -1,5 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import {
   createBrandData,
@@ -10,21 +12,27 @@ import {
   fourierPartialBezier,
   generateChordNetwork,
   generateFourier,
+  GOLDEN_RATIO,
   H_ANIMATION,
+  H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
+  H_PILLAR_CENTERS,
+  H_PILLAR_SHAPE,
+  H_PROPORTION,
   H_STROKE_WORLD_PER_PIXEL,
+  H_UNIT_BRACE,
   hStrokeWorldWidth,
   M_ANIMATION,
   M_SPLINE_CONTROLS,
+  MASTER,
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
   PI_ANIMATION,
   PI_GEOMETRY,
+  PI_LEG_INSET,
   samplePathOutline,
   sampleBezierChain,
-  sampleCatenary,
-  sampleCompanionCatenary,
   type FilledPath,
 } from "../src/brand/thom/geometry";
 import { renderGlyphSvg, renderLogoSvg } from "../src/brand/thom/svg";
@@ -76,70 +84,83 @@ describe("THOM geometry", () => {
     expect(Math.min(...outline.map((point) => point.x))).toBeLessThanOrEqual(2.1);
     expect(Math.max(...outline.map((point) => point.x))).toBeGreaterThanOrEqual(98.8);
     expect(Math.max(...outline.map((point) => point.y)) - Math.min(...outline.map((point) => point.y))).toBeLessThan(95);
+    expect(PI_LEG_INSET).toEqual({ display: 5.5, compact: 5 });
+    const displayInnerRight = PI_GEOMETRY.display.commands[13];
+    const displayInnerLeft = PI_GEOMETRY.display.commands[14];
+    expect(displayInnerRight.type).toBe("C");
+    expect(displayInnerLeft.type).toBe("L");
+    if (displayInnerRight.type === "C" && displayInnerLeft.type === "L") {
+      expect(displayInnerRight.x - displayInnerLeft.x).toBeCloseTo(13.3, 10);
+    }
   });
 
-  it("creates the primary and companion equilibrium curves with a shared midpoint", () => {
-    const primary = sampleCatenary();
-    const companion = sampleCompanionCatenary();
-    expect(primary).toHaveLength(128);
-    expect(companion).toHaveLength(128);
-    expect(primary[0]).toEqual({ x: 24, y: 48 });
-    expect(primary.at(-1)).toEqual({ x: 76, y: 48 });
-    expect(companion[0]).toEqual({ x: 24, y: 60 });
-    expect(companion.at(-1)).toEqual({ x: 76, y: 60 });
-    expect(primary[63].y).toBeCloseTo(70, 1);
-    expect(companion[63].y).toBeCloseTo(70, 1);
-    primary.forEach((point, index) => expect(point.y).toBeCloseTo(primary[primary.length - 1 - index].y, 6));
-    companion.forEach((point, index) => expect(point.y).toBeCloseTo(companion[companion.length - 1 - index].y, 6));
-
-    const exactPrimary = sampleCatenary(129);
-    const exactCompanion = sampleCompanionCatenary(129);
-    expect(exactPrimary[64]).toEqual({ x: 50, y: 70 });
-    expect(exactCompanion[64]).toEqual({ x: 50, y: 70 });
+  it("divides the H crossbar into exact golden-ratio a and b segments", () => {
+    const h = createHData();
+    expect(GOLDEN_RATIO).toBeCloseTo(1.61803398875, 11);
+    expect(H_PROPORTION).toMatchObject({ y: 60, startX: 27.35, endX: 72.65 });
+    expect(H_PROPORTION.totalLength).toBeCloseTo(45.3, 10);
+    expect(H_PROPORTION.splitX).toBeCloseTo(55.34693969037, 10);
+    expect(h.proportion.a).toEqual([{ x: 27.35, y: 60 }, { x: H_PROPORTION.splitX, y: 60 }]);
+    expect(h.proportion.b).toEqual([{ x: H_PROPORTION.splitX, y: 60 }, { x: 72.65, y: 60 }]);
+    expect(h.proportion.aLength / h.proportion.bLength).toBeCloseTo(GOLDEN_RATIO, 10);
+    expect(h.proportion.totalLength / h.proportion.aLength).toBeCloseTo(GOLDEN_RATIO, 10);
+    expect(h.proportion.ticks).toEqual([27.35, H_PROPORTION.splitX, 72.65].map((x) => [{ x, y: 57.2 }, { x, y: 62.8 }]));
+    expect(h.proportion.brace[0]).toEqual({ x: H_PROPORTION.startX, y: H_UNIT_BRACE.topY });
+    expect(h.proportion.brace.at(-1)).toEqual({ x: H_PROPORTION.endX, y: H_UNIT_BRACE.topY });
+    const braceCusp = h.proportion.brace.reduce((deepest, point) => point.y > deepest.y ? point : deepest);
+    expect(braceCusp).toEqual({ x: 50, y: H_UNIT_BRACE.cuspY });
+    expect(Math.min(...h.proportion.brace.map((point) => point.x))).toBe(H_PROPORTION.startX);
+    expect(Math.max(...h.proportion.brace.map((point) => point.x))).toBe(H_PROPORTION.endX);
   });
 
   it("bounds the H with high-contrast bracketed serifs and narrow symmetric stems", () => {
     const h = createHData();
     const [left, right] = h.paths.map(pathBounds);
-    expect(left.minX).toBeCloseTo(7.7, 10);
-    expect(left.maxX).toBeCloseTo(26.3, 10);
-    expect(right.minX).toBeCloseTo(73.7, 10);
-    expect(right.maxX).toBeCloseTo(92.3, 10);
+    expect(H_PILLAR_CENTERS).toEqual([25, 75]);
+    expect(H_PILLAR_SHAPE).toEqual({ serifHalfWidth: 7.8, topSerifHalfWidth: 7.4, stemHalfWidth: 2.35 });
+    expect(left.minX).toBeCloseTo(17.2, 10);
+    expect(left.maxX).toBeCloseTo(32.8, 10);
+    expect(right.minX).toBeCloseTo(67.2, 10);
+    expect(right.maxX).toBeCloseTo(82.8, 10);
     expect([left.minY, left.maxY, right.minY, right.maxY]).toEqual([15, 104, 15, 104]);
-    expect(h.axis).toEqual([{ x: 50, y: 8 }, { x: 50, y: 112 }]);
-    expect(h.midpoint).toEqual({ x: 50, y: 70 });
+    expect(h).not.toHaveProperty("curve");
+    expect(h).not.toHaveProperty("axis");
+    expect(h).not.toHaveProperty("midpoint");
   });
 
-  it("settles the H construction between 220 and 740 ms with at most four percent overshoot", () => {
+  it("crossfades phi into the H between 220 and 920 ms without overshoot", () => {
     expect(H_ANIMATION.delayMs).toBe(220);
     expect(H_ANIMATION.delayMs + H_ANIMATION.durationMs).toBe(H_ANIMATION.endMs);
-    expect(H_ANIMATION.endMs).toBe(740);
-    expect(H_ANIMATION.overshoot - 1).toBeCloseTo(0.04, 10);
-    expect(H_ANIMATION.primaryRevealStart).toBeLessThan(H_ANIMATION.companionRevealStart);
-    expect(H_ANIMATION.companionRevealStart).toBeLessThan(H_ANIMATION.midpointIgnitionStart);
+    expect(H_ANIMATION.durationMs).toBe(700);
+    expect(H_ANIMATION.endMs).toBe(920);
+    expect(H_ANIMATION.phiFadeInEnd).toBeLessThan(H_ANIMATION.phiHoldEnd);
+    expect(H_ANIMATION.phiHoldEnd).toBeLessThan(H_ANIMATION.crossfadeEnd);
   });
 
-  it("keeps the H curve stack fine, layered, and quieter on the companion curve", () => {
-    expect(H_MATERIAL.primary).toMatchObject({ coreWidth: 0.82, middleWidth: 1.55, haloWidth: 3.8 });
-    expect(H_MATERIAL.companion).toMatchObject({ coreWidth: 0.5, middleWidth: 0.96, haloWidth: 2.3 });
-    expect(H_MATERIAL.primary.coreWidth).toBeLessThan(1);
-    expect(H_MATERIAL.primary.haloWidth).toBeGreaterThan(H_MATERIAL.primary.middleWidth);
-    expect(H_MATERIAL.primary.middleWidth).toBeGreaterThan(H_MATERIAL.primary.coreWidth);
-    expect(H_MATERIAL.companion.coreWidth).toBeLessThan(H_MATERIAL.primary.coreWidth);
-    expect(H_MATERIAL.companion.middleOpacity).toBeLessThan(H_MATERIAL.primary.middleOpacity);
-    expect(H_MATERIAL.companion.haloOpacity).toBeLessThan(H_MATERIAL.primary.haloOpacity);
+  it("keeps the H proportion lines layered with a quieter b segment and ticks", () => {
+    expect(H_COLUMN_MATERIAL).toMatchObject({ edge: "#bd9a63", body: "#d2bc96", highlight: "#e2d2b4", highlightMix: 0.1 });
+    expect(H_MATERIAL.a).toMatchObject({ coreWidth: 0.82, middleWidth: 1.55, haloWidth: 3.8 });
+    expect(H_MATERIAL.b).toMatchObject({ coreWidth: 0.68, middleWidth: 1.2, haloWidth: 2.8 });
+    expect(H_MATERIAL.tick).toMatchObject({ coreWidth: 0.56, middleWidth: 0.88, haloWidth: 1.9 });
+    expect(H_MATERIAL.brace).toMatchObject({ coreWidth: 0.46, middleWidth: 0.76, haloWidth: 1.6, coreOpacity: 0.68 });
+    expect(H_MATERIAL.a.haloWidth).toBeGreaterThan(H_MATERIAL.a.middleWidth);
+    expect(H_MATERIAL.a.middleWidth).toBeGreaterThan(H_MATERIAL.a.coreWidth);
+    expect(H_MATERIAL.b.coreWidth).toBeLessThan(H_MATERIAL.a.coreWidth);
+    expect(H_MATERIAL.b.middleOpacity).toBeLessThan(H_MATERIAL.a.middleOpacity);
+    expect(H_MATERIAL.tick.coreWidth).toBeLessThan(H_MATERIAL.b.coreWidth);
+    expect(H_MATERIAL.brace.coreWidth).toBeLessThan(H_MATERIAL.tick.coreWidth);
   });
 
   it("expresses H construction strokes in world units so their pillar ratio survives responsive scaling", () => {
     expect(H_STROKE_WORLD_PER_PIXEL).toBe(0.7);
-    expect(hStrokeWorldWidth(H_MATERIAL.primary.coreWidth)).toBeCloseTo(0.574, 10);
-    expect(hStrokeWorldWidth(H_MATERIAL.companion.coreWidth)).toBeCloseTo(0.35, 10);
+    expect(hStrokeWorldWidth(H_MATERIAL.a.coreWidth)).toBeCloseTo(0.574, 10);
+    expect(hStrokeWorldWidth(H_MATERIAL.b.coreWidth)).toBeCloseTo(0.476, 10);
     const smallScale = 648 / 416;
     const largeScale = 1180 / 416;
-    const smallPrimary = hStrokeWorldWidth(H_MATERIAL.primary.coreWidth) * smallScale;
-    const largePrimary = hStrokeWorldWidth(H_MATERIAL.primary.coreWidth) * largeScale;
+    const smallPrimary = hStrokeWorldWidth(H_MATERIAL.a.coreWidth) * smallScale;
+    const largePrimary = hStrokeWorldWidth(H_MATERIAL.a.coreWidth) * largeScale;
     expect(smallPrimary / largePrimary).toBeCloseTo(smallScale / largeScale, 10);
-    expect(hStrokeWorldWidth(H_MATERIAL.primary.coreWidth) / 6).toBeCloseTo(largePrimary / (6 * largeScale), 10);
+    expect(hStrokeWorldWidth(H_MATERIAL.a.coreWidth) / 6).toBeCloseTo(largePrimary / (6 * largeScale), 10);
   });
 
   it("generates deterministic display and compact chord profiles", () => {
@@ -310,35 +331,63 @@ describe("THOM geometry", () => {
       .update(readFileSync(glyphUrl))
       .digest("hex");
     const dataHash = createHash("sha256").update(JSON.stringify(brandData.m)).digest("hex");
-    expect(glyphHash).toBe("5d6a9564a32f1f31b9380a268ee9ac18d39c079f4bb82e35be7629d039ada3b9");
+    expect(glyphHash).toBe("35001df1d36e4a1fd3ffcaa7b07f6f50e8e935d2e5af7dd0fba4de18b36b4f62");
     expect(dataHash).toBe("9e33f2ba91bf2f6fbdd725add87a9920f455bc9b4c46ef63290bd8ce07e8be9f");
   });
 
   it("renders the display H in its reference-calibrated isolated frame while keeping compact output ghost-free", () => {
     const display = renderGlyphSvg(brandData, "h");
     const compact = renderGlyphSvg(brandData, "h", "dark", true);
-    expect(createHash("sha256").update(display).digest("hex")).toBe("ec43f78ed604931c435a323f88e450113a28d1c1acd5d1844e6b0ab9632c0848");
     expect(display).toContain(`viewBox="${H_ISOLATED_VIEW.x} ${H_ISOLATED_VIEW.y} ${H_ISOLATED_VIEW.width} ${H_ISOLATED_VIEW.height}"`);
     expect(display).toContain(`transform="scale(${H_ISOLATED_VIEW.scaleX} 1)"`);
     expect(display).toContain('id="thom-h-metal"');
-    expect(display).toContain('stroke-dasharray="4 3"');
+    expect(display).toContain('data-h-part="a"');
+    expect(display).toContain('data-h-part="b"');
+    expect(display).toContain('data-h-part="tick-2"');
+    expect(display).toContain('data-h-part="unit-brace"');
     expect(display).not.toContain("vector-effect");
-    expect(display.match(/<circle/g)).toHaveLength(3);
+    expect(display).not.toContain("stroke-dasharray");
+    expect(display).not.toContain("<circle");
+    expect(display.match(/<polyline/g)).toHaveLength(18);
     expect(compact).not.toContain("thom-fill-glow");
     expect(compact).not.toContain("stroke-dasharray");
     expect(compact).not.toContain("<circle");
-    expect(compact.match(/<polyline/g)).toHaveLength(1);
+    expect(compact).toContain('data-h-part="unit-brace"');
+    expect(compact.match(/<polyline/g)).toHaveLength(6);
   });
 
-  it("keeps the master grid centered with a 122-unit M", () => {
+  it("commits a transparent deterministic phi texture derived from the supplied reference", async () => {
+    const asset = readFileSync(resolve(process.cwd(), "public/brand/h-phi.png"));
+    const metadata = await sharp(asset).metadata();
+    const stats = await sharp(asset).ensureAlpha().stats();
+    expect(metadata).toMatchObject({ width: 216, height: 256, channels: 4 });
+    expect(stats.channels[3].min).toBe(0);
+    expect(stats.channels[3].max).toBe(255);
+  });
+
+  it("keeps the master grid centered with a measured optical spacing rhythm", () => {
     const data = createBrandData();
     expect(data.placements).toEqual({
-      t: { x: 5.5, scaleX: 0.86, width: 86 },
-      h: { x: 95.5, scaleX: 1, width: 100 },
-      o: { x: 199.5, scaleX: 0.88, width: 88 },
-      m: { x: 288.5, scaleX: 1.22, width: 122 },
+      t: { x: 20.1, scaleX: 0.86, width: 86 },
+      h: { x: 98.1, scaleX: 1, width: 100 },
+      o: { x: 185, scaleX: 0.88, width: 88 },
+      m: { x: 274.6, scaleX: 1.22, width: 122 },
     });
-    expect(data.h.curve).toHaveLength(data.m.hero.length);
+    const visibleEdges = {
+      tLeft: data.placements.t.x + 2 * data.placements.t.scaleX,
+      tRight: data.placements.t.x + 99 * data.placements.t.scaleX,
+      hLeft: data.placements.h.x + 17.2,
+      hRight: data.placements.h.x + 82.8,
+      oLeft: data.placements.o.x + 9 * data.placements.o.scaleX,
+      oRight: data.placements.o.x + 91 * data.placements.o.scaleX,
+      mLeft: data.placements.m.x + 2 * data.placements.m.scaleX,
+      mRight: data.placements.m.x + 98 * data.placements.m.scaleX,
+    };
+    expect(visibleEdges.hLeft - visibleEdges.tRight).toBeCloseTo(10.06, 2);
+    expect(visibleEdges.oLeft - visibleEdges.hRight).toBeCloseTo(12.02, 2);
+    expect(visibleEdges.mLeft - visibleEdges.oRight).toBeCloseTo(11.96, 2);
+    expect((visibleEdges.tLeft + visibleEdges.mRight) / 2).toBeCloseTo(MASTER.width / 2, 1);
+    expect(data.h.proportion.aLength / data.h.proportion.bLength).toBeCloseTo(GOLDEN_RATIO, 10);
   });
 
   it("renders deterministic luminous SVG output", () => {
@@ -347,7 +396,7 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("b374c7b7c3fb5df0f5aaa76988fbec08b5f6052ab6fe0c6f039c8a70f0469103");
+    expect(hash).toBe("09b957df082f19c38c2edf20695d8004e7e251340fd54445f8a93b8d570caf03");
     expect(first).toContain("<title id=\"title\">THOM</title>");
     expect(first).toContain('viewBox="0 0 416 120"');
     expect(first).toContain('id="thom-metal"');
@@ -360,6 +409,7 @@ describe("THOM geometry", () => {
     const assetUrls = [
       "../public/brand/avatar.svg",
       "../public/brand/favicon.svg",
+      "../public/brand/h-phi.png",
       "../public/brand/glyph-h.svg",
       "../public/brand/glyph-m.svg",
       "../public/brand/glyph-o.svg",
@@ -374,6 +424,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("1238925d9cbec8612eedb0721e0cf922e45461bd859f8f1271f69287beb6afdc");
+    expect(hash.digest("hex")).toBe("403bde5feb0448fe018bca62a613a856c5527d43cdd9c725d5da86451ec1511d");
   });
 });

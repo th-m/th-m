@@ -27,9 +27,9 @@ function hStrokeRatio(buffer: Buffer) {
     const visible = samples.filter((sample) => sample.luminance >= (peak + 5) / 2);
     return visible.at(-1)!.offset - visible[0].offset;
   };
-  const stem = widthAtHalfMaximum((95.5 + 17) * scale, 80 * scale, 8 * scale, 0.1, "x");
-  const curve = widthAtHalfMaximum((95.5 + 30) * scale, 57.858 * scale, 3 * scale, 0.05, "y");
-  return { curve, stem, ratio: curve / stem };
+  const stem = widthAtHalfMaximum((98.1 + 25) * scale, 80 * scale, 8 * scale, 0.1, "x");
+  const crossbar = widthAtHalfMaximum((98.1 + 40) * scale, 60 * scale, 3 * scale, 0.05, "y");
+  return { crossbar, stem, ratio: crossbar / stem };
 }
 
 const sourceBuffers = await Promise.all(captures.map((capture) => readFile(new URL(capture.file, auditDirectory))));
@@ -40,10 +40,10 @@ const panelX = [40, 400, 760, 1120];
 const background = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="570">
   <rect width="100%" height="100%" fill="#050505"/>
   <text x="40" y="48" fill="#d6b06a" font-family="monospace" font-size="12" letter-spacing="3">THOM H RESPONSIVE PROPORTION QA</text>
-  <text x="40" y="88" fill="#f2e5cf" font-family="Georgia, serif" font-size="31">Curve weight now scales with the classical pillars</text>
-  <text x="40" y="118" fill="#f2e5cf" fill-opacity=".72" font-family="monospace" font-size="12">CURVE/STEM DRIFT ${Math.round(beforeDrift * 100)}% → ${Math.round(afterDrift * 100)}%  ·  SMALL CURVE FWHM ${measurements[0].curve.toFixed(1)} → ${measurements[1].curve.toFixed(1)} PX</text>
+  <text x="40" y="88" fill="#f2e5cf" font-family="Georgia, serif" font-size="31">Golden-ratio crossbar weight scales with the classical pillars</text>
+  <text x="40" y="118" fill="#f2e5cf" fill-opacity=".72" font-family="monospace" font-size="12">CROSSBAR/STEM DRIFT ${Math.round(beforeDrift * 100)}% → ${Math.round(afterDrift * 100)}%  ·  SMALL CROSSBAR FWHM ${measurements[0].crossbar.toFixed(1)} → ${measurements[1].crossbar.toFixed(1)} PX</text>
   ${captures.map((capture, index) => `<text x="${panelX[index]}" y="500" fill="#d6b06a" font-family="monospace" font-size="11" letter-spacing="1.5">${capture.label}</text>
-  <text x="${panelX[index]}" y="524" fill="#f2e5cf" fill-opacity=".66" font-family="monospace" font-size="10">CURVE / STEM ${measurements[index].ratio.toFixed(3)}</text>`).join("")}
+  <text x="${panelX[index]}" y="524" fill="#f2e5cf" fill-opacity=".66" font-family="monospace" font-size="10">CROSSBAR / STEM ${measurements[index].ratio.toFixed(3)}</text>`).join("")}
   <text x="40" y="554" fill="#d6b06a" font-family="monospace" font-size="11">PASS · WORLD-SPACE H RIBBONS · SHARED SVG SCALE · STOPPED WEBGL LOOP</text>
 </svg>`);
 

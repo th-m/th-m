@@ -54,10 +54,15 @@ function useScene(
       controller?.resize(entry.contentRect.width, entry.contentRect.height);
     });
     const visibility = new IntersectionObserver(([entry]) => controller?.setVisible(entry.isIntersecting), { rootMargin: "100px" });
-    void import("./threeScene").then(({ ThomSceneController: Controller }) => {
+    void import("./threeScene").then(async ({ ThomSceneController: Controller }) => {
       if (cancelled) return;
       try {
         controller = new Controller(canvas, view);
+        await controller.ready();
+        if (cancelled) {
+          controller.dispose();
+          return;
+        }
         onController(controller);
         onReady(true);
         resize.observe(canvas);
@@ -162,7 +167,7 @@ export function ThomGlyphStage({ glyph, replayToken, motion: motionLevel = "full
   }, [glyph, replayToken, ready, reducedMotion, motionLevel]);
 
   return (
-    <div className={`glyph-stage ${ready ? "is-webgl-ready" : ""}`} role="img" aria-label={ariaLabel}>
+    <div className={`glyph-stage glyph-stage--${glyph} ${ready ? "is-webgl-ready" : ""}`} role="img" aria-label={ariaLabel}>
       <img className="glyph-stage__fallback" src={`/brand/glyph-${glyph}.svg`} alt="" aria-hidden="true" />
       <canvas ref={canvasRef} className="glyph-stage__canvas" aria-hidden="true" />
     </div>

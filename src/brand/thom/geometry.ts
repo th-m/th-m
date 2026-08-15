@@ -43,12 +43,16 @@ export type ComplexValue = { re: number; im: number };
 
 export type HData = {
   paths: FilledPath[];
-  straight: Point[];
-  curve: Point[];
-  companionStraight: Point[];
-  companion: Point[];
-  midpoint: Point;
-  axis: Point[];
+  proportion: {
+    ratio: number;
+    totalLength: number;
+    aLength: number;
+    bLength: number;
+    a: Point[];
+    b: Point[];
+    ticks: Point[][];
+    brace: Point[];
+  };
 };
 
 export type BrandData = {
@@ -92,6 +96,11 @@ export const PI_MATERIAL = {
 export const PI_ANIMATION = {
   durationMs: 450,
   traceHoldEnd: 0.58,
+} as const;
+
+export const PI_LEG_INSET = {
+  display: 5.5,
+  compact: 5,
 } as const;
 
 export const M_FINAL_MATERIAL = {
@@ -138,30 +147,80 @@ export const H_STROKE_WORLD_PER_PIXEL = 0.7;
 export const hStrokeWorldWidth = (referencePixels: number) => referencePixels * H_STROKE_WORLD_PER_PIXEL;
 
 export const H_MATERIAL = {
-  axis: { width: 0.8, opacity: 0.42, dash: 4, gap: 3 },
-  primary: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
-  companion: { haloWidth: 2.3, haloOpacity: 0.038, middleWidth: 0.96, middleOpacity: 0.19, coreWidth: 0.5, coreOpacity: 0.68 },
-  midpoint: { haloRadius: 5.2, haloOpacity: 0.14, middleRadius: 2.85, middleOpacity: 0.72, coreRadius: 1.35, coreOpacity: 1 },
+  a: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
+  b: { haloWidth: 2.8, haloOpacity: 0.045, middleWidth: 1.2, middleOpacity: 0.22, coreWidth: 0.68, coreOpacity: 0.84 },
+  tick: { haloWidth: 1.9, haloOpacity: 0.035, middleWidth: 0.88, middleOpacity: 0.18, coreWidth: 0.56, coreOpacity: 0.9 },
+  brace: { haloWidth: 1.6, haloOpacity: 0.025, middleWidth: 0.76, middleOpacity: 0.14, coreWidth: 0.46, coreOpacity: 0.68 },
+} as const;
+
+export const H_COLUMN_MATERIAL = {
+  edge: "#bd9a63",
+  body: "#d2bc96",
+  highlight: "#e2d2b4",
+  highlightMix: 0.1,
+} as const;
+
+export const H_PILLAR_SHAPE = {
+  serifHalfWidth: 7.8,
+  topSerifHalfWidth: 7.4,
+  stemHalfWidth: 2.35,
 } as const;
 
 export const H_ANIMATION = {
   delayMs: 220,
-  durationMs: 520,
-  endMs: 740,
-  overshoot: 1.04,
-  overshootAt: 0.76,
-  primaryRevealStart: 0.28,
-  companionRevealStart: 0.44,
-  midpointIgnitionStart: 0.62,
+  durationMs: 700,
+  endMs: 920,
+  phiFadeInEnd: 0.16,
+  phiHoldEnd: 0.34,
+  crossfadeEnd: 0.82,
 } as const;
 
 export const MASTER = { width: 416, height: 120 } as const;
 export const GLYPH_PLACEMENTS = {
-  t: { x: 5.5, scaleX: 0.86, width: 86 },
-  h: { x: 95.5, scaleX: 1, width: 100 },
-  o: { x: 199.5, scaleX: 0.88, width: 88 },
-  m: { x: 288.5, scaleX: 1.22, width: 122 },
+  t: { x: 20.1, scaleX: 0.86, width: 86 },
+  h: { x: 98.1, scaleX: 1, width: 100 },
+  o: { x: 185, scaleX: 0.88, width: 88 },
+  m: { x: 274.6, scaleX: 1.22, width: 122 },
 } as const;
+
+export const H_PILLAR_CENTERS = [25, 75] as const;
+export const GOLDEN_RATIO = (1 + Math.sqrt(5)) / 2;
+export const H_PROPORTION = (() => {
+  const y = 60;
+  const startX = H_PILLAR_CENTERS[0] + H_PILLAR_SHAPE.stemHalfWidth;
+  const endX = H_PILLAR_CENTERS[1] - H_PILLAR_SHAPE.stemHalfWidth;
+  const totalLength = endX - startX;
+  const aLength = totalLength / GOLDEN_RATIO;
+  const bLength = totalLength - aLength;
+  const splitX = startX + aLength;
+  const tickTop = y - 2.8;
+  const tickBottom = y + 2.8;
+  return { y, startX, splitX, endX, totalLength, aLength, bLength, tickTop, tickBottom };
+})();
+
+export const H_UNIT_BRACE = {
+  topY: 64.6,
+  shoulderY: 68.8,
+  cuspY: 74.3,
+} as const;
+
+function hUnitBrace(startX: number, endX: number): Point[] {
+  const span = endX - startX;
+  const centerX = startX + span / 2;
+  const leftOuter = startX + span * 0.14;
+  const leftInner = centerX - span * 0.11;
+  const rightInner = centerX + span * 0.11;
+  const rightOuter = endX - span * 0.14;
+  const { topY, shoulderY, cuspY } = H_UNIT_BRACE;
+  return sampleBezierChain([
+    { start: { x: startX, y: topY }, control1: { x: startX, y: shoulderY - 1.2 }, control2: { x: startX + span * 0.045, y: shoulderY }, end: { x: leftOuter, y: shoulderY } },
+    { start: { x: leftOuter, y: shoulderY }, control1: { x: startX + span * 0.24, y: shoulderY }, control2: { x: centerX - span * 0.18, y: shoulderY - 0.35 }, end: { x: leftInner, y: shoulderY } },
+    { start: { x: leftInner, y: shoulderY }, control1: { x: centerX - span * 0.055, y: shoulderY + 0.15 }, control2: { x: centerX - span * 0.022, y: cuspY - 2.15 }, end: { x: centerX, y: cuspY } },
+    { start: { x: centerX, y: cuspY }, control1: { x: centerX + span * 0.022, y: cuspY - 2.15 }, control2: { x: centerX + span * 0.055, y: shoulderY + 0.15 }, end: { x: rightInner, y: shoulderY } },
+    { start: { x: rightInner, y: shoulderY }, control1: { x: centerX + span * 0.18, y: shoulderY - 0.35 }, control2: { x: endX - span * 0.24, y: shoulderY }, end: { x: rightOuter, y: shoulderY } },
+    { start: { x: rightOuter, y: shoulderY }, control1: { x: endX - span * 0.045, y: shoulderY }, control2: { x: endX, y: shoulderY - 1.2 }, end: { x: endX, y: topY } },
+  ], 6);
+}
 
 const classicalPiOutline: FilledPath = {
   commands: [
@@ -212,6 +271,29 @@ const compactPiOutline: FilledPath = {
   ],
 };
 
+function shiftCommandX(command: PathCommand, offset: number): PathCommand {
+  if (command.type === "Z") return command;
+  if (command.type === "C") {
+    return {
+      ...command,
+      x1: command.x1 + offset,
+      x2: command.x2 + offset,
+      x: command.x + offset,
+    };
+  }
+  return { ...command, x: command.x + offset };
+}
+
+function tightenPiLegs(path: FilledPath, rightRange: readonly [number, number], leftRange: readonly [number, number], inset: number): FilledPath {
+  return {
+    commands: path.commands.map((command, index) => {
+      if (index >= rightRange[0] && index <= rightRange[1]) return shiftCommandX(command, -inset);
+      if (index >= leftRange[0] && index <= leftRange[1]) return shiftCommandX(command, inset);
+      return command;
+    }),
+  };
+}
+
 function compressPathHeight(path: FilledPath, top: number, scale: number): FilledPath {
   const mapY = (y: number) => top + (y - top) * scale;
   return {
@@ -224,8 +306,8 @@ function compressPathHeight(path: FilledPath, top: number, scale: number): Fille
 }
 
 export const PI_GEOMETRY = {
-  display: compressPathHeight(classicalPiOutline, 7.5, 0.91),
-  compact: compressPathHeight(compactPiOutline, 8, 0.92),
+  display: compressPathHeight(tightenPiLegs(classicalPiOutline, [6, 13], [14, 19], PI_LEG_INSET.display), 7.5, 0.91),
+  compact: compressPathHeight(tightenPiLegs(compactPiOutline, [5, 10], [11, 15], PI_LEG_INSET.compact), 8, 0.92),
 } as const;
 
 export function samplePathOutline(path: FilledPath, count = 192): Point[] {
@@ -282,48 +364,22 @@ export function samplePathOutline(path: FilledPath, count = 192): Point[] {
 }
 
 function pillarPath(center: number): FilledPath {
+  const { serifHalfWidth, stemHalfWidth, topSerifHalfWidth } = H_PILLAR_SHAPE;
   return {
     commands: [
-      { type: "M", x: center - 9.3, y: 104 },
-      { type: "C", x1: center - 6.2, y1: 103.7, x2: center - 3.9, y2: 101.8, x: center - 3, y: 98.5 },
-      { type: "L", x: center - 3, y: 23 },
-      { type: "C", x1: center - 3.2, y1: 20.2, x2: center - 5.6, y2: 18.5, x: center - 8.8, y: 18.2 },
-      { type: "L", x: center - 8.8, y: 15 },
-      { type: "L", x: center + 8.8, y: 15 },
-      { type: "L", x: center + 8.8, y: 18.2 },
-      { type: "C", x1: center + 5.6, y1: 18.5, x2: center + 3.2, y2: 20.2, x: center + 3, y: 23 },
-      { type: "L", x: center + 3, y: 98.5 },
-      { type: "C", x1: center + 3.9, y1: 101.8, x2: center + 6.2, y2: 103.7, x: center + 9.3, y: 104 },
+      { type: "M", x: center - serifHalfWidth, y: 104 },
+      { type: "C", x1: center - 5.2, y1: 103.7, x2: center - 3.1, y2: 101.8, x: center - stemHalfWidth, y: 98.5 },
+      { type: "L", x: center - stemHalfWidth, y: 23 },
+      { type: "C", x1: center - 2.5, y1: 20.2, x2: center - 4.7, y2: 18.5, x: center - topSerifHalfWidth, y: 18.2 },
+      { type: "L", x: center - topSerifHalfWidth, y: 15 },
+      { type: "L", x: center + topSerifHalfWidth, y: 15 },
+      { type: "L", x: center + topSerifHalfWidth, y: 18.2 },
+      { type: "C", x1: center + 4.7, y1: 18.5, x2: center + 2.5, y2: 20.2, x: center + stemHalfWidth, y: 23 },
+      { type: "L", x: center + stemHalfWidth, y: 98.5 },
+      { type: "C", x1: center + 3.1, y1: 101.8, x2: center + 5.2, y2: 103.7, x: center + serifHalfWidth, y: 104 },
       { type: "Z" },
     ],
   };
-}
-
-type CatenarySpec = { left: number; right: number; centerX: number; anchorY: number; centerY: number; a: number };
-const primaryCatenary = { left: 24, right: 76, centerX: 50, anchorY: 48, centerY: 70, a: 18 };
-const companionCatenary = { left: 24, right: 76, centerX: 50, anchorY: 60, centerY: 70, a: 24 };
-
-function sampleCatenarySpec(spec: CatenarySpec, count: number, sag: number): Point[] {
-  const rawCenterDrop = spec.a * (Math.cosh((spec.left - spec.centerX) / spec.a) - 1);
-  const targetDrop = (spec.centerY - spec.anchorY) * sag;
-  const scale = targetDrop / rawCenterDrop;
-  return Array.from({ length: count }, (_, index) => {
-    const x = spec.left + (spec.right - spec.left) * (index / (count - 1));
-    const edgeHeight = spec.a * (Math.cosh((x - spec.centerX) / spec.a) - 1);
-    return { x, y: spec.anchorY + targetDrop - edgeHeight * scale };
-  });
-}
-
-export function sampleCatenary(count = 128, sag = 1): Point[] {
-  return sampleCatenarySpec(primaryCatenary, count, sag);
-}
-
-export function sampleCompanionCatenary(count = 128, sag = 1): Point[] {
-  return sampleCatenarySpec(companionCatenary, count, sag);
-}
-
-export function sampleStraight(count = 128, y = 48): Point[] {
-  return Array.from({ length: count }, (_, index) => ({ x: 24 + 52 * (index / (count - 1)), y }));
 }
 
 function xmur3(value: string) {
@@ -887,14 +943,19 @@ export function sampleBezierChain(chain: CubicBezierSegment[], subdivisions = 4)
 }
 
 export function createHData(): HData {
+  const { y, startX, splitX, endX, totalLength, aLength, bLength, tickTop, tickBottom } = H_PROPORTION;
   return {
-    paths: [pillarPath(17), pillarPath(83)],
-    straight: sampleStraight(),
-    curve: sampleCatenary(),
-    companionStraight: sampleStraight(128, 60),
-    companion: sampleCompanionCatenary(),
-    midpoint: { x: 50, y: 70 },
-    axis: [{ x: 50, y: 8 }, { x: 50, y: 112 }],
+    paths: H_PILLAR_CENTERS.map((center) => pillarPath(center)),
+    proportion: {
+      ratio: GOLDEN_RATIO,
+      totalLength,
+      aLength,
+      bLength,
+      a: [{ x: startX, y }, { x: splitX, y }],
+      b: [{ x: splitX, y }, { x: endX, y }],
+      ticks: [startX, splitX, endX].map((x) => [{ x, y: tickTop }, { x, y: tickBottom }]),
+      brace: hUnitBrace(startX, endX),
+    },
   };
 }
 

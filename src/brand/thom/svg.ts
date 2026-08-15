@@ -2,6 +2,7 @@ import type { BrandData, ChordNetwork, CubicBezierSegment, FilledPath, PathComma
 import {
   BRAND_COLORS,
   displayStrokeWorldWidth,
+  H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
   hStrokeWorldWidth,
@@ -87,12 +88,11 @@ function defs(theme: SvgTheme, compact: boolean): string {
       <stop offset="1" stop-color="${BRAND_COLORS.shadow}"/>
     </linearGradient>
     <linearGradient id="thom-h-metal" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="${BRAND_COLORS.shadow}"/>
-      <stop offset=".16" stop-color="${BRAND_COLORS.gold}"/>
-      <stop offset=".28" stop-color="${BRAND_COLORS.highlight}"/>
-      <stop offset=".46" stop-color="${BRAND_COLORS.ivory}"/>
-      <stop offset=".76" stop-color="${BRAND_COLORS.gold}"/>
-      <stop offset="1" stop-color="${BRAND_COLORS.shadow}"/>
+      <stop offset="0" stop-color="${H_COLUMN_MATERIAL.edge}"/>
+      <stop offset=".42" stop-color="${H_COLUMN_MATERIAL.body}"/>
+      <stop offset=".5" stop-color="${H_COLUMN_MATERIAL.highlight}"/>
+      <stop offset=".58" stop-color="${H_COLUMN_MATERIAL.body}"/>
+      <stop offset="1" stop-color="${H_COLUMN_MATERIAL.edge}"/>
     </linearGradient>
     <filter id="thom-fill-glow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
       <feGaussianBlur in="SourceGraphic" stdDeviation="1.35" result="blur"/>
@@ -124,8 +124,9 @@ function oCircleMarkup(points: Point[]): string {
   return `${polyline(points, BRAND_COLORS.gold, material.haloWidth, material.haloOpacity)}${polyline(points, BRAND_COLORS.gold, material.middleWidth, material.middleOpacity)}${polyline(points, BRAND_COLORS.ivory, material.coreWidth, material.coreOpacity, ` filter="url(#thom-o-glow)"`)}`;
 }
 
-function hLuminousLine(points: Point[], core: string, material: typeof H_MATERIAL.primary | typeof H_MATERIAL.companion): string {
-  return `${polyline(points, BRAND_COLORS.gold, hStrokeWorldWidth(material.haloWidth), material.haloOpacity, "", true)}${polyline(points, BRAND_COLORS.gold, hStrokeWorldWidth(material.middleWidth), material.middleOpacity, "", true)}${polyline(points, core, hStrokeWorldWidth(material.coreWidth), material.coreOpacity, ` filter="url(#thom-line-glow)"`, true)}`;
+function hLuminousLine(points: Point[], core: string, material: (typeof H_MATERIAL)[keyof typeof H_MATERIAL], part: string): string {
+  const marker = ` data-h-part="${part}"`;
+  return `${polyline(points, BRAND_COLORS.gold, hStrokeWorldWidth(material.haloWidth), material.haloOpacity, "", true)}${polyline(points, BRAND_COLORS.gold, hStrokeWorldWidth(material.middleWidth), material.middleOpacity, "", true)}${polyline(points, core, hStrokeWorldWidth(material.coreWidth), material.coreOpacity, ` filter="url(#thom-line-glow)"${marker}`, true)}`;
 }
 
 function mDisplayMarkup(data: BrandData, colors: ReturnType<typeof palette>, luminous: boolean): string {
@@ -177,15 +178,17 @@ export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m"
   if (glyph === "h") {
     const hFill = luminous ? "url(#thom-h-metal)" : fill;
     const pillars = data.h.paths.map((path) => filledPath(path, hFill, luminous)).join("");
-    if (compact) return `${pillars}${polyline(data.h.curve, colors.gold, 2.8, 1, "", true)}`;
-    const axis = polyline(data.h.axis, colors.gold, hStrokeWorldWidth(H_MATERIAL.axis.width), luminous ? H_MATERIAL.axis.opacity : 0.3, ` stroke-dasharray="${H_MATERIAL.axis.dash} ${H_MATERIAL.axis.gap}"`, true);
-    const curves = luminous
-      ? `${hLuminousLine(data.h.curve, BRAND_COLORS.highlight, H_MATERIAL.primary)}${hLuminousLine(data.h.companion, BRAND_COLORS.ivory, H_MATERIAL.companion)}`
-      : `${polyline(data.h.curve, colors.gold, hStrokeWorldWidth(1.15), 1, "", true)}${polyline(data.h.companion, colors.gold, hStrokeWorldWidth(0.72), 0.72, "", true)}`;
-    const midpoint = luminous
-      ? `${node(data.h.midpoint, colors.gold, H_MATERIAL.midpoint.haloRadius, H_MATERIAL.midpoint.haloOpacity)}${node(data.h.midpoint, colors.gold, H_MATERIAL.midpoint.middleRadius, H_MATERIAL.midpoint.middleOpacity)}${node(data.h.midpoint, colors.highlight, H_MATERIAL.midpoint.coreRadius, H_MATERIAL.midpoint.coreOpacity, ` filter="url(#thom-line-glow)"`)}`
-      : node(data.h.midpoint, colors.gold, 1.75);
-    return `${axis}${pillars}${curves}${midpoint}`;
+    if (compact) {
+      const a = polyline(data.h.proportion.a, colors.gold, 1.8, 1, ` data-h-part="a"`, true);
+      const b = polyline(data.h.proportion.b, colors.gold, 1.5, 0.72, ` data-h-part="b"`, true);
+      const ticks = data.h.proportion.ticks.map((tick, index) => polyline(tick, colors.gold, 1.05, 0.78, ` data-h-part="tick-${index}"`, true)).join("");
+      const brace = polyline(data.h.proportion.brace.filter((_point, index) => index % 2 === 0), colors.gold, 1.15, 0.68, ` data-h-part="unit-brace"`, true);
+      return `${pillars}${a}${b}${ticks}${brace}`;
+    }
+    const construction = luminous
+      ? `${hLuminousLine(data.h.proportion.a, BRAND_COLORS.highlight, H_MATERIAL.a, "a")}${hLuminousLine(data.h.proportion.b, BRAND_COLORS.gold, H_MATERIAL.b, "b")}${data.h.proportion.ticks.map((tick, index) => hLuminousLine(tick, BRAND_COLORS.gold, H_MATERIAL.tick, `tick-${index}`)).join("")}${hLuminousLine(data.h.proportion.brace, BRAND_COLORS.gold, H_MATERIAL.brace, "unit-brace")}`
+      : `${polyline(data.h.proportion.a, colors.gold, hStrokeWorldWidth(1.15), 1, ` data-h-part="a"`, true)}${polyline(data.h.proportion.b, colors.gold, hStrokeWorldWidth(0.9), 0.72, ` data-h-part="b"`, true)}${data.h.proportion.ticks.map((tick, index) => polyline(tick, colors.gold, hStrokeWorldWidth(0.72), 0.78, ` data-h-part="tick-${index}"`, true)).join("")}${polyline(data.h.proportion.brace, colors.gold, hStrokeWorldWidth(0.66), 0.68, ` data-h-part="unit-brace"`, true)}`;
+    return `${pillars}${construction}`;
   }
   if (glyph === "o") {
     const network = compact ? data.o.compact : data.o.canonical;

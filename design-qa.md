@@ -1,6 +1,130 @@
-# THOM Reconstruction — Design QA
+# Golden-Ratio H Redesign — Design QA
 
-final result: blocked
+final result: passed
+
+## Scope
+
+This pass replaces the H catenaries, midpoint node, and vertical guide with a horizontal golden-ratio crossbar plus a full-span under-brace, and replaces the former curve-sag replay with a deterministic φ-to-H transformation. The in-progress pillar spacing, weight, serif geometry, and low-contrast metal treatment are preserved.
+
+## Source visual truth
+
+- Supplied H reference: `/Users/thom/Desktop/Screenshot 2026-08-15 at 6.47.47 AM.png` (`252 × 414 px`).
+- Supplied φ reference: `/Users/thom/Desktop/Screenshot 2026-08-15 at 6.49.56 AM.png` (`84 × 104 px`).
+- Supplied proportion reference: `/Users/thom/Desktop/Screenshot 2026-08-15 at 6.49.53 AM.png` (`488 × 258 px`).
+- Supplied full-unit brace reference: `/Users/thom/Desktop/Screenshot 2026-08-15 at 7.24.26 AM.png` (`480 × 80 px`).
+- Combined source/current comparison: `/Users/thom/Sites/th-m/th-m/.codex/audits/golden-ratio-h/comparison.png` (`1960 × 970 px`).
+
+## Implementation evidence
+
+- Final desktop hero: `/Users/thom/Sites/th-m/th-m/.codex/audits/golden-ratio-h/desktop-hero.png` (`1440 × 1000 px`).
+- Final isolated desktop H: `/Users/thom/Sites/th-m/th-m/.codex/audits/golden-ratio-h/desktop-h-final.png` (`1440 × 1000 px`).
+- Final mobile hero and compact header: `/Users/thom/Sites/th-m/th-m/.codex/audits/golden-ratio-h/mobile-hero-header.png` (`390 × 844 px`).
+- Final mobile isolated H: `/Users/thom/Sites/th-m/th-m/.codex/audits/golden-ratio-h/mobile-h-final.png` (`390 × 844 px`).
+- Focused geometry board: `/Users/thom/Sites/th-m/th-m/public/brand-audit/audit/13-h-golden-ratio.png`.
+- Browser density: device scale factor `1`; dark theme; settled animation state. Browser console: no warnings or errors.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Golden-ratio geometry: the crossbar is fixed at `y = 60`, runs from `x = 27.35` to `72.65`, and divides at `x = 55.34693969037`. Its long and short segments are `27.99693969037` and `17.30306030963`, so `a:b` and `(a+b):a` both equal `φ` within floating-point tolerance.
+- Construction language: the longer left segment carries the brighter ivory/gold stack; the shorter right segment and all three endpoint/divider ticks use the quieter gold stack. A still-quieter under-brace spans both segment endpoints and points to the center of the combined unit. No mathematical label, midpoint node, catenary, or vertical axis remains inside the mark.
+- φ source fidelity: the `216 × 256` transparent mask retains the largest connected handwritten component from the supplied yellow reference, removes the background and neighboring fragments, and receives color only through the existing WebGL gold material.
+- Motion: the shared `700 ms` linear phase sequence is φ fade-in (`0–16%`), hold (`16–34%`), crossfade (`34–82%`), and settled H (`82–100%`), with the hero retaining its `220 ms` delay. Direct pointer and keyboard replays run even when focus arrives before the visibility observer, then return to a stopped render loop.
+- Responsive result: the center split, ticks, and full-unit brace remain legible in the desktop hero, isolated H, compact header, and `390 px` mobile state. Reduced motion, no JavaScript, static rendering, and WebGL failure resolve directly to the completed H.
+
+## Required fidelity surfaces
+
+- Pillars and material: preserved from the preceding accepted refinement; the legacy audit now evaluates only the unchanged pillar regions.
+- Mathematical construction: generated from shared H segment, tick, and full-unit brace data in SVG and WebGL; compact assets simplify stroke stacks but retain the exact ratio, all ticks, and the brace.
+- Source assets: the supplied φ is processed by a deterministic Bun/Sharp step and preloaded before WebGL readiness.
+- Copy: “Equilibrium” is retained, the principle is “proportion,” the formula is `φ = (a+b)/a = a/b`, and identity-asset copy now describes the golden-ratio division.
+- Generated outputs: display, compact, light, monochrome, glyph-H, master, favicon/avatar, and Open Graph assets were regenerated from the shared geometry.
+
+## Comparison history
+
+1. Supplied H: classical pillars connected by two catenaries, a midpoint node, and a faint vertical guide.
+2. Requested direction: preserve the pillars, replace the center with the unlabeled `a / b` proportion, and use the supplied handwritten φ as the animation origin.
+3. First browser pass: geometry and motion matched the intent; a keyboard replay could begin before its intersection observer caught up with focus.
+4. Final pass: direct replay requests force their short render loop, settle without overshoot, and stop deterministically. The combined source/current board and responsive captures contain no remaining P0–P2 issue.
+5. Full-unit clarification: the supplied under-brace was added from `x = 27.35` to `72.65`, with a centered cusp at `(50, 74.3)`. Desktop and `390 px` mobile captures confirm that it reads as the combined unit without competing with the two segment weights.
+
+## Validation
+
+- Typecheck: passed.
+- Unit/component suite: `44` passed across `8` files, including exact endpoints, divider, ticks, full-unit brace span/cusp, ratio identities, animation phases, deterministic φ alpha generation, and asset hashes.
+- Production build and semantic prerender: passed; all `14` deterministic THOM assets regenerated.
+- Desktop/mobile site suite: `23` passed and `7` fixed-raster desktop-only cases were intentionally skipped on mobile; no site failures.
+- H SVG/WebGL parity: IoU `0.8458302169`, width delta `1.2712%`, height delta `0.8511%`.
+- Focused H brand audit: passed with the legacy comparison restricted to unchanged pillar regions and the new center validated against the golden-ratio construction.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this redesign.
+
+# THOM Tighter T + H — Design QA
+
+final result: passed
+
+## Scope
+
+This follow-up makes the T / π only slightly tighter, gives the H a medium-width contraction, thins the H columns, and reduces their metallic gradient contrast. O and M geometry, page typography, copy, and layout remain unchanged.
+
+## Source visual truth
+
+- T / π reference: `/Users/thom/Desktop/Screenshot 2026-08-14 at 10.31.34 PM.png` (`348 × 394 px`).
+- H reference: `/Users/thom/Desktop/Screenshot 2026-08-14 at 10.31.39 PM.png` (`340 × 392 px`).
+- T leg annotation: `/Users/thom/Desktop/Screenshot 2026-08-15 at 6.08.43 AM.png` (`478 × 606 px`).
+- Prior accepted implementation: `/Users/thom/Sites/th-m/th-m/.codex/audits/brand-spacing/01-final-desktop.jpg` (`1440 × 1000 px`).
+
+## Implementation evidence
+
+- Combined source/prior/current comparison: `/Users/thom/Sites/th-m/th-m/.codex/audits/brand-spacing-2/spacing-comparison.jpg` (`1568 × 1135 px`).
+- Final desktop browser capture: `/Users/thom/Sites/th-m/th-m/.codex/audits/brand-spacing-2/01-desktop.jpg` (`1440 × 1000 px`).
+- Final H browser state: `/Users/thom/Sites/th-m/th-m/.codex/audits/brand-spacing-2/03-mark-h.png` (`1440 × 1000 px`).
+- Final mobile browser capture: `/Users/thom/Sites/th-m/th-m/.codex/audits/brand-spacing-2/06-mobile.png` (`390 × 844 px`).
+- Browser density: device scale factor `1`; dark theme; settled animation state.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain in this refinement scope.
+
+- T / π: each leg receives one additional logical unit of inset, moving the display correction from `4.5` to `5.5` and the compact correction from `4` to `5`. The inner shoulder gap closes from `15.3` to `13.3` while the cap, tapered legs, left wedge, and curved right terminal remain unchanged.
+- H proportion: pillar centers move from `21 / 79` to `25 / 75`, reducing the center span from `58` to `50` logical units (`13.8%` tighter than the prior pass). The catenaries remain anchored at `28 / 72`, aligning them optically with the new inside stem edges.
+- H weight: vertical stems narrow from `6` to `4.7` logical units (`21.7%` thinner); the widest serifs narrow from `18.6` to `15.6` units (`16.1%` thinner).
+- H material: the former shadow–gold–highlight–ivory banding is replaced by a lower-contrast three-color edge/body/highlight treatment (`#bd9a63 / #d2bc96 / #e2d2b4`). It retains depth without a conspicuous striped gradient.
+- Wordmark rhythm: placements were recentered around the smaller H while preserving visible gaps of `10.06` units from T–H, `12.02` from H–O, and `11.96` from O–M. The visible lockup center remains `207.99` in the `416`-unit master.
+- Responsive result: the complete mark remains centered and legible at `1440 × 1000` and `390 × 844`, with no overflow or collapsed character gaps.
+
+## Required fidelity surfaces
+
+- Fonts and typography: unchanged. Every letter remains generated geometry rather than a substituted font glyph.
+- Spacing and layout rhythm: intentionally changed only in T/H geometry and corresponding lockup placements; the existing `10 / 12 / 12` optical rhythm is preserved.
+- Colors and visual tokens: only the H column material is softened; background, T, O, M, linework, and global brand tokens are unchanged.
+- Image quality and asset fidelity: all public SVG, avatar, favicon, social, compact, light, monochrome, and PNG exports were regenerated deterministically from the same geometry. No raster substitute or placeholder was introduced.
+- Copy and content: unchanged.
+
+## Comparison history
+
+1. Prior accepted pass: T inner gap `15.3`; H centers `21 / 79`; H stems `6` units wide with pronounced multi-stop metallic contrast.
+2. Requested refinement: T inset increased by one unit per leg; H centers moved four units inward per side; stems and serifs were redrawn thinner; H-only material contrast was flattened.
+3. Post-fix comparison: the combined board shows the T change as deliberately subtle and the H change as clearly visible. Desktop and mobile captures show no P0/P1/P2 regression, so no additional visual correction was required.
+
+## Validation
+
+- Repository check: typecheck, `22` unit/component tests, deterministic asset generation, production build, and semantic prerender passed.
+- Browser suite: `23` desktop/mobile tests passed; `7` fixed-raster checks were intentionally skipped on mobile; no failures.
+- Primary interactions: T/H keyboard and pointer replay, animation settlement, responsive WebGL scaling, generated SVG fallback, reduced motion, no-JavaScript fallback, and utility downloads passed.
+- T SVG/WebGL parity: IoU `0.8520448033`, width delta `0.6826%`, height delta `0.3571%`.
+- H SVG/WebGL parity with the lower-contrast material threshold: IoU `0.8656503521`, width delta `1.2712%`, height delta `0.8511%`.
+
+## Follow-up polish
+
+- No P3 follow-up is required for the requested refinement.
+
+# Historical THOM Reconstruction — Design QA
+
+historical result: blocked
 
 responsive stroke result: passed
 
