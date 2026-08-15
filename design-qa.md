@@ -500,3 +500,41 @@ No actionable P0, P1, or P2 differences remain within the M-only scope.
 - [x] M-only timing contract and stopped resting loop verified.
 - [x] Strict mismatch, IoU, three luminance-size gates, three density gates, and partial separation gates passed.
 - [x] SVG/WebGL parity, reduced motion, fallback behavior, accessibility, typecheck, focused tests, and production build verified.
+
+# TypeScript Set Atlas — Design QA
+
+## Scope
+
+This pass adds a standalone local TypeScript-to-set-theory workbench at `/sets.html`. It translates named TypeScript declarations into nested, overlapping, disjoint, equivalent, and exceptional set regions while preserving the visual language and interaction density of the existing THOM proposition graph tool.
+
+## Source visual truth
+
+- Diagram reference: `https://type-level-typescript.com/objects-and-records`, captured and inspected at `1280 × 720` before implementation.
+- Product reference: the existing local proposition graph workbench, captured and inspected at `1280 × 720`.
+- Final implementation: the live `/sets.html` workbench, compared with both references in the same visual review pass at `1280 × 720`.
+
+## Findings
+
+No actionable P0, P1, or P2 issue remains.
+
+- Product fidelity: the three-column workbench, near-black field, ivory and gold hierarchy, Newsreader display type, IBM Plex Mono controls, restrained borders, compact toolbars, local library, inspector, and responsive drawers follow the graph tool.
+- Diagram clarity: nesting communicates assignability, intersecting ellipses communicate overlap, separated regions communicate disjointness, merged names communicate equivalence, and `never`, unresolved generics, and `any` are separated into explicit cards below the Venn field.
+- Visual corrections: special cards were repacked beneath the field to avoid an overly wide canvas; labels moved into a final annotation layer so later ellipses cannot dim them; peer labels offset away from crowded intersections; the mobile SVG anchors to the top of the viewport.
+- Responsive result: the main canvas, library drawer, and source/inspector drawer were inspected at `390 × 844`; controls retain `42 px` minimum mobile targets and no important content is clipped or overlapped.
+- Core behavior: pasted source, workspace-file analysis, syntax-error recovery with the last valid atlas, local document creation/rename/duplicate/delete, type search and selection, relationship inspection, pin/reset/fit/zoom, SVG export, and true `2×` PNG export were exercised in the browser.
+- Accessibility: the page uses landmarks and labeled controls, the SVG has a title and description, interactive regions have descriptive accessible names, focus states are visible, reduced motion is respected, and the committed browser suite includes serious/critical Axe checks.
+
+## Validation
+
+- TypeScript project typecheck: passed.
+- Unit and integration suite: `71` passed across `13` files.
+- Production Sets build: passed; the only build note is Vite's non-blocking large-chunk advisory for the local compiler/editor bundle.
+- Desktop and mobile browser flows: manually verified in the in-app browser, including valid/stale compiler states, project-file mode, drawers, selection, zoom, SVG export, and PNG export.
+- Browser E2E coverage is committed for persistence, library operations, diagnostics, exports, responsive drawers, and Axe checks; runtime execution was not used during this pass because the approved verification path was the in-app browser.
+
+## Known constraints
+
+- Ellipse geometry is a deterministic semantic approximation for structural and higher-order TypeScript relationships; affected regions are marked as approximate instead of implying exact topology.
+- The analyzer is capped at the first `100` declarations in source order and reports the cap as a warning so very large projects remain responsive.
+
+final result: passed
