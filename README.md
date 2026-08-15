@@ -14,6 +14,25 @@ Where is complexity collecting? What would make the next change easier without o
 
 Run `bun run graph` to open the local-only proposition graph editor. Use `bun run build:graph` for its isolated build and `bun run test:graph:e2e` for its browser and accessibility checks; none of these commands add the editor to the public portfolio build.
 
+## TypeScript Set Atlas
+
+Run `bun run sets` to open the local-only set-theory workbench at `/sets.html`. The tool sends TypeScript source only to its loopback Vite process, uses the workspace's TypeScript compiler to infer assignability and intersections, and turns the declared types into THOM-themed nested, disjoint, and overlapping set regions. It is a separate entry point and is not included in the public portfolio build.
+
+The source inspector supports two workflows:
+
+- **Paste** keeps an editable virtual `.ts` file in the browser and analyzes it after a short typing pause.
+- **Project file** reads a `.ts`, `.tsx`, `.mts`, or `.cts` file inside this workspace. It uses an optional `tsconfig.json` path or discovers the nearest one, follows local imports, and never writes back to the project.
+
+The atlas library persists document names, pasted source or project-file references, viewport, and pinned region positions in browser `localStorage`. Compiler results are regenerated rather than persisted. Use **Reset pins** to return to generated layout, **Fit** to restore the full view, and **Export** to download a self-contained SVG or a 2× PNG.
+
+The diagrams are semantic aids rather than proofs of arbitrary TypeScript programs. Compiler-proven containment and equivalence are rendered directly; intersections that demonstrate overlap and structural or higher-order cases that cannot be represented faithfully by ellipses are marked as approximate. `unknown`, `never`, uninstantiated generics, and `any` are called out as the universe, empty set, reusable template, and set-model exception respectively. When edited source has compiler errors, the canvas preserves the last valid atlas and exposes the errors in **Issues**.
+
+Useful commands:
+
+- `bun run build:sets` — type-check the repository and build the isolated Sets entry point.
+- `bun run test:sets:e2e` — run desktop/mobile interaction, export, and accessibility checks.
+- `bun run preview:sets` — serve the isolated production build locally.
+
 ## Concepts Worth Knowing
 
 ### Software Design
