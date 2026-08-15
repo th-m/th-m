@@ -5,6 +5,7 @@ import {
   H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
+  H_RATIO_POINT_MATERIAL,
   hStrokeWorldWidth,
   M_FINAL_MATERIAL,
   O_DISPLAY_MATERIAL,
@@ -183,12 +184,16 @@ export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m"
       const b = polyline(data.h.proportion.b, colors.gold, 1.8, 1, ` data-h-part="b"`, true);
       const ticks = data.h.proportion.ticks.map((tick, index) => polyline(tick, colors.gold, 1.05, 0.78, ` data-h-part="tick-${index}"`, true)).join("");
       const brace = polyline(data.h.proportion.brace.filter((_point, index) => index % 2 === 0), colors.gold, 1.15, 0.68, ` data-h-part="unit-brace"`, true);
-      return `${pillars}${a}${b}${ticks}${brace}`;
+      const ratioPoint = node(data.h.proportion.ratioPoint, colors.gold, 0.85, 0.78, ` data-h-part="ratio-point"`);
+      return `${pillars}${a}${b}${ticks}${brace}${ratioPoint}`;
     }
     const construction = luminous
       ? `${hLuminousLine(data.h.proportion.a, BRAND_COLORS.highlight, H_MATERIAL.a, "a")}${hLuminousLine(data.h.proportion.b, BRAND_COLORS.highlight, H_MATERIAL.b, "b")}${data.h.proportion.ticks.map((tick, index) => hLuminousLine(tick, BRAND_COLORS.gold, H_MATERIAL.tick, `tick-${index}`)).join("")}${hLuminousLine(data.h.proportion.brace, BRAND_COLORS.gold, H_MATERIAL.brace, "unit-brace")}`
       : `${polyline(data.h.proportion.a, colors.gold, hStrokeWorldWidth(1.15), 1, ` data-h-part="a"`, true)}${polyline(data.h.proportion.b, colors.gold, hStrokeWorldWidth(1.15), 1, ` data-h-part="b"`, true)}${data.h.proportion.ticks.map((tick, index) => polyline(tick, colors.gold, hStrokeWorldWidth(0.72), 0.78, ` data-h-part="tick-${index}"`, true)).join("")}${polyline(data.h.proportion.brace, colors.gold, hStrokeWorldWidth(0.66), 0.68, ` data-h-part="unit-brace"`, true)}`;
-    return `${pillars}${construction}`;
+    const ratioPoint = luminous
+      ? node(data.h.proportion.ratioPoint, BRAND_COLORS.gold, H_RATIO_POINT_MATERIAL.radius, H_RATIO_POINT_MATERIAL.opacity, ` data-h-part="ratio-point"`)
+      : node(data.h.proportion.ratioPoint, colors.gold, 0.85, 0.78, ` data-h-part="ratio-point"`);
+    return `${pillars}${construction}${ratioPoint}`;
   }
   if (glyph === "o") {
     const network = compact ? data.o.compact : data.o.canonical;

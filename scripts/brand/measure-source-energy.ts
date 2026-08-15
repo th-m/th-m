@@ -5,6 +5,7 @@ import {
   H_COLUMN_MATERIAL,
   H_MATERIAL,
   H_PROPORTION,
+  H_RATIO_POINT_MATERIAL,
   MASTER,
   M_FINAL_MATERIAL,
   O_DISPLAY_MATERIAL,
@@ -166,6 +167,7 @@ addHStack("a", data.h.proportion.a, BRAND_COLORS.highlight);
 addHStack("b", data.h.proportion.b, BRAND_COLORS.highlight);
 data.h.proportion.ticks.forEach((tick) => addHStack("tick", tick, BRAND_COLORS.gold));
 addHStack("brace", data.h.proportion.brace, BRAND_COLORS.gold);
+terms.h.push(circleTerm("ratio-point", H_RATIO_POINT_MATERIAL.radius, hScale, H_RATIO_POINT_MATERIAL.opacity, BRAND_COLORS.gold));
 
 const addOStroke = (name: string, points: Point[], width: number, opacity: number, color: string) => {
   terms.o.push(lineTerm(name, points, oScale, displayStrokeWorldWidth(width), opacity, color));

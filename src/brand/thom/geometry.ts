@@ -50,6 +50,7 @@ export type HData = {
     bLength: number;
     a: Point[];
     b: Point[];
+    ratioPoint: Point;
     ticks: Point[][];
     brace: Point[];
   };
@@ -145,7 +146,7 @@ export const PI_LEG_INSET = {
 
 export const M_SPATIAL_ADJUSTMENT = {
   centerY: 60,
-  scaleY: 1,
+  scaleY: 1.032,
   offsetY: 0,
 } as const;
 
@@ -160,34 +161,37 @@ export const M_WEBGL_CORE_PARITY_SCALE = 1.12;
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
 export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
 
+export const O_RADIUS_SCALE = 0.98;
+export const O_RADIUS = 41 * O_RADIUS_SCALE;
+
 export const O_DISPLAY_MATERIAL = {
   circle: {
-    haloWidth: Number((8 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    haloWidth: Number((8 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
     haloOpacity: 0.055,
-    middleWidth: Number((4.8 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    middleWidth: Number((4.8 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
     middleOpacity: 0.3,
-    coreWidth: Number((2.15 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    coreWidth: Number((2.15 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
     coreOpacity: 1,
   },
   chord: {
-    haloWidth: Number((4 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    haloWidth: Number((4 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
     haloOpacity: 0.025,
-    coreWidth: Number((0.7 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
-    coreWidthBase: Number((0.5 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
-    coreWidthWeight: Number((0.58 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    coreWidth: Number((0.7 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    coreWidthBase: Number((0.5 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    coreWidthWeight: Number((0.58 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
     coreOpacity: 0.62,
   },
   anchor: {
-    haloRadius: Number((3.1 * SOURCE_ENERGY_Q.o).toFixed(3)),
+    haloRadius: Number((3.1 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)),
     haloOpacity: 0.07,
-    coreRadius: Number((0.8 * SOURCE_ENERGY_Q.o).toFixed(3)),
+    coreRadius: Number((0.8 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)),
     coreOpacity: 0.98,
   },
-  intersection: { radius: Number((0.4 * SOURCE_ENERGY_Q.o).toFixed(3)), opacity: 0.3 },
+  intersection: { radius: Number((0.4 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)), opacity: 0.3 },
   highlight: {
-    haloRadius: Number((3.5 * SOURCE_ENERGY_Q.o).toFixed(3)),
+    haloRadius: Number((3.5 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)),
     haloOpacity: 0.1,
-    coreRadius: Number((1.15 * SOURCE_ENERGY_Q.o).toFixed(3)),
+    coreRadius: Number((1.15 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)),
     coreOpacity: 1,
   },
 } as const;
@@ -219,11 +223,13 @@ export const H_STROKE_WORLD_PER_PIXEL = 0.7;
 export const hStrokeWorldWidth = (referencePixels: number) => referencePixels * H_STROKE_WORLD_PER_PIXEL;
 
 export const H_MATERIAL = {
-  a: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
-  b: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
+  a: { haloWidth: 4.02, haloOpacity: 0.058, middleWidth: 1.64, middleOpacity: 0.297, coreWidth: 0.87, coreOpacity: 1 },
+  b: { haloWidth: 4.02, haloOpacity: 0.058, middleWidth: 1.64, middleOpacity: 0.297, coreWidth: 0.87, coreOpacity: 1 },
   tick: { haloWidth: 1.9, haloOpacity: 0.035, middleWidth: 0.88, middleOpacity: 0.18, coreWidth: 0.56, coreOpacity: 0.9 },
   brace: { haloWidth: 1.6, haloOpacity: 0.025, middleWidth: 0.76, middleOpacity: 0.14, coreWidth: 0.46, coreOpacity: 0.68 },
 } as const;
+
+export const H_RATIO_POINT_MATERIAL = O_DISPLAY_MATERIAL.intersection;
 
 export const H_COLUMN_MATERIAL = {
   edge: scaleLinearHex("#bd9a63", SOURCE_ENERGY_SCALE.h),
@@ -236,7 +242,7 @@ export const H_COLUMN_MATERIAL = {
 export const H_PILLAR_SHAPE = {
   serifHalfWidth: 7.8,
   topSerifHalfWidth: 7.4,
-  stemHalfWidth: 2.35,
+  stemHalfWidth: 2.23,
 } as const;
 
 export const H_ANIMATION = {
@@ -688,7 +694,7 @@ function generateDisplayNetwork(seed: string): ChordNetwork {
   const center = { x: 50, y: 59 };
   const anchorCount = 12;
   const chordCount = 19;
-  const radius = 41;
+  const radius = O_RADIUS;
   const slice = (Math.PI * 2) / anchorCount;
   const calibrated = seed === oCalibration.seed
     ? { anchorAngles: oCalibration.anchorAngles, chords: oCalibration.chords }
@@ -770,7 +776,7 @@ export function generateChordNetwork(seed: string, profile: NetworkProfile = "di
   const spec = networkSpecs[profile];
   const seedFactory = xmur3(`${seed}:${profile}`);
   const random = mulberry32(seedFactory());
-  const radius = 41;
+  const radius = O_RADIUS;
   const center = { x: 50, y: 59 };
 
   for (let attempt = 0; attempt < 12000; attempt += 1) {
@@ -841,7 +847,7 @@ export function generateChordNetwork(seed: string, profile: NetworkProfile = "di
 function circlePoints(count = 128): Point[] {
   return Array.from({ length: count }, (_, index) => {
     const angle = (index / (count - 1)) * Math.PI * 2;
-    return { x: 50 + Math.cos(angle) * 41, y: 59 + Math.sin(angle) * 41 };
+    return { x: 50 + Math.cos(angle) * O_RADIUS, y: 59 + Math.sin(angle) * O_RADIUS };
   });
 }
 
@@ -1064,6 +1070,7 @@ export function createHData(): HData {
       bLength,
       a: [{ x: startX, y }, { x: splitX, y }],
       b: [{ x: splitX, y }, { x: endX, y }],
+      ratioPoint: { x: splitX, y },
       ticks: [startX, splitX, endX].map((x) => [{ x, y: tickTop }, { x, y: tickBottom }]),
       brace: hUnitBrace(startX, endX),
     },

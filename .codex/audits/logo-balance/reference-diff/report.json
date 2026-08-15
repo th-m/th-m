@@ -1,0 +1,659 @@
+{
+  "schemaVersion": 1,
+  "command": "bun run scripts/brand/analyze-reference-balance.ts",
+  "source": "Fresh Playwright captures from public/brand-audit/current compared with prepared source-board crops in public/brand-audit/reference.",
+  "glyphs": {
+    "t": {
+      "measurements": [
+        {
+          "threshold": 18,
+          "reference": {
+            "bounds": {
+              "minX": 48,
+              "minY": 17,
+              "maxX": 261,
+              "maxY": 219,
+              "width": 214,
+              "height": 203
+            },
+            "centroid": {
+              "x": 155.44770499253391,
+              "y": 108.18950853729793
+            },
+            "pixels": 15403
+          },
+          "current": {
+            "bounds": {
+              "minX": 50,
+              "minY": 16,
+              "maxX": 260,
+              "maxY": 217,
+              "width": 211,
+              "height": 202
+            },
+            "centroid": {
+              "x": 150.54761405715084,
+              "y": 111.58890519108503
+            },
+            "pixels": 14313
+          },
+          "signedDifference": {
+            "widthPixels": -3,
+            "widthRatio": -0.014019,
+            "heightPixels": -1,
+            "heightRatio": -0.004926,
+            "topPixels": -1,
+            "bottomPixels": -2,
+            "centroidXPixels": -4.900091,
+            "centroidYPixels": 3.399397
+          },
+          "comparison": {
+            "rawIou": 0.571194,
+            "bestTranslation": {
+              "dx": -1,
+              "dy": -6,
+              "iou": 0.620019
+            },
+            "normalizedShapeIou": 0.573575,
+            "normalizedEnvelopeIou": 0.819407
+          }
+        },
+        {
+          "threshold": 55,
+          "reference": {
+            "bounds": {
+              "minX": 48,
+              "minY": 17,
+              "maxX": 260,
+              "maxY": 218,
+              "width": 213,
+              "height": 202
+            },
+            "centroid": {
+              "x": 155.36922427737534,
+              "y": 107.71763133835009
+            },
+            "pixels": 14219
+          },
+          "current": {
+            "bounds": {
+              "minX": 50,
+              "minY": 16,
+              "maxX": 259,
+              "maxY": 217,
+              "width": 210,
+              "height": 202
+            },
+            "centroid": {
+              "x": 150.378,
+              "y": 111.81585714285714
+            },
+            "pixels": 14000
+          },
+          "signedDifference": {
+            "widthPixels": -3,
+            "widthRatio": -0.014085,
+            "heightPixels": 0,
+            "heightRatio": 0,
+            "topPixels": -1,
+            "bottomPixels": -1,
+            "centroidXPixels": -4.991224,
+            "centroidYPixels": 4.098226
+          },
+          "comparison": {
+            "rawIou": 0.559405,
+            "bestTranslation": {
+              "dx": -1,
+              "dy": -6,
+              "iou": 0.619269
+            },
+            "normalizedShapeIou": 0.563733,
+            "normalizedEnvelopeIou": 0.8252
+          }
+        },
+        {
+          "threshold": 140,
+          "reference": {
+            "bounds": {
+              "minX": 49,
+              "minY": 18,
+              "maxX": 259,
+              "maxY": 216,
+              "width": 211,
+              "height": 199
+            },
+            "centroid": {
+              "x": 151.8437013189324,
+              "y": 80.16928029909649
+            },
+            "pixels": 9629
+          },
+          "current": {
+            "bounds": {
+              "minX": 50,
+              "minY": 17,
+              "maxX": 259,
+              "maxY": 217,
+              "width": 210,
+              "height": 201
+            },
+            "centroid": {
+              "x": 154.10059594755663,
+              "y": 130.29773539928487
+            },
+            "pixels": 8390
+          },
+          "signedDifference": {
+            "widthPixels": -1,
+            "widthRatio": -0.004739,
+            "heightPixels": 2,
+            "heightRatio": 0.01005,
+            "topPixels": -1,
+            "bottomPixels": 1,
+            "centroidXPixels": 2.256895,
+            "centroidYPixels": 50.128455
+          },
+          "comparison": {
+            "rawIou": 0.246127,
+            "bestTranslation": {
+              "dx": 5,
+              "dy": -7,
+              "iou": 0.301011
+            },
+            "normalizedShapeIou": 0.244098,
+            "normalizedEnvelopeIou": 0.676724
+          }
+        }
+      ]
+    },
+    "h": {
+      "measurements": [
+        {
+          "threshold": 18,
+          "reference": {
+            "bounds": {
+              "minX": 28,
+              "minY": 14,
+              "maxX": 303,
+              "maxY": 232,
+              "width": 276,
+              "height": 219
+            },
+            "centroid": {
+              "x": 164.9091139883219,
+              "y": 124.84217652534484
+            },
+            "pixels": 11817
+          },
+          "current": {
+            "bounds": {
+              "minX": 67,
+              "minY": 21,
+              "maxX": 264,
+              "maxY": 220,
+              "width": 198,
+              "height": 200
+            },
+            "centroid": {
+              "x": 165.5391637220259,
+              "y": 117.53739693757362
+            },
+            "pixels": 10188
+          },
+          "signedDifference": {
+            "widthPixels": -78,
+            "widthRatio": -0.282609,
+            "heightPixels": -19,
+            "heightRatio": -0.086758,
+            "topPixels": 7,
+            "bottomPixels": -12,
+            "centroidXPixels": 0.63005,
+            "centroidYPixels": -7.30478
+          },
+          "comparison": {
+            "rawIou": 0.06722,
+            "bestTranslation": {
+              "dx": 16,
+              "dy": 4,
+              "iou": 0.201146
+            },
+            "normalizedShapeIou": 0.463053,
+            "normalizedEnvelopeIou": 0.817313
+          }
+        },
+        {
+          "threshold": 55,
+          "reference": {
+            "bounds": {
+              "minX": 38,
+              "minY": 15,
+              "maxX": 293,
+              "maxY": 232,
+              "width": 256,
+              "height": 218
+            },
+            "centroid": {
+              "x": 164.348704866562,
+              "y": 123.50490580847723
+            },
+            "pixels": 10192
+          },
+          "current": {
+            "bounds": {
+              "minX": 68,
+              "minY": 23,
+              "maxX": 263,
+              "maxY": 218,
+              "width": 196,
+              "height": 196
+            },
+            "centroid": {
+              "x": 165.55940999726852,
+              "y": 116.25880906856051
+            },
+            "pixels": 7322
+          },
+          "signedDifference": {
+            "widthPixels": -60,
+            "widthRatio": -0.234375,
+            "heightPixels": -22,
+            "heightRatio": -0.100917,
+            "topPixels": 8,
+            "bottomPixels": -14,
+            "centroidXPixels": 1.210705,
+            "centroidYPixels": -7.246097
+          },
+          "comparison": {
+            "rawIou": 0.049434,
+            "bestTranslation": {
+              "dx": 16,
+              "dy": 1,
+              "iou": 0.178125
+            },
+            "normalizedShapeIou": 0.572942,
+            "normalizedEnvelopeIou": 0.87745
+          }
+        },
+        {
+          "threshold": 140,
+          "reference": {
+            "bounds": {
+              "minX": 39,
+              "minY": 25,
+              "maxX": 292,
+              "maxY": 219,
+              "width": 254,
+              "height": 195
+            },
+            "centroid": {
+              "x": 157.5528967254408,
+              "y": 92.0936188077246
+            },
+            "pixels": 4764
+          },
+          "current": {
+            "bounds": {
+              "minX": 69,
+              "minY": 24,
+              "maxX": 262,
+              "maxY": 218,
+              "width": 194,
+              "height": 195
+            },
+            "centroid": {
+              "x": 165.94340815681315,
+              "y": 115.9233322794815
+            },
+            "pixels": 6326
+          },
+          "signedDifference": {
+            "widthPixels": -60,
+            "widthRatio": -0.23622,
+            "heightPixels": 0,
+            "heightRatio": 0,
+            "topPixels": -1,
+            "bottomPixels": -1,
+            "centroidXPixels": 8.390511,
+            "centroidYPixels": 23.829713
+          },
+          "comparison": {
+            "rawIou": 0.036061,
+            "bestTranslation": {
+              "dx": 16,
+              "dy": 1,
+              "iou": 0.126918
+            },
+            "normalizedShapeIou": 0.358424,
+            "normalizedEnvelopeIou": 0.947801
+          }
+        }
+      ]
+    },
+    "o": {
+      "measurements": [
+        {
+          "threshold": 18,
+          "reference": {
+            "bounds": {
+              "minX": 35,
+              "minY": 0,
+              "maxX": 287,
+              "maxY": 239,
+              "width": 253,
+              "height": 240
+            },
+            "centroid": {
+              "x": 159.1292852795997,
+              "y": 120.03664886063966
+            },
+            "pixels": 14789
+          },
+          "current": {
+            "bounds": {
+              "minX": 40,
+              "minY": 1,
+              "maxX": 280,
+              "maxY": 239,
+              "width": 241,
+              "height": 239
+            },
+            "centroid": {
+              "x": 160.46395131086143,
+              "y": 121.21468699839487
+            },
+            "pixels": 14952
+          },
+          "signedDifference": {
+            "widthPixels": -12,
+            "widthRatio": -0.047431,
+            "heightPixels": -1,
+            "heightRatio": -0.004167,
+            "topPixels": 1,
+            "bottomPixels": 0,
+            "centroidXPixels": 1.334666,
+            "centroidYPixels": 1.178038
+          },
+          "comparison": {
+            "rawIou": 0.384526,
+            "bestTranslation": {
+              "dx": 1,
+              "dy": -1,
+              "iou": 0.39485
+            },
+            "normalizedShapeIou": 0.383922,
+            "normalizedEnvelopeIou": 0.951369
+          }
+        },
+        {
+          "threshold": 55,
+          "reference": {
+            "bounds": {
+              "minX": 40,
+              "minY": 2,
+              "maxX": 284,
+              "maxY": 239,
+              "width": 245,
+              "height": 238
+            },
+            "centroid": {
+              "x": 159.3959433175882,
+              "y": 119.0343150875243
+            },
+            "pixels": 7198
+          },
+          "current": {
+            "bounds": {
+              "minX": 43,
+              "minY": 4,
+              "maxX": 277,
+              "maxY": 238,
+              "width": 235,
+              "height": 235
+            },
+            "centroid": {
+              "x": 158.26739335217331,
+              "y": 120.52940384874175
+            },
+            "pixels": 7431
+          },
+          "signedDifference": {
+            "widthPixels": -10,
+            "widthRatio": -0.040816,
+            "heightPixels": -3,
+            "heightRatio": -0.012605,
+            "topPixels": 2,
+            "bottomPixels": -1,
+            "centroidXPixels": -1.12855,
+            "centroidYPixels": 1.495089
+          },
+          "comparison": {
+            "rawIou": 0.280774,
+            "bestTranslation": {
+              "dx": 0,
+              "dy": 0,
+              "iou": 0.280774
+            },
+            "normalizedShapeIou": 0.341556,
+            "normalizedEnvelopeIou": 0.970905
+          }
+        },
+        {
+          "threshold": 140,
+          "reference": {
+            "bounds": {
+              "minX": 41,
+              "minY": 3,
+              "maxX": 283,
+              "maxY": 239,
+              "width": 243,
+              "height": 237
+            },
+            "centroid": {
+              "x": 160.7489021956088,
+              "y": 114.8003992015968
+            },
+            "pixels": 2505
+          },
+          "current": {
+            "bounds": {
+              "minX": 45,
+              "minY": 6,
+              "maxX": 275,
+              "maxY": 236,
+              "width": 231,
+              "height": 231
+            },
+            "centroid": {
+              "x": 160.52710724178868,
+              "y": 120.87218045112782
+            },
+            "pixels": 2527
+          },
+          "signedDifference": {
+            "widthPixels": -12,
+            "widthRatio": -0.049383,
+            "heightPixels": -6,
+            "heightRatio": -0.025316,
+            "topPixels": 3,
+            "bottomPixels": -3,
+            "centroidXPixels": -0.221795,
+            "centroidYPixels": 6.071781
+          },
+          "comparison": {
+            "rawIou": 0.154128,
+            "bestTranslation": {
+              "dx": -3,
+              "dy": 1,
+              "iou": 0.227018
+            },
+            "normalizedShapeIou": 0.280472,
+            "normalizedEnvelopeIou": 0.970444
+          }
+        }
+      ]
+    },
+    "m": {
+      "measurements": [
+        {
+          "threshold": 18,
+          "reference": {
+            "bounds": {
+              "minX": 26,
+              "minY": 57,
+              "maxX": 294,
+              "maxY": 192,
+              "width": 269,
+              "height": 136
+            },
+            "centroid": {
+              "x": 157.94851226564685,
+              "y": 122.87603768305195
+            },
+            "pixels": 10721
+          },
+          "current": {
+            "bounds": {
+              "minX": 29,
+              "minY": 52,
+              "maxX": 290,
+              "maxY": 191,
+              "width": 262,
+              "height": 140
+            },
+            "centroid": {
+              "x": 159.47539854359377,
+              "y": 118.08098799448928
+            },
+            "pixels": 10162
+          },
+          "signedDifference": {
+            "widthPixels": -7,
+            "widthRatio": -0.026022,
+            "heightPixels": 4,
+            "heightRatio": 0.029412,
+            "topPixels": -5,
+            "bottomPixels": -1,
+            "centroidXPixels": 1.526886,
+            "centroidYPixels": -4.79505
+          },
+          "comparison": {
+            "rawIou": 0.577623,
+            "bestTranslation": {
+              "dx": -2,
+              "dy": 6,
+              "iou": 0.635317
+            },
+            "normalizedShapeIou": 0.569021,
+            "normalizedEnvelopeIou": 0.953603
+          }
+        },
+        {
+          "threshold": 55,
+          "reference": {
+            "bounds": {
+              "minX": 32,
+              "minY": 58,
+              "maxX": 285,
+              "maxY": 190,
+              "width": 254,
+              "height": 133
+            },
+            "centroid": {
+              "x": 157.11750761937014,
+              "y": 117.22654927192686
+            },
+            "pixels": 5906
+          },
+          "current": {
+            "bounds": {
+              "minX": 30,
+              "minY": 55,
+              "maxX": 289,
+              "maxY": 190,
+              "width": 260,
+              "height": 136
+            },
+            "centroid": {
+              "x": 159.52176121930566,
+              "y": 117.13818797629128
+            },
+            "pixels": 5905
+          },
+          "signedDifference": {
+            "widthPixels": 6,
+            "widthRatio": 0.023622,
+            "heightPixels": 3,
+            "heightRatio": 0.022556,
+            "topPixels": -3,
+            "bottomPixels": 0,
+            "centroidXPixels": 2.404254,
+            "centroidYPixels": -0.088361
+          },
+          "comparison": {
+            "rawIou": 0.446186,
+            "bestTranslation": {
+              "dx": -2,
+              "dy": 3,
+              "iou": 0.505353
+            },
+            "normalizedShapeIou": 0.464911,
+            "normalizedEnvelopeIou": 0.924035
+          }
+        },
+        {
+          "threshold": 140,
+          "reference": {
+            "bounds": {
+              "minX": 42,
+              "minY": 59,
+              "maxX": 271,
+              "maxY": 178,
+              "width": 230,
+              "height": 120
+            },
+            "centroid": {
+              "x": 159.02372262773721,
+              "y": 111.82436131386861
+            },
+            "pixels": 2192
+          },
+          "current": {
+            "bounds": {
+              "minX": 48,
+              "minY": 57,
+              "maxX": 271,
+              "maxY": 176,
+              "width": 224,
+              "height": 120
+            },
+            "centroid": {
+              "x": 159.29661362709098,
+              "y": 112.55487556099551
+            },
+            "pixels": 2451
+          },
+          "signedDifference": {
+            "widthPixels": -6,
+            "widthRatio": -0.026087,
+            "heightPixels": 0,
+            "heightRatio": 0,
+            "topPixels": -2,
+            "bottomPixels": -2,
+            "centroidXPixels": 0.272891,
+            "centroidYPixels": 0.730514
+          },
+          "comparison": {
+            "rawIou": 0.319784,
+            "bestTranslation": {
+              "dx": -2,
+              "dy": 0,
+              "iou": 0.404841
+            },
+            "normalizedShapeIou": 0.354588,
+            "normalizedEnvelopeIou": 0.923012
+          }
+        }
+      ]
+    }
+  }
+}

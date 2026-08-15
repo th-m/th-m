@@ -33,6 +33,7 @@ import {
   H_PHI_STRATEGY,
   H_PILLAR_CENTERS,
   H_PILLAR_SHAPE,
+  H_RATIO_POINT_MATERIAL,
   hStrokeWorldWidth,
   hAnimationWeights,
   M_ANIMATION,
@@ -592,6 +593,7 @@ export class ThomSceneController {
   private hB!: HStrokeStack;
   private hTicks: HStrokeStack[] = [];
   private hBrace!: HStrokeStack;
+  private hRatioPoint!: Mesh;
   private hPhi!: Mesh;
   private hPhiHalo!: Mesh;
   private hPhiMaterial = new MeshBasicMaterial({ color: new Color(BRAND_COLORS.highlight), transparent: true, opacity: 0, depthWrite: false, side: DoubleSide });
@@ -674,6 +676,9 @@ export class ThomSceneController {
     addHStack(this.hGroup, this.hB);
     this.hTicks.forEach((tick) => addHStack(this.hGroup, tick));
     addHStack(this.hGroup, this.hBrace);
+    this.hRatioPoint = createPoint(brandData.h.proportion.ratioPoint, BRAND_COLORS.gold, H_RATIO_POINT_MATERIAL.radius, H_RATIO_POINT_MATERIAL.opacity);
+    this.hRatioPoint.position.z = 0.55;
+    this.hGroup.add(this.hRatioPoint);
     const phiStrategy = H_PHI_STRATEGIES[H_PHI_STRATEGY];
     this.hPhiHalo = new Mesh(new PlaneGeometry(phiStrategy.halo.width, phiStrategy.halo.height), this.hPhiHaloMaterial);
     this.hPhiHalo.position.set(phiStrategy.plane.centerX, 120 - phiStrategy.plane.centerY, 1.1);
@@ -811,6 +816,9 @@ export class ThomSceneController {
     setHStackOpacity(this.hB, hOpacity);
     this.hTicks.forEach((tick) => setHStackOpacity(tick, hOpacity));
     setHStackOpacity(this.hBrace, hOpacity);
+    const ratioPointMaterial = this.hRatioPoint.material as MeshBasicMaterial;
+    ratioPointMaterial.opacity = H_RATIO_POINT_MATERIAL.opacity * hOpacity;
+    this.hRatioPoint.visible = ratioPointMaterial.opacity > 0.001;
     this.hPhiMaterial.opacity = phiOpacity;
     this.hPhi.visible = phiOpacity > 0.001;
     this.hPhiHaloMaterial.uniforms.uOpacity.value = hWeights.phi * phiStrategy.halo.opacity;
