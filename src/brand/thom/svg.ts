@@ -202,7 +202,7 @@ export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m"
 export function renderLogoContent(data: BrandData, theme: SvgTheme = "dark", compact = false): string {
   return (["t", "h", "o", "m"] as const).map((glyph) => {
     const placement = data.placements[glyph];
-    return `<g transform="translate(${placement.x} 0) scale(${placement.scaleX} 1)">${renderGlyphContent(data, glyph, theme, compact)}</g>`;
+    return `<g transform="translate(${placement.x} ${placement.y}) scale(${placement.scaleX} 1)">${renderGlyphContent(data, glyph, theme, compact)}</g>`;
   }).join("");
 }
 

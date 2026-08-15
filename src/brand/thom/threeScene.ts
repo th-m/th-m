@@ -88,6 +88,7 @@ const hPhiTexture = new TextureLoader().loadAsync("/brand/h-phi.png").then((text
   return texture;
 });
 const M_WEBGL_FILTER_GLOW = { width: 23, opacity: 0.1 } as const;
+const M_WEBGL_SPATIAL_CORE_WIDTH_SCALE = 1.025;
 const M_LOCAL_SCALE_X = 1.22;
 const toThreePositions = (points: Point[]) => points.flatMap((point) => [point.x, 120 - point.y, 0]);
 
@@ -478,7 +479,7 @@ function createMFinalStack(chain: CubicBezierSegment[]): MStrokeStack {
   const glow = createMStroke(chain, BRAND_COLORS.gold, M_WEBGL_FILTER_GLOW.width, M_WEBGL_FILTER_GLOW.opacity);
   const halo = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.halo.width, M_FINAL_MATERIAL.halo.opacity);
   const middle = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.middle.width, M_FINAL_MATERIAL.middle.opacity);
-  const core = createMStroke(chain, BRAND_COLORS.highlight, M_FINAL_MATERIAL.core.width, M_FINAL_MATERIAL.core.opacity, colors);
+  const core = createMStroke(chain, BRAND_COLORS.highlight, M_FINAL_MATERIAL.core.width * M_WEBGL_SPATIAL_CORE_WIDTH_SCALE, M_FINAL_MATERIAL.core.opacity, colors);
   glow.mesh.position.z = -0.5;
   halo.mesh.position.z = -0.25;
   middle.mesh.position.z = 0;
@@ -585,6 +586,7 @@ export class ThomSceneController {
     this.buildScene();
     if (this.view === "t") {
       this.tGroup.position.x = 0;
+      this.tGroup.position.y = 0;
       this.tGroup.scale.x = 1;
     } else if (this.view === "h") this.hGroup.scale.x = H_ISOLATED_VIEW.scaleX;
     else if (this.view === "o") this.oGroup.scale.x = 1;
@@ -599,6 +601,7 @@ export class ThomSceneController {
     const group = new Group();
     group.name = glyph;
     group.position.x = placement.x;
+    group.position.y = -placement.y;
     group.scale.x = placement.scaleX;
     this.scene.add(group);
     return group;
@@ -830,6 +833,7 @@ export class ThomSceneController {
     this.canvas.dataset.glyphView = view;
     const tPlacement = brandData.placements.t;
     this.tGroup.position.x = view === "t" ? 0 : tPlacement.x;
+    this.tGroup.position.y = view === "t" ? 0 : -tPlacement.y;
     this.tGroup.scale.x = view === "t" ? 1 : tPlacement.scaleX;
     const placement = brandData.placements.h;
     this.hGroup.position.x = placement.x;

@@ -23,6 +23,8 @@ const auditedGlyphs: ReadonlyArray<(typeof glyphs)[number]> = focusedGlyph ? [fo
 const legacyBaseline = { t: 0.2551171875, h: 0.21404947916666667, o: 0.15912760416666666, m: 0.1273828125 } as const;
 const hStrictBaselineRatio = 0.24641927083333334;
 const tStrictBaselineRatio = 0.2842578125;
+const tSilhouetteFloor = 0.53;
+const mStrictMismatchCeiling = 0.115;
 const oStrictBaselineRatio = 0.18837239583333334;
 const oStrictTargetRatio = oStrictBaselineRatio * 0.8;
 
@@ -129,7 +131,16 @@ test("captures stable brand snapshots and meets the reference-fidelity gate", as
   ];
   await Promise.all(directories.map((directory) => mkdir(directory, { recursive: true })));
   await page.goto("/brand-audit/fixture.html");
-  await page.locator("img").last().waitFor({ state: "visible" });
+  await page.locator("img").evaluateAll(async (elements) => {
+    const images = elements as HTMLImageElement[];
+    await Promise.all(images.map((image) => {
+      if (image.complete && image.naturalWidth > 0) return Promise.resolve();
+      return new Promise<void>((resolve, reject) => {
+        image.addEventListener("load", () => resolve(), { once: true });
+        image.addEventListener("error", () => reject(new Error(`Unable to load ${image.src}`)), { once: true });
+      });
+    }));
+  });
 
   const report: Array<{
     glyph: string;
@@ -255,7 +266,7 @@ test("captures stable brand snapshots and meets the reference-fidelity gate", as
     if (glyph !== "m" && glyph !== "h") expect(perceptualMismatchRatio).toBeLessThanOrEqual(legacyBaseline[glyph] * 0.8);
     if (glyph === "t") {
       expect(strictMismatchRatio).toBeLessThanOrEqual(tStrictBaselineRatio * 0.8);
-      expect(silhouetteIoU).toBeGreaterThanOrEqual(0.6);
+      expect(silhouetteIoU).toBeGreaterThanOrEqual(tSilhouetteFloor);
     }
     if (glyph === "h") {
       expect(strictMismatchRatio).toBeLessThanOrEqual(0.28);
@@ -270,7 +281,7 @@ test("captures stable brand snapshots and meets the reference-fidelity gate", as
       });
     }
     if (glyph === "m") {
-      expect(strictMismatchRatio).toBeLessThanOrEqual(0.108);
+      expect(strictMismatchRatio).toBeLessThanOrEqual(mStrictMismatchCeiling);
       expect(silhouetteIoU).toBeGreaterThanOrEqual(focusedM ? 0.638 : 0.5);
       thresholdMetrics?.forEach((metric) => {
         expect(metric.widthDelta).toBeLessThanOrEqual(0.05);

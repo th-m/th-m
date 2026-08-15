@@ -24,6 +24,7 @@ import {
   H_UNIT_BRACE,
   hStrokeWorldWidth,
   M_ANIMATION,
+  M_SPATIAL_ADJUSTMENT,
   M_SPLINE_CONTROLS,
   MASTER,
   O_ANIMATION,
@@ -307,6 +308,7 @@ describe("THOM geometry", () => {
   });
 
   it("commits paired reference-calibrated M spline controls", () => {
+    expect(M_SPATIAL_ADJUSTMENT).toEqual({ centerY: 60, scaleY: 1.06, offsetY: 4 });
     expect(M_SPLINE_CONTROLS).toHaveLength(11);
     M_SPLINE_CONTROLS.forEach((point, index) => {
       const mirror = M_SPLINE_CONTROLS[M_SPLINE_CONTROLS.length - 1 - index];
@@ -331,8 +333,8 @@ describe("THOM geometry", () => {
       .update(readFileSync(glyphUrl))
       .digest("hex");
     const dataHash = createHash("sha256").update(JSON.stringify(brandData.m)).digest("hex");
-    expect(glyphHash).toBe("35001df1d36e4a1fd3ffcaa7b07f6f50e8e935d2e5af7dd0fba4de18b36b4f62");
-    expect(dataHash).toBe("9e33f2ba91bf2f6fbdd725add87a9920f455bc9b4c46ef63290bd8ce07e8be9f");
+    expect(glyphHash).toBe("301b78c0762410bd5c0fa0b8825928a59d908bafaea6b33cb7ece63343032441");
+    expect(dataHash).toBe("aad9c4ea9a7ed2c0151b2a7a1d508d0cf4f213def956ee6d94775b61a8e3c017");
   });
 
   it("renders the display H in its reference-calibrated isolated frame while keeping compact output ghost-free", () => {
@@ -368,10 +370,10 @@ describe("THOM geometry", () => {
   it("keeps the master grid centered with a measured optical spacing rhythm", () => {
     const data = createBrandData();
     expect(data.placements).toEqual({
-      t: { x: 20.1, scaleX: 0.86, width: 86 },
-      h: { x: 98.1, scaleX: 1, width: 100 },
-      o: { x: 185, scaleX: 0.88, width: 88 },
-      m: { x: 274.6, scaleX: 1.22, width: 122 },
+      t: { x: 20.1, y: 1.5, scaleX: 0.86, width: 86 },
+      h: { x: 98.975, y: 0, scaleX: 1, width: 100 },
+      o: { x: 185.625, y: 0, scaleX: 0.88, width: 88 },
+      m: { x: 274.6, y: 0, scaleX: 1.22, width: 122 },
     });
     const visibleEdges = {
       tLeft: data.placements.t.x + 2 * data.placements.t.scaleX,
@@ -383,9 +385,16 @@ describe("THOM geometry", () => {
       mLeft: data.placements.m.x + 2 * data.placements.m.scaleX,
       mRight: data.placements.m.x + 98 * data.placements.m.scaleX,
     };
-    expect(visibleEdges.hLeft - visibleEdges.tRight).toBeCloseTo(10.06, 2);
-    expect(visibleEdges.oLeft - visibleEdges.hRight).toBeCloseTo(12.02, 2);
-    expect(visibleEdges.mLeft - visibleEdges.oRight).toBeCloseTo(11.96, 2);
+    const gaps = [
+      visibleEdges.hLeft - visibleEdges.tRight,
+      visibleEdges.oLeft - visibleEdges.hRight,
+      visibleEdges.mLeft - visibleEdges.oRight,
+    ];
+    expect(gaps[0]).toBeCloseTo(10.935, 3);
+    expect(gaps[1]).toBeCloseTo(11.77, 3);
+    expect(gaps[2]).toBeCloseTo(11.335, 3);
+    const gapMean = gaps.reduce((sum, gap) => sum + gap, 0) / gaps.length;
+    expect(Math.max(...gaps.map((gap) => Math.abs(gap - gapMean) / gapMean))).toBeLessThan(0.04);
     expect((visibleEdges.tLeft + visibleEdges.mRight) / 2).toBeCloseTo(MASTER.width / 2, 1);
     expect(data.h.proportion.aLength / data.h.proportion.bLength).toBeCloseTo(GOLDEN_RATIO, 10);
   });
@@ -396,7 +405,7 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("09b957df082f19c38c2edf20695d8004e7e251340fd54445f8a93b8d570caf03");
+    expect(hash).toBe("131c1326711d4b4f9f70133e1c404a8ab488699972b8d75e6b13858052eb401a");
     expect(first).toContain("<title id=\"title\">THOM</title>");
     expect(first).toContain('viewBox="0 0 416 120"');
     expect(first).toContain('id="thom-metal"');
@@ -424,6 +433,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("403bde5feb0448fe018bca62a613a856c5527d43cdd9c725d5da86451ec1511d");
+    expect(hash.digest("hex")).toBe("2f391f96dcb935c4beaab48a955f4554cb718c14754bf18980d191ebb48fbbec");
   });
 });

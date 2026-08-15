@@ -191,7 +191,7 @@ function placedGlyphSvg(
 ) {
   const placement = data.placements[glyph];
   const content = renderGlyphContent(data, glyph, theme);
-  return svgDocument(`<g transform="translate(${placement.x} 0) scale(${placement.scaleX} 1)">${content}</g>`, definitions);
+  return svgDocument(`<g transform="translate(${placement.x} ${placement.y}) scale(${placement.scaleX} 1)">${content}</g>`, definitions);
 }
 
 async function blurredAlphaBounds(buffer: Buffer, height: number) {
