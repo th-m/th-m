@@ -630,7 +630,7 @@ export class ThomSceneController {
     });
     this.hGroup.add(this.hPillars);
     this.hA = createHStrokeStack(brandData.h.proportion.a, H_MATERIAL.a);
-    this.hB = createHStrokeStack(brandData.h.proportion.b, H_MATERIAL.b, BRAND_COLORS.gold);
+    this.hB = createHStrokeStack(brandData.h.proportion.b, H_MATERIAL.b);
     this.hTicks = brandData.h.proportion.ticks.map((tick) => createHStrokeStack(tick, H_MATERIAL.tick, BRAND_COLORS.gold));
     this.hBrace = createHStrokeStack(brandData.h.proportion.brace, H_MATERIAL.brace, BRAND_COLORS.gold);
     addHStack(this.hGroup, this.hA);
@@ -702,7 +702,7 @@ export class ThomSceneController {
       const haloOpacity = O_DISPLAY_MATERIAL.chord.haloOpacity;
       const coreOpacity = 0.38 + weight * 0.46;
       const halo = createOStroke(points, BRAND_COLORS.gold, O_DISPLAY_MATERIAL.chord.haloWidth * (0.7 + weight * 0.6), haloOpacity);
-      const core = createOStroke(points, BRAND_COLORS.gold, 0.5 + weight * 0.58, coreOpacity);
+      const core = createOStroke(points, BRAND_COLORS.gold, O_DISPLAY_MATERIAL.chord.coreWidthBase + weight * O_DISPLAY_MATERIAL.chord.coreWidthWeight, coreOpacity);
       halo.mesh.position.z = z;
       core.mesh.position.z = z + 0.15;
       const order = index / Math.max(1, network.chords.length - 1);

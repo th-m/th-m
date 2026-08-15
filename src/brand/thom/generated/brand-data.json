@@ -3606,89 +3606,89 @@
       {
         "partialIndex": 0,
         "amplitudeScale": 1,
-        "width": 0.736,
+        "width": 0.914,
         "opacity": 0.5,
-        "haloWidth": 3.087,
+        "haloWidth": 3.83,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 1,
         "amplitudeScale": 1,
-        "width": 0.705,
+        "width": 0.875,
         "opacity": 0.472,
-        "haloWidth": 2.888,
+        "haloWidth": 3.583,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 2,
         "amplitudeScale": 1,
-        "width": 0.685,
+        "width": 0.849,
         "opacity": 0.444,
-        "haloWidth": 2.882,
+        "haloWidth": 3.576,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 3,
         "amplitudeScale": 1,
-        "width": 0.662,
+        "width": 0.821,
         "opacity": 0.416,
-        "haloWidth": 2.827,
+        "haloWidth": 3.508,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 4,
         "amplitudeScale": 1,
-        "width": 0.642,
+        "width": 0.797,
         "opacity": 0.388,
-        "haloWidth": 2.835,
+        "haloWidth": 3.517,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 5,
         "amplitudeScale": 1,
-        "width": 0.622,
+        "width": 0.771,
         "opacity": 0.36,
-        "haloWidth": 2.829,
+        "haloWidth": 3.51,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 6,
         "amplitudeScale": 1,
-        "width": 0.602,
+        "width": 0.747,
         "opacity": 0.332,
-        "haloWidth": 2.84,
+        "haloWidth": 3.523,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 7,
         "amplitudeScale": 1,
-        "width": 0.581,
+        "width": 0.721,
         "opacity": 0.304,
-        "haloWidth": 2.814,
+        "haloWidth": 3.491,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 8,
         "amplitudeScale": 1,
-        "width": 0.572,
+        "width": 0.709,
         "opacity": 0.276,
-        "haloWidth": 3.007,
+        "haloWidth": 3.731,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 9,
         "amplitudeScale": 1,
-        "width": 0.543,
+        "width": 0.673,
         "opacity": 0.248,
-        "haloWidth": 2.845,
+        "haloWidth": 3.53,
         "haloOpacity": 0.045
       },
       {
         "partialIndex": 10,
         "amplitudeScale": 1,
-        "width": 0.522,
+        "width": 0.648,
         "opacity": 0.22,
-        "haloWidth": 2.838,
+        "haloWidth": 3.522,
         "haloOpacity": 0.045
       }
     ],
