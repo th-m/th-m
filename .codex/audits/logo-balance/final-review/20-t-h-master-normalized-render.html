@@ -1,0 +1,27 @@
+<!doctype html><html><head><style>
+  html,body{margin:0;background:#c5b6f4}svg{display:block;width:1600px;height:720px}
+  text{font-family:ui-monospace,Menlo,monospace}
+</style></head><body><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 144">
+  <rect width="320" height="144" fill="#c5b6f4"/>
+  <g stroke="#17131b" stroke-width=".85" fill="none" opacity=".82">
+    <line x1="12" x2="308" y1="15" y2="15"/>
+    <line x1="12" x2="308" y1="60" y2="60" opacity=".55"/>
+    <line x1="12" x2="308" y1="104" y2="104"/>
+  </g>
+  <g fill="#17131b" font-size="4.1" letter-spacing=".35">
+    <text x="16" y="9">MASTER-SPACE RASTER CHECK · T vs H PILLARS</text>
+    <text x="2" y="16.5">CAP</text><text x="2" y="61.5">MID</text><text x="2" y="105.5">BASE</text>
+  </g>
+  <!-- The three T Bézier contours already live in the #14 master space. -->
+  <g fill="#000"><path d="M24 33 C28 22 37 13 49 13 C65 13 84 14 99 12.5 C104 12.1 106.5 9.8 107 7.5 L109 7.5 C108 14.6 104.1 17.5 97 17.5 L71 17.5 L70 21 L64.5 21 L65.2 17.5 L59 17.5 L58.2 21 L52.7 21 L53.5 17.5 C41 17.5 30 23.5 24 33 Z"/>
+  <path d="M54 17 L59 17 C58 36 56 58 54 72 C52 86 48 97 43 101 C45 94 48 83 49.5 72 C52 53 53 34 54 17 Z"/>
+  <path d="M65 17 L70 17 C68 37 68 56 69 71 C70 84 73 92 77 93 C81 94 85 86 88 77.5 L91 77.5 C87.5 95 80.5 102 72.5 100 C64.5 98 61.7 89 62.5 74 C63.3 55 64.8 32 65 17 Z"/></g>
+  <!-- H is the same visual pillar, now with its .74 horizontal scale baked into d. -->
+  <path d="M154.228 104 C156.152 103.7 157.706 101.8 158.3498 98.5 L158.3498 23 C158.15 20.2 156.522 18.5 154.524 18.2 L154.524 15 L165.476 15 L165.476 18.2 C163.478 18.5 161.85 20.2 161.6502 23 L161.6502 98.5 C162.294 101.8 163.848 103.7 165.772 104 Z" fill="#000"/>
+  <g fill="#1f75a8" font-size="3.7">
+    <text x="119" y="28">H pillar — baked master coordinates</text>
+    <text x="119" y="34">same cap / baseline / browser raster scale</text>
+  </g>
+  <g fill="#17131b" font-size="3.5"><text x="65" y="116" text-anchor="middle">T: three Bézier contours</text><text x="162.9" y="116" text-anchor="middle">H: one pillar</text></g>
+  <g fill="#4e4869" font-size="3.1"><text x="16" y="136">no glyph scaling at render time · 1 master unit = 5 browser pixels</text></g>
+</svg></body></html>

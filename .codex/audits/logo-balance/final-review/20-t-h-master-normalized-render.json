@@ -1,0 +1,19 @@
+{
+  "source": "14-alignment-mockup-perimeter-refined.svg",
+  "masterViewBox": {
+    "width": 460,
+    "height": 152,
+    "capLine": 15,
+    "baseline": 104
+  },
+  "rendering": {
+    "browserPixelsPerMasterUnit": 5,
+    "tRuntimeTransform": "none",
+    "hRuntimeTransform": "none"
+  },
+  "bakedHTransform": {
+    "sourceScaleX": 0.74,
+    "xPlacement": 141.5
+  },
+  "protocol": "Compare horizontal ink spans only at the same normalized y coordinate; exclude the T roof and terminal flourishes."
+}
