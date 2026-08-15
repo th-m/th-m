@@ -4,6 +4,7 @@ import { Resvg } from "@resvg/resvg-js";
 import { PNG } from "pngjs";
 import sharp from "sharp";
 import {
+  BRAND_COLORS,
   GLYPH_PLACEMENTS,
   H_ANIMATION,
   H_PHI_STRATEGIES,
@@ -301,7 +302,9 @@ async function temporalPlot(
     .map(([pointX, pointY], index) => `${index ? "L" : "M"}${round(pointX, 3)} ${round(pointY, 3)}`)
     .join(" ");
   const energyPath = linePath(frames.map((frame) => [x(frame.ms), energyY(frame.opticalEnergy)]));
-  const centroidPath = linePath(frames.map((frame) => [x(frame.ms), centroidY(frame.centroid.x)]));
+  const centroidPath = linePath(frames
+    .filter((frame) => frame.opticalEnergy > settledEnergy * 0.05)
+    .map((frame) => [x(frame.ms), centroidY(frame.centroid.x)]));
   const phaseLines = [
     { progress: H_ANIMATION.phiFadeInEnd, label: "φ-in end" },
     { progress: H_ANIMATION.phiHoldEnd, label: "crossfade start" },
@@ -365,7 +368,7 @@ function phiFrameSvg(hContent: string, definitions: string, phiHref: string, pro
   const planeY = plane.centerY - plane.height / 2;
   return svgDocument(
     `<g opacity="${weights.h}">${hContent}</g><ellipse cx="${plane.centerX}" cy="${plane.centerY}" rx="${halo.width / 2}" ry="${halo.height / 2}" fill="url(#thom-phi-halo)" opacity="${weights.phi * halo.opacity}"/><image href="${phiHref}" x="${planeX}" y="${planeY}" width="${plane.width}" height="${plane.height}" opacity="${weights.phi * motionStrategy.coreOpacity}"/>`,
-    `${definitions}<defs><radialGradient id="thom-phi-halo"><stop offset="0" stop-color="#d6b477" stop-opacity="1"/><stop offset=".58" stop-color="#b68a4e" stop-opacity=".45"/><stop offset="1" stop-color="#8a6438" stop-opacity="0"/></radialGradient></defs>`,
+    `${definitions}<defs><radialGradient id="thom-phi-halo"><stop offset="0" stop-color="${BRAND_COLORS.gold}" stop-opacity="1"/><stop offset="1" stop-color="${BRAND_COLORS.gold}" stop-opacity="0"/></radialGradient></defs>`,
     "0 0 100 120",
   );
 }

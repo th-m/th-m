@@ -158,7 +158,11 @@ describe("THOM geometry", () => {
     expect(H_ANIMATION.phiHoldEnd).toBeLessThan(H_ANIMATION.crossfadeEnd);
     expect(H_PHI_STRATEGY).toBe("material");
     expect(H_PHI_STRATEGIES.enlarged.plane).toEqual({ width: 59, height: 90, centerX: 51.42, centerY: 60 });
-    expect(H_PHI_STRATEGIES.material.plane).toEqual({ width: 42, height: 64, centerX: 50.71, centerY: 60 });
+    expect(H_PHI_STRATEGIES.material).toEqual({
+      plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
+      coreOpacity: 1,
+      halo: { width: 50, height: 72, opacity: 0.319 },
+    });
     expect(hAnimationWeights(H_ANIMATION.phiHoldEnd, "material")).toEqual({ phi: 1, h: 0 });
     const midpoint = hAnimationWeights((H_ANIMATION.phiHoldEnd + H_ANIMATION.crossfadeEnd) / 2, "material");
     expect(midpoint.phi + midpoint.h).toBeCloseTo(1, 12);

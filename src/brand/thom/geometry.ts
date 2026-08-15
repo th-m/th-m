@@ -257,7 +257,7 @@ export const H_PHI_STRATEGIES = {
   material: {
     plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
     coreOpacity: 1,
-    halo: { width: 50, height: 72, opacity: 0.49 },
+    halo: { width: 50, height: 72, opacity: 0.319 },
   },
 } as const;
 

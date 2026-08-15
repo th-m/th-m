@@ -127,7 +127,7 @@ function phiHaloMaterial() {
       varying vec2 vUv;
       void main() {
         float radius = length((vUv - 0.5) * 2.0);
-        float halo = 1.0 - smoothstep(0.0, 1.0, radius);
+        float halo = max(0.0, 1.0 - radius);
         gl_FragColor = vec4(uColor, halo * uOpacity);
       }
     `,
