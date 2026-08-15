@@ -8,9 +8,9 @@
     </linearGradient>
     <linearGradient id="thom-pi-metal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="120">
       <stop offset="0" stop-color="#50382f"/>
-      <stop offset=".28" stop-color="#a67f50"/>
-      <stop offset=".49" stop-color="#f1dfbd"/>
-      <stop offset=".7" stop-color="#beb19f"/>
+      <stop offset=".28" stop-color="#8a6941"/>
+      <stop offset=".49" stop-color="#c9ba9d"/>
+      <stop offset=".7" stop-color="#9e9384"/>
       <stop offset="1" stop-color="#50382f"/>
     </linearGradient>
     <linearGradient id="thom-m-highlight" x1="0" y1="0" x2="1" y2="0">

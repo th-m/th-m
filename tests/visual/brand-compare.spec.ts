@@ -210,7 +210,7 @@ test("captures stable brand snapshots and meets the reference-fidelity gate", as
     ] as const;
     await Promise.all(normalizedOutputs.map(([directory, buffer]) => writeFile(new URL(`${glyph}.png`, directory), buffer)));
 
-    const silhouetteThreshold = glyph === "t" || glyph === "h" ? 55 : glyph === "m" ? 18 : 24;
+    const silhouetteThreshold = glyph === "t" ? 5 : glyph === "h" ? 55 : glyph === "m" ? 18 : 24;
     const referenceMaskPng = glyph === "h" ? new PNG({ width: 320, height: 240 }) : normalizedReference;
     const currentMaskPng = glyph === "h" ? new PNG({ width: 320, height: 240 }) : normalizedCurrent;
     if (glyph === "h") {

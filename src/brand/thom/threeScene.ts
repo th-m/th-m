@@ -38,8 +38,7 @@ import {
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
   PI_ANIMATION,
-  PI_MATERIAL,
-  PI_WEBGL_OPACITY_PARITY_SCALE,
+  PI_WEBGL_MATERIAL,
   fourierComponentBezier,
   fourierPartialBezier,
   sampleBezierChain,
@@ -153,10 +152,10 @@ function piMetalMaterial() {
     uniforms: {
       uOpacity: { value: 1 },
       uProgress: { value: 1 },
-      uShadow: { value: new Color(PI_MATERIAL.shadow) },
-      uGold: { value: new Color(PI_MATERIAL.gold) },
-      uIvory: { value: new Color(PI_MATERIAL.ivory) },
-      uHighlight: { value: new Color(PI_MATERIAL.highlight) },
+      uShadow: { value: new Color(PI_WEBGL_MATERIAL.shadow) },
+      uGold: { value: new Color(PI_WEBGL_MATERIAL.gold) },
+      uIvory: { value: new Color(PI_WEBGL_MATERIAL.ivory) },
+      uHighlight: { value: new Color(PI_WEBGL_MATERIAL.highlight) },
     },
     vertexShader: `
       varying vec2 vLocal;
@@ -612,16 +611,16 @@ export class ThomSceneController {
     this.piMaterials.push(piMaterial);
     this.tGroup.add(shapeMesh(brandData.pi.display, piMaterial));
     this.piRim = {
-      halo: createLine(this.piOutlinePoints, PI_MATERIAL.gold, 3.1, 0.07),
-      middle: createLine(this.piOutlinePoints, PI_MATERIAL.gold, 1.55, 0.16),
-      core: createLine(this.piOutlinePoints, PI_MATERIAL.edge, 0.82, 0.88),
+      halo: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.gold, 3.1, 0.07),
+      middle: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.gold, 1.55, 0.16),
+      core: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.edge, 0.82, 0.88),
     };
     addStack(this.tGroup, this.piRim, this.lineRecords);
-    this.piGuide = createLine(this.piOutlinePoints.slice(0, 2), PI_MATERIAL.edge, 1.05, 0);
+    this.piGuide = createLine(this.piOutlinePoints.slice(0, 2), PI_WEBGL_MATERIAL.edge, 1.05, 0);
     this.piGuide.line.position.z = 0.8;
     this.tGroup.add(this.piGuide.line);
     this.lineRecords.push(this.piGuide);
-    this.piTracer = createPoint(this.piOutlinePoints[0], PI_MATERIAL.highlight, 1.45, 0);
+    this.piTracer = createPoint(this.piOutlinePoints[0], PI_WEBGL_MATERIAL.highlight, 1.45, 0);
     this.tGroup.add(this.piTracer);
 
     this.hGroup = this.createGlyphGroup("h");
@@ -743,10 +742,10 @@ export class ThomSceneController {
   private applyState() {
     const s = this.state;
     this.piMaterials.forEach((fill) => {
-      fill.uniforms.uOpacity.value = (0.06 + s.pi * 0.94) * PI_MATERIAL.opacity * PI_WEBGL_OPACITY_PARITY_SCALE;
+      fill.uniforms.uOpacity.value = (0.06 + s.pi * 0.94) * PI_WEBGL_MATERIAL.opacity;
       fill.uniforms.uProgress.value = clamp(s.pi);
     });
-    setStackOpacity(this.piRim, clamp(s.pi * 1.4) * PI_MATERIAL.opacity * PI_WEBGL_OPACITY_PARITY_SCALE);
+    setStackOpacity(this.piRim, clamp(s.pi * 1.4) * PI_WEBGL_MATERIAL.opacity);
     const traceProgress = clamp(s.piOrbit);
     const traceIndex = Math.min(this.piOutlinePoints.length - 1, Math.floor(traceProgress * (this.piOutlinePoints.length - 1)));
     const tracedPoints = this.piOutlinePoints.slice(0, Math.max(2, traceIndex + 1));
