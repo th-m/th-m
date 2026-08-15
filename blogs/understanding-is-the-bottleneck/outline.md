@@ -124,6 +124,129 @@ AI can rapidly answer the question a team asks. Understanding determines whether
 
 Candidate editorial prompt: **What would we need to understand before we could tell the difference between a correct answer and a useful one?**
 
+#### Understanding the Tool
+
+Use a small programming example to show how a compact specification expands into layers that must be understood. “Sort this list” may become an explicit choice of bubble sort—repeatedly compare adjacent values and swap those that are out of order—and then a concrete TypeScript implementation:
+
+```ts
+function bubbleSort(values: number[]): number[] {
+  const sorted = [...values];
+
+  for (let end = sorted.length - 1; end > 0; end -= 1) {
+    let swapped = false;
+    for (let index = 0; index < end; index += 1) {
+      if (sorted[index] > sorted[index + 1]) {
+        [sorted[index], sorted[index + 1]] = [sorted[index + 1], sorted[index]];
+        swapped = true;
+      }
+    }
+    if (!swapped) break;
+  }
+
+  return sorted;
+}
+```
+
+The expansion exposes the correctness conditions, edge cases, computational cost, and tradeoffs hidden by the compact request: what “sorted” means, whether the input may be mutated, how duplicates and empty lists behave, why the process terminates, and when an understandable but quadratic algorithm is an unacceptable choice. These are the things a person must understand to evaluate AI-generated code rather than merely recognize that it looks plausible. Use bubble sort for its legibility, not as a recommendation for production sorting.
+
+#### Ontologies and Semantic Layers
+
+Connect the planned linguistic layering—from phonemes and graphemes through morphemes to meaning—to the rising importance of explicit semantic infrastructure. Language symbols map to meanings through learned relationships and use; ontologies and semantic layers make parts of those meanings explicit, shared, and operable across people and software.
+
+- Define an **ontology** as an explicit shared model of the entities, categories, properties, relationships, and constraints that matter in a domain.
+- Define a **semantic layer** as the practical interface that gives data and system concepts stable business meaning: the shared names, definitions, mappings, and rules through which people, analytics, applications, and AI refer to the same concepts.
+- Show what these layers enable: consistent terms across teams, interoperable systems that can exchange meaning rather than merely fields, and traceable decisions whose assumptions can be followed back to the concepts that informed them.
+- Preserve their limits. Ontologies and semantic layers can organize knowledge and expose disagreement, but they cannot replace context, judgment, changing evidence, or lived relational understanding. Their categories remain maintained models, not reality itself.
+
+#### Creative Work, Relational Understanding, and Accountable Output
+
+Use creative work to distinguish inexpensive generation from dependable value. A business cannot build a production system around unpredictable returns on token spend any more than it could rely on a factory that produces a random mixture of marketable and unmarketable widgets. Cheap output does not solve the cost of recognizing, refining, integrating, and taking responsibility for what is worth shipping.
+
+- Creative work requires someone to remain responsible for the customer's pain and the consequences of the answer. Humility, empathy, and sustained contact with the situation supply the relational context that can make an artifact valuable rather than merely plausible.
+- AI can produce fluent answers and simulate empathic language, but it does not bear the lived consequences of a product decision or human feeling. Keep this claim focused on responsibility and situated participation; treat broader claims about model experience, consciousness, or permanent limitations as unresolved questions requiring careful research and framing.
+- Explore the risk that markets may normalize convenient, median, easily consumable AI output because it is abundant and frictionless. Suno and generated music may provide a candidate example; a possible contrast with literature should remain an open observation to investigate, not an asserted difference in consumer taste or artistic worth.
+- Research and fact-check before drafting: the predictability of business returns from token spend; how consumers evaluate or adopt AI-generated creative work; current music and publishing industry trends; and which claims about model limitations are empirical, philosophical, or properties of present accountability structures.
+- Avoid treating audiences, creators, or generated work as a single undifferentiated class. The question is what incentives and distribution systems reward, what forms of meaning they preserve, and who remains answerable when output causes harm or fails to serve its purpose.
+
+#### SoundSculpt: From Ontology Practice to Architecture
+
+Use SoundSculpt as a practical example without presenting ontology practice as perfect or mechanically objective. Its value is making relational ambiguity explicit enough to produce concrete insights and directives that help people and AI work more effectively.
+
+##### Domain vocabulary with legal-like precision
+
+Apply the domain-driven design discipline of defining important terms with legal-like precision. In the SoundSculpt ontology, compact words such as `song` and `loop` should receive deterministic definitions: an explicit mapping from concise language to an agreed domain meaning that code, documentation, product decisions, and AI instructions can share. The definition may evolve, but its current meaning should not depend on whoever happens to use the word.
+
+##### Capability-organized libraries
+
+Use Nx capability organization as the proposed implementation pattern. Organize libraries around the capability a tool actually serves rather than its vendor, package category, or superficial technical resemblance. Candidate SoundSculpt capabilities are:
+
+- API;
+- platform caching;
+- database/query;
+- fetching;
+- state management;
+- audio/chip; and
+- audio rendering.
+
+Preserve the classification examples: React Query belongs to fetching rather than database, while Supabase query helpers belong with query/database. Treat this as a proposed SoundSculpt classification to validate against the codebase and actual dependency relationships, not as an authoritative Nx rule.
+
+##### Layered architecture
+
+Record that the design adapts ideas from domain-oriented microservices architecture—especially the importance of explicit layers—to a domain that is not dominated by network request flows. The resulting proposed SoundSculpt layers are:
+
+1. **Platform**
+2. **Schema**
+3. **Engine**
+4. **Edge**
+
+Do not present these four layers as mechanically derived or universally prescribed. They are a creative design judgment guided by intuition, domain meaning, and the connectivity among capabilities. Validate their exact responsibilities and dependency direction against the codebase before turning them into an architectural rule.
+
+##### Benefits: Architectural Judgment Becomes Agent Directives
+
+The surprising benefit is that layers and capability-organized libraries turn architectural judgment into propositional rules an agent can follow. The design can state invariants, constraints, placement directives, and verification steps for adding a library in the right place under the right conditions instead of asking the agent to infer the architecture from file proximity or convention alone.
+
+Begin with two concrete examples:
+
+1. **Schema layer:** every schema library must derive its generated types from the database. Application schema then extends that database-shaped data into interfaces that express the SoundSculpt ontology, including concepts such as `song`, `track`, `phrase`, and `section`. Those interfaces must represent both temporal and spatial relationships before engine, edge, or other consuming layers build behavior on top of them. Validate the exact generation and extension mechanism against the codebase.
+2. **Platform layer:** define a deliberately narrow import boundary, with Supabase as the stated allowed external dependency. Proposed SoundSculpt policy: platform-layer libraries may cross the external-package boundary through Supabase; other external dependencies require an explicit architectural decision rather than incidental import. Validate the exact rule and any necessary exceptions against the codebase. Present this as a SoundSculpt dependency policy, not a universal Nx rule.
+
+###### Engine layer
+
+Record the naming decision among `engine`, `utils`, and `processes`. Prefer `engine` because schema holds the proprietary data model while engine holds the proprietary logic that operates on it. The finished post should link to the SoundSculpt patent for high-level context about the technology—**[SoundSculpt patent link to be supplied by the user]**—while making clear that the implementation contains detail beyond the patent's description. Verify the patent characterization against the supplied source before drafting.
+
+An interface or contract matters, but it is not sufficient evidence that engine logic is correct. Evaluate the engine through deterministic behavior and actual outputs. Proposed SoundSculpt invariant: every new engine capability requires unit tests showing that a given input to a deterministic function produces the expected output; do not commit the capability without that coverage. Contrast this with the schema layer's generated-database-types requirement, whose primary invariant is the authority and shape of its types, without implying that schema code never requires tests in other cases.
+
+Proposed dependency boundary: engine may consume schema and platform, but it may not consume edge. Encode that boundary consistently in agent directives so an agent knows where an engine library belongs, which imports are allowed, and which checks prove compliance. Validate the exact testing, commit, and dependency policies—and their enforcement mechanisms—against the SoundSculpt codebase; do not present them as universal Nx or framework rules.
+
+###### Edge layer
+
+Proposed SoundSculpt convention: edge composes platform, schema, and engine utilities into specific, composable UI components, and integration tests for those compositions live at this layer. Treat `feature-*` as a special edge-component category: each feature component must join UI with the relevant proprietary/domain data and functionality, and must expose the observability and reporting hooks needed for PostHog, Sentry, and network-log analysis.
+
+Make the `feature-*` naming rule and an explicit meta-structure for permitted side effects machine-checkable wherever practical. Those constraints can tell an AI agent which compositions belong at edge, which effects and reporting hooks are required or allowed, and which integration checks must pass before the work is accepted.
+
+Tie the example back to the thesis: understanding translates relational judgment into propositions and deterministic mechanisms that can check or verify them. A relational problem becomes more tractable when the relevant context is gathered and distilled into useful structured guidance. Validate the exact component classification, side-effect schema, observability requirements, and integration-test placement against the SoundSculpt codebase and source material; present them as proposed SoundSculpt conventions, not universal Nx or framework rules.
+
+Connect these examples to the goal of `AGENTS.md` and other instruction files. Good directives tell an agent:
+
+- what must remain invariant;
+- where new work belongs;
+- which dependencies are allowed or prohibited; and
+- how to verify that the resulting change complies with the ontology and architecture.
+
+The broader point is not that prose replaces design judgment. The judgment happens when people establish and revise the model; propositional directives make enough of that judgment durable and testable for an agent to act on it consistently.
+
+##### Research and citations to add
+
+- **Domain-Driven Design:** source material and precise citation to be supplied by the user.
+- **Nx capability organization:** documentation or reference material supporting the intended pattern to be supplied by the user.
+- **Nx module-boundary rules:** documentation for enforceable dependency constraints and relevant limitations to be supplied or verified.
+- **Generated database types:** SoundSculpt's generation source, workflow, and authority to be documented from the codebase and supporting platform documentation.
+- **Exact SoundSculpt import policy:** confirm Supabase's allowed role, other permitted dependencies, exceptions, and enforcement mechanism against the codebase.
+- **SoundSculpt patent:** link to be supplied by the user; verify which claims describe the patented technology and which implementation details extend beyond it.
+- **Engine testing and dependency policies:** validate the required deterministic unit coverage, commit condition, allowed schema/platform dependencies, prohibited edge dependency, and enforcement steps against the codebase.
+- **Edge component, observability, and integration-test policies:** validate the `feature-*` category, permitted-side-effect meta-structure, required PostHog/Sentry/network-log hooks, integration-test placement, and enforcement mechanisms against the SoundSculpt codebase and supporting sources.
+- **Uber / domain-oriented microservices architecture:** the referenced article or source material to be supplied by the user.
+
 ### 5. The Five Dimensions of Product Understanding
 
 Use a compact framework to make the thesis actionable. Strong product understanding coordinates at least five related models:
