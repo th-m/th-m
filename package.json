@@ -12,6 +12,7 @@
     "generate:brand": "bun run scripts/brand/generate-brand.ts",
     "generate:brand:h-phi": "bun run scripts/brand/hPhiAsset.ts",
     "generate:brand:t": "bun run scripts/brand/generate-t.ts",
+    "measure:brand:balance": "bun run scripts/brand/measure-logo-balance.ts",
     "build": "bun run generate:brand && tsc -b && vite build && bun run scripts/prerender.tsx",
     "preview": "vite preview",
     "typecheck": "tsc -b --pretty false",
