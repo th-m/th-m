@@ -7,4 +7,4 @@
 - [x] Regenerate all brand assets and compare the spatial variant against the baseline with overlay evidence.
 - [x] Run the complete required validation suite and audit every hard invariant.
 - [x] Record changed parameters, measured effects, final placement recommendations, and synthesis guidance.
-- [ ] Commit the implementation, generated assets, measurements, screenshots, plan, and report on `codex/logo-balance-spatial`.
+- [x] Commit the implementation, generated assets, measurements, screenshots, plan, and report on `codex/logo-balance-spatial`.
