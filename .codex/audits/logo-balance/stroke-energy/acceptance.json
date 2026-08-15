@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "variant": "stroke-energy",
+  "command": "bun run check:brand:balance --metrics=/Users/thom/.codex/worktrees/ec8d/th-m/.codex/audits/logo-balance/stroke-energy/metrics.json",
+  "pass": false,
+  "summary": {
+    "passed": 23,
+    "failed": 5,
+    "total": 28
+  },
+  "gates": [
+    {
+      "id": "120px-t-energy-share",
+      "actual": 31.6951,
+      "requirement": "31 <= share <= 33",
+      "pass": true
+    },
+    {
+      "id": "120px-h-energy-share",
+      "actual": 26.3286,
+      "requirement": "25 <= share <= 28",
+      "pass": true
+    },
+    {
+      "id": "120px-o-energy-share",
+      "actual": 16.9745,
+      "requirement": "16 <= share <= 18",
+      "pass": true
+    },
+    {
+      "id": "120px-m-energy-share",
+      "actual": 25.0017,
+      "requirement": "24 <= share <= 27",
+      "pass": true
+    },
+    {
+      "id": "24px-t-energy-share",
+      "actual": 31.5144,
+      "requirement": "29 <= share <= 35",
+      "pass": true
+    },
+    {
+      "id": "24px-t-recognizable-core",
+      "actual": 84.71875,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "24px-h-energy-share",
+      "actual": 26.5329,
+      "requirement": "23 <= share <= 30",
+      "pass": true
+    },
+    {
+      "id": "24px-h-recognizable-core",
+      "actual": 42.328125,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "24px-o-energy-share",
+      "actual": 16.7721,
+      "requirement": "14 <= share <= 20",
+      "pass": true
+    },
+    {
+      "id": "24px-o-recognizable-core",
+      "actual": 26.71875,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "24px-m-energy-share",
+      "actual": 25.1805,
+      "requirement": "22 <= share <= 29",
+      "pass": true
+    },
+    {
+      "id": "24px-m-recognizable-core",
+      "actual": 45.96875,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "48px-t-energy-share",
+      "actual": 31.6583,
+      "requirement": "29 <= share <= 35",
+      "pass": true
+    },
+    {
+      "id": "48px-t-recognizable-core",
+      "actual": 331.359375,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "48px-h-energy-share",
+      "actual": 26.2927,
+      "requirement": "23 <= share <= 30",
+      "pass": true
+    },
+    {
+      "id": "48px-h-recognizable-core",
+      "actual": 170.921875,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "48px-o-energy-share",
+      "actual": 16.9868,
+      "requirement": "14 <= share <= 20",
+      "pass": true
+    },
+    {
+      "id": "48px-o-recognizable-core",
+      "actual": 117.734375,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "48px-m-energy-share",
+      "actual": 25.0621,
+      "requirement": "22 <= share <= 29",
+      "pass": true
+    },
+    {
+      "id": "48px-m-recognizable-core",
+      "actual": 180.109375,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "h-golden-ratio",
+      "actual": 1.618034,
+      "requirement": "abs(ratio - phi) <= 1e-6",
+      "pass": true
+    },
+    {
+      "id": "h-crossbar-centroid",
+      "actual": 0.04357,
+      "requirement": "absolute offset <= 0.25 design units",
+      "pass": true
+    },
+    {
+      "id": "h-phi-hold-energy",
+      "actual": 0.3126,
+      "requirement": "deviation <= 0.05",
+      "pass": false
+    },
+    {
+      "id": "h-crossfade-energy",
+      "actual": 0.301143,
+      "requirement": "maximum deviation <= 0.07",
+      "pass": false
+    },
+    {
+      "id": "h-animation-centroid",
+      "actual": 1.010379,
+      "requirement": "maximum horizontal drift <= 1 design unit",
+      "pass": false
+    },
+    {
+      "id": "24px-optical-gaps",
+      "actual": 0.093023,
+      "requirement": "maximum deviation <= 0.10",
+      "pass": true
+    },
+    {
+      "id": "48px-optical-gaps",
+      "actual": 0.117647,
+      "requirement": "maximum deviation <= 0.10",
+      "pass": false
+    },
+    {
+      "id": "120px-optical-gaps",
+      "actual": 0.116822,
+      "requirement": "maximum deviation <= 0.10",
+      "pass": false
+    }
+  ]
+}

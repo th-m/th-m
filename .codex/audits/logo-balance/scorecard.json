@@ -4,6 +4,822 @@
   "ordering": "Invariant and acceptance pass first; lower aggregate score second.",
   "rows": [
     {
+      "variant": "stroke-energy",
+      "revision": "77b921481924a5ddf850995b32141439c983e148",
+      "aggregate": 0.12976,
+      "components": {
+        "mass": 0.009653,
+        "core": 0.190341,
+        "moments": 0.037715,
+        "gaps": 0.072776,
+        "motion": 0.499306
+      },
+      "shares120": {
+        "t": 31.6951,
+        "h": 26.3286,
+        "o": 16.9745,
+        "m": 25.0017
+      },
+      "hCrossbarOffset": 0.04357,
+      "phiHoldDeviation": 0.3126,
+      "crossfadeDeviation": 0.301143,
+      "centroidDrift": 1.010379,
+      "maximumGapDeviation": 0.117647,
+      "acceptance": {
+        "schemaVersion": 1,
+        "variant": "stroke-energy",
+        "command": "bun run check:brand:balance --metrics=/Users/thom/.codex/worktrees/ec8d/th-m/.codex/audits/logo-balance/stroke-energy/metrics.json",
+        "pass": false,
+        "summary": {
+          "passed": 23,
+          "failed": 5,
+          "total": 28
+        },
+        "gates": [
+          {
+            "id": "120px-t-energy-share",
+            "actual": 31.6951,
+            "requirement": "31 <= share <= 33",
+            "pass": true
+          },
+          {
+            "id": "120px-h-energy-share",
+            "actual": 26.3286,
+            "requirement": "25 <= share <= 28",
+            "pass": true
+          },
+          {
+            "id": "120px-o-energy-share",
+            "actual": 16.9745,
+            "requirement": "16 <= share <= 18",
+            "pass": true
+          },
+          {
+            "id": "120px-m-energy-share",
+            "actual": 25.0017,
+            "requirement": "24 <= share <= 27",
+            "pass": true
+          },
+          {
+            "id": "24px-t-energy-share",
+            "actual": 31.5144,
+            "requirement": "29 <= share <= 35",
+            "pass": true
+          },
+          {
+            "id": "24px-t-recognizable-core",
+            "actual": 84.71875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-h-energy-share",
+            "actual": 26.5329,
+            "requirement": "23 <= share <= 30",
+            "pass": true
+          },
+          {
+            "id": "24px-h-recognizable-core",
+            "actual": 42.328125,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-o-energy-share",
+            "actual": 16.7721,
+            "requirement": "14 <= share <= 20",
+            "pass": true
+          },
+          {
+            "id": "24px-o-recognizable-core",
+            "actual": 26.71875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-m-energy-share",
+            "actual": 25.1805,
+            "requirement": "22 <= share <= 29",
+            "pass": true
+          },
+          {
+            "id": "24px-m-recognizable-core",
+            "actual": 45.96875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-t-energy-share",
+            "actual": 31.6583,
+            "requirement": "29 <= share <= 35",
+            "pass": true
+          },
+          {
+            "id": "48px-t-recognizable-core",
+            "actual": 331.359375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-h-energy-share",
+            "actual": 26.2927,
+            "requirement": "23 <= share <= 30",
+            "pass": true
+          },
+          {
+            "id": "48px-h-recognizable-core",
+            "actual": 170.921875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-o-energy-share",
+            "actual": 16.9868,
+            "requirement": "14 <= share <= 20",
+            "pass": true
+          },
+          {
+            "id": "48px-o-recognizable-core",
+            "actual": 117.734375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-m-energy-share",
+            "actual": 25.0621,
+            "requirement": "22 <= share <= 29",
+            "pass": true
+          },
+          {
+            "id": "48px-m-recognizable-core",
+            "actual": 180.109375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "h-golden-ratio",
+            "actual": 1.618034,
+            "requirement": "abs(ratio - phi) <= 1e-6",
+            "pass": true
+          },
+          {
+            "id": "h-crossbar-centroid",
+            "actual": 0.04357,
+            "requirement": "absolute offset <= 0.25 design units",
+            "pass": true
+          },
+          {
+            "id": "h-phi-hold-energy",
+            "actual": 0.3126,
+            "requirement": "deviation <= 0.05",
+            "pass": false
+          },
+          {
+            "id": "h-crossfade-energy",
+            "actual": 0.301143,
+            "requirement": "maximum deviation <= 0.07",
+            "pass": false
+          },
+          {
+            "id": "h-animation-centroid",
+            "actual": 1.010379,
+            "requirement": "maximum horizontal drift <= 1 design unit",
+            "pass": false
+          },
+          {
+            "id": "24px-optical-gaps",
+            "actual": 0.093023,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          },
+          {
+            "id": "48px-optical-gaps",
+            "actual": 0.117647,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": false
+          },
+          {
+            "id": "120px-optical-gaps",
+            "actual": 0.116822,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": false
+          }
+        ]
+      }
+    },
+    {
+      "variant": "ink-budget",
+      "revision": "37f7abdda555ee60a085f96b5fb24d472743a45d",
+      "aggregate": 0.134159,
+      "components": {
+        "mass": 0.012605,
+        "core": 0.213459,
+        "moments": 0.037119,
+        "gaps": 0.072776,
+        "motion": 0.49053
+      },
+      "shares120": {
+        "t": 32.0683,
+        "h": 26.1492,
+        "o": 17.148,
+        "m": 24.6345
+      },
+      "hCrossbarOffset": -0.072306,
+      "phiHoldDeviation": 0.295193,
+      "crossfadeDeviation": 0.284298,
+      "centroidDrift": 1.009186,
+      "maximumGapDeviation": 0.117647,
+      "acceptance": {
+        "schemaVersion": 1,
+        "variant": "ink-budget",
+        "command": "bun run check:brand:balance --metrics=/Users/thom/.codex/worktrees/ec8d/th-m/.codex/audits/logo-balance/ink-budget/metrics.json",
+        "pass": false,
+        "summary": {
+          "passed": 23,
+          "failed": 5,
+          "total": 28
+        },
+        "gates": [
+          {
+            "id": "120px-t-energy-share",
+            "actual": 32.0683,
+            "requirement": "31 <= share <= 33",
+            "pass": true
+          },
+          {
+            "id": "120px-h-energy-share",
+            "actual": 26.1492,
+            "requirement": "25 <= share <= 28",
+            "pass": true
+          },
+          {
+            "id": "120px-o-energy-share",
+            "actual": 17.148,
+            "requirement": "16 <= share <= 18",
+            "pass": true
+          },
+          {
+            "id": "120px-m-energy-share",
+            "actual": 24.6345,
+            "requirement": "24 <= share <= 27",
+            "pass": true
+          },
+          {
+            "id": "24px-t-energy-share",
+            "actual": 31.9375,
+            "requirement": "29 <= share <= 35",
+            "pass": true
+          },
+          {
+            "id": "24px-t-recognizable-core",
+            "actual": 84.578125,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-h-energy-share",
+            "actual": 26.3296,
+            "requirement": "23 <= share <= 30",
+            "pass": true
+          },
+          {
+            "id": "24px-h-recognizable-core",
+            "actual": 41.625,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-o-energy-share",
+            "actual": 16.9631,
+            "requirement": "14 <= share <= 20",
+            "pass": true
+          },
+          {
+            "id": "24px-o-recognizable-core",
+            "actual": 24.859375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-m-energy-share",
+            "actual": 24.7698,
+            "requirement": "22 <= share <= 29",
+            "pass": true
+          },
+          {
+            "id": "24px-m-recognizable-core",
+            "actual": 43.6875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-t-energy-share",
+            "actual": 32.0464,
+            "requirement": "29 <= share <= 35",
+            "pass": true
+          },
+          {
+            "id": "48px-t-recognizable-core",
+            "actual": 328.875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-h-energy-share",
+            "actual": 26.1865,
+            "requirement": "23 <= share <= 30",
+            "pass": true
+          },
+          {
+            "id": "48px-h-recognizable-core",
+            "actual": 168.90625,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-o-energy-share",
+            "actual": 17.1227,
+            "requirement": "14 <= share <= 20",
+            "pass": true
+          },
+          {
+            "id": "48px-o-recognizable-core",
+            "actual": 106.515625,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-m-energy-share",
+            "actual": 24.6444,
+            "requirement": "22 <= share <= 29",
+            "pass": true
+          },
+          {
+            "id": "48px-m-recognizable-core",
+            "actual": 168.890625,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "h-golden-ratio",
+            "actual": 1.618034,
+            "requirement": "abs(ratio - phi) <= 1e-6",
+            "pass": true
+          },
+          {
+            "id": "h-crossbar-centroid",
+            "actual": 0.072306,
+            "requirement": "absolute offset <= 0.25 design units",
+            "pass": true
+          },
+          {
+            "id": "h-phi-hold-energy",
+            "actual": 0.295193,
+            "requirement": "deviation <= 0.05",
+            "pass": false
+          },
+          {
+            "id": "h-crossfade-energy",
+            "actual": 0.284298,
+            "requirement": "maximum deviation <= 0.07",
+            "pass": false
+          },
+          {
+            "id": "h-animation-centroid",
+            "actual": 1.009186,
+            "requirement": "maximum horizontal drift <= 1 design unit",
+            "pass": false
+          },
+          {
+            "id": "24px-optical-gaps",
+            "actual": 0.093023,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          },
+          {
+            "id": "48px-optical-gaps",
+            "actual": 0.117647,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": false
+          },
+          {
+            "id": "120px-optical-gaps",
+            "actual": 0.116822,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": false
+          }
+        ]
+      }
+    },
+    {
+      "variant": "motion",
+      "revision": "fc3edd76f6577896231660a38b441b8a40683241",
+      "aggregate": 0.184753,
+      "components": {
+        "mass": 0.234261,
+        "core": 0.309577,
+        "moments": 0.038359,
+        "gaps": 0.074593,
+        "motion": 0.106132
+      },
+      "shares120": {
+        "t": 44.0521,
+        "h": 21.2512,
+        "o": 14.1439,
+        "m": 20.5527
+      },
+      "hCrossbarOffset": -2.537347,
+      "phiHoldDeviation": 0.000162,
+      "crossfadeDeviation": 0.008772,
+      "centroidDrift": 0.037815,
+      "maximumGapDeviation": 0.125,
+      "acceptance": {
+        "schemaVersion": 1,
+        "variant": "motion",
+        "command": "bun run check:brand:balance --metrics=/Users/thom/.codex/worktrees/ec8d/th-m/.codex/audits/logo-balance/motion/metrics.json",
+        "pass": false,
+        "summary": {
+          "passed": 14,
+          "failed": 14,
+          "total": 28
+        },
+        "gates": [
+          {
+            "id": "120px-t-energy-share",
+            "actual": 44.0521,
+            "requirement": "31 <= share <= 33",
+            "pass": false
+          },
+          {
+            "id": "120px-h-energy-share",
+            "actual": 21.2512,
+            "requirement": "25 <= share <= 28",
+            "pass": false
+          },
+          {
+            "id": "120px-o-energy-share",
+            "actual": 14.1439,
+            "requirement": "16 <= share <= 18",
+            "pass": false
+          },
+          {
+            "id": "120px-m-energy-share",
+            "actual": 20.5527,
+            "requirement": "24 <= share <= 27",
+            "pass": false
+          },
+          {
+            "id": "24px-t-energy-share",
+            "actual": 43.9773,
+            "requirement": "29 <= share <= 35",
+            "pass": false
+          },
+          {
+            "id": "24px-t-recognizable-core",
+            "actual": 94.6875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-h-energy-share",
+            "actual": 21.4352,
+            "requirement": "23 <= share <= 30",
+            "pass": false
+          },
+          {
+            "id": "24px-h-recognizable-core",
+            "actual": 41.484375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-o-energy-share",
+            "actual": 13.9668,
+            "requirement": "14 <= share <= 20",
+            "pass": false
+          },
+          {
+            "id": "24px-o-recognizable-core",
+            "actual": 21.34375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-m-energy-share",
+            "actual": 20.6206,
+            "requirement": "22 <= share <= 29",
+            "pass": false
+          },
+          {
+            "id": "24px-m-recognizable-core",
+            "actual": 38.25,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-t-energy-share",
+            "actual": 44.0722,
+            "requirement": "29 <= share <= 35",
+            "pass": false
+          },
+          {
+            "id": "48px-t-recognizable-core",
+            "actual": 370.765625,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-h-energy-share",
+            "actual": 21.3578,
+            "requirement": "23 <= share <= 30",
+            "pass": false
+          },
+          {
+            "id": "48px-h-recognizable-core",
+            "actual": 168.78125,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-o-energy-share",
+            "actual": 14.0952,
+            "requirement": "14 <= share <= 20",
+            "pass": true
+          },
+          {
+            "id": "48px-o-recognizable-core",
+            "actual": 93.84375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-m-energy-share",
+            "actual": 20.4749,
+            "requirement": "22 <= share <= 29",
+            "pass": false
+          },
+          {
+            "id": "48px-m-recognizable-core",
+            "actual": 146.953125,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "h-golden-ratio",
+            "actual": 1.618034,
+            "requirement": "abs(ratio - phi) <= 1e-6",
+            "pass": true
+          },
+          {
+            "id": "h-crossbar-centroid",
+            "actual": 2.537347,
+            "requirement": "absolute offset <= 0.25 design units",
+            "pass": false
+          },
+          {
+            "id": "h-phi-hold-energy",
+            "actual": 0.000162,
+            "requirement": "deviation <= 0.05",
+            "pass": true
+          },
+          {
+            "id": "h-crossfade-energy",
+            "actual": 0.008772,
+            "requirement": "maximum deviation <= 0.07",
+            "pass": true
+          },
+          {
+            "id": "h-animation-centroid",
+            "actual": 0.037815,
+            "requirement": "maximum horizontal drift <= 1 design unit",
+            "pass": true
+          },
+          {
+            "id": "24px-optical-gaps",
+            "actual": 0.093023,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          },
+          {
+            "id": "48px-optical-gaps",
+            "actual": 0.117647,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": false
+          },
+          {
+            "id": "120px-optical-gaps",
+            "actual": 0.125,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": false
+          }
+        ]
+      }
+    },
+    {
+      "variant": "spatial",
+      "revision": "71b3540c1f9078cbf123c41ddb89defdda25e75a",
+      "aggregate": 0.222146,
+      "components": {
+        "mass": 0.22691,
+        "core": 0.296095,
+        "moments": 0.041054,
+        "gaps": 0.02661,
+        "motion": 0.42229
+      },
+      "shares120": {
+        "t": 43.6177,
+        "h": 21.0417,
+        "o": 14.0045,
+        "m": 21.3362
+      },
+      "hCrossbarOffset": -2.537347,
+      "phiHoldDeviation": 0.168171,
+      "crossfadeDeviation": 0.161384,
+      "centroidDrift": 0.980438,
+      "maximumGapDeviation": 0.046512,
+      "acceptance": {
+        "schemaVersion": 1,
+        "variant": "spatial",
+        "command": "bun run check:brand:balance --metrics=/Users/thom/.codex/worktrees/ec8d/th-m/.codex/audits/logo-balance/spatial/metrics.json",
+        "pass": false,
+        "summary": {
+          "passed": 13,
+          "failed": 15,
+          "total": 28
+        },
+        "gates": [
+          {
+            "id": "120px-t-energy-share",
+            "actual": 43.6177,
+            "requirement": "31 <= share <= 33",
+            "pass": false
+          },
+          {
+            "id": "120px-h-energy-share",
+            "actual": 21.0417,
+            "requirement": "25 <= share <= 28",
+            "pass": false
+          },
+          {
+            "id": "120px-o-energy-share",
+            "actual": 14.0045,
+            "requirement": "16 <= share <= 18",
+            "pass": false
+          },
+          {
+            "id": "120px-m-energy-share",
+            "actual": 21.3362,
+            "requirement": "24 <= share <= 27",
+            "pass": false
+          },
+          {
+            "id": "24px-t-energy-share",
+            "actual": 43.5091,
+            "requirement": "29 <= share <= 35",
+            "pass": false
+          },
+          {
+            "id": "24px-t-recognizable-core",
+            "actual": 95.234375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-h-energy-share",
+            "actual": 21.2974,
+            "requirement": "23 <= share <= 30",
+            "pass": false
+          },
+          {
+            "id": "24px-h-recognizable-core",
+            "actual": 45.375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-o-energy-share",
+            "actual": 13.8094,
+            "requirement": "14 <= share <= 20",
+            "pass": false
+          },
+          {
+            "id": "24px-o-recognizable-core",
+            "actual": 21.34375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-m-energy-share",
+            "actual": 21.3842,
+            "requirement": "22 <= share <= 29",
+            "pass": false
+          },
+          {
+            "id": "24px-m-recognizable-core",
+            "actual": 39.875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-t-energy-share",
+            "actual": 43.6071,
+            "requirement": "29 <= share <= 35",
+            "pass": false
+          },
+          {
+            "id": "48px-t-recognizable-core",
+            "actual": 370.625,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-h-energy-share",
+            "actual": 21.2125,
+            "requirement": "23 <= share <= 30",
+            "pass": false
+          },
+          {
+            "id": "48px-h-recognizable-core",
+            "actual": 175.84375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-o-energy-share",
+            "actual": 13.9378,
+            "requirement": "14 <= share <= 20",
+            "pass": false
+          },
+          {
+            "id": "48px-o-recognizable-core",
+            "actual": 93.875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-m-energy-share",
+            "actual": 21.2426,
+            "requirement": "22 <= share <= 29",
+            "pass": false
+          },
+          {
+            "id": "48px-m-recognizable-core",
+            "actual": 154.78125,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "h-golden-ratio",
+            "actual": 1.618034,
+            "requirement": "abs(ratio - phi) <= 1e-6",
+            "pass": true
+          },
+          {
+            "id": "h-crossbar-centroid",
+            "actual": 2.537347,
+            "requirement": "absolute offset <= 0.25 design units",
+            "pass": false
+          },
+          {
+            "id": "h-phi-hold-energy",
+            "actual": 0.168171,
+            "requirement": "deviation <= 0.05",
+            "pass": false
+          },
+          {
+            "id": "h-crossfade-energy",
+            "actual": 0.161384,
+            "requirement": "maximum deviation <= 0.07",
+            "pass": false
+          },
+          {
+            "id": "h-animation-centroid",
+            "actual": 0.980438,
+            "requirement": "maximum horizontal drift <= 1 design unit",
+            "pass": true
+          },
+          {
+            "id": "24px-optical-gaps",
+            "actual": 0.045455,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          },
+          {
+            "id": "48px-optical-gaps",
+            "actual": 0.046512,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          },
+          {
+            "id": "120px-optical-gaps",
+            "actual": 0.027778,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          }
+        ]
+      }
+    },
+    {
       "variant": "baseline",
       "revision": "0f2a0d7af8a4f1d6f80c1800fe2a141201e88a03",
       "aggregate": 0.232177,
