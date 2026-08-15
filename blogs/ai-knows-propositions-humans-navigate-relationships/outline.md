@@ -14,6 +14,22 @@ AI excels at processing propositions. Humans participate in the relationships th
 
 As propositional work becomes cheaper and more abundant, the ability to understand those relationships becomes more—not less—important.
 
+## Argument: Coherence Is Not Accountable Meaning
+
+Build the central claim as a philosophical argument, not as a mathematical proof or a claim that AI is incapable of representing context.
+
+1. **Define coherence narrowly.** Coherence is structural fit: propositions that follow shared rules, avoid contradiction, and work together within a model. Agentic AI can generate, search, compare, and test this kind of propositional structure at unusual scale.
+2. **Define meaning as situated and normative.** Meaning asks what a coherent system is for, who is affected, what counts as success, and which harms or tradeoffs are acceptable. Those questions include purposes, values, relationships, and consequences—not only consistency.
+3. **Show the gap.** Coherence alone cannot derive its own goals, choose among competing values, establish which context is morally relevant, or assign responsibility when an outcome harms someone. A perfectly coherent system can still pursue the wrong aim.
+4. **State the conclusion narrowly.** Coherence can be substantially automated; accountable meaning cannot be inferred from coherence alone. People remain responsible for setting and revising purposes, interpreting lived consequences, and answering to one another for decisions.
+
+Keep the epistemic strength explicit:
+
+- Formal coherence is the closest category to proof, but only relative to specified axioms, definitions, and rules.
+- Claims about correspondence and pragmatic success are empirical: supported or weakened by observation, experiments, and replication, never proven in the mathematical sense.
+- Claims about narrative meaning and the distinctive human role are philosophical, normative, and institutional. They can be made plausible through evidence about behavior and accountability, but they are not theorems.
+- Do not say AI has no meaning or cannot model relationships. The defensible claim is that modeling meaning does not, by itself, confer independently grounded stakes or replace human accountability.
+
 ## Central Metaphor
 
 - **Nodes are propositions.**
