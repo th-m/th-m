@@ -67,7 +67,7 @@ function pathBounds(path: FilledPath) {
 describe("THOM geometry", () => {
   it("keeps the bounded source-energy update explicit and deterministic", () => {
     expect(SOURCE_ENERGY_Q).toEqual({ t: 0.852298, h: 1.116686, o: 1.096325, m: 1.113872 });
-    expect(M_WEBGL_CORE_PARITY_SCALE).toBe(1.07);
+    expect(M_WEBGL_CORE_PARITY_SCALE).toBe(1.12);
     expect(PI_WEBGL_OPACITY_PARITY_SCALE).toBe(1.35);
     for (const glyph of ["t", "h", "o", "m"] as const) {
       expect(SOURCE_ENERGY_Q[glyph]).toBeGreaterThanOrEqual(0.8);
