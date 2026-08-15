@@ -7,11 +7,11 @@
       <stop offset="1" stop-color="#765237"/>
     </linearGradient>
     <linearGradient id="thom-pi-metal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="120">
-      <stop offset="0" stop-color="#442f27"/>
-      <stop offset=".28" stop-color="#906d44"/>
-      <stop offset=".49" stop-color="#d1c1a4"/>
-      <stop offset=".7" stop-color="#a59989"/>
-      <stop offset="1" stop-color="#442f27"/>
+      <stop offset="0" stop-color="#50382f"/>
+      <stop offset=".28" stop-color="#a67f50"/>
+      <stop offset=".49" stop-color="#f1dfbd"/>
+      <stop offset=".7" stop-color="#beb19f"/>
+      <stop offset="1" stop-color="#50382f"/>
     </linearGradient>
     <linearGradient id="thom-m-highlight" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#765237"/>

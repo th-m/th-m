@@ -34,10 +34,12 @@ import {
   hStrokeWorldWidth,
   M_ANIMATION,
   M_FINAL_MATERIAL,
+  M_WEBGL_CORE_PARITY_SCALE,
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
   PI_ANIMATION,
   PI_MATERIAL,
+  PI_WEBGL_OPACITY_PARITY_SCALE,
   fourierComponentBezier,
   fourierPartialBezier,
   sampleBezierChain,
@@ -478,7 +480,7 @@ function createMFinalStack(chain: CubicBezierSegment[]): MStrokeStack {
   const glow = createMStroke(chain, BRAND_COLORS.gold, M_WEBGL_FILTER_GLOW.width, M_WEBGL_FILTER_GLOW.opacity);
   const halo = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.halo.width, M_FINAL_MATERIAL.halo.opacity);
   const middle = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.middle.width, M_FINAL_MATERIAL.middle.opacity);
-  const core = createMStroke(chain, BRAND_COLORS.highlight, M_FINAL_MATERIAL.core.width, M_FINAL_MATERIAL.core.opacity, colors);
+  const core = createMStroke(chain, BRAND_COLORS.highlight, M_FINAL_MATERIAL.core.width * M_WEBGL_CORE_PARITY_SCALE, M_FINAL_MATERIAL.core.opacity, colors);
   glow.mesh.position.z = -0.5;
   halo.mesh.position.z = -0.25;
   middle.mesh.position.z = 0;
@@ -741,10 +743,10 @@ export class ThomSceneController {
   private applyState() {
     const s = this.state;
     this.piMaterials.forEach((fill) => {
-      fill.uniforms.uOpacity.value = 0.06 + s.pi * 0.94;
+      fill.uniforms.uOpacity.value = (0.06 + s.pi * 0.94) * PI_MATERIAL.opacity * PI_WEBGL_OPACITY_PARITY_SCALE;
       fill.uniforms.uProgress.value = clamp(s.pi);
     });
-    setStackOpacity(this.piRim, clamp(s.pi * 1.4));
+    setStackOpacity(this.piRim, clamp(s.pi * 1.4) * PI_MATERIAL.opacity * PI_WEBGL_OPACITY_PARITY_SCALE);
     const traceProgress = clamp(s.piOrbit);
     const traceIndex = Math.min(this.piOutlinePoints.length - 1, Math.floor(traceProgress * (this.piOutlinePoints.length - 1)));
     const tracedPoints = this.piOutlinePoints.slice(0, Math.max(2, traceIndex + 1));

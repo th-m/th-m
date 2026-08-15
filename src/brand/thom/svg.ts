@@ -32,7 +32,7 @@ const filledPath = (path: FilledPath, fill: string, luminous: boolean) =>
   `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` stroke="${BRAND_COLORS.gold}" stroke-width="${H_COLUMN_MATERIAL.strokeWidth}" filter="url(#thom-fill-glow)"` : ""}/>`;
 
 const piPath = (path: FilledPath, fill: string, luminous: boolean) =>
-  `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` stroke="${PI_MATERIAL.edge}" stroke-width="${PI_MATERIAL.strokeWidth}" filter="url(#thom-pi-glow)"` : ""}/>`;
+  `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` opacity="${PI_MATERIAL.opacity}" stroke="${PI_MATERIAL.edge}" stroke-width="${PI_MATERIAL.strokeWidth}" filter="url(#thom-pi-glow)"` : ""}/>`;
 
 const polyline = (points: Point[], stroke: string, width: number, opacity = 1, extra = "", widthInWorldUnits = false) =>
   `<polyline points="${pointList(points)}" fill="none" stroke="${stroke}" stroke-width="${widthInWorldUnits ? width : displayStrokeWorldWidth(width)}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}"${extra}/>`;
