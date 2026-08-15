@@ -1,6 +1,7 @@
 node_modules/
 dist/
 dist-graph/
+dist-sets/
 test-results/
 playwright-report/
 *.tsbuildinfo

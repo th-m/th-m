@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-08-15T15:08:06.455Z",
+  "generatedAt": "2026-08-15T17:44:55.902Z",
   "method": "Raw pixel mismatch at 0.1 gates T/O/M against the source board. H uses pillar-only source regions because its former catenary is intentionally superseded by the golden-ratio crossbar; H center geometry is gated structurally and by SVG/WebGL parity.",
   "legacyAverageMismatchRatio": 0.18891927083333332,
-  "averageStrictMismatchRatio": 0.18893057374680247,
-  "strictDeltaFromLegacyBaseline": 0.000011302913469152243,
+  "averageStrictMismatchRatio": 0.1894274445961236,
+  "strictDeltaFromLegacyBaseline": 0.000508173762790276,
   "strictVisualFidelityResult": "regressed",
-  "averagePerceptualMismatchRatio": 0.10399596999827823,
+  "averagePerceptualMismatchRatio": 0.1064576453967434,
   "hStrictBaselineRatio": 0.24641927083333334,
-  "hStrictImprovement": -0.12023631466407969,
+  "hStrictImprovement": -0.09897548110590026,
   "mStrictBaselineRatio": 0.136,
-  "mStrictImprovement": 0.2382812500000001,
+  "mStrictImprovement": 0.20793121936274517,
   "tStrictBaselineRatio": 0.2842578125,
   "tStrictImprovement": 0.3454720351793321,
   "oStrictBaselineRatio": 0.18837239583333334,
   "oStrictTargetRatio": 0.15069791666666668,
-  "oStrictImprovement": -0.00877859957143845,
+  "oStrictImprovement": -0.025229833413976444,
   "oStrictTargetMet": false,
   "glyphs": [
     {
@@ -30,14 +30,14 @@
     },
     {
       "glyph": "h",
-      "strictMismatchRatio": 0.2760478158205431,
-      "perceptualMismatchRatio": 0.2303719008264463,
-      "improvementFromLegacyBaseline": -0.07625536732593674,
-      "silhouetteIoU": 0.08033540708682715,
+      "strictMismatchRatio": 0.2708087367178276,
+      "perceptualMismatchRatio": 0.2312081857536403,
+      "improvementFromLegacyBaseline": -0.08016233748278934,
+      "silhouetteIoU": 0.06948365358346234,
       "referenceCoverage": 0.07725260416666667,
-      "currentCoverage": 0.07876302083333334,
-      "coverageDelta": 0.0015104166666666669,
-      "quadrantDistributionDelta": 0.0021354166666666674,
+      "currentCoverage": 0.0756640625,
+      "coverageDelta": 0.0015885416666666652,
+      "quadrantDistributionDelta": 0.0020052083333333345,
       "thresholdMetrics": [
         {
           "threshold": 55,
@@ -59,21 +59,21 @@
           "current": {
             "width": 196,
             "height": 196,
-            "density": 0.1995783007080383,
+            "density": 0.19059766763848396,
             "centroid": {
-              "x": 165.9637407069258,
-              "y": 116.63845050215208
+              "x": 165.55940999726852,
+              "y": 116.25880906856051
             },
             "quadrants": [
-              0.24546758836572322,
-              0.24546758836572322,
-              0.25107604017216645,
-              0.2579887830963871
+              0.24597104616225074,
+              0.24597104616225074,
+              0.25102431029773287,
+              0.25703359737776565
             ]
           },
           "widthDelta": 0.234375,
           "heightDelta": 0.10091743119266056,
-          "densityDelta": 0.09282435301355979
+          "densityDelta": 0.043649395169595005
         },
         {
           "threshold": 140,
@@ -95,34 +95,34 @@
           "current": {
             "width": 194,
             "height": 195,
-            "density": 0.176050753370341,
+            "density": 0.16722178165477133,
             "centroid": {
-              "x": 165.5099099099099,
-              "y": 116.35105105105104
+              "x": 165.94340815681315,
+              "y": 115.9233322794815
             },
             "quadrants": [
-              0.2593093093093093,
-              0.2593093093093093,
-              0.24069069069069068,
-              0.24069069069069068
+              0.26035409421435346,
+              0.26035409421435346,
+              0.23917167246285173,
+              0.24012013910844135
             ]
           },
           "widthDelta": 0.23622047244094488,
           "heightDelta": 0,
-          "densityDelta": 0.830351346438495
+          "densityDelta": 0.7385589515870747
         }
       ]
     },
     {
       "glyph": "o",
-      "strictMismatchRatio": 0.19002604166666667,
-      "perceptualMismatchRatio": 0.03208333333333333,
-      "improvementFromLegacyBaseline": 0.7983798379837984,
-      "silhouetteIoU": 0.3606484424666243,
+      "strictMismatchRatio": 0.193125,
+      "perceptualMismatchRatio": 0.04375,
+      "improvementFromLegacyBaseline": 0.7250634154324523,
+      "silhouetteIoU": 0.354940052574213,
       "referenceCoverage": 0.13598958333333333,
-      "currentCoverage": 0.1426953125,
-      "coverageDelta": 0.006705729166666674,
-      "quadrantDistributionDelta": 0.009075520833333336,
+      "currentCoverage": 0.1391796875,
+      "coverageDelta": 0.0031901041666666796,
+      "quadrantDistributionDelta": 0.007981770833333325,
       "thresholdMetrics": [
         {
           "threshold": 18,
@@ -142,23 +142,23 @@
             ]
           },
           "current": {
-            "width": 247,
-            "height": 240,
-            "density": 0.25833333333333336,
+            "width": 241,
+            "height": 239,
+            "density": 0.2595878400666678,
             "centroid": {
-              "x": 160.68525532192766,
-              "y": 120.4877889512864
+              "x": 160.46395131086143,
+              "y": 121.21468699839487
             },
             "quadrants": [
-              0.2538200339558574,
-              0.25140394410343475,
-              0.24598406686691915,
-              0.24879195507378868
+              0.2530096308186196,
+              0.2483948635634029,
+              0.24832798287854468,
+              0.25026752273943287
             ]
           },
-          "widthDelta": 0.023715415019762844,
-          "heightDelta": 0,
-          "densityDelta": 0.06065318818040446
+          "widthDelta": 0.04743083003952569,
+          "heightDelta": 0.004166666666666667,
+          "densityDelta": 0.06580388456610106
         },
         {
           "threshold": 55,
@@ -178,23 +178,23 @@
             ]
           },
           "current": {
-            "width": 239,
-            "height": 238,
-            "density": 0.1347878063359235,
+            "width": 235,
+            "height": 235,
+            "density": 0.1345586238116795,
             "centroid": {
-              "x": 158.69544802399895,
-              "y": 120.7344463284205
+              "x": 158.26739335217331,
+              "y": 120.52940384874175
             },
             "quadrants": [
-              0.273118560062606,
-              0.2309899569583931,
-              0.2534237641841659,
-              0.242467718794835
+              0.2745256358498183,
+              0.2309245054501413,
+              0.25420535594132687,
+              0.2403445027587135
             ]
           },
-          "widthDelta": 0.024489795918367346,
-          "heightDelta": 0,
-          "densityDelta": 0.09189733084852728
+          "widthDelta": 0.04081632653061224,
+          "heightDelta": 0.012605042016806723,
+          "densityDelta": 0.09004075499569762
         },
         {
           "threshold": 140,
@@ -214,36 +214,36 @@
             ]
           },
           "current": {
-            "width": 235,
-            "height": 235,
-            "density": 0.04749660479855138,
+            "width": 231,
+            "height": 231,
+            "density": 0.047356683720320085,
             "centroid": {
-              "x": 160.43728555089592,
-              "y": 121.62256957682044
+              "x": 160.52710724178868,
+              "y": 120.87218045112782
             },
             "quadrants": [
-              0.2558139534883721,
-              0.24094548227220738,
-              0.25085779641631717,
-              0.2523827678231033
+              0.258804907004353,
+              0.24337158686189156,
+              0.2445587653343886,
+              0.25326474079936684
             ]
           },
-          "widthDelta": 0.03292181069958848,
-          "heightDelta": 0.008438818565400843,
-          "densityDelta": 0.09196685307519874
+          "widthDelta": 0.04938271604938271,
+          "heightDelta": 0.02531645569620253,
+          "densityDelta": 0.08875000883710744
         }
       ]
     },
     {
       "glyph": "m",
-      "strictMismatchRatio": 0.10359375,
-      "perceptualMismatchRatio": 0.03298177083333333,
-      "improvementFromLegacyBaseline": 0.741081467852397,
-      "silhouetteIoU": 0.6623248470495362,
+      "strictMismatchRatio": 0.10772135416666667,
+      "perceptualMismatchRatio": 0.030325520833333335,
+      "improvementFromLegacyBaseline": 0.761933967085761,
+      "silhouetteIoU": 0.6425726034438448,
       "referenceCoverage": 0.17432291666666666,
-      "currentCoverage": 0.15470052083333333,
-      "coverageDelta": 0.019622395833333334,
-      "quadrantDistributionDelta": 0.019622395833333327,
+      "currentCoverage": 0.1585546875,
+      "coverageDelta": 0.015768229166666647,
+      "quadrantDistributionDelta": 0.015768229166666668,
       "thresholdMetrics": [
         {
           "threshold": 18,
@@ -264,22 +264,22 @@
           },
           "current": {
             "width": 262,
-            "height": 135,
-            "density": 0.2780322307039864,
+            "height": 139,
+            "density": 0.27667636882860125,
             "centroid": {
-              "x": 159.4444783404515,
-              "y": 119.82041895464714
+              "x": 159.48779277491067,
+              "y": 119.35589519650655
             },
             "quadrants": [
-              0.2540166768354688,
-              0.2537116127720155,
-              0.24618669920683345,
-              0.24608501118568232
+              0.25605398967844384,
+              0.25605398967844384,
+              0.2440452560539897,
+              0.24384676458912266
             ]
           },
           "widthDelta": 0.026022304832713755,
-          "heightDelta": 0.007352941176470588,
-          "densityDelta": 0.051251643682992426
+          "heightDelta": 0.022058823529411766,
+          "densityDelta": 0.05587834369689887
         },
         {
           "threshold": 55,
@@ -300,22 +300,22 @@
           },
           "current": {
             "width": 260,
-            "height": 131,
-            "density": 0.1670287727539636,
+            "height": 135,
+            "density": 0.16615384615384615,
             "centroid": {
-              "x": 159.4638776586395,
-              "y": 118.99876955528212
+              "x": 159.5159465020576,
+              "y": 118.48353909465021
             },
             "quadrants": [
-              0.2647213921603094,
-              0.2652487256108279,
-              0.23483916329759186,
-              0.2351907189312709
+              0.2674897119341564,
+              0.2678326474622771,
+              0.23216735253772292,
+              0.23251028806584362
             ]
           },
           "widthDelta": 0.023622047244094488,
           "heightDelta": 0.015037593984962405,
-          "densityDelta": 0.04460446983162906
+          "densityDelta": 0.049609002578863706
         },
         {
           "threshold": 140,
@@ -336,22 +336,22 @@
           },
           "current": {
             "width": 224,
-            "height": 115,
-            "density": 0.09285714285714286,
+            "height": 120,
+            "density": 0.09107142857142857,
             "centroid": {
-              "x": 159.45066889632108,
-              "y": 114.40969899665552
+              "x": 159.48406862745097,
+              "y": 113.74959150326798
             },
             "quadrants": [
-              0.26964882943143814,
-              0.27048494983277593,
-              0.23035117056856189,
-              0.2295150501672241
+              0.27369281045751637,
+              0.27205882352941174,
+              0.2267156862745098,
+              0.2275326797385621
             ]
           },
           "widthDelta": 0.02608695652173913,
-          "heightDelta": 0.041666666666666664,
-          "densityDelta": 0.16918665276329517
+          "heightDelta": 0,
+          "densityDelta": 0.1467022940563086
         }
       ]
     }
