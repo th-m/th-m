@@ -28,11 +28,11 @@
       <stop offset="1" stop-color="#765237"/>
     </linearGradient>
     <linearGradient id="thom-h-metal" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#bd9a63"/>
-      <stop offset=".42" stop-color="#d2bc96"/>
-      <stop offset=".5" stop-color="#e2d2b4"/>
-      <stop offset=".58" stop-color="#d2bc96"/>
-      <stop offset="1" stop-color="#bd9a63"/>
+      <stop offset="0" stop-color="#cdb388"/>
+      <stop offset=".42" stop-color="#e3cfad"/>
+      <stop offset=".5" stop-color="#efe1c7"/>
+      <stop offset=".58" stop-color="#e3cfad"/>
+      <stop offset="1" stop-color="#cdb388"/>
     </linearGradient>
     <filter id="thom-fill-glow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
       <feGaussianBlur in="SourceGraphic" stdDeviation="1.35" result="blur"/>
@@ -52,4 +52,4 @@
       <feGaussianBlur stdDeviation="1.2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-  </defs><path d="M2 37.075 C5 25.245 16 13.415 29 13.415 C48 13.415 71 13.87 91 12.96 C95 12.687 97 9.775 97.5 7.5 L99 7.5 C98.5 17.055 94 22.515 86 22.97 L67 22.97 C65 32.525 63 45.265 62 58.915 C60.8 75.295 63.3 86.215 71 88.945 C77.5 91.22 84 84.395 88 75.295 L90.5 75.295 C86 92.585 77 101.23 67 99.41 C53.5 97.135 50.5 88.49 51.7 73.475 C53 56.185 56 37.075 58.3 22.97 L45 22.97 C44 34.345 42.3 50.725 39.5 66.195 C36.7 83.03 31.5 93.95 23 98.955 C18.5 101.23 13.5 100.32 10.5 98.955 C21.5 85.305 26.5 70.745 29 55.275 C31 42.535 33 30.705 34 22.97 C18 22.97 8 28.885 3 38.895 Z" fill="url(#thom-pi-metal)" stroke="#ead7b5" stroke-width="0.38" filter="url(#thom-pi-glow)"/></svg>
+  </defs><path d="M2 37.075 C5 25.245 16 13.415 29 13.415 C48 13.415 71 13.87 91 12.96 C95 12.687 97 9.775 97.5 7.5 L99 7.5 C98.5 17.055 94 22.515 86 22.97 L67 22.97 C65 32.525 63 45.265 62 58.915 C60.8 75.295 63.3 86.215 71 88.945 C77.5 91.22 84 84.395 88 75.295 L90.5 75.295 C86 92.585 77 101.23 67 99.41 C53.5 97.135 50.5 88.49 51.7 73.475 C53 56.185 56 37.075 58.3 22.97 L45 22.97 C44 34.345 42.3 50.725 39.5 66.195 C36.7 83.03 31.5 93.95 23 98.955 C18.5 101.23 13.5 100.32 10.5 98.955 C21.5 85.305 26.5 70.745 29 55.275 C31 42.535 33 30.705 34 22.97 C18 22.97 8 28.885 3 38.895 Z" fill="url(#thom-pi-metal)" fill-opacity="0.646" stroke="#ead7b5" stroke-width="0.38" filter="url(#thom-pi-glow)"/></svg>

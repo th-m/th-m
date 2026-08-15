@@ -32,7 +32,7 @@ const filledPath = (path: FilledPath, fill: string, luminous: boolean) =>
   `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` stroke="${BRAND_COLORS.gold}" stroke-width=".34" filter="url(#thom-fill-glow)"` : ""}/>`;
 
 const piPath = (path: FilledPath, fill: string, luminous: boolean) =>
-  `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` stroke="${PI_MATERIAL.edge}" stroke-width="${PI_MATERIAL.strokeWidth}" filter="url(#thom-pi-glow)"` : ""}/>`;
+  `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` fill-opacity="${PI_MATERIAL.fillOpacity}" stroke="${PI_MATERIAL.edge}" stroke-width="${PI_MATERIAL.strokeWidth}" filter="url(#thom-pi-glow)"` : ""}/>`;
 
 const polyline = (points: Point[], stroke: string, width: number, opacity = 1, extra = "", widthInWorldUnits = false) =>
   `<polyline points="${pointList(points)}" fill="none" stroke="${stroke}" stroke-width="${widthInWorldUnits ? width : displayStrokeWorldWidth(width)}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}"${extra}/>`;
@@ -121,7 +121,7 @@ function luminousLine(points: Point[], core: string, width = 1.2, opacity = 1): 
 
 function oCircleMarkup(points: Point[]): string {
   const material = O_DISPLAY_MATERIAL.circle;
-  return `${polyline(points, BRAND_COLORS.gold, material.haloWidth, material.haloOpacity)}${polyline(points, BRAND_COLORS.gold, material.middleWidth, material.middleOpacity)}${polyline(points, BRAND_COLORS.ivory, material.coreWidth, material.coreOpacity, ` filter="url(#thom-o-glow)"`)}`;
+  return `${polyline(points, BRAND_COLORS.gold, material.haloWidth, material.haloOpacity)}${polyline(points, BRAND_COLORS.gold, material.middleWidth, material.middleOpacity)}${polyline(points, BRAND_COLORS.highlight, material.coreWidth, material.coreOpacity, ` filter="url(#thom-o-glow)"`)}`;
 }
 
 function hLuminousLine(points: Point[], core: string, material: (typeof H_MATERIAL)[keyof typeof H_MATERIAL], part: string): string {
@@ -186,7 +186,7 @@ export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m"
       return `${pillars}${a}${b}${ticks}${brace}`;
     }
     const construction = luminous
-      ? `${hLuminousLine(data.h.proportion.a, BRAND_COLORS.highlight, H_MATERIAL.a, "a")}${hLuminousLine(data.h.proportion.b, BRAND_COLORS.gold, H_MATERIAL.b, "b")}${data.h.proportion.ticks.map((tick, index) => hLuminousLine(tick, BRAND_COLORS.gold, H_MATERIAL.tick, `tick-${index}`)).join("")}${hLuminousLine(data.h.proportion.brace, BRAND_COLORS.gold, H_MATERIAL.brace, "unit-brace")}`
+      ? `${hLuminousLine(data.h.proportion.a, BRAND_COLORS.highlight, H_MATERIAL.a, "a")}${hLuminousLine(data.h.proportion.b, BRAND_COLORS.highlight, H_MATERIAL.b, "b")}${data.h.proportion.ticks.map((tick, index) => hLuminousLine(tick, BRAND_COLORS.gold, H_MATERIAL.tick, `tick-${index}`)).join("")}${hLuminousLine(data.h.proportion.brace, BRAND_COLORS.gold, H_MATERIAL.brace, "unit-brace")}`
       : `${polyline(data.h.proportion.a, colors.gold, hStrokeWorldWidth(1.15), 1, ` data-h-part="a"`, true)}${polyline(data.h.proportion.b, colors.gold, hStrokeWorldWidth(0.9), 0.72, ` data-h-part="b"`, true)}${data.h.proportion.ticks.map((tick, index) => polyline(tick, colors.gold, hStrokeWorldWidth(0.72), 0.78, ` data-h-part="tick-${index}"`, true)).join("")}${polyline(data.h.proportion.brace, colors.gold, hStrokeWorldWidth(0.66), 0.68, ` data-h-part="unit-brace"`, true)}`;
     return `${pillars}${construction}`;
   }

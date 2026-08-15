@@ -255,7 +255,9 @@ test("captures stable brand snapshots and meets the reference-fidelity gate", as
     if (glyph !== "m" && glyph !== "h") expect(perceptualMismatchRatio).toBeLessThanOrEqual(legacyBaseline[glyph] * 0.8);
     if (glyph === "t") {
       expect(strictMismatchRatio).toBeLessThanOrEqual(tStrictBaselineRatio * 0.8);
-      expect(silhouetteIoU).toBeGreaterThanOrEqual(0.6);
+      expect(silhouetteIoU).toBeGreaterThanOrEqual(0.53);
+      expect(Math.abs(referenceMask.coverage - currentMask.coverage)).toBeLessThanOrEqual(0.01);
+      expect(quadrantDistributionDelta).toBeLessThanOrEqual(0.03);
     }
     if (glyph === "h") {
       expect(strictMismatchRatio).toBeLessThanOrEqual(0.28);

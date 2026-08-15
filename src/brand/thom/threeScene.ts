@@ -88,6 +88,7 @@ const hPhiTexture = new TextureLoader().loadAsync("/brand/h-phi.png").then((text
   return texture;
 });
 const M_WEBGL_FILTER_GLOW = { width: 23, opacity: 0.1 } as const;
+const M_WEBGL_STROKE_SCALE = 1.2;
 const M_LOCAL_SCALE_X = 1.22;
 const toThreePositions = (points: Point[]) => points.flatMap((point) => [point.x, 120 - point.y, 0]);
 
@@ -366,7 +367,7 @@ function addHStack(group: Group, stack: HStrokeStack) {
   Object.values(stack).forEach((record) => group.add(record.mesh));
 }
 
-function createMStroke(chain: CubicBezierSegment[], color: string, width: number, opacity: number, vertexColors?: Color[]): MStrokeRecord {
+function createMStroke(chain: CubicBezierSegment[], color: string, width: number, opacity: number, vertexColors?: Color[], widthScale = 1): MStrokeRecord {
   const points = sampleBezierChain(chain, 4);
   const positions: number[] = [];
   const colors: number[] = [];
@@ -379,7 +380,7 @@ function createMStroke(chain: CubicBezierSegment[], color: string, width: number
     const tangentLength = Math.hypot(tangentX, tangentY) || 1;
     const normalX = -tangentY / tangentLength;
     const normalY = tangentX / tangentLength;
-    const halfWidth = displayStrokeWorldWidth(width) / 2;
+    const halfWidth = displayStrokeWorldWidth(width) * widthScale / 2;
     const y = 120 - point.y;
     positions.push(
       point.x + normalX * halfWidth / M_LOCAL_SCALE_X, y + normalY * halfWidth, 0,
@@ -450,7 +451,7 @@ function createMPartialStroke(chain: CubicBezierSegment[], width: number, opacit
     const edge = Math.min(progress, 1 - progress);
     return shadow.clone().lerp(gold, clamp(edge / 0.14));
   });
-  return createMStroke(chain, BRAND_COLORS.gold, width, opacity, colors);
+  return createMStroke(chain, BRAND_COLORS.gold, width, opacity, colors, M_WEBGL_STROKE_SCALE);
 }
 
 function createMFinalStack(chain: CubicBezierSegment[]): MStrokeStack {
@@ -477,8 +478,8 @@ function createMFinalStack(chain: CubicBezierSegment[]): MStrokeStack {
   });
   const glow = createMStroke(chain, BRAND_COLORS.gold, M_WEBGL_FILTER_GLOW.width, M_WEBGL_FILTER_GLOW.opacity);
   const halo = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.halo.width, M_FINAL_MATERIAL.halo.opacity);
-  const middle = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.middle.width, M_FINAL_MATERIAL.middle.opacity);
-  const core = createMStroke(chain, BRAND_COLORS.highlight, M_FINAL_MATERIAL.core.width, M_FINAL_MATERIAL.core.opacity, colors);
+  const middle = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.middle.width, M_FINAL_MATERIAL.middle.opacity, undefined, M_WEBGL_STROKE_SCALE);
+  const core = createMStroke(chain, BRAND_COLORS.highlight, M_FINAL_MATERIAL.core.width, M_FINAL_MATERIAL.core.opacity, colors, M_WEBGL_STROKE_SCALE);
   glow.mesh.position.z = -0.5;
   halo.mesh.position.z = -0.25;
   middle.mesh.position.z = 0;
@@ -630,7 +631,7 @@ export class ThomSceneController {
     });
     this.hGroup.add(this.hPillars);
     this.hA = createHStrokeStack(brandData.h.proportion.a, H_MATERIAL.a);
-    this.hB = createHStrokeStack(brandData.h.proportion.b, H_MATERIAL.b, BRAND_COLORS.gold);
+    this.hB = createHStrokeStack(brandData.h.proportion.b, H_MATERIAL.b, BRAND_COLORS.highlight);
     this.hTicks = brandData.h.proportion.ticks.map((tick) => createHStrokeStack(tick, H_MATERIAL.tick, BRAND_COLORS.gold));
     this.hBrace = createHStrokeStack(brandData.h.proportion.brace, H_MATERIAL.brace, BRAND_COLORS.gold);
     addHStack(this.hGroup, this.hA);
@@ -741,7 +742,7 @@ export class ThomSceneController {
   private applyState() {
     const s = this.state;
     this.piMaterials.forEach((fill) => {
-      fill.uniforms.uOpacity.value = 0.06 + s.pi * 0.94;
+      fill.uniforms.uOpacity.value = PI_MATERIAL.webglFillOpacity * (0.06 + s.pi * 0.94);
       fill.uniforms.uProgress.value = clamp(s.pi);
     });
     setStackOpacity(this.piRim, clamp(s.pi * 1.4));

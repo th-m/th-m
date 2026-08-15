@@ -24,6 +24,7 @@ import {
   H_UNIT_BRACE,
   hStrokeWorldWidth,
   M_ANIMATION,
+  M_FINAL_MATERIAL,
   M_SPLINE_CONTROLS,
   MASTER,
   O_ANIMATION,
@@ -31,6 +32,7 @@ import {
   PI_ANIMATION,
   PI_GEOMETRY,
   PI_LEG_INSET,
+  PI_MATERIAL,
   samplePathOutline,
   sampleBezierChain,
   type FilledPath,
@@ -85,6 +87,7 @@ describe("THOM geometry", () => {
     expect(Math.max(...outline.map((point) => point.x))).toBeGreaterThanOrEqual(98.8);
     expect(Math.max(...outline.map((point) => point.y)) - Math.min(...outline.map((point) => point.y))).toBeLessThan(95);
     expect(PI_LEG_INSET).toEqual({ display: 5.5, compact: 5 });
+    expect(PI_MATERIAL).toMatchObject({ strokeWidth: 0.38, fillOpacity: 0.646, webglFillOpacity: 0.96 });
     const displayInnerRight = PI_GEOMETRY.display.commands[13];
     const displayInnerLeft = PI_GEOMETRY.display.commands[14];
     expect(displayInnerRight.type).toBe("C");
@@ -137,24 +140,24 @@ describe("THOM geometry", () => {
     expect(H_ANIMATION.phiHoldEnd).toBeLessThan(H_ANIMATION.crossfadeEnd);
   });
 
-  it("keeps the H proportion lines layered with a quieter b segment and ticks", () => {
-    expect(H_COLUMN_MATERIAL).toMatchObject({ edge: "#bd9a63", body: "#d2bc96", highlight: "#e2d2b4", highlightMix: 0.1 });
-    expect(H_MATERIAL.a).toMatchObject({ coreWidth: 0.82, middleWidth: 1.55, haloWidth: 3.8 });
-    expect(H_MATERIAL.b).toMatchObject({ coreWidth: 0.68, middleWidth: 1.2, haloWidth: 2.8 });
+  it("keeps the H proportion lines layered with optically level a and b segments", () => {
+    expect(H_COLUMN_MATERIAL).toMatchObject({ edge: "#cdb388", body: "#e3cfad", highlight: "#efe1c7", highlightMix: 0.1 });
+    expect(H_MATERIAL.a).toMatchObject({ coreWidth: 0.743, middleWidth: 1.405, haloWidth: 3.443 });
+    expect(H_MATERIAL.b).toMatchObject({ coreWidth: 0.792, middleWidth: 1.397, haloWidth: 3.259 });
     expect(H_MATERIAL.tick).toMatchObject({ coreWidth: 0.56, middleWidth: 0.88, haloWidth: 1.9 });
     expect(H_MATERIAL.brace).toMatchObject({ coreWidth: 0.46, middleWidth: 0.76, haloWidth: 1.6, coreOpacity: 0.68 });
     expect(H_MATERIAL.a.haloWidth).toBeGreaterThan(H_MATERIAL.a.middleWidth);
     expect(H_MATERIAL.a.middleWidth).toBeGreaterThan(H_MATERIAL.a.coreWidth);
-    expect(H_MATERIAL.b.coreWidth).toBeLessThan(H_MATERIAL.a.coreWidth);
-    expect(H_MATERIAL.b.middleOpacity).toBeLessThan(H_MATERIAL.a.middleOpacity);
+    expect(Math.abs(H_MATERIAL.b.coreWidth - H_MATERIAL.a.coreWidth)).toBeLessThan(0.06);
+    expect(H_MATERIAL.b.middleOpacity).toBe(H_MATERIAL.a.middleOpacity);
     expect(H_MATERIAL.tick.coreWidth).toBeLessThan(H_MATERIAL.b.coreWidth);
     expect(H_MATERIAL.brace.coreWidth).toBeLessThan(H_MATERIAL.tick.coreWidth);
   });
 
   it("expresses H construction strokes in world units so their pillar ratio survives responsive scaling", () => {
     expect(H_STROKE_WORLD_PER_PIXEL).toBe(0.7);
-    expect(hStrokeWorldWidth(H_MATERIAL.a.coreWidth)).toBeCloseTo(0.574, 10);
-    expect(hStrokeWorldWidth(H_MATERIAL.b.coreWidth)).toBeCloseTo(0.476, 10);
+    expect(hStrokeWorldWidth(H_MATERIAL.a.coreWidth)).toBeCloseTo(0.5201, 10);
+    expect(hStrokeWorldWidth(H_MATERIAL.b.coreWidth)).toBeCloseTo(0.5544, 10);
     const smallScale = 648 / 416;
     const largeScale = 1180 / 416;
     const smallPrimary = hStrokeWorldWidth(H_MATERIAL.a.coreWidth) * smallScale;
@@ -209,7 +212,7 @@ describe("THOM geometry", () => {
 
   it("expresses every display O line layer in glyph-relative world units", () => {
     expect(DISPLAY_STROKE_WORLD_PER_PIXEL).toBe(0.35);
-    expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth)).toBe(0.752);
+    expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth)).toBe(0.846);
     expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.chord.coreWidth)).toBe(0.245);
     const smallScale = 648 / 416;
     const largeScale = 1180 / 416;
@@ -231,6 +234,11 @@ describe("THOM geometry", () => {
     expect(fourier.partialSums).toHaveLength(12);
     expect(fourier.restingPartialIndices).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect(fourier.restingLayers).toHaveLength(11);
+    expect(M_FINAL_MATERIAL).toEqual({
+      halo: { width: 9.888, opacity: 0.124 },
+      middle: { width: 7.697, opacity: 0.629 },
+      core: { width: 3.483, opacity: 1 },
+    });
     expect(fourier.restingLayers.every((layer) => layer.amplitudeScale === 1)).toBe(true);
     expect(new Set(fourier.componentWidths).size).toBeGreaterThanOrEqual(10);
     expect(Math.max(...fourier.componentWidths) / Math.min(...fourier.componentWidths)).toBeGreaterThanOrEqual(2.5);
@@ -331,8 +339,8 @@ describe("THOM geometry", () => {
       .update(readFileSync(glyphUrl))
       .digest("hex");
     const dataHash = createHash("sha256").update(JSON.stringify(brandData.m)).digest("hex");
-    expect(glyphHash).toBe("35001df1d36e4a1fd3ffcaa7b07f6f50e8e935d2e5af7dd0fba4de18b36b4f62");
-    expect(dataHash).toBe("9e33f2ba91bf2f6fbdd725add87a9920f455bc9b4c46ef63290bd8ce07e8be9f");
+    expect(glyphHash).toBe("4d263287bae529938036fa02c241e94e0d2ac0c8cd1b33ca42186a62df9de67f");
+    expect(dataHash).toBe("93126a446668c80b1c1d904caef5c665698eb1c55368a3130e015487c1225acc");
   });
 
   it("renders the display H in its reference-calibrated isolated frame while keeping compact output ghost-free", () => {
@@ -396,7 +404,7 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("09b957df082f19c38c2edf20695d8004e7e251340fd54445f8a93b8d570caf03");
+    expect(hash).toBe("bdccaa28771fedb08f40b1fa45d0567e8a2aaa11add48a1270b2d89240dc790d");
     expect(first).toContain("<title id=\"title\">THOM</title>");
     expect(first).toContain('viewBox="0 0 416 120"');
     expect(first).toContain('id="thom-metal"');
@@ -424,6 +432,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("403bde5feb0448fe018bca62a613a856c5527d43cdd9c725d5da86451ec1511d");
+    expect(hash.digest("hex")).toBe("26682265ccf8a9892ffebe3774a20fdc52669cfac4b3b9a8dd3687a637eecf6d");
   });
 });

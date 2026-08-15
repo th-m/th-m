@@ -3606,90 +3606,90 @@
       {
         "partialIndex": 0,
         "amplitudeScale": 1,
-        "width": 0.736,
-        "opacity": 0.5,
-        "haloWidth": 3.087,
-        "haloOpacity": 0.045
+        "width": 0.827,
+        "opacity": 0.562,
+        "haloWidth": 3.469,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 1,
         "amplitudeScale": 1,
-        "width": 0.705,
-        "opacity": 0.472,
-        "haloWidth": 2.888,
-        "haloOpacity": 0.045
+        "width": 0.792,
+        "opacity": 0.53,
+        "haloWidth": 3.245,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 2,
         "amplitudeScale": 1,
-        "width": 0.685,
-        "opacity": 0.444,
-        "haloWidth": 2.882,
-        "haloOpacity": 0.045
+        "width": 0.769,
+        "opacity": 0.499,
+        "haloWidth": 3.238,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 3,
         "amplitudeScale": 1,
-        "width": 0.662,
-        "opacity": 0.416,
-        "haloWidth": 2.827,
-        "haloOpacity": 0.045
+        "width": 0.743,
+        "opacity": 0.467,
+        "haloWidth": 3.177,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 4,
         "amplitudeScale": 1,
-        "width": 0.642,
-        "opacity": 0.388,
-        "haloWidth": 2.835,
-        "haloOpacity": 0.045
+        "width": 0.721,
+        "opacity": 0.436,
+        "haloWidth": 3.185,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 5,
         "amplitudeScale": 1,
-        "width": 0.622,
-        "opacity": 0.36,
-        "haloWidth": 2.829,
-        "haloOpacity": 0.045
+        "width": 0.698,
+        "opacity": 0.404,
+        "haloWidth": 3.179,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 6,
         "amplitudeScale": 1,
-        "width": 0.602,
-        "opacity": 0.332,
-        "haloWidth": 2.84,
-        "haloOpacity": 0.045
+        "width": 0.677,
+        "opacity": 0.373,
+        "haloWidth": 3.191,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 7,
         "amplitudeScale": 1,
-        "width": 0.581,
-        "opacity": 0.304,
-        "haloWidth": 2.814,
-        "haloOpacity": 0.045
+        "width": 0.653,
+        "opacity": 0.342,
+        "haloWidth": 3.162,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 8,
         "amplitudeScale": 1,
-        "width": 0.572,
-        "opacity": 0.276,
-        "haloWidth": 3.007,
-        "haloOpacity": 0.045
+        "width": 0.642,
+        "opacity": 0.31,
+        "haloWidth": 3.378,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 9,
         "amplitudeScale": 1,
-        "width": 0.543,
-        "opacity": 0.248,
-        "haloWidth": 2.845,
-        "haloOpacity": 0.045
+        "width": 0.61,
+        "opacity": 0.279,
+        "haloWidth": 3.197,
+        "haloOpacity": 0.051
       },
       {
         "partialIndex": 10,
         "amplitudeScale": 1,
-        "width": 0.522,
-        "opacity": 0.22,
-        "haloWidth": 2.838,
-        "haloOpacity": 0.045
+        "width": 0.587,
+        "opacity": 0.247,
+        "haloWidth": 3.189,
+        "haloOpacity": 0.051
       }
     ],
     "target": [

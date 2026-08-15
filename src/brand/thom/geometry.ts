@@ -91,6 +91,8 @@ export const PI_MATERIAL = {
   highlight: "#f1dfbd",
   edge: "#ead7b5",
   strokeWidth: 0.38,
+  fillOpacity: 0.646,
+  webglFillOpacity: 0.96,
 } as const;
 
 export const PI_ANIMATION = {
@@ -104,16 +106,16 @@ export const PI_LEG_INSET = {
 } as const;
 
 export const M_FINAL_MATERIAL = {
-  halo: { width: 8.8, opacity: 0.11 },
-  middle: { width: 6.85, opacity: 0.56 },
-  core: { width: 3.1, opacity: 0.96 },
+  halo: { width: 9.888, opacity: 0.124 },
+  middle: { width: 7.697, opacity: 0.629 },
+  core: { width: 3.483, opacity: 1 },
 } as const;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
 export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
 
 export const O_DISPLAY_MATERIAL = {
-  circle: { haloWidth: 8, haloOpacity: 0.055, middleWidth: 4.8, middleOpacity: 0.3, coreWidth: 2.15, coreOpacity: 1 },
+  circle: { haloWidth: 8.989, haloOpacity: 0.062, middleWidth: 5.393, middleOpacity: 0.337, coreWidth: 2.416, coreOpacity: 1 },
   chord: { haloWidth: 4, haloOpacity: 0.025, coreWidth: 0.7, coreOpacity: 0.62 },
   anchor: { haloRadius: 3.1, haloOpacity: 0.07, coreRadius: 0.8, coreOpacity: 0.98 },
   intersection: { radius: 0.4, opacity: 0.3 },
@@ -147,16 +149,16 @@ export const H_STROKE_WORLD_PER_PIXEL = 0.7;
 export const hStrokeWorldWidth = (referencePixels: number) => referencePixels * H_STROKE_WORLD_PER_PIXEL;
 
 export const H_MATERIAL = {
-  a: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
-  b: { haloWidth: 2.8, haloOpacity: 0.045, middleWidth: 1.2, middleOpacity: 0.22, coreWidth: 0.68, coreOpacity: 0.84 },
+  a: { haloWidth: 3.443, haloOpacity: 0.055, middleWidth: 1.405, middleOpacity: 0.28, coreWidth: 0.743, coreOpacity: 1 },
+  b: { haloWidth: 3.259, haloOpacity: 0.055, middleWidth: 1.397, middleOpacity: 0.28, coreWidth: 0.792, coreOpacity: 1 },
   tick: { haloWidth: 1.9, haloOpacity: 0.035, middleWidth: 0.88, middleOpacity: 0.18, coreWidth: 0.56, coreOpacity: 0.9 },
   brace: { haloWidth: 1.6, haloOpacity: 0.025, middleWidth: 0.76, middleOpacity: 0.14, coreWidth: 0.46, coreOpacity: 0.68 },
 } as const;
 
 export const H_COLUMN_MATERIAL = {
-  edge: "#bd9a63",
-  body: "#d2bc96",
-  highlight: "#e2d2b4",
+  edge: "#cdb388",
+  body: "#e3cfad",
+  highlight: "#efe1c7",
   highlightMix: 0.1,
 } as const;
 
@@ -836,14 +838,14 @@ export function generateFourier(sampleCount = 128, displayHarmonicCount = 12, co
   });
   const restingLayers = Array.from({ length: displayHarmonicCount - 1 }, (_, index) => {
     const progress = index / Math.max(1, displayHarmonicCount - 2);
-    const width = Number((0.72 - progress * 0.2 + (componentWidths[index] - 0.38) * 0.02).toFixed(3));
+    const width = Number(((0.72 - progress * 0.2 + (componentWidths[index] - 0.38) * 0.02) * 1.1236).toFixed(3));
     return {
       partialIndex: index,
       amplitudeScale: 1,
       width,
-      opacity: Number((0.5 - progress * 0.28).toFixed(3)),
-      haloWidth: Number((2.8 + (componentWidths[index] - 0.38) * 0.35).toFixed(3)),
-      haloOpacity: 0.045,
+      opacity: Number(((0.5 - progress * 0.28) * 1.1236).toFixed(3)),
+      haloWidth: Number(((2.8 + (componentWidths[index] - 0.38) * 0.35) * 1.1236).toFixed(3)),
+      haloOpacity: 0.051,
     };
   });
   return {
