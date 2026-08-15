@@ -175,6 +175,37 @@ export const H_ANIMATION = {
   crossfadeEnd: 0.82,
 } as const;
 
+export const H_PHI_STRATEGIES = {
+  enlarged: {
+    plane: { width: 59, height: 90, centerX: 51.42, centerY: 60 },
+    coreOpacity: 0.61,
+    halo: { width: 59, height: 90, opacity: 0 },
+  },
+  material: {
+    plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
+    coreOpacity: 1,
+    halo: { width: 50, height: 72, opacity: 0.49 },
+  },
+} as const;
+
+export type HPhiStrategyName = keyof typeof H_PHI_STRATEGIES;
+export const H_PHI_STRATEGY: HPhiStrategyName = "material";
+
+export function hAnimationWeights(progress: number, _strategyName: HPhiStrategyName = H_PHI_STRATEGY) {
+  const phiIn = Math.min(1, Math.max(0, progress / H_ANIMATION.phiFadeInEnd));
+  const crossfade = Math.min(1, Math.max(
+    0,
+    (progress - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd),
+  ));
+  const phiCrossfadeWeight = 1 - crossfade;
+  const hCrossfadeWeight = crossfade;
+  const crossfadeNormalization = Math.max(phiCrossfadeWeight + hCrossfadeWeight, Number.EPSILON);
+  return {
+    phi: phiIn * phiCrossfadeWeight / crossfadeNormalization,
+    h: hCrossfadeWeight / crossfadeNormalization,
+  };
+}
+
 export const MASTER = { width: 416, height: 120 } as const;
 export const GLYPH_PLACEMENTS = {
   t: { x: 20.1, scaleX: 0.86, width: 86 },

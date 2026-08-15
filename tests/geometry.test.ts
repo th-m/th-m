@@ -17,12 +17,15 @@ import {
   H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
+  H_PHI_STRATEGIES,
+  H_PHI_STRATEGY,
   H_PILLAR_CENTERS,
   H_PILLAR_SHAPE,
   H_PROPORTION,
   H_STROKE_WORLD_PER_PIXEL,
   H_UNIT_BRACE,
   hStrokeWorldWidth,
+  hAnimationWeights,
   M_ANIMATION,
   M_SPLINE_CONTROLS,
   MASTER,
@@ -135,6 +138,13 @@ describe("THOM geometry", () => {
     expect(H_ANIMATION.endMs).toBe(920);
     expect(H_ANIMATION.phiFadeInEnd).toBeLessThan(H_ANIMATION.phiHoldEnd);
     expect(H_ANIMATION.phiHoldEnd).toBeLessThan(H_ANIMATION.crossfadeEnd);
+    expect(H_PHI_STRATEGY).toBe("material");
+    expect(H_PHI_STRATEGIES.enlarged.plane).toEqual({ width: 59, height: 90, centerX: 51.42, centerY: 60 });
+    expect(H_PHI_STRATEGIES.material.plane).toEqual({ width: 42, height: 64, centerX: 50.71, centerY: 60 });
+    expect(hAnimationWeights(H_ANIMATION.phiHoldEnd, "material")).toEqual({ phi: 1, h: 0 });
+    const midpoint = hAnimationWeights((H_ANIMATION.phiHoldEnd + H_ANIMATION.crossfadeEnd) / 2, "material");
+    expect(midpoint.phi + midpoint.h).toBeCloseTo(1, 12);
+    expect(hAnimationWeights(H_ANIMATION.crossfadeEnd, "material")).toEqual({ phi: 0, h: 1 });
   });
 
   it("keeps the H proportion lines layered with a quieter b segment and ticks", () => {
