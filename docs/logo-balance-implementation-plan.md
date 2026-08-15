@@ -20,7 +20,7 @@ if this tracking document and the handoff ever differ.
   deterministic threshold passes or a genuine blocker is documented.
 - [x] Commit generated assets, measurements, screenshots, tests, scorecard, and
   decision record.
-- [ ] Push the synthesis branch, open a ready-for-review PR, and do not merge it.
+- [x] Push the synthesis branch, open a ready-for-review PR, and do not merge it.
 
 ## Fixed branch topology
 
@@ -44,4 +44,5 @@ flowchart LR
 The shared measurement harness, all four isolated specialist reports, common
 scorecard, synthesized implementation, generated assets, full acceptance suite,
 and Paper review are complete. The synthesis passes `28/28` deterministic gates
-with `J = 0.069890`; only publication of the ready-for-review PR remains.
+with `J = 0.069890` and is published as ready-for-review PR #7. The PR remains
+open and intentionally unmerged.
