@@ -113,17 +113,25 @@ function scaleLinearHex(color: string, energyScale: number) {
   }).join("")}`;
 }
 
+export const PI_FILL_ENERGY_SCALE = SOURCE_ENERGY_SCALE.t * 0.916682;
+
 export const PI_MATERIAL = {
+  shadow: "#50382f",
+  gold: scaleLinearHex("#a67f50", PI_FILL_ENERGY_SCALE),
+  ivory: scaleLinearHex("#beb19f", PI_FILL_ENERGY_SCALE),
+  highlight: scaleLinearHex("#f1dfbd", PI_FILL_ENERGY_SCALE),
+  edge: "#ead7b5",
+  strokeWidth: 0.38,
+} as const;
+
+export const PI_WEBGL_MATERIAL = {
   shadow: "#50382f",
   gold: "#a67f50",
   ivory: "#beb19f",
   highlight: "#f1dfbd",
   edge: "#ead7b5",
-  opacity: SOURCE_ENERGY_SCALE.t,
-  strokeWidth: 0.38,
+  opacity: 1,
 } as const;
-
-export const PI_WEBGL_OPACITY_PARITY_SCALE = 1.35;
 
 export const PI_ANIMATION = {
   durationMs: 450,

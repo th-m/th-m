@@ -30,9 +30,10 @@ import {
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
   PI_ANIMATION,
+  PI_FILL_ENERGY_SCALE,
   PI_GEOMETRY,
   PI_LEG_INSET,
-  PI_WEBGL_OPACITY_PARITY_SCALE,
+  PI_WEBGL_MATERIAL,
   SOURCE_ENERGY_Q,
   SOURCE_ENERGY_SCALE,
   samplePathOutline,
@@ -68,7 +69,8 @@ describe("THOM geometry", () => {
   it("keeps the bounded source-energy update explicit and deterministic", () => {
     expect(SOURCE_ENERGY_Q).toEqual({ t: 0.852298, h: 1.116686, o: 1.096325, m: 1.113872 });
     expect(M_WEBGL_CORE_PARITY_SCALE).toBe(1.12);
-    expect(PI_WEBGL_OPACITY_PARITY_SCALE).toBe(1.35);
+    expect(PI_WEBGL_MATERIAL).toMatchObject({ shadow: "#50382f", highlight: "#f1dfbd", opacity: 1 });
+    expect(PI_FILL_ENERGY_SCALE).toBeCloseTo(0.6658887, 6);
     for (const glyph of ["t", "h", "o", "m"] as const) {
       expect(SOURCE_ENERGY_Q[glyph]).toBeGreaterThanOrEqual(0.8);
       expect(SOURCE_ENERGY_Q[glyph]).toBeLessThanOrEqual(1.2);
@@ -346,7 +348,7 @@ describe("THOM geometry", () => {
       .update(readFileSync(glyphUrl))
       .digest("hex");
     const dataHash = createHash("sha256").update(JSON.stringify(brandData.m)).digest("hex");
-    expect(glyphHash).toBe("fe317e6d83bfbc4d153e16a3bc5139236a8ed00738256d134e4b6df9c9ec17a0");
+    expect(glyphHash).toBe("5f3b46234f8926322b023725d3bf493b5018171ef34030b558fc51f13084c05c");
     expect(dataHash).toBe("f4c61816c8d4ca30bd6b3beff26cc0707b22a51c6b52d0c03877bb4b72751cf7");
   });
 
@@ -411,7 +413,7 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("3fe9608f196878b45dee694b2cebd2f1dd4a13056f2e6fb3f67eb1d1c4b425a3");
+    expect(hash).toBe("3bc82f087d9d8dda27f084ec9dad1230c20b252c00cabed725e01855296393c4");
     expect(first).toContain("<title id=\"title\">THOM</title>");
     expect(first).toContain('viewBox="0 0 416 120"');
     expect(first).toContain('id="thom-metal"');
@@ -439,6 +441,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("ba254199f791439835b8d3b380671b4ead8d52f52e2df07b799f3ea67be2f8cc");
+    expect(hash.digest("hex")).toBe("4bd2a55f36d04b62c4205deb6e17ff7ca73d8922392c797cdb46a6c7e984f7fa");
   });
 });
