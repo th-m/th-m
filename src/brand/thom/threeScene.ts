@@ -29,15 +29,20 @@ import {
   H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
+  H_PHI_STRATEGIES,
+  H_PHI_STRATEGY,
   H_PILLAR_CENTERS,
   H_PILLAR_SHAPE,
+  H_RATIO_POINT_MATERIAL,
   hStrokeWorldWidth,
+  hAnimationWeights,
   M_ANIMATION,
   M_FINAL_MATERIAL,
+  M_WEBGL_CORE_PARITY_SCALE,
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
   PI_ANIMATION,
-  PI_MATERIAL,
+  PI_WEBGL_MATERIAL,
   fourierComponentBezier,
   fourierPartialBezier,
   sampleBezierChain,
@@ -101,6 +106,35 @@ function pointMaterial(color: string, opacity = 1) {
   });
 }
 
+function phiHaloMaterial() {
+  return new ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    side: DoubleSide,
+    uniforms: {
+      uColor: { value: new Color(BRAND_COLORS.gold) },
+      uOpacity: { value: 0 },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 uColor;
+      uniform float uOpacity;
+      varying vec2 vUv;
+      void main() {
+        float radius = length((vUv - 0.5) * 2.0);
+        float halo = max(0.0, 1.0 - radius);
+        gl_FragColor = vec4(uColor, halo * uOpacity);
+      }
+    `,
+  });
+}
+
 function metalMaterial() {
   return new ShaderMaterial({
     transparent: true,
@@ -151,10 +185,10 @@ function piMetalMaterial() {
     uniforms: {
       uOpacity: { value: 1 },
       uProgress: { value: 1 },
-      uShadow: { value: new Color(PI_MATERIAL.shadow) },
-      uGold: { value: new Color(PI_MATERIAL.gold) },
-      uIvory: { value: new Color(PI_MATERIAL.ivory) },
-      uHighlight: { value: new Color(PI_MATERIAL.highlight) },
+      uShadow: { value: new Color(PI_WEBGL_MATERIAL.shadow) },
+      uGold: { value: new Color(PI_WEBGL_MATERIAL.gold) },
+      uIvory: { value: new Color(PI_WEBGL_MATERIAL.ivory) },
+      uHighlight: { value: new Color(PI_WEBGL_MATERIAL.highlight) },
     },
     vertexShader: `
       varying vec2 vLocal;
@@ -478,7 +512,7 @@ function createMFinalStack(chain: CubicBezierSegment[]): MStrokeStack {
   const glow = createMStroke(chain, BRAND_COLORS.gold, M_WEBGL_FILTER_GLOW.width, M_WEBGL_FILTER_GLOW.opacity);
   const halo = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.halo.width, M_FINAL_MATERIAL.halo.opacity);
   const middle = createMStroke(chain, BRAND_COLORS.gold, M_FINAL_MATERIAL.middle.width, M_FINAL_MATERIAL.middle.opacity);
-  const core = createMStroke(chain, BRAND_COLORS.highlight, M_FINAL_MATERIAL.core.width, M_FINAL_MATERIAL.core.opacity, colors);
+  const core = createMStroke(chain, BRAND_COLORS.highlight, M_FINAL_MATERIAL.core.width * M_WEBGL_CORE_PARITY_SCALE, M_FINAL_MATERIAL.core.opacity, colors);
   glow.mesh.position.z = -0.5;
   halo.mesh.position.z = -0.25;
   middle.mesh.position.z = 0;
@@ -559,8 +593,11 @@ export class ThomSceneController {
   private hB!: HStrokeStack;
   private hTicks: HStrokeStack[] = [];
   private hBrace!: HStrokeStack;
+  private hRatioPoint!: Mesh;
   private hPhi!: Mesh;
+  private hPhiHalo!: Mesh;
   private hPhiMaterial = new MeshBasicMaterial({ color: new Color(BRAND_COLORS.highlight), transparent: true, opacity: 0, depthWrite: false, side: DoubleSide });
+  private hPhiHaloMaterial = phiHaloMaterial();
   private assetReady: Promise<void> = Promise.resolve();
   private disposed = false;
   private piGuide!: LineRecord;
@@ -585,6 +622,7 @@ export class ThomSceneController {
     this.buildScene();
     if (this.view === "t") {
       this.tGroup.position.x = 0;
+      this.tGroup.position.y = 0;
       this.tGroup.scale.x = 1;
     } else if (this.view === "h") this.hGroup.scale.x = H_ISOLATED_VIEW.scaleX;
     else if (this.view === "o") this.oGroup.scale.x = 1;
@@ -599,6 +637,7 @@ export class ThomSceneController {
     const group = new Group();
     group.name = glyph;
     group.position.x = placement.x;
+    group.position.y = -placement.y;
     group.scale.x = placement.scaleX;
     this.scene.add(group);
     return group;
@@ -610,16 +649,16 @@ export class ThomSceneController {
     this.piMaterials.push(piMaterial);
     this.tGroup.add(shapeMesh(brandData.pi.display, piMaterial));
     this.piRim = {
-      halo: createLine(this.piOutlinePoints, PI_MATERIAL.gold, 3.1, 0.07),
-      middle: createLine(this.piOutlinePoints, PI_MATERIAL.gold, 1.55, 0.16),
-      core: createLine(this.piOutlinePoints, PI_MATERIAL.edge, 0.82, 0.88),
+      halo: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.gold, 3.1, 0.07),
+      middle: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.gold, 1.55, 0.16),
+      core: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.edge, 0.82, 0.88),
     };
     addStack(this.tGroup, this.piRim, this.lineRecords);
-    this.piGuide = createLine(this.piOutlinePoints.slice(0, 2), PI_MATERIAL.edge, 1.05, 0);
+    this.piGuide = createLine(this.piOutlinePoints.slice(0, 2), PI_WEBGL_MATERIAL.edge, 1.05, 0);
     this.piGuide.line.position.z = 0.8;
     this.tGroup.add(this.piGuide.line);
     this.lineRecords.push(this.piGuide);
-    this.piTracer = createPoint(this.piOutlinePoints[0], PI_MATERIAL.highlight, 1.45, 0);
+    this.piTracer = createPoint(this.piOutlinePoints[0], PI_WEBGL_MATERIAL.highlight, 1.45, 0);
     this.tGroup.add(this.piTracer);
 
     this.hGroup = this.createGlyphGroup("h");
@@ -630,15 +669,22 @@ export class ThomSceneController {
     });
     this.hGroup.add(this.hPillars);
     this.hA = createHStrokeStack(brandData.h.proportion.a, H_MATERIAL.a);
-    this.hB = createHStrokeStack(brandData.h.proportion.b, H_MATERIAL.b, BRAND_COLORS.gold);
+    this.hB = createHStrokeStack(brandData.h.proportion.b, H_MATERIAL.b);
     this.hTicks = brandData.h.proportion.ticks.map((tick) => createHStrokeStack(tick, H_MATERIAL.tick, BRAND_COLORS.gold));
     this.hBrace = createHStrokeStack(brandData.h.proportion.brace, H_MATERIAL.brace, BRAND_COLORS.gold);
     addHStack(this.hGroup, this.hA);
     addHStack(this.hGroup, this.hB);
     this.hTicks.forEach((tick) => addHStack(this.hGroup, tick));
     addHStack(this.hGroup, this.hBrace);
-    this.hPhi = new Mesh(new PlaneGeometry(42, 64), this.hPhiMaterial);
-    this.hPhi.position.set(50, 60, 1.2);
+    this.hRatioPoint = createPoint(brandData.h.proportion.ratioPoint, BRAND_COLORS.gold, H_RATIO_POINT_MATERIAL.radius, H_RATIO_POINT_MATERIAL.opacity);
+    this.hRatioPoint.position.z = 0.55;
+    this.hGroup.add(this.hRatioPoint);
+    const phiStrategy = H_PHI_STRATEGIES[H_PHI_STRATEGY];
+    this.hPhiHalo = new Mesh(new PlaneGeometry(phiStrategy.halo.width, phiStrategy.halo.height), this.hPhiHaloMaterial);
+    this.hPhiHalo.position.set(phiStrategy.plane.centerX, 120 - phiStrategy.plane.centerY, 1.1);
+    this.hGroup.add(this.hPhiHalo);
+    this.hPhi = new Mesh(new PlaneGeometry(phiStrategy.plane.width, phiStrategy.plane.height), this.hPhiMaterial);
+    this.hPhi.position.set(phiStrategy.plane.centerX, 120 - phiStrategy.plane.centerY, 1.2);
     this.hGroup.add(this.hPhi);
     this.assetReady = hPhiTexture.then((texture) => {
       if (this.disposed) return;
@@ -702,7 +748,7 @@ export class ThomSceneController {
       const haloOpacity = O_DISPLAY_MATERIAL.chord.haloOpacity;
       const coreOpacity = 0.38 + weight * 0.46;
       const halo = createOStroke(points, BRAND_COLORS.gold, O_DISPLAY_MATERIAL.chord.haloWidth * (0.7 + weight * 0.6), haloOpacity);
-      const core = createOStroke(points, BRAND_COLORS.gold, 0.5 + weight * 0.58, coreOpacity);
+      const core = createOStroke(points, BRAND_COLORS.gold, O_DISPLAY_MATERIAL.chord.coreWidthBase + weight * O_DISPLAY_MATERIAL.chord.coreWidthWeight, coreOpacity);
       halo.mesh.position.z = z;
       core.mesh.position.z = z + 0.15;
       const order = index / Math.max(1, network.chords.length - 1);
@@ -741,10 +787,10 @@ export class ThomSceneController {
   private applyState() {
     const s = this.state;
     this.piMaterials.forEach((fill) => {
-      fill.uniforms.uOpacity.value = 0.06 + s.pi * 0.94;
+      fill.uniforms.uOpacity.value = (0.06 + s.pi * 0.94) * PI_WEBGL_MATERIAL.opacity;
       fill.uniforms.uProgress.value = clamp(s.pi);
     });
-    setStackOpacity(this.piRim, clamp(s.pi * 1.4));
+    setStackOpacity(this.piRim, clamp(s.pi * 1.4) * PI_WEBGL_MATERIAL.opacity);
     const traceProgress = clamp(s.piOrbit);
     const traceIndex = Math.min(this.piOutlinePoints.length - 1, Math.floor(traceProgress * (this.piOutlinePoints.length - 1)));
     const tracedPoints = this.piOutlinePoints.slice(0, Math.max(2, traceIndex + 1));
@@ -756,10 +802,10 @@ export class ThomSceneController {
     this.piTracer.position.y = 120 - tracePoint.y;
     (this.piTracer.material as MeshBasicMaterial).opacity = s.piGuide;
 
-    const phiIn = clamp(s.h / H_ANIMATION.phiFadeInEnd);
-    const phiOut = 1 - clamp((s.h - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd));
-    const phiOpacity = phiIn * phiOut;
-    const hOpacity = clamp((s.h - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd));
+    const phiStrategy = H_PHI_STRATEGIES[H_PHI_STRATEGY];
+    const hWeights = hAnimationWeights(s.h);
+    const phiOpacity = hWeights.phi * phiStrategy.coreOpacity;
+    const hOpacity = hWeights.h;
     this.hMaterials.forEach((fill) => {
       fill.uniforms.uOpacity.value = hOpacity;
       fill.uniforms.uProgress.value = 1;
@@ -770,8 +816,13 @@ export class ThomSceneController {
     setHStackOpacity(this.hB, hOpacity);
     this.hTicks.forEach((tick) => setHStackOpacity(tick, hOpacity));
     setHStackOpacity(this.hBrace, hOpacity);
+    const ratioPointMaterial = this.hRatioPoint.material as MeshBasicMaterial;
+    ratioPointMaterial.opacity = H_RATIO_POINT_MATERIAL.opacity * hOpacity;
+    this.hRatioPoint.visible = ratioPointMaterial.opacity > 0.001;
     this.hPhiMaterial.opacity = phiOpacity;
     this.hPhi.visible = phiOpacity > 0.001;
+    this.hPhiHaloMaterial.uniforms.uOpacity.value = hWeights.phi * phiStrategy.halo.opacity;
+    this.hPhiHalo.visible = this.hPhiHaloMaterial.uniforms.uOpacity.value > 0.001;
     const hPhase = s.h < H_ANIMATION.phiFadeInEnd
       ? "phi-in"
       : s.h < H_ANIMATION.phiHoldEnd
@@ -830,6 +881,7 @@ export class ThomSceneController {
     this.canvas.dataset.glyphView = view;
     const tPlacement = brandData.placements.t;
     this.tGroup.position.x = view === "t" ? 0 : tPlacement.x;
+    this.tGroup.position.y = view === "t" ? 0 : -tPlacement.y;
     this.tGroup.scale.x = view === "t" ? 1 : tPlacement.scaleX;
     const placement = brandData.placements.h;
     this.hGroup.position.x = placement.x;
@@ -970,7 +1022,7 @@ export class ThomSceneController {
       this.canvas.dataset.hSawPhi = "false";
       this.canvas.dataset.hSawCrossfade = "false";
       this.state.h = 0;
-      control = animate(this.state, { h: 1 }, { duration: H_ANIMATION.durationMs / 1000, ease: "linear" });
+      control = animate(this.state, { h: [0, 1] }, { duration: H_ANIMATION.durationMs / 1000, ease: "linear" });
     } else if (glyph === "o") {
       control = animate(this.state, { oAlt: [0, 1, 1, 0] }, { duration: 0.76, ease: [0.22, 1, 0.36, 1], times: [0, 0.58, 0.8, 1] });
     } else {

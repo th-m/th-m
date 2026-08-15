@@ -50,6 +50,7 @@ export type HData = {
     bLength: number;
     a: Point[];
     b: Point[];
+    ratioPoint: Point;
     ticks: Point[][];
     brace: Point[];
   };
@@ -57,7 +58,7 @@ export type HData = {
 
 export type BrandData = {
   master: { width: number; height: number };
-  placements: Record<"t" | "h" | "o" | "m", { x: number; scaleX: number; width: number }>;
+  placements: Record<"t" | "h" | "o" | "m", { x: number; y: number; scaleX: number; width: number }>;
   pi: { display: FilledPath; compact: FilledPath };
   h: HData;
   o: {
@@ -84,13 +85,53 @@ export const BRAND_COLORS = {
   lightGold: "#8a652a",
 } as const;
 
+export const SOURCE_ENERGY_Q = {
+  t: 0.852298,
+  h: 1.116686,
+  o: 1.096325,
+  m: 1.113872,
+} as const;
+
+export const SOURCE_ENERGY_SCALE = {
+  t: SOURCE_ENERGY_Q.t ** 2,
+  h: SOURCE_ENERGY_Q.h ** 2,
+  o: SOURCE_ENERGY_Q.o ** 2,
+  m: SOURCE_ENERGY_Q.m ** 2,
+} as const;
+
+const srgbToLinearChannel = (channel: number) => channel <= 0.04045
+  ? channel / 12.92
+  : ((channel + 0.055) / 1.055) ** 2.4;
+const linearToSrgbChannel = (channel: number) => channel <= 0.0031308
+  ? channel * 12.92
+  : 1.055 * channel ** (1 / 2.4) - 0.055;
+
+function scaleLinearHex(color: string, energyScale: number) {
+  const channels = [1, 3, 5].map((index) => Number.parseInt(color.slice(index, index + 2), 16));
+  return `#${channels.map((channel) => {
+    const scaled = Math.min(1, linearToSrgbChannel(srgbToLinearChannel(channel / 255) * energyScale));
+    return Math.round(scaled * 255).toString(16).padStart(2, "0");
+  }).join("")}`;
+}
+
+export const PI_FILL_ENERGY_SCALE = SOURCE_ENERGY_SCALE.t * 0.916682;
+
 export const PI_MATERIAL = {
+  shadow: "#50382f",
+  gold: scaleLinearHex("#a67f50", PI_FILL_ENERGY_SCALE),
+  ivory: scaleLinearHex("#beb19f", PI_FILL_ENERGY_SCALE),
+  highlight: scaleLinearHex("#f1dfbd", PI_FILL_ENERGY_SCALE),
+  edge: "#ead7b5",
+  strokeWidth: 0.38,
+} as const;
+
+export const PI_WEBGL_MATERIAL = {
   shadow: "#50382f",
   gold: "#a67f50",
   ivory: "#beb19f",
   highlight: "#f1dfbd",
   edge: "#ead7b5",
-  strokeWidth: 0.38,
+  opacity: 1,
 } as const;
 
 export const PI_ANIMATION = {
@@ -103,21 +144,56 @@ export const PI_LEG_INSET = {
   compact: 5,
 } as const;
 
-export const M_FINAL_MATERIAL = {
-  halo: { width: 8.8, opacity: 0.11 },
-  middle: { width: 6.85, opacity: 0.56 },
-  core: { width: 3.1, opacity: 0.96 },
+export const M_SPATIAL_ADJUSTMENT = {
+  centerY: 60,
+  scaleY: 1.032,
+  offsetY: 0,
 } as const;
+
+export const M_FINAL_MATERIAL = {
+  halo: { width: Number((8.8 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.11 },
+  middle: { width: Number((6.85 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.56 },
+  core: { width: Number((3.1 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.96 },
+} as const;
+
+export const M_WEBGL_CORE_PARITY_SCALE = 1.12;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
 export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
 
+export const O_RADIUS_SCALE = 0.98;
+export const O_RADIUS = 41 * O_RADIUS_SCALE;
+
 export const O_DISPLAY_MATERIAL = {
-  circle: { haloWidth: 8, haloOpacity: 0.055, middleWidth: 4.8, middleOpacity: 0.3, coreWidth: 2.15, coreOpacity: 1 },
-  chord: { haloWidth: 4, haloOpacity: 0.025, coreWidth: 0.7, coreOpacity: 0.62 },
-  anchor: { haloRadius: 3.1, haloOpacity: 0.07, coreRadius: 0.8, coreOpacity: 0.98 },
-  intersection: { radius: 0.4, opacity: 0.3 },
-  highlight: { haloRadius: 3.5, haloOpacity: 0.1, coreRadius: 1.15, coreOpacity: 1 },
+  circle: {
+    haloWidth: Number((8 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    haloOpacity: 0.055,
+    middleWidth: Number((4.8 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    middleOpacity: 0.3,
+    coreWidth: Number((2.15 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    coreOpacity: 1,
+  },
+  chord: {
+    haloWidth: Number((4 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    haloOpacity: 0.025,
+    coreWidth: Number((0.7 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    coreWidthBase: Number((0.5 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    coreWidthWeight: Number((0.58 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    coreOpacity: 0.62,
+  },
+  anchor: {
+    haloRadius: Number((3.1 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)),
+    haloOpacity: 0.07,
+    coreRadius: Number((0.8 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)),
+    coreOpacity: 0.98,
+  },
+  intersection: { radius: Number((0.4 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)), opacity: 0.3 },
+  highlight: {
+    haloRadius: Number((3.5 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)),
+    haloOpacity: 0.1,
+    coreRadius: Number((1.15 * SOURCE_ENERGY_Q.o * O_RADIUS_SCALE).toFixed(3)),
+    coreOpacity: 1,
+  },
 } as const;
 
 export const O_ANIMATION = {
@@ -147,23 +223,26 @@ export const H_STROKE_WORLD_PER_PIXEL = 0.7;
 export const hStrokeWorldWidth = (referencePixels: number) => referencePixels * H_STROKE_WORLD_PER_PIXEL;
 
 export const H_MATERIAL = {
-  a: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
-  b: { haloWidth: 2.8, haloOpacity: 0.045, middleWidth: 1.2, middleOpacity: 0.22, coreWidth: 0.68, coreOpacity: 0.84 },
+  a: { haloWidth: 4.02, haloOpacity: 0.058, middleWidth: 1.64, middleOpacity: 0.297, coreWidth: 0.87, coreOpacity: 1 },
+  b: { haloWidth: 4.02, haloOpacity: 0.058, middleWidth: 1.64, middleOpacity: 0.297, coreWidth: 0.87, coreOpacity: 1 },
   tick: { haloWidth: 1.9, haloOpacity: 0.035, middleWidth: 0.88, middleOpacity: 0.18, coreWidth: 0.56, coreOpacity: 0.9 },
   brace: { haloWidth: 1.6, haloOpacity: 0.025, middleWidth: 0.76, middleOpacity: 0.14, coreWidth: 0.46, coreOpacity: 0.68 },
 } as const;
 
+export const H_RATIO_POINT_MATERIAL = O_DISPLAY_MATERIAL.intersection;
+
 export const H_COLUMN_MATERIAL = {
-  edge: "#bd9a63",
-  body: "#d2bc96",
-  highlight: "#e2d2b4",
+  edge: scaleLinearHex("#bd9a63", SOURCE_ENERGY_SCALE.h),
+  body: scaleLinearHex("#d2bc96", SOURCE_ENERGY_SCALE.h),
+  highlight: scaleLinearHex("#e2d2b4", SOURCE_ENERGY_SCALE.h),
   highlightMix: 0.1,
+  strokeWidth: Number((0.34 * SOURCE_ENERGY_SCALE.h).toFixed(3)),
 } as const;
 
 export const H_PILLAR_SHAPE = {
   serifHalfWidth: 7.8,
   topSerifHalfWidth: 7.4,
-  stemHalfWidth: 2.35,
+  stemHalfWidth: 2.23,
 } as const;
 
 export const H_ANIMATION = {
@@ -175,12 +254,43 @@ export const H_ANIMATION = {
   crossfadeEnd: 0.82,
 } as const;
 
+export const H_PHI_STRATEGIES = {
+  enlarged: {
+    plane: { width: 59, height: 90, centerX: 51.42, centerY: 60 },
+    coreOpacity: 0.61,
+    halo: { width: 59, height: 90, opacity: 0 },
+  },
+  material: {
+    plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
+    coreOpacity: 1,
+    halo: { width: 50, height: 72, opacity: 0.717 },
+  },
+} as const;
+
+export type HPhiStrategyName = keyof typeof H_PHI_STRATEGIES;
+export const H_PHI_STRATEGY: HPhiStrategyName = "material";
+
+export function hAnimationWeights(progress: number, _strategyName: HPhiStrategyName = H_PHI_STRATEGY) {
+  const phiIn = Math.min(1, Math.max(0, progress / H_ANIMATION.phiFadeInEnd));
+  const crossfade = Math.min(1, Math.max(
+    0,
+    (progress - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd),
+  ));
+  const phiCrossfadeWeight = 1 - crossfade;
+  const hCrossfadeWeight = crossfade;
+  const crossfadeNormalization = Math.max(phiCrossfadeWeight + hCrossfadeWeight, Number.EPSILON);
+  return {
+    phi: phiIn * phiCrossfadeWeight / crossfadeNormalization,
+    h: hCrossfadeWeight / crossfadeNormalization,
+  };
+}
+
 export const MASTER = { width: 416, height: 120 } as const;
 export const GLYPH_PLACEMENTS = {
-  t: { x: 20.1, scaleX: 0.86, width: 86 },
-  h: { x: 98.1, scaleX: 1, width: 100 },
-  o: { x: 185, scaleX: 0.88, width: 88 },
-  m: { x: 274.6, scaleX: 1.22, width: 122 },
+  t: { x: 20.1, y: 1.5, scaleX: 0.86, width: 86 },
+  h: { x: 98.975, y: 0, scaleX: 1, width: 100 },
+  o: { x: 185.625, y: 0, scaleX: 0.88, width: 88 },
+  m: { x: 274.6, y: 0, scaleX: 1.22, width: 122 },
 } as const;
 
 export const H_PILLAR_CENTERS = [25, 75] as const;
@@ -584,7 +694,7 @@ function generateDisplayNetwork(seed: string): ChordNetwork {
   const center = { x: 50, y: 59 };
   const anchorCount = 12;
   const chordCount = 19;
-  const radius = 41;
+  const radius = O_RADIUS;
   const slice = (Math.PI * 2) / anchorCount;
   const calibrated = seed === oCalibration.seed
     ? { anchorAngles: oCalibration.anchorAngles, chords: oCalibration.chords }
@@ -666,7 +776,7 @@ export function generateChordNetwork(seed: string, profile: NetworkProfile = "di
   const spec = networkSpecs[profile];
   const seedFactory = xmur3(`${seed}:${profile}`);
   const random = mulberry32(seedFactory());
-  const radius = 41;
+  const radius = O_RADIUS;
   const center = { x: 50, y: 59 };
 
   for (let attempt = 0; attempt < 12000; attempt += 1) {
@@ -737,11 +847,18 @@ export function generateChordNetwork(seed: string, profile: NetworkProfile = "di
 function circlePoints(count = 128): Point[] {
   return Array.from({ length: count }, (_, index) => {
     const angle = (index / (count - 1)) * Math.PI * 2;
-    return { x: 50 + Math.cos(angle) * 41, y: 59 + Math.sin(angle) * 41 };
+    return { x: 50 + Math.cos(angle) * O_RADIUS, y: 59 + Math.sin(angle) * O_RADIUS };
   });
 }
 
-export const M_SPLINE_CONTROLS: Point[] = mCalibration.controls;
+const adjustMVertical = (y: number) => M_SPATIAL_ADJUSTMENT.centerY
+  + (y - M_SPATIAL_ADJUSTMENT.centerY) * M_SPATIAL_ADJUSTMENT.scaleY
+  + M_SPATIAL_ADJUSTMENT.offsetY;
+
+export const M_SPLINE_CONTROLS: Point[] = mCalibration.controls.map((point) => ({
+  x: point.x,
+  y: adjustMVertical(point.y),
+}));
 
 function sampleHermite(x: number): number {
   let index = 0;
@@ -836,13 +953,13 @@ export function generateFourier(sampleCount = 128, displayHarmonicCount = 12, co
   });
   const restingLayers = Array.from({ length: displayHarmonicCount - 1 }, (_, index) => {
     const progress = index / Math.max(1, displayHarmonicCount - 2);
-    const width = Number((0.72 - progress * 0.2 + (componentWidths[index] - 0.38) * 0.02).toFixed(3));
+    const width = Number(((0.72 - progress * 0.2 + (componentWidths[index] - 0.38) * 0.02) * SOURCE_ENERGY_SCALE.m).toFixed(3));
     return {
       partialIndex: index,
       amplitudeScale: 1,
       width,
       opacity: Number((0.5 - progress * 0.28).toFixed(3)),
-      haloWidth: Number((2.8 + (componentWidths[index] - 0.38) * 0.35).toFixed(3)),
+      haloWidth: Number(((2.8 + (componentWidths[index] - 0.38) * 0.35) * SOURCE_ENERGY_SCALE.m).toFixed(3)),
       haloOpacity: 0.045,
     };
   });
@@ -953,6 +1070,7 @@ export function createHData(): HData {
       bLength,
       a: [{ x: startX, y }, { x: splitX, y }],
       b: [{ x: splitX, y }, { x: endX, y }],
+      ratioPoint: { x: splitX, y },
       ticks: [startX, splitX, endX].map((x) => [{ x, y: tickTop }, { x, y: tickBottom }]),
       brace: hUnitBrace(startX, endX),
     },

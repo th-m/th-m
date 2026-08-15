@@ -1,0 +1,1638 @@
+{
+  "schemaVersion": 1,
+  "variant": "stroke-energy-before",
+  "baselineVariant": "stroke-energy-before",
+  "revision": "4ba2cc4f018c2dbaba9b6aa9e6c8b11ac7b00845",
+  "command": "bun run measure:brand:source-energy --variant=stroke-energy-before",
+  "equation": "E = sum(length * width * opacity * linearLuminance) + sum(area * opacity * linearLuminance)",
+  "assumptions": [
+    "Authored source layers are additive; raster overlap, antialiasing, clipping, and SVG filters are captured by baseline calibration.",
+    "Gradient luminance is trapezoid-integrated between authored stops in linear light.",
+    "Bézier lengths and fill areas use deterministic high-resolution source sampling.",
+    "The bounded q control has energy response E(q)=E(1)*q^2 for sensitivity reporting."
+  ],
+  "viewport": "416x120",
+  "targetMidpoints": {
+    "t": 32,
+    "h": 26.5,
+    "o": 17,
+    "m": 25.5
+  },
+  "glyphs": {
+    "t": {
+      "sourceEnergy": 980.628553,
+      "sourceShare": 40.1928,
+      "renderedEnergy": 1236.905337,
+      "renderedShare": 44.0521,
+      "calibratedPredictedRenderedEnergy": 1236.905337,
+      "predictionErrorRatio": 0,
+      "targetEnergy": 898.503168,
+      "update": {
+        "formula": "q_next = clamp(q * sqrt(E_target / E_rendered), 0.8, 1.2)",
+        "qCurrent": 1,
+        "qRaw": 0.852298,
+        "qNext": 0.852298,
+        "impliedEnergyMultiplier": 0.726412
+      },
+      "sensitivity": [
+        {
+          "q": 0.95,
+          "sourceEnergy": 885.017269,
+          "deltaRatio": -0.0975,
+          "elasticity": 2
+        },
+        {
+          "q": 1,
+          "sourceEnergy": 980.628553,
+          "deltaRatio": 0,
+          "elasticity": 2
+        },
+        {
+          "q": 1.05,
+          "sourceEnergy": 1081.14298,
+          "deltaRatio": 0.1025,
+          "elasticity": 2
+        }
+      ],
+      "terms": [
+        {
+          "name": "pi-fill",
+          "kind": "fill",
+          "measure": 2414.876118,
+          "opacity": 1,
+          "luminance": 0.344509,
+          "energy": 831.946938
+        },
+        {
+          "name": "pi-edge",
+          "kind": "line",
+          "measure": 563.546353,
+          "width": 0.38,
+          "opacity": 1,
+          "luminance": 0.694295,
+          "energy": 148.681615
+        }
+      ]
+    },
+    "h": {
+      "sourceEnergy": 546.12005,
+      "sourceShare": 22.3837,
+      "renderedEnergy": 596.696358,
+      "renderedShare": 21.2512,
+      "calibratedPredictedRenderedEnergy": 596.696358,
+      "predictionErrorRatio": 0,
+      "targetEnergy": 744.072936,
+      "update": {
+        "formula": "q_next = clamp(q * sqrt(E_target / E_rendered), 0.8, 1.2)",
+        "qCurrent": 1,
+        "qRaw": 1.116686,
+        "qNext": 1.116686,
+        "impliedEnergyMultiplier": 1.246988
+      },
+      "sensitivity": [
+        {
+          "q": 0.95,
+          "sourceEnergy": 492.873345,
+          "deltaRatio": -0.0975,
+          "elasticity": 2
+        },
+        {
+          "q": 1,
+          "sourceEnergy": 546.12005,
+          "deltaRatio": 0,
+          "elasticity": 2
+        },
+        {
+          "q": 1.05,
+          "sourceEnergy": 602.097355,
+          "deltaRatio": 0.1025,
+          "elasticity": 2
+        }
+      ],
+      "terms": [
+        {
+          "name": "pillar-1-fill",
+          "kind": "fill",
+          "measure": 478.848757,
+          "opacity": 1,
+          "luminance": 0.458086,
+          "energy": 219.35385
+        },
+        {
+          "name": "pillar-1-edge",
+          "kind": "line",
+          "measure": 219.281057,
+          "width": 0.34,
+          "opacity": 1,
+          "luminance": 0.463874,
+          "energy": 34.584398
+        },
+        {
+          "name": "pillar-2-fill",
+          "kind": "fill",
+          "measure": 478.848757,
+          "opacity": 1,
+          "luminance": 0.458086,
+          "energy": 219.35385
+        },
+        {
+          "name": "pillar-2-edge",
+          "kind": "line",
+          "measure": 219.281057,
+          "width": 0.34,
+          "opacity": 1,
+          "luminance": 0.463874,
+          "energy": 34.584398
+        },
+        {
+          "name": "a-halo",
+          "kind": "line",
+          "measure": 27.99694,
+          "width": 2.66,
+          "opacity": 0.055,
+          "luminance": 0.463874,
+          "energy": 1.900006
+        },
+        {
+          "name": "a-middle",
+          "kind": "line",
+          "measure": 27.99694,
+          "width": 1.085,
+          "opacity": 0.28,
+          "luminance": 0.463874,
+          "energy": 3.945468
+        },
+        {
+          "name": "a-core",
+          "kind": "line",
+          "measure": 27.99694,
+          "width": 0.574,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 14.741575
+        },
+        {
+          "name": "b-halo",
+          "kind": "line",
+          "measure": 17.30306,
+          "width": 1.96,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 0.707932
+        },
+        {
+          "name": "b-middle",
+          "kind": "line",
+          "measure": 17.30306,
+          "width": 0.84,
+          "opacity": 0.22,
+          "luminance": 0.463874,
+          "energy": 1.483287
+        },
+        {
+          "name": "b-core",
+          "kind": "line",
+          "measure": 17.30306,
+          "width": 0.476,
+          "opacity": 0.84,
+          "luminance": 0.463874,
+          "energy": 3.209293
+        },
+        {
+          "name": "tick-halo",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 1.33,
+          "opacity": 0.035,
+          "luminance": 0.463874,
+          "energy": 0.120923
+        },
+        {
+          "name": "tick-middle",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 0.616,
+          "opacity": 0.18,
+          "luminance": 0.463874,
+          "energy": 0.288032
+        },
+        {
+          "name": "tick-core",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 0.392,
+          "opacity": 0.9,
+          "luminance": 0.463874,
+          "energy": 0.916467
+        },
+        {
+          "name": "tick-halo",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 1.33,
+          "opacity": 0.035,
+          "luminance": 0.463874,
+          "energy": 0.120923
+        },
+        {
+          "name": "tick-middle",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 0.616,
+          "opacity": 0.18,
+          "luminance": 0.463874,
+          "energy": 0.288032
+        },
+        {
+          "name": "tick-core",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 0.392,
+          "opacity": 0.9,
+          "luminance": 0.463874,
+          "energy": 0.916467
+        },
+        {
+          "name": "tick-halo",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 1.33,
+          "opacity": 0.035,
+          "luminance": 0.463874,
+          "energy": 0.120923
+        },
+        {
+          "name": "tick-middle",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 0.616,
+          "opacity": 0.18,
+          "luminance": 0.463874,
+          "energy": 0.288032
+        },
+        {
+          "name": "tick-core",
+          "kind": "line",
+          "measure": 5.6,
+          "width": 0.392,
+          "opacity": 0.9,
+          "luminance": 0.463874,
+          "energy": 0.916467
+        },
+        {
+          "name": "brace-halo",
+          "kind": "line",
+          "measure": 55.528489,
+          "width": 1.12,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.72123
+        },
+        {
+          "name": "brace-middle",
+          "kind": "line",
+          "measure": 55.528489,
+          "width": 0.532,
+          "opacity": 0.14,
+          "luminance": 0.463874,
+          "energy": 1.918473
+        },
+        {
+          "name": "brace-core",
+          "kind": "line",
+          "measure": 55.528489,
+          "width": 0.322,
+          "opacity": 0.68,
+          "luminance": 0.463874,
+          "energy": 5.640022
+        }
+      ]
+    },
+    "o": {
+      "sourceEnergy": 370.541747,
+      "sourceShare": 15.1873,
+      "renderedEnergy": 397.136315,
+      "renderedShare": 14.1439,
+      "calibratedPredictedRenderedEnergy": 397.136315,
+      "predictionErrorRatio": 0,
+      "targetEnergy": 477.329808,
+      "update": {
+        "formula": "q_next = clamp(q * sqrt(E_target / E_rendered), 0.8, 1.2)",
+        "qCurrent": 1,
+        "qRaw": 1.096325,
+        "qNext": 1.096325,
+        "impliedEnergyMultiplier": 1.201929
+      },
+      "sensitivity": [
+        {
+          "q": 0.95,
+          "sourceEnergy": 334.413927,
+          "deltaRatio": -0.0975,
+          "elasticity": 2
+        },
+        {
+          "q": 1,
+          "sourceEnergy": 370.541747,
+          "deltaRatio": 0,
+          "elasticity": 2
+        },
+        {
+          "q": 1.05,
+          "sourceEnergy": 408.522276,
+          "deltaRatio": 0.1025,
+          "elasticity": 2
+        }
+      ],
+      "terms": [
+        {
+          "name": "circle-halo",
+          "kind": "line",
+          "measure": 242.375952,
+          "width": 2.8,
+          "opacity": 0.055,
+          "luminance": 0.463874,
+          "energy": 17.314519
+        },
+        {
+          "name": "circle-middle",
+          "kind": "line",
+          "measure": 242.375952,
+          "width": 1.68,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 56.6657
+        },
+        {
+          "name": "circle-core",
+          "kind": "line",
+          "measure": 242.375952,
+          "width": 0.752,
+          "opacity": 1,
+          "luminance": 0.794209,
+          "energy": 144.757798
+        },
+        {
+          "name": "chord-1-halo",
+          "kind": "line",
+          "measure": 28.821617,
+          "width": 1.274,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.425822
+        },
+        {
+          "name": "chord-1-core",
+          "kind": "line",
+          "measure": 28.821617,
+          "width": 0.246,
+          "opacity": 0.541,
+          "luminance": 0.463874,
+          "energy": 1.779307
+        },
+        {
+          "name": "chord-2-halo",
+          "kind": "line",
+          "measure": 74.535621,
+          "width": 1.022,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.883395
+        },
+        {
+          "name": "chord-2-core",
+          "kind": "line",
+          "measure": 74.535621,
+          "width": 0.185,
+          "opacity": 0.403,
+          "luminance": 0.463874,
+          "energy": 2.57775
+        },
+        {
+          "name": "chord-3-halo",
+          "kind": "line",
+          "measure": 74.77428,
+          "width": 1.82,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 1.578206
+        },
+        {
+          "name": "chord-3-core",
+          "kind": "line",
+          "measure": 74.77428,
+          "width": 0.378,
+          "opacity": 0.8400000000000001,
+          "luminance": 0.463874,
+          "energy": 11.013453
+        },
+        {
+          "name": "chord-4-halo",
+          "kind": "line",
+          "measure": 24.526075,
+          "width": 1.652,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.469871
+        },
+        {
+          "name": "chord-4-core",
+          "kind": "line",
+          "measure": 24.526075,
+          "width": 0.337,
+          "opacity": 0.748,
+          "luminance": 0.463874,
+          "energy": 2.867872
+        },
+        {
+          "name": "chord-5-halo",
+          "kind": "line",
+          "measure": 71.152786,
+          "width": 1.022,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.843302
+        },
+        {
+          "name": "chord-5-core",
+          "kind": "line",
+          "measure": 71.152786,
+          "width": 0.185,
+          "opacity": 0.403,
+          "luminance": 0.463874,
+          "energy": 2.460758
+        },
+        {
+          "name": "chord-6-halo",
+          "kind": "line",
+          "measure": 41.815435,
+          "width": 1.249,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.605674
+        },
+        {
+          "name": "chord-6-core",
+          "kind": "line",
+          "measure": 41.815435,
+          "width": 0.24,
+          "opacity": 0.5272,
+          "luminance": 0.463874,
+          "energy": 2.454276
+        },
+        {
+          "name": "chord-7-halo",
+          "kind": "line",
+          "measure": 73.538289,
+          "width": 1.047,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.892895
+        },
+        {
+          "name": "chord-7-core",
+          "kind": "line",
+          "measure": 73.538289,
+          "width": 0.191,
+          "opacity": 0.4168,
+          "luminance": 0.463874,
+          "energy": 2.715656
+        },
+        {
+          "name": "chord-8-halo",
+          "kind": "line",
+          "measure": 50.237183,
+          "width": 1.014,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.59075
+        },
+        {
+          "name": "chord-8-core",
+          "kind": "line",
+          "measure": 50.237183,
+          "width": 0.183,
+          "opacity": 0.3984,
+          "luminance": 0.463874,
+          "energy": 1.69901
+        },
+        {
+          "name": "chord-9-halo",
+          "kind": "line",
+          "measure": 44.083887,
+          "width": 1.358,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.694256
+        },
+        {
+          "name": "chord-9-core",
+          "kind": "line",
+          "measure": 44.083887,
+          "width": 0.266,
+          "opacity": 0.587,
+          "luminance": 0.463874,
+          "energy": 3.193007
+        },
+        {
+          "name": "chord-10-halo",
+          "kind": "line",
+          "measure": 34.797369,
+          "width": 1.568,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.632751
+        },
+        {
+          "name": "chord-10-core",
+          "kind": "line",
+          "measure": 34.797369,
+          "width": 0.317,
+          "opacity": 0.702,
+          "luminance": 0.463874,
+          "energy": 3.592055
+        },
+        {
+          "name": "chord-11-halo",
+          "kind": "line",
+          "measure": 69.118467,
+          "width": 1.761,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 1.411542
+        },
+        {
+          "name": "chord-11-core",
+          "kind": "line",
+          "measure": 69.118467,
+          "width": 0.364,
+          "opacity": 0.8078000000000001,
+          "luminance": 0.463874,
+          "energy": 9.427565
+        },
+        {
+          "name": "chord-12-halo",
+          "kind": "line",
+          "measure": 64.826891,
+          "width": 1.081,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.812683
+        },
+        {
+          "name": "chord-12-core",
+          "kind": "line",
+          "measure": 64.826891,
+          "width": 0.199,
+          "opacity": 0.43520000000000003,
+          "luminance": 0.463874,
+          "energy": 2.604338
+        },
+        {
+          "name": "chord-13-halo",
+          "kind": "line",
+          "measure": 35.468984,
+          "width": 1.182,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.48619
+        },
+        {
+          "name": "chord-13-core",
+          "kind": "line",
+          "measure": 35.468984,
+          "width": 0.224,
+          "opacity": 0.4904,
+          "luminance": 0.463874,
+          "energy": 1.807371
+        },
+        {
+          "name": "chord-14-halo",
+          "kind": "line",
+          "measure": 35.779937,
+          "width": 1.022,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.424063
+        },
+        {
+          "name": "chord-14-core",
+          "kind": "line",
+          "measure": 35.779937,
+          "width": 0.185,
+          "opacity": 0.403,
+          "luminance": 0.463874,
+          "energy": 1.237418
+        },
+        {
+          "name": "chord-15-halo",
+          "kind": "line",
+          "measure": 64.210882,
+          "width": 1.417,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 1.055161
+        },
+        {
+          "name": "chord-15-core",
+          "kind": "line",
+          "measure": 64.210882,
+          "width": 0.281,
+          "opacity": 0.6192,
+          "luminance": 0.463874,
+          "energy": 5.182581
+        },
+        {
+          "name": "chord-16-halo",
+          "kind": "line",
+          "measure": 32.465712,
+          "width": 1.484,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.558726
+        },
+        {
+          "name": "chord-16-core",
+          "kind": "line",
+          "measure": 32.465712,
+          "width": 0.297,
+          "opacity": 0.656,
+          "luminance": 0.463874,
+          "energy": 2.934171
+        },
+        {
+          "name": "chord-17-halo",
+          "kind": "line",
+          "measure": 38.548867,
+          "width": 1.274,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.569536
+        },
+        {
+          "name": "chord-17-core",
+          "kind": "line",
+          "measure": 38.548867,
+          "width": 0.246,
+          "opacity": 0.541,
+          "luminance": 0.463874,
+          "energy": 2.37982
+        },
+        {
+          "name": "chord-18-halo",
+          "kind": "line",
+          "measure": 48.687881,
+          "width": 1.442,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.814191
+        },
+        {
+          "name": "chord-18-core",
+          "kind": "line",
+          "measure": 48.687881,
+          "width": 0.287,
+          "opacity": 0.633,
+          "luminance": 0.463874,
+          "energy": 4.103049
+        },
+        {
+          "name": "chord-19-halo",
+          "kind": "line",
+          "measure": 33.322216,
+          "width": 1.299,
+          "opacity": 0.025,
+          "luminance": 0.463874,
+          "energy": 0.501976
+        },
+        {
+          "name": "chord-19-core",
+          "kind": "line",
+          "measure": 33.322216,
+          "width": 0.252,
+          "opacity": 0.5548,
+          "luminance": 0.463874,
+          "energy": 2.161081
+        },
+        {
+          "name": "anchor-1-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-1-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-2-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-2-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-3-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-3-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-4-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-4-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-5-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-5-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-6-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-6-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-7-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-7-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-8-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-8-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-9-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-9-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-10-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-10-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-11-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-11-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "anchor-12-halo",
+          "kind": "fill",
+          "measure": 26.567821,
+          "opacity": 0.07,
+          "luminance": 0.463874,
+          "energy": 0.862689
+        },
+        {
+          "name": "anchor-12-core",
+          "kind": "fill",
+          "measure": 1.769345,
+          "opacity": 0.98,
+          "luminance": 0.917321,
+          "energy": 1.590597
+        },
+        {
+          "name": "intersection-1",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-2",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-3",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-4",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-5",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-6",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-7",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-8",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-9",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-10",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-11",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-12",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-13",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-14",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-15",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-16",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-17",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-18",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-19",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-20",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-21",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-22",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-23",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-24",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-25",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-26",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-27",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-28",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-29",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-30",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-31",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-32",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-33",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-34",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-35",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-36",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-37",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-38",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-39",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-40",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "intersection-41",
+          "kind": "fill",
+          "measure": 0.442336,
+          "opacity": 0.3,
+          "luminance": 0.463874,
+          "energy": 0.061557
+        },
+        {
+          "name": "highlight-1-halo",
+          "kind": "fill",
+          "measure": 33.866369,
+          "opacity": 0.1,
+          "luminance": 0.463874,
+          "energy": 1.570973
+        },
+        {
+          "name": "highlight-1-core",
+          "kind": "fill",
+          "measure": 3.656186,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 3.353897
+        },
+        {
+          "name": "highlight-2-halo",
+          "kind": "fill",
+          "measure": 33.866369,
+          "opacity": 0.1,
+          "luminance": 0.463874,
+          "energy": 1.570973
+        },
+        {
+          "name": "highlight-2-core",
+          "kind": "fill",
+          "measure": 3.656186,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 3.353897
+        },
+        {
+          "name": "highlight-3-halo",
+          "kind": "fill",
+          "measure": 33.866369,
+          "opacity": 0.1,
+          "luminance": 0.463874,
+          "energy": 1.570973
+        },
+        {
+          "name": "highlight-3-core",
+          "kind": "fill",
+          "measure": 3.656186,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 3.353897
+        },
+        {
+          "name": "highlight-4-halo",
+          "kind": "fill",
+          "measure": 33.866369,
+          "opacity": 0.1,
+          "luminance": 0.463874,
+          "energy": 1.570973
+        },
+        {
+          "name": "highlight-4-core",
+          "kind": "fill",
+          "measure": 3.656186,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 3.353897
+        },
+        {
+          "name": "highlight-5-halo",
+          "kind": "fill",
+          "measure": 33.866369,
+          "opacity": 0.1,
+          "luminance": 0.463874,
+          "energy": 1.570973
+        },
+        {
+          "name": "highlight-5-core",
+          "kind": "fill",
+          "measure": 3.656186,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 3.353897
+        },
+        {
+          "name": "highlight-6-halo",
+          "kind": "fill",
+          "measure": 33.866369,
+          "opacity": 0.1,
+          "luminance": 0.463874,
+          "energy": 1.570973
+        },
+        {
+          "name": "highlight-6-core",
+          "kind": "fill",
+          "measure": 3.656186,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 3.353897
+        },
+        {
+          "name": "highlight-7-halo",
+          "kind": "fill",
+          "measure": 33.866369,
+          "opacity": 0.1,
+          "luminance": 0.463874,
+          "energy": 1.570973
+        },
+        {
+          "name": "highlight-7-core",
+          "kind": "fill",
+          "measure": 3.656186,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 3.353897
+        },
+        {
+          "name": "highlight-8-halo",
+          "kind": "fill",
+          "measure": 33.866369,
+          "opacity": 0.1,
+          "luminance": 0.463874,
+          "energy": 1.570973
+        },
+        {
+          "name": "highlight-8-core",
+          "kind": "fill",
+          "measure": 3.656186,
+          "opacity": 1,
+          "luminance": 0.917321,
+          "energy": 3.353897
+        }
+      ]
+    },
+    "m": {
+      "sourceEnergy": 542.518248,
+      "sourceShare": 22.2361,
+      "renderedEnergy": 577.08439,
+      "renderedShare": 20.5527,
+      "calibratedPredictedRenderedEnergy": 577.08439,
+      "predictionErrorRatio": 0,
+      "targetEnergy": 715.994712,
+      "update": {
+        "formula": "q_next = clamp(q * sqrt(E_target / E_rendered), 0.8, 1.2)",
+        "qCurrent": 1,
+        "qRaw": 1.113872,
+        "qNext": 1.113872,
+        "impliedEnergyMultiplier": 1.240711
+      },
+      "sensitivity": [
+        {
+          "q": 0.95,
+          "sourceEnergy": 489.622719,
+          "deltaRatio": -0.0975,
+          "elasticity": 2
+        },
+        {
+          "q": 1,
+          "sourceEnergy": 542.518248,
+          "deltaRatio": 0,
+          "elasticity": 2
+        },
+        {
+          "q": 1.05,
+          "sourceEnergy": 598.126368,
+          "deltaRatio": 0.1025,
+          "elasticity": 2
+        }
+      ],
+      "terms": [
+        {
+          "name": "partial-1-halo",
+          "kind": "line",
+          "measure": 231.524256,
+          "width": 1.08,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 5.219549
+        },
+        {
+          "name": "partial-1-core",
+          "kind": "line",
+          "measure": 231.524256,
+          "width": 0.258,
+          "opacity": 0.5,
+          "luminance": 0.413159,
+          "energy": 12.339653
+        },
+        {
+          "name": "partial-2-halo",
+          "kind": "line",
+          "measure": 233.004528,
+          "width": 1.011,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 4.917317
+        },
+        {
+          "name": "partial-2-core",
+          "kind": "line",
+          "measure": 233.004528,
+          "width": 0.247,
+          "opacity": 0.472,
+          "luminance": 0.413159,
+          "energy": 11.223287
+        },
+        {
+          "name": "partial-3-halo",
+          "kind": "line",
+          "measure": 233.456357,
+          "width": 1.009,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 4.917106
+        },
+        {
+          "name": "partial-3-core",
+          "kind": "line",
+          "measure": 233.456357,
+          "width": 0.24,
+          "opacity": 0.444,
+          "luminance": 0.413159,
+          "energy": 10.27819
+        },
+        {
+          "name": "partial-4-halo",
+          "kind": "line",
+          "measure": 233.446369,
+          "width": 0.989,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 4.819435
+        },
+        {
+          "name": "partial-4-core",
+          "kind": "line",
+          "measure": 233.446369,
+          "width": 0.232,
+          "opacity": 0.416,
+          "luminance": 0.413159,
+          "energy": 9.308617
+        },
+        {
+          "name": "partial-5-halo",
+          "kind": "line",
+          "measure": 234.596113,
+          "width": 0.992,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 4.857862
+        },
+        {
+          "name": "partial-5-core",
+          "kind": "line",
+          "measure": 234.596113,
+          "width": 0.225,
+          "opacity": 0.388,
+          "luminance": 0.413159,
+          "energy": 8.461587
+        },
+        {
+          "name": "partial-6-halo",
+          "kind": "line",
+          "measure": 233.570571,
+          "width": 0.99,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 4.826875
+        },
+        {
+          "name": "partial-6-core",
+          "kind": "line",
+          "measure": 233.570571,
+          "width": 0.218,
+          "opacity": 0.36,
+          "luminance": 0.413159,
+          "energy": 7.573452
+        },
+        {
+          "name": "partial-7-halo",
+          "kind": "line",
+          "measure": 233.510005,
+          "width": 0.994,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 4.845121
+        },
+        {
+          "name": "partial-7-core",
+          "kind": "line",
+          "measure": 233.510005,
+          "width": 0.211,
+          "opacity": 0.332,
+          "luminance": 0.413159,
+          "energy": 6.758383
+        },
+        {
+          "name": "partial-8-halo",
+          "kind": "line",
+          "measure": 233.516546,
+          "width": 0.985,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 4.801386
+        },
+        {
+          "name": "partial-8-core",
+          "kind": "line",
+          "measure": 233.516546,
+          "width": 0.203,
+          "opacity": 0.304,
+          "luminance": 0.413159,
+          "energy": 5.953934
+        },
+        {
+          "name": "partial-9-halo",
+          "kind": "line",
+          "measure": 248.729988,
+          "width": 1.052,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 5.462062
+        },
+        {
+          "name": "partial-9-core",
+          "kind": "line",
+          "measure": 248.729988,
+          "width": 0.2,
+          "opacity": 0.276,
+          "luminance": 0.413159,
+          "energy": 5.672624
+        },
+        {
+          "name": "partial-10-halo",
+          "kind": "line",
+          "measure": 248.985302,
+          "width": 0.996,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 5.176614
+        },
+        {
+          "name": "partial-10-core",
+          "kind": "line",
+          "measure": 248.985302,
+          "width": 0.19,
+          "opacity": 0.248,
+          "luminance": 0.413159,
+          "energy": 4.847254
+        },
+        {
+          "name": "partial-11-halo",
+          "kind": "line",
+          "measure": 249.861933,
+          "width": 0.993,
+          "opacity": 0.045,
+          "luminance": 0.463874,
+          "energy": 5.179192
+        },
+        {
+          "name": "partial-11-core",
+          "kind": "line",
+          "measure": 249.861933,
+          "width": 0.183,
+          "opacity": 0.22,
+          "luminance": 0.413159,
+          "energy": 4.156144
+        },
+        {
+          "name": "final-halo",
+          "kind": "line",
+          "measure": 250.386382,
+          "width": 3.08,
+          "opacity": 0.11,
+          "luminance": 0.463874,
+          "energy": 39.350866
+        },
+        {
+          "name": "final-middle",
+          "kind": "line",
+          "measure": 250.386382,
+          "width": 2.397,
+          "opacity": 0.56,
+          "luminance": 0.463874,
+          "energy": 155.907482
+        },
+        {
+          "name": "final-core",
+          "kind": "line",
+          "measure": 250.386382,
+          "width": 1.085,
+          "opacity": 0.96,
+          "luminance": 0.788583,
+          "energy": 205.664258
+        }
+      ]
+    }
+  },
+  "hCrossbar": {
+    "geometricRatio": 1.618034,
+    "sourceEnergyPerUnit": {
+      "a": 0.735332,
+      "b": 0.312113,
+      "ratio": 2.35598
+    }
+  }
+}
