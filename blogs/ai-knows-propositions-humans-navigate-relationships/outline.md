@@ -149,6 +149,40 @@ Frame AI as a powerful partner in this work, not an opponent:
 - Treat a customer statement as a node and its motivation, setting, and consequences as edges.
 - Beware of mistaking an abundant synthesis of facts for a complete account of human value.
 
+#### Product problem statements: a practical framing, not a feature request
+
+Capture the distinction developed in the conversation:
+
+- A product problem statement is a **practical framing hypothesis**. It identifies a user, a situation, a blocked or costly action, and the consequence of that blockage. Its job is to organize inquiry and action; it is not yet a proposed feature.
+- A useful sequence is **goal → user situation and problem → desired outcome → user story → possible solutions**. A user story records the situation, need, and outcome; a design, feature, or workflow is a separate solution hypothesis.
+- The statement has several truth layers: **correspondence** names the observable condition and evidence; **narrative/interpretive understanding** explains how the situation is encountered and why it matters; **coherence** asks whether the framing fits other research and constraints; **pragmatism** asks whether treating it as the problem leads to a better outcome when tested.
+- Therefore, a problem statement does not "live" inside one theory of truth. It is pragmatically oriented, empirically constrained, narratively intelligible, and subject to coherence checks.
+
+Use examples that remain problems, not disguised solutions:
+
+- “New creators cannot reliably turn scattered clips into a first playable arrangement, so they leave before experiencing the product’s value.”
+- “Creators lack a clear way to tell which clips belong together, causing search, uncertainty, and stalled progress.”
+- “The arrangement workflow requires users to hold too many choices in working memory at once, preventing a confident next action.”
+- “Users do not trust recommendations when they cannot understand why a grouping was suggested, so assistance goes unused.”
+
+The pragmatic criterion is not “does the sentence mention a solution?” It is whether the framing specifies a practical consequence and can be tested. The evidence constrains the story; the story makes the evidence and desired outcome intelligible.
+
+##### Language discipline: “are not” versus “cannot”
+
+- Low completion, abandonment, errors, and repeated failed attempts establish an observation: users **are not completing** a task. They may also support “users struggle.” They do not, by themselves, establish that users **cannot** complete it.
+- “Cannot” is defensible only as a bounded operational claim: for example, “Under the current workflow, without assistance, new users cannot **reliably** compose and render a track within the defined task conditions.” The claim concerns the system’s ability to enable success, not an inherent incapacity in the person.
+- AI must not turn behavioral evidence into an unqualified incapacity claim. It can report the observed non-completion rate, propose the bounded hypothesis, define the success criterion and conditions, identify alternatives, and recommend a test. A human reviews whether those conditions are fair and whether the language is warranted.
+- This preserves the evidence ladder: **not completing** → **struggling** → **not reliably completing under defined conditions**. “Inherently cannot” is generally neither useful nor supportable in product research.
+
+##### AI cannot discover a real-world problem without inputs
+
+- An AI does not have unmediated access to a user’s lived situation or to a market problem simply because the problem exists. It needs evidence supplied through an authorized channel: support tickets, product reviews, forums, search behavior, sales and research interviews, usability recordings, observational notes, analytics, or competitor feedback.
+- From those inputs, an agent can extract observations, cluster recurring signals, generate competing explanations, and state an evidence-linked **abductive hypothesis** about an underlying problem. It should also identify what additional observation could strengthen or falsify that hypothesis.
+- The agent’s output is not “the problem is X”; it is “given these sources, X is a plausible explanation, alongside these alternatives, at this confidence level.” Human researchers and product owners decide what to investigate, can seek richer contextual input, and remain accountable for deciding what is worth solving.
+- State the information boundary precisely: no system can gain information about a changing external world without some channel from that world. An AI can derive a novel hypothesis from its existing prompt, training, memory, or data, but it cannot verify that a current real-world problem exists without evidence connected to that world. Humans also require inputs; the difference is not that people know without evidence.
+- Distinguish an LLM from an AI system. A typical LLM is idle between requests and receives information only when a prompt, tool result, memory update, or data feed is supplied. A system can be designed to passively ingest telemetry, audio, video, or event streams, but that remains selected instrumentation and permissioned data flow.
+- Humans, by contrast, are continuously situated in and affected by the world: sensory conditions, bodies, social cues, interruptions, and consequences arrive whether or not they are deliberately seeking information. Do not overstate this as a metaphysical proof of human uniqueness; use it as a practical distinction about continuous lived exposure versus designed, bounded system inputs.
+
 #### The iPhone example
 
 Use the original iPhone as an illustrative product example, with all historical specifics verified before publication. The editorial point is not simply that Apple had better facts about the existing phone market. The product represented a bet on tactile human behavior:
