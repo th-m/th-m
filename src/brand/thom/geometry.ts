@@ -84,12 +84,41 @@ export const BRAND_COLORS = {
   lightGold: "#8a652a",
 } as const;
 
+export const SOURCE_ENERGY_Q = {
+  t: 0.852298,
+  h: 1.116686,
+  o: 1.096325,
+  m: 1.113872,
+} as const;
+
+export const SOURCE_ENERGY_SCALE = {
+  t: SOURCE_ENERGY_Q.t ** 2,
+  h: SOURCE_ENERGY_Q.h ** 2,
+  o: SOURCE_ENERGY_Q.o ** 2,
+  m: SOURCE_ENERGY_Q.m ** 2,
+} as const;
+
+const srgbToLinearChannel = (channel: number) => channel <= 0.04045
+  ? channel / 12.92
+  : ((channel + 0.055) / 1.055) ** 2.4;
+const linearToSrgbChannel = (channel: number) => channel <= 0.0031308
+  ? channel * 12.92
+  : 1.055 * channel ** (1 / 2.4) - 0.055;
+
+function scaleLinearHex(color: string, energyScale: number) {
+  const channels = [1, 3, 5].map((index) => Number.parseInt(color.slice(index, index + 2), 16));
+  return `#${channels.map((channel) => {
+    const scaled = Math.min(1, linearToSrgbChannel(srgbToLinearChannel(channel / 255) * energyScale));
+    return Math.round(scaled * 255).toString(16).padStart(2, "0");
+  }).join("")}`;
+}
+
 export const PI_MATERIAL = {
-  shadow: "#50382f",
-  gold: "#a67f50",
-  ivory: "#beb19f",
-  highlight: "#f1dfbd",
-  edge: "#ead7b5",
+  shadow: scaleLinearHex("#50382f", SOURCE_ENERGY_SCALE.t),
+  gold: scaleLinearHex("#a67f50", SOURCE_ENERGY_SCALE.t),
+  ivory: scaleLinearHex("#beb19f", SOURCE_ENERGY_SCALE.t),
+  highlight: scaleLinearHex("#f1dfbd", SOURCE_ENERGY_SCALE.t),
+  edge: scaleLinearHex("#ead7b5", SOURCE_ENERGY_SCALE.t),
   strokeWidth: 0.38,
 } as const;
 
@@ -104,20 +133,44 @@ export const PI_LEG_INSET = {
 } as const;
 
 export const M_FINAL_MATERIAL = {
-  halo: { width: 8.8, opacity: 0.11 },
-  middle: { width: 6.85, opacity: 0.56 },
-  core: { width: 3.1, opacity: 0.96 },
+  halo: { width: Number((8.8 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.11 },
+  middle: { width: Number((6.85 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.56 },
+  core: { width: Number((3.1 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.96 },
 } as const;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
 export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
 
 export const O_DISPLAY_MATERIAL = {
-  circle: { haloWidth: 8, haloOpacity: 0.055, middleWidth: 4.8, middleOpacity: 0.3, coreWidth: 2.15, coreOpacity: 1 },
-  chord: { haloWidth: 4, haloOpacity: 0.025, coreWidth: 0.7, coreOpacity: 0.62 },
-  anchor: { haloRadius: 3.1, haloOpacity: 0.07, coreRadius: 0.8, coreOpacity: 0.98 },
-  intersection: { radius: 0.4, opacity: 0.3 },
-  highlight: { haloRadius: 3.5, haloOpacity: 0.1, coreRadius: 1.15, coreOpacity: 1 },
+  circle: {
+    haloWidth: Number((8 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    haloOpacity: 0.055,
+    middleWidth: Number((4.8 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    middleOpacity: 0.3,
+    coreWidth: Number((2.15 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    coreOpacity: 1,
+  },
+  chord: {
+    haloWidth: Number((4 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    haloOpacity: 0.025,
+    coreWidth: Number((0.7 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    coreWidthBase: Number((0.5 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    coreWidthWeight: Number((0.58 * SOURCE_ENERGY_SCALE.o).toFixed(3)),
+    coreOpacity: 0.62,
+  },
+  anchor: {
+    haloRadius: Number((3.1 * SOURCE_ENERGY_Q.o).toFixed(3)),
+    haloOpacity: 0.07,
+    coreRadius: Number((0.8 * SOURCE_ENERGY_Q.o).toFixed(3)),
+    coreOpacity: 0.98,
+  },
+  intersection: { radius: Number((0.4 * SOURCE_ENERGY_Q.o).toFixed(3)), opacity: 0.3 },
+  highlight: {
+    haloRadius: Number((3.5 * SOURCE_ENERGY_Q.o).toFixed(3)),
+    haloOpacity: 0.1,
+    coreRadius: Number((1.15 * SOURCE_ENERGY_Q.o).toFixed(3)),
+    coreOpacity: 1,
+  },
 } as const;
 
 export const O_ANIMATION = {
@@ -148,16 +201,17 @@ export const hStrokeWorldWidth = (referencePixels: number) => referencePixels * 
 
 export const H_MATERIAL = {
   a: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
-  b: { haloWidth: 2.8, haloOpacity: 0.045, middleWidth: 1.2, middleOpacity: 0.22, coreWidth: 0.68, coreOpacity: 0.84 },
+  b: { haloWidth: 3.8, haloOpacity: 0.055, middleWidth: 1.55, middleOpacity: 0.28, coreWidth: 0.82, coreOpacity: 1 },
   tick: { haloWidth: 1.9, haloOpacity: 0.035, middleWidth: 0.88, middleOpacity: 0.18, coreWidth: 0.56, coreOpacity: 0.9 },
   brace: { haloWidth: 1.6, haloOpacity: 0.025, middleWidth: 0.76, middleOpacity: 0.14, coreWidth: 0.46, coreOpacity: 0.68 },
 } as const;
 
 export const H_COLUMN_MATERIAL = {
-  edge: "#bd9a63",
-  body: "#d2bc96",
-  highlight: "#e2d2b4",
+  edge: scaleLinearHex("#bd9a63", SOURCE_ENERGY_SCALE.h),
+  body: scaleLinearHex("#d2bc96", SOURCE_ENERGY_SCALE.h),
+  highlight: scaleLinearHex("#e2d2b4", SOURCE_ENERGY_SCALE.h),
   highlightMix: 0.1,
+  strokeWidth: Number((0.34 * SOURCE_ENERGY_SCALE.h).toFixed(3)),
 } as const;
 
 export const H_PILLAR_SHAPE = {
@@ -836,13 +890,13 @@ export function generateFourier(sampleCount = 128, displayHarmonicCount = 12, co
   });
   const restingLayers = Array.from({ length: displayHarmonicCount - 1 }, (_, index) => {
     const progress = index / Math.max(1, displayHarmonicCount - 2);
-    const width = Number((0.72 - progress * 0.2 + (componentWidths[index] - 0.38) * 0.02).toFixed(3));
+    const width = Number(((0.72 - progress * 0.2 + (componentWidths[index] - 0.38) * 0.02) * SOURCE_ENERGY_SCALE.m).toFixed(3));
     return {
       partialIndex: index,
       amplitudeScale: 1,
       width,
       opacity: Number((0.5 - progress * 0.28).toFixed(3)),
-      haloWidth: Number((2.8 + (componentWidths[index] - 0.38) * 0.35).toFixed(3)),
+      haloWidth: Number(((2.8 + (componentWidths[index] - 0.38) * 0.35) * SOURCE_ENERGY_SCALE.m).toFixed(3)),
       haloOpacity: 0.045,
     };
   });

@@ -31,6 +31,8 @@ import {
   PI_ANIMATION,
   PI_GEOMETRY,
   PI_LEG_INSET,
+  SOURCE_ENERGY_Q,
+  SOURCE_ENERGY_SCALE,
   samplePathOutline,
   sampleBezierChain,
   type FilledPath,
@@ -61,6 +63,15 @@ function pathBounds(path: FilledPath) {
 }
 
 describe("THOM geometry", () => {
+  it("keeps the bounded source-energy update explicit and deterministic", () => {
+    expect(SOURCE_ENERGY_Q).toEqual({ t: 0.852298, h: 1.116686, o: 1.096325, m: 1.113872 });
+    for (const glyph of ["t", "h", "o", "m"] as const) {
+      expect(SOURCE_ENERGY_Q[glyph]).toBeGreaterThanOrEqual(0.8);
+      expect(SOURCE_ENERGY_Q[glyph]).toBeLessThanOrEqual(1.2);
+      expect(SOURCE_ENERGY_SCALE[glyph]).toBeCloseTo(SOURCE_ENERGY_Q[glyph] ** 2, 12);
+    }
+  });
+
   it("commits a closed, bounded classical pi outline without a font glyph", () => {
     for (const path of [PI_GEOMETRY.display, PI_GEOMETRY.compact]) {
       expect(path.commands[0]?.type).toBe("M");
@@ -137,16 +148,16 @@ describe("THOM geometry", () => {
     expect(H_ANIMATION.phiHoldEnd).toBeLessThan(H_ANIMATION.crossfadeEnd);
   });
 
-  it("keeps the H proportion lines layered with a quieter b segment and ticks", () => {
-    expect(H_COLUMN_MATERIAL).toMatchObject({ edge: "#bd9a63", body: "#d2bc96", highlight: "#e2d2b4", highlightMix: 0.1 });
+  it("keeps the H proportion lines layered with equal-energy crossbar segments and quieter annotations", () => {
+    expect(H_COLUMN_MATERIAL).toMatchObject({ edge: "#d1aa6e", body: "#e8cfa6", highlight: "#f9e8c7", highlightMix: 0.1, strokeWidth: 0.424 });
     expect(H_MATERIAL.a).toMatchObject({ coreWidth: 0.82, middleWidth: 1.55, haloWidth: 3.8 });
-    expect(H_MATERIAL.b).toMatchObject({ coreWidth: 0.68, middleWidth: 1.2, haloWidth: 2.8 });
+    expect(H_MATERIAL.b).toEqual(H_MATERIAL.a);
     expect(H_MATERIAL.tick).toMatchObject({ coreWidth: 0.56, middleWidth: 0.88, haloWidth: 1.9 });
     expect(H_MATERIAL.brace).toMatchObject({ coreWidth: 0.46, middleWidth: 0.76, haloWidth: 1.6, coreOpacity: 0.68 });
     expect(H_MATERIAL.a.haloWidth).toBeGreaterThan(H_MATERIAL.a.middleWidth);
     expect(H_MATERIAL.a.middleWidth).toBeGreaterThan(H_MATERIAL.a.coreWidth);
-    expect(H_MATERIAL.b.coreWidth).toBeLessThan(H_MATERIAL.a.coreWidth);
-    expect(H_MATERIAL.b.middleOpacity).toBeLessThan(H_MATERIAL.a.middleOpacity);
+    expect(H_MATERIAL.b.coreWidth).toBe(H_MATERIAL.a.coreWidth);
+    expect(H_MATERIAL.b.middleOpacity).toBe(H_MATERIAL.a.middleOpacity);
     expect(H_MATERIAL.tick.coreWidth).toBeLessThan(H_MATERIAL.b.coreWidth);
     expect(H_MATERIAL.brace.coreWidth).toBeLessThan(H_MATERIAL.tick.coreWidth);
   });
@@ -154,7 +165,7 @@ describe("THOM geometry", () => {
   it("expresses H construction strokes in world units so their pillar ratio survives responsive scaling", () => {
     expect(H_STROKE_WORLD_PER_PIXEL).toBe(0.7);
     expect(hStrokeWorldWidth(H_MATERIAL.a.coreWidth)).toBeCloseTo(0.574, 10);
-    expect(hStrokeWorldWidth(H_MATERIAL.b.coreWidth)).toBeCloseTo(0.476, 10);
+    expect(hStrokeWorldWidth(H_MATERIAL.b.coreWidth)).toBeCloseTo(0.574, 10);
     const smallScale = 648 / 416;
     const largeScale = 1180 / 416;
     const smallPrimary = hStrokeWorldWidth(H_MATERIAL.a.coreWidth) * smallScale;
@@ -209,8 +220,8 @@ describe("THOM geometry", () => {
 
   it("expresses every display O line layer in glyph-relative world units", () => {
     expect(DISPLAY_STROKE_WORLD_PER_PIXEL).toBe(0.35);
-    expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth)).toBe(0.752);
-    expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.chord.coreWidth)).toBe(0.245);
+    expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth)).toBe(0.904);
+    expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.chord.coreWidth)).toBe(0.294);
     const smallScale = 648 / 416;
     const largeScale = 1180 / 416;
     const smallCore = displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth) * smallScale;
@@ -331,8 +342,8 @@ describe("THOM geometry", () => {
       .update(readFileSync(glyphUrl))
       .digest("hex");
     const dataHash = createHash("sha256").update(JSON.stringify(brandData.m)).digest("hex");
-    expect(glyphHash).toBe("35001df1d36e4a1fd3ffcaa7b07f6f50e8e935d2e5af7dd0fba4de18b36b4f62");
-    expect(dataHash).toBe("9e33f2ba91bf2f6fbdd725add87a9920f455bc9b4c46ef63290bd8ce07e8be9f");
+    expect(glyphHash).toBe("035325f2aa226f1083f7a476cc6cc1da152df1bcbb87e29bb0a7b3fccd1a9d6f");
+    expect(dataHash).toBe("f4c61816c8d4ca30bd6b3beff26cc0707b22a51c6b52d0c03877bb4b72751cf7");
   });
 
   it("renders the display H in its reference-calibrated isolated frame while keeping compact output ghost-free", () => {
@@ -396,7 +407,7 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("09b957df082f19c38c2edf20695d8004e7e251340fd54445f8a93b8d570caf03");
+    expect(hash).toBe("3090e25a0450f1cb7c90c1f74928cd51d8f7cf7ef8d428dbe256d9f416bcf6c0");
     expect(first).toContain("<title id=\"title\">THOM</title>");
     expect(first).toContain('viewBox="0 0 416 120"');
     expect(first).toContain('id="thom-metal"');
@@ -424,6 +435,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("403bde5feb0448fe018bca62a613a856c5527d43cdd9c725d5da86451ec1511d");
+    expect(hash.digest("hex")).toBe("f0f4e073c6a6c3b6dec2482aa19a7ff94d74f9ca8e2f13efbfb0b42a3238140e");
   });
 });
