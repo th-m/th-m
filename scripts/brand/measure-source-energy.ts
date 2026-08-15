@@ -135,13 +135,13 @@ const mFinalGradient = gradientLuminance([
 ]);
 
 const terms: Record<Glyph, EnergyTerm[]> = { t: [], h: [], o: [], m: [] };
-terms.t.push(fillTerm("pi-fill", pathArea(data.pi.display, tScale), 1, tGradient));
+terms.t.push(fillTerm("pi-fill", pathArea(data.pi.display, tScale), PI_MATERIAL.opacity, tGradient));
 terms.t.push(lineTerm(
   "pi-edge",
   samplePathOutline(data.pi.display, 1024),
   tScale,
   PI_MATERIAL.strokeWidth,
-  1,
+  PI_MATERIAL.opacity,
   PI_MATERIAL.edge,
 ));
 

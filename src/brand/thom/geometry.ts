@@ -114,13 +114,16 @@ function scaleLinearHex(color: string, energyScale: number) {
 }
 
 export const PI_MATERIAL = {
-  shadow: scaleLinearHex("#50382f", SOURCE_ENERGY_SCALE.t),
-  gold: scaleLinearHex("#a67f50", SOURCE_ENERGY_SCALE.t),
-  ivory: scaleLinearHex("#beb19f", SOURCE_ENERGY_SCALE.t),
-  highlight: scaleLinearHex("#f1dfbd", SOURCE_ENERGY_SCALE.t),
-  edge: scaleLinearHex("#ead7b5", SOURCE_ENERGY_SCALE.t),
+  shadow: "#50382f",
+  gold: "#a67f50",
+  ivory: "#beb19f",
+  highlight: "#f1dfbd",
+  edge: "#ead7b5",
+  opacity: SOURCE_ENERGY_SCALE.t,
   strokeWidth: 0.38,
 } as const;
+
+export const PI_WEBGL_OPACITY_PARITY_SCALE = 1.35;
 
 export const PI_ANIMATION = {
   durationMs: 450,
@@ -137,6 +140,8 @@ export const M_FINAL_MATERIAL = {
   middle: { width: Number((6.85 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.56 },
   core: { width: Number((3.1 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.96 },
 } as const;
+
+export const M_WEBGL_CORE_PARITY_SCALE = 1.07;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
 export const displayStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * DISPLAY_STROKE_WORLD_PER_PIXEL).toFixed(3));
