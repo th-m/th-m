@@ -500,3 +500,16 @@ No actionable P0, P1, or P2 differences remain within the M-only scope.
 - [x] M-only timing contract and stopped resting loop verified.
 - [x] Strict mismatch, IoU, three luminance-size gates, three density gates, and partial separation gates passed.
 - [x] SVG/WebGL parity, reduced motion, fallback behavior, accessibility, typecheck, focused tests, and production build verified.
+
+## Deterministic Logo-Balance Synthesis
+
+- Implementation revision: `dae841c930be4688078b67a2698bc806adbb8f25`.
+- Shared deterministic acceptance: `28/28` gates passed.
+- Objective score: `J = 0.069890`, reduced from baseline `0.232177`.
+- 120 px optical shares: T `31.6951%`, H `26.3286%`, O `16.9745%`, M `25.0017%`.
+- Maximum optical-gap deviation: `4.5455%` at 24 px, `2.3529%` at 48 px, and `1.8692%` at 120 px.
+- H crossbar offset: `0.043570`; exact geometric ratio: `1.618034`.
+- φ hold deviation: `0.0676%`; maximum crossfade deviation: `1.8629%`; horizontal drift: `0.160003`.
+- Full validation passed: typecheck, 45 unit/component tests, production build, 23 browser checks with 7 intentional mobile skips, focused brand audit, static fallback, and reduced motion.
+- Paper review covered desktop, compact, mobile, monochrome, reduced-motion, animation, and static-fallback states with no remaining P0–P2 issue.
+- Authoritative rationale and evidence are recorded in `docs/logo-balance-decision-record.md` and `.codex/audits/logo-balance/scorecard.md`.

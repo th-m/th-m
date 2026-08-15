@@ -8,18 +8,19 @@ if this tracking document and the handoff ever differ.
 
 - [x] Freeze a harness-only baseline with deterministic 8x linear-light
   measurements, multiscale reports, temporal H frames, and comparison images.
-- [ ] Create four isolated branches and worktrees from that exact baseline.
-- [ ] Run exactly four specialist variants: ink budget, source stroke energy,
+- [x] Create four isolated branches and worktrees from that exact baseline.
+- [x] Run exactly four specialist variants: ink budget, source stroke energy,
   spatial moments/counters/gaps, and temporal/multiscale balance.
-- [ ] Require each specialist to provide implementation, JSON metrics, visual
+- [x] Require each specialist to provide implementation, JSON metrics, visual
   evidence, changed parameters, and validation output.
-- [ ] Score all variants with the shared objective and reject every invariant
+- [x] Score all variants with the shared objective and reject every invariant
   violation before considering aggregate score.
-- [ ] Reproduce only compatible winning decisions on the synthesis branch.
-- [ ] Iterate on the full acceptance suite and visual comparison until every
+- [x] Reproduce only compatible winning decisions on the synthesis branch.
+- [x] Iterate on the full acceptance suite and visual comparison until every
   deterministic threshold passes or a genuine blocker is documented.
-- [ ] Commit generated assets, measurements, screenshots, tests, scorecard, and
-  decision record; open a ready-for-review PR and do not merge it.
+- [x] Commit generated assets, measurements, screenshots, tests, scorecard, and
+  decision record.
+- [ ] Push the synthesis branch, open a ready-for-review PR, and do not merge it.
 
 ## Fixed branch topology
 
@@ -40,5 +41,7 @@ flowchart LR
 
 ## Current status
 
-The shared measurement harness is deterministic and validated by typecheck and
-the full unit/component suite. Baseline balancing parameters remain unchanged.
+The shared measurement harness, all four isolated specialist reports, common
+scorecard, synthesized implementation, generated assets, full acceptance suite,
+and Paper review are complete. The synthesis passes `28/28` deterministic gates
+with `J = 0.069890`; only publication of the ready-for-review PR remains.

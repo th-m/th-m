@@ -4,6 +4,210 @@
   "ordering": "Invariant and acceptance pass first; lower aggregate score second.",
   "rows": [
     {
+      "variant": "synthesis",
+      "revision": "dae841c930be4688078b67a2698bc806adbb8f25",
+      "aggregate": 0.06989,
+      "components": {
+        "mass": 0.010707,
+        "core": 0.186081,
+        "moments": 0.037602,
+        "gaps": 0.019483,
+        "motion": 0.138684
+      },
+      "shares120": {
+        "t": 31.6951,
+        "h": 26.3286,
+        "o": 16.9745,
+        "m": 25.0017
+      },
+      "hCrossbarOffset": 0.04357,
+      "phiHoldDeviation": 0.000676,
+      "crossfadeDeviation": 0.018629,
+      "centroidDrift": 0.160003,
+      "maximumGapDeviation": 0.045455,
+      "acceptance": {
+        "schemaVersion": 1,
+        "variant": "synthesis",
+        "command": "bun run check:brand:balance --metrics=/Users/thom/.codex/worktrees/ec8d/th-m/.codex/audits/logo-balance/synthesis/metrics.json",
+        "pass": true,
+        "summary": {
+          "passed": 28,
+          "failed": 0,
+          "total": 28
+        },
+        "gates": [
+          {
+            "id": "120px-t-energy-share",
+            "actual": 31.6951,
+            "requirement": "31 <= share <= 33",
+            "pass": true
+          },
+          {
+            "id": "120px-h-energy-share",
+            "actual": 26.3286,
+            "requirement": "25 <= share <= 28",
+            "pass": true
+          },
+          {
+            "id": "120px-o-energy-share",
+            "actual": 16.9745,
+            "requirement": "16 <= share <= 18",
+            "pass": true
+          },
+          {
+            "id": "120px-m-energy-share",
+            "actual": 25.0017,
+            "requirement": "24 <= share <= 27",
+            "pass": true
+          },
+          {
+            "id": "24px-t-energy-share",
+            "actual": 31.4599,
+            "requirement": "29 <= share <= 35",
+            "pass": true
+          },
+          {
+            "id": "24px-t-recognizable-core",
+            "actual": 85.515625,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-h-energy-share",
+            "actual": 26.6888,
+            "requirement": "23 <= share <= 30",
+            "pass": true
+          },
+          {
+            "id": "24px-h-recognizable-core",
+            "actual": 46.046875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-o-energy-share",
+            "actual": 16.731,
+            "requirement": "14 <= share <= 20",
+            "pass": true
+          },
+          {
+            "id": "24px-o-recognizable-core",
+            "actual": 26.71875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "24px-m-energy-share",
+            "actual": 25.1203,
+            "requirement": "22 <= share <= 29",
+            "pass": true
+          },
+          {
+            "id": "24px-m-recognizable-core",
+            "actual": 45.96875,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-t-energy-share",
+            "actual": 31.6512,
+            "requirement": "29 <= share <= 35",
+            "pass": true
+          },
+          {
+            "id": "48px-t-recognizable-core",
+            "actual": 331.765625,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-h-energy-share",
+            "actual": 26.336,
+            "requirement": "23 <= share <= 30",
+            "pass": true
+          },
+          {
+            "id": "48px-h-recognizable-core",
+            "actual": 178.078125,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-o-energy-share",
+            "actual": 16.9724,
+            "requirement": "14 <= share <= 20",
+            "pass": true
+          },
+          {
+            "id": "48px-o-recognizable-core",
+            "actual": 117.78125,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "48px-m-energy-share",
+            "actual": 25.0404,
+            "requirement": "22 <= share <= 29",
+            "pass": true
+          },
+          {
+            "id": "48px-m-recognizable-core",
+            "actual": 180.109375,
+            "requirement": "highContrastCoreArea > 0",
+            "pass": true
+          },
+          {
+            "id": "h-golden-ratio",
+            "actual": 1.618034,
+            "requirement": "abs(ratio - phi) <= 1e-6",
+            "pass": true
+          },
+          {
+            "id": "h-crossbar-centroid",
+            "actual": 0.04357,
+            "requirement": "absolute offset <= 0.25 design units",
+            "pass": true
+          },
+          {
+            "id": "h-phi-hold-energy",
+            "actual": 0.000676,
+            "requirement": "deviation <= 0.05",
+            "pass": true
+          },
+          {
+            "id": "h-crossfade-energy",
+            "actual": 0.018629,
+            "requirement": "maximum deviation <= 0.07",
+            "pass": true
+          },
+          {
+            "id": "h-animation-centroid",
+            "actual": 0.160003,
+            "requirement": "maximum horizontal drift <= 1 design unit",
+            "pass": true
+          },
+          {
+            "id": "24px-optical-gaps",
+            "actual": 0.045455,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          },
+          {
+            "id": "48px-optical-gaps",
+            "actual": 0.023529,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          },
+          {
+            "id": "120px-optical-gaps",
+            "actual": 0.018692,
+            "requirement": "maximum deviation <= 0.10",
+            "pass": true
+          }
+        ]
+      }
+    },
+    {
       "variant": "stroke-energy",
       "revision": "77b921481924a5ddf850995b32141439c983e148",
       "aggregate": 0.12976,

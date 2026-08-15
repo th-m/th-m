@@ -1,0 +1,1626 @@
+{
+  "schemaVersion": 1,
+  "variant": "synthesis-iteration-1",
+  "revision": "299f6cc3b482841e7f61fb55323e57643fc58f97",
+  "command": "bun run measure:brand:balance --variant=synthesis-iteration-1",
+  "environment": {
+    "viewport": "416x120",
+    "pixelRatio": 8,
+    "renderEngine": "@resvg/resvg-js",
+    "colorSpace": "sRGB decoded to linear-light luminance"
+  },
+  "targets": {
+    "t": {
+      "midpoint": 32,
+      "band": [
+        31,
+        33
+      ]
+    },
+    "h": {
+      "midpoint": 26.5,
+      "band": [
+        25,
+        28
+      ]
+    },
+    "o": {
+      "midpoint": 17,
+      "band": [
+        16,
+        18
+      ]
+    },
+    "m": {
+      "midpoint": 25.5,
+      "band": [
+        24,
+        27
+      ]
+    }
+  },
+  "sizes": {
+    "24": {
+      "render": {
+        "displayHeight": 24,
+        "supersample": 8,
+        "rasterWidth": 666,
+        "rasterHeight": 192
+      },
+      "totalOpticalEnergy": 110.726677,
+      "glyphs": {
+        "t": {
+          "opticalEnergy": 34.40748,
+          "alphaArea": 102.022059,
+          "highContrastCoreArea": 85.515625,
+          "centroid": {
+            "x": 62.370787,
+            "y": 57.345566
+          },
+          "secondMoments": {
+            "xx": 329.869959,
+            "yy": 766.34598,
+            "xy": -165.956533
+          },
+          "occupiedBounds": {
+            "minX": 21.25,
+            "minY": 8.125,
+            "maxX": 105,
+            "maxY": 101.875,
+            "width": 84.375,
+            "height": 94.375
+          },
+          "counterArea": 5196.484375,
+          "share": 31.0742,
+          "opticalBounds": {
+            "minX": 20.625,
+            "minY": 8.125,
+            "maxX": 105.625,
+            "maxY": 102.5,
+            "width": 85.625,
+            "height": 95
+          },
+          "opticalSidebearings": {
+            "left": 1.15,
+            "right": 1.1
+          }
+        },
+        "h": {
+          "opticalEnergy": 29.189305,
+          "alphaArea": 47.252574,
+          "highContrastCoreArea": 46.046875,
+          "centroid": {
+            "x": 148.746146,
+            "y": 57.756602
+          },
+          "secondMoments": {
+            "xx": 617.15664,
+            "yy": 766.745973,
+            "xy": -0.032492
+          },
+          "occupiedBounds": {
+            "minX": 115,
+            "minY": 13.125,
+            "maxX": 182.5,
+            "maxY": 105.625,
+            "width": 68.125,
+            "height": 93.125
+          },
+          "counterArea": 4119.53125,
+          "share": 26.3616,
+          "opticalBounds": {
+            "minX": 115.625,
+            "minY": 13.75,
+            "maxX": 181.875,
+            "maxY": 105,
+            "width": 66.875,
+            "height": 91.875
+          },
+          "opticalSidebearings": {
+            "left": 16.025,
+            "right": 16.475
+          }
+        },
+        "o": {
+          "opticalEnergy": 18.29856,
+          "alphaArea": 27.728248,
+          "highContrastCoreArea": 26.71875,
+          "centroid": {
+            "x": 229.457366,
+            "y": 58.733007
+          },
+          "secondMoments": {
+            "xx": 561.908554,
+            "yy": 705.463642,
+            "xy": 0.906609
+          },
+          "occupiedBounds": {
+            "minX": 190.625,
+            "minY": 14.375,
+            "maxX": 268.75,
+            "maxY": 103.125,
+            "width": 78.75,
+            "height": 89.375
+          },
+          "counterArea": 4599.21875,
+          "share": 16.5259,
+          "opticalBounds": {
+            "minX": 191.875,
+            "minY": 16.25,
+            "maxX": 267.5,
+            "maxY": 101.25,
+            "width": 76.25,
+            "height": 85.625
+          },
+          "opticalSidebearings": {
+            "left": 5,
+            "right": 4.875
+          }
+        },
+        "m": {
+          "opticalEnergy": 28.831332,
+          "alphaArea": 45.542096,
+          "highContrastCoreArea": 48.453125,
+          "centroid": {
+            "x": 335.480284,
+            "y": 56.982482
+          },
+          "secondMoments": {
+            "xx": 1135.290309,
+            "yy": 267.843094,
+            "xy": -0.035011
+          },
+          "occupiedBounds": {
+            "minX": 274.375,
+            "minY": 26.875,
+            "maxX": 396.25,
+            "maxY": 95,
+            "width": 122.5,
+            "height": 68.75
+          },
+          "counterArea": 5248.046875,
+          "share": 26.0383,
+          "opticalBounds": {
+            "minX": 276.875,
+            "minY": 30,
+            "maxX": 394.375,
+            "maxY": 93.125,
+            "width": 118.125,
+            "height": 63.75
+          },
+          "opticalSidebearings": {
+            "left": -0.225,
+            "right": 0.35
+          }
+        }
+      },
+      "opticalGaps": {
+        "method": "monochrome alpha, Gaussian sigma 1.25 design units, threshold 0.1",
+        "values": [
+          9.375,
+          9.375,
+          8.75
+        ],
+        "mean": 9.166667,
+        "maximumDeviationRatio": 0.045455
+      }
+    },
+    "48": {
+      "render": {
+        "displayHeight": 48,
+        "supersample": 8,
+        "rasterWidth": 1331,
+        "rasterHeight": 384
+      },
+      "totalOpticalEnergy": 444.905799,
+      "glyphs": {
+        "t": {
+          "opticalEnergy": 139.138308,
+          "alphaArea": 408.645404,
+          "highContrastCoreArea": 331.765625,
+          "centroid": {
+            "x": 62.439346,
+            "y": 57.393918
+          },
+          "secondMoments": {
+            "xx": 334.479843,
+            "yy": 774.022544,
+            "xy": -160.521452
+          },
+          "occupiedBounds": {
+            "minX": 21.5625,
+            "minY": 8.125,
+            "maxX": 105.625,
+            "maxY": 102.5,
+            "width": 84.375,
+            "height": 94.6875
+          },
+          "counterArea": 5215.332031,
+          "share": 31.2737,
+          "opticalBounds": {
+            "minX": 20.625,
+            "minY": 8.125,
+            "maxX": 106.25,
+            "maxY": 102.8125,
+            "width": 85.9375,
+            "height": 95
+          },
+          "opticalSidebearings": {
+            "left": 1.4625,
+            "right": 0.475
+          }
+        },
+        "h": {
+          "opticalEnergy": 115.772707,
+          "alphaArea": 187.41636,
+          "highContrastCoreArea": 178.078125,
+          "centroid": {
+            "x": 148.824777,
+            "y": 57.784908
+          },
+          "secondMoments": {
+            "xx": 615.581252,
+            "yy": 766.427024,
+            "xy": 0.113167
+          },
+          "occupiedBounds": {
+            "minX": 114.6875,
+            "minY": 12.8125,
+            "maxX": 182.8125,
+            "maxY": 105.9375,
+            "width": 68.4375,
+            "height": 93.4375
+          },
+          "counterArea": 4194.824219,
+          "share": 26.0218,
+          "opticalBounds": {
+            "minX": 115.3125,
+            "minY": 13.4375,
+            "maxX": 182.5,
+            "maxY": 105,
+            "width": 67.5,
+            "height": 91.875
+          },
+          "opticalSidebearings": {
+            "left": 15.7125,
+            "right": 16.1625
+          }
+        },
+        "o": {
+          "opticalEnergy": 74.610418,
+          "alphaArea": 112.845833,
+          "highContrastCoreArea": 117.78125,
+          "centroid": {
+            "x": 229.43438,
+            "y": 58.946011
+          },
+          "secondMoments": {
+            "xx": 561.412367,
+            "yy": 705.20401,
+            "xy": 0.401017
+          },
+          "occupiedBounds": {
+            "minX": 190.625,
+            "minY": 14.375,
+            "maxX": 268.4375,
+            "maxY": 103.125,
+            "width": 78.125,
+            "height": 89.0625
+          },
+          "counterArea": 4807.910156,
+          "share": 16.7699,
+          "opticalBounds": {
+            "minX": 191.5625,
+            "minY": 15.9375,
+            "maxX": 267.1875,
+            "maxY": 101.875,
+            "width": 75.9375,
+            "height": 86.25
+          },
+          "opticalSidebearings": {
+            "left": 5,
+            "right": 5.1875
+          }
+        },
+        "m": {
+          "opticalEnergy": 115.384366,
+          "alphaArea": 182.03848,
+          "highContrastCoreArea": 188.671875,
+          "centroid": {
+            "x": 335.394378,
+            "y": 57.095609
+          },
+          "secondMoments": {
+            "xx": 1131.492371,
+            "yy": 268.623144,
+            "xy": -0.023048
+          },
+          "occupiedBounds": {
+            "minX": 274.6875,
+            "minY": 26.5625,
+            "maxX": 396.25,
+            "maxY": 95,
+            "width": 121.875,
+            "height": 68.75
+          },
+          "counterArea": 5275,
+          "share": 25.9346,
+          "opticalBounds": {
+            "minX": 276.5625,
+            "minY": 30,
+            "maxX": 394.0625,
+            "maxY": 93.75,
+            "width": 117.8125,
+            "height": 64.0625
+          },
+          "opticalSidebearings": {
+            "left": 0.0875,
+            "right": 0.35
+          }
+        }
+      },
+      "opticalGaps": {
+        "method": "monochrome alpha, Gaussian sigma 1.25 design units, threshold 0.1",
+        "values": [
+          8.75,
+          8.75,
+          9.0625
+        ],
+        "mean": 8.854167,
+        "maximumDeviationRatio": 0.023529
+      }
+    },
+    "120": {
+      "render": {
+        "displayHeight": 120,
+        "supersample": 8,
+        "rasterWidth": 3328,
+        "rasterHeight": 960
+      },
+      "totalOpticalEnergy": 2785.618388,
+      "glyphs": {
+        "t": {
+          "opticalEnergy": 872.291678,
+          "alphaArea": 2551.523958,
+          "highContrastCoreArea": 2041.484375,
+          "centroid": {
+            "x": 62.529191,
+            "y": 57.46179
+          },
+          "secondMoments": {
+            "xx": 334.753432,
+            "yy": 774.702002,
+            "xy": -159.03039
+          },
+          "occupiedBounds": {
+            "minX": 21.625,
+            "minY": 8.375,
+            "maxX": 105.75,
+            "maxY": 102.625,
+            "width": 84.25,
+            "height": 94.375
+          },
+          "counterArea": 5182.875,
+          "share": 31.3141,
+          "opticalBounds": {
+            "minX": 20.625,
+            "minY": 8.125,
+            "maxX": 106.375,
+            "maxY": 103.125,
+            "width": 85.875,
+            "height": 95.125
+          },
+          "opticalSidebearings": {
+            "left": 1.525,
+            "right": 0.35
+          }
+        },
+        "h": {
+          "opticalEnergy": 724.599759,
+          "alphaArea": 1174.628186,
+          "highContrastCoreArea": 1076.375,
+          "centroid": {
+            "x": 148.91436,
+            "y": 57.933427
+          },
+          "secondMoments": {
+            "xx": 615.840228,
+            "yy": 766.670707,
+            "xy": -0.03049
+          },
+          "occupiedBounds": {
+            "minX": 114.75,
+            "minY": 12.875,
+            "maxX": 183.125,
+            "maxY": 106,
+            "width": 68.5,
+            "height": 93.25
+          },
+          "counterArea": 4205.171875,
+          "share": 26.0122,
+          "opticalBounds": {
+            "minX": 115.25,
+            "minY": 13.625,
+            "maxX": 182.625,
+            "maxY": 105.25,
+            "width": 67.5,
+            "height": 91.75
+          },
+          "opticalSidebearings": {
+            "left": 15.775,
+            "right": 15.85
+          }
+        },
+        "o": {
+          "opticalEnergy": 467.161993,
+          "alphaArea": 707.352022,
+          "highContrastCoreArea": 746.25,
+          "centroid": {
+            "x": 229.55175,
+            "y": 59.037311
+          },
+          "secondMoments": {
+            "xx": 559.397118,
+            "yy": 706.357802,
+            "xy": 0.688062
+          },
+          "occupiedBounds": {
+            "minX": 190.625,
+            "minY": 14.5,
+            "maxX": 268.625,
+            "maxY": 103.375,
+            "width": 78.125,
+            "height": 89
+          },
+          "counterArea": 4930.515625,
+          "share": 16.7705,
+          "opticalBounds": {
+            "minX": 191.75,
+            "minY": 16,
+            "maxX": 267.5,
+            "maxY": 101.875,
+            "width": 75.875,
+            "height": 86
+          },
+          "opticalSidebearings": {
+            "left": 5,
+            "right": 5
+          }
+        },
+        "m": {
+          "opticalEnergy": 721.564958,
+          "alphaArea": 1136.095282,
+          "highContrastCoreArea": 1165.453125,
+          "centroid": {
+            "x": 335.537426,
+            "y": 57.183408
+          },
+          "secondMoments": {
+            "xx": 1131.952023,
+            "yy": 268.915014,
+            "xy": 0.015745
+          },
+          "occupiedBounds": {
+            "minX": 274.625,
+            "minY": 26.5,
+            "maxX": 396.375,
+            "maxY": 95.25,
+            "width": 121.875,
+            "height": 68.875
+          },
+          "counterArea": 5297.171875,
+          "share": 25.9032,
+          "opticalBounds": {
+            "minX": 276.625,
+            "minY": 30,
+            "maxX": 394.5,
+            "maxY": 93.875,
+            "width": 118,
+            "height": 64
+          },
+          "opticalSidebearings": {
+            "left": 0.025,
+            "right": 0.225
+          }
+        }
+      },
+      "opticalGaps": {
+        "method": "monochrome alpha, Gaussian sigma 1.25 design units, threshold 0.1",
+        "values": [
+          8.75,
+          9,
+          9
+        ],
+        "mean": 8.916667,
+        "maximumDeviationRatio": 0.018692
+      }
+    }
+  },
+  "hCrossbar": {
+    "authoredCenterX": 50,
+    "opticalCentroidX": 50.04357,
+    "centroidOffset": 0.04357,
+    "geometricSplitX": 55.34694,
+    "ratio": 1.618034,
+    "energyPerUnit": {
+      "a": 13.520368,
+      "b": 13.883378,
+      "ratio": 0.973853
+    }
+  },
+  "temporal": {
+    "strategy": "material",
+    "strategyParameters": {
+      "plane": {
+        "width": 42,
+        "height": 64,
+        "centerX": 50.71,
+        "centerY": 60
+      },
+      "coreOpacity": 1,
+      "halo": {
+        "width": 50,
+        "height": 72,
+        "opacity": 0.319
+      }
+    },
+    "durationMs": 700,
+    "cadenceMs": 25,
+    "settledEnergy": 724.46952,
+    "phiHoldEnergy": 598.777751,
+    "phiHoldDeviationRatio": 0.173495,
+    "maximumCrossfadeEnergyDeviationRatio": 0.16611,
+    "maximumCentroidDrift": 0.067756,
+    "acceptance": {
+      "cadenceAndDuration": true,
+      "phiHoldWithinFivePercent": false,
+      "crossfadeWithinSevenPercent": false,
+      "centroidWithinOneDesignUnit": true,
+      "distinctPhiCore": true
+    },
+    "frames": [
+      {
+        "ms": 0,
+        "progress": 0,
+        "opticalEnergy": 0,
+        "alphaArea": 0,
+        "highContrastCoreArea": 0,
+        "centroid": {
+          "x": 0,
+          "y": 0
+        },
+        "secondMoments": {
+          "xx": 0,
+          "yy": 0,
+          "xy": 0
+        },
+        "occupiedBounds": {
+          "minX": 0,
+          "minY": 0,
+          "maxX": -0.125,
+          "maxY": -0.125,
+          "width": 0,
+          "height": 0
+        },
+        "counterArea": 0
+      },
+      {
+        "ms": 25,
+        "progress": 0.035714,
+        "opticalEnergy": 138.735911,
+        "alphaArea": 174.028615,
+        "highContrastCoreArea": 420.125,
+        "centroid": {
+          "x": 49.873897,
+          "y": 58.089898
+        },
+        "secondMoments": {
+          "xx": 106.386007,
+          "yy": 137.599223,
+          "xy": -31.358279
+        },
+        "occupiedBounds": {
+          "minX": 31.75,
+          "minY": 34.625,
+          "maxX": 69.5,
+          "maxY": 85.25,
+          "width": 37.875,
+          "height": 50.75
+        },
+        "counterArea": 578.359375
+      },
+      {
+        "ms": 50,
+        "progress": 0.071429,
+        "opticalEnergy": 274.847349,
+        "alphaArea": 340.252083,
+        "highContrastCoreArea": 514.09375,
+        "centroid": {
+          "x": 49.881405,
+          "y": 58.06314
+        },
+        "secondMoments": {
+          "xx": 106.724143,
+          "yy": 137.838195,
+          "xy": -31.331436
+        },
+        "occupiedBounds": {
+          "minX": 29.375,
+          "minY": 29.25,
+          "maxX": 71.875,
+          "maxY": 90.625,
+          "width": 42.625,
+          "height": 61.5
+        },
+        "counterArea": 704.671875
+      },
+      {
+        "ms": 75,
+        "progress": 0.107143,
+        "opticalEnergy": 406.890857,
+        "alphaArea": 497.82788,
+        "highContrastCoreArea": 545.625,
+        "centroid": {
+          "x": 49.884167,
+          "y": 58.049473
+        },
+        "secondMoments": {
+          "xx": 106.891708,
+          "yy": 137.861173,
+          "xy": -31.430662
+        },
+        "occupiedBounds": {
+          "minX": 28.625,
+          "minY": 28.125,
+          "maxX": 72.75,
+          "maxY": 91.75,
+          "width": 44.25,
+          "height": 63.75
+        },
+        "counterArea": 609.875
+      },
+      {
+        "ms": 100,
+        "progress": 0.142857,
+        "opticalEnergy": 537.741199,
+        "alphaArea": 647.52598,
+        "highContrastCoreArea": 567.609375,
+        "centroid": {
+          "x": 49.886909,
+          "y": 58.042555
+        },
+        "secondMoments": {
+          "xx": 107.214596,
+          "yy": 138.445407,
+          "xy": -31.388703
+        },
+        "occupiedBounds": {
+          "minX": 27.375,
+          "minY": 26.5,
+          "maxX": 73.875,
+          "maxY": 93.375,
+          "width": 46.625,
+          "height": 67
+        },
+        "counterArea": 712.25
+      },
+      {
+        "ms": 125,
+        "progress": 0.178571,
+        "opticalEnergy": 598.777751,
+        "alphaArea": 716.330944,
+        "highContrastCoreArea": 576.953125,
+        "centroid": {
+          "x": 49.890573,
+          "y": 58.035845
+        },
+        "secondMoments": {
+          "xx": 107.33869,
+          "yy": 138.596772,
+          "xy": -31.405562
+        },
+        "occupiedBounds": {
+          "minX": 27.375,
+          "minY": 26.375,
+          "maxX": 74,
+          "maxY": 93.5,
+          "width": 46.75,
+          "height": 67.25
+        },
+        "counterArea": 731.6875
+      },
+      {
+        "ms": 150,
+        "progress": 0.214286,
+        "opticalEnergy": 598.777751,
+        "alphaArea": 716.330944,
+        "highContrastCoreArea": 576.953125,
+        "centroid": {
+          "x": 49.890573,
+          "y": 58.035845
+        },
+        "secondMoments": {
+          "xx": 107.33869,
+          "yy": 138.596772,
+          "xy": -31.405562
+        },
+        "occupiedBounds": {
+          "minX": 27.375,
+          "minY": 26.375,
+          "maxX": 74,
+          "maxY": 93.5,
+          "width": 46.75,
+          "height": 67.25
+        },
+        "counterArea": 731.6875
+      },
+      {
+        "ms": 175,
+        "progress": 0.25,
+        "opticalEnergy": 598.777751,
+        "alphaArea": 716.330944,
+        "highContrastCoreArea": 576.953125,
+        "centroid": {
+          "x": 49.890573,
+          "y": 58.035845
+        },
+        "secondMoments": {
+          "xx": 107.33869,
+          "yy": 138.596772,
+          "xy": -31.405562
+        },
+        "occupiedBounds": {
+          "minX": 27.375,
+          "minY": 26.375,
+          "maxX": 74,
+          "maxY": 93.5,
+          "width": 46.75,
+          "height": 67.25
+        },
+        "counterArea": 731.6875
+      },
+      {
+        "ms": 200,
+        "progress": 0.285714,
+        "opticalEnergy": 598.777751,
+        "alphaArea": 716.330944,
+        "highContrastCoreArea": 576.953125,
+        "centroid": {
+          "x": 49.890573,
+          "y": 58.035845
+        },
+        "secondMoments": {
+          "xx": 107.33869,
+          "yy": 138.596772,
+          "xy": -31.405562
+        },
+        "occupiedBounds": {
+          "minX": 27.375,
+          "minY": 26.375,
+          "maxX": 74,
+          "maxY": 93.5,
+          "width": 46.75,
+          "height": 67.25
+        },
+        "counterArea": 731.6875
+      },
+      {
+        "ms": 225,
+        "progress": 0.321429,
+        "opticalEnergy": 598.777751,
+        "alphaArea": 716.330944,
+        "highContrastCoreArea": 576.953125,
+        "centroid": {
+          "x": 49.890573,
+          "y": 58.035845
+        },
+        "secondMoments": {
+          "xx": 107.33869,
+          "yy": 138.596772,
+          "xy": -31.405562
+        },
+        "occupiedBounds": {
+          "minX": 27.375,
+          "minY": 26.375,
+          "maxX": 74,
+          "maxY": 93.5,
+          "width": 46.75,
+          "height": 67.25
+        },
+        "counterArea": 731.6875
+      },
+      {
+        "ms": 250,
+        "progress": 0.357143,
+        "opticalEnergy": 604.128213,
+        "alphaArea": 734.118995,
+        "highContrastCoreArea": 573.703125,
+        "centroid": {
+          "x": 49.887442,
+          "y": 58.027624
+        },
+        "secondMoments": {
+          "xx": 129.267735,
+          "yy": 165.896684,
+          "xy": -30.06729
+        },
+        "occupiedBounds": {
+          "minX": 17.25,
+          "minY": 14.75,
+          "maxX": 82.625,
+          "maxY": 104.125,
+          "width": 65.5,
+          "height": 89.5
+        },
+        "counterArea": 2393.984375
+      },
+      {
+        "ms": 275,
+        "progress": 0.392857,
+        "opticalEnergy": 614.628344,
+        "alphaArea": 772.804412,
+        "highContrastCoreArea": 567.640625,
+        "centroid": {
+          "x": 49.890624,
+          "y": 58.017397
+        },
+        "secondMoments": {
+          "xx": 173.045061,
+          "yy": 220.125422,
+          "xy": -27.365532
+        },
+        "occupiedBounds": {
+          "minX": 17.125,
+          "minY": 14.75,
+          "maxX": 82.75,
+          "maxY": 104.125,
+          "width": 65.75,
+          "height": 89.5
+        },
+        "counterArea": 2399.546875
+      },
+      {
+        "ms": 300,
+        "progress": 0.428571,
+        "opticalEnergy": 624.797049,
+        "alphaArea": 810.423407,
+        "highContrastCoreArea": 560.84375,
+        "centroid": {
+          "x": 49.894316,
+          "y": 58.003546
+        },
+        "secondMoments": {
+          "xx": 215.784108,
+          "yy": 272.971757,
+          "xy": -24.777014
+        },
+        "occupiedBounds": {
+          "minX": 17.125,
+          "minY": 14.125,
+          "maxX": 82.75,
+          "maxY": 104.75,
+          "width": 65.75,
+          "height": 90.75
+        },
+        "counterArea": 2478.90625
+      },
+      {
+        "ms": 325,
+        "progress": 0.464286,
+        "opticalEnergy": 635.621512,
+        "alphaArea": 847.55049,
+        "highContrastCoreArea": 686.3125,
+        "centroid": {
+          "x": 49.899621,
+          "y": 57.998233
+        },
+        "secondMoments": {
+          "xx": 257.728438,
+          "yy": 324.811251,
+          "xy": -22.157491
+        },
+        "occupiedBounds": {
+          "minX": 17.125,
+          "minY": 14.125,
+          "maxX": 82.75,
+          "maxY": 104.75,
+          "width": 65.75,
+          "height": 90.75
+        },
+        "counterArea": 2370.625
+      },
+      {
+        "ms": 350,
+        "progress": 0.5,
+        "opticalEnergy": 644.406281,
+        "alphaArea": 883.164767,
+        "highContrastCoreArea": 1318.78125,
+        "centroid": {
+          "x": 49.901462,
+          "y": 57.984112
+        },
+        "secondMoments": {
+          "xx": 297.293283,
+          "yy": 373.866834,
+          "xy": -19.746527
+        },
+        "occupiedBounds": {
+          "minX": 16.75,
+          "minY": 13.875,
+          "maxX": 83.125,
+          "maxY": 105,
+          "width": 66.5,
+          "height": 91.25
+        },
+        "counterArea": 2410.046875
+      },
+      {
+        "ms": 375,
+        "progress": 0.535714,
+        "opticalEnergy": 654.199028,
+        "alphaArea": 918.699449,
+        "highContrastCoreArea": 1386.9375,
+        "centroid": {
+          "x": 49.904798,
+          "y": 57.973839
+        },
+        "secondMoments": {
+          "xx": 336.408429,
+          "yy": 422.263522,
+          "xy": -17.322212
+        },
+        "occupiedBounds": {
+          "minX": 16.5,
+          "minY": 13.625,
+          "maxX": 83.375,
+          "maxY": 105.25,
+          "width": 67,
+          "height": 91.75
+        },
+        "counterArea": 2475.046875
+      },
+      {
+        "ms": 400,
+        "progress": 0.571429,
+        "opticalEnergy": 662.756373,
+        "alphaArea": 952.877819,
+        "highContrastCoreArea": 1552.765625,
+        "centroid": {
+          "x": 49.909494,
+          "y": 57.964543
+        },
+        "secondMoments": {
+          "xx": 374.372503,
+          "yy": 468.901156,
+          "xy": -14.972119
+        },
+        "occupiedBounds": {
+          "minX": 16.375,
+          "minY": 13.5,
+          "maxX": 83.5,
+          "maxY": 105.375,
+          "width": 67.25,
+          "height": 92
+        },
+        "counterArea": 2536.828125
+      },
+      {
+        "ms": 425,
+        "progress": 0.607143,
+        "opticalEnergy": 674.120077,
+        "alphaArea": 988.38511,
+        "highContrastCoreArea": 1556.453125,
+        "centroid": {
+          "x": 49.911939,
+          "y": 57.964788
+        },
+        "secondMoments": {
+          "xx": 411.345632,
+          "yy": 515.116118,
+          "xy": -12.674544
+        },
+        "occupiedBounds": {
+          "minX": 16.25,
+          "minY": 13.375,
+          "maxX": 83.625,
+          "maxY": 105.5,
+          "width": 67.5,
+          "height": 92.25
+        },
+        "counterArea": 2589.203125
+      },
+      {
+        "ms": 450,
+        "progress": 0.642857,
+        "opticalEnergy": 681.739272,
+        "alphaArea": 1021.382414,
+        "highContrastCoreArea": 1546.328125,
+        "centroid": {
+          "x": 49.916483,
+          "y": 57.954742
+        },
+        "secondMoments": {
+          "xx": 447.505503,
+          "yy": 559.822286,
+          "xy": -10.44754
+        },
+        "occupiedBounds": {
+          "minX": 16.125,
+          "minY": 13.25,
+          "maxX": 83.75,
+          "maxY": 105.625,
+          "width": 67.75,
+          "height": 92.5
+        },
+        "counterArea": 2761.15625
+      },
+      {
+        "ms": 475,
+        "progress": 0.678571,
+        "opticalEnergy": 690.955503,
+        "alphaArea": 1053.69185,
+        "highContrastCoreArea": 1524.921875,
+        "centroid": {
+          "x": 49.923351,
+          "y": 57.947591
+        },
+        "secondMoments": {
+          "xx": 482.577537,
+          "yy": 603.126657,
+          "xy": -8.2662
+        },
+        "occupiedBounds": {
+          "minX": 16,
+          "minY": 12.875,
+          "maxX": 83.875,
+          "maxY": 106,
+          "width": 68,
+          "height": 93.25
+        },
+        "counterArea": 2931.5625
+      },
+      {
+        "ms": 500,
+        "progress": 0.714286,
+        "opticalEnergy": 699.524144,
+        "alphaArea": 1085.665441,
+        "highContrastCoreArea": 1509.921875,
+        "centroid": {
+          "x": 49.927384,
+          "y": 57.945308
+        },
+        "secondMoments": {
+          "xx": 517.37455,
+          "yy": 645.97199,
+          "xy": -6.094255
+        },
+        "occupiedBounds": {
+          "minX": 15.875,
+          "minY": 12.875,
+          "maxX": 84,
+          "maxY": 106,
+          "width": 68.25,
+          "height": 93.25
+        },
+        "counterArea": 3091.0625
+      },
+      {
+        "ms": 525,
+        "progress": 0.75,
+        "opticalEnergy": 707.893671,
+        "alphaArea": 1117.071569,
+        "highContrastCoreArea": 1105.75,
+        "centroid": {
+          "x": 49.933394,
+          "y": 57.935355
+        },
+        "secondMoments": {
+          "xx": 551.055755,
+          "yy": 687.475698,
+          "xy": -4.025393
+        },
+        "occupiedBounds": {
+          "minX": 15.875,
+          "minY": 13,
+          "maxX": 84,
+          "maxY": 105.875,
+          "width": 68.25,
+          "height": 93
+        },
+        "counterArea": 3359.734375
+      },
+      {
+        "ms": 550,
+        "progress": 0.785714,
+        "opticalEnergy": 716.072548,
+        "alphaArea": 1147.377451,
+        "highContrastCoreArea": 1092.6875,
+        "centroid": {
+          "x": 49.939116,
+          "y": 57.933537
+        },
+        "secondMoments": {
+          "xx": 584.242318,
+          "yy": 728.4095,
+          "xy": -1.920328
+        },
+        "occupiedBounds": {
+          "minX": 15.75,
+          "minY": 12.875,
+          "maxX": 84.125,
+          "maxY": 106,
+          "width": 68.5,
+          "height": 93.25
+        },
+        "counterArea": 3663.265625
+      },
+      {
+        "ms": 575,
+        "progress": 0.821429,
+        "opticalEnergy": 724.46952,
+        "alphaArea": 1174.962316,
+        "highContrastCoreArea": 1094.328125,
+        "centroid": {
+          "x": 49.941653,
+          "y": 57.925072
+        },
+        "secondMoments": {
+          "xx": 615.834759,
+          "yy": 766.954793,
+          "xy": 0.008418
+        },
+        "occupiedBounds": {
+          "minX": 15.75,
+          "minY": 12.875,
+          "maxX": 84.125,
+          "maxY": 106,
+          "width": 68.5,
+          "height": 93.25
+        },
+        "counterArea": 4220.3125
+      },
+      {
+        "ms": 600,
+        "progress": 0.857143,
+        "opticalEnergy": 724.46952,
+        "alphaArea": 1174.962316,
+        "highContrastCoreArea": 1094.328125,
+        "centroid": {
+          "x": 49.941653,
+          "y": 57.925072
+        },
+        "secondMoments": {
+          "xx": 615.834759,
+          "yy": 766.954793,
+          "xy": 0.008418
+        },
+        "occupiedBounds": {
+          "minX": 15.75,
+          "minY": 12.875,
+          "maxX": 84.125,
+          "maxY": 106,
+          "width": 68.5,
+          "height": 93.25
+        },
+        "counterArea": 4220.3125
+      },
+      {
+        "ms": 625,
+        "progress": 0.892857,
+        "opticalEnergy": 724.46952,
+        "alphaArea": 1174.962316,
+        "highContrastCoreArea": 1094.328125,
+        "centroid": {
+          "x": 49.941653,
+          "y": 57.925072
+        },
+        "secondMoments": {
+          "xx": 615.834759,
+          "yy": 766.954793,
+          "xy": 0.008418
+        },
+        "occupiedBounds": {
+          "minX": 15.75,
+          "minY": 12.875,
+          "maxX": 84.125,
+          "maxY": 106,
+          "width": 68.5,
+          "height": 93.25
+        },
+        "counterArea": 4220.3125
+      },
+      {
+        "ms": 650,
+        "progress": 0.928571,
+        "opticalEnergy": 724.46952,
+        "alphaArea": 1174.962316,
+        "highContrastCoreArea": 1094.328125,
+        "centroid": {
+          "x": 49.941653,
+          "y": 57.925072
+        },
+        "secondMoments": {
+          "xx": 615.834759,
+          "yy": 766.954793,
+          "xy": 0.008418
+        },
+        "occupiedBounds": {
+          "minX": 15.75,
+          "minY": 12.875,
+          "maxX": 84.125,
+          "maxY": 106,
+          "width": 68.5,
+          "height": 93.25
+        },
+        "counterArea": 4220.3125
+      },
+      {
+        "ms": 675,
+        "progress": 0.964286,
+        "opticalEnergy": 724.46952,
+        "alphaArea": 1174.962316,
+        "highContrastCoreArea": 1094.328125,
+        "centroid": {
+          "x": 49.941653,
+          "y": 57.925072
+        },
+        "secondMoments": {
+          "xx": 615.834759,
+          "yy": 766.954793,
+          "xy": 0.008418
+        },
+        "occupiedBounds": {
+          "minX": 15.75,
+          "minY": 12.875,
+          "maxX": 84.125,
+          "maxY": 106,
+          "width": 68.5,
+          "height": 93.25
+        },
+        "counterArea": 4220.3125
+      },
+      {
+        "ms": 700,
+        "progress": 1,
+        "opticalEnergy": 724.46952,
+        "alphaArea": 1174.962316,
+        "highContrastCoreArea": 1094.328125,
+        "centroid": {
+          "x": 49.941653,
+          "y": 57.925072
+        },
+        "secondMoments": {
+          "xx": 615.834759,
+          "yy": 766.954793,
+          "xy": 0.008418
+        },
+        "occupiedBounds": {
+          "minX": 15.75,
+          "minY": 12.875,
+          "maxX": 84.125,
+          "maxY": 106,
+          "width": 68.5,
+          "height": 93.25
+        },
+        "counterArea": 4220.3125
+      }
+    ]
+  },
+  "multiscaleSurvival": {
+    "24": {
+      "features": {
+        "hTicks": {
+          "opticalEnergy": 0.054301,
+          "alphaArea": 0.114951,
+          "highContrastCoreArea": 0,
+          "centroid": {
+            "x": 150.81239,
+            "y": 59.690093
+          },
+          "secondMoments": {
+            "xx": 348.475518,
+            "yy": 3.27443,
+            "xy": -0.026802
+          },
+          "occupiedBounds": {
+            "minX": 125.625,
+            "minY": 56.875,
+            "maxX": 171.875,
+            "maxY": 62.5,
+            "width": 46.875,
+            "height": 6.25
+          },
+          "counterArea": 269.53125
+        },
+        "hBrace": {
+          "opticalEnergy": 0.485453,
+          "alphaArea": 1.022304,
+          "highContrastCoreArea": 0.078125,
+          "centroid": {
+            "x": 148.723448,
+            "y": 68.618732
+          },
+          "secondMoments": {
+            "xx": 188.704234,
+            "yy": 5.426212,
+            "xy": 0.0841
+          },
+          "occupiedBounds": {
+            "minX": 125.625,
+            "minY": 63.75,
+            "maxX": 171.875,
+            "maxY": 75,
+            "width": 46.875,
+            "height": 11.875
+          },
+          "counterArea": 343.75
+        },
+        "oCircumference": {
+          "opticalEnergy": 12.292263,
+          "alphaArea": 16.947549,
+          "highContrastCoreArea": 20.3125,
+          "centroid": {
+            "x": 229.439885,
+            "y": 58.696595
+          },
+          "secondMoments": {
+            "xx": 652.187136,
+            "yy": 841.055744,
+            "xy": 0.596791
+          },
+          "occupiedBounds": {
+            "minX": 191.25,
+            "minY": 15,
+            "maxX": 267.5,
+            "maxY": 102.5,
+            "width": 76.875,
+            "height": 88.125
+          },
+          "counterArea": 5442.1875
+        },
+        "oNetwork": {
+          "opticalEnergy": 7.066048,
+          "alphaArea": 12.200674,
+          "highContrastCoreArea": 6.859375,
+          "centroid": {
+            "x": 229.598373,
+            "y": 58.529326
+          },
+          "secondMoments": {
+            "xx": 414.949107,
+            "yy": 492.005827,
+            "xy": 3.751395
+          },
+          "occupiedBounds": {
+            "minX": 190.625,
+            "minY": 14.375,
+            "maxX": 268.125,
+            "maxY": 103.125,
+            "width": 78.125,
+            "height": 89.375
+          },
+          "counterArea": 5452.34375
+        },
+        "mCore": {
+          "opticalEnergy": 26.209299,
+          "alphaArea": 39.392463,
+          "highContrastCoreArea": 40.625,
+          "centroid": {
+            "x": 335.476921,
+            "y": 56.787068
+          },
+          "secondMoments": {
+            "xx": 1160.866825,
+            "yy": 267.303443,
+            "xy": -0.034923
+          },
+          "occupiedBounds": {
+            "minX": 274.375,
+            "minY": 26.875,
+            "maxX": 396.25,
+            "maxY": 95,
+            "width": 122.5,
+            "height": 68.75
+          },
+          "counterArea": 5296.09375
+        },
+        "mLayers": {
+          "opticalEnergy": 5.531554,
+          "alphaArea": 12.762868,
+          "highContrastCoreArea": 10.265625,
+          "centroid": {
+            "x": 335.483235,
+            "y": 59.54351
+          },
+          "secondMoments": {
+            "xx": 1056.969401,
+            "yy": 258.154309,
+            "xy": -0.509573
+          },
+          "occupiedBounds": {
+            "minX": 276.25,
+            "minY": 30.625,
+            "maxX": 395,
+            "maxY": 93.125,
+            "width": 119.375,
+            "height": 63.125
+          },
+          "counterArea": 6539.0625
+        }
+      },
+      "acceptance": {
+        "hTicksVisible": true,
+        "hBraceVisible": true,
+        "oCircumferenceVisible": true,
+        "oNetworkVisible": true,
+        "mCoreVisible": true,
+        "mLayersVisible": true
+      }
+    },
+    "48": {
+      "features": {
+        "hTicks": {
+          "opticalEnergy": 0.211252,
+          "alphaArea": 0.451225,
+          "highContrastCoreArea": 0,
+          "centroid": {
+            "x": 149.976117,
+            "y": 59.842
+          },
+          "secondMoments": {
+            "xx": 344.663905,
+            "yy": 3.293354,
+            "xy": -0.007207
+          },
+          "occupiedBounds": {
+            "minX": 125.625,
+            "minY": 56.5625,
+            "maxX": 171.875,
+            "maxY": 63.125,
+            "width": 46.5625,
+            "height": 6.875
+          },
+          "counterArea": 295.507813
+        },
+        "hBrace": {
+          "opticalEnergy": 2.017468,
+          "alphaArea": 4.354289,
+          "highContrastCoreArea": 3.484375,
+          "centroid": {
+            "x": 148.80555,
+            "y": 68.826165
+          },
+          "secondMoments": {
+            "xx": 187.606176,
+            "yy": 5.544654,
+            "xy": -0.073254
+          },
+          "occupiedBounds": {
+            "minX": 125,
+            "minY": 64.0625,
+            "maxX": 172.5,
+            "maxY": 75.3125,
+            "width": 47.8125,
+            "height": 11.5625
+          },
+          "counterArea": 321.386719
+        },
+        "oCircumference": {
+          "opticalEnergy": 50.320492,
+          "alphaArea": 68.974755,
+          "highContrastCoreArea": 79.25,
+          "centroid": {
+            "x": 229.440259,
+            "y": 58.848913
+          },
+          "secondMoments": {
+            "xx": 652.601432,
+            "yy": 839.376224,
+            "xy": -0.432982
+          },
+          "occupiedBounds": {
+            "minX": 190.9375,
+            "minY": 15,
+            "maxX": 268.125,
+            "maxY": 102.5,
+            "width": 77.5,
+            "height": 87.8125
+          },
+          "counterArea": 5465.527344
+        },
+        "oNetwork": {
+          "opticalEnergy": 28.578054,
+          "alphaArea": 49.568076,
+          "highContrastCoreArea": 38.265625,
+          "centroid": {
+            "x": 229.544942,
+            "y": 58.893618
+          },
+          "secondMoments": {
+            "xx": 410.807362,
+            "yy": 491.425024,
+            "xy": 3.842924
+          },
+          "occupiedBounds": {
+            "minX": 190.625,
+            "minY": 14.6875,
+            "maxX": 268.4375,
+            "maxY": 103.125,
+            "width": 78.125,
+            "height": 88.75
+          },
+          "counterArea": 5740.136719
+        },
+        "mCore": {
+          "opticalEnergy": 104.609585,
+          "alphaArea": 156.907843,
+          "highContrastCoreArea": 157.109375,
+          "centroid": {
+            "x": 335.394571,
+            "y": 56.93819
+          },
+          "secondMoments": {
+            "xx": 1158.746276,
+            "yy": 268.030215,
+            "xy": 0.007262
+          },
+          "occupiedBounds": {
+            "minX": 274.6875,
+            "minY": 26.5625,
+            "maxX": 396.25,
+            "maxY": 95,
+            "width": 121.875,
+            "height": 68.75
+          },
+          "counterArea": 5320.703125
+        },
+        "mLayers": {
+          "opticalEnergy": 22.337098,
+          "alphaArea": 51.463542,
+          "highContrastCoreArea": 43.609375,
+          "centroid": {
+            "x": 335.384775,
+            "y": 59.498675
+          },
+          "secondMoments": {
+            "xx": 1045.295291,
+            "yy": 260.724024,
+            "xy": 0.041008
+          },
+          "occupiedBounds": {
+            "minX": 276.25,
+            "minY": 30.9375,
+            "maxX": 394.6875,
+            "maxY": 93.4375,
+            "width": 118.75,
+            "height": 62.8125
+          },
+          "counterArea": 6506.054688
+        }
+      },
+      "acceptance": {
+        "hTicksVisible": true,
+        "hBraceVisible": true,
+        "oCircumferenceVisible": true,
+        "oNetworkVisible": true,
+        "mCoreVisible": true,
+        "mLayersVisible": true
+      }
+    }
+  },
+  "fallbackParity": {
+    "reducedMotionMatchesSettled": true,
+    "staticFallbackMatchesSettled": true
+  },
+  "score": {
+    "formula": "0.40*mass + 0.20*core + 0.15*moments + 0.10*gaps + 0.15*motion",
+    "components": {
+      "mass": 0.018636,
+      "core": 0.178655,
+      "moments": 0.040396,
+      "gaps": 0.019483,
+      "motion": 0.193042
+    },
+    "aggregate": 0.080149
+  }
+}
