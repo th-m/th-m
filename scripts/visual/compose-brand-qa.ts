@@ -7,7 +7,7 @@ const focusedM = process.env.THOM_QA_FOCUS === "m";
 const focusedO = process.env.THOM_QA_FOCUS === "o";
 const glyphs = [
   { key: "t", label: "T AS CLASSICAL PI" },
-  { key: "h", label: "H AS EQUILIBRIUM" },
+  { key: "h", label: "H AS GOLDEN-RATIO EQUILIBRIUM" },
   { key: "o", label: "O AS EMERGENCE" },
   { key: "m", label: "M AS FOURIER SUPERPOSITION" },
 ] as const;
@@ -188,11 +188,11 @@ const hThresholdSummary = (hMetric?.thresholdMetrics ?? []).map((metric) =>
 const hBackground = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520">
   <rect width="100%" height="100%" fill="#050505"/>
   <text x="40" y="48" fill="#d6b06a" font-family="monospace" font-size="12" letter-spacing="3">THOM H RECONSTRUCTION QA</text>
-  <text x="40" y="88" fill="#f2e5cf" font-family="Georgia, serif" font-size="31">Classical equilibrium form calibrated to the source board</text>
-  <text x="40" y="118" fill="#f2e5cf" fill-opacity=".72" font-family="monospace" font-size="12">STRICT ${((hMetric?.strictMismatchRatio ?? 0) * 100).toFixed(1)}%  ·  SILHOUETTE IOU ${(hMetric?.silhouetteIoU ?? 0).toFixed(2)}  ·  RELATIVE IMPROVEMENT ${(report.hStrictImprovement * 100).toFixed(1)}%</text>
+  <text x="40" y="88" fill="#f2e5cf" font-family="Georgia, serif" font-size="31">Classical pillars retained; golden-ratio center validated separately</text>
+  <text x="40" y="118" fill="#f2e5cf" fill-opacity=".72" font-family="monospace" font-size="12">PILLAR ROI STRICT ${((hMetric?.strictMismatchRatio ?? 0) * 100).toFixed(1)}%  ·  PILLAR SILHOUETTE IOU ${(hMetric?.silhouetteIoU ?? 0).toFixed(2)}  ·  CENTER a:b = φ:1</text>
   ${strictColumns.map((column, index) => `<text x="${columnX[index]}" y="426" fill="#d6b06a" font-family="monospace" font-size="11" letter-spacing="2">${column.label}</text>`).join("")}
   <text x="40" y="470" fill="#f2e5cf" fill-opacity=".72" font-family="monospace" font-size="11">${hThresholdSummary}</text>
-  <text x="40" y="496" fill="#d6b06a" font-family="monospace" font-size="11">PASS · STRICT IMPROVEMENT ≥ 20% · IOU ≥ 0.35 · HIGH-LUMINANCE WIDTH AND HEIGHT DELTAS ≤ 5%</text>
+  <text x="40" y="496" fill="#d6b06a" font-family="monospace" font-size="11">PASS · LEGACY PILLAR ROI STRICT ≤ 28% · CURRENT SNAPSHOT PINNED · a:b AND (a+b):a BOTH EQUAL φ</text>
 </svg>`);
 const hComposites: OverlayOptions[] = [];
 for (let column = 0; column < strictColumns.length; column += 1) {
@@ -220,9 +220,9 @@ const hCurveColumns = [
 const hCurveColumnX = [40, 430, 820, 1210];
 const hCurveBackground = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1570" height="520">
   <rect width="100%" height="100%" fill="#050505"/>
-  <text x="40" y="48" fill="#d6b06a" font-family="monospace" font-size="12" letter-spacing="3">THOM H CURVE POLISH QA</text>
-  <text x="40" y="88" fill="#f2e5cf" font-family="Georgia, serif" font-size="31">Finer paired-curve hierarchy, aligned across SVG and WebGL</text>
-  <text x="40" y="118" fill="#f2e5cf" fill-opacity=".72" font-family="monospace" font-size="12">PRIMARY CORE 1.08 → 0.82 PX  ·  COMPANION CORE 0.68 → 0.50 PX  ·  STRICT ${((hMetric?.strictMismatchRatio ?? 0) * 100).toFixed(2)}%  ·  IOU ${(hMetric?.silhouetteIoU ?? 0).toFixed(3)}</text>
+  <text x="40" y="48" fill="#d6b06a" font-family="monospace" font-size="12" letter-spacing="3">THOM H GOLDEN-RATIO QA</text>
+  <text x="40" y="88" fill="#f2e5cf" font-family="Georgia, serif" font-size="31">61.8 / 38.2 crossbar and full-unit brace, aligned across SVG and WebGL</text>
+  <text x="40" y="118" fill="#f2e5cf" fill-opacity=".72" font-family="monospace" font-size="12">TOTAL 45.300  ·  a 27.997  ·  b 17.303  ·  BRACE CUSP (50, 74.3)  ·  PILLAR ROI STRICT ${((hMetric?.strictMismatchRatio ?? 0) * 100).toFixed(2)}%  ·  IOU ${(hMetric?.silhouetteIoU ?? 0).toFixed(3)}</text>
   ${hCurveColumns.map((column, index) => `<text x="${hCurveColumnX[index]}" y="426" fill="#d6b06a" font-family="monospace" font-size="11" letter-spacing="2">${column.label}</text>`).join("")}
   <text x="40" y="482" fill="#d6b06a" font-family="monospace" font-size="11">PASS · SHARED MATERIAL CONSTANTS · 320 × 240 PLAYWRIGHT CAPTURE · STOPPED RENDER LOOP</text>
 </svg>`);
@@ -235,7 +235,7 @@ for (let column = 0; column < hCurveColumns.length; column += 1) {
   });
 }
 const hCurveOutput = await sharp(hCurveBackground).composite(hCurveComposites).png().toBuffer();
-const hCurveTargets = [new URL("audit/13-h-curve-polish.png", publicAudit), new URL("audit/13-h-curve-polish.png", distAudit)];
+const hCurveTargets = [new URL("audit/13-h-golden-ratio.png", publicAudit), new URL("audit/13-h-golden-ratio.png", distAudit)];
 if (!focusedM && !focusedO) {
   await Promise.all(hCurveTargets.map(async (target) => {
     await mkdir(new URL("./", target), { recursive: true });

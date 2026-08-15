@@ -28,12 +28,11 @@
       <stop offset="1" stop-color="#765237"/>
     </linearGradient>
     <linearGradient id="thom-h-metal" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#765237"/>
-      <stop offset=".16" stop-color="#d6b06a"/>
-      <stop offset=".28" stop-color="#fff5dc"/>
-      <stop offset=".46" stop-color="#f2e5cf"/>
-      <stop offset=".76" stop-color="#d6b06a"/>
-      <stop offset="1" stop-color="#765237"/>
+      <stop offset="0" stop-color="#bd9a63"/>
+      <stop offset=".42" stop-color="#d2bc96"/>
+      <stop offset=".5" stop-color="#e2d2b4"/>
+      <stop offset=".58" stop-color="#d2bc96"/>
+      <stop offset="1" stop-color="#bd9a63"/>
     </linearGradient>
     <filter id="thom-fill-glow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
       <feGaussianBlur in="SourceGraphic" stdDeviation="1.35" result="blur"/>

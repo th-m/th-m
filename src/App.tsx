@@ -24,8 +24,8 @@ const glyphs: Array<{
     glyph: "h",
     symbol: "H",
     title: "Equilibrium",
-    principle: "constraint",
-    formula: "y = a cosh(x / a)",
+    principle: "proportion",
+    formula: "φ = (a+b)/a = a/b",
     description: "Good systems balance competing constraints rather than pretending those constraints can be removed.",
   },
   {
@@ -279,7 +279,7 @@ const assets = [
 function AssetsSection() {
   return (
     <Reveal className="assets-section page-section">
-      <SectionIntro index="07" eyebrow="Identity assets" title="One geometry, every application." copy="Each asset is generated from the same canonical catenary, chord network, and Fourier coefficients as the live mark." />
+      <SectionIntro index="07" eyebrow="Identity assets" title="One geometry, every application." copy="Each asset is generated from the same golden-ratio division, chord network, and Fourier coefficients as the live mark." />
       <div className="asset-grid">
         {assets.map((asset) => (
           <a key={asset.file} className={`asset-card ${asset.className}`} href={`/brand/${asset.file}`} download>
