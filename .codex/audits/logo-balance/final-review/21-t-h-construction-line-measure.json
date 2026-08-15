@@ -1,0 +1,34 @@
+{
+  "constructionLineY": 60,
+  "browserPixelsPerMasterUnit": 5,
+  "measures": [
+    {
+      "key": "T left",
+      "start": 46.2,
+      "end": 56.8,
+      "labelY": 113,
+      "masterUnits": 10.6
+    },
+    {
+      "key": "T right",
+      "start": 67.6,
+      "end": 75.2,
+      "labelY": 119,
+      "masterUnits": 7.6
+    },
+    {
+      "key": "H left",
+      "start": 125.4,
+      "end": 128.6,
+      "labelY": 113,
+      "masterUnits": 3.2
+    },
+    {
+      "key": "H right",
+      "start": 169.4,
+      "end": 172.6,
+      "labelY": 113,
+      "masterUnits": 3.2
+    }
+  ]
+}

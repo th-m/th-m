@@ -1,0 +1,89 @@
+{
+  "masterViewBox": {
+    "width": 460,
+    "height": 152,
+    "capLine": 15,
+    "baseline": 104
+  },
+  "capHeightMasterUnits": 89,
+  "exportPixelsPerMasterUnit": 5,
+  "transforms": {
+    "t": {
+      "coordinateSpace": "master",
+      "source": "original-bezier-trace",
+      "groups": [
+        "roof",
+        "left-pillar",
+        "right-pillar"
+      ],
+      "scale": [
+        0.86,
+        1.03
+      ]
+    },
+    "h": {
+      "translate": [
+        98.975,
+        0
+      ],
+      "pillarCenters": [
+        28,
+        72
+      ],
+      "pillarScaleX": 0.74
+    },
+    "o": {
+      "translate": [
+        185.625,
+        -8.4
+      ],
+      "scale": [
+        0.88,
+        1.14
+      ]
+    },
+    "m": {
+      "translate": [
+        274.6,
+        -26.7
+      ],
+      "scale": [
+        1,
+        1.49
+      ]
+    }
+  },
+  "measurements": {
+    "hPillarWidth": {
+      "masterUnits": 11.544,
+      "capHeightPercent": 12.9708
+    },
+    "oCircumference": {
+      "sideMasterUnits": 2.2994,
+      "capBaselineMasterUnits": 2.9788,
+      "sideCapHeightPercent": 2.5836,
+      "capBaselineCapHeightPercent": 3.347
+    },
+    "sharedIntersectionDot": {
+      "diameterMasterUnits": [
+        1.496,
+        1.938
+      ],
+      "diameterCapHeightPercent": [
+        1.6809,
+        2.1775
+      ]
+    },
+    "mTexture": {
+      "addedFineStrandCopies": 4,
+      "localOffsets": [
+        -2.4,
+        -1.2,
+        1.2,
+        2.4
+      ],
+      "addedStrandOpacity": 0.4,
+      "lineWidthsUnchanged": true
+    }
+  }
+}
