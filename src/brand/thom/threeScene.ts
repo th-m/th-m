@@ -33,12 +33,15 @@ import {
   H_PHI_STRATEGY,
   H_PILLAR_CENTERS,
   H_PILLAR_SHAPE,
+  H_RATIO_POINT_SHAPE,
   H_RATIO_POINT_MATERIAL,
   hStrokeWorldWidth,
   hAnimationWeights,
   M_ANIMATION,
   M_FINAL_MATERIAL,
+  M_FINE_STRAND_OFFSETS,
   M_WEBGL_CORE_PARITY_SCALE,
+  MASTER,
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
   PI_ANIMATION,
@@ -48,6 +51,7 @@ import {
   sampleBezierChain,
   samplePathOutline,
   type ChordNetwork,
+  type BrandData,
   type CubicBezierSegment,
   type FilledPath,
   type Point,
@@ -84,7 +88,7 @@ type MStrokeRecord = {
   capIndexCount: number;
 };
 type MStrokeStack = { glow: MStrokeRecord; halo: MStrokeRecord; middle: MStrokeRecord; core: MStrokeRecord };
-type MPartialLine = { core: MStrokeRecord; halo: MStrokeRecord | null };
+type MPartialLine = { core: MStrokeRecord; halo: MStrokeRecord | null; revealIndex: number };
 type HLineMaterial = (typeof H_MATERIAL)[keyof typeof H_MATERIAL];
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
@@ -93,7 +97,7 @@ const hPhiTexture = new TextureLoader().loadAsync("/brand/h-phi.png").then((text
   return texture;
 });
 const M_WEBGL_FILTER_GLOW = { width: 23, opacity: 0.1 } as const;
-const M_LOCAL_SCALE_X = 1.22;
+const M_LOCAL_SCALE_X = 1;
 const toThreePositions = (points: Point[]) => points.flatMap((point) => [point.x, 120 - point.y, 0]);
 
 function pointMaterial(color: string, opacity = 1) {
@@ -361,8 +365,8 @@ function createHStroke(points: Point[], color: string, referenceWidth: number, o
   return { mesh, geometry, material, baseOpacity: opacity, worldWidth };
 }
 
-function createOStroke(points: Point[], color: string, referenceWidth: number, opacity: number): HStrokeRecord {
-  const worldWidth = displayStrokeWorldWidth(referenceWidth);
+function createOStroke(points: Point[], color: string, referenceWidth: number, opacity: number, widthInWorldUnits = false): HStrokeRecord {
+  const worldWidth = widthInWorldUnits ? referenceWidth : displayStrokeWorldWidth(referenceWidth);
   const data = hStrokeGeometry(points, worldWidth, 1);
   const geometry = new BufferGeometry();
   geometry.setAttribute("position", new Float32BufferAttribute(data.positions, 3));
@@ -574,7 +578,7 @@ function createPoint(point: Point, color: string, radius: number, opacity = 1): 
 export class ThomSceneController {
   readonly renderer: WebGLRenderer;
   readonly scene = new Scene();
-  readonly camera = new OrthographicCamera(0, 416, 120, 0, -30, 30);
+  readonly camera = new OrthographicCamera(0, MASTER.width, MASTER.height, 0, -30, 30);
   private canvas: HTMLCanvasElement;
   private view: ViewMode;
   private visible = true;
@@ -584,8 +588,8 @@ export class ThomSceneController {
   private lineRecords: LineRecord[] = [];
   private tGroup = new Group();
   private piMaterials: ShaderMaterial[] = [];
-  private piOutlinePoints = samplePathOutline(brandData.pi.display);
-  private piRim!: LineStack;
+  private piOutlinePoints = samplePathOutline(brandData.pi.displayContours[0]);
+  private piRims: LineStack[] = [];
   private hMaterials: ShaderMaterial[] = [];
   private hGroup = new Group();
   private hPillars = new Group();
@@ -622,10 +626,8 @@ export class ThomSceneController {
     this.buildScene();
     if (this.view === "t") {
       this.tGroup.position.x = 0;
-      this.tGroup.position.y = 0;
-      this.tGroup.scale.x = 1;
+      this.applyVerticalPlacement(this.tGroup, brandData.placements.t);
     } else if (this.view === "h") this.hGroup.scale.x = H_ISOLATED_VIEW.scaleX;
-    else if (this.view === "o") this.oGroup.scale.x = 1;
     this.resize(canvas.clientWidth || 1, canvas.clientHeight || 1);
     this.applyState();
     this.renderOnce();
@@ -637,23 +639,31 @@ export class ThomSceneController {
     const group = new Group();
     group.name = glyph;
     group.position.x = placement.x;
-    group.position.y = -placement.y;
-    group.scale.x = placement.scaleX;
+    this.applyVerticalPlacement(group, placement);
     this.scene.add(group);
     return group;
+  }
+
+  private applyVerticalPlacement(group: Group, placement: BrandData["placements"][ThomGlyph]) {
+    group.position.y = MASTER.height - placement.y - MASTER.height * placement.scaleY;
+    group.scale.set(placement.scaleX, placement.scaleY, 1);
   }
 
   private buildScene() {
     this.tGroup = this.createGlyphGroup("t");
     const piMaterial = piMetalMaterial();
     this.piMaterials.push(piMaterial);
-    this.tGroup.add(shapeMesh(brandData.pi.display, piMaterial));
-    this.piRim = {
-      halo: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.gold, 3.1, 0.07),
-      middle: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.gold, 1.55, 0.16),
-      core: createLine(this.piOutlinePoints, PI_WEBGL_MATERIAL.edge, 0.82, 0.88),
-    };
-    addStack(this.tGroup, this.piRim, this.lineRecords);
+    brandData.pi.displayContours.forEach((contour) => {
+      this.tGroup.add(shapeMesh(contour, piMaterial));
+      const outline = samplePathOutline(contour);
+      const rim = {
+        halo: createLine(outline, PI_WEBGL_MATERIAL.gold, 3.1, 0.07),
+        middle: createLine(outline, PI_WEBGL_MATERIAL.gold, 1.55, 0.16),
+        core: createLine(outline, PI_WEBGL_MATERIAL.edge, 0.82, 0.88),
+      };
+      this.piRims.push(rim);
+      addStack(this.tGroup, rim, this.lineRecords);
+    });
     this.piGuide = createLine(this.piOutlinePoints.slice(0, 2), PI_WEBGL_MATERIAL.edge, 1.05, 0);
     this.piGuide.line.position.z = 0.8;
     this.tGroup.add(this.piGuide.line);
@@ -677,6 +687,11 @@ export class ThomSceneController {
     this.hTicks.forEach((tick) => addHStack(this.hGroup, tick));
     addHStack(this.hGroup, this.hBrace);
     this.hRatioPoint = createPoint(brandData.h.proportion.ratioPoint, BRAND_COLORS.gold, H_RATIO_POINT_MATERIAL.radius, H_RATIO_POINT_MATERIAL.opacity);
+    this.hRatioPoint.scale.set(
+      H_RATIO_POINT_SHAPE.radiusX / H_RATIO_POINT_MATERIAL.radius,
+      H_RATIO_POINT_SHAPE.radiusY / H_RATIO_POINT_MATERIAL.radius,
+      1,
+    );
     this.hRatioPoint.position.z = 0.55;
     this.hGroup.add(this.hRatioPoint);
     const phiStrategy = H_PHI_STRATEGIES[H_PHI_STRATEGY];
@@ -697,7 +712,7 @@ export class ThomSceneController {
     this.oCircle = {
       halo: createOStroke(brandData.o.circle, BRAND_COLORS.gold, O_DISPLAY_MATERIAL.circle.haloWidth, O_DISPLAY_MATERIAL.circle.haloOpacity),
       middle: createOStroke(brandData.o.circle, BRAND_COLORS.gold, O_DISPLAY_MATERIAL.circle.middleWidth, O_DISPLAY_MATERIAL.circle.middleOpacity),
-      core: createOStroke(brandData.o.circle, BRAND_COLORS.highlight, O_DISPLAY_MATERIAL.circle.coreWidth, O_DISPLAY_MATERIAL.circle.coreOpacity),
+      core: createOStroke(brandData.o.circle, BRAND_COLORS.highlight, O_DISPLAY_MATERIAL.circle.coreWidth, O_DISPLAY_MATERIAL.circle.coreOpacity, true),
     };
     this.oCircle.halo.mesh.position.z = -0.25;
     this.oCircle.middle.mesh.position.z = 0;
@@ -712,16 +727,22 @@ export class ThomSceneController {
       this.mComponents.push(record);
       mGroup.add(record.mesh);
     });
-    brandData.m.restingLayers.forEach((layer) => {
+    const addMPartial = (layer: BrandData["m"]["restingLayers"][number], revealIndex: number, offset = 0, opacityScale = 1) => {
       const chain = fourierPartialBezier(brandData.m, layer.partialIndex, 64, layer.amplitudeScale);
-      const core = createMPartialStroke(chain, layer.width, layer.opacity);
-      const halo = layer.haloOpacity > 0 ? createMStroke(chain, BRAND_COLORS.gold, layer.haloWidth, layer.haloOpacity) : null;
-      this.mPartials.push({ core, halo });
+      const core = createMPartialStroke(chain, layer.width, layer.opacity * opacityScale);
+      const halo = layer.haloOpacity > 0 ? createMStroke(chain, BRAND_COLORS.gold, layer.haloWidth, layer.haloOpacity * opacityScale) : null;
+      core.mesh.position.y = -offset;
+      if (halo) halo.mesh.position.y = -offset;
+      this.mPartials.push({ core, halo, revealIndex });
       mGroup.add(core.mesh);
       if (halo) {
         halo.mesh.position.z = -0.2;
         mGroup.add(halo.mesh);
       }
+    };
+    brandData.m.restingLayers.forEach((layer, index) => addMPartial(layer, index));
+    M_FINE_STRAND_OFFSETS.forEach((offset) => {
+      brandData.m.restingLayers.slice(1).forEach((layer, index) => addMPartial(layer, index + 1, offset, 0.4));
     });
     this.mFinal = createMFinalStack(fourierPartialBezier(brandData.m, brandData.m.displayHarmonicCount - 1));
     addMStack(mGroup, this.mFinal);
@@ -790,7 +811,7 @@ export class ThomSceneController {
       fill.uniforms.uOpacity.value = (0.06 + s.pi * 0.94) * PI_WEBGL_MATERIAL.opacity;
       fill.uniforms.uProgress.value = clamp(s.pi);
     });
-    setStackOpacity(this.piRim, clamp(s.pi * 1.4) * PI_WEBGL_MATERIAL.opacity);
+    this.piRims.forEach((rim) => setStackOpacity(rim, clamp(s.pi * 1.4) * PI_WEBGL_MATERIAL.opacity));
     const traceProgress = clamp(s.piOrbit);
     const traceIndex = Math.min(this.piOutlinePoints.length - 1, Math.floor(traceProgress * (this.piOutlinePoints.length - 1)));
     const tracedPoints = this.piOutlinePoints.slice(0, Math.max(2, traceIndex + 1));
@@ -861,8 +882,8 @@ export class ThomSceneController {
       setMStrokeProgress(record, s.mSeparate > 0.001 ? 1 : componentIn);
       setMStrokeOpacity(record, componentIn * componentOut * (0.34 / record.baseOpacity) + s.mSeparate);
     });
-    this.mPartials.forEach((record, index) => {
-      const stagger = index / Math.max(1, this.mPartials.length - 1);
+    this.mPartials.forEach((record) => {
+      const stagger = record.revealIndex / Math.max(1, brandData.m.restingLayers.length - 1);
       const start = M_ANIMATION.partialStart + stagger * (M_ANIMATION.partialEnd - M_ANIMATION.partialStart);
       const reveal = clamp((introProgress - start) / M_ANIMATION.partialRevealDuration);
       for (const stroke of [record.halo, record.core]) {
@@ -881,14 +902,15 @@ export class ThomSceneController {
     this.canvas.dataset.glyphView = view;
     const tPlacement = brandData.placements.t;
     this.tGroup.position.x = view === "t" ? 0 : tPlacement.x;
-    this.tGroup.position.y = view === "t" ? 0 : -tPlacement.y;
-    this.tGroup.scale.x = view === "t" ? 1 : tPlacement.scaleX;
+    this.applyVerticalPlacement(this.tGroup, tPlacement);
     const placement = brandData.placements.h;
     this.hGroup.position.x = placement.x;
+    this.hGroup.position.y = 0;
+    this.hGroup.scale.y = 1;
     this.hGroup.scale.x = view === "h" ? H_ISOLATED_VIEW.scaleX : placement.scaleX;
     const oPlacement = brandData.placements.o;
     this.oGroup.position.x = oPlacement.x;
-    this.oGroup.scale.x = view === "o" ? 1 : oPlacement.scaleX;
+    this.applyVerticalPlacement(this.oGroup, oPlacement);
     this.scene.children.forEach((group) => {
       group.visible = view === "logo" || group.name === view;
     });
@@ -912,10 +934,10 @@ export class ThomSceneController {
           height: H_ISOLATED_VIEW.height,
         }
       : this.view === "o"
-      ? { centerX: brandData.placements.o.x + 50, centerY: 60, width: 100, height: 120 }
+      ? { centerX: brandData.placements.o.x + 50 * brandData.placements.o.scaleX, centerY: 60, width: 100, height: 120 }
       : placement
       ? { centerX: placement.x + placement.width / 2, centerY: 60, width: this.view === "m" ? placement.width : Math.max(112, placement.width + 24), height: 120 }
-      : { centerX: 208, centerY: 60, width: 416, height: 120 };
+      : { centerX: MASTER.width / 2, centerY: MASTER.height / 2, width: MASTER.width, height: MASTER.height };
     let viewWidth = base.width;
     let viewHeight = base.height;
     if (aspect > viewWidth / viewHeight) viewWidth = viewHeight * aspect;
