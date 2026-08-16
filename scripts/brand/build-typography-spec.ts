@@ -7,6 +7,8 @@ import { chromium } from "playwright";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 import { brandData } from "../../src/brand/thom/brandData";
+import { OPTICAL_PLACEMENT_X } from "../../src/brand/thom/geometry";
+import { OPTICAL_PROFILE_WIDTHS } from "../../src/brand/thom/opticalProfile";
 
 type Point = { x: number; y: number };
 type Bounds = { left: number; top: number; right: number; bottom: number; width: number; height: number };
@@ -40,11 +42,11 @@ const T_GRID = { left: 20, right: 106, count: 15 } as const;
 const T_TRANSFORM = { translateX: 22, translateY: -0.222, scaleX: 0.86, scaleY: 1.03 } as const;
 const DESIGN_FRAMES = {
   T: { left: 20, right: 106 },
-  H: { left: 114, right: 183 },
-  O: { left: 191, right: 268 },
+  H: { left: 113.5, right: 182.5 },
+  O: { left: 187.875, right: 264.875 },
   M: { left: 275, right: 396 },
 } as const;
-const PLACEMENT_X = { T: 22, H: 98.975, O: 185.625, M: 274.6 } as const;
+const PLACEMENT_X = { T: 22, H: 98.475, O: 182.5, M: 274.6 } as const;
 const COLORS = {
   purple: "#c5b6f4",
   purpleDeep: "#4b416a",
@@ -306,7 +308,7 @@ const visibleGaps = {
 const auditMetrics = JSON.parse(await readFile(resolve(audit, "14-alignment-mockup-master-metrics.json"), "utf8"));
 const metrics = {
   schema: "https://th-m.codes/schemas/thom-typography-metrics.v1.json",
-  schemaVersion: "1.0.0",
+  schemaVersion: "1.1.0",
   status: "canonical-geometry",
   generatedFrom: {
     editableSource: ".codex/audits/logo-balance/final-review/compose-alignment-mockup.ts",
@@ -342,12 +344,45 @@ const metrics = {
   },
   glyphTransforms: {
     T: { translate: [22, -0.222], scale: [0.86, 1.03], contours: ["top-bar", "left-pillar", "right-pillar"] },
-    H: { translate: [98.975, 0], pillarCentersLocal: [28, 72], pillarScaleX: 0.74 },
-    O: { translate: [185.625, -8.4], scale: [0.88, 1.14] },
+    H: { translate: [98.475, 0], pillarCentersLocal: [28, 72], pillarScaleX: 0.74 },
+    O: { translate: [182.5, -8.4], scale: [0.88, 1.14] },
     M: { translate: [274.6, -26.7], scale: [1, 1.49] },
   },
   glyphs: glyphMetrics,
   visibleInkGaps: visibleGaps,
+  opticalProfiles: {
+    selectionMetric: "rendered wordmark width in CSS pixels",
+    display: {
+      minimumExclusivePx: OPTICAL_PROFILE_WIDTHS.compactMax,
+      asset: "public/brand/thom-master.svg",
+      detail: "Full luminous construction and canonical placements.",
+      placementOffsetX: OPTICAL_PLACEMENT_X.display,
+    },
+    compact: {
+      minimumExclusivePx: OPTICAL_PROFILE_WIDTHS.microMax,
+      maximumInclusivePx: OPTICAL_PROFILE_WIDTHS.compactMax,
+      asset: "public/brand/thom-compact.svg",
+      detail: "Strengthened H pillars, simplified H construction, compact O network, and four-harmonic M.",
+      placementOffsetX: OPTICAL_PLACEMENT_X.compact,
+    },
+    micro: {
+      maximumInclusivePx: OPTICAL_PROFILE_WIDTHS.microMax,
+      asset: "public/brand/thom-micro.svg",
+      detail: "Continuous H crossbar, reduced O network, and strengthened single M contour.",
+      placementOffsetX: OPTICAL_PLACEMENT_X.micro,
+    },
+  },
+  perceptualValidation: {
+    status: "unvalidated-design-prior",
+    hypothesis: "The golden-ratio H split supports the identity narrative and may be preferred, but is not assumed to be universally optimal.",
+    experiment: {
+      method: "randomized blinded pairwise comparison",
+      displayVariants: ["1:1 split", "golden-ratio split", "2:1 split"],
+      controls: ["identical H pillars", "identical total crossbar span", "matched stroke energy", "identical wordmark spacing"],
+      renderedWidthsPx: [460, 184, 92],
+      measures: ["THOM recognition", "perceived balance", "forced-choice preference", "response confidence"],
+    },
+  },
   constructionDetails: {
     T: {
       roofTopY: round(T_TRANSFORM.translateY + 8.25 * T_TRANSFORM.scaleY),
@@ -530,7 +565,7 @@ const glyphTable = (["T", "H", "O", "M"] as const).map((glyph) => {
 }).join("\n");
 
 const markdown = `<div class="cover">
-  <div class="cover-kicker">CANONICAL GEOMETRY · VERSION 1.0</div>
+  <div class="cover-kicker">CANONICAL GEOMETRY · VERSION 1.1</div>
   <h1>THOM Typography Specification</h1>
   <p class="cover-subtitle">Construction, optical alignment, measurement, and SVG → Three.js translation</p>
   <img class="cover-logo" src="thom-canonical.svg" alt="Canonical THOM wordmark">
@@ -545,12 +580,15 @@ The wordmark occupies a **460 × 120 master-unit artboard**. The former 460 × 1
 
 > **Typographic rule.** The baseline is the nominal alignment datum, not necessarily the lowest visible pixel. Filled contours, stroked centerlines, and round caps must be measured separately.
 
+> **Evidence rule.** Geometry and accessibility constraints eliminate known defects; they do not prove universal beauty. The H’s golden-ratio division is an identity narrative and testable design prior, not a psychophysical optimum.
+
 | Authority | Canonical source | Rule |
 |---|---|---|
 | Shape and placement | \`docs/brand/typography/thom-canonical.svg\` | Governs glyph outlines, construction, relative scale, and spacing. |
 | Numeric geometry | \`docs/brand/typography/thom-typography-metrics.json\` | Governs lines, frames, bounds, overshoot, grid coordinates, and conversion constants. |
 | Color and materials | \`src/brand/thom/geometry.ts\` | Preserve the existing palette, metallic ramps, glow, stroke stacks, and source-energy compensation. |
 | Motion and WebGL behavior | \`src/brand/thom/threeScene.ts\` and generated brand data | Preserve timing, reveal order, animated construction, and material behavior during migration. |
+| Optical profiles | \`src/brand/thom/opticalProfile.ts\` and \`src/brand/thom/svg.ts\` | Select display, compact, or micro detail from rendered size while preserving the canonical silhouettes. |
 
 <div class="page-break"></div>
 
@@ -623,15 +661,15 @@ The design frame is the nominal placement/advance region. The ink box is the act
 | H–O | ${visibleGaps.H_O.toFixed(4)}u |
 | O–M | ${visibleGaps.O_M.toFixed(4)}u |
 
-These unequal numeric gaps are intentional. The roof terminal, vertical H, circular O, and open waveform M create different edge energy; spacing is optically balanced rather than mechanically equalized.
+The three gaps remain optically—not mechanically—defined, but now cluster within **${(Math.max(...Object.values(visibleGaps)) - Math.min(...Object.values(visibleGaps))).toFixed(4)}u**. Their near-equality is a calibrated prior to be validated in use, not a claim that equal spacing is universally preferred.
 
 ## Placement transforms
 
 | Glyph | Master transform | Design frame |
 |---|---|---|
 | T | translate(22, −0.222) · scale(0.86, 1.03) | 20–106 |
-| H | translate(98.975, 0); local pillar scale x = 0.74 | 114–183 |
-| O | translate(185.625, −8.4) · scale(0.88, 1.14) | 191–268 |
+| H | translate(98.475, 0); local pillar scale x = 0.74 | 113.5–182.5 |
+| O | translate(182.5, −8.4) · scale(0.88, 1.14) | 187.875–264.875 |
 | M | translate(274.6, −26.7) · scale(1, 1.49) | 275–396 |
 
 <div class="page-break"></div>
@@ -688,6 +726,24 @@ const offsetY = (viewportHeight - 120 * scale) / 2;
 \`\`\`
 
 Never fit the complete wordmark with independent X and Y scales. Glyph-specific transforms already belong to the canonical construction and must not be reinterpreted as responsive distortion.
+
+## Optical profiles
+
+Profile selection uses the **rendered wordmark width**, not a device category or component name. The React component observes its actual inline size when \`opticalProfile="auto"\`; callers may pin a profile for exports or controlled comparisons.
+
+| Profile | Rendered width | Treatment |
+|---|---:|---|
+| Display | > ${OPTICAL_PROFILE_WIDTHS.compactMax}px | Full luminous construction, φ annotations, canonical O network, and layered M. |
+| Compact | ${OPTICAL_PROFILE_WIDTHS.microMax + 1}–${OPTICAL_PROFILE_WIDTHS.compactMax}px | Stronger H stems, quiet continuous a/b crossbar, compact O network, and single compact M contour. |
+| Micro | ≤ ${OPTICAL_PROFILE_WIDTHS.microMax}px | Continuous H crossbar without φ ticks/brace/point, seven O chords without nodes, and a strengthened M contour. |
+
+Compact and micro assets apply small X-only spacing corrections recorded in the metrics contract. They never distort glyph geometry. The φ construction remains available in the display mark and explanatory animation, but it does not compete with letter recognition in utility sizes.
+
+## Perceptual validation protocol
+
+The golden-ratio split remains an **unvalidated design prior**. Before making a preference claim, compare blinded display variants at 1:1, φ:1, and 2:1 while holding pillars, total crossbar span, stroke energy, and wordmark spacing constant. Randomize order and record THOM recognition, perceived balance, forced-choice preference, and response confidence.
+
+Repeat the recognition check at 184px compact and 92px micro sizes. Those profiles intentionally suppress ratio annotations, so the small-size question is legibility and identity survival—not whether viewers can recover φ from the rendered pixels. Report sample, context, uncertainty, and null results alongside any winner.
 
 ## Raster export examples
 
@@ -785,6 +841,9 @@ The former 416 × 120 scene is a compatibility viewport, not the geometry master
 4. Confirm the 460 × 120 camera displays the canonical wordmark without cropping or anisotropic scaling.
 5. Re-run the T grid measurements after any contour edit; do not copy old width tables forward.
 6. Preserve color/material/motion sources until a separate migration explicitly supersedes them.
+7. At widths of 92px, 184px, and 460px, verify the selected micro, compact, and display profiles respectively; every glyph must retain a high-contrast recognizable core.
+8. Confirm compact and micro H output omits the φ point, ticks, and brace while the display H and φ-to-H animation retain them.
+9. Do not describe the φ split as preferred until the blinded comparison protocol is run and reported; exact geometry alone is not preference evidence.
 
 ---
 
@@ -851,7 +910,7 @@ try {
     preferCSSPageSize: true,
     displayHeaderFooter: true,
     headerTemplate: '<div style="font-size:7px;width:100%;padding:0 .62in;color:#6d6481;font-family:Arial,sans-serif"><span>THOM · TYPOGRAPHY SPECIFICATION</span></div>',
-    footerTemplate: '<div style="font-size:7px;width:100%;padding:0 .62in;color:#6d6481;font-family:Arial,sans-serif;display:flex;justify-content:space-between"><span>CANONICAL GEOMETRY · v1.0</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>',
+    footerTemplate: '<div style="font-size:7px;width:100%;padding:0 .62in;color:#6d6481;font-family:Arial,sans-serif;display:flex;justify-content:space-between"><span>CANONICAL GEOMETRY · v1.1</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>',
     margin: { top: ".62in", right: ".62in", bottom: ".68in", left: ".62in" },
   });
 } finally {

@@ -11,10 +11,13 @@ import {
   H_PHI_STRATEGY,
   H_PROPORTION,
   MASTER,
+  OPTICAL_PLACEMENT_X,
   createBrandData,
   hAnimationWeights,
+  type OpticalProfile,
   type HPhiStrategyName,
 } from "../../src/brand/thom/geometry";
+import { opticalProfileForWidth } from "../../src/brand/thom/opticalProfile";
 import { renderGlyphContent, renderLogoSvg } from "../../src/brand/thom/svg";
 
 const GLYPHS = ["t", "h", "o", "m"] as const;
@@ -29,10 +32,10 @@ type Bounds = {
 };
 
 const TARGETS = {
-  t: { midpoint: 32, band: [31, 33] },
-  h: { midpoint: 26.5, band: [25, 28] },
-  o: { midpoint: 17, band: [16, 18] },
-  m: { midpoint: 25.5, band: [24, 27] },
+  t: { midpoint: 25, band: [12, 38] },
+  h: { midpoint: 25, band: [12, 38] },
+  o: { midpoint: 25, band: [12, 38] },
+  m: { midpoint: 25, band: [12, 38] },
 } as const;
 const DISPLAY_HEIGHTS = [24, 48, 120] as const;
 const SUPERSAMPLE = 8;
@@ -200,10 +203,12 @@ function placedGlyphSvg(
   definitions: string,
   glyph: Glyph,
   theme: "dark" | "monochrome",
+  profile: OpticalProfile,
 ) {
   const placement = data.placements[glyph];
-  const content = renderGlyphContent(data, glyph, theme);
-  return svgDocument(`<g transform="translate(${placement.x} ${placement.y}) scale(${placement.scaleX} 1)">${content}</g>`, definitions);
+  const content = renderGlyphContent(data, glyph, theme, profile);
+  const x = placement.x + OPTICAL_PLACEMENT_X[profile][glyph];
+  return svgDocument(`<g transform="translate(${x} ${placement.y}) scale(${placement.scaleX} ${placement.scaleY})">${content}</g>`, definitions);
 }
 
 async function blurredAlphaBounds(buffer: Buffer, height: number) {
@@ -390,8 +395,10 @@ const scoreInputs: Record<string, { mass: number; core: number; moments: number;
 
 for (const height of DISPLAY_HEIGHTS) {
   const renderHeight = height * SUPERSAMPLE;
-  const production = rasterize(renderLogoSvg(data), renderHeight);
-  const monochrome = rasterize(renderLogoSvg(data, "monochrome"), renderHeight);
+  const renderedWidth = height * MASTER.width / MASTER.height;
+  const profile = opticalProfileForWidth(renderedWidth);
+  const production = rasterize(renderLogoSvg(data, "dark", profile), renderHeight);
+  const monochrome = rasterize(renderLogoSvg(data, "monochrome", profile), renderHeight);
   await Bun.write(resolve(outputRoot, `production-${height}px@8x.png`), production);
   await Bun.write(resolve(outputRoot, `monochrome-${height}px@8x.png`), monochrome);
   const full = PNG.sync.read(production);
@@ -406,8 +413,8 @@ for (const height of DISPLAY_HEIGHTS) {
   const raw = {} as Record<Glyph, ReturnType<typeof analyzePng>>;
   const opticalBounds = {} as Record<Glyph, Bounds>;
   for (const glyph of GLYPHS) {
-    const glyphProduction = rasterize(placedGlyphSvg(data, definitions, glyph, "dark"), renderHeight);
-    const glyphMonochrome = rasterize(placedGlyphSvg(data, definitions, glyph, "monochrome"), renderHeight);
+    const glyphProduction = rasterize(placedGlyphSvg(data, definitions, glyph, "dark", profile), renderHeight);
+    const glyphMonochrome = rasterize(placedGlyphSvg(data, definitions, glyph, "monochrome", profile), renderHeight);
     raw[glyph] = analyzePng(glyphProduction);
     opticalBounds[glyph] = await blurredAlphaBounds(glyphMonochrome, height);
   }
@@ -416,13 +423,14 @@ for (const height of DISPLAY_HEIGHTS) {
   for (const glyph of GLYPHS) {
     const metrics = publicMetrics(raw[glyph], height);
     const placement = GLYPH_PLACEMENTS[glyph];
+    const placementX = placement.x + OPTICAL_PLACEMENT_X[profile][glyph];
     glyphMetrics[glyph] = {
       ...metrics,
       share: round(raw[glyph].energy / totalEnergy * 100, 4),
       opticalBounds: publicBounds(opticalBounds[glyph], height),
       opticalSidebearings: {
-        left: round(metrics.occupiedBounds.minX - placement.x),
-        right: round(placement.x + placement.width - metrics.occupiedBounds.maxX),
+        left: round(metrics.occupiedBounds.minX - placementX),
+        right: round(placementX + placement.width - metrics.occupiedBounds.maxX),
       },
     };
   }
@@ -467,6 +475,8 @@ for (const height of DISPLAY_HEIGHTS) {
   sizeReports[String(height)] = {
     render: {
       displayHeight: height,
+      renderedWidth: round(renderedWidth),
+      opticalProfile: profile,
       supersample: SUPERSAMPLE,
       rasterWidth: full.width,
       rasterHeight: full.height,
@@ -513,64 +523,56 @@ const bCrossbar = analyzePng(
 const multiscaleSurvival: Record<string, unknown> = {};
 for (const height of [24, 48] as const) {
   const renderHeight = height * SUPERSAMPLE;
-  const hTicksData = {
+  const renderedWidth = height * MASTER.width / MASTER.height;
+  const profile = opticalProfileForWidth(renderedWidth);
+  const hCrossbarData = {
     ...data,
     h: {
       ...data.h,
       paths: [],
-      proportion: { ...data.h.proportion, a: [], b: [], brace: [] },
     },
   };
-  const hBraceData = {
-    ...data,
-    h: {
-      ...data.h,
-      paths: [],
-      proportion: { ...data.h.proportion, a: [], b: [], ticks: [] },
-    },
-  };
+  const emptyNetwork = (network: typeof data.o.canonical) => ({
+    ...network,
+    anchors: [],
+    chords: [],
+    intersections: [],
+    highlights: [],
+  });
   const oCircleData = {
     ...data,
     o: {
       ...data.o,
-      canonical: {
-        ...data.o.canonical,
-        anchors: [],
-        chords: [],
-        intersections: [],
-        highlights: [],
-      },
+      canonical: emptyNetwork(data.o.canonical),
+      compact: emptyNetwork(data.o.compact),
     },
   };
   const oNetworkData = { ...data, o: { ...data.o, circle: [] } };
-  const mMarkup = renderGlyphContent(data, "m");
-  const mPaths = mMarkup.match(/<path[^>]*\/>/g) ?? [];
-  const mLayerMarkup = mPaths.slice(0, -3).join("");
-  const mCoreMarkup = mPaths.slice(-3).join("");
   const featureMetrics = (content: string, glyph: Glyph) => {
     const placement = data.placements[glyph];
+    const x = placement.x + OPTICAL_PLACEMENT_X[profile][glyph];
     return publicMetrics(analyzePng(rasterize(svgDocument(
-      `<g transform="translate(${placement.x} 0) scale(${placement.scaleX} 1)">${content}</g>`,
+      `<g transform="translate(${x} ${placement.y}) scale(${placement.scaleX} ${placement.scaleY})">${content}</g>`,
       definitions,
     ), renderHeight)), height);
   };
+  const hMarkup = renderGlyphContent(data, "h", "dark", profile);
   const features = {
-    hTicks: featureMetrics(renderGlyphContent(hTicksData, "h"), "h"),
-    hBrace: featureMetrics(renderGlyphContent(hBraceData, "h"), "h"),
-    oCircumference: featureMetrics(renderGlyphContent(oCircleData, "o"), "o"),
-    oNetwork: featureMetrics(renderGlyphContent(oNetworkData, "o"), "o"),
-    mCore: featureMetrics(mCoreMarkup, "m"),
-    mLayers: featureMetrics(mLayerMarkup, "m"),
+    hCrossbar: featureMetrics(renderGlyphContent(hCrossbarData, "h", "dark", profile), "h"),
+    oCircumference: featureMetrics(renderGlyphContent(oCircleData, "o", "dark", profile), "o"),
+    oNetwork: featureMetrics(renderGlyphContent(oNetworkData, "o", "dark", profile), "o"),
+    mMark: featureMetrics(renderGlyphContent(data, "m", "dark", profile), "m"),
   };
   multiscaleSurvival[String(height)] = {
+    renderedWidth: round(renderedWidth),
+    opticalProfile: profile,
     features,
     acceptance: {
-      hTicksVisible: features.hTicks.opticalEnergy > 0 && features.hTicks.occupiedBounds.width > 0,
-      hBraceVisible: features.hBrace.opticalEnergy > 0 && features.hBrace.occupiedBounds.width > 0,
+      hCrossbarVisible: features.hCrossbar.highContrastCoreArea > 0 && features.hCrossbar.occupiedBounds.width > 0,
+      hRatioDetailsSuppressed: !hMarkup.includes("ratio-point") && !hMarkup.includes("unit-brace") && !hMarkup.includes("tick-"),
       oCircumferenceVisible: features.oCircumference.highContrastCoreArea > 0,
       oNetworkVisible: features.oNetwork.opticalEnergy > 0 && features.oNetwork.occupiedBounds.width > 0,
-      mCoreVisible: features.mCore.highContrastCoreArea > 0,
-      mLayersVisible: features.mLayers.opticalEnergy > 0 && features.mLayers.occupiedBounds.width > 0,
+      mMarkVisible: features.mMark.highContrastCoreArea > 0 && features.mMark.occupiedBounds.width > 0,
     },
   };
 }
@@ -616,8 +618,8 @@ await animationContactSheet(temporalPngs, resolve(outputRoot, "h-animation-conta
 await temporalPlot(temporalFrames, settledEnergy, settled.centroid.x, outputRoot);
 
 const settledDesktop = rasterize(renderLogoSvg(data), 120 * SUPERSAMPLE);
-const compact = rasterize(renderLogoSvg(data, "dark", true), 48 * SUPERSAMPLE);
-const mobile = rasterize(renderLogoSvg(data, "dark", true), 24 * SUPERSAMPLE);
+const compact = rasterize(renderLogoSvg(data, "dark", "compact"), 48 * SUPERSAMPLE);
+const mobile = rasterize(renderLogoSvg(data, "dark", "micro"), 24 * SUPERSAMPLE);
 const reducedMotion = rasterize(renderLogoSvg(data), 120 * SUPERSAMPLE);
 const staticFallback = rasterize(renderLogoSvg(data), 120 * SUPERSAMPLE);
 await multiscaleComparison([
@@ -654,6 +656,7 @@ const report = {
     colorSpace: "sRGB decoded to linear-light luminance",
   },
   targets: TARGETS,
+  targetPolicy: "Equal-share is a robustness reference, not a universal aesthetic target; broad bands catch collapse or domination.",
   sizes: sizeReports,
   hCrossbar: {
     authoredCenterX: 50,

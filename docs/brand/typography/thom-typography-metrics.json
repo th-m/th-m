@@ -1,6 +1,6 @@
 {
   "schema": "https://th-m.codes/schemas/thom-typography-metrics.v1.json",
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "status": "canonical-geometry",
   "generatedFrom": {
     "editableSource": ".codex/audits/logo-balance/final-review/compose-alignment-mockup.ts",
@@ -75,7 +75,7 @@
     },
     "H": {
       "translate": [
-        98.975,
+        98.475,
         0
       ],
       "pillarCentersLocal": [
@@ -86,7 +86,7 @@
     },
     "O": {
       "translate": [
-        185.625,
+        182.5,
         -8.4
       ],
       "scale": [
@@ -163,8 +163,8 @@
     },
     "H": {
       "designFrame": {
-        "left": 114,
-        "right": 183,
+        "left": 113.5,
+        "right": 182.5,
         "width": 69
       },
       "geometricBounds": {
@@ -177,9 +177,9 @@
           "height": 89
         },
         "master": {
-          "left": 121.203,
+          "left": 120.703,
           "top": 15,
-          "right": 176.747,
+          "right": 176.247,
           "bottom": 104,
           "width": 55.544,
           "height": 89
@@ -195,9 +195,9 @@
           "height": 89
         },
         "master": {
-          "left": 121.325,
+          "left": 120.825,
           "top": 15,
-          "right": 176.625,
+          "right": 176.125,
           "bottom": 104,
           "width": 55.3,
           "height": 89
@@ -218,8 +218,8 @@
     },
     "O": {
       "designFrame": {
-        "left": 191,
-        "right": 268,
+        "left": 187.875,
+        "right": 264.875,
         "width": 77
       },
       "geometricBounds": {
@@ -232,9 +232,9 @@
           "height": 94.2324
         },
         "master": {
-          "left": 193.3892,
+          "left": 190.2642,
           "top": 11.7438,
-          "right": 265.9954,
+          "right": 262.8704,
           "bottom": 105.9762,
           "width": 72.6062,
           "height": 94.2324
@@ -250,9 +250,9 @@
           "height": 94.55
         },
         "master": {
-          "left": 193.125,
+          "left": 190,
           "top": 11.6,
-          "right": 266.125,
+          "right": 263,
           "bottom": 106.15,
           "width": 73,
           "height": 94.55
@@ -328,9 +328,75 @@
     }
   },
   "visibleInkGaps": {
-    "T_H": 14.175,
-    "H_O": 16.5,
-    "O_M": 10.225
+    "T_H": 13.675,
+    "H_O": 13.875,
+    "O_M": 13.35
+  },
+  "opticalProfiles": {
+    "selectionMetric": "rendered wordmark width in CSS pixels",
+    "display": {
+      "minimumExclusivePx": 300,
+      "asset": "public/brand/thom-master.svg",
+      "detail": "Full luminous construction and canonical placements.",
+      "placementOffsetX": {
+        "t": 0,
+        "h": 0,
+        "o": 0,
+        "m": 0
+      }
+    },
+    "compact": {
+      "minimumExclusivePx": 120,
+      "maximumInclusivePx": 300,
+      "asset": "public/brand/thom-compact.svg",
+      "detail": "Strengthened H pillars, simplified H construction, compact O network, and four-harmonic M.",
+      "placementOffsetX": {
+        "t": 0,
+        "h": -0.85,
+        "o": -1.475,
+        "m": 0
+      }
+    },
+    "micro": {
+      "maximumInclusivePx": 120,
+      "asset": "public/brand/thom-micro.svg",
+      "detail": "Continuous H crossbar, reduced O network, and strengthened single M contour.",
+      "placementOffsetX": {
+        "t": 0,
+        "h": -0.95,
+        "o": -1.675,
+        "m": 0
+      }
+    }
+  },
+  "perceptualValidation": {
+    "status": "unvalidated-design-prior",
+    "hypothesis": "The golden-ratio H split supports the identity narrative and may be preferred, but is not assumed to be universally optimal.",
+    "experiment": {
+      "method": "randomized blinded pairwise comparison",
+      "displayVariants": [
+        "1:1 split",
+        "golden-ratio split",
+        "2:1 split"
+      ],
+      "controls": [
+        "identical H pillars",
+        "identical total crossbar span",
+        "matched stroke energy",
+        "identical wordmark spacing"
+      ],
+      "renderedWidthsPx": [
+        460,
+        184,
+        92
+      ],
+      "measures": [
+        "THOM recognition",
+        "perceived balance",
+        "forced-choice preference",
+        "response confidence"
+      ]
+    }
   },
   "constructionDetails": {
     "T": {
@@ -1001,9 +1067,9 @@
           "height": 91.6034
         },
         "master": {
-          "left": 194.2774,
+          "left": 191.1524,
           "top": 13.0583,
-          "right": 264.9834,
+          "right": 261.8584,
           "bottom": 104.6617,
           "width": 70.706,
           "height": 91.6034

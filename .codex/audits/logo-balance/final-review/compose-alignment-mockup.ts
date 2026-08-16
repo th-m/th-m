@@ -23,12 +23,12 @@ const guides = [
 
 const frames = [
   { label: "T", left: 20, right: 106 },
-  { label: "H", left: 114, right: 183 },
-  { label: "O", left: 191, right: 268 },
+  { label: "H", left: 113.5, right: 182.5 },
+  { label: "O", left: 187.875, right: 264.875 },
   { label: "M", left: 275, right: 396 },
 ];
 
-const O_PERIMETER_MULTIPLIER = 6.5;
+const O_PERIMETER_WIDTH = 2.613;
 const H_PILLAR_SCALE = 0.74;
 // T: three true editable contours. Each has an outer and an inner Bézier edge;
 // width can be altered locally by changing its own centered X scale.
@@ -55,43 +55,19 @@ const tracedTGroups = `
   </g>
 `;
 const rawO = renderGlyphContent(brandData, "o", "monochrome");
-const rawOPerimeter = Number(rawO.match(/stroke-width="([^"]+)"/)?.[1]);
-const oWithHeavierPerimeter = rawO.replace(
-  /stroke-width="([^"]+)"/,
-  // A perceptual match at display size: heavier than the original rim without
-  // becoming as dark as the filled H pillars; internal chords remain light.
-  (_match, width) => `stroke-width="${(Number(width) * O_PERIMETER_MULTIPLIER).toFixed(3)}"`,
-);
-
-const hWithBalancedStrokes = renderGlyphContent(brandData, "h", "monochrome")
-  .replace(
-    /(<polyline[^>]*stroke-width=")(.*?)("[^>]*data-h-part="(?:a|b)"[^>]*>)/g,
-    (_match, before, width, after) => `${before}${(Number(width) * 1.45).toFixed(3)}${after}`,
-  )
-  // Restore the previous pillar weight, then close the pillar centers by six units.
-  .replace(/(<path d="M17\.2[^>]*\/>)/, '<g transform="translate(9.5 0) scale(.74 1)">$1</g>')
-  .replace(/(<path d="M67\.2[^>]*\/>)/, '<g transform="translate(16.5 0) scale(.74 1)">$1</g>')
-  // O is rendered at .88 × 1.14 in this board. Match that displayed node ellipse.
-  .replace(
-    /<circle cx="55\.375" cy="60\.000" r="[^"]+" fill="#000000" opacity="0\.78" data-h-part="ratio-point"\/>/,
-    '<ellipse cx="55.375" cy="60.000" rx="0.748" ry="0.969" fill="#000000" opacity="0.78" data-h-part="ratio-point"/>',
-  );
-
-const rawM = renderGlyphContent(brandData, "m", "monochrome");
-// Keep the existing dominant strand, then add only fine Fourier layers at
-// shallow phase offsets. This adds body through density, never line thickness.
-const mFineStrands = rawM.replace(/<path\b(?=[^>]*stroke-width="(?:0\.472|0\.32)")[^>]*\/>/g, "");
-const mTextured = `${rawM}${[-2.4, -1.2, 1.2, 2.4]
-  .map((offset) => `<g transform="translate(0 ${offset})" opacity=".4">${mFineStrands}</g>`)
-  .join("")}`;
+// The production render now contains the approved perimeter, narrowed H
+// pillars, proportion construction, and M texture directly. Keep the audit
+// compositor as a placement board instead of applying those refinements twice.
+const hWithBalancedStrokes = renderGlyphContent(brandData, "h", "monochrome");
+const mTextured = renderGlyphContent(brandData, "m", "monochrome");
 
 const glyphs = `
   <!-- T: original Bézier trace, grouped as roof / left pillar / right pillar. -->
   ${tracedTGroups}
   <!-- H: same construction span, subtly lighter pillars and reinforced crossbars. -->
-  <g transform="translate(98.975 0)">${hWithBalancedStrokes}</g>
+  <g transform="translate(98.475 0)">${hWithBalancedStrokes}</g>
   <!-- O: actual chord network, vertically enlarged only for this review mockup. -->
-  <g transform="translate(185.625 -8.4) scale(.88 1.14)">${oWithHeavierPerimeter}</g>
+  <g transform="translate(182.5 -8.4) scale(.88 1.14)">${rawO}</g>
   <!-- M: actual layered Fourier construction, vertically enlarged only for this review mockup. -->
   <g transform="translate(274.6 -26.7) scale(1 1.49)">${mTextured}</g>
 `;
@@ -126,8 +102,8 @@ const masterMetrics = {
   exportPixelsPerMasterUnit: MASTER_EXPORT_SCALE,
   transforms: {
     t: { coordinateSpace: "master", source: "original-bezier-trace", groups: ["roof", "left-pillar", "right-pillar"], scale: [0.86, 1.03] },
-    h: { translate: [98.975, 0], pillarCenters: [28, 72], pillarScaleX: H_PILLAR_SCALE },
-    o: { translate: [185.625, -8.4], scale: [0.88, 1.14] },
+    h: { translate: [98.475, 0], pillarCenters: [28, 72], pillarScaleX: H_PILLAR_SCALE },
+    o: { translate: [182.5, -8.4], scale: [0.88, 1.14] },
     m: { translate: [274.6, -26.7], scale: [1, 1.49] },
   },
   measurements: {
@@ -136,10 +112,10 @@ const masterMetrics = {
       capHeightPercent: capNormalized((32.8 - 17.2) * H_PILLAR_SCALE),
     },
     oCircumference: {
-      sideMasterUnits: master(rawOPerimeter * O_PERIMETER_MULTIPLIER * 0.88),
-      capBaselineMasterUnits: master(rawOPerimeter * O_PERIMETER_MULTIPLIER * 1.14),
-      sideCapHeightPercent: capNormalized(rawOPerimeter * O_PERIMETER_MULTIPLIER * 0.88),
-      capBaselineCapHeightPercent: capNormalized(rawOPerimeter * O_PERIMETER_MULTIPLIER * 1.14),
+      sideMasterUnits: master(O_PERIMETER_WIDTH * 0.88),
+      capBaselineMasterUnits: master(O_PERIMETER_WIDTH * 1.14),
+      sideCapHeightPercent: capNormalized(O_PERIMETER_WIDTH * 0.88),
+      capBaselineCapHeightPercent: capNormalized(O_PERIMETER_WIDTH * 1.14),
     },
     sharedIntersectionDot: {
       diameterMasterUnits: [1.496, 1.938],

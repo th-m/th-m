@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { motion } from "motion/react";
 import type { ThomGlyph, ThomSceneController } from "./threeScene";
+import {
+  opticalProfileAsset,
+  opticalProfileForWidth,
+  type LogoOpticalProfile,
+  type OpticalProfile,
+} from "./opticalProfile";
 
 export type LogoVariant = "hero" | "header" | "static" | "icon";
 export type MotionLevel = "full" | "compact" | "none";
@@ -11,6 +17,7 @@ export interface ThomLogoProps {
   interactive?: boolean;
   ariaLabel?: string;
   className?: string;
+  opticalProfile?: LogoOpticalProfile;
 }
 
 export interface ThomGlyphStageProps {
@@ -21,6 +28,34 @@ export interface ThomGlyphStageProps {
 }
 
 const INTRO_KEY = "thom:intro:v1";
+
+function initialOpticalProfile(variant: LogoVariant, requested: LogoOpticalProfile): OpticalProfile {
+  if (requested !== "auto") return requested;
+  if (variant === "hero") return "display";
+  if (variant === "icon") return "micro";
+  return "compact";
+}
+
+function useOpticalProfile(
+  elementRef: RefObject<HTMLElement | null>,
+  variant: LogoVariant,
+  requested: LogoOpticalProfile,
+) {
+  const [resolved, setResolved] = useState<OpticalProfile>(() => initialOpticalProfile(variant, requested));
+  useEffect(() => {
+    const initial = initialOpticalProfile(variant, requested);
+    setResolved(initial);
+    if (requested !== "auto" || variant === "hero" || variant === "icon" || typeof ResizeObserver === "undefined") return;
+    const element = elementRef.current;
+    if (!element) return;
+    const update = (width: number) => setResolved(opticalProfileForWidth(width));
+    update(element.getBoundingClientRect().width);
+    const observer = new ResizeObserver(([entry]) => update(entry.contentRect.width));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [elementRef, requested, variant]);
+  return resolved;
+}
 
 export function shouldPlayIntro(storage: Pick<Storage, "getItem"> | null, reducedMotion: boolean) {
   return !reducedMotion && storage?.getItem(INTRO_KEY) !== "complete";
@@ -83,19 +118,21 @@ function useScene(
 }
 
 const hitAreas: Array<{ glyph: ThomGlyph; label: string; left: string; width: string }> = [
-  { glyph: "t", label: "Replay T foundations animation", left: "4.3%", width: "19.2%" },
-  { glyph: "h", label: "Replay H equilibrium animation", left: "24.8%", width: "15%" },
-  { glyph: "o", label: "Replay O emergence animation", left: "41.5%", width: "17%" },
-  { glyph: "m", label: "Replay M superposition animation", left: "59.8%", width: "26.3%" },
+  { glyph: "t", label: "Replay T foundations animation", left: "4.35%", width: "18.7%" },
+  { glyph: "h", label: "Replay H equilibrium animation", left: "24.67%", width: "15%" },
+  { glyph: "o", label: "Replay O emergence animation", left: "40.84%", width: "16.74%" },
+  { glyph: "m", label: "Replay M superposition animation", left: "59.78%", width: "26.3%" },
 ];
 
-export function ThomLogo({ variant, motion: motionLevel = "full", interactive = false, ariaLabel = "THOM — Thomas Valadez", className = "" }: ThomLogoProps) {
+export function ThomLogo({ variant, motion: motionLevel = "full", interactive = false, ariaLabel = "THOM — Thomas Valadez", className = "", opticalProfile = "auto" }: ThomLogoProps) {
   const reducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapperRef = useRef<HTMLSpanElement>(null);
   const controllerRef = useRef<ThomSceneController | null>(null);
   const [ready, setReady] = useState(false);
   const isWebGl = variant === "hero" && motionLevel !== "none";
-  const source = variant === "icon" ? "/brand/favicon.svg" : variant === "header" ? "/brand/thom-compact.svg" : "/brand/thom-master.svg";
+  const resolvedProfile = useOpticalProfile(wrapperRef, variant, opticalProfile);
+  const source = variant === "icon" ? "/brand/favicon.svg" : opticalProfileAsset(resolvedProfile);
   const setController = (controller: ThomSceneController | null) => { controllerRef.current = controller; };
 
   useScene(canvasRef, "logo", setController, setReady);
@@ -114,7 +151,9 @@ export function ThomLogo({ variant, motion: motionLevel = "full", interactive = 
   if (!isWebGl) {
     return (
       <motion.span
+        ref={wrapperRef}
         className={`thom-logo thom-logo--${variant} ${className}`}
+        data-optical-profile={resolvedProfile}
         aria-label={ariaLabel}
         role="img"
         initial={false}
@@ -128,7 +167,7 @@ export function ThomLogo({ variant, motion: motionLevel = "full", interactive = 
   }
 
   return (
-    <div className={`thom-logo thom-logo--hero ${ready ? "is-webgl-ready" : ""} ${className}`}>
+    <div className={`thom-logo thom-logo--hero ${ready ? "is-webgl-ready" : ""} ${className}`} data-optical-profile="display">
       <span className="sr-only" role="img" aria-label={ariaLabel} />
       <img className="thom-logo__fallback" src={source} alt="" aria-hidden="true" />
       <canvas ref={canvasRef} className="thom-logo__canvas" aria-hidden="true" />

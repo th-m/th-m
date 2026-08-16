@@ -1,5 +1,6 @@
 import mCalibration from "./m-calibration.json";
 import oCalibration from "./o-calibration.json";
+export type { OpticalProfile } from "./opticalProfile";
 
 export type Point = { x: number; y: number };
 export type Segment = { a: number; b: number; weight?: number };
@@ -269,10 +270,15 @@ export const H_PHI_STRATEGIES = {
     coreOpacity: 1,
     halo: { width: 50, height: 72, opacity: 0.717 },
   },
+  restrained: {
+    plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
+    coreOpacity: 0.82,
+    halo: { width: 50, height: 72, opacity: 0.4 },
+  },
 } as const;
 
 export type HPhiStrategyName = keyof typeof H_PHI_STRATEGIES;
-export const H_PHI_STRATEGY: HPhiStrategyName = "material";
+export const H_PHI_STRATEGY: HPhiStrategyName = "restrained";
 
 export function hAnimationWeights(progress: number, _strategyName: HPhiStrategyName = H_PHI_STRATEGY) {
   const phiIn = Math.min(1, Math.max(0, progress / H_ANIMATION.phiFadeInEnd));
@@ -292,9 +298,15 @@ export function hAnimationWeights(progress: number, _strategyName: HPhiStrategyN
 export const MASTER = { width: 460, height: 120 } as const;
 export const GLYPH_PLACEMENTS = {
   t: { x: 22, y: -0.222, scaleX: 0.86, scaleY: 1.03, width: 86 },
-  h: { x: 98.975, y: 0, scaleX: 1, scaleY: 1, width: 69 },
-  o: { x: 185.625, y: -8.4, scaleX: 0.88, scaleY: 1.14, width: 77 },
+  h: { x: 98.475, y: 0, scaleX: 1, scaleY: 1, width: 69 },
+  o: { x: 182.5, y: -8.4, scaleX: 0.88, scaleY: 1.14, width: 77 },
   m: { x: 274.6, y: -26.7, scaleX: 1, scaleY: 1.49, width: 121 },
+} as const;
+
+export const OPTICAL_PLACEMENT_X = {
+  display: { t: 0, h: 0, o: 0, m: 0 },
+  compact: { t: 0, h: -0.85, o: -1.475, m: 0 },
+  micro: { t: 0, h: -0.95, o: -1.675, m: 0 },
 } as const;
 
 export const H_PILLAR_CENTERS = [28, 72] as const;

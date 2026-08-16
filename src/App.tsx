@@ -204,9 +204,9 @@ function TypographySection() {
             <p className="eyebrow">Canonical geometry plane</p>
             <h3>Cap line, construction axis, baseline, and optical overshoot.</h3>
           </div>
-          <p>SPEC 1.0<br />SVG Y ↓ &nbsp; THREE.JS Y ↑</p>
+          <p>SPEC 1.1<br />SVG Y ↓ &nbsp; THREE.JS Y ↑</p>
         </header>
-        <figure className="typography-figure">
+        <figure className="typography-figure" tabIndex={0} aria-label="Scrollable typography alignment diagram">
           <img src={typographyAssets.diagram} alt="THOM wordmark aligned to its upper ink extent, cap line, construction axis, baseline, and overshoot clearance" />
           <figcaption>
             <span>FIG. 01</span>
@@ -243,7 +243,7 @@ function TypographySection() {
           <span aria-hidden="true">↓</span>
         </a>
         <a href={typographyAssets.metrics} download>
-          <span><strong>Geometry contract</strong><small>JSON · schema 1.0</small></span>
+          <span><strong>Geometry contract</strong><small>JSON · schema 1.1</small></span>
           <span aria-hidden="true">↓</span>
         </a>
         <a href={typographyAssets.overview} target="_blank" rel="noreferrer">
@@ -353,6 +353,7 @@ function WorkSection() {
 const assets = [
   { label: "Master mark", file: "thom-master.svg", className: "asset-master" },
   { label: "Compact mark", file: "thom-compact.svg", className: "asset-compact" },
+  { label: "Micro mark", file: "thom-micro.svg", className: "asset-compact" },
   { label: "Social avatar", file: "avatar.svg", className: "asset-avatar" },
   { label: "Favicon", file: "favicon.svg", className: "asset-icon" },
   { label: "Light mark", file: "thom-light.svg", className: "asset-light" },
@@ -361,7 +362,7 @@ const assets = [
 function AssetsSection() {
   return (
     <Reveal className="assets-section page-section">
-      <SectionIntro index="08" eyebrow="Identity assets" title="One geometry, every application." copy="Canonical artwork and implementation assets share a documented translation path from SVG master units to the live Three.js mark." />
+      <SectionIntro index="08" eyebrow="Identity assets" title="One geometry, every application." copy="Canonical artwork and implementation assets share a documented translation path, with display, compact, and micro optical profiles selected by rendered width." />
       <div className="asset-grid">
         {assets.map((asset) => (
           <a key={asset.file} className={`asset-card ${asset.className}`} href={`/brand/${asset.file}`} download>
