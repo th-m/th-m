@@ -25,8 +25,8 @@ const hLeft = bakeX(hPaths[0], 0.74, 98.975 + 9.5);
 const hRight = bakeX(hPaths[1], 0.74, 98.975 + 16.5);
 
 const measures = [
-  { key: "T left", start: 46.2, end: 56.8, labelY: 113 },
-  { key: "T right", start: 67.6, end: 75.2, labelY: 119 },
+  { key: "T left", start: 47.0, end: 56.6, labelY: 113 },
+  { key: "T right", start: 67.7, end: 75.3, labelY: 119 },
   { key: "H left", start: 125.4, end: 128.6, labelY: 113 },
   { key: "H right", start: 169.4, end: 172.6, labelY: 113 },
 ].map((measure) => ({ ...measure, masterUnits: Number((measure.end - measure.start).toFixed(3)) }));

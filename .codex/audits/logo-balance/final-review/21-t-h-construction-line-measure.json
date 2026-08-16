@@ -4,15 +4,15 @@
   "measures": [
     {
       "key": "T left",
-      "start": 46.2,
-      "end": 56.8,
+      "start": 47,
+      "end": 56.6,
       "labelY": 113,
-      "masterUnits": 10.6
+      "masterUnits": 9.6
     },
     {
       "key": "T right",
-      "start": 67.6,
-      "end": 75.2,
+      "start": 67.7,
+      "end": 75.3,
       "labelY": 119,
       "masterUnits": 7.6
     },

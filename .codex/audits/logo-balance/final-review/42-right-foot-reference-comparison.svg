@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="900" viewBox="0 0 440 180">
+  <rect width="440" height="180" fill="#c5b6f4"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#17131b">
+    <text x="20" y="14" font-size="5" letter-spacing=".5">RIGHT FOOT · REFERENCE / CURRENT COMPARISON</text>
+    <text x="20" y="22" font-size="2.7" fill="#4b416a">THE LEFT IS YOUR ORIGINAL DRAWN CURVE; THE RIGHT IS ITS FITTED, FILLED RESULT.</text>
+  </g>
+  <rect x="18" y="32" width="190" height="128" rx="2" fill="#a999d8" opacity=".36"/>
+  <rect x="232" y="32" width="190" height="128" rx="2" fill="#a999d8" opacity=".36"/>
+  <text x="24" y="42" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="3.5" fill="#17131b" letter-spacing=".3">YOUR RIGHT FOOT.svg · DRAWN REFERENCE</text>
+  <text x="238" y="42" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="3.5" fill="#17131b" letter-spacing=".3">CURRENT T · FITTED FILL</text>
+  <svg x="24" y="48" width="178" height="102" viewBox="160 270 180 190" preserveAspectRatio="xMidYMid meet">
+    <rect x="160" y="270" width="180" height="190" fill="#c5b6f4"/>
+    <path d="M204.492,301.409c0,0 -35.097,202.977 106.563,58.121c0,0 -158.722,194.161 -121.876,-57.478l15.313,-0.643Z" fill="none" stroke="#656168" stroke-width="4.17" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <svg x="238" y="48" width="178" height="102" viewBox="43 55 68 62" preserveAspectRatio="xMidYMid meet">
+    <rect x="43" y="55" width="68" height="62" fill="#c5b6f4"/>
+    <g transform="translate(22 -.222) scale(.86 1.03)" fill="#000000">
+      <path d="M60.79 18.63 C60.14 27 58.22 42.535 56.52 55.275 C55.61095 60.2975 54.3509 65.32053 52.58655 70.3265 C31.60278255 131.62833819 86.9601 82.6705 86.9601 82.6705 C41.90036 122 57.09512 70.3265 57.09512 70.3265 C57.48268 68.98607 57.87686 67.60893 58.28 66.195 C61.08 50.725 63.43 30 64.51 18.63 Z"/>
+    </g>
+    <g fill="none" stroke="#17131b" stroke-width=".35" stroke-dasharray="1.5 1.5" opacity=".72">
+      <line x1="43" y1="72.2143" x2="111" y2="72.2143"/>
+      <line x1="43" y1="84.9286" x2="111" y2="84.9286"/>
+    </g>
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="2.25" fill="#4b416a">
+      <text x="44" y="71.1">ROW 10</text>
+      <text x="44" y="83.8">ROW 12</text>
+    </g>
+  </svg>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="3" fill="#4b416a">
+    <text x="24" y="157">2 CUBIC ARCS + STRAIGHT CLOSING EDGE</text>
+    <text x="238" y="157">ROW-10 EDGES AND ROW-12 CUSP LOCKED</text>
+  </g>
+</svg>
