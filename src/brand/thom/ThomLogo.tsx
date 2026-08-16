@@ -83,10 +83,10 @@ function useScene(
 }
 
 const hitAreas: Array<{ glyph: ThomGlyph; label: string; left: string; width: string }> = [
-  { glyph: "t", label: "Replay T foundations animation", left: "1.8%", width: "21%" },
-  { glyph: "h", label: "Replay H equilibrium animation", left: "25%", width: "21%" },
-  { glyph: "o", label: "Replay O emergence animation", left: "48.4%", width: "21.2%" },
-  { glyph: "m", label: "Replay M superposition animation", left: "69%", width: "30%" },
+  { glyph: "t", label: "Replay T foundations animation", left: "4.3%", width: "19.2%" },
+  { glyph: "h", label: "Replay H equilibrium animation", left: "24.8%", width: "15%" },
+  { glyph: "o", label: "Replay O emergence animation", left: "41.5%", width: "17%" },
+  { glyph: "m", label: "Replay M superposition animation", left: "59.8%", width: "26.3%" },
 ];
 
 export function ThomLogo({ variant, motion: motionLevel = "full", interactive = false, ariaLabel = "THOM — Thomas Valadez", className = "" }: ThomLogoProps) {

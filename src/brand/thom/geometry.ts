@@ -58,8 +58,8 @@ export type HData = {
 
 export type BrandData = {
   master: { width: number; height: number };
-  placements: Record<"t" | "h" | "o" | "m", { x: number; y: number; scaleX: number; width: number }>;
-  pi: { display: FilledPath; compact: FilledPath };
+  placements: Record<"t" | "h" | "o" | "m", { x: number; y: number; scaleX: number; scaleY: number; width: number }>;
+  pi: { display: FilledPath; displayContours: FilledPath[]; compact: FilledPath };
   h: HData;
   o: {
     canonical: ChordNetwork;
@@ -156,6 +156,8 @@ export const M_FINAL_MATERIAL = {
   core: { width: Number((3.1 * SOURCE_ENERGY_SCALE.m).toFixed(3)), opacity: 0.96 },
 } as const;
 
+export const M_FINE_STRAND_OFFSETS = [-2.4, -1.2, 1.2, 2.4] as const;
+
 export const M_WEBGL_CORE_PARITY_SCALE = 1.12;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;
@@ -170,7 +172,7 @@ export const O_DISPLAY_MATERIAL = {
     haloOpacity: 0.055,
     middleWidth: Number((4.8 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
     middleOpacity: 0.3,
-    coreWidth: Number((2.15 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
+    coreWidth: 2.613,
     coreOpacity: 1,
   },
   chord: {
@@ -220,11 +222,11 @@ export const M_ANIMATION = {
 
 export const H_ISOLATED_VIEW = { x: -2.8, y: 4, width: 137, height: 110, scaleX: 1.37 } as const;
 export const H_STROKE_WORLD_PER_PIXEL = 0.7;
-export const hStrokeWorldWidth = (referencePixels: number) => referencePixels * H_STROKE_WORLD_PER_PIXEL;
+export const hStrokeWorldWidth = (referencePixels: number) => Number((referencePixels * H_STROKE_WORLD_PER_PIXEL).toFixed(3));
 
 export const H_MATERIAL = {
-  a: { haloWidth: 4.02, haloOpacity: 0.058, middleWidth: 1.64, middleOpacity: 0.297, coreWidth: 0.87, coreOpacity: 1 },
-  b: { haloWidth: 4.02, haloOpacity: 0.058, middleWidth: 1.64, middleOpacity: 0.297, coreWidth: 0.87, coreOpacity: 1 },
+  a: { haloWidth: 4.02, haloOpacity: 0.058, middleWidth: 2.15, middleOpacity: 0.297, coreWidth: 1.667142857142857, coreOpacity: 1 },
+  b: { haloWidth: 4.02, haloOpacity: 0.058, middleWidth: 2.15, middleOpacity: 0.297, coreWidth: 1.667142857142857, coreOpacity: 1 },
   tick: { haloWidth: 1.9, haloOpacity: 0.035, middleWidth: 0.88, middleOpacity: 0.18, coreWidth: 0.56, coreOpacity: 0.9 },
   brace: { haloWidth: 1.6, haloOpacity: 0.025, middleWidth: 0.76, middleOpacity: 0.14, coreWidth: 0.46, coreOpacity: 0.68 },
 } as const;
@@ -240,10 +242,12 @@ export const H_COLUMN_MATERIAL = {
 } as const;
 
 export const H_PILLAR_SHAPE = {
-  serifHalfWidth: 7.8,
-  topSerifHalfWidth: 7.4,
-  stemHalfWidth: 2.23,
+  serifHalfWidth: 5.772,
+  topSerifHalfWidth: 5.476,
+  stemHalfWidth: 1.6502,
 } as const;
+
+export const H_RATIO_POINT_SHAPE = { radiusX: 0.748, radiusY: 0.969 } as const;
 
 export const H_ANIMATION = {
   delayMs: 220,
@@ -285,20 +289,20 @@ export function hAnimationWeights(progress: number, _strategyName: HPhiStrategyN
   };
 }
 
-export const MASTER = { width: 416, height: 120 } as const;
+export const MASTER = { width: 460, height: 120 } as const;
 export const GLYPH_PLACEMENTS = {
-  t: { x: 20.1, y: 1.5, scaleX: 0.86, width: 86 },
-  h: { x: 98.975, y: 0, scaleX: 1, width: 100 },
-  o: { x: 185.625, y: 0, scaleX: 0.88, width: 88 },
-  m: { x: 274.6, y: 0, scaleX: 1.22, width: 122 },
+  t: { x: 22, y: -0.222, scaleX: 0.86, scaleY: 1.03, width: 86 },
+  h: { x: 98.975, y: 0, scaleX: 1, scaleY: 1, width: 69 },
+  o: { x: 185.625, y: -8.4, scaleX: 0.88, scaleY: 1.14, width: 77 },
+  m: { x: 274.6, y: -26.7, scaleX: 1, scaleY: 1.49, width: 121 },
 } as const;
 
-export const H_PILLAR_CENTERS = [25, 75] as const;
+export const H_PILLAR_CENTERS = [28, 72] as const;
 export const GOLDEN_RATIO = (1 + Math.sqrt(5)) / 2;
 export const H_PROPORTION = (() => {
   const y = 60;
-  const startX = H_PILLAR_CENTERS[0] + H_PILLAR_SHAPE.stemHalfWidth;
-  const endX = H_PILLAR_CENTERS[1] - H_PILLAR_SHAPE.stemHalfWidth;
+  const startX = 27.23;
+  const endX = 72.77;
   const totalLength = endX - startX;
   const aLength = totalLength / GOLDEN_RATIO;
   const bLength = totalLength - aLength;
@@ -415,9 +419,54 @@ function compressPathHeight(path: FilledPath, top: number, scale: number): Fille
   };
 }
 
+export const CANONICAL_T_CONTOURS: FilledPath[] = [
+  {
+    commands: [
+      { type: "M", x: 2, y: 30.2 },
+      { type: "C", x1: 5, y1: 21, x2: 16, y2: 13.415, x: 29, y: 13.415 },
+      { type: "C", x1: 48, y1: 13.415, x2: 71, y2: 13.87, x: 91, y: 12.96 },
+      { type: "C", x1: 95, y1: 12.687, x2: 97, y2: 10.1, x: 97.5, y: 8.25 },
+      { type: "L", x: 99, y: 8.25 },
+      { type: "C", x1: 98.5, y1: 13.3, x2: 94, y2: 18.05, x: 86, y: 18.63 },
+      { type: "L", x: 64.51, y: 18.63 },
+      { type: "L", x: 60.79, y: 18.63 },
+      { type: "L", x: 41.36, y: 18.63 },
+      { type: "L", x: 37.64, y: 18.63 },
+      { type: "C", x1: 18, y1: 18.63, x2: 8, y2: 21, x: 3, y: 29.8 },
+      { type: "Z" },
+    ],
+  },
+  {
+    commands: [
+      { type: "M", x: 37.64, y: 18.63 },
+      { type: "C", x1: 36.99, y1: 27, x2: 35.07, y2: 42.535, x: 33.37, y: 55.275 },
+      { type: "C", x1: 30.57, y1: 70.745, x2: 24.44, y2: 86.22, x: 10.5, y: 101.1864 },
+      { type: "L", x: 20.6, y: 101.1864 },
+      { type: "C", x1: 26.8, y1: 94.65, x2: 30.33, y2: 83.03, x: 35.13, y: 66.195 },
+      { type: "C", x1: 37.93, y1: 50.725, x2: 40.28, y2: 30, x: 41.36, y: 18.63 },
+      { type: "Z" },
+    ],
+  },
+  {
+    commands: [
+      { type: "M", x: 60.79, y: 18.63 },
+      { type: "C", x1: 60.18283713, y1: 26.44838958, x2: 58.46755266, y2: 40.51850456, x: 56.85854676, y: 52.72260962 },
+      { type: "C", x1: 41.30673423, y1: 138.79746558, x2: 86.80571662, y2: 83.98950826, x: 86.80571662, y: 83.98950826 },
+      { type: "C", x1: 46.75198157, y1: 120.82021715, x2: 60.45031492, y2: 52.68602707, x: 60.45031492, y: 52.68602707 },
+      { type: "C", x1: 62.26545535, y1: 40.13351436, x2: 63.72403346, y2: 26.90448112, x: 64.51, y: 18.63 },
+      { type: "Z" },
+    ],
+  },
+];
+
+const canonicalTPath: FilledPath = {
+  commands: CANONICAL_T_CONTOURS.flatMap((contour) => contour.commands),
+};
+
 export const PI_GEOMETRY = {
-  display: compressPathHeight(tightenPiLegs(classicalPiOutline, [6, 13], [14, 19], PI_LEG_INSET.display), 7.5, 0.91),
-  compact: compressPathHeight(tightenPiLegs(compactPiOutline, [5, 10], [11, 15], PI_LEG_INSET.compact), 8, 0.92),
+  display: canonicalTPath,
+  displayContours: CANONICAL_T_CONTOURS,
+  compact: canonicalTPath,
 } as const;
 
 export function samplePathOutline(path: FilledPath, count = 192): Point[] {
@@ -475,18 +524,19 @@ export function samplePathOutline(path: FilledPath, count = 192): Point[] {
 
 function pillarPath(center: number): FilledPath {
   const { serifHalfWidth, stemHalfWidth, topSerifHalfWidth } = H_PILLAR_SHAPE;
+  const sourceScale = 0.74;
   return {
     commands: [
       { type: "M", x: center - serifHalfWidth, y: 104 },
-      { type: "C", x1: center - 5.2, y1: 103.7, x2: center - 3.1, y2: 101.8, x: center - stemHalfWidth, y: 98.5 },
+      { type: "C", x1: center - 5.2 * sourceScale, y1: 103.7, x2: center - 3.1 * sourceScale, y2: 101.8, x: center - stemHalfWidth, y: 98.5 },
       { type: "L", x: center - stemHalfWidth, y: 23 },
-      { type: "C", x1: center - 2.5, y1: 20.2, x2: center - 4.7, y2: 18.5, x: center - topSerifHalfWidth, y: 18.2 },
+      { type: "C", x1: center - 2.5 * sourceScale, y1: 20.2, x2: center - 4.7 * sourceScale, y2: 18.5, x: center - topSerifHalfWidth, y: 18.2 },
       { type: "L", x: center - topSerifHalfWidth, y: 15 },
       { type: "L", x: center + topSerifHalfWidth, y: 15 },
       { type: "L", x: center + topSerifHalfWidth, y: 18.2 },
-      { type: "C", x1: center + 4.7, y1: 18.5, x2: center + 2.5, y2: 20.2, x: center + stemHalfWidth, y: 23 },
+      { type: "C", x1: center + 4.7 * sourceScale, y1: 18.5, x2: center + 2.5 * sourceScale, y2: 20.2, x: center + stemHalfWidth, y: 23 },
       { type: "L", x: center + stemHalfWidth, y: 98.5 },
-      { type: "C", x1: center + 3.1, y1: 101.8, x2: center + 5.2, y2: 103.7, x: center + serifHalfWidth, y: 104 },
+      { type: "C", x1: center + 3.1 * sourceScale, y1: 101.8, x2: center + 5.2 * sourceScale, y2: 103.7, x: center + serifHalfWidth, y: 104 },
       { type: "Z" },
     ],
   };

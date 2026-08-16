@@ -119,6 +119,7 @@ async function normalizedHeroOCrop(buffer: Buffer) {
 test("renders the identity and complete content without overflow", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
+  await expect(page.getByRole("heading", { name: "Measured to stay itself at every scale." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Software Design" })).toBeVisible();
   await expect(page.getByText("platonic-values")).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);

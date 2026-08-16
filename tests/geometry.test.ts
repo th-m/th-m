@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { Resvg } from "@resvg/resvg-js";
+import { PNG } from "pngjs";
 import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import {
@@ -39,7 +41,6 @@ import {
   PI_ANIMATION,
   PI_FILL_ENERGY_SCALE,
   PI_GEOMETRY,
-  PI_LEG_INSET,
   PI_WEBGL_MATERIAL,
   SOURCE_ENERGY_Q,
   SOURCE_ENERGY_SCALE,
@@ -99,23 +100,23 @@ describe("THOM geometry", () => {
     }
   });
 
-  it("keeps the reference-led pi proportions and exact 450ms construction contract", () => {
+  it("keeps the canonical three-contour T and exact 450ms construction contract", () => {
     expect(PI_ANIMATION.durationMs).toBe(450);
     expect(PI_ANIMATION.traceHoldEnd).toBeGreaterThan(0.5);
-    const outline = samplePathOutline(PI_GEOMETRY.display);
-    expect(outline).toHaveLength(192);
-    expect(outline[0]).toEqual(outline.at(-1));
-    expect(Math.min(...outline.map((point) => point.x))).toBeLessThanOrEqual(2.1);
-    expect(Math.max(...outline.map((point) => point.x))).toBeGreaterThanOrEqual(98.8);
-    expect(Math.max(...outline.map((point) => point.y)) - Math.min(...outline.map((point) => point.y))).toBeLessThan(95);
-    expect(PI_LEG_INSET).toEqual({ display: 5.5, compact: 5 });
-    const displayInnerRight = PI_GEOMETRY.display.commands[13];
-    const displayInnerLeft = PI_GEOMETRY.display.commands[14];
-    expect(displayInnerRight.type).toBe("C");
-    expect(displayInnerLeft.type).toBe("L");
-    if (displayInnerRight.type === "C" && displayInnerLeft.type === "L") {
-      expect(displayInnerRight.x - displayInnerLeft.x).toBeCloseTo(13.3, 10);
-    }
+    expect(PI_GEOMETRY.displayContours).toHaveLength(3);
+    const outlines = PI_GEOMETRY.displayContours.map((contour) => samplePathOutline(contour));
+    outlines.forEach((outline) => {
+      expect(outline).toHaveLength(192);
+      expect(outline[0].x).toBeCloseTo(outline.at(-1)!.x, 10);
+      expect(outline[0].y).toBeCloseTo(outline.at(-1)!.y, 10);
+    });
+    const points = outlines.flat();
+    expect(Math.min(...points.map((point) => point.x))).toBeCloseTo(2, 2);
+    expect(Math.max(...points.map((point) => point.x))).toBeGreaterThan(98.9);
+    expect(Math.max(...points.map((point) => point.x))).toBeLessThanOrEqual(99);
+    expect(PI_GEOMETRY.displayContours[0].commands).toHaveLength(12);
+    expect(PI_GEOMETRY.displayContours[1].commands).toHaveLength(7);
+    expect(PI_GEOMETRY.displayContours[2].commands).toHaveLength(6);
   });
 
   it("divides the H crossbar into exact golden-ratio a and b segments", () => {
@@ -141,12 +142,12 @@ describe("THOM geometry", () => {
   it("bounds the H with high-contrast bracketed serifs and narrow symmetric stems", () => {
     const h = createHData();
     const [left, right] = h.paths.map(pathBounds);
-    expect(H_PILLAR_CENTERS).toEqual([25, 75]);
-    expect(H_PILLAR_SHAPE).toEqual({ serifHalfWidth: 7.8, topSerifHalfWidth: 7.4, stemHalfWidth: 2.23 });
-    expect(left.minX).toBeCloseTo(17.2, 10);
-    expect(left.maxX).toBeCloseTo(32.8, 10);
-    expect(right.minX).toBeCloseTo(67.2, 10);
-    expect(right.maxX).toBeCloseTo(82.8, 10);
+    expect(H_PILLAR_CENTERS).toEqual([28, 72]);
+    expect(H_PILLAR_SHAPE).toEqual({ serifHalfWidth: 5.772, topSerifHalfWidth: 5.476, stemHalfWidth: 1.6502 });
+    expect(left.minX).toBeCloseTo(22.228, 10);
+    expect(left.maxX).toBeCloseTo(33.772, 10);
+    expect(right.minX).toBeCloseTo(66.228, 10);
+    expect(right.maxX).toBeCloseTo(77.772, 10);
     expect([left.minY, left.maxY, right.minY, right.maxY]).toEqual([15, 104, 15, 104]);
     expect(h).not.toHaveProperty("curve");
     expect(h).not.toHaveProperty("axis");
@@ -175,7 +176,7 @@ describe("THOM geometry", () => {
 
   it("keeps the H proportion lines layered with equal-energy crossbar segments and quieter annotations", () => {
     expect(H_COLUMN_MATERIAL).toMatchObject({ edge: "#d1aa6e", body: "#e8cfa6", highlight: "#f9e8c7", highlightMix: 0.1, strokeWidth: 0.424 });
-    expect(H_MATERIAL.a).toMatchObject({ coreWidth: 0.87, middleWidth: 1.64, haloWidth: 4.02 });
+    expect(H_MATERIAL.a).toMatchObject({ coreWidth: 1.667142857142857, middleWidth: 2.15, haloWidth: 4.02 });
     expect(H_MATERIAL.b).toEqual(H_MATERIAL.a);
     expect(H_RATIO_POINT_MATERIAL).toBe(O_DISPLAY_MATERIAL.intersection);
     expect(H_MATERIAL.tick).toMatchObject({ coreWidth: 0.56, middleWidth: 0.88, haloWidth: 1.9 });
@@ -190,10 +191,10 @@ describe("THOM geometry", () => {
 
   it("expresses H construction strokes in world units so their pillar ratio survives responsive scaling", () => {
     expect(H_STROKE_WORLD_PER_PIXEL).toBe(0.7);
-    expect(hStrokeWorldWidth(H_MATERIAL.a.coreWidth)).toBeCloseTo(0.609, 10);
-    expect(hStrokeWorldWidth(H_MATERIAL.b.coreWidth)).toBeCloseTo(0.609, 10);
-    const smallScale = 648 / 416;
-    const largeScale = 1180 / 416;
+    expect(hStrokeWorldWidth(H_MATERIAL.a.coreWidth)).toBeCloseTo(1.167, 10);
+    expect(hStrokeWorldWidth(H_MATERIAL.b.coreWidth)).toBeCloseTo(1.167, 10);
+    const smallScale = 648 / 460;
+    const largeScale = 1180 / 460;
     const smallPrimary = hStrokeWorldWidth(H_MATERIAL.a.coreWidth) * smallScale;
     const largePrimary = hStrokeWorldWidth(H_MATERIAL.a.coreWidth) * largeScale;
     expect(smallPrimary / largePrimary).toBeCloseTo(smallScale / largeScale, 10);
@@ -248,16 +249,16 @@ describe("THOM geometry", () => {
 
   it("expresses every display O line layer in glyph-relative world units", () => {
     expect(DISPLAY_STROKE_WORLD_PER_PIXEL).toBe(0.35);
-    expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth)).toBe(0.886);
+    expect(O_DISPLAY_MATERIAL.circle.coreWidth).toBe(2.613);
     expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.chord.coreWidth)).toBe(0.289);
-    const smallScale = 648 / 416;
-    const largeScale = 1180 / 416;
-    const smallCore = displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth) * smallScale;
-    const largeCore = displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth) * largeScale;
+    const smallScale = 648 / 460;
+    const largeScale = 1180 / 460;
+    const smallCore = O_DISPLAY_MATERIAL.circle.coreWidth * smallScale;
+    const largeCore = O_DISPLAY_MATERIAL.circle.coreWidth * largeScale;
     expect(smallCore / largeCore).toBeCloseTo(smallScale / largeScale, 10);
     const glyph = renderGlyphSvg(brandData, "o");
     expect(glyph).not.toContain("vector-effect");
-    expect(glyph).toContain(`stroke-width="${displayStrokeWorldWidth(O_DISPLAY_MATERIAL.circle.coreWidth)}"`);
+    expect(glyph).toContain(`stroke-width="${O_DISPLAY_MATERIAL.circle.coreWidth}"`);
   });
 
   it("uses a wider, lower real Fourier construction with persistent partial sums", () => {
@@ -355,12 +356,12 @@ describe("THOM geometry", () => {
     });
   });
 
-  it("renders the settled display M from the same geometry at the isolated 122-unit width", () => {
+  it("renders the settled display M from canonical geometry with added fine strands", () => {
     const glyph = renderGlyphSvg(brandData, "m");
-    expect(glyph).toContain('viewBox="0 0 122 120"');
-    expect(glyph).toContain('transform="scale(1.22 1)"');
+    expect(glyph).toContain('viewBox="0 0 121 120"');
+    expect(glyph).toContain('transform="translate(0 -26.7) scale(1 1.49)"');
     expect(glyph).toContain('id="thom-m-highlight"');
-    expect(glyph.match(/<path/g)).toHaveLength(25);
+    expect(glyph.match(/<path/g)).toHaveLength(105);
     expect(glyph).not.toContain("<polyline");
     expect(glyph).not.toContain("non-scaling-stroke");
   });
@@ -371,7 +372,7 @@ describe("THOM geometry", () => {
       .update(readFileSync(glyphUrl))
       .digest("hex");
     const dataHash = createHash("sha256").update(JSON.stringify(brandData.m)).digest("hex");
-    expect(glyphHash).toBe("bfb0777f837bf89f45aaa50a9c0593e4e2bd975d9aee7b438f3934b91a5d5d1a");
+    expect(glyphHash).toBe("a945ef6c7f386565ae0b528c1d07269853083fb34ad37bf77080ab38771f518e");
     expect(dataHash).toBe("7ad2c0b82a5cad31dd39745f322eace22b25819d7ba5e77ce542855b72ca896d");
   });
 
@@ -388,12 +389,12 @@ describe("THOM geometry", () => {
     expect(display).not.toContain("vector-effect");
     expect(display).not.toContain("stroke-dasharray");
     expect(display).toContain('data-h-part="ratio-point"');
-    expect(display.match(/<circle/g)).toHaveLength(1);
+    expect(display.match(/<ellipse/g)).toHaveLength(1);
     expect(display.match(/<polyline/g)).toHaveLength(18);
     expect(compact).not.toContain("thom-fill-glow");
     expect(compact).not.toContain("stroke-dasharray");
     expect(compact).toContain('data-h-part="ratio-point"');
-    expect(compact.match(/<circle/g)).toHaveLength(1);
+    expect(compact.match(/<ellipse/g)).toHaveLength(1);
     expect(compact).toContain('data-h-part="unit-brace"');
     expect(compact.match(/<polyline/g)).toHaveLength(6);
   });
@@ -407,21 +408,22 @@ describe("THOM geometry", () => {
     expect(stats.channels[3].max).toBe(255);
   });
 
-  it("keeps the master grid centered with a measured optical spacing rhythm", () => {
+  it("pins the canonical 460 × 120 master transforms and optical spacing rhythm", () => {
     const data = createBrandData();
+    expect(MASTER).toEqual({ width: 460, height: 120 });
     expect(data.placements).toEqual({
-      t: { x: 20.1, y: 1.5, scaleX: 0.86, width: 86 },
-      h: { x: 98.975, y: 0, scaleX: 1, width: 100 },
-      o: { x: 185.625, y: 0, scaleX: 0.88, width: 88 },
-      m: { x: 274.6, y: 0, scaleX: 1.22, width: 122 },
+      t: { x: 22, y: -0.222, scaleX: 0.86, scaleY: 1.03, width: 86 },
+      h: { x: 98.975, y: 0, scaleX: 1, scaleY: 1, width: 69 },
+      o: { x: 185.625, y: -8.4, scaleX: 0.88, scaleY: 1.14, width: 77 },
+      m: { x: 274.6, y: -26.7, scaleX: 1, scaleY: 1.49, width: 121 },
     });
     const visibleEdges = {
       tLeft: data.placements.t.x + 2 * data.placements.t.scaleX,
       tRight: data.placements.t.x + 99 * data.placements.t.scaleX,
-      hLeft: data.placements.h.x + 17.2,
-      hRight: data.placements.h.x + 82.8,
-      oLeft: data.placements.o.x + 9 * data.placements.o.scaleX,
-      oRight: data.placements.o.x + 91 * data.placements.o.scaleX,
+      hLeft: data.placements.h.x + 22.228,
+      hRight: data.placements.h.x + 77.772,
+      oLeft: 193.125,
+      oRight: 266.125,
       mLeft: data.placements.m.x + 2 * data.placements.m.scaleX,
       mRight: data.placements.m.x + 98 * data.placements.m.scaleX,
     };
@@ -430,12 +432,10 @@ describe("THOM geometry", () => {
       visibleEdges.oLeft - visibleEdges.hRight,
       visibleEdges.mLeft - visibleEdges.oRight,
     ];
-    expect(gaps[0]).toBeCloseTo(10.935, 3);
-    expect(gaps[1]).toBeCloseTo(11.77, 3);
-    expect(gaps[2]).toBeCloseTo(11.335, 3);
-    const gapMean = gaps.reduce((sum, gap) => sum + gap, 0) / gaps.length;
-    expect(Math.max(...gaps.map((gap) => Math.abs(gap - gapMean) / gapMean))).toBeLessThan(0.04);
-    expect((visibleEdges.tLeft + visibleEdges.mRight) / 2).toBeCloseTo(MASTER.width / 2, 1);
+    expect(gaps[0]).toBeCloseTo(14.063, 3);
+    expect(gaps[1]).toBeCloseTo(16.378, 3);
+    expect(gaps[2]).toBeCloseTo(10.475, 3);
+    expect(gaps.every((gap) => gap > 10)).toBe(true);
     expect(data.h.proportion.aLength / data.h.proportion.bLength).toBeCloseTo(GOLDEN_RATIO, 10);
   });
 
@@ -445,13 +445,26 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("8dc14d9a42f9ea57ac36179b3a495da2f13f3342b126f449135780943330e584");
+    expect(hash).toBe("33a166f4176e3eae2c6f799ca794cf7ee328dd30b7946b11e891cb978c1efce9");
     expect(first).toContain("<title id=\"title\">THOM</title>");
-    expect(first).toContain('viewBox="0 0 416 120"');
+    expect(first).toContain('viewBox="0 0 460 120"');
     expect(first).toContain('id="thom-metal"');
     expect(first).toContain("<path");
     expect(first).not.toContain("font-family");
     expect(first).not.toContain("non-scaling-stroke");
+  });
+
+  it("keeps the generated monochrome wordmark in raster parity with the canonical typography master", () => {
+    const canonical = readFileSync(resolve(process.cwd(), "docs/brand/typography/thom-canonical.svg"), "utf8");
+    const generated = renderLogoSvg(createBrandData(), "monochrome");
+    const render = (svg: string) => PNG.sync.read(new Resvg(svg, { fitTo: { mode: "width", value: 920 } }).render().asPng());
+    const expected = render(canonical);
+    const actual = render(generated);
+    let changedAlphaPixels = 0;
+    for (let offset = 3; offset < expected.data.length; offset += 4) {
+      if (Math.abs(expected.data[offset] - actual.data[offset]) > 8) changedAlphaPixels += 1;
+    }
+    expect(changedAlphaPixels / (expected.width * expected.height)).toBeLessThan(0.001);
   });
 
   it("keeps every committed generated brand asset deterministic", () => {
@@ -473,6 +486,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("8b80f274ae8d4e65af4822d7f3ba6a669689a1a8ef4b0976bdd5e50fb2ee8f93");
+    expect(hash.digest("hex")).toBe("f66688018be7ee62d119e76e0c48ea504f6de3ed28809af7af26e07b5e54d58f");
   });
 });

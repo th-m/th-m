@@ -4,6 +4,14 @@ import { ThomGlyphStage, ThomLogo } from "./brand/thom/ThomLogo";
 import type { ThomGlyph } from "./brand/thom/threeScene";
 import { artifacts, books, referenceGroups, type ReferenceItem } from "./content/profile";
 
+const typographyAssets = {
+  diagram: new URL("../docs/brand/typography/figures/01-vertical-metrics.svg", import.meta.url).href,
+  canonicalSvg: new URL("../docs/brand/typography/thom-canonical.svg", import.meta.url).href,
+  metrics: new URL("../docs/brand/typography/thom-typography-metrics.json", import.meta.url).href,
+  overview: new URL("../docs/brand/typography/thom-typography-overview.md", import.meta.url).href,
+  pdf: new URL("../docs/brand/typography/thom-typography-overview.pdf", import.meta.url).href,
+};
+
 const glyphs: Array<{
   glyph: ThomGlyph;
   symbol: string;
@@ -95,6 +103,7 @@ function Header() {
       </a>
       <nav aria-label="Primary navigation">
         <a href="#mark">Mark</a>
+        <a href="#typography">Type</a>
         <a href="#thinking">Thinking</a>
         <a href="#library">Library</a>
         <a href="#focus">Focus</a>
@@ -173,10 +182,83 @@ function MarkSection() {
   );
 }
 
+const typographyMetrics = [
+  { value: "460 × 120", label: "Canonical design frame", note: "One SVG unit equals one master unit." },
+  { value: "89u", label: "Cap height", note: "From the 15u cap line to the 104u baseline." },
+  { value: "+6.72u", label: "T roof overshoot", note: "An intentional optical extension above the cap line." },
+  { value: "+3.40 / +2.15u", label: "O visible overshoot", note: "Above the cap line / below the baseline." },
+];
+
+function TypographySection() {
+  return (
+    <Reveal className="typography-section page-section" id="typography">
+      <SectionIntro
+        index="02"
+        eyebrow="Typography specification"
+        title="Measured to stay itself at every scale."
+        copy="The refined THOM artwork is the canonical source for shape, proportion, and placement. Its construction lines make the optical decisions explicit without reducing them to mechanically equal widths."
+      />
+      <div className="typography-plate">
+        <header className="typography-plate__header">
+          <div>
+            <p className="eyebrow">Canonical geometry plane</p>
+            <h3>Cap line, construction axis, baseline, and optical overshoot.</h3>
+          </div>
+          <p>SPEC 1.0<br />SVG Y ↓ &nbsp; THREE.JS Y ↑</p>
+        </header>
+        <figure className="typography-figure">
+          <img src={typographyAssets.diagram} alt="THOM wordmark aligned to its upper ink extent, cap line, construction axis, baseline, and overshoot clearance" />
+          <figcaption>
+            <span>FIG. 01</span>
+            <span>Nominal alignment and visible-ink compensation</span>
+            <span>460 × 120u</span>
+          </figcaption>
+        </figure>
+      </div>
+      <div className="typography-metric-grid" aria-label="Key typography measurements">
+        {typographyMetrics.map((metric, index) => (
+          <article key={metric.label}>
+            <span className="typography-metric-index">{String(index + 1).padStart(2, "0")}</span>
+            <strong>{metric.value}</strong>
+            <h3>{metric.label}</h3>
+            <p>{metric.note}</p>
+          </article>
+        ))}
+      </div>
+      <div className="typography-contract">
+        <div>
+          <p className="eyebrow">Implementation contract</p>
+          <h3>One translation. No shape reinterpretation.</h3>
+          <p>Every move point, line endpoint, Bézier control, and Bézier endpoint uses the same SVG-to-Three.js conversion. Uniform viewport scaling preserves the wordmark’s proportions.</p>
+        </div>
+        <code><span>const</span> svgToThree = ({'{'} x, y {'}'}) =&gt;<br />&nbsp;&nbsp;new Vector3(x, 120 - y, 0);</code>
+      </div>
+      <div className="typography-downloads" aria-label="Typography specification downloads">
+        <a href={typographyAssets.pdf} target="_blank" rel="noreferrer">
+          <span><strong>Visual specification</strong><small>PDF · 11 pages</small></span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a href={typographyAssets.canonicalSvg} download>
+          <span><strong>Canonical wordmark</strong><small>SVG · transparent</small></span>
+          <span aria-hidden="true">↓</span>
+        </a>
+        <a href={typographyAssets.metrics} download>
+          <span><strong>Geometry contract</strong><small>JSON · schema 1.0</small></span>
+          <span aria-hidden="true">↓</span>
+        </a>
+        <a href={typographyAssets.overview} target="_blank" rel="noreferrer">
+          <span><strong>Editable specification</strong><small>Markdown · canonical copy</small></span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </Reveal>
+  );
+}
+
 function IntroSection() {
   return (
     <Reveal className="intro-section page-section">
-      <p className="section-index">02</p>
+      <p className="section-index">03</p>
       <div className="intro-copy">
         <p className="eyebrow">A working position</p>
         <h2>I am interested in how software systems become understandable enough to change.</h2>
@@ -192,7 +274,7 @@ function IntroSection() {
 function ThinkingSection() {
   return (
     <Reveal className="thinking-section page-section" id="thinking">
-      <SectionIntro index="03" eyebrow="Concepts worth knowing" title="A field guide to systems that can change." copy="References that sharpen how I reason about software design, delivery, product experience, and semantics." />
+      <SectionIntro index="04" eyebrow="Concepts worth knowing" title="A field guide to systems that can change." copy="References that sharpen how I reason about software design, delivery, product experience, and semantics." />
       <div className="reference-groups">
         {referenceGroups.map((group, groupIndex) => (
           <article className="reference-group" key={group.title}>
@@ -218,7 +300,7 @@ function ThinkingSection() {
 function LibrarySection() {
   return (
     <Reveal className="library-section page-section" id="library">
-      <SectionIntro index="04" eyebrow="Books and operating models" title="Ideas become useful when they change the work." />
+      <SectionIntro index="05" eyebrow="Books and operating models" title="Ideas become useful when they change the work." />
       <ol className="book-grid">
         {books.map((book, index) => (
           <li key={book.title}>
@@ -236,7 +318,7 @@ function FocusSection() {
   return (
     <Reveal className="focus-section page-section" id="focus">
       <div className="focus-orbit" aria-hidden="true" />
-      <SectionIntro index="05" eyebrow="Current focus" title="Making sound visible enough to shape." />
+      <SectionIntro index="06" eyebrow="Current focus" title="Making sound visible enough to shape." />
       <div className="focus-content">
         <p>Most current side-project energy is going into Soundsculpt: exploring AI-assisted audio generation, creative tooling, and product workflows around prompt-driven media.</p>
         <a href="https://soundsculpt.app" target="_blank" rel="noreferrer" className="focus-link">
@@ -251,7 +333,7 @@ function FocusSection() {
 function WorkSection() {
   return (
     <Reveal className="work-section page-section" id="work">
-      <SectionIntro index="06" eyebrow="Public artifacts" title="Running systems, in various states of becoming." copy="Some are old, some are unfinished. Most moonlight work goes to Soundsculpt, and my day job gets my daylight work." />
+      <SectionIntro index="07" eyebrow="Public artifacts" title="Running systems, in various states of becoming." copy="Some are old, some are unfinished. Most moonlight work goes to Soundsculpt, and my day job gets my daylight work." />
       <div className="artifact-list">
         {artifacts.map((artifact, index) => (
           <article key={artifact.title}>
@@ -279,7 +361,7 @@ const assets = [
 function AssetsSection() {
   return (
     <Reveal className="assets-section page-section">
-      <SectionIntro index="07" eyebrow="Identity assets" title="One geometry, every application." copy="Each asset is generated from the same golden-ratio division, chord network, and Fourier coefficients as the live mark." />
+      <SectionIntro index="08" eyebrow="Identity assets" title="One geometry, every application." copy="Canonical artwork and implementation assets share a documented translation path from SVG master units to the live Three.js mark." />
       <div className="asset-grid">
         {assets.map((asset) => (
           <a key={asset.file} className={`asset-card ${asset.className}`} href={`/brand/${asset.file}`} download>
@@ -313,6 +395,7 @@ export default function App() {
       <main id="main">
         <Hero />
         <MarkSection />
+        <TypographySection />
         <IntroSection />
         <ThinkingSection />
         <LibrarySection />
