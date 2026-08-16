@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 2,
+  "variant": "golden-spiral",
+  "command": "bun run check:brand:balance --metrics=/Users/thom/Sites/th-m/th-m/.codex/audits/logo-balance/golden-spiral/metrics.json",
+  "policy": "Geometry, profile selection, recognizability, spacing, and motion are hard gates. Energy shares are broad robustness bounds, not universal beauty targets.",
+  "pass": true,
+  "summary": {
+    "passed": 41,
+    "failed": 0,
+    "total": 41
+  },
+  "gates": [
+    {
+      "id": "24px-optical-profile",
+      "actual": 1,
+      "requirement": "profile is micro",
+      "pass": true
+    },
+    {
+      "id": "24px-t-recognizable-core",
+      "actual": 50.59375,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "24px-h-recognizable-core",
+      "actual": 45.3125,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "24px-o-recognizable-core",
+      "actual": 71.828125,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "24px-m-recognizable-core",
+      "actual": 54.0625,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "24px-energy-spread",
+      "actual": 4.903700000000001,
+      "requirement": "maximum-minus-minimum share <= 8 percentage points",
+      "pass": true
+    },
+    {
+      "id": "48px-optical-profile",
+      "actual": 1,
+      "requirement": "profile is compact",
+      "pass": true
+    },
+    {
+      "id": "48px-t-recognizable-core",
+      "actual": 193.40625,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "48px-h-recognizable-core",
+      "actual": 154.0625,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "48px-o-recognizable-core",
+      "actual": 305.8125,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "48px-m-recognizable-core",
+      "actual": 182.984375,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "48px-energy-spread",
+      "actual": 5.5416000000000025,
+      "requirement": "maximum-minus-minimum share <= 8 percentage points",
+      "pass": true
+    },
+    {
+      "id": "120px-optical-profile",
+      "actual": 1,
+      "requirement": "profile is display",
+      "pass": true
+    },
+    {
+      "id": "120px-t-recognizable-core",
+      "actual": 1030.796875,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "120px-h-recognizable-core",
+      "actual": 795.328125,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "120px-o-recognizable-core",
+      "actual": 1339.625,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "120px-m-recognizable-core",
+      "actual": 1626.59375,
+      "requirement": "highContrastCoreArea > 0",
+      "pass": true
+    },
+    {
+      "id": "120px-t-robust-energy",
+      "actual": 17.2303,
+      "requirement": "12 <= share <= 38",
+      "pass": true
+    },
+    {
+      "id": "120px-h-robust-energy",
+      "actual": 19.4577,
+      "requirement": "12 <= share <= 38",
+      "pass": true
+    },
+    {
+      "id": "120px-o-robust-energy",
+      "actual": 31.2729,
+      "requirement": "12 <= share <= 38",
+      "pass": true
+    },
+    {
+      "id": "120px-m-robust-energy",
+      "actual": 32.0392,
+      "requirement": "12 <= share <= 38",
+      "pass": true
+    },
+    {
+      "id": "h-golden-ratio-identity",
+      "actual": 1.618034,
+      "requirement": "abs(ratio - phi) <= 1e-6",
+      "pass": true
+    },
+    {
+      "id": "h-crossbar-centroid",
+      "actual": 0.122412,
+      "requirement": "absolute offset <= 0.25 design units",
+      "pass": true
+    },
+    {
+      "id": "h-spiral-peak-energy",
+      "actual": 1.045716,
+      "requirement": "peak energy <= 1.35 × settled energy",
+      "pass": true
+    },
+    {
+      "id": "h-spiral-quarter-turn-ratio",
+      "actual": 0,
+      "requirement": "maximum ratio error <= 1e-6",
+      "pass": true
+    },
+    {
+      "id": "h-animation-centroid",
+      "actual": 0.276728,
+      "requirement": "maximum horizontal drift <= 2 design units",
+      "pass": true
+    },
+    {
+      "id": "h-recognizable-after-reveal",
+      "actual": 1,
+      "requirement": "recognizable H core remains after reveal",
+      "pass": true
+    },
+    {
+      "id": "h-final-matches-settled",
+      "actual": 1,
+      "requirement": "final animation frame exactly matches settled H",
+      "pass": true
+    },
+    {
+      "id": "24px-optical-gaps",
+      "actual": 0.040816,
+      "requirement": "maximum deviation <= 0.10",
+      "pass": true
+    },
+    {
+      "id": "48px-optical-gaps",
+      "actual": 0.030303,
+      "requirement": "maximum deviation <= 0.10",
+      "pass": true
+    },
+    {
+      "id": "120px-optical-gaps",
+      "actual": 0,
+      "requirement": "maximum deviation <= 0.10",
+      "pass": true
+    },
+    {
+      "id": "24px-hCrossbarVisible",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "24px-hRatioDetailsSuppressed",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "24px-oCircumferenceVisible",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "24px-oNetworkVisible",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "24px-mMarkVisible",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "48px-hCrossbarVisible",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "48px-hRatioDetailsSuppressed",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "48px-oCircumferenceVisible",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "48px-oNetworkVisible",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    },
+    {
+      "id": "48px-mMarkVisible",
+      "actual": 1,
+      "requirement": "profile feature survives or is intentionally suppressed",
+      "pass": true
+    }
+  ]
+}

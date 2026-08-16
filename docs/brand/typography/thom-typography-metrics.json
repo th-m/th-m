@@ -398,6 +398,35 @@
       ]
     }
   },
+  "hAnimation": {
+    "trigger": [
+      "page-load intro",
+      "hero H hover/focus/click/tap",
+      "Equilibrium stage hover/focus/click/tap"
+    ],
+    "lifecycle": "Trace once to completion; pointer exit does not cancel; duplicate H triggers are ignored while active; final frame is the unchanged settled H.",
+    "geometry": {
+      "kind": "clockwise logarithmic golden spiral",
+      "center": [
+        55.3752678476702,
+        60
+      ],
+      "turns": 2.25,
+      "radiusGrowthPerQuarterTurn": "phi",
+      "finalRadius": 32,
+      "segments": 180
+    },
+    "timing": {
+      "delayMs": 220,
+      "durationMs": 1000,
+      "endMs": 1220,
+      "revealEnd": 0.18,
+      "traceEnd": 0.68,
+      "holdEnd": 0.82,
+      "fadeEnd": 1
+    },
+    "reducedMotion": "No animated render loop; resolve directly to the settled SVG/WebGL construction."
+  },
   "constructionDetails": {
     "T": {
       "roofTopY": 8.2755,

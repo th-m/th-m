@@ -7,7 +7,7 @@ import { chromium } from "playwright";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 import { brandData } from "../../src/brand/thom/brandData";
-import { OPTICAL_PLACEMENT_X } from "../../src/brand/thom/geometry";
+import { H_ANIMATION, H_SPIRAL, OPTICAL_PLACEMENT_X } from "../../src/brand/thom/geometry";
 import { OPTICAL_PROFILE_WIDTHS } from "../../src/brand/thom/opticalProfile";
 
 type Point = { x: number; y: number };
@@ -383,6 +383,20 @@ const metrics = {
       measures: ["THOM recognition", "perceived balance", "forced-choice preference", "response confidence"],
     },
   },
+  hAnimation: {
+    trigger: ["page-load intro", "hero H hover/focus/click/tap", "Equilibrium stage hover/focus/click/tap"],
+    lifecycle: "Trace once to completion; pointer exit does not cancel; duplicate H triggers are ignored while active; final frame is the unchanged settled H.",
+    geometry: {
+      kind: "clockwise logarithmic golden spiral",
+      center: [brandData.h.proportion.ratioPoint.x, brandData.h.proportion.ratioPoint.y],
+      turns: H_SPIRAL.turns,
+      radiusGrowthPerQuarterTurn: "phi",
+      finalRadius: H_SPIRAL.finalRadius,
+      segments: H_SPIRAL.segments,
+    },
+    timing: H_ANIMATION,
+    reducedMotion: "No animated render loop; resolve directly to the settled SVG/WebGL construction.",
+  },
   constructionDetails: {
     T: {
       roofTopY: round(T_TRANSFORM.translateY + 8.25 * T_TRANSFORM.scaleY),
@@ -636,6 +650,10 @@ The T is built from **top-bar**, **left-pillar**, and **right-pillar** contours.
 - Cap/baseline terminal width: **${metrics.constructionDetails.H.terminalSerifWidth.toFixed(4)}u**.
 - Local pillar centers after the audit adjustment: **28u** and **72u**.
 
+### H motion contract
+
+The display H uses one procedural, clockwise logarithmic golden spiral centered on the golden-ratio division point. Its radius grows by **φ per quarter turn**, completes **${H_SPIRAL.turns} turns** at a **${H_SPIRAL.finalRadius}u** radius, and remains behind the H construction. The ${H_ANIMATION.durationMs} ms sequence traces through ${(H_ANIMATION.traceEnd * H_ANIMATION.durationMs).toFixed(0)} ms, holds through ${(H_ANIMATION.holdEnd * H_ANIMATION.durationMs).toFixed(0)} ms, then fades to the unchanged settled H. Page load and direct H interaction share this geometry and timing. Pointer exit never cancels an active trace; reduced motion skips it.
+
 ## O — centerline versus rim
 
 - Side perimeter weight: **${metrics.constructionDetails.O.perimeterWeight.sideMasterUnits.toFixed(4)}u**.
@@ -733,11 +751,11 @@ Profile selection uses the **rendered wordmark width**, not a device category or
 
 | Profile | Rendered width | Treatment |
 |---|---:|---|
-| Display | > ${OPTICAL_PROFILE_WIDTHS.compactMax}px | Full luminous construction, φ annotations, canonical O network, and layered M. |
+| Display | > ${OPTICAL_PROFILE_WIDTHS.compactMax}px | Full luminous construction, golden-ratio annotations, canonical O network, and layered M. |
 | Compact | ${OPTICAL_PROFILE_WIDTHS.microMax + 1}–${OPTICAL_PROFILE_WIDTHS.compactMax}px | Stronger H stems, quiet continuous a/b crossbar, compact O network, and single compact M contour. |
 | Micro | ≤ ${OPTICAL_PROFILE_WIDTHS.microMax}px | Continuous H crossbar without φ ticks/brace/point, seven O chords without nodes, and a strengthened M contour. |
 
-Compact and micro assets apply small X-only spacing corrections recorded in the metrics contract. They never distort glyph geometry. The φ construction remains available in the display mark and explanatory animation, but it does not compete with letter recognition in utility sizes.
+Compact and micro assets apply small X-only spacing corrections recorded in the metrics contract. They never distort glyph geometry. The golden-ratio construction remains available in the display mark and procedural spiral animation, but it does not compete with letter recognition in utility sizes.
 
 ## Perceptual validation protocol
 
@@ -824,7 +842,7 @@ The former 416 × 120 scene is a compatibility viewport, not the geometry master
 - Metallic color ramps and light/dark/monochrome themes.
 - Source-energy compensation and display stroke conversions.
 - T rim, O perimeter/chord/node materials, H proportion construction, and M layered stroke materials.
-- Animation timing, reveal ordering, H φ transition, O network stages, and M Fourier buildup.
+- Animation timing, reveal ordering, H logarithmic golden-spiral trace, O network stages, and M Fourier buildup.
 - Responsive orthographic-camera behavior, adjusted to a 460 × 120 canonical base.
 
 ## Replace during a future production migration
@@ -842,7 +860,7 @@ The former 416 × 120 scene is a compatibility viewport, not the geometry master
 5. Re-run the T grid measurements after any contour edit; do not copy old width tables forward.
 6. Preserve color/material/motion sources until a separate migration explicitly supersedes them.
 7. At widths of 92px, 184px, and 460px, verify the selected micro, compact, and display profiles respectively; every glyph must retain a high-contrast recognizable core.
-8. Confirm compact and micro H output omits the φ point, ticks, and brace while the display H and φ-to-H animation retain them.
+8. Confirm compact and micro H output omits the ratio point, ticks, and brace while the display H retains them and the procedural spiral remains display-only.
 9. Do not describe the φ split as preferred until the blinded comparison protocol is run and reported; exact geometry alone is not preference evidence.
 
 ---

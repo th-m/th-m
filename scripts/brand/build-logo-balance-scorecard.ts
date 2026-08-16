@@ -14,9 +14,9 @@ type Metrics = {
   }>;
   hCrossbar: { centroidOffset: number };
   temporal: {
-    phiHoldDeviationRatio: number;
-    maximumCrossfadeEnergyDeviationRatio: number;
+    peakEnergyRatio: number;
     maximumCentroidDrift: number;
+    maximumQuarterTurnRatioError: number;
   };
 };
 
@@ -46,8 +46,8 @@ for (const variant of variants) {
       (["t", "h", "o", "m"] as const).map((glyph) => [glyph, metrics.sizes["120"].glyphs[glyph].share]),
     ) as Record<Glyph, number>,
     hCrossbarOffset: metrics.hCrossbar.centroidOffset,
-    phiHoldDeviation: metrics.temporal.phiHoldDeviationRatio,
-    crossfadeDeviation: metrics.temporal.maximumCrossfadeEnergyDeviationRatio,
+    peakEnergyRatio: metrics.temporal.peakEnergyRatio,
+    quarterTurnRatioError: metrics.temporal.maximumQuarterTurnRatioError,
     centroidDrift: metrics.temporal.maximumCentroidDrift,
     maximumGapDeviation: Math.max(
       ...[24, 48, 120].map((height) => metrics.sizes[String(height)].opticalGaps.maximumDeviationRatio),
@@ -71,14 +71,14 @@ const scorecard = {
 const jsonPath = resolve(auditRoot, "scorecard.json");
 await Bun.write(jsonPath, `${JSON.stringify(scorecard, null, 2)}\n`);
 
-const header = "| Variant | Gates | J | Mass | Core | Moments | Gaps | Motion | 120px T/H/O/M | H offset | Phi hold | Crossfade | Drift | Max gap |";
+const header = "| Variant | Gates | J | Mass | Core | Moments | Gaps | Motion | 120px T/H/O/M | H offset | Spiral peak | φ ratio error | Drift | Max gap |";
 const separator = "|---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|";
 const tableRows = rows.map((row) => {
   const gates = row.acceptance
     ? `${row.acceptance.summary.passed}/${row.acceptance.summary.total}${row.acceptance.pass ? " pass" : ""}`
     : "not run";
   const shares = (["t", "h", "o", "m"] as const).map((glyph) => row.shares120[glyph].toFixed(2)).join("/");
-  return `| ${row.variant} | ${gates} | ${row.aggregate.toFixed(4)} | ${row.components.mass.toFixed(4)} | ${row.components.core.toFixed(4)} | ${row.components.moments.toFixed(4)} | ${row.components.gaps.toFixed(4)} | ${row.components.motion.toFixed(4)} | ${shares} | ${row.hCrossbarOffset.toFixed(3)} | ${(row.phiHoldDeviation * 100).toFixed(2)}% | ${(row.crossfadeDeviation * 100).toFixed(2)}% | ${row.centroidDrift.toFixed(3)} | ${(row.maximumGapDeviation * 100).toFixed(2)}% |`;
+  return `| ${row.variant} | ${gates} | ${row.aggregate.toFixed(4)} | ${row.components.mass.toFixed(4)} | ${row.components.core.toFixed(4)} | ${row.components.moments.toFixed(4)} | ${row.components.gaps.toFixed(4)} | ${row.components.motion.toFixed(4)} | ${shares} | ${row.hCrossbarOffset.toFixed(3)} | ${row.peakEnergyRatio.toFixed(3)}× | ${row.quarterTurnRatioError.toExponential(1)} | ${row.centroidDrift.toFixed(3)} | ${(row.maximumGapDeviation * 100).toFixed(2)}% |`;
 });
 const markdown = `# THOM Logo Balance Scorecard\n\nInvariant and acceptance status outrank aggregate score. Lower J is better among eligible variants.\n\n${header}\n${separator}\n${tableRows.join("\n")}\n`;
 const markdownPath = resolve(auditRoot, "scorecard.md");

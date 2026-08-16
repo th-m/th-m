@@ -1,3 +1,38 @@
+# Logarithmic Golden-Spiral H Motion — Design QA
+
+final result: passed
+
+## Scope
+
+This pass replaces the raster φ-to-H crossfade with one procedural logarithmic golden spiral. The spiral starts at the H’s exact golden-ratio division point, recedes behind the stable H construction, draws a shell-like path, and resolves to the unchanged settled mark.
+
+## Implementation evidence
+
+- Geometry: clockwise 2.25-turn spiral, 180 deterministic segments, 32u final radius, and φ radius growth per quarter turn.
+- Timeline: 1000 ms total; trace through 680 ms, hold through 820 ms, then shell/tracer fade through 1000 ms. The intro retains its 220 ms H delay and reveals the H during the first 180 ms.
+- Interaction: the page-load intro, hero H target, and Equilibrium stage share the same sequence. Hover, focus, click, and tap can start it; pointer exit does not cancel it; duplicate H triggers are ignored while active; another glyph can interrupt it.
+- Depth/material: a restrained gold core and halo render behind the H. The moving ratio point shrinks from 1 to 0.65 scale while moving from z = 0.45 to z = −1.2.
+- Fallback: reduced motion, compact/micro profiles, static SVG, and the final WebGL frame resolve directly to the existing settled construction.
+
+## Audit evidence
+
+- Deterministic motion audit: 41/41 gates passed at 25 ms cadence.
+- Peak optical energy: `1.045716×` settled, below the `1.35×` ceiling.
+- Maximum horizontal centroid drift after reveal: `0.276728u`, below the `2u` ceiling.
+- Maximum quarter-turn φ ratio error: `0` at recorded precision.
+- The H retains a recognizable core after reveal and the 1000 ms frame is pixel-identical to the settled H raster.
+- Contact sheet: `.codex/audits/logo-balance/golden-spiral/h-animation-contact-sheet.png` (generated verification artifact).
+
+## Validation
+
+- Typecheck and production build: passed.
+- Unit/component suite: 75 passed across 13 files.
+- Desktop/mobile site suite: 24 passed; 8 fixed-raster desktop-only cases intentionally skipped on mobile.
+- Golden-spiral interaction test passed three consecutive parallel repetitions.
+- Settled H SVG/WebGL parity: IoU `0.8222467230`, width delta `1.5%`, height delta `0.4255%`.
+
+---
+
 # Golden-Ratio H Redesign — Design QA
 
 final result: passed

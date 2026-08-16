@@ -252,48 +252,26 @@ export const H_RATIO_POINT_SHAPE = { radiusX: 0.748, radiusY: 0.969 } as const;
 
 export const H_ANIMATION = {
   delayMs: 220,
-  durationMs: 700,
-  endMs: 920,
-  phiFadeInEnd: 0.16,
-  phiHoldEnd: 0.34,
-  crossfadeEnd: 0.82,
+  durationMs: 1000,
+  endMs: 1220,
+  revealEnd: 0.18,
+  traceEnd: 0.68,
+  holdEnd: 0.82,
+  fadeEnd: 1,
 } as const;
 
-export const H_PHI_STRATEGIES = {
-  enlarged: {
-    plane: { width: 59, height: 90, centerX: 51.42, centerY: 60 },
-    coreOpacity: 0.61,
-    halo: { width: 59, height: 90, opacity: 0 },
-  },
-  material: {
-    plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
-    coreOpacity: 1,
-    halo: { width: 50, height: 72, opacity: 0.717 },
-  },
-  restrained: {
-    plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
-    coreOpacity: 0.82,
-    halo: { width: 50, height: 72, opacity: 0.4 },
-  },
+export const H_SPIRAL = {
+  turns: 2.25,
+  quarterTurns: 9,
+  finalRadius: 32,
+  segments: 180,
+  startAngle: Math.PI / 2,
+  tracerEndScale: 0.65,
+  tracerStartZ: 0.45,
+  tracerEndZ: -1.2,
+  halo: { width: 2.8, opacity: 0.08 },
+  core: { width: 0.55, opacity: 0.62 },
 } as const;
-
-export type HPhiStrategyName = keyof typeof H_PHI_STRATEGIES;
-export const H_PHI_STRATEGY: HPhiStrategyName = "restrained";
-
-export function hAnimationWeights(progress: number, _strategyName: HPhiStrategyName = H_PHI_STRATEGY) {
-  const phiIn = Math.min(1, Math.max(0, progress / H_ANIMATION.phiFadeInEnd));
-  const crossfade = Math.min(1, Math.max(
-    0,
-    (progress - H_ANIMATION.phiHoldEnd) / (H_ANIMATION.crossfadeEnd - H_ANIMATION.phiHoldEnd),
-  ));
-  const phiCrossfadeWeight = 1 - crossfade;
-  const hCrossfadeWeight = crossfade;
-  const crossfadeNormalization = Math.max(phiCrossfadeWeight + hCrossfadeWeight, Number.EPSILON);
-  return {
-    phi: phiIn * phiCrossfadeWeight / crossfadeNormalization,
-    h: hCrossfadeWeight / crossfadeNormalization,
-  };
-}
 
 export const MASTER = { width: 460, height: 120 } as const;
 export const GLYPH_PLACEMENTS = {
@@ -323,6 +301,76 @@ export const H_PROPORTION = (() => {
   const tickBottom = y + 2.8;
   return { y, startX, splitX, endX, totalLength, aLength, bLength, tickTop, tickBottom };
 })();
+
+export type HSpiralPhase = "spiral-trace" | "shell-hold" | "shell-fade" | "settled";
+
+export type HSpiralFrame = {
+  phase: HSpiralPhase;
+  reveal: number;
+  trace: number;
+  shellOpacity: number;
+  tracerOpacity: number;
+  tracerScale: number;
+  tracerZ: number;
+  ratioPointOpacity: number;
+};
+
+const clampUnit = (value: number) => Math.min(1, Math.max(0, value));
+
+/**
+ * Samples one clockwise logarithmic golden spiral in the H's local frame.
+ * Its radius grows by phi for every quarter turn.
+ */
+export function generateGoldenSpiral({
+  center = { x: H_PROPORTION.splitX, y: H_PROPORTION.y },
+  turns = H_SPIRAL.turns,
+  finalRadius = H_SPIRAL.finalRadius,
+  segments = H_SPIRAL.segments,
+  startAngle = H_SPIRAL.startAngle,
+}: {
+  center?: Point;
+  turns?: number;
+  finalRadius?: number;
+  segments?: number;
+  startAngle?: number;
+} = {}): Point[] {
+  const totalAngle = turns * Math.PI * 2;
+  const quarterTurns = turns * 4;
+  const seedRadius = finalRadius / GOLDEN_RATIO ** quarterTurns;
+  return Array.from({ length: segments + 1 }, (_, index) => {
+    if (index === 0) return { ...center };
+    const theta = totalAngle * index / segments;
+    const radius = seedRadius * GOLDEN_RATIO ** (theta / (Math.PI / 2));
+    const angle = startAngle + theta;
+    return {
+      x: center.x + Math.cos(angle) * radius,
+      y: center.y + Math.sin(angle) * radius,
+    };
+  });
+}
+
+export function hSpiralFrame(progress: number): HSpiralFrame {
+  const value = clampUnit(progress);
+  const trace = clampUnit(value / H_ANIMATION.traceEnd);
+  const fade = clampUnit((value - H_ANIMATION.holdEnd) / (H_ANIMATION.fadeEnd - H_ANIMATION.holdEnd));
+  const shellOpacity = value >= 1 ? 0 : 1 - fade;
+  return {
+    phase: value < H_ANIMATION.traceEnd
+      ? "spiral-trace"
+      : value < H_ANIMATION.holdEnd
+      ? "shell-hold"
+      : value < H_ANIMATION.fadeEnd
+      ? "shell-fade"
+      : "settled",
+    reveal: clampUnit(value / H_ANIMATION.revealEnd),
+    trace,
+    shellOpacity,
+    tracerOpacity: shellOpacity,
+    tracerScale: 1 - trace * (1 - H_SPIRAL.tracerEndScale),
+    tracerZ: H_SPIRAL.tracerStartZ + trace * (H_SPIRAL.tracerEndZ - H_SPIRAL.tracerStartZ),
+    ratioPointOpacity: value >= 1 ? 1 : fade,
+  };
+}
 
 export const H_UNIT_BRACE = {
   topY: 64.6,

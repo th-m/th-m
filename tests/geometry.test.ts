@@ -3,7 +3,6 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 import { PNG } from "pngjs";
-import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import {
   createBrandData,
@@ -14,21 +13,21 @@ import {
   fourierPartialBezier,
   generateChordNetwork,
   generateFourier,
+  generateGoldenSpiral,
   GOLDEN_RATIO,
   H_ANIMATION,
   H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
-  H_PHI_STRATEGIES,
-  H_PHI_STRATEGY,
   H_PILLAR_CENTERS,
   H_PILLAR_SHAPE,
   H_PROPORTION,
   H_RATIO_POINT_MATERIAL,
+  H_SPIRAL,
   H_STROKE_WORLD_PER_PIXEL,
   H_UNIT_BRACE,
   hStrokeWorldWidth,
-  hAnimationWeights,
+  hSpiralFrame,
   M_ANIMATION,
   M_SPATIAL_ADJUSTMENT,
   M_WEBGL_CORE_PARITY_SCALE,
@@ -155,29 +154,35 @@ describe("THOM geometry", () => {
     expect(h).not.toHaveProperty("midpoint");
   });
 
-  it("crossfades phi into the H between 220 and 920 ms without overshoot", () => {
+  it("traces a bounded logarithmic golden spiral and resolves between 220 and 1220 ms", () => {
     expect(H_ANIMATION.delayMs).toBe(220);
     expect(H_ANIMATION.delayMs + H_ANIMATION.durationMs).toBe(H_ANIMATION.endMs);
-    expect(H_ANIMATION.durationMs).toBe(700);
-    expect(H_ANIMATION.endMs).toBe(920);
-    expect(H_ANIMATION.phiFadeInEnd).toBeLessThan(H_ANIMATION.phiHoldEnd);
-    expect(H_ANIMATION.phiHoldEnd).toBeLessThan(H_ANIMATION.crossfadeEnd);
-    expect(H_PHI_STRATEGY).toBe("restrained");
-    expect(H_PHI_STRATEGIES.enlarged.plane).toEqual({ width: 59, height: 90, centerX: 51.42, centerY: 60 });
-    expect(H_PHI_STRATEGIES.material).toEqual({
-      plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
-      coreOpacity: 1,
-      halo: { width: 50, height: 72, opacity: 0.717 },
+    expect(H_ANIMATION.durationMs).toBe(1000);
+    expect(H_ANIMATION.endMs).toBe(1220);
+    expect(H_ANIMATION.revealEnd).toBeLessThan(H_ANIMATION.traceEnd);
+    expect(H_ANIMATION.traceEnd).toBeLessThan(H_ANIMATION.holdEnd);
+    expect(H_ANIMATION.holdEnd).toBeLessThan(H_ANIMATION.fadeEnd);
+    expect(H_SPIRAL).toMatchObject({ turns: 2.25, quarterTurns: 9, finalRadius: 32, segments: 180 });
+
+    const points = generateGoldenSpiral();
+    expect(points).toHaveLength(H_SPIRAL.segments + 1);
+    expect(points[0]).toEqual({ x: H_PROPORTION.splitX, y: H_PROPORTION.y });
+    const radii = points.map((point) => Math.hypot(point.x - H_PROPORTION.splitX, point.y - H_PROPORTION.y));
+    radii.slice(2).forEach((radius, index) => expect(radius).toBeGreaterThan(radii[index + 1]));
+    const quarterTurnRadii = Array.from({ length: H_SPIRAL.quarterTurns }, (_, index) => radii[(index + 1) * H_SPIRAL.segments / H_SPIRAL.quarterTurns]);
+    quarterTurnRadii.slice(1).forEach((radius, index) => expect(radius / quarterTurnRadii[index]).toBeCloseTo(GOLDEN_RATIO, 6));
+    expect(quarterTurnRadii.at(-1)).toBeCloseTo(H_SPIRAL.finalRadius, 10);
+    points.forEach((point) => {
+      expect(point.x).toBeGreaterThanOrEqual(22.228);
+      expect(point.x).toBeLessThanOrEqual(77.772);
+      expect(point.y).toBeGreaterThanOrEqual(15);
+      expect(point.y).toBeLessThanOrEqual(104);
     });
-    expect(H_PHI_STRATEGIES.restrained).toEqual({
-      plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
-      coreOpacity: 0.82,
-      halo: { width: 50, height: 72, opacity: 0.4 },
-    });
-    expect(hAnimationWeights(H_ANIMATION.phiHoldEnd, "restrained")).toEqual({ phi: 1, h: 0 });
-    const midpoint = hAnimationWeights((H_ANIMATION.phiHoldEnd + H_ANIMATION.crossfadeEnd) / 2, "restrained");
-    expect(midpoint.phi + midpoint.h).toBeCloseTo(1, 12);
-    expect(hAnimationWeights(H_ANIMATION.crossfadeEnd, "restrained")).toEqual({ phi: 0, h: 1 });
+
+    expect(hSpiralFrame(0)).toMatchObject({ phase: "spiral-trace", trace: 0, ratioPointOpacity: 0 });
+    expect(hSpiralFrame(H_ANIMATION.traceEnd)).toMatchObject({ phase: "shell-hold", trace: 1, shellOpacity: 1 });
+    expect(hSpiralFrame(H_ANIMATION.holdEnd)).toMatchObject({ phase: "shell-fade", trace: 1, shellOpacity: 1 });
+    expect(hSpiralFrame(1)).toMatchObject({ phase: "settled", shellOpacity: 0, tracerOpacity: 0, ratioPointOpacity: 1 });
   });
 
   it("keeps the H proportion lines layered with equal-energy crossbar segments and quieter annotations", () => {
@@ -409,15 +414,6 @@ describe("THOM geometry", () => {
     expect(micro.match(/<polyline/g)).toHaveLength(1);
   });
 
-  it("commits a transparent deterministic phi texture derived from the supplied reference", async () => {
-    const asset = readFileSync(resolve(process.cwd(), "public/brand/h-phi.png"));
-    const metadata = await sharp(asset).metadata();
-    const stats = await sharp(asset).ensureAlpha().stats();
-    expect(metadata).toMatchObject({ width: 216, height: 256, channels: 4 });
-    expect(stats.channels[3].min).toBe(0);
-    expect(stats.channels[3].max).toBe(255);
-  });
-
   it("pins the canonical 460 × 120 master transforms and optical spacing rhythm", () => {
     const data = createBrandData();
     expect(MASTER).toEqual({ width: 460, height: 120 });
@@ -495,7 +491,6 @@ describe("THOM geometry", () => {
     const assetUrls = [
       "../public/brand/avatar.svg",
       "../public/brand/favicon.svg",
-      "../public/brand/h-phi.png",
       "../public/brand/glyph-h.svg",
       "../public/brand/glyph-m.svg",
       "../public/brand/glyph-o.svg",
@@ -511,6 +506,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("adab17541f9b3c46988fb4581a0ced000a24c44673e76a55abd172c0c0137908");
+    expect(hash.digest("hex")).toBe("a29d8d7633da3057798e5ed41eea7b84f760e7fd10dff857c63db2123824a5c7");
   });
 });

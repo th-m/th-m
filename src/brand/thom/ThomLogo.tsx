@@ -181,6 +181,7 @@ export function ThomLogo({ variant, motion: motionLevel = "full", interactive = 
               style={{ left: area.left, width: area.width }}
               onPointerEnter={() => !reducedMotion && controllerRef.current?.playGlyph(area.glyph)}
               onFocus={() => !reducedMotion && controllerRef.current?.playGlyph(area.glyph)}
+              onClick={() => !reducedMotion && controllerRef.current?.playGlyph(area.glyph)}
             />
           ))}
         </div>

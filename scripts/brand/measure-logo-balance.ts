@@ -5,17 +5,18 @@ import { PNG } from "pngjs";
 import sharp from "sharp";
 import {
   BRAND_COLORS,
+  generateGoldenSpiral,
+  GOLDEN_RATIO,
   GLYPH_PLACEMENTS,
   H_ANIMATION,
-  H_PHI_STRATEGIES,
-  H_PHI_STRATEGY,
   H_PROPORTION,
+  H_RATIO_POINT_MATERIAL,
+  H_SPIRAL,
   MASTER,
   OPTICAL_PLACEMENT_X,
   createBrandData,
-  hAnimationWeights,
+  hSpiralFrame,
   type OpticalProfile,
-  type HPhiStrategyName,
 } from "../../src/brand/thom/geometry";
 import { opticalProfileForWidth } from "../../src/brand/thom/opticalProfile";
 import { renderGlyphContent, renderLogoSvg } from "../../src/brand/thom/svg";
@@ -47,13 +48,6 @@ const OPTICAL_GAP_BLUR_DESIGN_UNITS = 1.25;
 const variantArgument = process.argv.find((argument) => argument.startsWith("--variant="));
 const variant = (variantArgument?.slice("--variant=".length) || process.env.THOM_BALANCE_VARIANT || "baseline")
   .replace(/[^a-zA-Z0-9._-]/g, "-");
-const motionStrategyArgument = process.argv.find((argument) => argument.startsWith("--motion-strategy="));
-const requestedMotionStrategy = motionStrategyArgument?.slice("--motion-strategy=".length) || H_PHI_STRATEGY;
-if (!(requestedMotionStrategy in H_PHI_STRATEGIES)) {
-  throw new Error(`Unknown H motion strategy: ${requestedMotionStrategy}`);
-}
-const motionStrategyName = requestedMotionStrategy as HPhiStrategyName;
-const motionStrategy = H_PHI_STRATEGIES[motionStrategyName];
 const outputRoot = resolve(process.cwd(), ".codex/audits/logo-balance", variant);
 
 const clamp = (value: number, minimum = 0, maximum = 1) => Math.min(maximum, Math.max(minimum, value));
@@ -251,10 +245,7 @@ function labelSvg(width: number, height: number, title: string, subtitle = "") {
 }
 
 function phaseForProgress(progress: number) {
-  if (progress < H_ANIMATION.phiFadeInEnd) return "φ-in";
-  if (progress < H_ANIMATION.phiHoldEnd) return "φ-hold";
-  if (progress < H_ANIMATION.crossfadeEnd) return "crossfade";
-  return "settled";
+  return hSpiralFrame(progress).phase;
 }
 
 async function animationContactSheet(
@@ -272,7 +263,7 @@ async function animationContactSheet(
   const tiles = await Promise.all(frames.map(async (frame) => sharp({
     create: { width: tileWidth, height: tileHeight + labelHeight, channels: 4, background },
   }).composite([
-    { input: labelSvg(tileWidth, labelHeight, frame.phase, `${frame.ms} ms · ${motionStrategyName}`), left: 0, top: 0 },
+    { input: labelSvg(tileWidth, labelHeight, frame.phase, `${frame.ms} ms · logarithmic φ spiral`), left: 0, top: 0 },
     { input: frame.buffer, left: 0, top: labelHeight },
   ]).png().toBuffer()));
   await sharp({
@@ -299,10 +290,10 @@ async function temporalPlot(
   const panelGap = 96;
   const plotWidth = width - left - right;
   const x = (ms: number) => left + ms / H_ANIMATION.durationMs * plotWidth;
-  const energyY = (energy: number) => top + panelHeight - energy / (settledEnergy * 1.1) * panelHeight;
+  const energyY = (energy: number) => top + panelHeight - energy / (settledEnergy * 1.4) * panelHeight;
   const centroidTop = top + panelHeight + panelGap;
   const centroidY = (centroidX: number) => centroidTop + panelHeight / 2
-    - (centroidX - settledCentroidX) / 1.2 * (panelHeight / 2);
+    - (centroidX - settledCentroidX) / 2.5 * (panelHeight / 2);
   const linePath = (points: Array<[number, number]>) => points
     .map(([pointX, pointY], index) => `${index ? "L" : "M"}${round(pointX, 3)} ${round(pointY, 3)}`)
     .join(" ");
@@ -311,19 +302,19 @@ async function temporalPlot(
     .filter((frame) => frame.opticalEnergy > settledEnergy * 0.05)
     .map((frame) => [x(frame.ms), centroidY(frame.centroid.x)]));
   const phaseLines = [
-    { progress: H_ANIMATION.phiFadeInEnd, label: "φ-in end" },
-    { progress: H_ANIMATION.phiHoldEnd, label: "crossfade start" },
-    { progress: H_ANIMATION.crossfadeEnd, label: "settled" },
+    { progress: H_ANIMATION.revealEnd, label: "H revealed" },
+    { progress: H_ANIMATION.traceEnd, label: "trace complete" },
+    { progress: H_ANIMATION.holdEnd, label: "fade starts" },
   ];
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
     <rect width="100%" height="100%" fill="#050505"/>
-    <text x="${left}" y="42" fill="#f5eee3" font-family="system-ui, sans-serif" font-size="28" font-weight="700">H temporal balance · ${motionStrategyName}</text>
-    <text x="${left}" y="68" fill="#bcae9a" font-family="ui-monospace, monospace" font-size="16">25 ms cadence · 0–700 ms · target energy ${round(settledEnergy, 3)}</text>
-    <rect x="${left}" y="${energyY(settledEnergy * 1.05)}" width="${plotWidth}" height="${energyY(settledEnergy * .95) - energyY(settledEnergy * 1.05)}" fill="#6fa879" opacity=".14"/>
+    <text x="${left}" y="42" fill="#f5eee3" font-family="system-ui, sans-serif" font-size="28" font-weight="700">H temporal balance · logarithmic φ spiral</text>
+    <text x="${left}" y="68" fill="#bcae9a" font-family="ui-monospace, monospace" font-size="16">25 ms cadence · 0–${H_ANIMATION.durationMs} ms · target energy ${round(settledEnergy, 3)}</text>
+    <rect x="${left}" y="${energyY(settledEnergy * 1.35)}" width="${plotWidth}" height="${energyY(settledEnergy) - energyY(settledEnergy * 1.35)}" fill="#6fa879" opacity=".14"/>
     <line x1="${left}" x2="${width - right}" y1="${energyY(settledEnergy)}" y2="${energyY(settledEnergy)}" stroke="#8fbf96" stroke-dasharray="8 8" opacity=".8"/>
     <path d="${energyPath}" fill="none" stroke="#e1bc78" stroke-width="4"/>
     <text x="24" y="${top + 18}" fill="#d5c7b5" font-family="system-ui, sans-serif" font-size="18" transform="rotate(-90 24 ${top + 18})">optical energy</text>
-    <rect x="${left}" y="${centroidY(settledCentroidX + 1)}" width="${plotWidth}" height="${centroidY(settledCentroidX - 1) - centroidY(settledCentroidX + 1)}" fill="#6f8fa8" opacity=".12"/>
+    <rect x="${left}" y="${centroidY(settledCentroidX + 2)}" width="${plotWidth}" height="${centroidY(settledCentroidX - 2) - centroidY(settledCentroidX + 2)}" fill="#6f8fa8" opacity=".12"/>
     <line x1="${left}" x2="${width - right}" y1="${centroidY(settledCentroidX)}" y2="${centroidY(settledCentroidX)}" stroke="#8cb8d1" stroke-dasharray="8 8" opacity=".8"/>
     <path d="${centroidPath}" fill="none" stroke="#8fc7dc" stroke-width="4"/>
     <text x="24" y="${centroidTop + 62}" fill="#d5c7b5" font-family="system-ui, sans-serif" font-size="18" transform="rotate(-90 24 ${centroidTop + 62})">centroid x</text>
@@ -331,7 +322,7 @@ async function temporalPlot(
       const lineX = x(progress * H_ANIMATION.durationMs);
       return `<line x1="${lineX}" x2="${lineX}" y1="${top}" y2="${centroidTop + panelHeight}" stroke="#ffffff" opacity=".18"/><text x="${lineX + 8}" y="${centroidTop + panelHeight + 28}" fill="#9d9183" font-family="ui-monospace, monospace" font-size="14">${label}</text>`;
     }).join("")}
-    ${[0, 100, 200, 300, 400, 500, 600, 700].map((ms) => `<text x="${x(ms)}" y="${height - 28}" fill="#9d9183" font-family="ui-monospace, monospace" font-size="14" text-anchor="middle">${ms} ms</text>`).join("")}
+    ${Array.from({ length: 11 }, (_, index) => index * H_ANIMATION.durationMs / 10).map((ms) => `<text x="${x(ms)}" y="${height - 28}" fill="#9d9183" font-family="ui-monospace, monospace" font-size="14" text-anchor="middle">${ms} ms</text>`).join("")}
   </svg>`;
   await Bun.write(resolve(outputRootPath, "h-animation-plot.svg"), `${svg}\n`);
   await sharp(Buffer.from(svg)).png().toFile(resolve(outputRootPath, "h-animation-plot.png"));
@@ -365,15 +356,21 @@ async function multiscaleComparison(
     .toFile(output);
 }
 
-function phiFrameSvg(hContent: string, definitions: string, phiHref: string, progress: number) {
-  const weights = hAnimationWeights(progress, motionStrategyName);
-  const plane = motionStrategy.plane;
-  const halo = motionStrategy.halo;
-  const planeX = plane.centerX - plane.width / 2;
-  const planeY = plane.centerY - plane.height / 2;
+function spiralFrameSvg(hContent: string, definitions: string, progress: number) {
+  const frame = hSpiralFrame(progress);
+  const points = generateGoldenSpiral();
+  const traceIndex = Math.min(points.length - 1, Math.floor(frame.trace * (points.length - 1)));
+  const tracedPoints = points.slice(0, Math.max(2, traceIndex + 1));
+  const path = tracedPoints.map((point, index) => `${index ? "L" : "M"}${round(point.x, 4)} ${round(point.y, 4)}`).join(" ");
+  const tracer = points[traceIndex];
+  const ratioPointOpacity = round(H_RATIO_POINT_MATERIAL.opacity * frame.ratioPointOpacity);
+  const resolvedHContent = hContent.replace(
+    /opacity="0\.3" data-h-part="ratio-point"/,
+    `opacity="${ratioPointOpacity}" data-h-part="ratio-point"`,
+  );
   return svgDocument(
-    `<g opacity="${weights.h}">${hContent}</g><ellipse cx="${plane.centerX}" cy="${plane.centerY}" rx="${halo.width / 2}" ry="${halo.height / 2}" fill="url(#thom-phi-halo)" opacity="${weights.phi * halo.opacity}"/><image href="${phiHref}" x="${planeX}" y="${planeY}" width="${plane.width}" height="${plane.height}" opacity="${weights.phi * motionStrategy.coreOpacity}"/>`,
-    `${definitions}<defs><radialGradient id="thom-phi-halo"><stop offset="0" stop-color="${BRAND_COLORS.gold}" stop-opacity="1"/><stop offset="1" stop-color="${BRAND_COLORS.gold}" stop-opacity="0"/></radialGradient></defs>`,
+    `<path d="${path}" fill="none" stroke="${BRAND_COLORS.gold}" stroke-width="${H_SPIRAL.halo.width}" stroke-linecap="round" opacity="${round(frame.shellOpacity * H_SPIRAL.halo.opacity)}"/><path d="${path}" fill="none" stroke="${BRAND_COLORS.gold}" stroke-width="${H_SPIRAL.core.width}" stroke-linecap="round" opacity="${round(frame.shellOpacity * H_SPIRAL.core.opacity)}"/><circle cx="${round(tracer.x, 4)}" cy="${round(tracer.y, 4)}" r="${round(1.05 * frame.tracerScale, 4)}" fill="${BRAND_COLORS.gold}" opacity="${round(frame.tracerOpacity * 0.92)}"/><g opacity="${frame.reveal}">${resolvedHContent}</g>`,
+    definitions,
     "0 0 100 120",
   );
 }
@@ -576,43 +573,38 @@ for (const height of [24, 48] as const) {
     },
   };
 }
-const phiBuffer = Buffer.from(await Bun.file(resolve(process.cwd(), "public/brand/h-phi.png")).arrayBuffer());
-const phiHref = `data:image/png;base64,${phiBuffer.toString("base64")}`;
 const temporalFrames = [];
 const temporalPngs: Array<{ buffer: Buffer; ms: number; phase: string }> = [];
+let finalSpiralFrame = Buffer.alloc(0);
 for (let ms = 0; ms <= H_ANIMATION.durationMs; ms += 25) {
   const progress = ms / H_ANIMATION.durationMs;
-  const frame = rasterize(phiFrameSvg(hContent, definitions, phiHref, progress), MASTER.height * SUPERSAMPLE);
+  const frame = rasterize(spiralFrameSvg(hContent, definitions, progress), MASTER.height * SUPERSAMPLE);
+  if (ms === H_ANIMATION.durationMs) finalSpiralFrame = frame;
   const metrics = analyzePng(frame);
   temporalFrames.push({ ms, progress: round(progress), ...publicMetrics(metrics, MASTER.height) });
-  if ([0, 100, 175, 250, 350, 475, 575, 700].includes(ms)) {
+  if ([0, 100, 175, 350, 675, 750, 825, 900, 1000].includes(ms)) {
     temporalPngs.push({ buffer: frame, ms, phase: phaseForProgress(progress) });
   }
 }
 const settled = temporalFrames.at(-1)!;
 const settledEnergy = settled.opticalEnergy;
-const holdFrames = temporalFrames.filter(
-  (frame) => frame.progress >= H_ANIMATION.phiFadeInEnd && frame.progress <= H_ANIMATION.phiHoldEnd,
-);
-const holdEnergy = holdFrames.reduce((sum, frame) => sum + frame.opticalEnergy, 0) / Math.max(holdFrames.length, 1);
-const motionEnergyError = temporalFrames.reduce(
-  (sum, frame) => sum + Math.abs(frame.opticalEnergy - settledEnergy) / Math.max(settledEnergy, 1e-9),
-  0,
-) / temporalFrames.length;
+const postRevealFrames = temporalFrames.filter((frame) => frame.progress >= H_ANIMATION.revealEnd);
+const peakEnergyRatio = Math.max(...postRevealFrames.map((frame) => frame.opticalEnergy)) / Math.max(settledEnergy, 1e-9);
 const motionCentroidDrift = Math.max(
-  ...temporalFrames
-    .filter((frame) => frame.opticalEnergy > settledEnergy * 0.05)
-    .map((frame) => Math.abs(frame.centroid.x - settled.centroid.x)),
+  ...postRevealFrames.map((frame) => Math.abs(frame.centroid.x - settled.centroid.x)),
 );
-const crossfadeFrames = temporalFrames.filter(
-  (frame) => frame.progress >= H_ANIMATION.phiHoldEnd && frame.progress <= H_ANIMATION.crossfadeEnd,
+const recognizableCoreAfterReveal = postRevealFrames.every((frame) => frame.highContrastCoreArea > 0);
+const settledHFrame = rasterize(svgDocument(hContent, definitions, "0 0 100 120"), MASTER.height * SUPERSAMPLE);
+const finalMatchesSettled = finalSpiralFrame.equals(settledHFrame);
+const spiralPoints = generateGoldenSpiral();
+const quarterTurnRadii = Array.from({ length: H_SPIRAL.quarterTurns }, (_, index) => {
+  const point = spiralPoints[(index + 1) * H_SPIRAL.segments / H_SPIRAL.quarterTurns];
+  return Math.hypot(point.x - H_PROPORTION.splitX, point.y - H_PROPORTION.y);
+});
+const maximumQuarterTurnRatioError = Math.max(
+  ...quarterTurnRadii.slice(1).map((radius, index) => Math.abs(radius / quarterTurnRadii[index] - GOLDEN_RATIO)),
 );
-const maximumCrossfadeEnergyDeviation = Math.max(
-  ...crossfadeFrames.map(
-    (frame) => Math.abs(frame.opticalEnergy - settledEnergy) / Math.max(settledEnergy, 1e-9),
-  ),
-);
-const motionScore = motionEnergyError + 0.25 * motionCentroidDrift;
+const motionScore = Math.max(0, peakEnergyRatio - 1) + 0.125 * motionCentroidDrift;
 
 await animationContactSheet(temporalPngs, resolve(outputRoot, "h-animation-contact-sheet.png"));
 await temporalPlot(temporalFrames, settledEnergy, settled.centroid.x, outputRoot);
@@ -673,23 +665,25 @@ const report = {
     },
   },
   temporal: {
-    strategy: motionStrategyName,
-    strategyParameters: motionStrategy,
+    strategy: "logarithmic-golden-spiral",
+    strategyParameters: H_SPIRAL,
     durationMs: H_ANIMATION.durationMs,
     cadenceMs: 25,
     settledEnergy,
-    phiHoldEnergy: round(holdEnergy),
-    phiHoldDeviationRatio: round(Math.abs(holdEnergy - settledEnergy) / Math.max(settledEnergy, 1e-9)),
-    maximumCrossfadeEnergyDeviationRatio: round(maximumCrossfadeEnergyDeviation),
+    peakEnergyRatio: round(peakEnergyRatio),
     maximumCentroidDrift: round(motionCentroidDrift),
+    maximumQuarterTurnRatioError: round(maximumQuarterTurnRatioError, 12),
+    recognizableCoreAfterReveal,
+    finalMatchesSettled,
     acceptance: {
-      cadenceAndDuration: temporalFrames.length === 29
+      cadenceAndDuration: temporalFrames.length === 41
         && temporalFrames[0]?.ms === 0
         && temporalFrames.at(-1)?.ms === H_ANIMATION.durationMs,
-      phiHoldWithinFivePercent: Math.abs(holdEnergy - settledEnergy) / Math.max(settledEnergy, 1e-9) <= 0.05,
-      crossfadeWithinSevenPercent: maximumCrossfadeEnergyDeviation <= 0.07,
-      centroidWithinOneDesignUnit: motionCentroidDrift <= 1,
-      distinctPhiCore: holdFrames.every((frame) => frame.highContrastCoreArea > 0 && frame.occupiedBounds.width > 0),
+      peakEnergyWithinThirtyFivePercent: peakEnergyRatio <= 1.35,
+      centroidWithinTwoDesignUnits: motionCentroidDrift <= 2,
+      goldenRatioPerQuarterTurn: maximumQuarterTurnRatioError <= 1e-6,
+      recognizableCoreAfterReveal,
+      finalMatchesSettled,
     },
     frames: temporalFrames,
   },

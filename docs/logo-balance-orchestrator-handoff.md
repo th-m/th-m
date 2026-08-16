@@ -14,7 +14,7 @@ The Golden-Ratio H redesign is present on `master` through PR #5. Its important 
 
 - Master coordinate system: `416 × 120`.
 - T: custom π/T filled contour with the legs already tightened.
-- H: thin classical pillars, exact golden-ratio crossbar, endpoint/division ticks, full-unit under-brace, and a 700 ms φ-to-H transition.
+- H: thin classical pillars, exact golden-ratio crossbar, endpoint/division ticks, full-unit under-brace, and a 1000 ms procedural logarithmic golden-spiral trace.
 - O: deterministic circle and seeded random-chord network using `THOM-01`.
 - M: deterministic layered Fourier construction with a whispy waveform silhouette.
 
@@ -32,7 +32,7 @@ Other measured facts that must be considered:
 - Approximate geometric gaps are `10.1 / 12.0 / 12.0` design units for T–H, H–O, and O–M.
 - The H crossbar's `a` segment currently carries about `1.522×` the stroke energy per unit length of `b`.
 - That material difference moves the crossbar's optical centroid about `2.11` units left of `x = 50`, although the endpoints are centered.
-- At the authored `42 × 64` plane size, the φ mask has about `51%` of the settled H's alpha-area. Without compensation, the transition grows sharply in weight.
+- The H motion is vector-native: a 2.25-turn spiral starts at the ratio point, grows by φ each quarter turn, and finishes at a 32u radius behind the H.
 - A first-pass energy budget of `T × 0.70`, `H × 1.15`, `O × 1.15`, and `M × 1.18` predicts shares near `32.3 / 25.6 / 17.0 / 25.1`.
 
 Treat these values as a reproducible baseline, not eternal constants. Recompute them from the checked-out revision before and after every variant.
@@ -53,7 +53,7 @@ These are hard constraints. A lower score does not justify breaking them.
 - Preserve two thin classical pillars and their tightened relationship.
 - Preserve the exact relation `a:b = (a+b):a = φ` to numerical tolerance.
 - Preserve the endpoint ticks, division tick, and full-unit under-brace.
-- Preserve the φ-to-H narrative and reduced-motion/static fallbacks.
+- Preserve the golden-ratio spiral narrative and reduced-motion/static fallbacks.
 - Do not regain weight by making the pillars blunt or strongly gradient-heavy. Prefer flatter material energy and clearer proportional construction.
 
 ### O
@@ -81,7 +81,7 @@ All four agents must use the same script and fixed render conditions. The script
 3. Evaluate 24 px, 48 px, and 120 px display heights.
 4. Convert sRGB to linear luminance before measuring energy.
 5. Report total optical energy, high-contrast core area, centroid, second moments, occupied bounds, counter area, and optical sidebearings for each glyph.
-6. Capture H animation frames every 25 ms from `0–700 ms` and measure temporal energy and centroid.
+6. Capture H animation frames every 25 ms from `0–1000 ms` and measure temporal energy and centroid.
 7. Emit deterministic JSON plus comparison images under `.codex/audits/logo-balance/<variant>/`.
 
 Use target midpoints `32 / 26.5 / 17 / 25.5` for T/H/O/M while retaining the target bands in the report.
@@ -241,19 +241,14 @@ Make the animated H and small-size wordmark maintain the same perceived balance 
 
 ### Required method
 
-Evaluate the H every 25 ms across its 700 ms sequence:
+Evaluate the H every 25 ms across its 1000 ms sequence:
 
 \[
 J_{motion}=\frac{1}{T}\int_0^T |W_H(t)-W_H^*|dt +
 \lambda\max_t|\bar{x}_H(t)-\bar{x}_H^*|
 \]
 
-Compare these two deterministic strategies:
-
-1. Increase the φ plane by approximately `sqrt(1 / 0.51) ≈ 1.40`, starting near `59 × 90` logical units.
-2. Keep `42 × 64`, add controlled material/halo compensation, and normalize the crossfade so combined instantaneous energy remains stable.
-
-Choose the lower-scoring option that still makes the φ read clearly as a distinct symbol.
+Validate the single canonical strategy: a clockwise logarithmic golden spiral centered on the ratio point, with radius growth of φ per quarter turn, 2.25 turns, a 32u final radius, and trace/hold/fade boundaries at 68% and 82%.
 
 At 24 and 48 px, verify that the H ticks/brace, O circumference/chords, and M core/layers survive downsampling without turning into noisy glow.
 
@@ -261,7 +256,7 @@ At 24 and 48 px, verify that the H ticks/brace, O circumference/chords, and M co
 
 - Working variant implementation.
 - Frame-by-frame energy and centroid plot/data.
-- Contact sheet of φ-in, φ-hold, crossfade, and settled frames.
+- Contact sheet of spiral-trace, shell-hold, shell-fade, and settled frames.
 - Desktop, compact, mobile, reduced-motion, and static-fallback comparisons.
 
 ## Orchestrator Synthesis Protocol
@@ -286,9 +281,10 @@ The synthesized result is ready only when all of the following are true:
 - Core-energy balance does not depend primarily on halos or gradients.
 - H crossbar centroid is within `0.25` design units of center.
 - H golden-ratio geometry remains exact to the existing test tolerance.
-- φ hold energy is within 5% of settled H energy.
-- No crossfade frame deviates more than 7% from the intended H energy envelope.
-- H animation centroid moves no more than 1 design unit horizontally.
+- H peak animation energy is no more than 35% above the settled H.
+- The generated radius grows by φ per quarter turn within `1e-6` tolerance.
+- H animation centroid moves no more than 2 design units horizontally after reveal.
+- The H remains recognizable after reveal and the final frame exactly matches the settled state.
 - Optical gaps differ by no more than 10% from their mean at each tested size, unless a documented shape correction visibly improves the rhythm.
 - O chord topology and seed remain deterministic.
 - M additions are deterministic and remain visibly layered/whispy.
@@ -303,7 +299,7 @@ The synthesized result is ready only when all of the following are true:
 - `src/brand/thom/threeScene.ts` — WebGL materials and animated states.
 - `src/brand/thom/ThomLogo.tsx` — React integration and fallbacks.
 - `scripts/brand/generate-brand.ts` — generated asset pipeline.
-- `scripts/brand/hPhiAsset.ts` — deterministic φ asset preparation.
+- `src/brand/thom/geometry.ts` — deterministic golden-spiral generation and timing state.
 - `tests/geometry.test.ts` — geometry and deterministic construction contracts.
 - `tests/e2e/site.spec.ts` — responsive, interaction, and SVG/WebGL parity coverage.
 - `tests/visual/brand-compare.spec.ts` — focused visual audit.

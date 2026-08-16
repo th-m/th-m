@@ -10,9 +10,11 @@ type Metrics = {
   }>;
   hCrossbar: { centroidOffset: number; ratio: number };
   temporal: {
-    phiHoldDeviationRatio: number;
-    maximumCrossfadeEnergyDeviationRatio: number;
+    peakEnergyRatio: number;
     maximumCentroidDrift: number;
+    maximumQuarterTurnRatioError: number;
+    recognizableCoreAfterReveal: boolean;
+    finalMatchesSettled: boolean;
   };
   multiscaleSurvival: Record<string, {
     acceptance: Record<string, boolean>;
@@ -85,22 +87,34 @@ addGate(
   Math.abs(metrics.hCrossbar.centroidOffset) <= 0.25,
 );
 addGate(
-  "h-phi-hold-energy",
-  metrics.temporal.phiHoldDeviationRatio,
-  "deviation <= 0.05",
-  metrics.temporal.phiHoldDeviationRatio <= 0.05,
+  "h-spiral-peak-energy",
+  metrics.temporal.peakEnergyRatio,
+  "peak energy <= 1.35 × settled energy",
+  metrics.temporal.peakEnergyRatio <= 1.35,
 );
 addGate(
-  "h-crossfade-energy",
-  metrics.temporal.maximumCrossfadeEnergyDeviationRatio,
-  "maximum deviation <= 0.07",
-  metrics.temporal.maximumCrossfadeEnergyDeviationRatio <= 0.07,
+  "h-spiral-quarter-turn-ratio",
+  metrics.temporal.maximumQuarterTurnRatioError,
+  "maximum ratio error <= 1e-6",
+  metrics.temporal.maximumQuarterTurnRatioError <= 1e-6,
 );
 addGate(
   "h-animation-centroid",
   metrics.temporal.maximumCentroidDrift,
-  "maximum horizontal drift <= 1 design unit",
-  metrics.temporal.maximumCentroidDrift <= 1,
+  "maximum horizontal drift <= 2 design units",
+  metrics.temporal.maximumCentroidDrift <= 2,
+);
+addGate(
+  "h-recognizable-after-reveal",
+  metrics.temporal.recognizableCoreAfterReveal ? 1 : 0,
+  "recognizable H core remains after reveal",
+  metrics.temporal.recognizableCoreAfterReveal,
+);
+addGate(
+  "h-final-matches-settled",
+  metrics.temporal.finalMatchesSettled ? 1 : 0,
+  "final animation frame exactly matches settled H",
+  metrics.temporal.finalMatchesSettled,
 );
 
 for (const height of [24, 48, 120] as const) {
