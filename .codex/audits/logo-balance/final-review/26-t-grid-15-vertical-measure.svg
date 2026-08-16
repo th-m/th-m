@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="4800" height="1800" viewBox="0 0 480 180">
+  <rect width="480" height="180" fill="#c5b6f4"/>
+  <rect x="20" y="0" width="86" height="15" fill="#f8df9e" opacity=".34"/>
+  <rect x="20" y="104" width="86" height="12" fill="#f8df9e" opacity=".34"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#17131b">
+    <text x="20" y="8.5" font-size="4.4" letter-spacing=".5">T PILLAR · ADDRESSABLE 15 × 15 GRID</text>
+    <text x="20" y="13.1" font-size="2.7" letter-spacing=".18">ADDRESS: A01–O15 · COLUMN STEP: 6.143 MASTER UNITS · VERTICAL INK SPANS</text>
+    <text x="4" y="16.7" font-size="3.3">CAP REF</text>
+    <text x="4" y="105.7" font-size="3.3">BASE</text>
+    <line x1="20" x2="106" y1="15" y2="15" stroke="#17131b" stroke-width=".8" /><line x1="20" x2="106" y1="21.3571" y2="21.3571" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="27.7143" y2="27.7143" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="34.0714" y2="34.0714" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="40.4286" y2="40.4286" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="46.7857" y2="46.7857" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="53.1429" y2="53.1429" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="59.5" y2="59.5" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="65.8571" y2="65.8571" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="72.2143" y2="72.2143" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="78.5714" y2="78.5714" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="84.9286" y2="84.9286" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="91.2857" y2="91.2857" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="97.6429" y2="97.6429" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="20" x2="106" y1="104" y2="104" stroke="#17131b" stroke-width=".8" /><line x1="20" x2="20" y1="15" y2="104" stroke="#17131b" stroke-width=".65" /><line x1="26.1429" x2="26.1429" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="32.2857" x2="32.2857" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="38.4286" x2="38.4286" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="44.5714" x2="44.5714" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="50.7143" x2="50.7143" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="56.8571" x2="56.8571" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="63" x2="63" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="69.1429" x2="69.1429" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="75.2857" x2="75.2857" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="81.4286" x2="81.4286" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="87.5714" x2="87.5714" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="93.7143" x2="93.7143" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="99.8571" x2="99.8571" y1="15" y2="104" stroke="#17131b" stroke-width=".28" stroke-dasharray="1.8 2.2"/><line x1="106" x2="106" y1="15" y2="104" stroke="#17131b" stroke-width=".65" />
+    <g fill="#000000">
+  <g transform="translate(22 -.222) scale(.86 1.03)">
+    <!-- Top: outer sweep and lower return are the two crisp Bézier edges. -->
+    <g data-t-segment="top-bar" transform="translate(0 7.5) scale(1 ${T_ROOF_SCALE_Y}) translate(0 -7.5)">
+      <path d="M2 30.2 C5 21 16 13.415 29 13.415 C48 13.415 71 13.87 91 12.96 C95 12.687 97 10.1 97.5 8.25 L99 8.25 C98.5 13.3 94 18.05 86 18.63 L64.51 18.63 L60.79 18.63 L41.36 18.63 L37.64 18.63 C18 18.63 8 21 3 29.8 Z"/>
+    </g>
+    <!-- Left pillar: outer edge (cap → terminal) and inner edge (terminal → cap). -->
+    <g data-t-segment="left-pillar" transform="translate(27.75 0) scale(${T_LEFT_PILLAR_SCALE_X} 1) translate(-27.75 0)">
+      <path d="M37.64 18.63 C36.99 27 35.07 42.535 33.37 55.275 C30.57 70.745 24.44 86.22 10.5 101.1864 L20.6 101.1864 C26.8 94.65 30.33 83.03 35.13 66.195 C37.93 50.725 40.28 30 41.36 18.63 Z"/>
+    </g>
+    <!-- Right pillar: inner edge (cap → terminal) and outer edge (terminal → cap). -->
+    <g data-t-segment="right-pillar" transform="translate(70.1 0) scale(${T_RIGHT_PILLAR_SCALE_X} 1) translate(-70.1 0)">
+      <!-- The supplied grey contour is registered directly onto the current right
+           pillar at its two top intersections. Its two Bézier arcs replace the lower
+           pillar; the outer handle is extended only enough to keep the base on line. -->
+      <path d="M60.79 18.63 C60.18283713 26.44838958 58.46755266 40.51850456 56.85854676 52.72260962 C41.30673423 138.79746558 86.80571662 83.98950826 86.80571662 83.98950826 C46.75198157 120.82021715 60.45031492 52.68602707 60.45031492 52.68602707 C62.26545535 40.13351436 63.72403346 26.90448112 64.51 18.63 Z"/>
+    </g>
+  </g>
+</g>
+    <g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="26.1429" x2="26.1429" y1="25.297" y2="27.741"/>
+            <line x1="24.8929" x2="27.3929" y1="25.297" y2="25.297"/>
+            <line x1="24.8929" x2="27.3929" y1="27.741" y2="27.741"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="32.2857" x2="32.2857" y1="18.549" y2="22.389"/>
+            <line x1="31.0357" x2="33.5357" y1="18.549" y2="18.549"/>
+            <line x1="31.0357" x2="33.5357" y1="22.389" y2="22.389"/>
+          </g><g fill="none" stroke="#16b9e8" stroke-width=".5">
+            <line x1="32.2857" x2="32.2857" y1="102.351" y2="104"/>
+            <line x1="31.0357" x2="33.5357" y1="102.351" y2="102.351"/>
+            <line x1="31.0357" x2="33.5357" y1="104" y2="104"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="38.4286" x2="38.4286" y1="15.158" y2="20.267"/>
+            <line x1="37.1786" x2="39.6786" y1="15.158" y2="15.158"/>
+            <line x1="37.1786" x2="39.6786" y1="20.267" y2="20.267"/>
+          </g><g fill="none" stroke="#16b9e8" stroke-width=".5">
+            <line x1="38.4286" x2="38.4286" y1="93.036" y2="104"/>
+            <line x1="37.1786" x2="39.6786" y1="93.036" y2="93.036"/>
+            <line x1="37.1786" x2="39.6786" y1="104" y2="104"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="44.5714" x2="44.5714" y1="13.713" y2="19.348"/>
+            <line x1="43.3214" x2="45.8214" y1="13.713" y2="13.713"/>
+            <line x1="43.3214" x2="45.8214" y1="19.348" y2="19.348"/>
+          </g><g fill="none" stroke="#16b9e8" stroke-width=".5">
+            <line x1="44.5714" x2="44.5714" y1="80.258" y2="95.113"/>
+            <line x1="43.3214" x2="45.8214" y1="80.258" y2="80.258"/>
+            <line x1="43.3214" x2="45.8214" y1="95.113" y2="95.113"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="50.7143" x2="50.7143" y1="13.603" y2="19.01"/>
+            <line x1="49.4643" x2="51.9643" y1="13.603" y2="13.603"/>
+            <line x1="49.4643" x2="51.9643" y1="19.01" y2="19.01"/>
+          </g><g fill="none" stroke="#16b9e8" stroke-width=".5">
+            <line x1="50.7143" x2="50.7143" y1="56.567" y2="74.186"/>
+            <line x1="49.4643" x2="51.9643" y1="56.567" y2="56.567"/>
+            <line x1="49.4643" x2="51.9643" y1="74.186" y2="74.186"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="56.8571" x2="56.8571" y1="13.635" y2="18.967"/>
+            <line x1="55.6071" x2="58.1071" y1="13.635" y2="13.635"/>
+            <line x1="55.6071" x2="58.1071" y1="18.967" y2="18.967"/>
+          </g><g fill="none" stroke="#16b9e8" stroke-width=".5">
+            <line x1="56.8571" x2="56.8571" y1="18.967" y2="27.362"/>
+            <line x1="55.6071" x2="58.1071" y1="18.967" y2="18.967"/>
+            <line x1="55.6071" x2="58.1071" y1="27.362" y2="27.362"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="63" x2="63" y1="13.675" y2="18.967"/>
+            <line x1="61.75" x2="64.25" y1="13.675" y2="13.675"/>
+            <line x1="61.75" x2="64.25" y1="18.967" y2="18.967"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="69.1429" x2="69.1429" y1="13.705" y2="18.967"/>
+            <line x1="67.8929" x2="70.3929" y1="13.705" y2="13.705"/>
+            <line x1="67.8929" x2="70.3929" y1="18.967" y2="18.967"/>
+          </g><g fill="none" stroke="#f044a7" stroke-width=".5">
+            <line x1="69.1429" x2="69.1429" y1="67.519" y2="95.938"/>
+            <line x1="67.8929" x2="70.3929" y1="67.519" y2="67.519"/>
+            <line x1="67.8929" x2="70.3929" y1="95.938" y2="95.938"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="75.2857" x2="75.2857" y1="13.711" y2="18.967"/>
+            <line x1="74.0357" x2="76.5357" y1="13.711" y2="13.711"/>
+            <line x1="74.0357" x2="76.5357" y1="18.967" y2="18.967"/>
+          </g><g fill="none" stroke="#f044a7" stroke-width=".5">
+            <line x1="75.2857" x2="75.2857" y1="18.967" y2="42.532"/>
+            <line x1="74.0357" x2="76.5357" y1="18.967" y2="18.967"/>
+            <line x1="74.0357" x2="76.5357" y1="42.532" y2="42.532"/>
+          </g><g fill="none" stroke="#f044a7" stroke-width=".5">
+            <line x1="75.2857" x2="75.2857" y1="94.52" y2="103.965"/>
+            <line x1="74.0357" x2="76.5357" y1="94.52" y2="94.52"/>
+            <line x1="74.0357" x2="76.5357" y1="103.965" y2="103.965"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="81.4286" x2="81.4286" y1="13.675" y2="18.967"/>
+            <line x1="80.1786" x2="82.6786" y1="13.675" y2="13.675"/>
+            <line x1="80.1786" x2="82.6786" y1="18.967" y2="18.967"/>
+          </g><g fill="none" stroke="#f044a7" stroke-width=".5">
+            <line x1="81.4286" x2="81.4286" y1="97.457" y2="102.095"/>
+            <line x1="80.1786" x2="82.6786" y1="97.457" y2="97.457"/>
+            <line x1="80.1786" x2="82.6786" y1="102.095" y2="102.095"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="87.5714" x2="87.5714" y1="13.583" y2="18.967"/>
+            <line x1="86.3214" x2="88.8214" y1="13.583" y2="13.583"/>
+            <line x1="86.3214" x2="88.8214" y1="18.967" y2="18.967"/>
+          </g><g fill="none" stroke="#f044a7" stroke-width=".5">
+            <line x1="87.5714" x2="87.5714" y1="94.656" y2="97.087"/>
+            <line x1="86.3214" x2="88.8214" y1="94.656" y2="94.656"/>
+            <line x1="86.3214" x2="88.8214" y1="97.087" y2="97.087"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="93.7143" x2="93.7143" y1="13.416" y2="18.967"/>
+            <line x1="92.4643" x2="94.9643" y1="13.416" y2="13.416"/>
+            <line x1="92.4643" x2="94.9643" y1="18.967" y2="18.967"/>
+          </g><g fill="none" stroke="#f044a7" stroke-width=".5">
+            <line x1="93.7143" x2="93.7143" y1="89.376" y2="90.187"/>
+            <line x1="92.4643" x2="94.9643" y1="89.376" y2="89.376"/>
+            <line x1="92.4643" x2="94.9643" y1="90.187" y2="90.187"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="99.8571" x2="99.8571" y1="13.148" y2="18.073"/>
+            <line x1="98.6071" x2="101.1071" y1="13.148" y2="13.148"/>
+            <line x1="98.6071" x2="101.1071" y1="18.073" y2="18.073"/>
+          </g><g fill="none" stroke="#f1a208" stroke-width=".5">
+            <line x1="106" x2="106" y1="8.276" y2="12.442"/>
+            <line x1="104.75" x2="107.25" y1="8.276" y2="8.276"/>
+            <line x1="104.75" x2="107.25" y1="12.442" y2="12.442"/>
+          </g>
+    <g font-size="2.15" fill="#4b416a"><text x="20" y="110" text-anchor="middle" font-size="2.35">A</text><text x="26.1429" y="110" text-anchor="middle" font-size="2.35">B</text><text x="32.2857" y="110" text-anchor="middle" font-size="2.35">C</text><text x="38.4286" y="110" text-anchor="middle" font-size="2.35">D</text><text x="44.5714" y="110" text-anchor="middle" font-size="2.35">E</text><text x="50.7143" y="110" text-anchor="middle" font-size="2.35">F</text><text x="56.8571" y="110" text-anchor="middle" font-size="2.35">G</text><text x="63" y="110" text-anchor="middle" font-size="2.35">H</text><text x="69.1429" y="110" text-anchor="middle" font-size="2.35">I</text><text x="75.2857" y="110" text-anchor="middle" font-size="2.35">J</text><text x="81.4286" y="110" text-anchor="middle" font-size="2.35">K</text><text x="87.5714" y="110" text-anchor="middle" font-size="2.35">L</text><text x="93.7143" y="110" text-anchor="middle" font-size="2.35">M</text><text x="99.8571" y="110" text-anchor="middle" font-size="2.35">N</text><text x="106" y="110" text-anchor="middle" font-size="2.35">O</text><text x="112" y="15.75" font-size="2.15">01</text><text x="112" y="22.1071" font-size="2.15">02</text><text x="112" y="28.4643" font-size="2.15">03</text><text x="112" y="34.8214" font-size="2.15">04</text><text x="112" y="41.1786" font-size="2.15">05</text><text x="112" y="47.5357" font-size="2.15">06</text><text x="112" y="53.8929" font-size="2.15">07</text><text x="112" y="60.25" font-size="2.15">08</text><text x="112" y="66.6071" font-size="2.15">09</text><text x="112" y="72.9643" font-size="2.15">10</text><text x="112" y="79.3214" font-size="2.15">11</text><text x="112" y="85.6786" font-size="2.15">12</text><text x="112" y="92.0357" font-size="2.15">13</text><text x="112" y="98.3929" font-size="2.15">14</text><text x="112" y="104.75" font-size="2.15">15</text></g>
+    <text x="20" y="116" font-size="2.45" fill="#4b416a">COLUMN (A–O) →</text>
+    <text x="111" y="116" font-size="2.45" fill="#4b416a">ROW</text>
+    <rect x="130" y="7" width="337" height="132" fill="#b8a8e5" opacity=".48"/>
+    <g font-size="3.1" letter-spacing=".15">
+      <text x="142" y="9.8" font-size="3.8" letter-spacing=".45">VERTICAL INTERSECTION SPANS · MASTER UNITS</text>
+      <text x="142" y="17" fill="#4b416a">COL</text><text x="158" y="17" fill="#4b416a">X</text><text x="193" y="17" fill="#f1a208">ROOF</text><text x="272" y="17" fill="#16b9e8">LEFT</text><text x="348" y="17" fill="#f044a7">RIGHT</text>
+      <text x="142" y="25">A</text>
+      <text x="158" y="25">20.00</text>
+      <text x="193" y="25" fill="#f1a208">—</text>
+      <text x="272" y="25" fill="#16b9e8">—</text>
+      <text x="348" y="25" fill="#f044a7">—</text><text x="142" y="32.2">B</text>
+      <text x="158" y="32.2">26.14</text>
+      <text x="193" y="32.2" fill="#f1a208">2.44u</text>
+      <text x="272" y="32.2" fill="#16b9e8">—</text>
+      <text x="348" y="32.2" fill="#f044a7">—</text><text x="142" y="39.4">C</text>
+      <text x="158" y="39.4">32.29</text>
+      <text x="193" y="39.4" fill="#f1a208">3.84u</text>
+      <text x="272" y="39.4" fill="#16b9e8">1.65u</text>
+      <text x="348" y="39.4" fill="#f044a7">—</text><text x="142" y="46.6">D</text>
+      <text x="158" y="46.6">38.43</text>
+      <text x="193" y="46.6" fill="#f1a208">5.11u</text>
+      <text x="272" y="46.6" fill="#16b9e8">10.96u</text>
+      <text x="348" y="46.6" fill="#f044a7">—</text><text x="142" y="53.8">E</text>
+      <text x="158" y="53.8">44.57</text>
+      <text x="193" y="53.8" fill="#f1a208">5.63u</text>
+      <text x="272" y="53.8" fill="#16b9e8">14.86u</text>
+      <text x="348" y="53.8" fill="#f044a7">—</text><text x="142" y="61">F</text>
+      <text x="158" y="61">50.71</text>
+      <text x="193" y="61" fill="#f1a208">5.41u</text>
+      <text x="272" y="61" fill="#16b9e8">17.62u</text>
+      <text x="348" y="61" fill="#f044a7">—</text><text x="142" y="68.2">G</text>
+      <text x="158" y="68.2">56.86</text>
+      <text x="193" y="68.2" fill="#f1a208">5.33u</text>
+      <text x="272" y="68.2" fill="#16b9e8">8.39u</text>
+      <text x="348" y="68.2" fill="#f044a7">—</text><text x="142" y="75.4">H</text>
+      <text x="158" y="75.4">63.00</text>
+      <text x="193" y="75.4" fill="#f1a208">5.29u</text>
+      <text x="272" y="75.4" fill="#16b9e8">—</text>
+      <text x="348" y="75.4" fill="#f044a7">—</text><text x="142" y="82.6">I</text>
+      <text x="158" y="82.6">69.14</text>
+      <text x="193" y="82.6" fill="#f1a208">5.26u</text>
+      <text x="272" y="82.6" fill="#16b9e8">—</text>
+      <text x="348" y="82.6" fill="#f044a7">28.42u</text><text x="142" y="89.8">J</text>
+      <text x="158" y="89.8">75.29</text>
+      <text x="193" y="89.8" fill="#f1a208">5.26u</text>
+      <text x="272" y="89.8" fill="#16b9e8">—</text>
+      <text x="348" y="89.8" fill="#f044a7">23.57u + 9.44u</text><text x="142" y="97">K</text>
+      <text x="158" y="97">81.43</text>
+      <text x="193" y="97" fill="#f1a208">5.29u</text>
+      <text x="272" y="97" fill="#16b9e8">—</text>
+      <text x="348" y="97" fill="#f044a7">4.64u</text><text x="142" y="104.2">L</text>
+      <text x="158" y="104.2">87.57</text>
+      <text x="193" y="104.2" fill="#f1a208">5.38u</text>
+      <text x="272" y="104.2" fill="#16b9e8">—</text>
+      <text x="348" y="104.2" fill="#f044a7">2.43u</text><text x="142" y="111.4">M</text>
+      <text x="158" y="111.4">93.71</text>
+      <text x="193" y="111.4" fill="#f1a208">5.55u</text>
+      <text x="272" y="111.4" fill="#16b9e8">—</text>
+      <text x="348" y="111.4" fill="#f044a7">0.81u</text><text x="142" y="118.60000000000001">N</text>
+      <text x="158" y="118.60000000000001">99.86</text>
+      <text x="193" y="118.60000000000001" fill="#f1a208">4.92u</text>
+      <text x="272" y="118.60000000000001" fill="#16b9e8">—</text>
+      <text x="348" y="118.60000000000001" fill="#f044a7">—</text><text x="142" y="125.8">O</text>
+      <text x="158" y="125.8">106.00</text>
+      <text x="193" y="125.8" fill="#f1a208">4.17u</text>
+      <text x="272" y="125.8" fill="#16b9e8">—</text>
+      <text x="348" y="125.8" fill="#f044a7">—</text>
+      <text x="142" y="148" font-size="2.75" fill="#4b416a">— = that column does not intersect the named independent contour.</text>
+      <text x="142" y="153" font-size="2.75" fill="#4b416a">Multiple values show discrete vertical ink runs at a concavity or terminal turn.</text>
+    </g>
+  </g>
+</svg>

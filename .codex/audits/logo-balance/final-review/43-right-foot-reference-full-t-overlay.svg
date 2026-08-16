@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1600" viewBox="0 0 180 160">
+  <rect width="180" height="160" fill="#c5b6f4"/>
+  <rect x="12" y="0" width="136" height="15" fill="#f8df9e" opacity=".34"/>
+  <rect x="12" y="104" width="136" height="12" fill="#f8df9e" opacity=".34"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#17131b">
+    <text x="12" y="10" font-size="5" letter-spacing=".5">T · YOUR RIGHT-FOOT REFERENCE OVERLAY</text>
+    <text x="12" y="16" font-size="2.7" fill="#4b416a">GREY = YOUR 2 CUBICS + CLOSING EDGE · BLACK = CURRENT FILLED T</text>
+  </g>
+  <g fill="none" stroke="#17131b" stroke-width=".32" stroke-dasharray="2 2" opacity=".55"><line x1="20" x2="106" y1="15" y2="15"/><line x1="20" x2="106" y1="21.357142857142858" y2="21.357142857142858"/><line x1="20" x2="106" y1="27.714285714285715" y2="27.714285714285715"/><line x1="20" x2="106" y1="34.07142857142857" y2="34.07142857142857"/><line x1="20" x2="106" y1="40.42857142857143" y2="40.42857142857143"/><line x1="20" x2="106" y1="46.785714285714285" y2="46.785714285714285"/><line x1="20" x2="106" y1="53.142857142857146" y2="53.142857142857146"/><line x1="20" x2="106" y1="59.5" y2="59.5"/><line x1="20" x2="106" y1="65.85714285714286" y2="65.85714285714286"/><line x1="20" x2="106" y1="72.21428571428572" y2="72.21428571428572"/><line x1="20" x2="106" y1="78.57142857142857" y2="78.57142857142857"/><line x1="20" x2="106" y1="84.92857142857143" y2="84.92857142857143"/><line x1="20" x2="106" y1="91.28571428571429" y2="91.28571428571429"/><line x1="20" x2="106" y1="97.64285714285714" y2="97.64285714285714"/><line x1="20" x2="106" y1="104" y2="104"/></g>
+  <g fill="none" stroke="#17131b" stroke-width=".7" opacity=".8">
+    <line x1="20" x2="106" y1="15" y2="15"/>
+    <line x1="20" x2="106" y1="104" y2="104"/>
+  </g>
+  <g fill="#000000">
+  <g transform="translate(22 -.222) scale(.86 1.03)">
+    <!-- Top: outer sweep and lower return are the two crisp Bézier edges. -->
+    <g data-t-segment="top-bar" transform="translate(0 7.5) scale(1 ${T_ROOF_SCALE_Y}) translate(0 -7.5)">
+      <path d="M2 30.2 C5 21 16 13.415 29 13.415 C48 13.415 71 13.87 91 12.96 C95 12.687 97 10.1 97.5 8.25 L99 8.25 C98.5 13.3 94 18.05 86 18.63 L64.51 18.63 L60.79 18.63 L41.36 18.63 L37.64 18.63 C18 18.63 8 21 3 29.8 Z"/>
+    </g>
+    <!-- Left pillar: outer edge (cap → terminal) and inner edge (terminal → cap). -->
+    <g data-t-segment="left-pillar" transform="translate(27.75 0) scale(${T_LEFT_PILLAR_SCALE_X} 1) translate(-27.75 0)">
+      <path d="M37.64 18.63 C36.99 27 35.07 42.535 33.37 55.275 C30.57 70.745 24.44 86.22 10.5 101.1864 L20.6 101.1864 C26.8 94.65 30.33 83.03 35.13 66.195 C37.93 50.725 40.28 30 41.36 18.63 Z"/>
+    </g>
+    <!-- Right pillar: inner edge (cap → terminal) and outer edge (terminal → cap). -->
+    <g data-t-segment="right-pillar" transform="translate(70.1 0) scale(${T_RIGHT_PILLAR_SCALE_X} 1) translate(-70.1 0)">
+      <!-- Through row 10 this is the left pillar's paired curve, shifted 23.15 source
+           units right. Below it, the two reference-foot cubics are transformed to lock
+           onto the row-10 edges and then close with their original straight segment. -->
+      <!-- The cusp is the M–N midpoint on row 12: master (96.786, 84.929). -->
+      <path d="M60.79 18.63 C60.14 27 58.22 42.535 56.52 55.275 C55.61095 60.2975 54.3509 65.32053 52.58655 70.3265 C31.60278255 131.62833819 86.9601 82.6705 86.9601 82.6705 C41.90036 122 57.09512 70.3265 57.09512 70.3265 C57.48268 68.98607 57.87686 67.60893 58.28 66.195 C61.08 50.725 63.43 30 64.51 18.63 Z"/>
+    </g>
+  </g>
+</g>
+  <g transform="translate(22 -.222) scale(.86 1.03)" fill="none" stroke="#706b72" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M57.09512 70.3265 C57.09512 70.3265 41.90036 110.0634 86.9601 82.6705 C86.9601 82.6705 35.70465 119.64517 52.58655 70.3265 L57.09512 70.3265 Z"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="3" fill="#4b416a">
+    <text x="6" y="16">CAP</text>
+    <text x="6" y="105">BASE</text>
+    <text x="112" y="70.81429999999999">ROW 10</text>
+    <text x="112" y="83.5286">ROW 12</text>
+    <text x="12" y="126">FULL T CONTEXT · ROOF AND LEFT PILLAR UNCHANGED</text>
+  </g>
+  <g stroke="#706b72" stroke-width=".45" stroke-dasharray="1.4 1.8">
+    <line x1="108" x2="148" y1="72.2143" y2="72.2143"/>
+    <line x1="108" x2="148" y1="84.9286" y2="84.9286"/>
+  </g>
+</svg>

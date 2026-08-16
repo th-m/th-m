@@ -1,0 +1,367 @@
+{
+  "source": "compose-alignment-mockup.ts",
+  "reference": {
+    "cap": 15,
+    "baseline": 104,
+    "guideCount": 15,
+    "guideSpacing": 6.357143
+  },
+  "addressing": {
+    "columns": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O"
+    ],
+    "rows": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15"
+    ],
+    "format": "A01–O15"
+  },
+  "measurement": "horizontal contiguous ink spans of each filled T pillar at each guide",
+  "guides": [
+    {
+      "index": 1,
+      "row": "01",
+      "y": 15,
+      "left": null,
+      "right": null
+    },
+    {
+      "index": 2,
+      "row": "02",
+      "y": 21.3571,
+      "left": {
+        "spans": [
+          {
+            "start": 54.202,
+            "end": 57.376,
+            "span": 3.174
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 74.111,
+            "end": 77.285,
+            "span": 3.174
+          }
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "row": "03",
+      "y": 27.7143,
+      "left": {
+        "spans": [
+          {
+            "start": 53.673,
+            "end": 56.825,
+            "span": 3.153
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 73.582,
+            "end": 76.734,
+            "span": 3.153
+          }
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "row": "04",
+      "y": 34.0714,
+      "left": {
+        "spans": [
+          {
+            "start": 53.077,
+            "end": 56.232,
+            "span": 3.155
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 72.986,
+            "end": 76.141,
+            "span": 3.155
+          }
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "row": "05",
+      "y": 40.4286,
+      "left": {
+        "spans": [
+          {
+            "start": 52.442,
+            "end": 55.596,
+            "span": 3.154
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 72.351,
+            "end": 75.505,
+            "span": 3.154
+          }
+        ]
+      }
+    },
+    {
+      "index": 6,
+      "row": "06",
+      "y": 46.7857,
+      "left": {
+        "spans": [
+          {
+            "start": 51.779,
+            "end": 54.917,
+            "span": 3.138
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 71.688,
+            "end": 74.826,
+            "span": 3.138
+          }
+        ]
+      }
+    },
+    {
+      "index": 7,
+      "row": "07",
+      "y": 53.1429,
+      "left": {
+        "spans": [
+          {
+            "start": 51.093,
+            "end": 54.187,
+            "span": 3.094
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 71.002,
+            "end": 74.096,
+            "span": 3.094
+          }
+        ]
+      }
+    },
+    {
+      "index": 8,
+      "row": "08",
+      "y": 59.5,
+      "left": {
+        "spans": [
+          {
+            "start": 50.247,
+            "end": 53.395,
+            "span": 3.148
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 70.121,
+            "end": 73.22,
+            "span": 3.099
+          }
+        ]
+      }
+    },
+    {
+      "index": 9,
+      "row": "09",
+      "y": 65.8571,
+      "left": {
+        "spans": [
+          {
+            "start": 48.974,
+            "end": 52.523,
+            "span": 3.549
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 69.326,
+            "end": 72.555,
+            "span": 3.228
+          }
+        ]
+      }
+    },
+    {
+      "index": 10,
+      "row": "10",
+      "y": 72.2143,
+      "left": {
+        "spans": [
+          {
+            "start": 47.315,
+            "end": 51.193,
+            "span": 3.877
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 68.689,
+            "end": 72.144,
+            "span": 3.455
+          }
+        ]
+      }
+    },
+    {
+      "index": 11,
+      "row": "11",
+      "y": 78.5714,
+      "left": {
+        "spans": [
+          {
+            "start": 45.212,
+            "end": 49.623,
+            "span": 4.411
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 68.257,
+            "end": 72.06,
+            "span": 3.803
+          }
+        ]
+      }
+    },
+    {
+      "index": 12,
+      "row": "12",
+      "y": 84.9286,
+      "left": {
+        "spans": [
+          {
+            "start": 42.601,
+            "end": 47.929,
+            "span": 5.328
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 68.115,
+            "end": 72.463,
+            "span": 4.348
+          }
+        ]
+      }
+    },
+    {
+      "index": 13,
+      "row": "13",
+      "y": 91.2857,
+      "left": {
+        "spans": [
+          {
+            "start": 39.416,
+            "end": 45.976,
+            "span": 6.56
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 68.422,
+            "end": 73.78,
+            "span": 5.358
+          },
+          {
+            "start": 91.72,
+            "end": 92.825,
+            "span": 1.105
+          }
+        ]
+      }
+    },
+    {
+      "index": 14,
+      "row": "14",
+      "y": 97.6429,
+      "left": {
+        "spans": [
+          {
+            "start": 35.584,
+            "end": 43.488,
+            "span": 7.903
+          }
+        ]
+      },
+      "right": {
+        "spans": [
+          {
+            "start": 69.59,
+            "end": 87,
+            "span": 17.41
+          }
+        ]
+      }
+    },
+    {
+      "index": 15,
+      "row": "15",
+      "y": 104,
+      "left": null,
+      "right": null
+    }
+  ]
+}

@@ -39,15 +39,18 @@ const tracedTGroups = `
   <g transform="translate(22 -.222) scale(.86 1.03)">
     <!-- Top: outer sweep and lower return are the two crisp Bézier edges. -->
     <g data-t-segment="top-bar" transform="translate(0 7.5) scale(1 ${T_ROOF_SCALE_Y}) translate(0 -7.5)">
-      <path d="M2 37.075 C5 25.245 16 13.415 29 13.415 C48 13.415 71 13.87 91 12.96 C95 12.687 97 9.775 97.5 7.5 L99 7.5 C98.5 17.055 94 22.515 86 22.97 L67 22.97 L58.3 22.97 L45 22.97 L34 22.97 C18 22.97 8 28.885 3 38.895 Z"/>
+      <path d="M2 30.2 C5 21 16 13.415 29 13.415 C48 13.415 71 13.87 91 12.96 C95 12.687 97 10.1 97.5 8.25 L99 8.25 C98.5 13.3 94 18.05 86 18.63 L64.51 18.63 L60.79 18.63 L41.36 18.63 L37.64 18.63 C18 18.63 8 21 3 29.8 Z"/>
     </g>
     <!-- Left pillar: outer edge (cap → terminal) and inner edge (terminal → cap). -->
     <g data-t-segment="left-pillar" transform="translate(27.75 0) scale(${T_LEFT_PILLAR_SCALE_X} 1) translate(-27.75 0)">
-      <path d="M34 22.97 C33 30.705 31 42.535 29 55.275 C26.5 70.745 21.5 85.305 10.5 98.955 C13.5 100.32 18.5 101.23 23 98.955 C31.5 93.95 36.7 83.03 39.5 66.195 C42.3 50.725 44 34.345 45 22.97 Z"/>
+      <path d="M37.64 18.63 C36.99 27 35.07 42.535 33.37 55.275 C30.57 70.745 24.44 86.22 10.5 101.1864 L20.6 101.1864 C26.8 94.65 30.33 83.03 35.13 66.195 C37.93 50.725 40.28 30 41.36 18.63 Z"/>
     </g>
     <!-- Right pillar: inner edge (cap → terminal) and outer edge (terminal → cap). -->
     <g data-t-segment="right-pillar" transform="translate(70.1 0) scale(${T_RIGHT_PILLAR_SCALE_X} 1) translate(-70.1 0)">
-      <path d="M58.3 22.97 C56 37.075 53 56.185 51.7 73.475 C50.5 88.49 53.5 97.135 67 99.41 C77 101.23 86 92.585 90.5 75.295 L88 75.295 C84 84.395 77.5 91.22 71 88.945 C63.3 86.215 60.8 75.295 62 58.915 C63 45.265 65 32.525 67 22.97 Z"/>
+      <!-- The supplied grey contour is registered directly onto the current right
+           pillar at its two top intersections. Its two Bézier arcs replace the lower
+           pillar; the outer handle is extended only enough to keep the base on line. -->
+      <path d="M60.79 18.63 C60.18283713 26.44838958 58.46755266 40.51850456 56.85854676 52.72260962 C41.30673423 138.79746558 86.80571662 83.98950826 86.80571662 83.98950826 C46.75198157 120.82021715 60.45031492 52.68602707 60.45031492 52.68602707 C62.26545535 40.13351436 63.72403346 26.90448112 64.51 18.63 Z"/>
     </g>
   </g>
 `;
