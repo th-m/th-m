@@ -7,6 +7,7 @@ This directory contains the working material for the **AI, ontology, and softwar
 | Post | Working title | Status |
 | --- | --- | --- |
 | [ai-knows-propositions-humans-navigate-relationships](./ai-knows-propositions-humans-navigate-relationships/) | AI Knows Propositions; Humans Navigate Relationships | Outline and research in progress |
+| [your-soulless-clanker-will-never-discover-opportunity](./your-soulless-clanker-will-never-discover-opportunity/) | Your Soulless Clanker Will Never Discover Opportunity | Outline and research in progress |
 | [the-next-abstraction-layer](./the-next-abstraction-layer/) | The Next Abstraction Layer: Software Engineering Becomes Ontology Design | Outline and research in progress |
 | [moats-in-the-ai-era](./moats-in-the-ai-era/) | What Are Our Moats in the AI Era? | Outline in progress |
 | [the-knowledge-factory](./the-knowledge-factory/) | The Knowledge Factory: Capital as the New Multiplier | Outline in progress |

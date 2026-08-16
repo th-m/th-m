@@ -81,7 +81,7 @@ Capture at minimum:
 5. `05-isolated-glyphs-24.png` — the same isolated comparison at 24 px.
 6. `06-monochrome-multiscale.png` — monochrome 24, 48, and 120 px states together.
 7. `07-spacing-and-alignment.png` — a full-lockup crop suitable for judging T–H, H–O, and O–M spacing, cap line, baseline, and optical centers.
-8. `08-h-motion-keyframes.png` — representative H construction, ratio-point, crossfade, and resting states if motion is available.
+8. `08-h-motion-keyframes.png` — representative H construction, spiral-trace, shell-hold/fade, and resting states if motion is available.
 
 Use identical scaling and framing when comparing isolated characters. Do not stretch screenshots or substitute an old generated board for a fresh capture.
 

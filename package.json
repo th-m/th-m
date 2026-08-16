@@ -14,7 +14,6 @@
     "compose:brand:stroke-energy": "bun run scripts/brand/compose-stroke-energy-evidence.ts",
     "score:brand:m": "bun run scripts/brand/score-m-candidates.ts",
     "generate:brand": "bun run scripts/brand/generate-brand.ts",
-    "generate:brand:h-phi": "bun run scripts/brand/hPhiAsset.ts",
     "generate:brand:t": "bun run scripts/brand/generate-t.ts",
     "measure:brand:balance": "bun run scripts/brand/measure-logo-balance.ts",
     "check:brand:balance": "bun run scripts/brand/check-logo-balance.ts",

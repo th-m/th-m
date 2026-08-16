@@ -1,4 +1,4 @@
-import type { BrandData, ChordNetwork, CubicBezierSegment, FilledPath, PathCommand, Point } from "./geometry";
+import type { BrandData, ChordNetwork, CubicBezierSegment, FilledPath, OpticalProfile, PathCommand, Point } from "./geometry";
 import {
   BRAND_COLORS,
   displayStrokeWorldWidth,
@@ -11,6 +11,7 @@ import {
   M_FINAL_MATERIAL,
   M_FINE_STRAND_OFFSETS,
   O_DISPLAY_MATERIAL,
+  OPTICAL_PLACEMENT_X,
   PI_MATERIAL,
   fourierCompactBezier,
   fourierPartialBezier,
@@ -39,8 +40,8 @@ function precisePathData(path: FilledPath): string {
   }).join(" ");
 }
 
-const filledPath = (path: FilledPath, fill: string, luminous: boolean) =>
-  `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` stroke="${BRAND_COLORS.gold}" stroke-width="${H_COLUMN_MATERIAL.strokeWidth}" filter="url(#thom-fill-glow)"` : ""}/>`;
+const filledPath = (path: FilledPath, fill: string, luminous: boolean, opticalStroke = 0) =>
+  `<path d="${pathData(path)}" fill="${fill}"${luminous ? ` stroke="${BRAND_COLORS.gold}" stroke-width="${H_COLUMN_MATERIAL.strokeWidth}" filter="url(#thom-fill-glow)"` : opticalStroke > 0 ? ` stroke="${fill}" stroke-width="${opticalStroke}" stroke-linejoin="round"` : ""}/>`;
 
 const piPath = (path: FilledPath, fill: string, luminous: boolean) =>
   `<path d="${precisePathData(path)}" fill="${fill}"${luminous ? ` stroke="${PI_MATERIAL.edge}" stroke-width="${PI_MATERIAL.strokeWidth}" filter="url(#thom-pi-glow)"` : ""}/>`;
@@ -70,8 +71,8 @@ function palette(theme: SvgTheme) {
   return { background: BRAND_COLORS.background, ivory: BRAND_COLORS.ivory, gold: BRAND_COLORS.gold, highlight: BRAND_COLORS.highlight };
 }
 
-function defs(theme: SvgTheme, compact: boolean): string {
-  if (theme !== "dark" || compact) return "";
+function defs(theme: SvgTheme, profile: OpticalProfile): string {
+  if (theme !== "dark" || profile !== "display") return "";
   return `<defs>
     <linearGradient id="thom-metal" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="${BRAND_COLORS.shadow}"/>
@@ -162,8 +163,10 @@ function mDisplayMarkup(data: BrandData, colors: ReturnType<typeof palette>, lum
   return `${partials}${final}${texture}`;
 }
 
-function chordMarkup(network: ChordNetwork, color: string, luminous: boolean, compact: boolean): string {
-  const chordLines = network.chords.map((chord) => {
+function chordMarkup(network: ChordNetwork, color: string, luminous: boolean, profile: OpticalProfile): string {
+  const simplified = profile !== "display";
+  const chords = profile === "micro" ? network.chords.slice(0, 7) : network.chords;
+  const chordLines = chords.map((chord) => {
     const start = network.anchors[chord.a];
     const end = network.anchors[chord.b];
     const dx = end.x - start.x;
@@ -178,20 +181,20 @@ function chordMarkup(network: ChordNetwork, color: string, luminous: boolean, co
     const b = { x: end.x - (dx / length) * inset, y: end.y - (dy / length) * inset };
     return luminous
       ? `${polyline([a, b], color, haloWidth, O_DISPLAY_MATERIAL.chord.haloOpacity)}${polyline([a, b], color, coreWidth, coreOpacity)}`
-      : polyline([a, b], color, compact ? 1.65 : 0.9, 0.55, "", compact);
+      : polyline([a, b], color, profile === "micro" ? 2.15 : profile === "compact" ? 1.65 : 0.9, profile === "micro" ? 0.68 : 0.55, "", simplified);
   });
 
-  const anchors = network.anchors.map((point) => luminous
+  const anchors = profile === "micro" ? [] : network.anchors.map((point) => luminous
     ? `${node(point, color, O_DISPLAY_MATERIAL.anchor.haloRadius, O_DISPLAY_MATERIAL.anchor.haloOpacity)}${node(point, BRAND_COLORS.highlight, O_DISPLAY_MATERIAL.anchor.coreRadius, O_DISPLAY_MATERIAL.anchor.coreOpacity, ` filter="url(#thom-o-glow)"`)}`
     : node(point, color, 1.15, 0.8));
-  const intersections = network.intersections.map((point) => node(point, color, luminous ? O_DISPLAY_MATERIAL.intersection.radius : 0.85, luminous ? O_DISPLAY_MATERIAL.intersection.opacity : 0.78));
+  const intersections = profile === "micro" ? [] : network.intersections.map((point) => node(point, color, luminous ? O_DISPLAY_MATERIAL.intersection.radius : 0.85, luminous ? O_DISPLAY_MATERIAL.intersection.opacity : 0.78));
   const highlights = luminous ? network.highlights.map((point) => `${node(point, color, O_DISPLAY_MATERIAL.highlight.haloRadius, O_DISPLAY_MATERIAL.highlight.haloOpacity)}${node(point, BRAND_COLORS.highlight, O_DISPLAY_MATERIAL.highlight.coreRadius, O_DISPLAY_MATERIAL.highlight.coreOpacity, ` filter="url(#thom-o-glow)"`)}`) : [];
   return [...chordLines, ...anchors, ...intersections, ...highlights].join("");
 }
 
-export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m", theme: SvgTheme = "dark", compact = false): string {
+export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m", theme: SvgTheme = "dark", profile: OpticalProfile = "display"): string {
   const colors = palette(theme);
-  const luminous = theme === "dark" && !compact;
+  const luminous = theme === "dark" && profile === "display";
   const fill = luminous ? "url(#thom-metal)" : colors.ivory;
 
   if (glyph === "t") return data.pi.displayContours
@@ -199,14 +202,18 @@ export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m"
     .join("");
   if (glyph === "h") {
     const hFill = luminous ? "url(#thom-h-metal)" : fill;
-    const pillars = data.h.paths.map((path) => filledPath(path, hFill, luminous)).join("");
-    if (compact) {
-      const a = polyline(data.h.proportion.a, colors.gold, hStrokeWorldWidth(H_MATERIAL.a.coreWidth), 1, ` data-h-part="a"`, true);
-      const b = polyline(data.h.proportion.b, colors.gold, hStrokeWorldWidth(H_MATERIAL.b.coreWidth), 1, ` data-h-part="b"`, true);
-      const ticks = data.h.proportion.ticks.map((tick, index) => polyline(tick, colors.gold, 1.05, 0.78, ` data-h-part="tick-${index}"`, true)).join("");
-      const brace = polyline(data.h.proportion.brace.filter((_point, index) => index % 2 === 0), colors.gold, 1.15, 0.68, ` data-h-part="unit-brace"`, true);
-      const ratioPoint = ellipse(data.h.proportion.ratioPoint, colors.gold, H_RATIO_POINT_SHAPE.radiusX, H_RATIO_POINT_SHAPE.radiusY, 0.78, ` data-h-part="ratio-point"`);
-      return `${pillars}${a}${b}${ticks}${brace}${ratioPoint}`;
+    const pillarStroke = profile === "micro" ? 1.4 : profile === "compact" ? 1 : 0;
+    const pillars = data.h.paths.map((path) => filledPath(path, hFill, luminous, pillarStroke)).join("");
+    if (profile !== "display") {
+      if (profile === "micro") {
+        const start = data.h.proportion.a[0];
+        const end = data.h.proportion.b.at(-1)!;
+        const crossbar = polyline([start, end], colors.gold, 1.85, 0.9, ` data-h-part="crossbar"`, true);
+        return `${pillars}${crossbar}`;
+      }
+      const a = polyline(data.h.proportion.a, colors.gold, 1.35, 1, ` data-h-part="a"`, true);
+      const b = polyline(data.h.proportion.b, colors.gold, 1.35, 1, ` data-h-part="b"`, true);
+      return `${pillars}${a}${b}`;
     }
     const construction = luminous
       ? `${hLuminousLine(data.h.proportion.a, BRAND_COLORS.highlight, H_MATERIAL.a, "a")}${hLuminousLine(data.h.proportion.b, BRAND_COLORS.highlight, H_MATERIAL.b, "b")}${data.h.proportion.ticks.map((tick, index) => hLuminousLine(tick, BRAND_COLORS.gold, H_MATERIAL.tick, `tick-${index}`)).join("")}${hLuminousLine(data.h.proportion.brace, BRAND_COLORS.gold, H_MATERIAL.brace, "unit-brace")}`
@@ -217,58 +224,66 @@ export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m"
     return `${pillars}${construction}${ratioPoint}`;
   }
   if (glyph === "o") {
-    const network = compact ? data.o.compact : data.o.canonical;
-    const circle = luminous ? oCircleMarkup(data.o.circle) : polyline(data.o.circle, colors.ivory, compact ? 2.8 : O_DISPLAY_MATERIAL.circle.coreWidth, 1, "", true);
-    return `${circle}${chordMarkup(network, colors.gold, luminous, compact)}`;
+    const network = profile === "display" ? data.o.canonical : data.o.compact;
+    const circle = luminous ? oCircleMarkup(data.o.circle) : polyline(data.o.circle, colors.ivory, profile === "micro" ? 3.4 : profile === "compact" ? 2.8 : O_DISPLAY_MATERIAL.circle.coreWidth, 1, "", true);
+    return `${circle}${chordMarkup(network, colors.gold, luminous, profile)}`;
   }
-  if (compact) return `<path d="${bezierPathData(fourierCompactBezier(data.m))}" fill="none" stroke="${colors.ivory}" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>`;
+  if (profile !== "display") return `<path d="${bezierPathData(fourierCompactBezier(data.m))}" fill="none" stroke="${colors.ivory}" stroke-width="${profile === "micro" ? 3.4 : 3}" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>`;
   return mDisplayMarkup(data, colors, luminous);
 }
 
-export function renderLogoContent(data: BrandData, theme: SvgTheme = "dark", compact = false): string {
+export function renderLogoContent(data: BrandData, theme: SvgTheme = "dark", profile: OpticalProfile = "display"): string {
   return (["t", "h", "o", "m"] as const).map((glyph) => {
     const placement = data.placements[glyph];
-    return `<g transform="translate(${placement.x} ${placement.y}) scale(${placement.scaleX} ${placement.scaleY})">${renderGlyphContent(data, glyph, theme, compact)}</g>`;
+    const x = placement.x + OPTICAL_PLACEMENT_X[profile][glyph];
+    return `<g transform="translate(${x} ${placement.y}) scale(${placement.scaleX} ${placement.scaleY})">${renderGlyphContent(data, glyph, theme, profile)}</g>`;
   }).join("");
 }
 
-function svgShell(viewBox: string, content: string, theme: SvgTheme, compact: boolean, background?: string, width?: number, height?: number): string {
+function svgShell(viewBox: string, content: string, theme: SvgTheme, profile: OpticalProfile, background?: string, width?: number, height?: number): string {
   const dimensions = width && height ? ` width="${width}" height="${height}"` : "";
   const backgroundRect = background && background !== "transparent" ? `<rect width="100%" height="100%" fill="${background}"/>` : "";
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}"${dimensions} role="img" aria-labelledby="title"><title id="title">THOM</title>${defs(theme, compact)}${backgroundRect}${content}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}"${dimensions} role="img" aria-labelledby="title" data-optical-profile="${profile}"><title id="title">THOM</title>${defs(theme, profile)}${backgroundRect}${content}</svg>`;
 }
 
-export function renderLogoSvg(data: BrandData, theme: SvgTheme = "dark", compact = false): string {
-  return svgShell(`0 0 ${data.master.width} ${data.master.height}`, renderLogoContent(data, theme, compact), theme, compact);
+export function renderLogoSvg(data: BrandData, theme: SvgTheme = "dark", profile: OpticalProfile = "display"): string {
+  return svgShell(`0 0 ${data.master.width} ${data.master.height}`, renderLogoContent(data, theme, profile), theme, profile);
 }
 
-export function renderGlyphSvg(data: BrandData, glyph: "t" | "h" | "o" | "m", theme: SvgTheme = "dark", compact = false): string {
+export function renderGlyphSvg(data: BrandData, glyph: "t" | "h" | "o" | "m", theme: SvgTheme = "dark", profile: OpticalProfile = "display"): string {
   if (glyph === "m") {
     const placement = data.placements.m;
-    const content = `<g transform="translate(0 ${placement.y}) scale(${placement.scaleX} ${placement.scaleY})">${renderGlyphContent(data, glyph, theme, compact)}</g>`;
-    return svgShell(`0 0 ${data.placements.m.width} 120`, content, theme, compact);
+    const content = `<g transform="translate(0 ${placement.y}) scale(${placement.scaleX} ${placement.scaleY})">${renderGlyphContent(data, glyph, theme, profile)}</g>`;
+    return svgShell(`0 0 ${data.placements.m.width} 120`, content, theme, profile);
   }
   if (glyph === "h") {
     const view = H_ISOLATED_VIEW;
-    const content = `<g transform="scale(${view.scaleX} 1)">${renderGlyphContent(data, glyph, theme, compact)}</g>`;
-    return svgShell(`${view.x} ${view.y} ${view.width} ${view.height}`, content, theme, compact);
+    const content = `<g transform="scale(${view.scaleX} 1)">${renderGlyphContent(data, glyph, theme, profile)}</g>`;
+    return svgShell(`${view.x} ${view.y} ${view.width} ${view.height}`, content, theme, profile);
   }
-  return svgShell("0 0 100 120", renderGlyphContent(data, glyph, theme, compact), theme, compact);
+  if (glyph === "t") {
+    const placement = data.placements.t;
+    const content = `<g transform="translate(0 ${placement.y}) scale(${placement.scaleX} ${placement.scaleY})">${renderGlyphContent(data, glyph, theme, profile)}</g>`;
+    return svgShell("-10 0 120 120", content, theme, profile);
+  }
+  const placement = data.placements.o;
+  const content = `<g transform="translate(0 ${placement.y}) scale(${placement.scaleX} ${placement.scaleY})">${renderGlyphContent(data, glyph, theme, profile)}</g>`;
+  return svgShell("-16 0 120 120", content, theme, profile);
 }
 
 export function renderFaviconSvg(data: BrandData): string {
-  const content = `<g transform="translate(9 4) scale(.82 .92)">${renderGlyphContent(data, "t", "dark", true)}</g>`;
-  return svgShell("0 0 100 120", content, "dark", true, BRAND_COLORS.background);
+  const content = `<g transform="translate(9 4) scale(.82 .92)">${renderGlyphContent(data, "t", "dark", "micro")}</g>`;
+  return svgShell("0 0 100 120", content, "dark", "micro", BRAND_COLORS.background);
 }
 
 export function renderAvatarSvg(data: BrandData): string {
-  const content = `<circle cx="64" cy="64" r="53" fill="none" stroke="${BRAND_COLORS.gold}" stroke-width="1.5" opacity=".7"/><g transform="translate(23 11) scale(.82 .88)">${renderGlyphContent(data, "t", "dark", true)}</g>`;
-  return svgShell("0 0 128 128", content, "dark", true, BRAND_COLORS.background, 512, 512);
+  const content = `<circle cx="64" cy="64" r="53" fill="none" stroke="${BRAND_COLORS.gold}" stroke-width="1.5" opacity=".7"/><g transform="translate(23 11) scale(.82 .88)">${renderGlyphContent(data, "t", "dark", "compact")}</g>`;
+  return svgShell("0 0 128 128", content, "dark", "compact", BRAND_COLORS.background, 512, 512);
 }
 
 export function renderOpenGraphSvg(data: BrandData): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-    ${defs("dark", false)}
+    ${defs("dark", "display")}
     <rect width="1200" height="630" fill="${BRAND_COLORS.background}"/>
     <circle cx="1080" cy="-10" r="390" fill="none" stroke="${BRAND_COLORS.gold}" stroke-width="1" opacity=".16"/>
     <circle cx="1080" cy="-10" r="280" fill="none" stroke="${BRAND_COLORS.gold}" stroke-width="1" opacity=".1"/>

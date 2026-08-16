@@ -8,13 +8,11 @@ import {
   Mesh,
   MeshBasicMaterial,
   OrthographicCamera,
-  PlaneGeometry,
   Scene,
   ShaderMaterial,
   Shape,
   ShapeGeometry,
   SRGBColorSpace,
-  TextureLoader,
   WebGLRenderer,
 } from "three";
 import { Line2 } from "three/addons/lines/Line2.js";
@@ -29,14 +27,14 @@ import {
   H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
-  H_PHI_STRATEGIES,
-  H_PHI_STRATEGY,
   H_PILLAR_CENTERS,
   H_PILLAR_SHAPE,
   H_RATIO_POINT_SHAPE,
   H_RATIO_POINT_MATERIAL,
+  H_SPIRAL,
   hStrokeWorldWidth,
-  hAnimationWeights,
+  generateGoldenSpiral,
+  hSpiralFrame,
   M_ANIMATION,
   M_FINAL_MATERIAL,
   M_FINE_STRAND_OFFSETS,
@@ -92,10 +90,6 @@ type MPartialLine = { core: MStrokeRecord; halo: MStrokeRecord | null; revealInd
 type HLineMaterial = (typeof H_MATERIAL)[keyof typeof H_MATERIAL];
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-const hPhiTexture = new TextureLoader().loadAsync("/brand/h-phi.png").then((texture) => {
-  texture.colorSpace = SRGBColorSpace;
-  return texture;
-});
 const M_WEBGL_FILTER_GLOW = { width: 23, opacity: 0.1 } as const;
 const M_LOCAL_SCALE_X = 1;
 const toThreePositions = (points: Point[]) => points.flatMap((point) => [point.x, 120 - point.y, 0]);
@@ -107,35 +101,6 @@ function pointMaterial(color: string, opacity = 1) {
     opacity,
     depthWrite: false,
     side: DoubleSide,
-  });
-}
-
-function phiHaloMaterial() {
-  return new ShaderMaterial({
-    transparent: true,
-    depthWrite: false,
-    side: DoubleSide,
-    uniforms: {
-      uColor: { value: new Color(BRAND_COLORS.gold) },
-      uOpacity: { value: 0 },
-    },
-    vertexShader: `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: `
-      uniform vec3 uColor;
-      uniform float uOpacity;
-      varying vec2 vUv;
-      void main() {
-        float radius = length((vUv - 0.5) * 2.0);
-        float halo = max(0.0, 1.0 - radius);
-        gl_FragColor = vec4(uColor, halo * uOpacity);
-      }
-    `,
   });
 }
 
@@ -598,12 +563,12 @@ export class ThomSceneController {
   private hTicks: HStrokeStack[] = [];
   private hBrace!: HStrokeStack;
   private hRatioPoint!: Mesh;
-  private hPhi!: Mesh;
-  private hPhiHalo!: Mesh;
-  private hPhiMaterial = new MeshBasicMaterial({ color: new Color(BRAND_COLORS.highlight), transparent: true, opacity: 0, depthWrite: false, side: DoubleSide });
-  private hPhiHaloMaterial = phiHaloMaterial();
-  private assetReady: Promise<void> = Promise.resolve();
-  private disposed = false;
+  private hSpiralPoints = generateGoldenSpiral();
+  private hSpiralHalo!: LineRecord;
+  private hSpiralCore!: LineRecord;
+  private hSpiralTracer!: Mesh;
+  private hSpiralTracerHalo!: Mesh;
+  private activeReplay: ThomGlyph | "intro" | null = null;
   private piGuide!: LineRecord;
   private piTracer!: Mesh;
   private oGroup = new Group();
@@ -613,7 +578,7 @@ export class ThomSceneController {
   private mFinal!: MStrokeStack;
   private mComponents: MStrokeRecord[] = [];
   private mPartials: MPartialLine[] = [];
-  private state = { pi: 1, piGuide: 0, piOrbit: 0, h: 1, o: 1, oAlt: 0, m: 1, mSeparate: 0 };
+  private state = { pi: 1, piGuide: 0, piOrbit: 0, h: 1, hSpiral: 1, o: 1, oAlt: 0, m: 1, mSeparate: 0 };
 
   constructor(canvas: HTMLCanvasElement, view: ViewMode = "logo") {
     this.canvas = canvas;
@@ -694,19 +659,18 @@ export class ThomSceneController {
     );
     this.hRatioPoint.position.z = 0.55;
     this.hGroup.add(this.hRatioPoint);
-    const phiStrategy = H_PHI_STRATEGIES[H_PHI_STRATEGY];
-    this.hPhiHalo = new Mesh(new PlaneGeometry(phiStrategy.halo.width, phiStrategy.halo.height), this.hPhiHaloMaterial);
-    this.hPhiHalo.position.set(phiStrategy.plane.centerX, 120 - phiStrategy.plane.centerY, 1.1);
-    this.hGroup.add(this.hPhiHalo);
-    this.hPhi = new Mesh(new PlaneGeometry(phiStrategy.plane.width, phiStrategy.plane.height), this.hPhiMaterial);
-    this.hPhi.position.set(phiStrategy.plane.centerX, 120 - phiStrategy.plane.centerY, 1.2);
-    this.hGroup.add(this.hPhi);
-    this.assetReady = hPhiTexture.then((texture) => {
-      if (this.disposed) return;
-      this.hPhiMaterial.map = texture;
-      this.hPhiMaterial.needsUpdate = true;
-      this.renderOnce();
-    });
+    const initialSpiral = this.hSpiralPoints.slice(0, 2);
+    this.hSpiralHalo = createLine(initialSpiral, BRAND_COLORS.gold, H_SPIRAL.halo.width, H_SPIRAL.halo.opacity, false, undefined, true);
+    this.hSpiralCore = createLine(initialSpiral, BRAND_COLORS.gold, H_SPIRAL.core.width, H_SPIRAL.core.opacity, false, undefined, true);
+    this.hSpiralHalo.line.position.z = -1.5;
+    this.hSpiralCore.line.position.z = -1.25;
+    this.hSpiralHalo.line.renderOrder = -2;
+    this.hSpiralCore.line.renderOrder = -1;
+    this.lineRecords.push(this.hSpiralHalo, this.hSpiralCore);
+    this.hGroup.add(this.hSpiralHalo.line, this.hSpiralCore.line);
+    this.hSpiralTracerHalo = createPoint(brandData.h.proportion.ratioPoint, BRAND_COLORS.gold, 3.1, 0.08);
+    this.hSpiralTracer = createPoint(brandData.h.proportion.ratioPoint, BRAND_COLORS.gold, 1.05, 0.92);
+    this.hGroup.add(this.hSpiralTracerHalo, this.hSpiralTracer);
 
     this.oGroup = this.createGlyphGroup("o");
     this.oCircle = {
@@ -823,10 +787,8 @@ export class ThomSceneController {
     this.piTracer.position.y = 120 - tracePoint.y;
     (this.piTracer.material as MeshBasicMaterial).opacity = s.piGuide;
 
-    const phiStrategy = H_PHI_STRATEGIES[H_PHI_STRATEGY];
-    const hWeights = hAnimationWeights(s.h);
-    const phiOpacity = hWeights.phi * phiStrategy.coreOpacity;
-    const hOpacity = hWeights.h;
+    const hFrame = hSpiralFrame(s.hSpiral);
+    const hOpacity = clamp(s.h);
     this.hMaterials.forEach((fill) => {
       fill.uniforms.uOpacity.value = hOpacity;
       fill.uniforms.uProgress.value = 1;
@@ -838,22 +800,28 @@ export class ThomSceneController {
     this.hTicks.forEach((tick) => setHStackOpacity(tick, hOpacity));
     setHStackOpacity(this.hBrace, hOpacity);
     const ratioPointMaterial = this.hRatioPoint.material as MeshBasicMaterial;
-    ratioPointMaterial.opacity = H_RATIO_POINT_MATERIAL.opacity * hOpacity;
+    ratioPointMaterial.opacity = H_RATIO_POINT_MATERIAL.opacity * hOpacity * hFrame.ratioPointOpacity;
     this.hRatioPoint.visible = ratioPointMaterial.opacity > 0.001;
-    this.hPhiMaterial.opacity = phiOpacity;
-    this.hPhi.visible = phiOpacity > 0.001;
-    this.hPhiHaloMaterial.uniforms.uOpacity.value = hWeights.phi * phiStrategy.halo.opacity;
-    this.hPhiHalo.visible = this.hPhiHaloMaterial.uniforms.uOpacity.value > 0.001;
-    const hPhase = s.h < H_ANIMATION.phiFadeInEnd
-      ? "phi-in"
-      : s.h < H_ANIMATION.phiHoldEnd
-      ? "phi-hold"
-      : s.h < H_ANIMATION.crossfadeEnd
-      ? "crossfade"
-      : "settled";
-    this.canvas.dataset.hPhase = hPhase;
-    if (phiOpacity > 0.1) this.canvas.dataset.hSawPhi = "true";
-    if (hPhase === "crossfade") this.canvas.dataset.hSawCrossfade = "true";
+    const spiralIndex = Math.min(this.hSpiralPoints.length - 1, Math.floor(hFrame.trace * (this.hSpiralPoints.length - 1)));
+    const tracedSpiral = this.hSpiralPoints.slice(0, Math.max(2, spiralIndex + 1));
+    this.hSpiralHalo.geometry.setPositions(toThreePositions(tracedSpiral));
+    this.hSpiralCore.geometry.setPositions(toThreePositions(tracedSpiral));
+    const spiralVisibility = hFrame.shellOpacity * (0.35 + hOpacity * 0.65);
+    this.hSpiralHalo.material.opacity = this.hSpiralHalo.baseOpacity * spiralVisibility;
+    this.hSpiralCore.material.opacity = this.hSpiralCore.baseOpacity * spiralVisibility;
+    this.hSpiralHalo.line.visible = this.hSpiralHalo.material.opacity > 0.001;
+    this.hSpiralCore.line.visible = this.hSpiralCore.material.opacity > 0.001;
+    const tracerPoint = this.hSpiralPoints[spiralIndex];
+    for (const tracer of [this.hSpiralTracerHalo, this.hSpiralTracer]) {
+      tracer.position.set(tracerPoint.x, 120 - tracerPoint.y, hFrame.tracerZ);
+      tracer.scale.setScalar(hFrame.tracerScale);
+      const material = tracer.material as MeshBasicMaterial;
+      const baseOpacity = tracer === this.hSpiralTracer ? 0.92 : 0.08;
+      material.opacity = baseOpacity * hFrame.tracerOpacity;
+      tracer.visible = material.opacity > 0.001;
+    }
+    this.canvas.dataset.hPhase = hFrame.phase;
+    if (hFrame.trace > 0.04 && hFrame.shellOpacity > 0) this.canvas.dataset.hSawSpiral = "true";
 
     setHStackOpacity(this.oCircle, clamp((s.o - O_ANIMATION.circle.start) / O_ANIMATION.circle.duration));
     this.oCanonicalMaterials.forEach((record) => {
@@ -985,7 +953,8 @@ export class ThomSceneController {
   private finishWhenComplete(generation: number, controls: PlaybackControl[]) {
     Promise.all(controls.map((control) => control.then(() => undefined))).then(() => {
       if (generation !== this.animationGeneration) return;
-      Object.assign(this.state, { pi: 1, piGuide: 0, piOrbit: 1, h: 1, o: 1, oAlt: 0, m: 1, mSeparate: 0 });
+      Object.assign(this.state, { pi: 1, piGuide: 0, piOrbit: 1, h: 1, hSpiral: 1, o: 1, oAlt: 0, m: 1, mSeparate: 0 });
+      this.activeReplay = null;
       this.applyState();
       this.renderOnce();
       this.renderer.setAnimationLoop(null);
@@ -995,7 +964,11 @@ export class ThomSceneController {
 
   playIntro() {
     const generation = this.begin();
-    Object.assign(this.state, { pi: 0, piGuide: 1, piOrbit: 0, h: 0, o: 0, oAlt: 0, m: 0, mSeparate: 0 });
+    this.activeReplay = "intro";
+    this.canvas.dataset.hSawSpiral = "false";
+    Object.assign(this.state, { pi: 0, piGuide: 1, piOrbit: 0, h: 0, hSpiral: 0, o: 0, oAlt: 0, m: 0, mSeparate: 0 });
+    this.applyState();
+    this.canvas.dataset.hSawSpiral = "true";
     const controls = [
       animate(this.state, { pi: [0, 0.08, 1], piGuide: [1, 1, 0], piOrbit: 1 }, {
         duration: PI_ANIMATION.durationMs / 1000,
@@ -1003,6 +976,11 @@ export class ThomSceneController {
         times: [0, PI_ANIMATION.traceHoldEnd, 1],
       }),
       animate(this.state, { h: 1 }, {
+        delay: H_ANIMATION.delayMs / 1000,
+        duration: H_ANIMATION.durationMs * H_ANIMATION.revealEnd / 1000,
+        ease: "linear",
+      }),
+      animate(this.state, { hSpiral: 1 }, {
         delay: H_ANIMATION.delayMs / 1000,
         duration: H_ANIMATION.durationMs / 1000,
         ease: "linear",
@@ -1020,7 +998,8 @@ export class ThomSceneController {
 
   settle() {
     this.begin();
-    Object.assign(this.state, { pi: 1, piGuide: 0, piOrbit: 1, h: 1, o: 1, oAlt: 0, m: 1, mSeparate: 0 });
+    this.activeReplay = null;
+    Object.assign(this.state, { pi: 1, piGuide: 0, piOrbit: 1, h: 1, hSpiral: 1, o: 1, oAlt: 0, m: 1, mSeparate: 0 });
     this.applyState();
     this.renderOnce();
     this.renderer.setAnimationLoop(null);
@@ -1028,9 +1007,11 @@ export class ThomSceneController {
   }
 
   playGlyph(glyph: ThomGlyph) {
+    if (glyph === "h" && this.activeReplay === "h") return;
     // A direct replay request must run even when the intersection observer has
     // not caught up with keyboard-driven scrolling yet.
     const generation = this.begin(true);
+    this.activeReplay = glyph;
     this.settleBaseForGlyph(glyph);
     let control;
     if (glyph === "t") {
@@ -1041,10 +1022,11 @@ export class ThomSceneController {
         times: [0, PI_ANIMATION.traceHoldEnd, 1],
       });
     } else if (glyph === "h") {
-      this.canvas.dataset.hSawPhi = "false";
-      this.canvas.dataset.hSawCrossfade = "false";
-      this.state.h = 0;
-      control = animate(this.state, { h: [0, 1] }, { duration: H_ANIMATION.durationMs / 1000, ease: "linear" });
+      this.canvas.dataset.hSawSpiral = "false";
+      Object.assign(this.state, { h: 1, hSpiral: 0 });
+      this.applyState();
+      this.canvas.dataset.hSawSpiral = "true";
+      control = animate(this.state, { hSpiral: 1 }, { duration: H_ANIMATION.durationMs / 1000, ease: "linear" });
     } else if (glyph === "o") {
       control = animate(this.state, { oAlt: [0, 1, 1, 0] }, { duration: 0.76, ease: [0.22, 1, 0.36, 1], times: [0, 0.58, 0.8, 1] });
     } else {
@@ -1060,15 +1042,13 @@ export class ThomSceneController {
   }
 
   private settleBaseForGlyph(glyph: ThomGlyph) {
-    Object.assign(this.state, { pi: 1, h: 1, o: 1, m: 1 });
+    Object.assign(this.state, { pi: 1, h: 1, hSpiral: 1, o: 1, m: 1 });
     if (glyph !== "t") Object.assign(this.state, { piGuide: 0, piOrbit: 1 });
     if (glyph !== "o") this.state.oAlt = 0;
     if (glyph !== "m") this.state.mSeparate = 0;
   }
 
-  async ready() {
-    await this.assetReady;
-  }
+  async ready() {}
 
   renderOnce(force = false) {
     if (!this.visible && !force) return;
@@ -1077,8 +1057,8 @@ export class ThomSceneController {
   }
 
   dispose() {
-    this.disposed = true;
     this.animationGeneration += 1;
+    this.activeReplay = null;
     this.controls.forEach((control) => control.stop());
     this.renderer.setAnimationLoop(null);
     this.canvas.dataset.renderLoop = "stopped";

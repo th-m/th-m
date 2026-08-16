@@ -3,7 +3,6 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 import { PNG } from "pngjs";
-import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import {
   createBrandData,
@@ -14,21 +13,21 @@ import {
   fourierPartialBezier,
   generateChordNetwork,
   generateFourier,
+  generateGoldenSpiral,
   GOLDEN_RATIO,
   H_ANIMATION,
   H_COLUMN_MATERIAL,
   H_ISOLATED_VIEW,
   H_MATERIAL,
-  H_PHI_STRATEGIES,
-  H_PHI_STRATEGY,
   H_PILLAR_CENTERS,
   H_PILLAR_SHAPE,
   H_PROPORTION,
   H_RATIO_POINT_MATERIAL,
+  H_SPIRAL,
   H_STROKE_WORLD_PER_PIXEL,
   H_UNIT_BRACE,
   hStrokeWorldWidth,
-  hAnimationWeights,
+  hSpiralFrame,
   M_ANIMATION,
   M_SPATIAL_ADJUSTMENT,
   M_WEBGL_CORE_PARITY_SCALE,
@@ -36,6 +35,7 @@ import {
   MASTER,
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
+  OPTICAL_PLACEMENT_X,
   O_RADIUS,
   O_RADIUS_SCALE,
   PI_ANIMATION,
@@ -154,24 +154,35 @@ describe("THOM geometry", () => {
     expect(h).not.toHaveProperty("midpoint");
   });
 
-  it("crossfades phi into the H between 220 and 920 ms without overshoot", () => {
+  it("traces a bounded logarithmic golden spiral and resolves between 220 and 1220 ms", () => {
     expect(H_ANIMATION.delayMs).toBe(220);
     expect(H_ANIMATION.delayMs + H_ANIMATION.durationMs).toBe(H_ANIMATION.endMs);
-    expect(H_ANIMATION.durationMs).toBe(700);
-    expect(H_ANIMATION.endMs).toBe(920);
-    expect(H_ANIMATION.phiFadeInEnd).toBeLessThan(H_ANIMATION.phiHoldEnd);
-    expect(H_ANIMATION.phiHoldEnd).toBeLessThan(H_ANIMATION.crossfadeEnd);
-    expect(H_PHI_STRATEGY).toBe("material");
-    expect(H_PHI_STRATEGIES.enlarged.plane).toEqual({ width: 59, height: 90, centerX: 51.42, centerY: 60 });
-    expect(H_PHI_STRATEGIES.material).toEqual({
-      plane: { width: 42, height: 64, centerX: 50.71, centerY: 60 },
-      coreOpacity: 1,
-      halo: { width: 50, height: 72, opacity: 0.717 },
+    expect(H_ANIMATION.durationMs).toBe(1000);
+    expect(H_ANIMATION.endMs).toBe(1220);
+    expect(H_ANIMATION.revealEnd).toBeLessThan(H_ANIMATION.traceEnd);
+    expect(H_ANIMATION.traceEnd).toBeLessThan(H_ANIMATION.holdEnd);
+    expect(H_ANIMATION.holdEnd).toBeLessThan(H_ANIMATION.fadeEnd);
+    expect(H_SPIRAL).toMatchObject({ turns: 2.25, quarterTurns: 9, finalRadius: 32, segments: 180 });
+
+    const points = generateGoldenSpiral();
+    expect(points).toHaveLength(H_SPIRAL.segments + 1);
+    expect(points[0]).toEqual({ x: H_PROPORTION.splitX, y: H_PROPORTION.y });
+    const radii = points.map((point) => Math.hypot(point.x - H_PROPORTION.splitX, point.y - H_PROPORTION.y));
+    radii.slice(2).forEach((radius, index) => expect(radius).toBeGreaterThan(radii[index + 1]));
+    const quarterTurnRadii = Array.from({ length: H_SPIRAL.quarterTurns }, (_, index) => radii[(index + 1) * H_SPIRAL.segments / H_SPIRAL.quarterTurns]);
+    quarterTurnRadii.slice(1).forEach((radius, index) => expect(radius / quarterTurnRadii[index]).toBeCloseTo(GOLDEN_RATIO, 6));
+    expect(quarterTurnRadii.at(-1)).toBeCloseTo(H_SPIRAL.finalRadius, 10);
+    points.forEach((point) => {
+      expect(point.x).toBeGreaterThanOrEqual(22.228);
+      expect(point.x).toBeLessThanOrEqual(77.772);
+      expect(point.y).toBeGreaterThanOrEqual(15);
+      expect(point.y).toBeLessThanOrEqual(104);
     });
-    expect(hAnimationWeights(H_ANIMATION.phiHoldEnd, "material")).toEqual({ phi: 1, h: 0 });
-    const midpoint = hAnimationWeights((H_ANIMATION.phiHoldEnd + H_ANIMATION.crossfadeEnd) / 2, "material");
-    expect(midpoint.phi + midpoint.h).toBeCloseTo(1, 12);
-    expect(hAnimationWeights(H_ANIMATION.crossfadeEnd, "material")).toEqual({ phi: 0, h: 1 });
+
+    expect(hSpiralFrame(0)).toMatchObject({ phase: "spiral-trace", trace: 0, ratioPointOpacity: 0 });
+    expect(hSpiralFrame(H_ANIMATION.traceEnd)).toMatchObject({ phase: "shell-hold", trace: 1, shellOpacity: 1 });
+    expect(hSpiralFrame(H_ANIMATION.holdEnd)).toMatchObject({ phase: "shell-fade", trace: 1, shellOpacity: 1 });
+    expect(hSpiralFrame(1)).toMatchObject({ phase: "settled", shellOpacity: 0, tracerOpacity: 0, ratioPointOpacity: 1 });
   });
 
   it("keeps the H proportion lines layered with equal-energy crossbar segments and quieter annotations", () => {
@@ -372,13 +383,14 @@ describe("THOM geometry", () => {
       .update(readFileSync(glyphUrl))
       .digest("hex");
     const dataHash = createHash("sha256").update(JSON.stringify(brandData.m)).digest("hex");
-    expect(glyphHash).toBe("a945ef6c7f386565ae0b528c1d07269853083fb34ad37bf77080ab38771f518e");
+    expect(glyphHash).toBe("10b234a336c53956e4471b17f1eab1aff6459f6850893edbb2178da5609cee3e");
     expect(dataHash).toBe("7ad2c0b82a5cad31dd39745f322eace22b25819d7ba5e77ce542855b72ca896d");
   });
 
   it("renders the display H in its reference-calibrated isolated frame while keeping compact output ghost-free", () => {
     const display = renderGlyphSvg(brandData, "h");
-    const compact = renderGlyphSvg(brandData, "h", "dark", true);
+    const compact = renderGlyphSvg(brandData, "h", "dark", "compact");
+    const micro = renderGlyphSvg(brandData, "h", "dark", "micro");
     expect(display).toContain(`viewBox="${H_ISOLATED_VIEW.x} ${H_ISOLATED_VIEW.y} ${H_ISOLATED_VIEW.width} ${H_ISOLATED_VIEW.height}"`);
     expect(display).toContain(`transform="scale(${H_ISOLATED_VIEW.scaleX} 1)"`);
     expect(display).toContain('id="thom-h-metal"');
@@ -393,19 +405,13 @@ describe("THOM geometry", () => {
     expect(display.match(/<polyline/g)).toHaveLength(18);
     expect(compact).not.toContain("thom-fill-glow");
     expect(compact).not.toContain("stroke-dasharray");
-    expect(compact).toContain('data-h-part="ratio-point"');
-    expect(compact.match(/<ellipse/g)).toHaveLength(1);
-    expect(compact).toContain('data-h-part="unit-brace"');
-    expect(compact.match(/<polyline/g)).toHaveLength(6);
-  });
-
-  it("commits a transparent deterministic phi texture derived from the supplied reference", async () => {
-    const asset = readFileSync(resolve(process.cwd(), "public/brand/h-phi.png"));
-    const metadata = await sharp(asset).metadata();
-    const stats = await sharp(asset).ensureAlpha().stats();
-    expect(metadata).toMatchObject({ width: 216, height: 256, channels: 4 });
-    expect(stats.channels[3].min).toBe(0);
-    expect(stats.channels[3].max).toBe(255);
+    expect(compact).not.toContain('data-h-part="ratio-point"');
+    expect(compact).not.toContain('data-h-part="unit-brace"');
+    expect(compact).not.toContain("tick-");
+    expect(compact.match(/<polyline/g)).toHaveLength(2);
+    expect(micro).toContain('data-h-part="crossbar"');
+    expect(micro).not.toContain('data-h-part="a"');
+    expect(micro.match(/<polyline/g)).toHaveLength(1);
   });
 
   it("pins the canonical 460 × 120 master transforms and optical spacing rhythm", () => {
@@ -413,17 +419,22 @@ describe("THOM geometry", () => {
     expect(MASTER).toEqual({ width: 460, height: 120 });
     expect(data.placements).toEqual({
       t: { x: 22, y: -0.222, scaleX: 0.86, scaleY: 1.03, width: 86 },
-      h: { x: 98.975, y: 0, scaleX: 1, scaleY: 1, width: 69 },
-      o: { x: 185.625, y: -8.4, scaleX: 0.88, scaleY: 1.14, width: 77 },
+      h: { x: 98.475, y: 0, scaleX: 1, scaleY: 1, width: 69 },
+      o: { x: 182.5, y: -8.4, scaleX: 0.88, scaleY: 1.14, width: 77 },
       m: { x: 274.6, y: -26.7, scaleX: 1, scaleY: 1.49, width: 121 },
+    });
+    expect(OPTICAL_PLACEMENT_X).toEqual({
+      display: { t: 0, h: 0, o: 0, m: 0 },
+      compact: { t: 0, h: -0.85, o: -1.475, m: 0 },
+      micro: { t: 0, h: -0.95, o: -1.675, m: 0 },
     });
     const visibleEdges = {
       tLeft: data.placements.t.x + 2 * data.placements.t.scaleX,
       tRight: data.placements.t.x + 99 * data.placements.t.scaleX,
       hLeft: data.placements.h.x + 22.228,
       hRight: data.placements.h.x + 77.772,
-      oLeft: 193.125,
-      oRight: 266.125,
+      oLeft: 190,
+      oRight: 263,
       mLeft: data.placements.m.x + 2 * data.placements.m.scaleX,
       mRight: data.placements.m.x + 98 * data.placements.m.scaleX,
     };
@@ -432,10 +443,10 @@ describe("THOM geometry", () => {
       visibleEdges.oLeft - visibleEdges.hRight,
       visibleEdges.mLeft - visibleEdges.oRight,
     ];
-    expect(gaps[0]).toBeCloseTo(14.063, 3);
-    expect(gaps[1]).toBeCloseTo(16.378, 3);
-    expect(gaps[2]).toBeCloseTo(10.475, 3);
-    expect(gaps.every((gap) => gap > 10)).toBe(true);
+    expect(gaps[0]).toBeCloseTo(13.563, 3);
+    expect(gaps[1]).toBeCloseTo(13.753, 3);
+    expect(gaps[2]).toBeCloseTo(13.6, 3);
+    expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(0.2);
     expect(data.h.proportion.aLength / data.h.proportion.bLength).toBeCloseTo(GOLDEN_RATIO, 10);
   });
 
@@ -445,13 +456,22 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("33a166f4176e3eae2c6f799ca794cf7ee328dd30b7946b11e891cb978c1efce9");
+    expect(hash).toBe("bdf16574f961a4cfbfcf3bf304d15fa8fa937a6529a4cdf23f8aaf3eee7f295b");
     expect(first).toContain("<title id=\"title\">THOM</title>");
     expect(first).toContain('viewBox="0 0 460 120"');
     expect(first).toContain('id="thom-metal"');
     expect(first).toContain("<path");
     expect(first).not.toContain("font-family");
     expect(first).not.toContain("non-scaling-stroke");
+  });
+
+  it("keeps isolated T and O SVG frames in placement parity with WebGL", () => {
+    const t = renderGlyphSvg(brandData, "t");
+    const o = renderGlyphSvg(brandData, "o");
+    expect(t).toContain('viewBox="-10 0 120 120"');
+    expect(t).toContain('transform="translate(0 -0.222) scale(0.86 1.03)"');
+    expect(o).toContain('viewBox="-16 0 120 120"');
+    expect(o).toContain('transform="translate(0 -8.4) scale(0.88 1.14)"');
   });
 
   it("keeps the generated monochrome wordmark in raster parity with the canonical typography master", () => {
@@ -471,12 +491,12 @@ describe("THOM geometry", () => {
     const assetUrls = [
       "../public/brand/avatar.svg",
       "../public/brand/favicon.svg",
-      "../public/brand/h-phi.png",
       "../public/brand/glyph-h.svg",
       "../public/brand/glyph-m.svg",
       "../public/brand/glyph-o.svg",
       "../public/brand/glyph-t.svg",
       "../public/brand/thom-compact.svg",
+      "../public/brand/thom-micro.svg",
       "../public/brand/thom-light.svg",
       "../public/brand/thom-master.svg",
       "../public/brand/thom-monochrome.svg",
@@ -486,6 +506,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("f66688018be7ee62d119e76e0c48ea504f6de3ed28809af7af26e07b5e54d58f");
+    expect(hash.digest("hex")).toBe("a29d8d7633da3057798e5ed41eea7b84f760e7fd10dff857c63db2123824a5c7");
   });
 });

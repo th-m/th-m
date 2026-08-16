@@ -15,7 +15,8 @@ const generatedDataUrl = new URL("../../src/brand/thom/generated/brand-data.json
 
 const assets = new Map<string, string>([
   ["thom-master.svg", renderLogoSvg(data)],
-  ["thom-compact.svg", renderLogoSvg(data, "dark", true)],
+  ["thom-compact.svg", renderLogoSvg(data, "dark", "compact")],
+  ["thom-micro.svg", renderLogoSvg(data, "dark", "micro")],
   ["thom-light.svg", renderLogoSvg(data, "light")],
   ["thom-monochrome.svg", renderLogoSvg(data, "monochrome")],
   ["favicon.svg", renderFaviconSvg(data)],

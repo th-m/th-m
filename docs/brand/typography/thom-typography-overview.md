@@ -1,5 +1,5 @@
 <div class="cover">
-  <div class="cover-kicker">CANONICAL GEOMETRY · VERSION 1.0</div>
+  <div class="cover-kicker">CANONICAL GEOMETRY · VERSION 1.1</div>
   <h1>THOM Typography Specification</h1>
   <p class="cover-subtitle">Construction, optical alignment, measurement, and SVG → Three.js translation</p>
   <img class="cover-logo" src="thom-canonical.svg" alt="Canonical THOM wordmark">
@@ -14,12 +14,15 @@ The wordmark occupies a **460 × 120 master-unit artboard**. The former 460 × 1
 
 > **Typographic rule.** The baseline is the nominal alignment datum, not necessarily the lowest visible pixel. Filled contours, stroked centerlines, and round caps must be measured separately.
 
+> **Evidence rule.** Geometry and accessibility constraints eliminate known defects; they do not prove universal beauty. The H’s golden-ratio division is an identity narrative and testable design prior, not a psychophysical optimum.
+
 | Authority | Canonical source | Rule |
 |---|---|---|
 | Shape and placement | `docs/brand/typography/thom-canonical.svg` | Governs glyph outlines, construction, relative scale, and spacing. |
 | Numeric geometry | `docs/brand/typography/thom-typography-metrics.json` | Governs lines, frames, bounds, overshoot, grid coordinates, and conversion constants. |
 | Color and materials | `src/brand/thom/geometry.ts` | Preserve the existing palette, metallic ramps, glow, stroke stacks, and source-energy compensation. |
 | Motion and WebGL behavior | `src/brand/thom/threeScene.ts` and generated brand data | Preserve timing, reveal order, animated construction, and material behavior during migration. |
+| Optical profiles | `src/brand/thom/opticalProfile.ts` and `src/brand/thom/svg.ts` | Select display, compact, or micro detail from rendered size while preserving the canonical silhouettes. |
 
 <div class="page-break"></div>
 
@@ -56,8 +59,8 @@ Bounds are listed as **left, top, right, bottom** in master coordinates. “Geom
 | Glyph | Design frame | Geometric bounds | Visible-ink bounds | Upper ink overshoot | Lower ink overshoot |
 |---|---|---|---|---:|---:|
 | T | 20–106 | 23.72, 8.28, 107.14, 104.00 | 23.75, 8.30, 107.15, 104.00 | 6.70 | 0.00 |
-| H | 114–183 | 121.20, 15.00, 176.75, 104.00 | 121.33, 15.00, 176.63, 104.00 | 0.00 | 0.00 |
-| O | 191–268 | 193.39, 11.74, 266.00, 105.98 | 193.13, 11.60, 266.13, 106.15 | 3.40 | 2.15 |
+| H | 113.5–182.5 | 120.70, 15.00, 176.25, 104.00 | 120.83, 15.00, 176.13, 104.00 | 0.00 | 0.00 |
+| O | 187.875–264.875 | 190.26, 11.74, 262.87, 105.98 | 190.00, 11.60, 263.00, 106.15 | 3.40 | 2.15 |
 | M | 275–396 | 276.60, 11.77, 372.60, 108.61 | 276.35, 14.70, 372.85, 104.70 | 0.30 | 0.70 |
 
 ## T — three independent filled contours
@@ -69,6 +72,10 @@ The T is built from **top-bar**, **left-pillar**, and **right-pillar** contours.
 - Construction-axis stem width: **3.3004u**.
 - Cap/baseline terminal width: **11.5440u**.
 - Local pillar centers after the audit adjustment: **28u** and **72u**.
+
+### H motion contract
+
+The display H uses one procedural, clockwise logarithmic golden spiral centered on the golden-ratio division point. Its radius grows by **φ per quarter turn**, completes **2.25 turns** at a **32u** radius, and remains behind the H construction. The 1000 ms sequence traces through 680 ms, holds through 820 ms, then fades to the unchanged settled H. Page load and direct H interaction share this geometry and timing. Pointer exit never cancels an active trace; reduced motion skips it.
 
 ## O — centerline versus rim
 
@@ -91,19 +98,19 @@ The design frame is the nominal placement/advance region. The ink box is the act
 
 | Pair | Visible-ink gap |
 |---|---:|
-| T–H | 14.1750u |
-| H–O | 16.5000u |
-| O–M | 10.2250u |
+| T–H | 13.6750u |
+| H–O | 13.8750u |
+| O–M | 13.3500u |
 
-These unequal numeric gaps are intentional. The roof terminal, vertical H, circular O, and open waveform M create different edge energy; spacing is optically balanced rather than mechanically equalized.
+The three gaps remain optically—not mechanically—defined, but now cluster within **0.5250u**. Their near-equality is a calibrated prior to be validated in use, not a claim that equal spacing is universally preferred.
 
 ## Placement transforms
 
 | Glyph | Master transform | Design frame |
 |---|---|---|
 | T | translate(22, −0.222) · scale(0.86, 1.03) | 20–106 |
-| H | translate(98.975, 0); local pillar scale x = 0.74 | 114–183 |
-| O | translate(185.625, −8.4) · scale(0.88, 1.14) | 191–268 |
+| H | translate(98.475, 0); local pillar scale x = 0.74 | 113.5–182.5 |
+| O | translate(182.5, −8.4) · scale(0.88, 1.14) | 187.875–264.875 |
 | M | translate(274.6, −26.7) · scale(1, 1.49) | 275–396 |
 
 <div class="page-break"></div>
@@ -189,6 +196,24 @@ const offsetY = (viewportHeight - 120 * scale) / 2;
 
 Never fit the complete wordmark with independent X and Y scales. Glyph-specific transforms already belong to the canonical construction and must not be reinterpreted as responsive distortion.
 
+## Optical profiles
+
+Profile selection uses the **rendered wordmark width**, not a device category or component name. The React component observes its actual inline size when `opticalProfile="auto"`; callers may pin a profile for exports or controlled comparisons.
+
+| Profile | Rendered width | Treatment |
+|---|---:|---|
+| Display | > 300px | Full luminous construction, golden-ratio annotations, canonical O network, and layered M. |
+| Compact | 121–300px | Stronger H stems, quiet continuous a/b crossbar, compact O network, and single compact M contour. |
+| Micro | ≤ 120px | Continuous H crossbar without φ ticks/brace/point, seven O chords without nodes, and a strengthened M contour. |
+
+Compact and micro assets apply small X-only spacing corrections recorded in the metrics contract. They never distort glyph geometry. The golden-ratio construction remains available in the display mark and procedural spiral animation, but it does not compete with letter recognition in utility sizes.
+
+## Perceptual validation protocol
+
+The golden-ratio split remains an **unvalidated design prior**. Before making a preference claim, compare blinded display variants at 1:1, φ:1, and 2:1 while holding pillars, total crossbar span, stroke energy, and wordmark spacing constant. Randomize order and record THOM recognition, perceived balance, forced-choice preference, and response confidence.
+
+Repeat the recognition check at 184px compact and 92px micro sizes. Those profiles intentionally suppress ratio annotations, so the small-size question is legibility and identity survival—not whether viewers can recover φ from the rendered pixels. Report sample, context, uncertainty, and null results alongside any winner.
+
 ## Raster export examples
 
 | Target width | Uniform scale | Output height |
@@ -268,7 +293,7 @@ The former 416 × 120 scene is a compatibility viewport, not the geometry master
 - Metallic color ramps and light/dark/monochrome themes.
 - Source-energy compensation and display stroke conversions.
 - T rim, O perimeter/chord/node materials, H proportion construction, and M layered stroke materials.
-- Animation timing, reveal ordering, H φ transition, O network stages, and M Fourier buildup.
+- Animation timing, reveal ordering, H logarithmic golden-spiral trace, O network stages, and M Fourier buildup.
 - Responsive orthographic-camera behavior, adjusted to a 460 × 120 canonical base.
 
 ## Replace during a future production migration
@@ -285,6 +310,9 @@ The former 416 × 120 scene is a compatibility viewport, not the geometry master
 4. Confirm the 460 × 120 camera displays the canonical wordmark without cropping or anisotropic scaling.
 5. Re-run the T grid measurements after any contour edit; do not copy old width tables forward.
 6. Preserve color/material/motion sources until a separate migration explicitly supersedes them.
+7. At widths of 92px, 184px, and 460px, verify the selected micro, compact, and display profiles respectively; every glyph must retain a high-contrast recognizable core.
+8. Confirm compact and micro H output omits the ratio point, ticks, and brace while the display H retains them and the procedural spiral remains display-only.
+9. Do not describe the φ split as preferred until the blinded comparison protocol is run and reported; exact geometry alone is not preference evidence.
 
 ---
 

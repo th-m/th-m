@@ -1,5 +1,7 @@
 # THOM Logo Balance Decision Record
 
+> **Motion supersession — 2026-08-16.** The settled balance decisions below remain historical evidence, but the material φ plane and normalized crossfade have been replaced by the canonical procedural logarithmic golden spiral documented in `design-qa.md` and the `golden-spiral` audit. The new motion passes 41/41 gates with a `1.045716×` peak-energy ratio, `0.276728u` centroid drift, exact φ quarter-turn growth, and a final frame identical to the settled H.
+
 ## Outcome
 
 The synthesized THOM wordmark passes all `28/28` deterministic balance gates at
