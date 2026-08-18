@@ -1,0 +1,19 @@
+# Libraries
+
+## Purpose
+
+`libs/` contains reusable, non-deployable capabilities shared by apps and
+tools.
+
+## Ontology
+
+A library has a typed public API and no independently started runtime. Design
+tokens live in `design-theme`; reusable verification support lives in
+`testing`.
+
+## Key Terms
+
+- **Public API:** the exports consumers may depend on.
+- **Design foundation:** shared visual tokens without product-specific layout.
+- **Testing support:** reusable fixtures and configuration, not owner-specific
+  product expectations.
