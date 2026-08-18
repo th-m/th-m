@@ -1,0 +1,34 @@
+{
+  "name": "@th-m/testing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./playwright": "./src/playwright.ts",
+    "./vitest-setup": "./src/vitest-setup.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@playwright/test": "latest",
+    "@testing-library/jest-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "6.0.2",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "testing",
+    "sourceRoot": "libs/testing/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:development", "domain:testing"],
+    "targets": {
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}

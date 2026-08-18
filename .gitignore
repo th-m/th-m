@@ -1,8 +1,12 @@
 node_modules/
+.nx/
+.netlify/
 dist/
 dist-graph/
 dist-sets/
+coverage/
 test-results/
 playwright-report/
+apps/portfolio/public/_content/
 *.tsbuildinfo
 .DS_Store

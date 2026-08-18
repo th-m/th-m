@@ -1,0 +1,51 @@
+{
+  "name": "@th-m/set-theory",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --host 127.0.0.1 --port 5191 --strictPort --open /",
+    "gen": "bun run src/cli.ts",
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run --config vite.config.ts",
+    "e2e": "playwright test --config playwright.config.ts"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.10.4",
+    "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/state": "^6.7.1",
+    "@codemirror/view": "^6.43.8",
+    "@fontsource-variable/newsreader": "latest",
+    "@fontsource/ibm-plex-mono": "latest",
+    "@th-m/design-theme": "workspace:*",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "7.0.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "latest",
+    "@resvg/resvg-js": "latest",
+    "@th-m/testing": "workspace:*",
+    "@testing-library/jest-dom": "latest",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "set-theory",
+    "sourceRoot": "tools/set-theory/src",
+    "projectType": "application",
+    "tags": ["kind:tool", "runtime:web", "domain:set-theory"],
+    "targets": {
+      "start": { "outputs": [] },
+      "gen": { "outputs": [] },
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] },
+      "e2e": { "outputs": [] }
+    }
+  }
+}

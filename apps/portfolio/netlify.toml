@@ -1,0 +1,20 @@
+[build]
+  command = "bun run nx run portfolio:publish"
+  publish = "apps/portfolio/dist/client"
+
+[build.environment]
+  BUN_VERSION = "1.3.14"
+  BUN_FLAGS = "--frozen-lockfile"
+  NODE_VERSION = "24"
+
+[dev]
+  command = "bun run nx run portfolio:start"
+  framework = "#custom"
+  targetPort = 5173
+  port = 8888
+
+[[redirects]]
+  from = "/*"
+  to = "/_shell.html"
+  status = 200
+  force = false

@@ -8,17 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "ea8dd30522da7232",
+            "id": "91b03bb627e84326",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "blogs/your-soulless-clanker-will-never-discover-opportunity/outline.md",
+                "file": "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "outline"
+              "title": "Human abilities AI Cannot approach"
             }
           }
         ]
@@ -83,7 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 541.08203125
   },
   "right": {
     "id": "d298d89e82ea33b0",
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "blogs/your-soulless-clanker-will-never-discover-opportunity/outline.md",
+                "file": "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "blogs/your-soulless-clanker-will-never-discover-opportunity/outline.md",
+                "file": "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "blogs/your-soulless-clanker-will-never-discover-opportunity/outline.md",
+                "file": "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,34 +188,53 @@
       "bases:Create new base": false
     }
   },
-  "active": "ea8dd30522da7232",
+  "active": "91b03bb627e84326",
   "lastOpenFiles": [
-    "blogs/your-soulless-clanker-will-never-discover-opportunity/notes/qualia-opportunity-spaces-ai-and-humans.md",
-    "blogs/your-soulless-clanker-will-never-discover-opportunity/notes/michael-levin-human-partiality.md",
-    "scripts/brand/hPhiAsset.ts",
-    "public/brand/h-phi.png",
-    "test-results/e2e-site-keeps-the-settled-370cd-try-in-SVG-and-WebGL-parity-desktop",
-    "test-results/e2e-site-reveals-the-O-fro-07d07-ps-settled-SVG-WebGL-parity-desktop",
-    "test-results/e2e-site-keeps-the-settled-4acde-arity-after-keyboard-replay-desktop",
-    "test-results/e2e-site-traces-the-isolat-0bbed--and-keeps-SVG-WebGL-parity-desktop",
-    "test-results/e2e-site-keeps-the-H-cross-1c23d-d-bounded-across-hero-sizes-desktop",
-    "test-results/e2e-site-keeps-the-O-netwo-af62a-all-and-large-screen-scales-desktop",
-    "test-results/e2e-site-keeps-the-settled-4acde-arity-after-keyboard-replay-desktop/trace.zip",
-    "test-results/e2e-site-keeps-the-settled-4acde-arity-after-keyboard-replay-desktop/error-context.md",
-    "test-results",
-    "test-results/e2e-site-runs-the-H-golden-3004b-art-or-pointer-cancellation-desktop/trace.zip",
-    "test-results/e2e-site-runs-the-H-golden-3004b-art-or-pointer-cancellation-desktop/error-context.md",
-    "dist/assets/thom-typography-overview-BZTlfmsz.md",
-    "dist/assets/thom-typography-overview-C30GK684.md",
-    "test-results/e2e-site-traces-the-isolat-0bbed--and-keeps-SVG-WebGL-parity-desktop/error-context.md",
-    "test-results/e2e-site-keeps-the-H-cross-9848f-on-stable-across-hero-sizes-desktop/error-context.md",
-    "test-results/e2e-site-reveals-the-O-fro-07d07-ps-settled-SVG-WebGL-parity-desktop/error-context.md",
-    "test-results/e2e-site-supports-keyboard-79d9a-ious-accessibility-findings-mobile/error-context.md",
-    "dist/assets/thom-typography-overview-DiIzEBWr.md",
-    "dist/assets/thom-canonical-RvZxVx17.svg",
-    "dist/assets/01-vertical-metrics-BGGoK4ah.svg",
-    "dist/brand/thom-micro.svg",
-    "public/brand/thom-micro.svg",
-    "blogs/your-soulless-clanker-will-never-discover-opportunity/notes/phenomenal-consciousness-and-artificial-consciousness.md"
+    "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/notes/formal-human-ai-reasoning-comparison.md",
+    "apps/portfolio/dist/client/_shell.html",
+    "apps/portfolio/dist/client/writing/index.html",
+    "apps/portfolio/dist/client/writing",
+    "apps/portfolio/dist/client/index.html",
+    "apps/portfolio/dist/client/assets/wght-xKv10YAh.css",
+    "apps/portfolio/dist/client/assets/wght-BFPNgCUJ.css",
+    "apps/portfolio/dist/client/assets/thom-typography-overview-Z-8v61iZ.pdf",
+    "apps/portfolio/dist/client/assets/thom-typography-overview-BZTlfmsz.md",
+    "apps/portfolio/dist/client/assets/thom-typography-metrics-B2ci0o2f.json",
+    "apps/portfolio/dist/client/assets/thom-canonical-RvZxVx17.svg",
+    "apps/portfolio/dist/client/assets/styles-ycdKPmfZ.css",
+    "apps/portfolio/dist/client/assets/newsreader-vietnamese-wght-normal-Czsa-EzN.woff2",
+    "apps/portfolio/dist/client/assets/01-vertical-metrics-BGGoK4ah.svg",
+    "apps/portfolio/dist/client/brand-logo-idea.png",
+    "apps/portfolio/dist/client/brand-audit/responsive-o-source-small.png",
+    "apps/portfolio/dist/client/brand-audit/responsive-o-source-large.png",
+    "apps/portfolio/dist/client/brand-audit/responsive-o-source-diff.png",
+    "apps/portfolio/dist/client/brand-audit/responsive-o-current-small.png",
+    "apps/portfolio/dist/client/brand-audit/responsive-o-current-large.png",
+    "apps/portfolio/dist/client/brand-audit/responsive-o-current-diff.png",
+    "apps/portfolio/dist/client/brand-audit/responsive-o-current-668-hero.png",
+    "apps/portfolio/dist/client/brand-audit/audit/README.md",
+    "apps/portfolio/dist/client/brand-audit/audit/AGENTS.md",
+    "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/notes/ai-innovation-details.md",
+    "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/notes/backup table.md",
+    "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
+    "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/outline.md",
+    "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/notes/research-conclusion-cognitive-loop.md",
+    "apps/portfolio/dist/assets/thom-typography-overview-BZTlfmsz.md",
+    "apps/portfolio/dist/brand-audit/audit/README.md",
+    "apps/portfolio/dist/brand-audit/audit/AGENTS.md",
+    "apps/portfolio/public/brand-audit/audit/AGENTS.md",
+    "apps/blogs/ai-knows-propositions-humans-navigate-relationships/assets/AGENTS.md",
+    "tools/set-theory/AGENTS.md",
+    "tools/set-theory/README.md",
+    "tools/graph/AGENTS.md",
+    "tools/graph/README.md",
+    "libs/testing/AGENTS.md",
+    "libs/testing/README.md",
+    "libs/design-theme/AGENTS.md",
+    "libs/design-theme/README.md",
+    "apps/blogs/AGENTS.md",
+    "apps/portfolio/AGENTS.md",
+    "netlify/TODO.md",
+    "netlify/AGENTS.md"
   ]
 }

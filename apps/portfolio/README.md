@@ -1,0 +1,108 @@
+# Thomas Valadez
+
+## Purpose
+
+This TanStack Start app publishes the personal portfolio and integrated writing
+routes: Thomas Valadez's profile, essays, public artifacts, design references,
+and the THOM brand experience. Run
+`bun run nx run portfolio:start` locally and `bun run nx run portfolio:publish`
+to create its local `dist/` artifact.
+
+## Ontology
+
+The portfolio app owns the public route shell, its brand geometry and generated
+brand assets, portfolio-specific documentation, and visual evidence. Published
+blog content remains owned by `apps/blogs` and is staged as an immutable build
+input. Brand source is implementation; generated files are reproducible
+artifacts; audit captures are evidence rather than runtime authority.
+
+## Key Terms
+
+- **Portfolio:** the independently publishable personal profile site.
+- **Prerendered route:** build-time HTML that hydrates into the shared React
+  application.
+- **SPA shell:** the client-rendered fallback for routes without generated HTML.
+- **Writing route:** a React page derived only from an explicitly published
+  `article.md` artifact.
+- **Brand source:** typed geometry, rendering, and calibration inputs.
+- **Generated brand asset:** an SVG, PNG, or data file derived from brand source.
+- **Brand audit:** an explicit visual verification workflow outside the unit
+  test gate.
+
+## Routing and Publication
+
+- `/` renders the existing portfolio.
+- `/writing` lists published articles.
+- `/writing/:slug` renders a published Markdown article as hydrated React.
+- `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
+
+`portfolio:publish` generates brand assets, stages the public blog artifact,
+typechecks the route tree, builds `dist/client`, and verifies every manifest
+entry has corresponding static HTML and Markdown. Outlines, notes, and research
+are never staged into this app.
+
+I am interested in how software systems become understandable enough to change.
+
+Most of the engineering questions I return to live between product intent and system design: What is the real shape of the domain? Which boundaries are durable, and which ones are just artifacts of the current implementation?
+
+Where is complexity collecting? What would make the next change easier without over-designing for an imagined future?
+
+## Design Tool
+
+[Paper](https://paper.design/) is the specified design tool for this project. Use Paper for brand exploration, visual design, review, and design handoff instead of Figma.
+
+## Workspace Tools
+
+The proposition graph and TypeScript set atlas are independently owned local
+tools. See [`tools/graph`](../../tools/graph/README.md) and
+[`tools/set-theory`](../../tools/set-theory/README.md) for their authoring,
+generation, and verification commands; neither tool is included in this app's
+publish artifact.
+
+## Concepts Worth Knowing
+
+### Software Design
+
+- **[SOLID and dependency direction](https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design):** vocabulary for responsibility boundaries, extension, substitutability, interface size, and dependency inversion.
+- **[Tracer bullets, DRY, and orthogonality](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/):** ideas from *The Pragmatic Programmer* for learning through running systems, avoiding duplicated knowledge, and keeping decisions independently changeable.
+- **[Deep modules and information hiding](https://web.stanford.edu/~ouster/cgi-bin/book.php):** Ousterhout's frame for reducing cognitive load: simple interfaces that hide meaningful complexity.
+- **[Bounded contexts](https://martinfowler.com/bliki/BoundedContext.html):** service boundaries should follow domain language, ownership, and model boundaries rather than architecture fashion.
+- **[Martin Fowler's Bliki](https://martinfowler.com/bliki/):** field notes on architecture, refactoring, delivery, and the language engineers use to reason about change.
+- **[Refactoring.Guru](https://refactoring.guru/):** a practical catalog of refactoring techniques, code smells, and design patterns.
+- **[Famous laws of software development](https://www.timsommer.be/famous-laws-of-software-development/):** a compact index of named heuristics like Brooks's Law, Hofstadter's Law, Conway's Law, Postel's Law, and Knuth's optimization principle.
+- **[AI-ready codebases](https://wearehypercube.com/ready-for-ai-preparing-your-codebase-for-assistants/):** strong names, local context, types, tests, and explicit boundaries make code easier for people and tools to navigate.
+
+### Delivery, Operations, and Security
+
+- **[DORA delivery metrics](https://dora.dev/guides/dora-metrics/):** a way to inspect delivery as a system of throughput and instability, not just output.
+- **[Chaos engineering and resilience](https://cloud.google.com/blog/products/devops-sre/getting-started-with-chaos-engineering):** controlled failure experiments test whether systems behave the way teams believe they do.
+- **[The Twelve-Factor App](https://12factor.net/):** deployment and configuration principles for portable, service-oriented applications.
+- **[OWASP Cheat Sheet Series](https://owasp.org/www-project-cheat-sheets/):** practical security reference material for common application design and implementation decisions.
+
+### Product, UX, and Semantics
+
+- **[Laws of UX](https://lawsofux.com/):** a compact map of psychology, perception, cognitive load, and interaction patterns that shape how interfaces feel.
+- **[Atomic Design](https://atomicdesign.bradfrost.com/table-of-contents/):** a way to think about interfaces as nested systems, from small reusable parts to full product screens.
+- **[Good Services](https://good.services/15-principles-of-good-service-design):** service-design principles for making products work across discovery, expectations, handoffs, decisions, support, and real user outcomes. ([🔗 scale](https://good.services/the-good-services-scale))
+- **[Schema.org](https://schema.org/):** a shared vocabulary for structured data that makes entities, relationships, and actions easier for systems to understand.
+
+## Books and Operating Models
+
+- **[The 4 Disciplines of Execution](https://www.franklincovey.com/books/the-4-disciplines-of-execution/):** focus, lead measures, scoreboards, and accountability rhythms for making important work survive daily urgency.
+- **[Shape Up](https://basecamp.com/shapeup):** project shaping as a discipline: use time constraints as planning inputs, make bets, write pitches, and explore solutions through breadboards and rough wireframes.
+- **[Atomic Habits](https://jamesclear.com/atomic-habits):** small systems, environment design, and identity-based habits as a way to make change compound.
+- **[Multipliers](https://thewisemangroup.com/books/multipliers/):** leadership as the practice of increasing the intelligence, ownership, and capacity of the people around you.
+- **[The Infinite Game](https://simonsinek.com/books/the-infinite-game/):** long-horizon thinking, durable purpose, and playing to keep improving rather than simply to win the current round.
+
+## Current Focus
+
+Most current side-project energy is going into [soundsculpt.app](https://soundsculpt.app): exploring AI-assisted audio generation, creative tooling, and product workflows around prompt-driven media.
+
+## Public Artifacts
+
+Some are old, some are unfinished 😅. Most moonlight work goes to [soundsculpt.app](https://soundsculpt.app), and my day job gets my daylight work.
+
+- **[firebase-typed](https://github.com/th-m/firebase-typed):** TypeScript utility layer that adds type inference and safer ergonomics to Firebase realtime database access.
+- **[fullstack-code-gen](https://github.com/th-m/fullstack-code-gen):** Proto-driven generation pipeline for Go, GraphQL, OpenAPI, TypeScript, Dockerized generators, migrations, and typed database access.
+- **[gambit](https://github.com/th-m/gambit):** Realtime multiplayer game architecture with React Router, TypeScript, Supabase, Netlify, database migrations, and test coverage.
+- **[platonic-values](https://github.com/th-m/platonic-values):** An exploration of which values or "commodities" are fundamental: how virtues, principles, and character qualities might compose into an ontological map.

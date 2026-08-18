@@ -1,0 +1,25 @@
+{
+  "name": "@th-m/design-theme",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "6.0.2",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "design-theme",
+    "sourceRoot": "libs/design-theme/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:universal", "domain:design"],
+    "targets": {
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}
