@@ -2,7 +2,7 @@ import { mkdir, readFile, realpath, writeFile } from "node:fs/promises";
 import { basename, dirname, extname, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
-import { analyzeSetAtlas } from "./analyzer";
+import { analyzeSetAtlas } from "@th-m/knowledge-model";
 import { buildSetAtlasScene } from "./layout";
 import { createSetAtlasSvg, type EmbeddedSetAtlasFonts } from "./renderSvg";
 

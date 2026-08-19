@@ -19,9 +19,9 @@
     "@fontsource-variable/newsreader": "latest",
     "@fontsource/ibm-plex-mono": "latest",
     "@th-m/design-theme": "workspace:*",
+    "@th-m/knowledge-model": "workspace:*",
     "react": "latest",
-    "react-dom": "latest",
-    "typescript": "7.0.2"
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@playwright/test": "latest",

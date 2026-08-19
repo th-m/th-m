@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "first-knowledge-proof",
+  "title": "Semantic source → organized perspectives",
+  "description": "A native-versus-THOM comparison for systems, schema, and TypeScript knowledge.",
+  "sources": [
+    {
+      "id": "authentication-system",
+      "kind": "mermaid-flowchart",
+      "title": "Authentication and authorization topology",
+      "path": "tools/knowledge/fixtures/first-proof/authentication-topology.mmd",
+      "perspectives": ["native-mermaid", "system-topology", "phased-process"]
+    },
+    {
+      "id": "soundsculpt-database-schema",
+      "kind": "postgres-schema",
+      "title": "SoundSculpt Supabase public schema",
+      "path": "tools/knowledge/fixtures/first-proof/supabase-schema.sql",
+      "schemas": ["public"],
+      "perspectives": ["native-mermaid", "erd"]
+    },
+    {
+      "id": "soundsculpt-schema",
+      "kind": "typescript-workspace-snapshot",
+      "title": "SoundSculpt schema domain",
+      "path": "tools/knowledge/fixtures/soundsculpt-schema/model.json",
+      "selection": [
+        "GainEnvelope",
+        "FilterEnvelope",
+        "GainSwell",
+        "FilterSwell",
+        "Swell",
+        "LegacyDrumSet",
+        "DrumSet",
+        "SwellConfig",
+        "SwellPhraseConfig",
+        "TrackConfig"
+      ],
+      "perspectives": ["hierarchy", "dependency", "public-api", "set-atlas"]
+    }
+  ],
+  "reviewCriteria": [
+    "semantic fidelity",
+    "hierarchy and grouping",
+    "scan order",
+    "edge traceability",
+    "information density",
+    "aesthetic clarity"
+  ]
+}

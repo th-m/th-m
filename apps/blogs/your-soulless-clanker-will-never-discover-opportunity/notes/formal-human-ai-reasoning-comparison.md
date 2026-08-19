@@ -91,6 +91,121 @@ stronger than it is.
 | **Goal source** | Endogenous needs, affect, habits, curiosity, obligations, and externally assigned tasks. Not all human reasoning requires conscious motivation. | Initial objectives, execution conditions, permissions, and evaluation criteria are externally designed or delegated. A running system may derive instrumental subgoals. |
 | **Processing dynamics** | Biological electrical and chemical activity whose relation to reasoning and consciousness is incompletely understood. | Mathematically specified transformations followed, in an autoregressive LLM, by repeated calculation and decoding of token probabilities. |
 
+## Inference is a component of reasoning
+
+*Inference* and *reasoning* are used inconsistently across philosophy,
+psychology, and computer science. For this comparison, define inference
+minimally as a transition from premises or evidence to a conclusion.
+
+Let:
+
+- $P$ = the information treated as premises or evidence;
+- $c$ = a candidate conclusion;
+- $G$ = the goal or evaluative criterion governing a task;
+- $P\leadsto_x c$ = process $x$ produces $c$ from $P$; and
+- $P\models c$ = $c$ is a logical consequence of $P$.
+
+Both a human and an AI can perform an observable inferential transition:
+
+$$
+P\leadsto_H c
+$$
+
+$$
+P\leadsto_A c
+$$
+
+Producing a conclusion does not by itself establish that the conclusion is
+entailed, true, understood, or consciously experienced:
+
+$$
+(P\leadsto_x c)\nRightarrow(P\models c)
+$$
+
+$$
+(P\leadsto_x c)\nRightarrow c
+$$
+
+The first expression separates an actual transition from a *valid* inference;
+the second separates production from the *truth* of the conclusion. Humans and
+AI can each make valid or invalid inferences.
+
+For an autoregressive language model, a simplified inference pass is:
+
+$$
+Z=\operatorname{Encode}(P,K)
+$$
+
+$$
+t_i\sim p_\theta(t_i\mid Z,t_{<i})
+$$
+
+$$
+c=\operatorname{Decode}(t_1,\ldots,t_n)
+$$
+
+where $K$ is the supplied context and $t_i$ is the next generated token. This
+describes how an output is produced, not whether its propositions correspond
+to reality. Decoding can also be deterministic, so sampling is not essential
+to the distinction. A written chain of thought is generated output and need
+not be a complete or faithful record of the internal computation that caused
+the answer. Turpin et al. demonstrated instances of this mismatch in
+[chain-of-thought explanations](https://arxiv.org/abs/2305.04388); this is a
+warning against assuming universal faithfulness, not proof that every such
+trace is unfaithful.
+
+Reasoning is the broader, goal-conditioned organization of inference. One
+operational definition is:
+
+$$
+R_x(P,G,c):=F_x(P,G)\land
+\bigwedge_{i=1}^{n}(P_i\leadsto_x c_i)\land
+E_x(c_1,\ldots,c_n;G)\land S_x(c)
+$$
+
+where:
+
+- $F_x$ frames the problem and selects premises;
+- the middle term represents one or more inferential steps;
+- $E_x$ evaluates candidate conclusions against $G$; and
+- $S_x$ selects the resulting conclusion $c$.
+
+Under this functional definition, humans and suitably configured AI systems
+can both exhibit reasoning behavior. The definition does not establish that
+their physical processes, understanding, experience, goal sources, or
+responsibility are equivalent.
+
+| Dimension | Human reasoning | Current LLM or AI-system reasoning |
+| --- | --- | --- |
+| **Inferential transition** | Produces conclusions from perceived, remembered, imagined, or communicated information. | Produces conclusions from encoded inputs, learned parameters, supplied context, and optional tools. |
+| **Validity** | May be deductively valid, inductively strong, abductively useful, biased, or mistaken. | May be deductively valid, inductively useful, statistically plausible, hallucinated, or mistaken. |
+| **Framing** | Can select and revise a frame using embodied history, social learning, affect, and reflection. | Can compare and revise frames represented in its inputs or generated state, subject to its architecture, training, context, and permissions. |
+| **Goal source** | May reason from endogenous needs and chosen commitments as well as externally assigned goals. | Receives its governing objective and evaluation conditions from training and deployment; it may derive instrumental subgoals within them. |
+| **Meaning and experience** | Words and conclusions can connect to lived, perceptual, affective, and social experience. | Representations encode learned statistical relations; present behavior does not establish lived or conscious understanding. |
+| **Revision** | An episode can alter durable beliefs, skills, commitments, and future behavior, although human self-correction is fallible. | Context can be revised during a run; durable base-model change requires an additional storage, learning, or training mechanism. |
+| **Responsibility** | A human can be asked to justify premises, values, and actions and can bear epistemic or moral responsibility. | The system can supply evidence and analysis, but responsibility for objectives, reliance, and action remains with the humans and institutions deploying it. |
+
+The strategy boundary follows from the distinction between facts and values.
+Let $D$ be descriptive evidence and $N$ a normative premise. Descriptive data
+alone do not logically determine a goal:
+
+$$
+D\nmodels G
+$$
+
+A recommendation can follow only after some normative criterion is supplied:
+
+$$
+D\cup N\models G
+$$
+
+An AI can estimate consequences, test consistency, retrieve evidence, expose
+tradeoffs, and condition recommendations on an adopted goal. It cannot turn
+patterns in $D$ into authoritative values merely by making the inference more
+fluent or probable. Humans remain responsible for the goal stack: deciding
+which ends matter, which constraints are legitimate, and which risks are
+acceptable.
+
 ## Memory is not record retrieval
 
 Let:
@@ -363,12 +478,19 @@ reality.
    physical processes.
 2. Physical difference does not prove that they share no functions or
    algorithms.
-3. Human memory is not equivalent to AI retrieval from stored records.
-4. Human imagination and AI generation can both produce possibilities, while
+3. Inference is a premise-to-conclusion transition; reasoning additionally
+   frames, sequences, evaluates, and selects inferences relative to a goal.
+4. Humans and AI can both exhibit inferential and functional reasoning
+   behavior without thereby sharing physical mechanisms, lived understanding,
+   goal sources, or responsibility.
+5. Descriptive evidence alone cannot determine normative goals; AI can inform
+   strategy, but human agents remain responsible for the goal stack.
+6. Human memory is not equivalent to AI retrieval from stored records.
+7. Human imagination and AI generation can both produce possibilities, while
    differing in demonstrated awareness and in whether the episode durably
    updates the reasoner itself.
-5. Both human and AI prediction depend on encoded, incomplete information.
-6. Predictive compression is useful only when it preserves distinctions
+8. Both human and AI prediction depend on encoded, incomplete information.
+9. Predictive compression is useful only when it preserves distinctions
    relevant to the target.
-7. Neither statistical information nor predictive accuracy establishes truth,
+10. Neither statistical information nor predictive accuracy establishes truth,
    meaning, lived experience, or responsibility.

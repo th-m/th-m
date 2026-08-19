@@ -2,7 +2,7 @@ import { realpath } from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { isAbsolute, relative, resolve } from "node:path";
 import type { Plugin, PreviewServer, ViteDevServer } from "vite";
-import { analyzeSetAtlas } from "./analyzer.ts";
+import { analyzeSetAtlas } from "@th-m/knowledge-model";
 import type { AnalyzeError, AnalyzeRequest } from "./types.ts";
 
 const ANALYZE_PATH = "/__sets/analyze";

@@ -1,0 +1,43 @@
+flowchart TB
+    subgraph client["Client (external)"]
+        C[Browser / Desktop / Mobile]
+    end
+
+    subgraph cognito["Amazon Cognito (AWS-managed, Platform-configured)"]
+        UP[User Pool<br/>credentials, token issuance]
+        RISK[Compromised-credential<br/>risk config BLOCK]
+    end
+
+    subgraph platform["CX Platform (owned)"]
+        GW["API Gateway<br/>/token: public, no authorizer<br/>others: authz Lambda"]
+        CSTOK["customer-service<br/>/token, /token/refresh<br/>+ active-user gate"]
+        AUTHZ["authz Lambda<br/>validate JWT (embedded JWKS)<br/>+ pack X-MANGO-AUTHZ"]
+        CSAUTHZ["customer-service<br/>authz source of truth<br/>roles / PBX / tier by sub"]
+        CAT["customer-service-catalog<br/>exposes auth lib (mangoauthz)"]
+        SVCS["Downstream services<br/>decode header + per-op gates"]
+        CW[CloudWatch metrics]
+    end
+
+    IDP["Partner IdP (future)<br/>SAML/OIDC + upstream MFA"]
+
+    %% Phase 1 — token acquisition
+    C -->|1. username + password /token| GW
+    GW -->|2. passthrough no authorizer| CSTOK
+    CSTOK -->|3. ADMIN_USER_PASSWORD_AUTH| UP
+    UP -->|4. IdToken + RefreshToken| CSTOK
+    CSTOK -->|5. tokens via gateway| C
+    UP -.-> RISK
+    IDP -.->|future: broker| UP
+
+    %% Phase 2 — authorization
+    C -->|6. Bearer token API call| GW
+    GW -->|7. invoke authorizer| AUTHZ
+    AUTHZ -->|8. validate sig/iss/exp/aud| AUTHZ
+    AUTHZ -->|9. GET access by sub| CSAUTHZ
+    CSAUTHZ -->|10. roles/PBX/tier| AUTHZ
+    AUTHZ -->|11. allow + X-MANGO-AUTHZ| GW
+    AUTHZ -.-> CW
+
+    %% Phase 3 — enforcement
+    GW -->|12. request + X-MANGO-AUTHZ| SVCS
+    CAT -->|13. decode header via auth lib| SVCS
