@@ -78,6 +78,14 @@ Memory & Imagination
 Knowledge
 
 Reasoning
- #### Language discipline: “are not” versus “cannot”
 
-This distinction protects the essay from turning an evidence boundary into a grand impossibility claim.
+| Form | Principal cognitive demand | Commonly associated regions |
+|---|---|---|
+| Deduction | Maintaining premises, applying constraints, checking validity | Predominantly left frontoparietal cortex, IFG, MFG, IPL, caudate |
+| Induction | Detecting regularities and estimating uncertain conclusions | Frontoparietal multiple-demand network, IPL, basal ganglia |
+| Analogy | Retrieving relations and integrating them across domains | Rostrolateral PFC, inferior/middle frontal cortex, wider frontoparietal network |
+| Causal reasoning | Constructing and updating cause–effect models | Depends strongly on task: frontal-parietal for logical problems, frontotemporal for discourse, insular-striatal for causal learning |
+
+
+## Strategy
+Strategy is the goal-directed coordination of cognitive operations and actions over time. It can combine inference, prediction, planning, valuation, action selection, and revision in response to feedback.
