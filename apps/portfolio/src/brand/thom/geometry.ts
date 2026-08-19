@@ -167,6 +167,18 @@ export const displayStrokeWorldWidth = (referencePixels: number) => Number((refe
 export const O_RADIUS_SCALE = 0.98;
 export const O_RADIUS = 41 * O_RADIUS_SCALE;
 
+export const O_METAL_GRADIENT = {
+  start: { x: 0, y: 0 },
+  end: { x: 100, y: 120 },
+  stops: [
+    { offset: 0, color: BRAND_COLORS.shadow },
+    { offset: 0.28, color: BRAND_COLORS.gold },
+    { offset: 0.49, color: BRAND_COLORS.highlight },
+    { offset: 0.7, color: BRAND_COLORS.ivory },
+    { offset: 1, color: BRAND_COLORS.shadow },
+  ],
+} as const;
+
 export const O_DISPLAY_MATERIAL = {
   circle: {
     haloWidth: Number((8 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
@@ -174,7 +186,7 @@ export const O_DISPLAY_MATERIAL = {
     middleWidth: Number((4.8 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),
     middleOpacity: 0.3,
     coreWidth: 2.613,
-    coreOpacity: 1,
+    coreOpacity: 0.84,
   },
   chord: {
     haloWidth: Number((4 * SOURCE_ENERGY_SCALE.o * O_RADIUS_SCALE).toFixed(3)),

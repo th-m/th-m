@@ -42,6 +42,7 @@ import {
   MASTER,
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
+  O_METAL_GRADIENT,
   PI_ANIMATION,
   PI_WEBGL_MATERIAL,
   fourierComponentBezier,
@@ -278,8 +279,9 @@ function createLineStack(points: Point[], width = 1.2): LineStack {
   return { halo, middle, core };
 }
 
-function hStrokeGeometry(points: Point[], worldWidth: number, localScaleX: number) {
+function hStrokeGeometry(points: Point[], worldWidth: number, localScaleX: number, vertexColors?: Color[]) {
   const positions: number[] = [];
+  const colors: number[] = [];
   const indices: number[] = [];
   const halfWidth = worldWidth / 2;
   points.forEach((point, index) => {
@@ -294,6 +296,7 @@ function hStrokeGeometry(points: Point[], worldWidth: number, localScaleX: numbe
       point.x + normalX * halfWidth / localScaleX, 120 - point.y + normalY * halfWidth, 0,
       point.x - normalX * halfWidth / localScaleX, 120 - point.y - normalY * halfWidth, 0,
     );
+    if (vertexColors) colors.push(...vertexColors[index].toArray(), ...vertexColors[index].toArray());
     if (index < points.length - 1) {
       const offset = index * 2;
       indices.push(offset, offset + 1, offset + 2, offset + 1, offset + 3, offset + 2);
@@ -307,9 +310,13 @@ function hStrokeGeometry(points: Point[], worldWidth: number, localScaleX: numbe
       const angle = Math.PI * 2 * step / capSteps;
       positions.push(endpoint.x + Math.cos(angle) * halfWidth / localScaleX, 120 - endpoint.y + Math.sin(angle) * halfWidth, 0);
     }
+    if (vertexColors) {
+      const endpointColor = endpoint === points[0] ? vertexColors[0] : vertexColors.at(-1)!;
+      for (let index = 0; index < capSteps + 2; index += 1) colors.push(...endpointColor.toArray());
+    }
     for (let step = 0; step < capSteps; step += 1) indices.push(centerIndex, centerIndex + step + 1, centerIndex + step + 2);
   }
-  return { positions, indices };
+  return { positions, colors, indices };
 }
 
 function createHStroke(points: Point[], color: string, referenceWidth: number, opacity: number): HStrokeRecord {
@@ -342,6 +349,50 @@ function createOStroke(points: Point[], color: string, referenceWidth: number, o
     opacity,
     depthWrite: false,
     side: DoubleSide,
+  });
+  const mesh = new Mesh(geometry, material);
+  mesh.frustumCulled = false;
+  return { mesh, geometry, material, baseOpacity: opacity, worldWidth };
+}
+
+function oMetalColors(points: Point[]): Color[] {
+  const channels = (hex: string) => {
+    const value = Number.parseInt(hex.slice(1), 16);
+    return { r: ((value >> 16) & 255) / 255, g: ((value >> 8) & 255) / 255, b: (value & 255) / 255 };
+  };
+  const stops = O_METAL_GRADIENT.stops.map((stop) => ({ offset: stop.offset, color: channels(stop.color) }));
+  const dx = O_METAL_GRADIENT.end.x - O_METAL_GRADIENT.start.x;
+  const dy = O_METAL_GRADIENT.end.y - O_METAL_GRADIENT.start.y;
+  const lengthSquared = dx * dx + dy * dy;
+  return points.map((point) => {
+    const progress = clamp(((point.x - O_METAL_GRADIENT.start.x) * dx + (point.y - O_METAL_GRADIENT.start.y) * dy) / lengthSquared);
+    const stopIndex = Math.min(stops.length - 2, Math.max(0, stops.findIndex((stop) => stop.offset >= progress) - 1));
+    const start = stops[stopIndex];
+    const end = stops[stopIndex + 1];
+    const mix = (progress - start.offset) / (end.offset - start.offset);
+    return new Color().setRGB(
+      start.color.r + (end.color.r - start.color.r) * mix,
+      start.color.g + (end.color.g - start.color.g) * mix,
+      start.color.b + (end.color.b - start.color.b) * mix,
+      SRGBColorSpace,
+    );
+  });
+}
+
+function createOMetalStroke(points: Point[], referenceWidth: number, opacity: number): HStrokeRecord {
+  const worldWidth = referenceWidth;
+  const data = hStrokeGeometry(points, worldWidth, 1, oMetalColors(points));
+  const geometry = new BufferGeometry();
+  geometry.setAttribute("position", new Float32BufferAttribute(data.positions, 3));
+  geometry.setAttribute("color", new Float32BufferAttribute(data.colors, 3));
+  geometry.setIndex(data.indices);
+  const material = new MeshBasicMaterial({
+    color: new Color(0xffffff),
+    transparent: true,
+    opacity,
+    depthWrite: false,
+    side: DoubleSide,
+    vertexColors: true,
   });
   const mesh = new Mesh(geometry, material);
   mesh.frustumCulled = false;
@@ -676,7 +727,7 @@ export class ThomSceneController {
     this.oCircle = {
       halo: createOStroke(brandData.o.circle, BRAND_COLORS.gold, O_DISPLAY_MATERIAL.circle.haloWidth, O_DISPLAY_MATERIAL.circle.haloOpacity),
       middle: createOStroke(brandData.o.circle, BRAND_COLORS.gold, O_DISPLAY_MATERIAL.circle.middleWidth, O_DISPLAY_MATERIAL.circle.middleOpacity),
-      core: createOStroke(brandData.o.circle, BRAND_COLORS.highlight, O_DISPLAY_MATERIAL.circle.coreWidth, O_DISPLAY_MATERIAL.circle.coreOpacity, true),
+      core: createOMetalStroke(brandData.o.circle, O_DISPLAY_MATERIAL.circle.coreWidth, O_DISPLAY_MATERIAL.circle.coreOpacity),
     };
     this.oCircle.halo.mesh.position.z = -0.25;
     this.oCircle.middle.mesh.position.z = 0;

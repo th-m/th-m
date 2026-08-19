@@ -11,6 +11,7 @@ import {
   M_FINAL_MATERIAL,
   M_FINE_STRAND_OFFSETS,
   O_DISPLAY_MATERIAL,
+  O_METAL_GRADIENT,
   OPTICAL_PLACEMENT_X,
   PI_MATERIAL,
   fourierCompactBezier,
@@ -136,7 +137,11 @@ function luminousLine(points: Point[], core: string, width = 1.2, opacity = 1): 
 
 function oCircleMarkup(points: Point[]): string {
   const material = O_DISPLAY_MATERIAL.circle;
-  return `${polyline(points, BRAND_COLORS.gold, material.haloWidth, material.haloOpacity)}${polyline(points, BRAND_COLORS.gold, material.middleWidth, material.middleOpacity)}${polyline(points, BRAND_COLORS.ivory, material.coreWidth, material.coreOpacity, ` filter="url(#thom-o-glow)"`, true)}`;
+  const gradientStops = O_METAL_GRADIENT.stops
+    .map((stop) => `<stop offset="${stop.offset}" stop-color="${stop.color}"/>`)
+    .join("");
+  const metal = `<defs><linearGradient id="thom-o-metal" gradientUnits="userSpaceOnUse" x1="${O_METAL_GRADIENT.start.x}" y1="${O_METAL_GRADIENT.start.y}" x2="${O_METAL_GRADIENT.end.x}" y2="${O_METAL_GRADIENT.end.y}">${gradientStops}</linearGradient></defs>`;
+  return `${metal}${polyline(points, BRAND_COLORS.gold, material.haloWidth, material.haloOpacity)}${polyline(points, BRAND_COLORS.gold, material.middleWidth, material.middleOpacity)}${polyline(points, "url(#thom-o-metal)", material.coreWidth, material.coreOpacity, ` filter="url(#thom-o-glow)"`, true)}`;
 }
 
 function hLuminousLine(points: Point[], core: string, material: (typeof H_MATERIAL)[keyof typeof H_MATERIAL], part: string): string {

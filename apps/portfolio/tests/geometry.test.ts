@@ -5,6 +5,7 @@ import { Resvg } from "@resvg/resvg-js";
 import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import {
+  BRAND_COLORS,
   createBrandData,
   createHData,
   DISPLAY_STROKE_WORLD_PER_PIXEL,
@@ -35,6 +36,7 @@ import {
   MASTER,
   O_ANIMATION,
   O_DISPLAY_MATERIAL,
+  O_METAL_GRADIENT,
   OPTICAL_PLACEMENT_X,
   O_RADIUS,
   O_RADIUS_SCALE,
@@ -260,7 +262,19 @@ describe("THOM geometry", () => {
 
   it("expresses every display O line layer in glyph-relative world units", () => {
     expect(DISPLAY_STROKE_WORLD_PER_PIXEL).toBe(0.35);
+    expect(O_METAL_GRADIENT).toEqual({
+      start: { x: 0, y: 0 },
+      end: { x: 100, y: 120 },
+      stops: [
+        { offset: 0, color: BRAND_COLORS.shadow },
+        { offset: 0.28, color: BRAND_COLORS.gold },
+        { offset: 0.49, color: BRAND_COLORS.highlight },
+        { offset: 0.7, color: BRAND_COLORS.ivory },
+        { offset: 1, color: BRAND_COLORS.shadow },
+      ],
+    });
     expect(O_DISPLAY_MATERIAL.circle.coreWidth).toBe(2.613);
+    expect(O_DISPLAY_MATERIAL.circle.coreOpacity).toBe(0.84);
     expect(displayStrokeWorldWidth(O_DISPLAY_MATERIAL.chord.coreWidth)).toBe(0.289);
     const smallScale = 648 / 460;
     const largeScale = 1180 / 460;
@@ -269,6 +283,8 @@ describe("THOM geometry", () => {
     expect(smallCore / largeCore).toBeCloseTo(smallScale / largeScale, 10);
     const glyph = renderGlyphSvg(brandData, "o");
     expect(glyph).not.toContain("vector-effect");
+    expect(glyph).toContain('id="thom-o-metal"');
+    expect(glyph).toContain('stroke="url(#thom-o-metal)"');
     expect(glyph).toContain(`stroke-width="${O_DISPLAY_MATERIAL.circle.coreWidth}"`);
   });
 
@@ -456,7 +472,7 @@ describe("THOM geometry", () => {
     const second = renderLogoSvg(data);
     const hash = createHash("sha256").update(first).digest("hex");
     expect(first).toBe(second);
-    expect(hash).toBe("bdf16574f961a4cfbfcf3bf304d15fa8fa937a6529a4cdf23f8aaf3eee7f295b");
+    expect(hash).toBe("5f152af44e695383e37891889b2983358162762591ed65f32dcf10f0f88e34fa");
     expect(first).toContain("<title id=\"title\">THOM</title>");
     expect(first).toContain('viewBox="0 0 460 120"');
     expect(first).toContain('id="thom-metal"');
@@ -506,6 +522,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("a29d8d7633da3057798e5ed41eea7b84f760e7fd10dff857c63db2123824a5c7");
+    expect(hash.digest("hex")).toBe("658dd615c3fde096b34113956885d23401e01c99099de1517aea46e9cffd1a86");
   });
 });
