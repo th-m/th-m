@@ -45,15 +45,15 @@ Then apply pragmatic theories of cognition to see if we can distill some meaning
 
 ## Operational Boundaries
 
-| Capability      | Human                                            | Current AI                                          | Reductive-danger callout                                                   |
-| --------------- | ------------------------------------------------ | --------------------------------------------------- | -------------------------------------------------------------------------- |
-| **Modality**    | Many senses; lived **qualia****                  | Digitally Encoded modalities; no evidence of qualia |                                                                            |
-| **Learning**    | Continuous embodied and self-directed adaptation | Engineered data, targets, parameter updates         |                                                                            |
-| **Memory**      | Lived reconstructive personal persistence        | No native autobiographical persistence              | ⚠ Both can reference external memory.                                      |
-| **Imagination** | Self-initiated possibilities reshape inner model | Prompted scenarios; no validated inner life         | .                                                                          |
-| **Knowledge**   | Situated, motivated, fallible lived knowing      | learned regularity map                              | ⚠ “Map” omits retrieval, tools, and sophisticated internal structure.      |
-| **Reasoning**   | Test, compare, revise exploration strategies     | Patterned computation plus tool use                 | ⚠ Humans and AI both reason badly; neither side is automatically reliable. |
-|                 |                                                  |                                                     |                                                                            |
+| Capability      | Human                                            | Current AI                                                                         | Reductive-danger callout                                                   |
+| --------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **Modality**    | Many senses; lived **qualia****                  | Digitally Encoded modalities; no evidence of qualia                                |                                                                            |
+| **Learning**    | Continuous embodied and self-directed adaptation | Engineered data, targets, parameter updates                                        |                                                                            |
+| **Memory**      | Lived reconstructive personal persistence        | No native autobiographical persistence                                             | ⚠ Both can reference external memory.                                      |
+| **Imagination** | Self-initiated possibilities reshape inner model | Prompted scenarios; no validated inner life                                        |                                                                            |
+| **Knowledge**   | Situated, motivated, fallible lived knowing      | learned regularity map, compresses all digital information into a vector embedding |                                                                            |
+| **Reasoning**   | Test, compare, revise exploration strategies     | Patterned computation plus tool use                                                | ⚠ Humans and AI both reason badly; neither side is automatically reliable. |
+|                 |                                                  |                                                                                    |                                                                            |
 
 ### Modality:
 - Phenomenal experience cannot be directly observed or conclusively verified.
