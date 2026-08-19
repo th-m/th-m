@@ -6,19 +6,19 @@ export function WritingChrome({ children }: { children: React.ReactNode }) {
     <>
       <a className="skip-link" href="#main">Skip to content</a>
       <header className="site-header writing-header">
-        <Link className="header-brand" to="/" aria-label="THOM — portfolio home">
+        <Link className="header-brand" to="/" aria-label="THOM — home">
           <ThomLogo variant="header" motion="compact" />
           <span className="header-domain">th-m.codes</span>
         </Link>
         <nav aria-label="Primary navigation">
-          <Link to="/">Portfolio</Link>
+          <Link to="/brand">Brand</Link>
           <Link to="/writing" activeProps={{ "aria-current": "page" }}>Writing</Link>
         </nav>
       </header>
       <main className="writing-page" id="main">{children}</main>
       <footer className="writing-footer">
         <p>Thomas Valadez</p>
-        <Link to="/">Portfolio</Link>
+        <Link to="/brand">Brand</Link>
         <p className="footer-domain">th-m.codes</p>
       </footer>
     </>

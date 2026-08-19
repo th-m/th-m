@@ -31,7 +31,8 @@ artifacts; audit captures are evidence rather than runtime authority.
 
 ## Routing and Publication
 
-- `/` renders the existing portfolio.
+- `/` renders the minimal THOM mark and writings index.
+- `/brand` renders the full THOM brand, portfolio, and reference experience.
 - `/writing` lists published articles.
 - `/writing/:slug` renders a published Markdown article as hydrated React.
 - `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
