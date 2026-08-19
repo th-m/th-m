@@ -9,7 +9,7 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, describe, expect, it } from "vitest";
-import { analyzeSetAtlas } from "../../src/analyzer";
+import { analyzeSetAtlas } from "../src/set-analyzer.ts";
 
 const temporaryDirectories: string[] = [];
 

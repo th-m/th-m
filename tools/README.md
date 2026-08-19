@@ -7,9 +7,10 @@ durable visual content.
 
 ## Ontology
 
-Tools are interactive local runtimes with deterministic command-line
-generators. `graph` renders proposition graphs; `set-theory` renders TypeScript
-type relationships as set atlases.
+Tools are local authoring runtimes with deterministic command-line generators.
+`graph` renders proposition graphs; `set-theory` renders TypeScript type
+relationships as set atlases; `knowledge` normalizes established semantic
+sources into domain-organized comparison boards.
 
 ## Key Terms
 

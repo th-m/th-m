@@ -12,6 +12,8 @@ AI can be useful throughout that path. The question is which parts it can help r
 
 Current LLMs may process multiple data modalities and can transform large amounts of information into plausible language, code, analysis, and plans. They have no demonstrated felt experience, needs of their own, or responsibility for the consequences of a choice. That does not prove artificial consciousness is impossible; it means chatbot behavior is not presently evidence that it exists.
 
+Human cognition and current silicon AI inference are certainly different physical processes. Neither statistical information nor predictive accuracy establishes truth, meaning, lived experience, or responsibility.
+
 Strategy is the human accountability boundary. AI can contribute evidence, alternatives, simulations, and analysis. Humans and their institutions own the trade-offs, framing, values, authorization, and consequences.
 
 ## Human and AI problem-solving capabilities
@@ -75,6 +77,8 @@ Embodiment matters here because action is not only symbol manipulation. It affec
 Qualia are the felt, first-person character of experience: what pain hurts like, what red looks like, what relief or embarrassment feels like. Phenomenology is the study of experience as it appears from that first-person point of view.
 
 The hard problem of consciousness asks why and how physical or computational processes are accompanied by subjective experience at all. It remains unresolved. Mary’s Room is a thought experiment: Mary knows all physical facts about color while living without color experience; when she sees red, does she learn something new? Use it as an intuition pump about the possible gap between description and experience, not as settled empirical proof.
+
+Our consciousness indicators are calibrated on living biological organisms. Applying them to silicon systems assumes that the unmodeled biological differences are irrelevant.
 
 Careful uncertainty:
 

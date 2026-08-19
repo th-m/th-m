@@ -47,7 +47,7 @@ import type {
   SourceSpan,
   TypeRelation,
   TypeSetSymbol,
-} from "./types.ts";
+} from "./set-types.ts";
 
 type AtlasDeclaration =
   | TypeAliasDeclaration

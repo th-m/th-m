@@ -4,6 +4,7 @@ node_modules/
 dist/
 dist-graph/
 dist-sets/
+dist-knowledge/
 coverage/
 test-results/
 playwright-report/

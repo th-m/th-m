@@ -31,19 +31,48 @@ I saw these two videos one day after letting AI do some strategic problem solvin
 
 # The Problem
 
-My original title was "souless clankers will not solve your personal problems". I realized though that I needed to continue the thought, "but they will glaze and confirmation bias your monkey brain till you have awakened a sentient AI girlfriend.".  
+Originally when thinking about this essay I considered the title "souless clankers will not solve your personal problems" or maybe something about AI psychosis leading to AI girlfriends.  I realized though while writing, the situation is more nuanced than that.
 
-I wanted do my first blog post on philosophies of truth and their efficacy within the AI Token Factories. But before we can get there we need to level set.  Many people who are much smarter than I haven't seem to think AI operates like humans do, that it thinks or could have opinions.  Look at the word reasoning:
+Popular atheists often argue for determinism—the idea that humans do not truly have free will. If that’s true, then being “loved by an AI” would be essentially equivalent to being loved by any other object without agency: neither can actually choose you.
 
-_Reasoning_: An autoregressive next-token generation process performed by a transformer’s attention layers, using parameters configured through backpropagation-based training.
+To be fair, AI systems may solve your problems.  But, it depends on what type of problem you are dealing with and more specifically the statistical probability that the average semantic next token aligns with what you value as a solution.
 
- _Reasoning_: A biological process in which networks of neurons exchange electrical and chemical signals to integrate knowledge, memories, and sensory information, evaluate possibilities, and form conclusions. 
+The words we use to describe AI are all comingled with competing ideas, are overloaded, and smuggle unwanted baggage. In the worst case we have definitions for a term that intentionally contradict each other.
 
-We are now mechanizing and automating what we thought was a distincly human capability. And the language and vernacular reinforces a reductive conflation of understanding the nuance between them.
+Let's look at a couple words for example:
+
+**_Consiousness_:**
+
+- Neural dynamics of subjectivity defines consciousness as having a **biological component**.
+- Computational functionalism explicitly postulates that consciousness can be separated from biological substrate.
+
+**_Reasoning_:**
+ 
+ - In AI it is autoregressive next-token generation process performed by a transformer’s attention layers, using parameters configured through backpropagation-based training.
+
+ -  In Humans it is a biological process in which networks of neurons exchange electrical and chemical signals to integrate knowledge, memories, and sensory information, evaluate possibilities, and form conclusions.
+
+I wonder what effect these competing definitions have within the token prediction machines... What if there was a correlation between a given term's semantic definition, the term's recorded usage, and the corresponding probability that semantic patterns cohere?
+
+Let's not get carried away with speculation now. Here is what we know and can agree on:
+- We have not concretely proved that biological entails functionality beyond the mechanical.
+- Terms lack consistent concrete formalizations and are intermingled with belief systems.
+
+
+So how do we evaluate a systems ability to "problem solve", and what aspects of the AI system would explain the lack of  creativity or the inability to strategize in competitive space?
+
 
 # The Goal
- 
- To be honest the creativity abilities of these "next most likely token" functions is not surprising. Let's clarify the underlying mechanism of these two types of reasonings and in that deconstruction I would be surprised if we do not find clues as to the diferent ability and performacne. 
+
+Define operational boundaries for reasoning in the abstract, use humans as a basis.
+
+Associate analogous capabilities, highlight the gaps and overlap as well as explore as many technical details where possible.
+
+Then apply pragmatic theories of cognition to see if we can distill some meaningful insights.
+
+
+
+
 
 
 | Capability      | Human                                            | Current AI                                          | Reductive-danger callout                                                        |
@@ -56,6 +85,8 @@ We are now mechanizing and automating what we thought was a distincly human capa
 | **Reasoning**   | Test, compare, revise exploration strategies     | Patterned computation plus tool use                 | ⚠ Humans and AI both reason badly; neither side is automatically reliable.      |
 |                 |                                                  |                                                     |                                                                                 |
 
+
+ To be honest the creativity abilities of these "next most likely token" functions is not surprising. Let's clarify the underlying mechanism of these two types of reasonings and in that deconstruction I would be surprised if we do not find clues as to the diferent ability and performacne.
 
  
  *Missing info on our reasoning process*
