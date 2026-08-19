@@ -251,6 +251,22 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 .site-footer > div a { color: var(--brand-muted); }
 .footer-domain { justify-self: end; margin: 0; color: var(--brand-muted); font-size: 9px; }
 
+.home-page { width: var(--page); margin: 0 auto; }
+.home-mark { min-height: 100svh; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+.home-mark__link { width: min(92%, 1180px); padding: clamp(32px, 7vw, 96px) 0; }
+.home-mark__link:focus-visible { outline: 1px solid var(--brand-gold); outline-offset: 20px; }
+.home-writings { min-height: 62svh; padding: clamp(72px, 10vw, 150px) clamp(0px, 2vw, 32px); }
+.home-writings__header { display: grid; grid-template-columns: minmax(130px, .34fr) 1fr; gap: 32px; align-items: start; padding-bottom: clamp(48px, 7vw, 90px); }
+.home-writings__header h2 { margin: 0; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(72px, 14vw, 210px); font-weight: 390; line-height: .72; letter-spacing: -.055em; }
+.home-writing-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.home-writing-list li { display: grid; grid-template-columns: minmax(90px, .34fr) 1fr; gap: 32px; padding: 42px 0; border-bottom: 1px solid var(--line); }
+.home-writing-list article time { font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--brand-muted); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.home-writing-list h3 { max-width: 980px; margin: 14px 0 18px; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(34px, 5vw, 72px); font-weight: 420; line-height: .95; }
+.home-writing-list h3 a:hover, .home-writing-list h3 a:focus-visible { color: var(--brand-gold); }
+.home-writing-list article > p { max-width: 720px; margin-bottom: 0; color: var(--brand-muted); line-height: 1.7; }
+.home-writings__link { display: flex; justify-content: space-between; gap: 32px; margin-top: clamp(48px, 7vw, 90px); padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; transition: color .25s ease, padding .35s var(--ease-draw); }
+.home-writings__link:hover, .home-writings__link:focus-visible { padding-left: 14px; padding-right: 14px; color: var(--brand-gold); }
+
 .writing-page { width: var(--page); min-height: calc(100vh - 220px); margin: 0 auto; padding: 150px clamp(0px, 2vw, 32px) 90px; }
 .writing-intro { max-width: 1050px; padding-bottom: 72px; border-bottom: 1px solid var(--line); }
 .writing-intro h1, .route-message h1, .article-page > header h1 { margin: 18px 0 24px; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(52px, 8vw, 112px); font-weight: 420; line-height: .88; letter-spacing: -.045em; }
@@ -348,6 +364,10 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   .site-footer { min-height: 290px; grid-template-columns: 1fr auto; }
   .site-footer > .thom-logo { grid-column: 1 / -1; }
   .site-footer > div { text-align: left; }
+  .home-mark__link { width: 100%; }
+  .home-writings { min-height: 54svh; padding-left: 0; padding-right: 0; }
+  .home-writings__header, .home-writing-list li { grid-template-columns: 1fr; gap: 22px; }
+  .home-writings__header h2 { font-size: clamp(74px, 27vw, 132px); }
   .writing-page { padding-top: 112px; }
   .writing-list > li, .writing-empty { grid-template-columns: 1fr; gap: 8px; }
   .article-meta { align-items: flex-start; flex-direction: column; gap: 10px; }

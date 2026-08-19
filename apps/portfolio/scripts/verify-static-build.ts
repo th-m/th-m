@@ -25,7 +25,8 @@ async function requireHtml(relativePath: string, marker: string): Promise<void> 
   if (!html.includes(marker)) throw new Error(`${relativePath} does not contain its expected route content.`);
 }
 
-await requireHtml("index.html", "Measured to stay itself at every scale.");
+await requireHtml("index.html", "Writings");
+await requireHtml("brand/index.html", "Measured to stay itself at every scale.");
 await requireHtml("writing/index.html", "Ideas with enough structure to navigate.");
 await requireHtml("_shell.html", "__TSR");
 

@@ -11,8 +11,8 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#050505" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: "https://th-m.codes/brand/thom-og.png" },
-      { name: "twitter:image", content: "https://th-m.codes/brand/thom-og.png" },
+      { property: "og:image", content: "https://th-m.netlify.app/brand/thom-og.png" },
+      { name: "twitter:image", content: "https://th-m.netlify.app/brand/thom-og.png" },
     ],
     links: [
       { rel: "stylesheet", href: interCss },

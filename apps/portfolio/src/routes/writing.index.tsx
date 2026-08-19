@@ -11,11 +11,11 @@ export const Route = createFileRoute("/writing/")({
       { property: "og:type", content: "website" },
       { property: "og:title", content: "Writing — Thomas Valadez" },
       { property: "og:description", content: "Essays about AI, ontology, software systems, and the economics of knowledge work." },
-      { property: "og:url", content: "https://th-m.codes/writing" },
+      { property: "og:url", content: "https://th-m.netlify.app/writing" },
       { name: "twitter:title", content: "Writing — Thomas Valadez" },
       { name: "twitter:description", content: "Essays about AI, ontology, software systems, and the economics of knowledge work." },
     ],
-    links: [{ rel: "canonical", href: "https://th-m.codes/writing" }],
+    links: [{ rel: "canonical", href: "https://th-m.netlify.app/writing" }],
   }),
   component: WritingIndexPage,
 });

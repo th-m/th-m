@@ -3,7 +3,7 @@ import { loadPublishedArticle } from "../content/blog-content";
 import { ArticleMarkdown } from "../writing/ArticleMarkdown";
 import { PublicationDate, WritingChrome } from "../writing/WritingChrome";
 
-const siteOrigin = "https://th-m.codes";
+const siteOrigin = "https://th-m.netlify.app";
 
 export const Route = createFileRoute("/writing/$slug")({
   loader: async ({ params }) => {

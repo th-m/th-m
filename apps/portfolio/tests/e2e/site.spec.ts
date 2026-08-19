@@ -116,8 +116,18 @@ async function normalizedHeroOCrop(buffer: Buffer) {
     .toBuffer();
 }
 
-test("renders the identity and complete content without overflow", async ({ page }) => {
+test("renders the minimal home with logo and writings", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
+  await expect(page.getByRole("heading", { name: "Writings" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Explore the THOM brand" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Measured to stay itself at every scale." })).toHaveCount(0);
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  expect(overflow).toBe(false);
+});
+
+test("renders the identity and complete content without overflow", async ({ page }) => {
+  await page.goto("/brand");
   await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
   await expect(page.getByRole("heading", { name: "Measured to stay itself at every scale." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Software Design" })).toBeVisible();
@@ -127,7 +137,7 @@ test("renders the identity and complete content without overflow", async ({ page
 });
 
 test("supports keyboard glyph replay and has no serious accessibility findings", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/brand");
   const firstGlyph = page.getByRole("button", { name: "Replay T foundations animation" });
   await firstGlyph.focus();
   await expect(firstGlyph).toBeFocused();
@@ -137,7 +147,7 @@ test("supports keyboard glyph replay and has no serious accessibility findings",
 
 test("settles WebGL stages and stops their render loops", async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
-  await page.goto("/");
+  await page.goto("/brand");
   const heroCanvas = page.locator(".thom-logo--hero canvas");
   await expect(heroCanvas).toHaveAttribute("data-render-loop", "stopped", { timeout: 3000 });
   const firstGlyph = page.getByRole("button", { name: "Replay T foundations animation" });
@@ -150,7 +160,7 @@ test("settles WebGL stages and stops their render loops", async ({ page }) => {
 test("runs the H golden spiral on intro and direct hero interaction without restart or pointer cancellation", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "Motion timing is verified in the fixed desktop fixture.");
   await page.addInitScript(() => sessionStorage.removeItem("thom:intro:v1"));
-  await page.goto("/");
+  await page.goto("/brand");
   const hero = page.locator(".thom-logo--hero");
   const canvas = hero.locator("canvas");
   const hTarget = page.getByRole("button", { name: "Replay H equilibrium animation" });
@@ -207,7 +217,7 @@ test("runs the H golden spiral on intro and direct hero interaction without rest
 test("scales construction strokes and glow with the hero geometry", async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
   await page.setViewportSize({ width: 1180, height: 760 });
-  await page.goto("/#mark");
+  await page.goto("/brand#mark");
   const canvas = page.locator(".thom-logo--hero canvas");
   await expect(canvas).toHaveAttribute("data-render-loop", "stopped", { timeout: 3000 });
   const large = await canvas.evaluate((element) => ({
@@ -239,7 +249,7 @@ test("keeps the O network proportionate across the supplied small and large scre
   const captures: Array<{ width: number; crop: Buffer }> = [];
   for (const width of [668, 1746]) {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/");
+    await page.goto("/brand");
     const logo = page.locator(".thom-logo--hero");
     const canvas = logo.locator("canvas");
     await expect(logo).toHaveClass(/is-webgl-ready/);
@@ -283,7 +293,7 @@ test("keeps the H crossbar readable and bounded across hero sizes", async ({ pag
   const captures: Array<{ width: number; buffer: Buffer; measurement: ReturnType<typeof hHeroCrossbarRatio> }> = [];
   for (const width of [668, 1746]) {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/");
+    await page.goto("/brand");
     const logo = page.locator(".thom-logo--hero");
     await expect(logo).toHaveClass(/is-webgl-ready/);
     await expect(logo.locator("canvas")).toHaveAttribute("data-render-loop", "stopped", { timeout: 3000 });
@@ -305,7 +315,7 @@ test("keeps the H crossbar readable and bounded across hero sizes", async ({ pag
 
 test("replays the isolated M for 820 ms and returns to a stopped loop", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "The mobile viewport deliberately stops the offscreen isolated WebGL stage.");
-  await page.goto("/#mark");
+  await page.goto("/brand#mark");
   const mControl = page.getByRole("button", { name: /04 M Superposition/ });
   const stage = page.locator(".glyph-stage");
   const canvas = stage.locator("canvas");
@@ -320,7 +330,7 @@ test("replays the isolated M for 820 ms and returns to a stopped loop", async ({
 test("traces the isolated T for 450 ms, resolves, and keeps SVG/WebGL parity", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "The desktop parity fixture has a fixed one-pixel raster scale.");
   await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
-  await page.goto("/#mark");
+  await page.goto("/brand#mark");
   const tControl = page.getByRole("button", { name: /Foundations/ });
   const stage = page.locator(".glyph-stage");
   const canvas = stage.locator("canvas");
@@ -358,7 +368,7 @@ test("traces the isolated T for 450 ms, resolves, and keeps SVG/WebGL parity", a
 
 test("keeps the settled H geometry in SVG and WebGL parity after keyboard replay", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "The desktop parity fixture has a fixed one-pixel raster scale.");
-  await page.goto("/#mark");
+  await page.goto("/brand#mark");
   const hControl = page.getByRole("button", { name: /Equilibrium/ });
   await hControl.focus();
   await expect(hControl).toBeFocused();
@@ -403,7 +413,7 @@ test("keeps the settled H geometry in SVG and WebGL parity after keyboard replay
 
 test("reveals the O from 480–1200 ms and keeps settled SVG/WebGL parity", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "The desktop parity fixture has a fixed one-pixel raster scale.");
-  await page.goto("/#mark");
+  await page.goto("/brand#mark");
   const oControl = page.getByRole("button", { name: /03 O Emergence/ });
   const stage = page.locator(".glyph-stage");
   const canvas = stage.locator("canvas");
@@ -436,7 +446,7 @@ test("reveals the O from 480–1200 ms and keeps settled SVG/WebGL parity", asyn
 
 test("keeps the settled M geometry in SVG and WebGL parity", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "The desktop parity fixture has a fixed one-pixel raster scale.");
-  await page.goto("/#mark");
+  await page.goto("/brand#mark");
   const mControl = page.getByRole("button", { name: /04 M Superposition/ });
   const stage = page.locator(".glyph-stage");
   const canvas = stage.locator("canvas");
@@ -500,14 +510,14 @@ test("retains the generated SVG when WebGL initialization fails", async ({ page 
       return Reflect.apply(original, this, [contextId, ...args]);
     } as typeof HTMLCanvasElement.prototype.getContext;
   });
-  await page.goto("/");
+  await page.goto("/brand");
   await expect(page.locator(".thom-logo--hero .thom-logo__fallback")).toBeVisible();
   await expect(page.locator(".thom-logo--hero")).not.toHaveClass(/is-webgl-ready/);
 });
 
 test("keeps the static identity under reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
+  await page.goto("/brand");
   await expect(page.locator(".thom-logo--hero .thom-logo__fallback")).toBeVisible();
   const canvas = page.locator(".thom-logo--hero canvas");
   await expect(canvas).toBeHidden();
@@ -518,7 +528,7 @@ test("keeps the static identity under reduced motion", async ({ page }) => {
 
 test("uses size-aware utility assets and exposes alternate downloads", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/brand");
   const header = page.locator(".thom-logo--header");
   await expect(header).toHaveAttribute("data-optical-profile", "micro");
   await expect(header.locator("img")).toHaveAttribute("src", "/brand/thom-micro.svg");
@@ -533,7 +543,7 @@ test("navigates to the prerendered writing section without losing app state", as
   await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
   await page.goto("/");
   await page.evaluate(() => ((window as Window & { portfolioSentinel?: string }).portfolioSentinel = "alive"));
-  await page.getByRole("link", { name: "Writing", exact: true }).first().click();
+  await page.getByRole("link", { name: "Writings", exact: true }).click();
   await expect(page).toHaveURL(/\/writing\/?$/);
   await expect(page.getByRole("heading", { name: "Ideas with enough structure to navigate." })).toBeVisible();
   expect(await page.evaluate(() => (window as Window & { portfolioSentinel?: string }).portfolioSentinel)).toBe("alive");
@@ -542,8 +552,15 @@ test("navigates to the prerendered writing section without losing app state", as
 test.describe("no JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
-  test("prerenders the full page and static mark", async ({ page }) => {
+  test("prerenders the minimal home and writings section", async ({ page }) => {
     await page.goto("/");
+    await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
+    await expect(page.getByRole("heading", { name: "Writings" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Explore the THOM brand" })).toBeVisible();
+  });
+
+  test("prerenders the full brand page and static mark", async ({ page }) => {
+    await page.goto("/brand");
     await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
     await expect(page.getByRole("heading", { name: "Software Design" })).toBeVisible();
     await expect(page.locator(".thom-logo--hero .thom-logo__fallback")).toBeVisible();

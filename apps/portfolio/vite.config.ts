@@ -28,6 +28,7 @@ function publishedPages() {
 
   return [
     { path: "/", prerender: { enabled: true, outputPath: "/index.html" } },
+    { path: "/brand", prerender: { enabled: true, outputPath: "/brand/index.html" } },
     { path: "/writing", prerender: { enabled: true, outputPath: "/writing/index.html" } },
     ...slugs.map((slug) => ({
       path: `/writing/${slug}`,
