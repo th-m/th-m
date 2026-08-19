@@ -6,7 +6,7 @@
     },
     "hero": {
       "width": 648,
-      "height": 188
+      "height": 170
     },
     "crop": {
       "left": 318,
@@ -14,7 +14,7 @@
       "width": 123,
       "height": 140
     },
-    "lineScale": "1.5577",
+    "lineScale": "1.4086",
     "renderLoop": "stopped"
   },
   {
@@ -24,7 +24,7 @@
     },
     "hero": {
       "width": 1180,
-      "height": 341
+      "height": 309
     },
     "crop": {
       "left": 578,
@@ -32,7 +32,7 @@
       "width": 225,
       "height": 255
     },
-    "lineScale": "2.8365",
+    "lineScale": "2.5651",
     "renderLoop": "stopped"
   }
 ]
