@@ -1,2 +1,2 @@
-export { documentationViolations } from "./repository-policy";
-export type { DocumentationViolation } from "./repository-policy";
+export { documentationViolations, foundationColorViolations } from "./repository-policy";
+export type { DocumentationViolation, FoundationColorViolation } from "./repository-policy";

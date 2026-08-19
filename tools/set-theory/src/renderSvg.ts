@@ -1,4 +1,4 @@
-import { thomToolFoundation } from "@th-m/design-theme";
+import { thomDesignTokens } from "@th-m/design-theme";
 import type { AtlasCard, RegionShape, SetAtlasScene } from "./types";
 
 export interface EmbeddedSetAtlasFonts {
@@ -189,37 +189,37 @@ function fontFaceDefinitions(fonts?: EmbeddedSetAtlasFonts): string {
 }
 
 function definitions(fonts?: EmbeddedSetAtlasFonts): string {
-  const { color, effect } = thomToolFoundation;
+  const { color, effect } = thomDesignTokens;
   return `<defs>
   <style><![CDATA[${fontFaceDefinitions(fonts)}
     .set-region { --region-opacity: .042; }
     .set-region.depth-1 { --region-opacity: .052; }
     .set-region.depth-2 { --region-opacity: .065; }
     .set-region.depth-3 { --region-opacity: .08; }
-    .region-field { fill: ${color.gold}; fill-opacity: var(--region-opacity); stroke: ${color.gold}; stroke-width: 1.45; vector-effect: non-scaling-stroke; }
-    .region-orbit { fill: none; stroke: ${color.line}; stroke-width: .8; stroke-opacity: .52; vector-effect: non-scaling-stroke; }
-    .set-region.approximate .region-field, .set-region.approximate .region-orbit { stroke: ${color.danger}; stroke-dasharray: 8 7; }
-    .region-index-dot { fill: ${color.gold}; }
-    .region-code, .region-type, .approximate-label, .card-code, .card-detail, .warning-heading, .warning-entry, .atom-label { font-family: "IBM Plex Mono Atlas", ${thomToolFoundation.typography.mono}; }
-    .region-code { fill: ${color.gold}; font-size: 8px; letter-spacing: 1.45px; }
-    .region-label { fill: ${color.ivory}; font-family: "Newsreader Atlas", ${thomToolFoundation.typography.display}; font-size: 19px; font-weight: 570; }
-    .region-type { fill: ${color.muted}; font-size: 9px; }
-    .approximate-label { fill: ${color.danger}; font-size: 8px; letter-spacing: 1.7px; }
-    .atom-dot { fill: ${color.highlight}; stroke: ${color.gold}; stroke-width: 1.5; }
-    .atom-label { fill: ${color.ivory}; font-size: 11px; paint-order: stroke; stroke: ${color.background}; stroke-width: 3px; stroke-linejoin: round; }
-    .atlas-card rect { fill: ${color.surface}; stroke: ${color.line}; stroke-width: 1.15; }
-    .atlas-card.exception rect { stroke: ${color.danger}; }
-    .card-badge { fill: ${color.gold}; font-family: "Newsreader Atlas", ${thomToolFoundation.typography.display}; font-size: 21px; }
-    .atlas-card.exception .card-badge { fill: ${color.danger}; }
-    .card-code { fill: ${color.gold}; font-size: 7.5px; letter-spacing: 1.25px; }
-    .card-label { fill: ${color.ivory}; font-family: "Newsreader Atlas", ${thomToolFoundation.typography.display}; font-size: 17px; font-weight: 570; }
-    .card-detail { fill: ${color.muted}; font-size: 8.5px; }
-    .warning-legend line { stroke: ${color.line}; }
-    .warning-heading { fill: ${color.danger}; font-size: 9px; letter-spacing: 2px; }
-    .warning-entry { fill: ${color.muted}; font-size: 9px; }
-    .warning-mark { fill: ${color.danger}; }
+    .region-field { fill: ${color.primary.default}; fill-opacity: var(--region-opacity); stroke: ${color.primary.default}; stroke-width: 1.45; vector-effect: non-scaling-stroke; }
+    .region-orbit { fill: none; stroke: ${color.border}; stroke-width: .8; stroke-opacity: .52; vector-effect: non-scaling-stroke; }
+    .set-region.approximate .region-field, .set-region.approximate .region-orbit { stroke: ${color.semantic.error.default}; stroke-dasharray: 8 7; }
+    .region-index-dot { fill: ${color.primary.default}; }
+    .region-code, .region-type, .approximate-label, .card-code, .card-detail, .warning-heading, .warning-entry, .atom-label { font-family: "IBM Plex Mono Atlas", ${thomDesignTokens.typography.mono}; }
+    .region-code { fill: ${color.primary.default}; font-size: 8px; letter-spacing: 1.45px; }
+    .region-label { fill: ${color.foreground}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 19px; font-weight: 570; }
+    .region-type { fill: ${color.foregroundMuted}; font-size: 9px; }
+    .approximate-label { fill: ${color.semantic.error.default}; font-size: 8px; letter-spacing: 1.7px; }
+    .atom-dot { fill: ${color.foregroundStrong}; stroke: ${color.primary.default}; stroke-width: 1.5; }
+    .atom-label { fill: ${color.foreground}; font-size: 11px; paint-order: stroke; stroke: ${color.background}; stroke-width: 3px; stroke-linejoin: round; }
+    .atlas-card rect { fill: ${color.surface}; stroke: ${color.border}; stroke-width: 1.15; }
+    .atlas-card.exception rect { stroke: ${color.semantic.error.default}; }
+    .card-badge { fill: ${color.primary.default}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 21px; }
+    .atlas-card.exception .card-badge { fill: ${color.semantic.error.default}; }
+    .card-code { fill: ${color.primary.default}; font-size: 7.5px; letter-spacing: 1.25px; }
+    .card-label { fill: ${color.foreground}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 17px; font-weight: 570; }
+    .card-detail { fill: ${color.foregroundMuted}; font-size: 8.5px; }
+    .warning-legend line { stroke: ${color.border}; }
+    .warning-heading { fill: ${color.semantic.error.default}; font-size: 9px; letter-spacing: 2px; }
+    .warning-entry { fill: ${color.foregroundMuted}; font-size: 9px; }
+    .warning-mark { fill: ${color.semantic.error.default}; }
   ]]></style>
-  <radialGradient id="atlas-ambient" cx="68%" cy="27%" r="74%"><stop offset="0" stop-color="${color.gold}" stop-opacity=".12"/><stop offset="1" stop-color="${color.background}" stop-opacity="0"/></radialGradient>
+  <radialGradient id="atlas-ambient" cx="68%" cy="27%" r="74%"><stop offset="0" stop-color="${color.primary.default}" stop-opacity=".12"/><stop offset="1" stop-color="${color.background}" stop-opacity="0"/></radialGradient>
   <filter id="atlas-grain" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".84" numOctaves="3" seed="17"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${effect.grainOpacity} 0"/></filter>
 </defs>`;
 }
@@ -252,7 +252,7 @@ export function renderSetAtlasSvg(
     .sort((left, right) => left.id.localeCompare(right.id, "en"))
     .map(renderCard)
     .join("");
-  const { color } = thomToolFoundation;
+  const { color } = thomDesignTokens;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${Math.ceil(bounds.width)}" height="${Math.ceil(bounds.height)}" viewBox="${fixed(bounds.x)} ${fixed(bounds.y)} ${fixed(bounds.width)} ${fixed(bounds.height)}" role="img" aria-labelledby="set-atlas-title set-atlas-description">
   <title id="set-atlas-title">${xml(title)}</title>

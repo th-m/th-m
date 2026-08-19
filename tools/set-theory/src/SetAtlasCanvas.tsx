@@ -130,12 +130,12 @@ export function SetAtlasCanvas({
         <desc>Nested and overlapping regions show relationships between named TypeScript types.</desc>
         <defs>
           <radialGradient id="set-region-fill" cx="58%" cy="38%">
-            <stop offset="0" stopColor="#d6b06a" stopOpacity=".18" />
-            <stop offset=".72" stopColor="#15120d" stopOpacity=".92" />
-            <stop offset="1" stopColor="#0c0b09" stopOpacity=".97" />
+            <stop offset="0" stopColor="var(--color-primary)" stopOpacity=".18" />
+            <stop offset=".72" stopColor="var(--color-surface-raised)" stopOpacity=".92" />
+            <stop offset="1" stopColor="var(--color-surface)" stopOpacity=".97" />
           </radialGradient>
           <pattern id="set-grid" width="28" height="28" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="1" fill="#d6b06a" opacity=".1" />
+            <circle cx="1" cy="1" r="1" fill="var(--color-primary)" opacity=".1" />
           </pattern>
           <filter id="set-glow" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="10" result="blur" />

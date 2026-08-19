@@ -57,7 +57,7 @@ import {
   loadGraphLibrary,
   saveGraphLibrary,
 } from "./storage";
-import { graphThemeCssVariables, thomTheme } from "./theme";
+import { thomTheme } from "./theme";
 import type {
   GraphDocument,
   GraphLibrary,
@@ -372,12 +372,12 @@ function GraphWorkspace() {
           type: document.layoutMode === "directional" ? "smoothstep" : "default",
           selectable: false,
           ariaLabel: `${participant.nodeId} participates in ${relationship.statement}`,
-          style: { stroke: thomTheme.color.gold, strokeWidth: 2, opacity: 0.8 },
+          style: { stroke: thomTheme.color.primary, strokeWidth: 2, opacity: 0.8 },
           markerStart: participant.arrowAtNode
-            ? { type: MarkerType.ArrowClosed, color: thomTheme.color.gold, width: 18, height: 18 }
+            ? { type: MarkerType.ArrowClosed, color: thomTheme.color.primary, width: 18, height: 18 }
             : undefined,
           markerEnd: participant.arrowAtRelation
-            ? { type: MarkerType.ArrowClosed, color: thomTheme.color.gold, width: 18, height: 18 }
+            ? { type: MarkerType.ArrowClosed, color: thomTheme.color.primary, width: 18, height: 18 }
             : undefined,
         })),
       ),
@@ -489,7 +489,7 @@ function GraphWorkspace() {
           : "Balanced";
 
   return (
-    <main className="graph-app" style={graphThemeCssVariables}>
+    <main className="graph-app bg-background text-foreground font-mono">
       <input
         ref={importInputRef}
         type="file"
@@ -627,13 +627,13 @@ function GraphWorkspace() {
             colorMode="dark"
             proOptions={{ hideAttribution: true }}
           >
-            <Background variant={BackgroundVariant.Dots} gap={28} size={1} color="#30291f" />
+            <Background variant={BackgroundVariant.Dots} gap={28} size={1} color={thomTheme.color.border} />
             <Controls showInteractive={false} />
             <MiniMap
               pannable
               zoomable
-              nodeColor={(node) => node.type === "relationship" ? thomTheme.color.gold : thomTheme.color.ivory}
-              maskColor="rgba(5,5,5,.76)"
+              nodeColor={(node) => node.type === "relationship" ? thomTheme.color.primary : thomTheme.color.foreground}
+              maskColor={thomTheme.color.scrim}
             />
           </ReactFlow>
         </div>

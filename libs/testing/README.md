@@ -3,7 +3,7 @@
 ## Purpose
 
 This library owns reusable unit and browser-test setup plus repository-wide
-documentation contract checks.
+documentation and design-token contract checks.
 
 ## Ontology
 
@@ -16,4 +16,4 @@ and browser journeys remain beside their app or tool owner.
 - **Test setup:** shared environment behavior loaded before owner tests.
 - **Project definition:** reusable Playwright device configuration.
 - **Repository policy:** a deterministic structural invariant checked by unit
-  tests.
+  tests, including canonical foundation-color ownership.

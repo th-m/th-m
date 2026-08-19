@@ -12,6 +12,7 @@ export function WritingChrome({ children }: { children: React.ReactNode }) {
         </Link>
         <nav aria-label="Primary navigation">
           <Link to="/brand">Brand</Link>
+          <Link to="/design-system">System</Link>
           <Link to="/writing" activeProps={{ "aria-current": "page" }}>Writing</Link>
         </nav>
       </header>

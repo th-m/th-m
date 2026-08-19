@@ -17,7 +17,6 @@ import {
 } from "./model";
 import { SetAtlasCanvas } from "./SetAtlasCanvas";
 import { loadSetAtlasLibrary, saveSetAtlasLibrary } from "./storage";
-import { setThemeCssVariables } from "./theme";
 import type {
   AnalyzeError,
   AnalyzeResult,
@@ -156,7 +155,7 @@ function LibraryPanel({
             </nav>
             <div className="set-library-footer">
               <button className="set-button" type="button" onClick={onDuplicate}>Duplicate</button>
-              <button className="set-button set-button--danger" type="button" onClick={onDelete}>Delete</button>
+              <button className="set-button set-button--error" type="button" onClick={onDelete}>Delete</button>
               <p>Source references, viewport, and pins are saved in this browser.</p>
             </div>
           </>
@@ -488,7 +487,7 @@ export function SetAtlasApp() {
   const isStale = analysisStatus === "stale";
 
   return (
-    <main className="set-app" style={setThemeCssVariables}>
+    <main className="set-app bg-background text-foreground font-mono">
       <LibraryPanel
         library={library}
         document={document}

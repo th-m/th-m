@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 import { Resvg } from "@resvg/resvg-js";
+import { knowledgeTheme } from "./theme.ts";
 
 const MAXIMUM_NATIVE_RASTER_PREVIEW_DIMENSION = 2_500;
 const MAXIMUM_NATIVE_RASTER_PREVIEW_AREA = 4_000_000;
@@ -76,16 +77,16 @@ export function svgShell(options: {
     <style><![CDATA[
       @font-face { font-family: "Newsreader Variable"; src: url(data:font/woff2;base64,${fonts.newsreader}) format("woff2"); font-weight: 200 800; }
       @font-face { font-family: "IBM Plex Mono"; src: url(data:font/woff2;base64,${fonts.plexMono}) format("woff2"); font-weight: 400; }
-      text { fill: #f2e5cf; font-family: "IBM Plex Mono", monospace; }
+      text { fill: ${knowledgeTheme.foreground}; font-family: "IBM Plex Mono", monospace; }
       .display { font-family: "Newsreader Variable", Georgia, serif; }
       ${extraCss}
     ]]></style>
     <filter id="glow"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#d6b06a"/></marker>
-    <marker id="arrow-muted" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#8f816e"/></marker>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="${knowledgeTheme.primary}"/></marker>
+    <marker id="arrow-muted" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="${knowledgeTheme.foregroundSubtle}"/></marker>
   </defs>
-  <rect width="${width}" height="${height}" fill="#050505"/>
-  <path d="M0 86 H${width}" stroke="#2d271e"/>
+  <rect width="${width}" height="${height}" fill="${knowledgeTheme.background}"/>
+  <path d="M0 86 H${width}" stroke="${knowledgeTheme.border}"/>
   ${content}
 </svg>`;
 }

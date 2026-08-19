@@ -126,6 +126,28 @@ test("renders the minimal home with logo and writings", async ({ page }) => {
   expect(overflow).toBe(false);
 });
 
+test("documents the Tailwind design system accessibly at each supported viewport", async ({ page }, testInfo) => {
+  await page.goto("/design-system");
+  await expect(page.getByRole("heading", { name: "Color with a job to do." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Status colors that stay in their lane." })).toBeVisible();
+  await expect(page.getByText("accent-1 · accent-blue", { exact: true })).toBeVisible();
+  await expect(page.getByText("accent-6 · accent-plum", { exact: true })).toBeVisible();
+
+  const primaryAction = page.getByRole("button", { name: "Primary action" });
+  await primaryAction.focus();
+  await expect(primaryAction).toBeFocused();
+  expect(await primaryAction.evaluate((element) => getComputedStyle(element).outlineWidth)).toBe("2px");
+
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  expect(overflow).toBe(false);
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations.filter((violation) => ["serious", "critical"].includes(violation.impact ?? ""))).toEqual([]);
+  await testInfo.attach(`design-system-${testInfo.project.name}`, {
+    body: await page.screenshot({ animations: "disabled", fullPage: true }),
+    contentType: "image/png",
+  });
+});
+
 test("renders the identity and complete content without overflow", async ({ page }) => {
   await page.goto("/brand");
   await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();

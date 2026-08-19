@@ -44,8 +44,9 @@ type Whole = Alpha | Beta;
 type Empty = never;
 `);
 
-  await expect(page.getByText("Alpha", { exact: true }).first()).toBeVisible({ timeout: 30_000 });
-  await expect(page.getByText("Whole", { exact: true }).first()).toBeVisible();
+  const alphaRegion = page.locator(".set-region", { hasText: "Alpha" }).first();
+  await expect(alphaRegion).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator(".set-region", { hasText: "Whole" }).first()).toBeVisible();
   await expect(page.locator(".set-analysis-status")).toContainText("Compiler current");
 
   await replacePastedSource(page, "type Alpha = ;");
@@ -53,7 +54,7 @@ type Empty = never;
     name: "The source has errors. The canvas is preserving the last valid atlas.",
   });
   await expect(staleBanner).toBeVisible({ timeout: 30_000 });
-  await expect(page.getByText("Alpha", { exact: true }).first()).toBeVisible();
+  await expect(alphaRegion).toBeVisible();
 
   await staleBanner.click();
   await expect(page.getByRole("button", { name: /Issues [1-9]/ })).toHaveClass(/is-active/);
@@ -108,7 +109,7 @@ test("downloads a self-contained SVG and a two-times PNG", async ({ page }, test
   expect(svgPath).not.toBeNull();
   const svg = await readFile(svgPath as string, "utf8");
   expect(svg).toContain("<svg");
-  expect(svg).toContain("<title>TypeScript is set theory</title>");
+  expect(svg).toContain('<title id="set-atlas-title">TypeScript is set theory</title>');
   expect(svg).toContain('aria-labelledby="set-atlas-title set-atlas-description"');
   expect(svg).toContain("data:font/woff2;base64,");
   expect(svg).toContain("Stop");

@@ -2,6 +2,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
+import { thomDesignTokens } from "@th-m/design-theme";
 import { generateKnowledgeProof } from "../src/generate.ts";
 import type { TypeScriptWorkspaceSnapshot } from "../src/types.ts";
 
@@ -37,10 +38,13 @@ describe("knowledge proof generator", () => {
     const svg = await readFile(join(root, "dist/proof/typescript/schema-hierarchy.svg"), "utf8");
     expect(svg).toContain("role=\"img\"");
     expect(svg).toContain("data:font/woff2;base64,");
+    expect(svg).toContain(thomDesignTokens.color.background);
+    expect(svg).toContain(thomDesignTokens.color.primary.default);
     expect((await readFile(join(root, "dist/proof/typescript/schema-hierarchy@2x.png"))).byteLength).toBeGreaterThan(1000);
     const board = await readFile(generated.boardPath, "utf8");
     expect(board).toContain("typescript/schema-hierarchy.svg");
     expect(board).toContain("complete public API register");
+    expect(board).toContain(`background:${thomDesignTokens.color.background}`);
     expect(board).not.toMatch(/https?:\/\/(?:fonts|cdn)/);
   }, 20_000);
 

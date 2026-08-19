@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
@@ -29,6 +30,7 @@ function publishedPages() {
   return [
     { path: "/", prerender: { enabled: true, outputPath: "/index.html" } },
     { path: "/brand", prerender: { enabled: true, outputPath: "/brand/index.html" } },
+    { path: "/design-system", prerender: { enabled: true, outputPath: "/design-system/index.html" } },
     { path: "/writing", prerender: { enabled: true, outputPath: "/writing/index.html" } },
     ...slugs.map((slug) => ({
       path: `/writing/${slug}`,
@@ -39,7 +41,8 @@ function publishedPages() {
 
 export default defineConfig(({ mode }) => ({
   resolve: { tsconfigPaths: true },
-  plugins: mode === "test" ? [react()] : [
+  plugins: mode === "test" ? [tailwindcss(), react()] : [
+    tailwindcss(),
     tanstackStart({
       spa: {
         enabled: true,

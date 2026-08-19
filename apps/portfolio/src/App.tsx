@@ -94,9 +94,9 @@ function Reveal({ children, className = "", as = "section", id }: { children: Re
   );
 }
 
-function Header({ writingLink }: { writingLink: React.ReactNode }) {
+function Header({ writingLink, systemLink }: { writingLink: React.ReactNode; systemLink: React.ReactNode }) {
   return (
-    <header className="site-header">
+    <header className="site-header brand-header">
       <a className="header-brand" href="#top" aria-label="THOM — return to top">
         <ThomLogo variant="header" motion="compact" />
         <span className="header-domain">th-m.codes</span>
@@ -108,6 +108,7 @@ function Header({ writingLink }: { writingLink: React.ReactNode }) {
         <a href="#library">Library</a>
         <a href="#focus">Focus</a>
         <a href="#work">Work</a>
+        {systemLink}
         {writingLink}
       </nav>
     </header>
@@ -389,11 +390,17 @@ function Footer() {
   );
 }
 
-export default function App({ writingLink = <a href="/writing">Writing</a> }: { writingLink?: React.ReactNode }) {
+export default function App({
+  writingLink = <a href="/writing">Writing</a>,
+  systemLink = <a href="/design-system">System</a>,
+}: {
+  writingLink?: React.ReactNode;
+  systemLink?: React.ReactNode;
+}) {
   return (
     <>
       <a className="skip-link" href="#main">Skip to content</a>
-      <Header writingLink={writingLink} />
+      <Header writingLink={writingLink} systemLink={systemLink} />
       <main id="main">
         <Hero />
         <MarkSection />

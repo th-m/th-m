@@ -49,7 +49,7 @@ export function LibraryPanel({
       </nav>
       <div className="graph-library-footer">
         <button className="graph-button" onClick={onDuplicate}>Duplicate</button>
-        <button className="graph-button graph-button--danger" onClick={onDelete}>Delete</button>
+        <button className="graph-button graph-button--error" onClick={onDelete}>Delete</button>
         <p>Saved automatically in this browser.</p>
       </div>
     </aside>

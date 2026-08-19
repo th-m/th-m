@@ -1,6 +1,7 @@
 import { Parser, type Database } from "@dbml/core";
 import type { KnowledgeDocument } from "@th-m/knowledge-model";
 import { svgShell, tspans, wrapText, xml, type EmbeddedFonts } from "./rendering.ts";
+import { knowledgeTheme } from "./theme.ts";
 
 export interface ErdColumn {
   id: string;
@@ -406,17 +407,17 @@ export function renderErd(model: ErdModel, title: string, fonts: EmbeddedFonts):
       if (layout.dense) {
         const top = position.y + 48 + index * 11;
         const keys = [column.primary ? "PK" : "", column.unique ? "UK" : "", column.nullable ? "?" : ""].filter(Boolean).join(" ");
-        return `<g id="${column.id}"><path d="M${position.x} ${top + 11} H${position.x + position.width}" stroke="#242019" stroke-width=".6"/><text x="${position.x + 7}" y="${top + 8}" font-size="6.6" fill="${column.primary ? "#d6b06a" : "#f2e5cf"}">${xml(column.name)}</text><text x="${position.x + 142}" y="${top + 8}" font-size="6.1" fill="#a99b87">${xml(column.type.slice(0, 27))}</text><text x="${position.x + position.width - 7}" y="${top + 8}" text-anchor="end" font-size="5.8" fill="#d6b06a">${keys}</text></g>`;
+        return `<g id="${column.id}"><path d="M${position.x} ${top + 11} H${position.x + position.width}" stroke="${knowledgeTheme.border}" stroke-width=".6"/><text x="${position.x + 7}" y="${top + 8}" font-size="6.6" fill="${column.primary ? knowledgeTheme.primary : knowledgeTheme.foreground}">${xml(column.name)}</text><text x="${position.x + 142}" y="${top + 8}" font-size="6.1" fill="${knowledgeTheme.foregroundMuted}">${xml(column.type.slice(0, 27))}</text><text x="${position.x + position.width - 7}" y="${top + 8}" text-anchor="end" font-size="5.8" fill="${knowledgeTheme.primary}">${keys}</text></g>`;
       }
       const y = position.y + 61 + index * 30;
       const keys = [column.primary ? "PK" : "", column.unique ? "UK" : "", column.nullable ? "?" : ""].filter(Boolean).join(" ");
-      return `<g id="${column.id}"><path d="M${position.x} ${y + 14} H${position.x + position.width}" stroke="#2d271e"/><text x="${position.x + 16}" y="${y + 4}" font-size="12" fill="${column.primary ? "#d6b06a" : "#f2e5cf"}">${xml(column.name)}</text><text x="${position.x + 190}" y="${y + 4}" font-size="11" fill="#a99b87">${xml(column.type)}</text><text x="${position.x + position.width - 16}" y="${y + 4}" text-anchor="end" font-size="10" fill="#d6b06a">${keys}</text></g>`;
+      return `<g id="${column.id}"><path d="M${position.x} ${y + 14} H${position.x + position.width}" stroke="${knowledgeTheme.border}"/><text x="${position.x + 16}" y="${y + 4}" font-size="12" fill="${column.primary ? knowledgeTheme.primary : knowledgeTheme.foreground}">${xml(column.name)}</text><text x="${position.x + 190}" y="${y + 4}" font-size="11" fill="${knowledgeTheme.foregroundMuted}">${xml(column.type)}</text><text x="${position.x + position.width - 16}" y="${y + 4}" text-anchor="end" font-size="10" fill="${knowledgeTheme.primary}">${keys}</text></g>`;
     }).join("");
     if (layout.dense) {
       const label = wrapText(table.name, 34, 1)[0];
-      return `<g id="${table.id}"><rect x="${position.x}" y="${position.y}" width="${position.width}" height="${position.height}" rx="8" fill="#0c0b09" stroke="#554936" stroke-width=".8"/><path d="M${position.x} ${position.y + 48} H${position.x + position.width}" stroke="#6d5a3b" stroke-width=".8"/><text x="${position.x + 8}" y="${position.y + 13}" font-size="5.8" fill="#a99b87">${xml(table.schema)}</text><text class="display" x="${position.x + 8}" y="${position.y + 36}" font-size="13">${xml(label)}</text>${rows}</g>`;
+      return `<g id="${table.id}"><rect x="${position.x}" y="${position.y}" width="${position.width}" height="${position.height}" rx="8" fill="${knowledgeTheme.surface}" stroke="${knowledgeTheme.borderStrong}" stroke-width=".8"/><path d="M${position.x} ${position.y + 48} H${position.x + position.width}" stroke="${knowledgeTheme.borderStrong}" stroke-width=".8"/><text x="${position.x + 8}" y="${position.y + 13}" font-size="5.8" fill="${knowledgeTheme.foregroundMuted}">${xml(table.schema)}</text><text class="display" x="${position.x + 8}" y="${position.y + 36}" font-size="13">${xml(label)}</text>${rows}</g>`;
     }
-    return `<g id="${table.id}"><rect x="${position.x}" y="${position.y}" width="${position.width}" height="${position.height}" rx="15" fill="#0c0b09" stroke="#554936"/><path d="M${position.x} ${position.y + 50} H${position.x + position.width}" stroke="#6d5a3b"/><text x="${position.x + 16}" y="${position.y + 21}" font-size="10" fill="#a99b87">${xml(table.schema)}</text><text class="display" x="${position.x + 16}" y="${position.y + 43}" font-size="23">${xml(table.name)}</text>${rows}</g>`;
+    return `<g id="${table.id}"><rect x="${position.x}" y="${position.y}" width="${position.width}" height="${position.height}" rx="15" fill="${knowledgeTheme.surface}" stroke="${knowledgeTheme.borderStrong}"/><path d="M${position.x} ${position.y + 50} H${position.x + position.width}" stroke="${knowledgeTheme.borderStrong}"/><text x="${position.x + 16}" y="${position.y + 21}" font-size="10" fill="${knowledgeTheme.foregroundMuted}">${xml(table.schema)}</text><text class="display" x="${position.x + 16}" y="${position.y + 43}" font-size="23">${xml(table.name)}</text>${rows}</g>`;
   }).join("");
 
   const columnY = (table: ErdTable, columnId: string): number => {
@@ -435,23 +436,23 @@ export function renderErd(model: ErdModel, title: string, fonts: EmbeddedFonts):
     if (dependent.id === referenced.id) {
       const x = dependentPosition.x + dependentPosition.width;
       const loopX = x + (layout.dense ? 18 : 54) + index * (layout.dense ? 1.5 : 8);
-      return `<path d="M${x} ${sy} H${loopX} V${ty} H${x}" fill="none" stroke="#dc806f" stroke-width="${layout.dense ? .7 : 1.8}" stroke-dasharray="6 5" marker-end="url(#arrow-muted)"/><text x="${loopX + (layout.dense ? 3 : 8)}" y="${(sy + ty) / 2}" font-size="${layout.dense ? 5 : 9}" fill="#a99b87">${xml(foreignKey.name)}</text>`;
+      return `<path d="M${x} ${sy} H${loopX} V${ty} H${x}" fill="none" stroke="${knowledgeTheme.error}" stroke-width="${layout.dense ? .7 : 1.8}" stroke-dasharray="6 5" marker-end="url(#arrow-muted)"/><text x="${loopX + (layout.dense ? 3 : 8)}" y="${(sy + ty) / 2}" font-size="${layout.dense ? 5 : 9}" fill="${knowledgeTheme.foregroundMuted}">${xml(foreignKey.name)}</text>`;
     }
     const leftToRight = referencedPosition.x <= dependentPosition.x;
     const sx = leftToRight ? referencedPosition.x + referencedPosition.width : referencedPosition.x;
     const tx = leftToRight ? dependentPosition.x : dependentPosition.x + dependentPosition.width;
     const mid = (sx + tx) / 2 + ((index % 3) - 1) * (layout.dense ? 3 : 10);
     const labelY = Math.min(sy, ty) - (layout.dense ? 3 : 9);
-    return `<path d="M${sx} ${sy} H${mid} V${ty} H${tx}" fill="none" stroke="${cyclic ? "#dc806f" : "#d6b06a"}" stroke-width="${layout.dense ? .7 : 1.8}"${cyclic ? ' stroke-dasharray="6 5"' : ""} marker-end="url(#arrow)"/><text x="${mid}" y="${labelY}" text-anchor="middle" font-size="${layout.dense ? 4.8 : 9}" fill="#a99b87">${xml(foreignKey.name)}</text>`;
+    return `<path d="M${sx} ${sy} H${mid} V${ty} H${tx}" fill="none" stroke="${cyclic ? knowledgeTheme.error : knowledgeTheme.primary}" stroke-width="${layout.dense ? .7 : 1.8}"${cyclic ? ' stroke-dasharray="6 5"' : ""} marker-end="url(#arrow)"/><text x="${mid}" y="${labelY}" text-anchor="middle" font-size="${layout.dense ? 4.8 : 9}" fill="${knowledgeTheme.foregroundMuted}">${xml(foreignKey.name)}</text>`;
   }).join("");
-  const content = `<text class="display" x="58" y="58" font-size="${layout.dense ? 28 : 38}">${xml(title)}</text><text x="${layout.width - 58}" y="56" text-anchor="end" font-size="${layout.dense ? 8 : 12}" fill="#a99b87">ERD · REFERENCED → DEPENDENT · COLUMN PORTS · ORTHOGONAL ROUTES${layout.dense ? " · DENSE DOMAIN PACKING" : ""}</text>${relationMarkup}${tableMarkup}`;
+  const content = `<text class="display" x="58" y="58" font-size="${layout.dense ? 28 : 38}">${xml(title)}</text><text x="${layout.width - 58}" y="56" text-anchor="end" font-size="${layout.dense ? 8 : 12}" fill="${knowledgeTheme.foregroundMuted}">ERD · REFERENCED → DEPENDENT · COLUMN PORTS · ORTHOGONAL ROUTES${layout.dense ? " · DENSE DOMAIN PACKING" : ""}</text>${relationMarkup}${tableMarkup}`;
   const svg = svgShell({ title: `${title} — THOM ERD`, description: "Entity relationship diagram ranked from referenced tables to dependent tables with column-level ports.", width: layout.width, height: layout.height, fonts, content });
   if (!layout.dense) return { svg, width: layout.width, height: layout.height };
   const overviewTables = model.tables.map((table) => {
     const position = layout.positions.get(table.id)!;
-    return `<g><rect x="${position.x}" y="${position.y}" width="${position.width}" height="${position.height}" rx="8" fill="#0c0b09" stroke="#554936" stroke-width="1.2"/><text class="display" x="${position.x + 9}" y="${position.y + 25}" font-size="11">${xml(wrapText(table.name, 34, 1)[0])}</text><text x="${position.x + 9}" y="${position.y + 41}" font-size="6" fill="#a99b87">${table.columns.length} COLUMNS</text></g>`;
+    return `<g><rect x="${position.x}" y="${position.y}" width="${position.width}" height="${position.height}" rx="8" fill="${knowledgeTheme.surface}" stroke="${knowledgeTheme.borderStrong}" stroke-width="1.2"/><text class="display" x="${position.x + 9}" y="${position.y + 25}" font-size="11">${xml(wrapText(table.name, 34, 1)[0])}</text><text x="${position.x + 9}" y="${position.y + 41}" font-size="6" fill="${knowledgeTheme.foregroundMuted}">${table.columns.length} COLUMNS</text></g>`;
   }).join("");
-  const overviewContent = `<text class="display" x="58" y="58" font-size="28">${xml(title)}</text><text x="${layout.width - 58}" y="56" text-anchor="end" font-size="8" fill="#a99b87">ERD OVERVIEW · FULL COLUMN REGISTER IN SVG</text>${relationMarkup}${overviewTables}`;
+  const overviewContent = `<text class="display" x="58" y="58" font-size="28">${xml(title)}</text><text x="${layout.width - 58}" y="56" text-anchor="end" font-size="8" fill="${knowledgeTheme.foregroundMuted}">ERD OVERVIEW · FULL COLUMN REGISTER IN SVG</text>${relationMarkup}${overviewTables}`;
   const rasterSvg = svgShell({ title: `${title} — THOM ERD overview`, description: "Raster overview of the complete ERD; the paired SVG contains the full column register.", width: layout.width, height: layout.height, fonts, content: overviewContent });
   return { svg, width: layout.width, height: layout.height, rasterSvg };
 }

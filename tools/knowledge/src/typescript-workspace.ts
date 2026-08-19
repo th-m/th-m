@@ -1,5 +1,6 @@
 import type { KnowledgeDocument, TypeRelation, TypeSetSymbol } from "@th-m/knowledge-model";
 import { svgShell, tspans, wrapText, xml, type EmbeddedFonts } from "./rendering.ts";
+import { knowledgeTheme } from "./theme.ts";
 import type { SetProjection, TypeScriptSymbolSnapshot, TypeScriptWorkspaceSnapshot } from "./types.ts";
 
 export function snapshotToKnowledgeDocument(snapshot: TypeScriptWorkspaceSnapshot): KnowledgeDocument {
@@ -59,15 +60,15 @@ export function renderSchemaHierarchy(snapshot: TypeScriptWorkspaceSnapshot, tit
       const packages = snapshot.packages.filter((package_) => package_.capability === capability).sort((left, right) => left.name.localeCompare(right.name));
       const x = 54 + column * laneWidth;
       const laneHeight = rowHeights[row];
-      markup.push(`<rect x="${x}" y="${rowTop}" width="450" height="${laneHeight}" rx="20" fill="#0c0b09" stroke="#554936"/><text x="${x + 22}" y="${rowTop + 29}" font-size="10" fill="#a99b87">CAPABILITY</text><text class="display" x="${x + 22}" y="${rowTop + 58}" font-size="27">${xml(capability)}</text>`);
+      markup.push(`<rect x="${x}" y="${rowTop}" width="450" height="${laneHeight}" rx="20" fill="${knowledgeTheme.surface}" stroke="${knowledgeTheme.border}"/><text x="${x + 22}" y="${rowTop + 29}" font-size="10" fill="${knowledgeTheme.foregroundMuted}">CAPABILITY</text><text class="display" x="${x + 22}" y="${rowTop + 58}" font-size="27">${xml(capability)}</text>`);
       packages.forEach((package_, index) => {
         const y = rowTop + 76 + index * 92;
-        markup.push(`<rect x="${x + 20}" y="${y}" width="410" height="72" rx="12" fill="#15120d" stroke="#6d5a3b"/><text x="${x + 36}" y="${y + 29}" font-size="13">${xml(packageLabel(package_.name))}</text><text x="${x + 36}" y="${y + 51}" font-size="10" fill="#a99b87">${package_.exports.length} public exports · ${package_.dependencies.length} schema dependencies</text>`);
+        markup.push(`<rect x="${x + 20}" y="${y}" width="410" height="72" rx="12" fill="${knowledgeTheme.surfaceRaised}" stroke="${knowledgeTheme.borderStrong}"/><text x="${x + 36}" y="${y + 29}" font-size="13">${xml(packageLabel(package_.name))}</text><text x="${x + 36}" y="${y + 51}" font-size="10" fill="${knowledgeTheme.foregroundMuted}">${package_.exports.length} public exports · ${package_.dependencies.length} schema dependencies</text>`);
       });
     });
     rowTop += rowHeights[row] + 38;
   }
-  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="#a99b87">DOMAIN → CAPABILITY → LEAF PACKAGE</text><text x="54" y="110" font-size="11" fill="#d6b06a">${snapshot.packages.length} LEAF PACKAGES · ${snapshot.symbols.length} PUBLIC SYMBOLS · ${snapshot.repository.revision.slice(0, 12)}</text>${markup.join("")}`;
+  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="${knowledgeTheme.foregroundMuted}">DOMAIN → CAPABILITY → LEAF PACKAGE</text><text x="54" y="110" font-size="11" fill="${knowledgeTheme.primary}">${snapshot.packages.length} LEAF PACKAGES · ${snapshot.symbols.length} PUBLIC SYMBOLS · ${snapshot.repository.revision.slice(0, 12)}</text>${markup.join("")}`;
   return { svg: svgShell({ title: `${title} — hierarchy`, description: "Top-to-bottom hierarchy from the schema domain through capabilities to independently packaged leaf projects.", width, height, fonts, content }), width, height };
 }
 
@@ -103,13 +104,13 @@ export function renderPackageDependencies(snapshot: TypeScriptWorkspaceSnapshot,
     const tx = target.x + target.width;
     const ty = target.y + target.height / 2;
     const mid = (sx + tx) / 2 + (index % 3) * 8;
-    return `<path d="M${sx} ${sy} H${mid} V${ty} H${tx}" fill="none" stroke="#d6b06a" stroke-width="1.6" marker-end="url(#arrow)"/>`;
+    return `<path d="M${sx} ${sy} H${mid} V${ty} H${tx}" fill="none" stroke="${knowledgeTheme.primary}" stroke-width="1.6" marker-end="url(#arrow)"/>`;
   })).join("");
   const nodes = snapshot.packages.map((package_) => {
     const position = positions.get(package_.id)!;
-    return `<g><rect x="${position.x}" y="${position.y}" width="${position.width}" height="${position.height}" rx="14" fill="#15120d" stroke="#6d5a3b"/><text x="${position.x + 16}" y="${position.y + 30}" font-size="13">${xml(packageLabel(package_.name))}</text><text x="${position.x + 16}" y="${position.y + 54}" font-size="10" fill="#a99b87">${package_.exports.length} exports · ${package_.capability}</text></g>`;
+    return `<g><rect x="${position.x}" y="${position.y}" width="${position.width}" height="${position.height}" rx="14" fill="${knowledgeTheme.surfaceRaised}" stroke="${knowledgeTheme.borderStrong}"/><text x="${position.x + 16}" y="${position.y + 30}" font-size="13">${xml(packageLabel(package_.name))}</text><text x="${position.x + 16}" y="${position.y + 54}" font-size="10" fill="${knowledgeTheme.foregroundMuted}">${package_.exports.length} exports · ${package_.capability}</text></g>`;
   }).join("");
-  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="#a99b87">DEPENDENCIES LEFT → FOUNDATIONS RIGHT · PUBLIC LEAF PROJECTS ONLY</text>${edges}${nodes}`;
+  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="${knowledgeTheme.foregroundMuted}">DEPENDENCIES LEFT → FOUNDATIONS RIGHT · PUBLIC LEAF PROJECTS ONLY</text>${edges}${nodes}`;
   return { svg: svgShell({ title: `${title} — dependencies`, description: "Public leaf package dependencies ranked left to right.", width, height, fonts, content }), width, height };
 }
 
@@ -126,15 +127,15 @@ export function renderPublicApiOverview(snapshot: TypeScriptWorkspaceSnapshot, t
     const kinds = new Map<string, number>();
     for (const symbol of snapshot.symbols.filter(({ packageId }) => packageId === package_.id)) kinds.set(symbol.kind, (kinds.get(symbol.kind) ?? 0) + 1);
     const detail = [...kinds].sort(([left], [right]) => left.localeCompare(right)).map(([kind, count]) => `${kind} ${count}`).join(" · ");
-    return `<g><rect x="${x}" y="${y}" width="438" height="112" rx="16" fill="#0c0b09" stroke="#554936"/><text x="${x + 18}" y="${y + 30}" font-size="12" fill="#d6b06a">${xml(packageLabel(package_.name))}</text><text class="display" x="${x + 18}" y="${y + 68}" font-size="34">${package_.exports.length}</text><text x="${x + 82}" y="${y + 62}" font-size="10" fill="#a99b87">PUBLIC EXPORTS</text><text x="${x + 18}" y="${y + 92}" font-size="9" fill="#a99b87">${xml(detail || "re-exported runtime values")}</text></g>`;
+    return `<g><rect x="${x}" y="${y}" width="438" height="112" rx="16" fill="${knowledgeTheme.surface}" stroke="${knowledgeTheme.border}"/><text x="${x + 18}" y="${y + 30}" font-size="12" fill="${knowledgeTheme.primary}">${xml(packageLabel(package_.name))}</text><text class="display" x="${x + 18}" y="${y + 68}" font-size="34">${package_.exports.length}</text><text x="${x + 82}" y="${y + 62}" font-size="10" fill="${knowledgeTheme.foregroundMuted}">PUBLIC EXPORTS</text><text x="${x + 18}" y="${y + 92}" font-size="9" fill="${knowledgeTheme.foregroundMuted}">${xml(detail || "re-exported runtime values")}</text></g>`;
   }).join("");
-  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="#a99b87">PUBLIC API REGISTER · COMPLETE PROVENANCE IN HTML</text>${cards}`;
+  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="${knowledgeTheme.foregroundMuted}">PUBLIC API REGISTER · COMPLETE PROVENANCE IN HTML</text>${cards}`;
   return { svg: svgShell({ title: `${title} — public API`, description: "Summary register of public exports by leaf package.", width, height, fonts, content }), width, height };
 }
 
 export function createPublicApiHtml(snapshot: TypeScriptWorkspaceSnapshot): string {
   const rows = snapshot.symbols.map((symbol) => `<tr><td>${xml(packageLabel(symbol.packageId))}</td><td>${xml(symbol.name)}</td><td>${xml(symbol.kind)}</td><td><code>${xml(symbol.sourcePath)}:${symbol.line}</code></td><td>${symbol.deprecated ? "deprecated" : ""}</td></tr>`).join("");
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${xml(snapshot.title)} public API</title><style>body{background:#050505;color:#f2e5cf;font:13px ui-monospace,monospace;margin:32px}table{border-collapse:collapse;width:100%}th,td{padding:10px;border-bottom:1px solid #30291f;text-align:left}th{color:#d6b06a;position:sticky;top:0;background:#050505}code{color:#a99b87}</style></head><body><h1>${xml(snapshot.title)} public API</h1><p>${snapshot.symbols.length} exports at <code>${xml(snapshot.repository.revision)}</code></p><table><thead><tr><th>Package</th><th>Symbol</th><th>Kind</th><th>Provenance</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${xml(snapshot.title)} public API</title><style>body{background:${knowledgeTheme.background};color:${knowledgeTheme.foreground};font:13px ui-monospace,monospace;margin:32px}table{border-collapse:collapse;width:100%}th,td{padding:10px;border-bottom:1px solid ${knowledgeTheme.border};text-align:left}th{color:${knowledgeTheme.primary};position:sticky;top:0;background:${knowledgeTheme.background}}code{color:${knowledgeTheme.foregroundMuted}}</style></head><body><h1>${xml(snapshot.title)} public API</h1><p>${snapshot.symbols.length} exports at <code>${xml(snapshot.repository.revision)}</code></p><table><thead><tr><th>Package</th><th>Symbol</th><th>Kind</th><th>Provenance</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
 }
 
 function selectedSymbols(snapshot: TypeScriptWorkspaceSnapshot, names: string[]): TypeScriptSymbolSnapshot[] {
@@ -226,11 +227,11 @@ export function renderSetProjection(projection: SetProjection, title: string, fo
     const childMarkup = children.map((child, childIndex) => {
       const cx = x + (childIndex - (children.length - 1) / 2) * 90;
       const cy = y + 18;
-      return `<ellipse cx="${cx}" cy="${cy}" rx="104" ry="68" fill="#211a10" fill-opacity=".88" stroke="#d6b06a"/><text x="${cx}" y="${cy - 3}" text-anchor="middle" font-size="11">${tspans(wrapText(child.symbols.map(({ name }) => name).join(" ≡ "), 22, 2), cx, cy - 3, 17)}</text>`;
+      return `<ellipse cx="${cx}" cy="${cy}" rx="104" ry="68" fill="${knowledgeTheme.dialog}" fill-opacity=".88" stroke="${knowledgeTheme.primary}"/><text x="${cx}" y="${cy - 3}" text-anchor="middle" font-size="11">${tspans(wrapText(child.symbols.map(({ name }) => name).join(" ≡ "), 22, 2), cx, cy - 3, 17)}</text>`;
     }).join("");
-    return `<g><ellipse cx="${x}" cy="${y}" rx="142" ry="122" fill="#15120d" stroke="#6d5a3b" stroke-width="2"/><text x="${x}" y="${y - 75}" text-anchor="middle" font-size="12" fill="#d6b06a">${tspans(wrapText(rootLabel, 25, 2), x, y - 75, 17)}</text>${childMarkup}</g>`;
+    return `<g><ellipse cx="${x}" cy="${y}" rx="142" ry="122" fill="${knowledgeTheme.surfaceRaised}" stroke="${knowledgeTheme.borderStrong}" stroke-width="2"/><text x="${x}" y="${y - 75}" text-anchor="middle" font-size="12" fill="${knowledgeTheme.primary}">${tspans(wrapText(rootLabel, 25, 2), x, y - 75, 17)}</text>${childMarkup}</g>`;
   }).join("");
-  const warnings = projection.warnings.map((warning, index) => `<g><rect x="54" y="${566 + index * 54}" width="${width - 108}" height="42" rx="10" fill="#15120d" stroke="#554936"/><text x="70" y="${592 + index * 54}" font-size="10" fill="#a99b87">APPROXIMATION · ${xml(warning)}</text></g>`).join("");
-  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="#a99b87">FOCUSED SET / EULER ATLAS · EQUIVALENCE MERGED · CONTAINMENT NESTED</text><text x="54" y="112" font-size="11" fill="#d6b06a">${projection.symbols.length} SELECTED SYMBOLS · ${projection.relations.length} EXPLICIT RELATIONS</text>${markup}${warnings}`;
+  const warnings = projection.warnings.map((warning, index) => `<g><rect x="54" y="${566 + index * 54}" width="${width - 108}" height="42" rx="10" fill="${knowledgeTheme.surfaceRaised}" stroke="${knowledgeTheme.border}"/><text x="70" y="${592 + index * 54}" font-size="10" fill="${knowledgeTheme.foregroundMuted}">APPROXIMATION · ${xml(warning)}</text></g>`).join("");
+  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="${knowledgeTheme.foregroundMuted}">FOCUSED SET / EULER ATLAS · EQUIVALENCE MERGED · CONTAINMENT NESTED</text><text x="54" y="112" font-size="11" fill="${knowledgeTheme.primary}">${projection.symbols.length} SELECTED SYMBOLS · ${projection.relations.length} EXPLICIT RELATIONS</text>${markup}${warnings}`;
   return { svg: svgShell({ title: `${title} — set atlas`, description: "Focused TypeScript set atlas merging equivalent types and nesting structural containment.", width, height, fonts, content }), width, height };
 }
