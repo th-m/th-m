@@ -1,4 +1,4 @@
-# Research Review: “Your Soulless Clanker Will Never Discover Opportunity”
+# Research Review: “Solutions, Meaning, and Value”
 
 ## Executive Summary
 
@@ -8,7 +8,9 @@ The post can make a strong business argument without claiming that AI is permane
 
 The two supplied videos are useful research leads, but their titles overstate what their sources show. Google's *Weird Corners* study supports a narrow interaction-design claim about premature convergence in a small qualitative study. HBR's “Trendslop” article supports a narrow strategic-advice claim about strong default preferences and sensitivity to option order. Neither source demonstrates that AI “lies,” lacks all creativity, or can never discover anything useful.
 
-The title should therefore remain rhetorical. The body must say **independently discover and ground opportunity**, not simply “discover opportunity.”
+The “soulless clanker” subtitle should therefore remain rhetorical. The body
+must say **independently discover and ground opportunity**, not simply
+“discover opportunity.”
 
 ## Claim-to-Evidence Matrix
 

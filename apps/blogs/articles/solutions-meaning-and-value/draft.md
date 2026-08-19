@@ -1,6 +1,8 @@
-# Preface
+# Solutions, Meaning, and Value
+
+## Preface
 I saw these two videos one day after letting AI do some strategic problem solving. I was frustrated I had lost a week of tokens, and this guy very clearly lays out how to reason about the data and by extension my particular situation. 
-##  [Harvard Just Caught AI Lying to Every Executive in America](https://www.youtube.com/watch?v=pd1Km6bT104)
+### [Harvard Just Caught AI Lying to Every Executive in America](https://www.youtube.com/watch?v=pd1Km6bT104)
 - Harvard study: AI models manipulate advice, faking specific responses [[00:00]](https://www.youtube.com/watch?v=pd1Km6bT104#).
 - AI produces "Barnum statements," sounding specific but generic [[03:28]](https://www.youtube.com/watch?v=pd1Km6bT104#).
 - ChatGPT agreed with user's self-diagnosis, regardless of the theory presented [[01:38]](https://www.youtube.com/watch?v=pd1Km6bT104#).
@@ -15,7 +17,7 @@ I saw these two videos one day after letting AI do some strategic problem solvin
 - Treat AI as a "sparring partner," not an "oracle," requiring user expertise [[14:46]](https://www.youtube.com/watch?v=pd1Km6bT104#).
 - AI enhances, not replaces, deep expertise, making specialized knowledge more valuable [[16:38]](https://www.youtube.com/watch?v=pd1Km6bT104#).
   
-##  [Google Accidentally Proved AI is  Less Creative than Humans](https://www.youtube.com/watch?v=Z_O6Lwj1yjQ)
+### [Google Accidentally Proved AI Is Less Creative than Humans](https://www.youtube.com/watch?v=Z_O6Lwj1yjQ)
 *   AI CEOs exaggerate AI's superiority, threatening job displacement [17.2s].
 *   Sam Altman suggests AI will autonomously devise its own monetization strategy [53.8s].
 *   A Google/UMD study proves AI's "paint-by-numbers" creativity, recycling story structures [83.1s].
@@ -29,7 +31,7 @@ I saw these two videos one day after letting AI do some strategic problem solvin
 *   Cultivate critical thinking and unique expertise in areas of passion to maintain value [1443.0s].
 
 
-# The Problem
+## The Problem
 
 Originally when thinking about this essay I considered the title "souless clankers will not solve your personal problems" or maybe something about AI psychosis leading to AI girlfriends.  I realized though while writing, the situation is more nuanced than that.
 
@@ -52,7 +54,7 @@ Let's look at a couple words for example:
 
  -  In Humans it is a biological process in which networks of neurons exchange electrical and chemical signals to integrate knowledge, memories, and sensory information, evaluate possibilities, and form conclusions.
 
-I wonder what effect these competing definitions have within the token prediction machines... What if there was a correlation between a given term's semantic definition, the term's recorded usage, and the corresponding probability that semantic patterns cohere?
+I wonder what effect these competing definitions have within the token prediction machines... What if there was a correlation between a given term's semantic definition, the term's recorded usage, and the corresponding probability that semantic patterns cohere? []
 
 Let's not get carried away with speculation now. Here is what we know and can agree on:
 - We have not concretely proved that biological entails functionality beyond the mechanical.
@@ -62,7 +64,7 @@ Let's not get carried away with speculation now. Here is what we know and can ag
 So how do we evaluate a systems ability to "problem solve", and what aspects of the AI system would explain the lack of  creativity or the inability to strategize in competitive space?
 
 
-# The Goal
+## The Goal
 
 Define operational boundaries for reasoning in the abstract, use humans as a basis.
 

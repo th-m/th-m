@@ -1,9 +1,10 @@
-# Propositions and Relationships Graph
+# Truth, Entropy, and Inference Graph Assets
 
 ## Purpose
 
-This directory owns the checked-in visual artifacts used by the propositions
-and relationships essay.
+This directory owns checked-in visual artifacts inherited from the earlier
+propositions-and-relationships framing and available to the “Truth, Entropy,
+and Inference” essay.
 
 ## Ontology
 

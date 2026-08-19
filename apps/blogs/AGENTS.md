@@ -2,9 +2,10 @@
 
 ## Operational Flow
 
-Develop ideas in each post's outline, notes, and research. Introduce
-`article.md` only when content is intentionally public, keep its public assets
-in the sibling `assets/`, and use the app publisher to stage the artifact.
+Develop ideas under `articles/` according to its README and AGENTS contract.
+Introduce `article.md` only when content is intentionally public, keep its
+public assets in the sibling `assets/`, and use the app publisher to stage the
+artifact.
 
 ## Required Verification Parameters Within Nested Context
 
@@ -16,7 +17,8 @@ public files in `dist/`.
 
 ## Required Invariants Within Folder Context
 
-Outlines, notes, and research never enter `dist/`. Post directories use stable
-kebab-case slugs, published articles satisfy the schema-version-2 metadata
+Only immediate children of `articles/` are publication candidates. Outlines,
+notes, drafts, and research never enter `dist/`. Published article directories
+use stable kebab-case slugs, articles satisfy the schema-version-2 metadata
 contract, publication order is newest first, and the publisher writes only
 beneath `apps/blogs/dist`.

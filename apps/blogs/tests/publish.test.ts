@@ -8,6 +8,7 @@ const temporaryRoots: string[] = [];
 
 async function temporaryProject(): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "th-m-blogs-"));
+  await mkdir(join(root, "articles"));
   temporaryRoots.push(root);
   return root;
 }
@@ -35,12 +36,14 @@ describe("buildBlogArtifact", () => {
 
   it("publishes only explicit articles and their assets", async () => {
     const root = await temporaryProject();
-    await mkdir(join(root, "published", "assets"), { recursive: true });
-    await mkdir(join(root, "draft", "notes"), { recursive: true });
-    await writeFile(join(root, "published", "article.md"), article());
-    await writeFile(join(root, "published", "outline.md"), "private outline");
-    await writeFile(join(root, "published", "assets", "figure.svg"), "<svg/>");
-    await writeFile(join(root, "draft", "outline.md"), "# Draft");
+    await mkdir(join(root, "articles", "published", "assets"), { recursive: true });
+    await mkdir(join(root, "articles", "draft", "notes"), { recursive: true });
+    await mkdir(join(root, "outside-articles"));
+    await writeFile(join(root, "articles", "published", "article.md"), article());
+    await writeFile(join(root, "articles", "published", "outline.md"), "private outline");
+    await writeFile(join(root, "articles", "published", "assets", "figure.svg"), "<svg/>");
+    await writeFile(join(root, "articles", "draft", "outline.md"), "# Draft");
+    await writeFile(join(root, "outside-articles", "article.md"), article({ title: "Outside", h1: "Outside" }));
 
     const manifest = await buildBlogArtifact(root);
 
@@ -62,8 +65,8 @@ describe("buildBlogArtifact", () => {
 
   it("creates a deterministic empty manifest when no articles exist", async () => {
     const root = await temporaryProject();
-    await mkdir(join(root, "draft"));
-    await writeFile(join(root, "draft", "outline.md"), "# Draft");
+    await mkdir(join(root, "articles", "draft"));
+    await writeFile(join(root, "articles", "draft", "outline.md"), "# Draft");
 
     await buildBlogArtifact(root);
     const manifest = await readFile(join(root, "dist", "manifest.json"), "utf8");
@@ -73,34 +76,34 @@ describe("buildBlogArtifact", () => {
 
   it("rejects articles without frontmatter", async () => {
     const root = await temporaryProject();
-    await mkdir(join(root, "invalid"));
-    await writeFile(join(root, "invalid", "article.md"), "No title here.\n");
+    await mkdir(join(root, "articles", "invalid"));
+    await writeFile(join(root, "articles", "invalid", "article.md"), "No title here.\n");
 
     await expect(buildBlogArtifact(root)).rejects.toThrow("must begin with YAML frontmatter");
   });
 
   it("rejects published directories without kebab-case slugs", async () => {
     const root = await temporaryProject();
-    await mkdir(join(root, "Invalid Slug"));
-    await writeFile(join(root, "Invalid Slug", "article.md"), article());
+    await mkdir(join(root, "articles", "Invalid Slug"));
+    await writeFile(join(root, "articles", "Invalid Slug", "article.md"), article());
 
     await expect(buildBlogArtifact(root)).rejects.toThrow("stable kebab-case slug");
   });
 
   it("rejects mismatched titles and invalid publication dates", async () => {
     const mismatchedRoot = await temporaryProject();
-    await mkdir(join(mismatchedRoot, "mismatched"));
-    await writeFile(join(mismatchedRoot, "mismatched", "article.md"), article({ h1: "Another title" }));
+    await mkdir(join(mismatchedRoot, "articles", "mismatched"));
+    await writeFile(join(mismatchedRoot, "articles", "mismatched", "article.md"), article({ h1: "Another title" }));
     await expect(buildBlogArtifact(mismatchedRoot)).rejects.toThrow("H1 must exactly match");
 
     const invalidDateRoot = await temporaryProject();
-    await mkdir(join(invalidDateRoot, "invalid-date"));
-    await writeFile(join(invalidDateRoot, "invalid-date", "article.md"), article({ publishedAt: "2026-02-30" }));
+    await mkdir(join(invalidDateRoot, "articles", "invalid-date"));
+    await writeFile(join(invalidDateRoot, "articles", "invalid-date", "article.md"), article({ publishedAt: "2026-02-30" }));
     await expect(buildBlogArtifact(invalidDateRoot)).rejects.toThrow("is not a valid calendar date");
 
     const reversedDatesRoot = await temporaryProject();
-    await mkdir(join(reversedDatesRoot, "reversed-dates"));
-    await writeFile(join(reversedDatesRoot, "reversed-dates", "article.md"), article({
+    await mkdir(join(reversedDatesRoot, "articles", "reversed-dates"));
+    await writeFile(join(reversedDatesRoot, "articles", "reversed-dates", "article.md"), article({
       publishedAt: "2026-08-16",
       updatedAt: "2026-08-15",
     }));
@@ -109,10 +112,10 @@ describe("buildBlogArtifact", () => {
 
   it("normalizes tags and orders posts newest first", async () => {
     const root = await temporaryProject();
-    await mkdir(join(root, "older"));
-    await mkdir(join(root, "newer"));
-    await writeFile(join(root, "older", "article.md"), article({ title: "Older", h1: "Older", publishedAt: "2026-01-01" }));
-    await writeFile(join(root, "newer", "article.md"), article({
+    await mkdir(join(root, "articles", "older"));
+    await mkdir(join(root, "articles", "newer"));
+    await writeFile(join(root, "articles", "older", "article.md"), article({ title: "Older", h1: "Older", publishedAt: "2026-01-01" }));
+    await writeFile(join(root, "articles", "newer", "article.md"), article({
       title: "Newer",
       h1: "Newer",
       publishedAt: "2026-08-16",

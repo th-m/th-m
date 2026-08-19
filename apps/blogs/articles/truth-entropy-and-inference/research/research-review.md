@@ -1,4 +1,11 @@
-# Research Review: “AI Knows Propositions; Humans Navigate Relationships”
+# Research Review: “Truth, Entropy, and Inference”
+
+> **Coordination note:** This review predates the retitled and refocused outline.
+> It remains relevant to situated meaning, truth terminology, product judgment,
+> sycophancy, and premature convergence. It does not yet substantiate the new
+> sections on Shannon entropy, cross-entropy training, code's constraint system,
+> algorithm naming, or domain-fluency assessment; complete the outline's new
+> research queue before publication.
 
 ## Executive summary
 
@@ -263,7 +270,7 @@ The outline should retain its architecture but change the philosophical nouns an
 
 | Current idea | Problem | Suggested final phrasing |
 |---|---|---|
-| **“AI Knows Propositions; Humans Navigate Relationships”** | “Knows” silently grants AI an epistemic status that the article later carefully avoids; it also makes the title easier to attack than the essay. | **Preferred:** “AI Processes Propositions; Humans Navigate Meaning.” More distinctive alternative: **“When AI Makes the Nodes Abundant, Product Judgment Moves to the Edges.”** |
+| **“Truth, Entropy, and Inference”** | The new title is broader than the original review and must not imply that information theory proves a complete theory of meaning or intelligence. | Define each noun explicitly, present an intellectual lineage rather than a single invention story, and connect prediction to the constraint systems that produced the language. |
 | **“AI excels at processing propositions. Humans participate in the relationships that make propositions meaningful.”** | Second clause can be read as claiming that language/model representations have no meaning until a human injects it. | **“AI excels at processing representations of what people say, observe, and infer. Humans are situated in the relationships that determine what those representations mean for a particular choice.”** |
 | **“Nodes are facts. Edges are meaning.”** | Taken literally, false: relations are facts too, and both nodes and edges in graphs can encode many types of information. | Keep it explicitly as the essay's **visual grammar**: “For this essay, I will draw propositions as nodes and the relationships that make them matter as edges.” |
 | **“Propositional truth”** | Philosophically technical and unnecessarily vulnerable. citeturn15search0 | **“Propositional description: what can be stated.”** |

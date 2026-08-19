@@ -33,8 +33,14 @@ describe("generateGraphArtifacts", () => {
     roots.push(root);
     await writeFile(join(root, "graph.json"), JSON.stringify(createWeatherGraph()));
 
-    await expect(
-      generateGraphArtifacts({ workspaceRoot: root, input: "graph.json", output: "../outside" }),
-    ).rejects.toThrow("inside the workspace");
+    let thrown: unknown;
+    try {
+      await generateGraphArtifacts({ workspaceRoot: root, input: "graph.json", output: "../outside" });
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(Error);
+    expect((thrown as Error).message).toContain("inside the workspace");
   });
 });

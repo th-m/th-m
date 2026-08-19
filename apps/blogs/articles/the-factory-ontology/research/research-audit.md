@@ -1,4 +1,11 @@
-# Research Audit: “Software Engineering Becomes Ontology Design”
+# Research Audit: “The Factory — Ontology”
+
+> **Coordination note:** This audit was produced for the earlier “Software
+> Engineering Becomes Ontology Design” outline. Its ontology, bounded-context,
+> ambiguity, Mango, SoundSculpt, and AI-productivity analysis remains relevant.
+> The refocused article also requires primary research on in-context learning
+> and an explicit audit of the controlled-language-versus-domain-ontology
+> distinction before publication.
 
 ## Executive summary
 

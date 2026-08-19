@@ -24,8 +24,6 @@ export interface ParsedArticle {
   body: string;
 }
 
-const ignoredDirectories = new Set(["dist", "node_modules", "scripts", "src", "tests"]);
-
 function assertProjectPath(projectRoot: string, candidate: string): void {
   const path = relative(projectRoot, candidate);
   if (path === ".." || path.startsWith(`..${sep}`)) {
@@ -118,12 +116,14 @@ export function parseArticleDocument(markdown: string, slug: string): ParsedArti
 
 export async function buildBlogArtifact(projectDirectory = resolve(dirname(fileURLToPath(import.meta.url)), "..")): Promise<BlogManifest> {
   const projectRoot = resolve(projectDirectory);
+  const articlesRoot = resolve(projectRoot, "articles");
   const outputRoot = resolve(projectRoot, "dist");
+  assertProjectPath(projectRoot, articlesRoot);
   assertProjectPath(projectRoot, outputRoot);
 
-  const entries = await readdir(projectRoot, { withFileTypes: true });
+  const entries = await readdir(articlesRoot, { withFileTypes: true });
   const slugs = entries
-    .filter((entry) => entry.isDirectory() && !entry.name.startsWith(".") && !ignoredDirectories.has(entry.name))
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith("."))
     .map((entry) => entry.name)
     .sort((left, right) => left.localeCompare(right, "en"));
 
@@ -132,7 +132,7 @@ export async function buildBlogArtifact(projectDirectory = resolve(dirname(fileU
 
   const posts: PublishedPost[] = [];
   for (const slug of slugs) {
-    const articlePath = join(projectRoot, slug, "article.md");
+    const articlePath = join(articlesRoot, slug, "article.md");
     try {
       await access(articlePath);
     } catch {
@@ -148,7 +148,7 @@ export async function buildBlogArtifact(projectDirectory = resolve(dirname(fileU
     await mkdir(postOutput, { recursive: true });
     await writeFile(join(postOutput, "article.md"), article.body);
 
-    const assetsSource = join(projectRoot, slug, "assets");
+    const assetsSource = join(articlesRoot, slug, "assets");
     let assetsPath: string | undefined;
     try {
       const assetEntries = await readdir(assetsSource);

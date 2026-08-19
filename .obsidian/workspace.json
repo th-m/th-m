@@ -11,14 +11,10 @@
             "id": "91b03bb627e84326",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Human abilities AI Cannot approach"
+              "title": "New tab"
             }
           }
         ]
@@ -83,8 +79,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 541.08203125,
-    "collapsed": true
+    "width": 541.08203125
   },
   "right": {
     "id": "d298d89e82ea33b0",
@@ -100,7 +95,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +113,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -162,7 +155,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/Human abilities AI Cannot approach.md",
+                "file": "apps/blogs/articles/solutions-meaning-and-value/draft.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -189,53 +182,47 @@
       "bases:Create new base": false
     }
   },
-  "active": "91b03bb627e84326",
+  "active": "4c25806f804a368f",
   "lastOpenFiles": [
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/songs-set-atlas@2x.png",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/songs-set-atlas.svg",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/set-projection.json",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/schema-hierarchy@2x.png",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/schema-hierarchy.svg",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/public-api@2x.png",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/public-api.svg",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/public-api.html",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/package-dependencies@2x.png",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/package-dependencies.svg",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/model.json",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema/diagnostics.json",
-    "dist-knowledge/proofs/first-proof/soundsculpt-database-schema/thom-erd@2x.png",
-    "dist-knowledge/proofs/first-proof/soundsculpt-database-schema/thom-erd.svg",
-    "dist-knowledge/proofs/first-proof/soundsculpt-database-schema/native-mermaid-erd@2x.png",
-    "dist-knowledge/proofs/first-proof/soundsculpt-database-schema/model.json",
-    "dist-knowledge/proofs/first-proof/soundsculpt-database-schema/diagnostics.json",
-    "dist-knowledge/proofs/first-proof/soundsculpt-database-schema/baseline.mmd",
-    "dist-knowledge/proofs/first-proof/authentication-system/model.json",
-    "dist-knowledge/proofs/first-proof/authentication-system/diagnostics.json",
-    "dist-knowledge/proofs/first-proof/soundsculpt-schema",
-    "tools/knowledge/docs/research/textual-system-design-languages-and-diagramming-ecosystems.md",
-    "tools/knowledge/README.md",
-    "tools/knowledge/AGENTS.md",
-    "libs/knowledge-model/README.md",
-    "libs/knowledge-model/AGENTS.md",
-    "apps/blogs/your-soulless-clanker-will-never-discover-opportunity/notes/ai-goals-and-cognitive-light-cone.md",
-    "public/brand-audit/audit/README.md",
-    "docs/brand/typography/thom-typography-overview.md",
-    "docs/brand/typography/deterministic Aesthetics.md",
-    "docs/logo-balance-t-bezier-handoff.md",
-    "docs/logo-balance-review-brief.md",
-    "docs/logo-balance-orchestrator-handoff.md",
-    "docs/logo-balance-implementation-plan.md",
-    "docs/logo-balance-decision-record.md",
-    "design-qa.md",
-    "blogs/your-soulless-clanker-will-never-discover-opportunity/research/research-review.md",
-    "blogs/your-soulless-clanker-will-never-discover-opportunity/notes/qualia-opportunity-spaces-ai-and-humans.md",
-    "blogs/your-soulless-clanker-will-never-discover-opportunity/notes/phenomenal-consciousness-and-artificial-consciousness.md",
-    "blogs/your-soulless-clanker-will-never-discover-opportunity/notes/michael-levin-human-partiality.md",
-    "blogs/the-next-abstraction-layer/research/research-audit.md",
-    "blogs/ai-knows-propositions-humans-navigate-relationships/research/research-review.md",
-    "blogs/ai-knows-propositions-humans-navigate-relationships/assets/README.md",
-    "blogs/your-soulless-clanker-will-never-discover-opportunity/outline.md",
-    "blogs/understanding-is-the-bottleneck/outline.md",
-    "blogs/the-next-abstraction-layer/outline.md"
+    "apps/blogs/articles/the-factory-ontology/research/controlled-language-reference.md",
+    "apps/blogs/articles/the-factory-strategy/outline.md",
+    "apps/blogs/articles/the-factory-ontology/outline.md",
+    "apps/blogs/articles/the-knowledge-factory/outline.md",
+    "apps/blogs/articles/understanding-is-the-bottleneck/outline.md",
+    "apps/blogs/articles/truth-entropy-and-inference/outline.md",
+    "apps/blogs/articles/the-factory-strategy/research",
+    "apps/blogs/articles/the-factory-strategy/notes",
+    "apps/blogs/articles/the-factory-strategy",
+    "apps/blogs/articles/the-factory-ontology/research/research-audit.md",
+    "apps/blogs/articles/the-factory-ontology/research",
+    "apps/blogs/articles/the-factory-ontology/notes",
+    "apps/blogs/articles/the-factory-ontology",
+    "apps/blogs/articles/truth-entropy-and-inference/research/research-review.md",
+    "apps/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations@2x.png",
+    "apps/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations.svg",
+    "apps/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships@2x.png",
+    "apps/blogs/articles/truth-entropy-and-inference/assets/AGENTS.md",
+    "apps/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships.svg",
+    "apps/blogs/articles/truth-entropy-and-inference/assets/README.md",
+    "apps/blogs/articles/truth-entropy-and-inference/research",
+    "apps/blogs/articles/truth-entropy-and-inference/notes",
+    "apps/blogs/articles/truth-entropy-and-inference/assets",
+    "apps/blogs/articles/truth-entropy-and-inference",
+    "apps/blogs/articles/solutions-meaning-and-value/research/research-review.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/research-conclusion-cognitive-loop.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/qualia-opportunity-spaces-ai-and-humans.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/phenomenal-consciousness-and-artificial-consciousness.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/ai-goals-and-cognitive-light-cone.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/formal-human-ai-reasoning-comparison.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/michael-levin-human-partiality.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/backup table.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/ai-innovation-details.md",
+    "apps/blogs/articles/solutions-meaning-and-value/outline.md",
+    "apps/blogs/articles/solutions-meaning-and-value/draft.md",
+    "apps/blogs/articles/AGENTS.md",
+    "apps/blogs/articles/README.md",
+    "apps/blogs/README.md",
+    "apps/portfolio/dist/client/assets/thom-canonical-RvZxVx17.svg",
+    "apps/portfolio/dist/client/assets/01-vertical-metrics-BGGoK4ah.svg"
   ]
 }

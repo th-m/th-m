@@ -4,8 +4,10 @@ import { isAbsolute, relative, resolve, sep } from "node:path";
 const vaultRoot = resolve(import.meta.dir, "../../..");
 const arguments_ = Bun.argv.slice(2);
 const dryRun = arguments_.includes("--dry-run");
-const noteArgument =
-  arguments_.find((argument) => argument !== "--dry-run") ?? "apps/blogs/README.md";
+const noteArguments = arguments_.filter((argument) => argument !== "--dry-run");
+const noteArgument = noteArguments.length > 0
+  ? noteArguments.join(" ")
+  : "apps/blogs/README.md";
 const notePath = resolve(vaultRoot, noteArgument);
 const pathFromVaultRoot = relative(vaultRoot, notePath);
 

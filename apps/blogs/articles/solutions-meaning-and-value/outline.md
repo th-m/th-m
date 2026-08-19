@@ -1,14 +1,26 @@
-# Your Soulless Clanker Will Never Discover Opportunity
+# Solutions, Meaning, and Value
+
+## Editorial Status
+
+This article is nearly complete. Preserve its developed argument, evidence
+boundaries, and irreverent voice while converting the remaining private draft
+material into publication-ready prose.
 
 ## Overview
 
-The title is deliberately provocative. The claim is that current AI cannot determine a go to market strtegy, generate novel or valuable ideas, or help connect with you on a "real" level. It will attempt all of those things, and do it's best to convince you that it has the correct answer.
+The provocative frame is that current AI can attempt go-to-market strategy,
+generate candidate ideas, and simulate a meaningful connection while producing
+language that confidently resembles the right answer.
 
 The narrower argument is that an opportunity is not merely a gap in a spreadsheet, an unmet keyword, or a plausible solution. It is an evidence-backed possibility to improve a person's lived situation. A system can process the signals that point toward that possibility, but it does not independently establish whose experience matters, what improvement is worth pursuing, or which tradeoffs are acceptable. Those are human and institutional judgments for which people remain accountable.
 
 The essay starts with qualia only far enough to ground that claim. Its destination is practical: founders, product teams, and software people who want to use AI to identify value without mistaking polished output for an independent business judgment.
 
-## Working Subtitle
+## Provocative Working Subtitle
+
+**Your Soulless Clanker Will Never Discover Opportunity**
+
+## Reader Promise
 
 **AI can find the evidence. It cannot decide what is worth doing with it.**
 
@@ -52,7 +64,9 @@ flowchart LR
     R --> G
 ```
 
-This sequence is adapted from the related [*AI Knows Propositions; Humans Navigate Relationships*](../ai-knows-propositions-humans-navigate-relationships/outline.md) outline. Use it to keep four questions separate.
+This sequence is shared with the related [*Truth, Entropy, and
+Inference*](../truth-entropy-and-inference/outline.md) outline. Use it to keep
+four questions separate.
 
 | Product-work question | What a current AI system can do | What it does not independently establish |
 | --- | --- | --- |
@@ -104,7 +118,7 @@ Use the room-temperature example. An AI can state that a room is 68°F, summariz
 
 ### A working comparison of human and AI capabilities
 
-Bring in the capability comparison from the [first-draft working document](./Human%20abilities%20AI%20Cannot%20approach.md). It should orient the reader, not pretend to establish a scientific test for consciousness. Each row is deliberately qualified: it identifies a present architectural difference or evidentiary gap, not a proof about every possible artificial system.
+Bring in the capability comparison from the [first-draft working document](draft.md). It should orient the reader, not pretend to establish a scientific test for consciousness. Each row is deliberately qualified: it identifies a present architectural difference or evidentiary gap, not a proof about every possible artificial system.
 
 | Capability | Human | Current AI systems | Comparative utility and boundary |
 | --- | --- | --- | --- |
@@ -279,14 +293,19 @@ Money matters, but it is a signal and a coordination mechanism rather than the f
 
 ### Transferred conceptual scaffolding: qualia, opportunity, and agency
 
-Carry the following premises from the related [*AI Knows Propositions; Humans Navigate Relationships*](../ai-knows-propositions-humans-navigate-relationships/outline.md) outline into this post. They make “opportunity begins in qualia” more precise than a slogan.
+Carry the following premises alongside the related [*Truth, Entropy, and
+Inference*](../truth-entropy-and-inference/outline.md) outline. They make
+“opportunity begins in qualia” more precise than a slogan.
 
 - **The no-consciousness reductio.** If neither humans nor AI had any conscious experience, no system would have intrinsic relief, suffering, welfare, or lived stakes. Organizations and agents could still execute optimization rules, but no result would automatically count as valuable in the ordinary practical sense. This is not intended as a proof about universal consciousness; it makes the essay's premise visible: computation alone does not generate opportunity. Consequences for experience do.
 - **Money and adoption are intermediate signals.** A metric, paying stakeholder, adoption rate, or operational-efficiency gain can be important evidence, but it becomes valuable through a causal path to someone's experience and possibilities. The path may involve reducing pain, frustration, risk, or drudgery; or increasing safety, freedom, capability, trust, confidence, and delight.
 - **Value is not the same as goodness.** A destructive actor can pursue rage, status, revenge, pleasure, or spectacle while making other people less safe and more miserable. That establishes that an action can matter to its author without being normatively good. Any product claim therefore has to ask whose qualia improve, whose are harmed, and who gets to make the tradeoff.
 - **Delegated operational agency is not independent normative agency.** AI can operate autonomously only inside an inherited frame: someone or some institution authorized its inputs, tools, policies, resources, evaluation criteria, and objectives. It can synthesize signals and propose opportunity candidates; it cannot independently ground what is worth solving. The human work happens before and around automation: sensing or defining the valued experience, choosing whose stakes matter, configuring the system, and taking responsibility for the result.
 
-This post should retain these premises in its own voice. The related post uses them to explain propositions and relationships; this one uses them to distinguish a candidate value proposition from an opportunity that deserves action.
+This post should retain these premises in its own voice. The related post uses
+them to distinguish coherent linguistic inference from situated meaning; this
+one uses them to distinguish a candidate value proposition from an opportunity
+that deserves action.
 
 ### The first contractor
 
@@ -421,4 +440,4 @@ Let the last line bind the fable back to opportunity:
 - [Google Accidentally Proved AI is Just “Paint-by-Numbers”](https://www.youtube.com/watch?v=Z_O6Lwj1yjQ)
 - [Harvard Just Caught AI Lying to Every Executive in America](https://www.youtube.com/watch?v=pd1Km6bT104)
 
-Treat the videos as commentary and entry points. Cite the primary research pages for publication claims. See [research review](./research/research-review.md) for exact findings and limitations.
+Treat the videos as commentary and entry points. Cite the primary research pages for publication claims. See [research review](research/research-review.md) for exact findings and limitations.
