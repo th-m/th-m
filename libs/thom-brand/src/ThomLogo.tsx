@@ -1,3 +1,4 @@
+/** Reusable static, animated, and isolated THOM renderers. */
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { motion } from "motion/react";
 import type { ThomGlyph, ThomSceneController } from "./threeScene";
@@ -13,16 +14,19 @@ export type MotionLevel = "full" | "compact" | "none";
 
 export interface ThomLogoProps {
   variant: LogoVariant;
+  assetBasePath?: string;
   motion?: MotionLevel;
   interactive?: boolean;
   ariaLabel?: string;
   className?: string;
   opticalProfile?: LogoOpticalProfile;
+  onActiveGlyphChange?: (glyph: ThomGlyph | null) => void;
 }
 
 export interface ThomGlyphStageProps {
   glyph: ThomGlyph;
   replayToken: number;
+  assetBasePath?: string;
   motion?: MotionLevel;
   ariaLabel?: string;
 }
@@ -124,16 +128,20 @@ const hitAreas: Array<{ glyph: ThomGlyph; label: string; left: string; width: st
   { glyph: "m", label: "Replay M superposition animation", left: "59.78%", width: "26.3%" },
 ];
 
-export function ThomLogo({ variant, motion: motionLevel = "full", interactive = false, ariaLabel = "THOM — Thomas Valadez", className = "", opticalProfile = "auto" }: ThomLogoProps) {
+export function ThomLogo({ variant, assetBasePath = "/brand", motion: motionLevel = "full", interactive = false, ariaLabel = "THOM — Thomas Valadez", className = "", opticalProfile = "auto", onActiveGlyphChange }: ThomLogoProps) {
   const reducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLSpanElement>(null);
   const controllerRef = useRef<ThomSceneController | null>(null);
   const [ready, setReady] = useState(false);
+  const [hoveredGlyph, setHoveredGlyph] = useState<ThomGlyph | null>(null);
+  const [focusedGlyph, setFocusedGlyph] = useState<ThomGlyph | null>(null);
   const isWebGl = variant === "hero" && motionLevel !== "none";
   const resolvedProfile = useOpticalProfile(wrapperRef, variant, opticalProfile);
-  const source = variant === "icon" ? "/brand/favicon.svg" : opticalProfileAsset(resolvedProfile);
+  const normalizedAssetBasePath = assetBasePath.endsWith("/") ? assetBasePath.slice(0, -1) : assetBasePath;
+  const source = variant === "icon" ? `${normalizedAssetBasePath}/favicon.svg` : opticalProfileAsset(resolvedProfile, normalizedAssetBasePath);
   const setController = (controller: ThomSceneController | null) => { controllerRef.current = controller; };
+  const activeGlyph = focusedGlyph ?? hoveredGlyph;
 
   useScene(canvasRef, "logo", setController, setReady);
 
@@ -147,6 +155,12 @@ export function ThomLogo({ variant, motion: motionLevel = "full", interactive = 
       controller.settle();
     }
   }, [isWebGl, ready, reducedMotion]);
+
+  useEffect(() => {
+    onActiveGlyphChange?.(activeGlyph);
+  }, [activeGlyph, onActiveGlyphChange]);
+
+  useEffect(() => () => onActiveGlyphChange?.(null), [onActiveGlyphChange]);
 
   if (!isWebGl) {
     return (
@@ -172,15 +186,24 @@ export function ThomLogo({ variant, motion: motionLevel = "full", interactive = 
       <img className="thom-logo__fallback" src={source} alt="" aria-hidden="true" />
       <canvas ref={canvasRef} className="thom-logo__canvas" aria-hidden="true" />
       {interactive ? (
-        <div className="thom-logo__hit-areas">
+        <div className="thom-logo__hit-areas" data-active-glyph={activeGlyph ?? "idle"}>
           {hitAreas.map((area) => (
             <button
               key={area.glyph}
               type="button"
+              data-glyph={area.glyph}
               aria-label={area.label}
               style={{ left: area.left, width: area.width }}
-              onPointerEnter={() => !reducedMotion && controllerRef.current?.playGlyph(area.glyph)}
-              onFocus={() => !reducedMotion && controllerRef.current?.playGlyph(area.glyph)}
+              onPointerEnter={() => {
+                setHoveredGlyph(area.glyph);
+                if (!reducedMotion) controllerRef.current?.playGlyph(area.glyph);
+              }}
+              onPointerLeave={() => setHoveredGlyph((glyph) => glyph === area.glyph ? null : glyph)}
+              onFocus={() => {
+                setFocusedGlyph(area.glyph);
+                if (!reducedMotion) controllerRef.current?.playGlyph(area.glyph);
+              }}
+              onBlur={() => setFocusedGlyph((glyph) => glyph === area.glyph ? null : glyph)}
               onClick={() => !reducedMotion && controllerRef.current?.playGlyph(area.glyph)}
             />
           ))}
@@ -190,7 +213,7 @@ export function ThomLogo({ variant, motion: motionLevel = "full", interactive = 
   );
 }
 
-export function ThomGlyphStage({ glyph, replayToken, motion: motionLevel = "full", ariaLabel = "THOM glyph construction" }: ThomGlyphStageProps) {
+export function ThomGlyphStage({ glyph, replayToken, assetBasePath = "/brand", motion: motionLevel = "full", ariaLabel = "THOM glyph construction" }: ThomGlyphStageProps) {
   const reducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controllerRef = useRef<ThomSceneController | null>(null);
@@ -208,7 +231,7 @@ export function ThomGlyphStage({ glyph, replayToken, motion: motionLevel = "full
 
   return (
     <div className={`glyph-stage glyph-stage--${glyph} ${ready ? "is-webgl-ready" : ""}`} role="img" aria-label={ariaLabel}>
-      <img className="glyph-stage__fallback" src={`/brand/glyph-${glyph}.svg`} alt="" aria-hidden="true" />
+      <img className="glyph-stage__fallback" src={`${assetBasePath.endsWith("/") ? assetBasePath.slice(0, -1) : assetBasePath}/glyph-${glyph}.svg`} alt="" aria-hidden="true" />
       <canvas ref={canvasRef} className="glyph-stage__canvas" aria-hidden="true" />
     </div>
   );

@@ -1,6 +1,6 @@
 import { mkdir } from "node:fs/promises";
 import { Resvg } from "@resvg/resvg-js";
-import { createBrandData } from "../../src/brand/thom/geometry";
+import { createBrandData } from "@th-m/thom-brand/geometry";
 import {
   renderAvatarSvg,
   renderFaviconSvg,
@@ -11,10 +11,9 @@ import {
 
 const data = createBrandData();
 const publicDirectory = new URL("../../public/brand/", import.meta.url);
-const generatedDirectory = new URL("../../src/brand/thom/generated/", import.meta.url);
 
 await mkdir(publicDirectory, { recursive: true });
-await mkdir(generatedDirectory, { recursive: true });
+
 
 const assets = new Map<string, string>([
   ["thom-master.svg", renderLogoSvg(data)],
@@ -31,8 +30,6 @@ const assets = new Map<string, string>([
 ]);
 
 await Promise.all([...assets].map(([name, content]) => Bun.write(new URL(name, publicDirectory), `${content}\n`)));
-await Bun.write(new URL("brand-data.json", generatedDirectory), `${JSON.stringify(data, null, 2)}\n`);
-
 const openGraphSvg = renderOpenGraphSvg(data);
 await Bun.write(new URL("thom-og.svg", publicDirectory), `${openGraphSvg}\n`);
 const renderer = new Resvg(openGraphSvg, { fitTo: { mode: "width", value: 1200 } });

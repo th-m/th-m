@@ -5,7 +5,7 @@ import sharp from "sharp";
 type Point = { x: number; y: number };
 
 const source = new URL("../../public/brand-logo-idea.png", import.meta.url);
-const output = new URL("../../src/brand/thom/m-calibration.json", import.meta.url);
+const output = new URL("../../../../libs/thom-brand/src/m-calibration.json", import.meta.url);
 const crop = { left: 1094, top: 200, width: 370, height: 174 } as const;
 const knotPositions = [0, 0.04, 0.12, 0.2, 0.32, 0.5] as const;
 const geometryBounds = { top: 20, baseline: 86 } as const;

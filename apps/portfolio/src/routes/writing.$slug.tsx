@@ -1,7 +1,7 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { loadPublishedArticle } from "../content/blog-content";
 import { ArticleMarkdown } from "../writing/ArticleMarkdown";
-import { PublicationDate, WritingChrome } from "../writing/WritingChrome";
+import { PublicationDate } from "../writing/PublicationDate";
 
 const siteOrigin = "https://th-m.netlify.app";
 
@@ -51,7 +51,7 @@ export const Route = createFileRoute("/writing/$slug")({
 function ArticlePage() {
   const article = Route.useLoaderData();
   return (
-    <WritingChrome>
+    <div className="writing-page">
       <article className="article-page">
         <Link className="article-back" to="/writing">← All writing</Link>
         <header>
@@ -66,6 +66,6 @@ function ArticlePage() {
         </header>
         <ArticleMarkdown article={article} />
       </article>
-    </WritingChrome>
+    </div>
   );
 }

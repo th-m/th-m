@@ -1,5 +1,5 @@
-import { createBrandData, findIntersections, selectHighlights, type Segment } from "../../src/brand/thom/geometry";
-import calibration from "../../src/brand/thom/o-calibration.json";
+import { createBrandData, findIntersections, selectHighlights, type Segment } from "@th-m/thom-brand/geometry";
+import calibration from "@th-m/thom-brand/o-calibration.json";
 import { renderGlyphSvg } from "../../src/brand/thom/svg";
 
 const output = new URL("../../public/brand-audit/o-candidates.html", import.meta.url);

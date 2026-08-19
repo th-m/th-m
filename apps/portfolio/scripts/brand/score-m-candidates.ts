@@ -2,8 +2,8 @@ import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 import { chromium, type Page } from "@playwright/test";
 import sharp from "sharp";
-import { brandData } from "../../src/brand/thom/brandData";
-import { fft, M_SPLINE_CONTROLS, type FourierData, type Point } from "../../src/brand/thom/geometry";
+import { brandData } from "@th-m/thom-brand/brand-data";
+import { fft, M_SPLINE_CONTROLS, type FourierData, type Point } from "@th-m/thom-brand/geometry";
 import { renderGlyphSvg } from "../../src/brand/thom/svg";
 
 const referenceBuffer = Buffer.from(await Bun.file(new URL("../../public/brand-audit/reference/m.png", import.meta.url)).arrayBuffer());

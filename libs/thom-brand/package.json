@@ -1,0 +1,52 @@
+{
+  "name": "@th-m/thom-brand",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./brand-data": "./src/brandData.ts",
+    "./generated/brand-data.json": "./src/generated/brand-data.json",
+    "./geometry": "./src/geometry.ts",
+    "./m-calibration.json": "./src/m-calibration.json",
+    "./o-calibration.json": "./src/o-calibration.json",
+    "./optical-profile": "./src/opticalProfile.ts",
+    "./styles.css": "./src/styles.css",
+    "./three-scene": "./src/threeScene.ts"
+  },
+  "scripts": {
+    "gen": "bun run scripts/generate-brand-data.ts",
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@th-m/design-theme": "workspace:*",
+    "motion": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "three": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@th-m/testing": "workspace:*",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/three": "latest",
+    "jsdom": "latest",
+    "typescript": "6.0.2",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "thom-brand",
+    "sourceRoot": "libs/thom-brand/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:web", "domain:design"],
+    "targets": {
+      "gen": { "outputs": ["{projectRoot}/src/generated/brand-data.json"] },
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}

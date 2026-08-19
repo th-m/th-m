@@ -1,0 +1,137 @@
+.animated-thom-logo {
+  position: relative;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.animated-thom-logo__mark {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.thom-logo { display: inline-block; }
+.thom-logo img { width: 100%; height: 100%; object-fit: contain; }
+.thom-logo--header { width: 152px; height: 44px; padding: 11px 0; }
+.thom-logo--static { width: min(290px, 58vw); }
+.thom-logo--icon { width: 40px; }
+.thom-logo--hero { position: relative; width: 100%; aspect-ratio: 460 / 120; overflow: hidden; container-type: inline-size; }
+.thom-logo__fallback, .thom-logo__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.thom-logo--hero > .thom-logo__fallback,
+.thom-logo--hero > .thom-logo__canvas,
+.thom-logo--hero > .thom-logo__hit-areas { transform: translateX(4.6875%); }
+.thom-logo__fallback { opacity: 1; transition: opacity .25s ease; }
+.thom-logo__canvas { opacity: 0; filter: drop-shadow(0 0 clamp(.75px, .34cqw, 4px) color-mix(in srgb, var(--color-primary) 18%, transparent)); transition: opacity .25s ease; }
+.thom-logo--hero.is-webgl-ready .thom-logo__fallback { opacity: .065; }
+.thom-logo--hero.is-webgl-ready .thom-logo__canvas { opacity: 1; }
+.thom-logo__hit-areas { position: absolute; inset: 0; }
+.thom-logo__hit-areas button { position: absolute; top: 0; bottom: 0; padding: 0; border: 0; background: transparent; cursor: crosshair; }
+.thom-logo__hit-areas button:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 5px; background: color-mix(in srgb, var(--color-primary) 4%, transparent); }
+
+.hero-orbit { position: absolute; z-index: 0; width: min(72vw, 980px); aspect-ratio: 1; top: 50%; left: 50%; pointer-events: none; transform: translate(-50%, -49%); }
+.hero-orbit svg { display: block; width: 100%; height: 100%; overflow: hidden; }
+.hero-orbit__rings { fill: none; stroke: color-mix(in srgb, var(--color-primary) 7%, transparent); stroke-width: .16; }
+.hero-orbit__rings [data-orbit-ring="outer"] { stroke: color-mix(in srgb, var(--color-primary) 11%, transparent); }
+.hero-orbit__motif { opacity: 0; fill: none; }
+.hero-orbit__motif--t circle { stroke: color-mix(in srgb, var(--color-primary) 48%, transparent); stroke-width: .26; filter: drop-shadow(0 0 .55px color-mix(in srgb, var(--color-primary) 26%, transparent)); transform-box: view-box; transform-origin: center; }
+.hero-orbit__pentagon { opacity: 0; }
+.hero-orbit__pentagon-segment { stroke: color-mix(in srgb, var(--color-primary) 15%, transparent); stroke-width: .16; }
+.hero-orbit__pentagon-point { fill: color-mix(in srgb, var(--color-foreground) 72%, transparent); }
+.hero-orbit__golden-trail line { opacity: 0; stroke: color-mix(in srgb, var(--color-primary) 82%, transparent); stroke-width: .32; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 .8px color-mix(in srgb, var(--color-primary) 52%, transparent)); }
+.hero-orbit__golden-dot { stroke: var(--color-foreground-strong); stroke-width: 1.45; stroke-linecap: round; stroke-dasharray: .00005 .99995; stroke-dashoffset: 0; filter: drop-shadow(0 0 1.2px color-mix(in srgb, var(--color-primary) 85%, transparent)); }
+.hero-orbit__network { opacity: 0; }
+.hero-orbit__chords line { stroke: color-mix(in srgb, var(--color-primary) 62%, transparent); stroke-width: .16; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.hero-orbit__intersections circle { fill: color-mix(in srgb, var(--color-foreground) 82%, transparent); transform-box: fill-box; transform-origin: center; }
+.hero-orbit__motif--m line { stroke: color-mix(in srgb, var(--color-primary) 54%, transparent); stroke-width: .36; stroke-linecap: round; }
+.hero-orbit__spectrum-guide { stroke: color-mix(in srgb, var(--color-primary) 14%, transparent); stroke-width: .14; }
+
+.hero-orbit[data-active-glyph="t"] .hero-orbit__motif--t { opacity: 1; }
+.hero-orbit[data-active-glyph="t"] .hero-orbit__motif--t circle { animation: orbit-ripple 1.8s linear var(--orbit-delay) infinite; }
+.hero-orbit[data-active-glyph="h"] .hero-orbit__motif--h { opacity: 1; }
+.hero-orbit[data-active-glyph="h"] .hero-orbit__golden-trail line { animation: orbit-golden-segment 6.4s linear var(--segment-delay) infinite; }
+.hero-orbit[data-active-glyph="h"] .hero-orbit__golden-dot { animation: orbit-golden-dot 6.4s linear .18s infinite; }
+.hero-orbit[data-active-glyph="o"] .hero-orbit__motif--o { opacity: 1; }
+.hero-orbit[data-active-glyph="o"] .hero-orbit__network { animation: orbit-network 4.8s linear var(--network-delay) infinite; }
+.hero-orbit[data-active-glyph="o"] .hero-orbit__chords line { animation: orbit-chord-draw 4.8s var(--ease-draw) var(--network-delay) infinite; }
+.hero-orbit[data-active-glyph="o"] .hero-orbit__intersections circle { animation: orbit-intersection-reveal 4.8s var(--ease-draw) var(--network-delay) infinite; }
+.hero-orbit[data-active-glyph="m"] .hero-orbit__motif--m { opacity: 1; }
+.hero-orbit[data-active-glyph="m"] .hero-orbit__motif--m line { animation: orbit-fft-sweep 1.6s linear calc(var(--fft-index) * -50ms) infinite; }
+
+.glyph-stage { position: relative; width: min(100%, 360px); aspect-ratio: 1; margin: 25px auto; container-type: inline-size; }
+.glyph-stage__fallback, .glyph-stage__canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.glyph-stage__canvas { opacity: 0; filter: drop-shadow(0 0 clamp(2.4px, 1.95cqw, 7px) color-mix(in srgb, var(--color-primary) 22%, transparent)); transition: opacity .25s ease; }
+.glyph-stage__fallback { opacity: 1; transition: opacity .25s ease; }
+.glyph-stage.is-webgl-ready .glyph-stage__canvas { opacity: 1; }
+.glyph-stage.is-webgl-ready .glyph-stage__fallback { opacity: .055; }
+
+@keyframes orbit-ripple {
+  0% { opacity: 0; transform: scale(.28); }
+  12% { opacity: .88; }
+  72% { opacity: .24; }
+  100% { opacity: 0; transform: scale(1.12); }
+}
+
+@keyframes orbit-golden-segment {
+  0% { opacity: 1; stroke-dashoffset: 1; }
+  10% { opacity: .9; stroke-dashoffset: 0; }
+  20% { opacity: .7; stroke-dashoffset: 0; }
+  30% { opacity: .48; stroke-dashoffset: 0; }
+  40% { opacity: .24; stroke-dashoffset: 0; }
+  50%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+
+@keyframes orbit-golden-dot {
+  0% { opacity: 1; stroke-dashoffset: 0; }
+  10% { opacity: 1; stroke-dashoffset: -.076393; }
+  20% { opacity: 1; stroke-dashoffset: -.2; }
+  30% { opacity: 1; stroke-dashoffset: -.276393; }
+  40% { opacity: 1; stroke-dashoffset: -.4; }
+  50% { opacity: 1; stroke-dashoffset: -.476393; }
+  60% { opacity: 1; stroke-dashoffset: -.6; }
+  70% { opacity: 1; stroke-dashoffset: -.676393; }
+  80% { opacity: 1; stroke-dashoffset: -.8; }
+  90% { opacity: 1; stroke-dashoffset: -.876393; }
+  100% { opacity: 1; stroke-dashoffset: -1; }
+}
+
+@keyframes orbit-network {
+  0% { opacity: 0; }
+  3% { opacity: 1; }
+  29% { opacity: 1; }
+  33.333% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes orbit-chord-draw {
+  0% { opacity: 0; stroke-dashoffset: 1; }
+  3% { opacity: .3; }
+  13% { opacity: .86; stroke-dashoffset: 0; }
+  29% { opacity: .48; stroke-dashoffset: 0; }
+  33.333%, 100% { opacity: 0; stroke-dashoffset: 0; }
+}
+
+@keyframes orbit-intersection-reveal {
+  0%, 13% { opacity: 0; transform: scale(.35); }
+  19% { opacity: 1; transform: scale(1); }
+  29% { opacity: .58; transform: scale(1); }
+  33.333%, 100% { opacity: 0; transform: scale(.35); }
+}
+
+@keyframes orbit-fft-sweep {
+  0% { opacity: .12; }
+  12% { opacity: 1; stroke-width: .6; }
+  34% { opacity: .34; stroke-width: .36; }
+  100% { opacity: .12; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glyph-stage--h.is-webgl-ready .glyph-stage__fallback { opacity: 0; }
+  .thom-logo--hero.is-webgl-ready:has(.thom-logo__canvas[data-h-phase="spiral-trace"], .thom-logo__canvas[data-h-phase="shell-hold"], .thom-logo__canvas[data-h-phase="shell-fade"]) .thom-logo__fallback { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thom-logo__canvas, .glyph-stage__canvas { display: none; }
+  .thom-logo--hero.is-webgl-ready .thom-logo__fallback, .glyph-stage.is-webgl-ready .glyph-stage__fallback { opacity: 1; }
+  .hero-orbit__motif, .hero-orbit__motif * { animation: none !important; opacity: 0 !important; }
+}

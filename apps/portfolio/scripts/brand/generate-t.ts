@@ -1,6 +1,6 @@
 import { Resvg } from "@resvg/resvg-js";
-import generatedData from "../../src/brand/thom/generated/brand-data.json";
-import { PI_GEOMETRY, type BrandData } from "../../src/brand/thom/geometry";
+import generatedData from "@th-m/thom-brand/generated/brand-data.json";
+import { PI_GEOMETRY, type BrandData } from "@th-m/thom-brand/geometry";
 import {
   renderAvatarSvg,
   renderFaviconSvg,
@@ -11,7 +11,6 @@ import {
 
 const data = { ...generatedData, pi: PI_GEOMETRY } as BrandData;
 const publicDirectory = new URL("../../public/brand/", import.meta.url);
-const generatedDataUrl = new URL("../../src/brand/thom/generated/brand-data.json", import.meta.url);
 
 const assets = new Map<string, string>([
   ["thom-master.svg", renderLogoSvg(data)],
@@ -25,8 +24,6 @@ const assets = new Map<string, string>([
 ]);
 
 await Promise.all([...assets].map(([name, content]) => Bun.write(new URL(name, publicDirectory), `${content}\n`)));
-await Bun.write(generatedDataUrl, `${JSON.stringify(data, null, 2)}\n`);
-
 const openGraphSvg = renderOpenGraphSvg(data);
 await Bun.write(new URL("thom-og.svg", publicDirectory), `${openGraphSvg}\n`);
 await Bun.write(

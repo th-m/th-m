@@ -294,12 +294,12 @@ The synthesized result is ready only when all of the following are true:
 
 ## Relevant Files
 
-- `src/brand/thom/geometry.ts` — canonical geometry, materials, placements, and animation constants.
+- `../../libs/thom-brand/src/geometry.ts` — canonical geometry, materials, placements, and animation constants.
 - `src/brand/thom/svg.ts` — static/generated SVG rendering.
-- `src/brand/thom/threeScene.ts` — WebGL materials and animated states.
-- `src/brand/thom/ThomLogo.tsx` — React integration and fallbacks.
+- `../../libs/thom-brand/src/threeScene.ts` — WebGL materials and animated states.
+- `../../libs/thom-brand/src/ThomLogo.tsx` — React integration and fallbacks.
 - `scripts/brand/generate-brand.ts` — generated asset pipeline.
-- `src/brand/thom/geometry.ts` — deterministic golden-spiral generation and timing state.
+- `../../libs/thom-brand/src/geometry.ts` — deterministic golden-spiral generation and timing state.
 - `tests/geometry.test.ts` — geometry and deterministic construction contracts.
 - `tests/e2e/site.spec.ts` — responsive, interaction, and SVG/WebGL parity coverage.
 - `tests/visual/brand-compare.spec.ts` — focused visual audit.

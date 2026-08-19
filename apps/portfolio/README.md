@@ -10,11 +10,12 @@ to create its local `dist/` artifact.
 
 ## Ontology
 
-The portfolio app owns the public route shell, its brand geometry and generated
-brand assets, portfolio-specific documentation, and visual evidence. Published
-blog content remains owned by `apps/blogs` and is staged as an immutable build
-input. Brand source is implementation; generated files are reproducible
-artifacts; audit captures are evidence rather than runtime authority.
+The portfolio app owns the public route shell, generated public brand assets,
+portfolio-specific documentation, and visual evidence. Reusable THOM geometry
+and animation components are owned by `@th-m/thom-brand`. Published blog
+content remains owned by `apps/blogs` and is staged as an immutable build input.
+Brand source is implementation; generated files are reproducible artifacts;
+audit captures are evidence rather than runtime authority.
 
 ## Key Terms
 
@@ -32,11 +33,16 @@ artifacts; audit captures are evidence rather than runtime authority.
 ## Routing and Publication
 
 - `/` renders the minimal THOM mark and writings index.
-- `/brand` renders the full THOM brand, portfolio, and reference experience.
-- `/design-system` documents and exercises the shared color and state contracts.
+- `/brand` renders the full THOM brand, portfolio, reference experience, and
+  canonical color system.
+- `/design-system` provides a direct route to the same shared color-system
+  presentation.
 - `/writing` lists published articles.
 - `/writing/:slug` renders a published Markdown article as hydrated React.
 - `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
+
+The shared header links the THOM mark to `/brand` and exposes only the
+`Writings` navigation link on every route.
 
 `portfolio:publish` generates brand assets, stages the public blog artifact,
 typechecks the route tree, builds `dist/client`, and verifies every manifest

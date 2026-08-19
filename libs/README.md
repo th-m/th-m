@@ -8,8 +8,8 @@ tools.
 ## Ontology
 
 A library has a typed public API and no independently started runtime. Design
-tokens live in `design-theme`; reusable verification support lives in
-`testing`.
+tokens live in `design-theme`; reusable THOM identity components and geometry
+live in `thom-brand`; reusable verification support lives in `testing`.
 
 ## Key Terms
 

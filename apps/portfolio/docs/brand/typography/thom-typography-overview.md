@@ -20,9 +20,9 @@ The wordmark occupies a **460 × 120 master-unit artboard**. The former 460 × 1
 |---|---|---|
 | Shape and placement | `docs/brand/typography/thom-canonical.svg` | Governs glyph outlines, construction, relative scale, and spacing. |
 | Numeric geometry | `docs/brand/typography/thom-typography-metrics.json` | Governs lines, frames, bounds, overshoot, grid coordinates, and conversion constants. |
-| Color and materials | `src/brand/thom/geometry.ts` | Preserve the existing palette, metallic ramps, glow, stroke stacks, and source-energy compensation. |
-| Motion and WebGL behavior | `src/brand/thom/threeScene.ts` and generated brand data | Preserve timing, reveal order, animated construction, and material behavior during migration. |
-| Optical profiles | `src/brand/thom/opticalProfile.ts` and `src/brand/thom/svg.ts` | Select display, compact, or micro detail from rendered size while preserving the canonical silhouettes. |
+| Color and materials | `../../libs/thom-brand/src/geometry.ts` | Preserve the existing palette, metallic ramps, glow, stroke stacks, and source-energy compensation. |
+| Motion and WebGL behavior | `../../libs/thom-brand/src/threeScene.ts` and generated brand data | Preserve timing, reveal order, animated construction, and material behavior during migration. |
+| Optical profiles | `../../libs/thom-brand/src/opticalProfile.ts` and `src/brand/thom/svg.ts` | Select display, compact, or micro detail from rendered size while preserving the canonical silhouettes. |
 
 <div class="page-break"></div>
 

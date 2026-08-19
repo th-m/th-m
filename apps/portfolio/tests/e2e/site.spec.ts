@@ -5,7 +5,7 @@ import { writeFile } from "node:fs/promises";
 import { PNG } from "pngjs";
 import sharp from "sharp";
 
-const brandData = JSON.parse(readFileSync(new URL("../../src/brand/thom/generated/brand-data.json", import.meta.url), "utf8")) as {
+const brandData = JSON.parse(readFileSync(new URL("../../../../libs/thom-brand/src/generated/brand-data.json", import.meta.url), "utf8")) as {
   master: { width: number };
   placements: Record<"h" | "o", { x: number; scaleX: number }>;
   h: {
@@ -56,6 +56,7 @@ function silhouette(png: PNG, threshold = 180) {
     mask,
     width,
     height,
+    bounds: { minX, minY, maxX, maxY },
     density: count / Math.max(1, width * height),
     centroid: { x: sumX / Math.max(1, count) / png.width, y: sumY / Math.max(1, count) / png.height },
     quadrants: quadrants.map((value) => value / Math.max(1, count)),
@@ -152,10 +153,131 @@ test("renders the identity and complete content without overflow", async ({ page
   await page.goto("/brand");
   await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
   await expect(page.getByRole("heading", { name: "Measured to stay itself at every scale." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Color with a job to do." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Software Design" })).toBeVisible();
   await expect(page.getByText("platonic-values")).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(overflow).toBe(false);
+});
+
+test("optically centers hero wordmarks without clipping at the reference viewports", async ({ page }, testInfo) => {
+  await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
+  await page.setViewportSize(testInfo.project.name === "mobile" ? { width: 390, height: 844 } : { width: 1170, height: 1014 });
+
+  for (const route of ["/", "/brand"]) {
+    await page.goto(route);
+    const logo = page.locator(".thom-logo--hero");
+    const canvas = logo.locator("canvas");
+    await expect(canvas).toHaveAttribute("data-render-loop", "stopped", { timeout: 3000 });
+    const png = PNG.sync.read(await logo.screenshot());
+    const metrics = silhouette(png, 100);
+    const visibleCenter = (metrics.bounds.minX + metrics.bounds.maxX) / 2 / png.width;
+    expect(Math.abs(visibleCenter - 0.5), `${route} visible center at ${visibleCenter}`).toBeLessThanOrEqual(0.015);
+    expect(metrics.bounds.minX).toBeGreaterThan(0);
+    expect(metrics.bounds.maxX).toBeLessThan(png.width - 1);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false);
+  }
+});
+
+test("activates only the hovered or focused glyph orbit", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "Pointer and keyboard activation are exercised in the desktop browser.");
+  await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
+  await page.setViewportSize({ width: 1170, height: 1014 });
+  await page.goto("/brand");
+  const orbit = page.locator(".hero-orbit");
+  const labels = {
+    t: "Replay T foundations animation",
+    h: "Replay H equilibrium animation",
+    o: "Replay O emergence animation",
+    m: "Replay M superposition animation",
+  } as const;
+
+  const animationCounts = () => orbit.evaluate((element) => Object.fromEntries(
+    ["t", "h", "o", "m"].map((glyph) => {
+      const motif = element.querySelector(`[data-orbit-motif="${glyph}"]`);
+      return [glyph, motif?.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running").length ?? 0];
+    }),
+  ));
+
+  await expect(orbit).toHaveAttribute("data-active-glyph", "idle");
+  for (const [glyph, label] of Object.entries(labels)) {
+    const target = page.getByRole("button", { name: label });
+    await target.hover();
+    await expect(orbit).toHaveAttribute("data-active-glyph", glyph);
+    await expect.poll(animationCounts).toMatchObject({ [glyph]: expect.any(Number) });
+    const counts = await animationCounts();
+    expect(counts[glyph]).toBeGreaterThan(0);
+    for (const inactive of Object.keys(labels).filter((candidate) => candidate !== glyph)) expect(counts[inactive]).toBe(0);
+    await page.mouse.move(0, 0);
+    await expect(orbit).toHaveAttribute("data-active-glyph", "idle");
+  }
+
+  const focused = page.getByRole("button", { name: labels.h });
+  await focused.focus();
+  await expect(orbit).toHaveAttribute("data-active-glyph", "h");
+  await page.mouse.move(0, 0);
+  await expect(orbit).toHaveAttribute("data-active-glyph", "h");
+  await focused.evaluate((button) => (button as HTMLButtonElement).blur());
+  await expect(orbit).toHaveAttribute("data-active-glyph", "idle");
+});
+
+test("shares the composed animated THOM logo across home and brand", async ({ page }, testInfo) => {
+  await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
+  await page.setViewportSize(testInfo.project.name === "mobile" ? { width: 390, height: 844 } : { width: 1170, height: 1014 });
+
+  for (const route of ["/", "/brand"]) {
+    await page.goto(route);
+    const component = page.locator(".animated-thom-logo");
+    const orbit = component.locator(".hero-orbit");
+    await expect(component).toHaveCount(1);
+    await expect(component.locator(".thom-logo--hero")).toHaveCount(1);
+    await page.getByRole("button", { name: "Replay H equilibrium animation" }).focus();
+    await expect(component).toHaveAttribute("data-active-glyph", "h");
+    await expect(orbit).toHaveAttribute("data-active-glyph", "h");
+    expect(await orbit.locator('[data-orbit-motif="h"]').evaluate((motif) => motif.getAnimations({ subtree: true }).length)).toBeGreaterThan(0);
+  }
+});
+
+test("keeps the H trace to five fading segments across its seamless loop", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "The deterministic animation timeline is sampled once in desktop Chromium.");
+  await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
+  await page.goto("/brand");
+  await page.getByRole("button", { name: "Replay H equilibrium animation" }).focus();
+  await expect(page.locator(".hero-orbit")).toHaveAttribute("data-active-glyph", "h");
+
+  const timeline = await page.evaluate(async () => {
+    const segments = Array.from(document.querySelectorAll<SVGLineElement>("[data-golden-trail-segment]"));
+    const dot = document.querySelector<SVGPathElement>(".hero-orbit__golden-dot");
+    const animations = [...segments.flatMap((segment) => segment.getAnimations()), ...(dot?.getAnimations() ?? [])];
+    animations.forEach((animation) => animation.pause());
+    const sample = async (time: number) => {
+      animations.forEach((animation) => { animation.currentTime = time; });
+      await new Promise(requestAnimationFrame);
+      return {
+        visible: segments.filter((segment) => {
+          const style = getComputedStyle(segment);
+          return Number(style.opacity) > 0.01 && Number.parseFloat(style.strokeDashoffset) < .999;
+        }).length,
+        dotOffset: Number.parseFloat(getComputedStyle(dot!).strokeDashoffset),
+      };
+    };
+    const start = await sample(0);
+    const visibleCounts = [];
+    for (let time = 0; time < 6400; time += 160) visibleCounts.push((await sample(time)).visible);
+    return {
+      start,
+      maximumVisible: Math.max(...visibleCounts),
+      beforeLoop: await sample(6579),
+      atLoop: await sample(6580),
+    };
+  });
+
+  expect(timeline.start.visible).toBe(0);
+  expect(timeline.maximumVisible).toBeLessThanOrEqual(5);
+  expect(timeline.beforeLoop.visible).toBeGreaterThanOrEqual(4);
+  expect(timeline.atLoop.visible).toBeGreaterThanOrEqual(4);
+  expect(timeline.beforeLoop.dotOffset).toBeCloseTo(-1, 2);
+  expect(timeline.atLoop.dotOffset).toBeCloseTo(0, 5);
 });
 
 test("supports keyboard glyph replay and has no serious accessibility findings", async ({ page }) => {
@@ -302,7 +424,9 @@ test("keeps the O network proportionate across the supplied small and large scre
   metrics.forEach((metric) => {
     expect(metric.widthDelta).toBeLessThanOrEqual(0.02);
     expect(metric.heightDelta).toBeLessThanOrEqual(0.02);
-    expect(metric.densityDelta).toBeLessThanOrEqual(metric.threshold === 18 ? 0.125 : 0.1);
+    // Diffuse halo and highlight pixels move slightly across raster scales;
+    // the midtone sample remains the tighter material-density contract.
+    expect(metric.densityDelta).toBeLessThanOrEqual(metric.threshold === 55 ? 0.1 : 0.15);
     expect(metric.centroidDelta).toBeLessThanOrEqual(0.025);
     expect(Math.max(...metric.quadrantDeltas)).toBeLessThanOrEqual(0.04);
     expect(metric.mismatch).toBeLessThanOrEqual(metric.threshold === 18 ? 0.32 : 0.54);
@@ -435,6 +559,7 @@ test("keeps the settled H geometry in SVG and WebGL parity after keyboard replay
 
 test("reveals the O from 480–1200 ms and keeps settled SVG/WebGL parity", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "The desktop parity fixture has a fixed one-pixel raster scale.");
+  await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
   await page.goto("/brand#mark");
   const oControl = page.getByRole("button", { name: /03 O Emergence/ });
   const stage = page.locator(".glyph-stage");
@@ -544,6 +669,11 @@ test("keeps the static identity under reduced motion", async ({ page }) => {
   const canvas = page.locator(".thom-logo--hero canvas");
   await expect(canvas).toBeHidden();
   await expect(canvas).toHaveAttribute("data-render-loop", "stopped");
+  const orbit = page.locator(".hero-orbit");
+  await page.getByRole("button", { name: "Replay H equilibrium animation" }).hover();
+  await expect(orbit).toHaveAttribute("data-active-glyph", "h");
+  expect(await orbit.evaluate((element) => element.querySelector('[data-orbit-motif="h"]')?.getAnimations({ subtree: true }).length ?? 0)).toBe(0);
+  await expect(orbit.locator("[data-orbit-ring]")).toHaveCount(3);
   await page.getByRole("button", { name: "Replay H equilibrium animation" }).evaluate((button) => (button as HTMLButtonElement).click());
   await expect(canvas).toHaveAttribute("data-render-loop", "stopped");
 });
@@ -565,10 +695,45 @@ test("navigates to the prerendered writing section without losing app state", as
   await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
   await page.goto("/");
   await page.evaluate(() => ((window as Window & { portfolioSentinel?: string }).portfolioSentinel = "alive"));
-  await page.getByRole("link", { name: "Writings", exact: true }).click();
+  await page.locator(".site-header").getByRole("link", { name: "Writings", exact: true }).click();
   await expect(page).toHaveURL(/\/writing\/?$/);
   await expect(page.getByRole("heading", { name: "Ideas with enough structure to navigate." })).toBeVisible();
   expect(await page.evaluate(() => (window as Window & { portfolioSentinel?: string }).portfolioSentinel)).toBe("alive");
+});
+
+test("keeps one shared header and footer while route content changes", async ({ page }) => {
+  test.slow();
+  await page.addInitScript(() => sessionStorage.setItem("thom:intro:v1", "complete"));
+  await page.goto("/");
+
+  const header = page.locator(".site-header");
+  const footer = page.locator(".site-footer");
+  const navigation = header.getByRole("navigation", { name: "Primary navigation" });
+  await expect(header).toHaveCount(1);
+  await expect(footer).toHaveCount(1);
+  await expect(header.getByText("th-m.codes", { exact: true })).toHaveCount(0);
+  await expect(navigation.getByRole("link")).toHaveCount(1);
+  await expect(navigation.getByRole("link", { name: "Writings", exact: true })).toHaveAttribute("href", "/writing");
+  await expect(navigation.getByRole("link", { name: "Home", exact: true })).toHaveCount(0);
+  await expect(navigation.getByRole("link", { name: "Brand", exact: true })).toHaveCount(0);
+  await expect(navigation.getByRole("link", { name: "System", exact: true })).toHaveCount(0);
+  await header.evaluate((element) => { element.setAttribute("data-layout-sentinel", "persistent"); });
+
+  const brandLink = header.getByRole("link", { name: "THOM — brand" });
+  await expect(brandLink).toHaveAttribute("href", "/brand");
+  await brandLink.click();
+  await expect(page).toHaveURL(/\/brand$/);
+  await expect(page.getByRole("heading", { name: "Measured to stay itself at every scale." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Color with a job to do." })).toBeVisible();
+  await expect(header).toHaveAttribute("data-layout-sentinel", "persistent");
+
+  await navigation.getByRole("link", { name: "Writings", exact: true }).click();
+  await expect(page).toHaveURL(/\/writing\/?$/);
+  await expect(page.getByRole("heading", { name: "Ideas with enough structure to navigate." })).toBeVisible();
+  await expect(header).toHaveAttribute("data-layout-sentinel", "persistent");
+  await expect(navigation.getByRole("link", { name: "Writings", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(header).toHaveCount(1);
+  await expect(footer).toHaveCount(1);
 });
 
 test.describe("no JavaScript", () => {

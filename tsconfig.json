@@ -4,6 +4,7 @@
     { "path": "./apps/blogs" },
     { "path": "./apps/portfolio" },
     { "path": "./libs/design-theme" },
+    { "path": "./libs/thom-brand" },
     { "path": "./libs/testing" },
     { "path": "./tools/graph" },
     { "path": "./tools/set-theory" }

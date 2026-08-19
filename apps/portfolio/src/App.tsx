@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ThomGlyphStage, ThomLogo } from "./brand/thom/ThomLogo";
-import type { ThomGlyph } from "./brand/thom/threeScene";
+import { AnimatedThomLogo, ThomGlyphStage, type ThomGlyph } from "@th-m/thom-brand";
 import { artifacts, books, referenceGroups, type ReferenceItem } from "./content/profile";
 
 const typographyAssets = {
@@ -94,39 +93,15 @@ function Reveal({ children, className = "", as = "section", id }: { children: Re
   );
 }
 
-function Header({ writingLink, systemLink }: { writingLink: React.ReactNode; systemLink: React.ReactNode }) {
-  return (
-    <header className="site-header brand-header">
-      <a className="header-brand" href="#top" aria-label="THOM — return to top">
-        <ThomLogo variant="header" motion="compact" />
-        <span className="header-domain">th-m.codes</span>
-      </a>
-      <nav aria-label="Primary navigation">
-        <a href="#mark">Mark</a>
-        <a href="#typography">Type</a>
-        <a href="#thinking">Thinking</a>
-        <a href="#library">Library</a>
-        <a href="#focus">Focus</a>
-        <a href="#work">Work</a>
-        {systemLink}
-        {writingLink}
-      </nav>
-    </header>
-  );
-}
-
 function Hero() {
   return (
-    <section className="hero" id="top" aria-labelledby="hero-title">
-      <div className="hero-orbit" aria-hidden="true" />
+    <section className="hero" aria-labelledby="hero-title">
       <div className="hero-meta">
         <p className="eyebrow">Thomas Valadez</p>
         <p className="sequence">constant <span>→</span> equilibrium <span>→</span> emergence <span>→</span> superposition</p>
       </div>
       <h1 id="hero-title" className="sr-only">THOM — Thomas Valadez</h1>
-      <div className="hero-mark">
-        <ThomLogo variant="hero" motion="full" interactive />
-      </div>
+      <AnimatedThomLogo className="hero-mark" />
       <div className="hero-bottom">
         <p className="hero-statement">Start with what remains true. Balance constraints. Let relationships create structure. Compose the result.</p>
         <a className="scroll-cue" href="#mark">About the mark <span aria-hidden="true">↓</span></a>
@@ -377,42 +352,18 @@ function AssetsSection() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="site-footer">
-      <ThomLogo variant="static" motion="none" ariaLabel="THOM" />
-      <div>
-        <p>Thomas Valadez</p>
-        <a href="#top">Return to top ↑</a>
-      </div>
-      <p className="footer-domain">th-m.codes</p>
-    </footer>
-  );
-}
-
-export default function App({
-  writingLink = <a href="/writing">Writing</a>,
-  systemLink = <a href="/design-system">System</a>,
-}: {
-  writingLink?: React.ReactNode;
-  systemLink?: React.ReactNode;
-}) {
+export default function App() {
   return (
     <>
-      <a className="skip-link" href="#main">Skip to content</a>
-      <Header writingLink={writingLink} systemLink={systemLink} />
-      <main id="main">
-        <Hero />
-        <MarkSection />
-        <TypographySection />
-        <IntroSection />
-        <ThinkingSection />
-        <LibrarySection />
-        <FocusSection />
-        <WorkSection />
-        <AssetsSection />
-      </main>
-      <Footer />
+      <Hero />
+      <MarkSection />
+      <TypographySection />
+      <IntroSection />
+      <ThinkingSection />
+      <LibrarySection />
+      <FocusSection />
+      <WorkSection />
+      <AssetsSection />
     </>
   );
 }

@@ -1,5 +1,6 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import App from "../App";
+import { ColorSystem } from "../design-system/ColorSystem";
 
 export const Route = createFileRoute("/brand")({
   head: () => ({
@@ -19,5 +20,10 @@ export const Route = createFileRoute("/brand")({
 });
 
 function BrandPage() {
-  return <App systemLink={<Link to="/design-system">System</Link>} writingLink={<Link to="/writing">Writing</Link>} />;
+  return (
+    <>
+      <App />
+      <ColorSystem embedded />
+    </>
+  );
 }

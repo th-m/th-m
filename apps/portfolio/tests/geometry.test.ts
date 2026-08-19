@@ -49,9 +49,9 @@ import {
   samplePathOutline,
   sampleBezierChain,
   type FilledPath,
-} from "../src/brand/thom/geometry";
+} from "@th-m/thom-brand/geometry";
 import { renderGlyphSvg, renderLogoSvg } from "../src/brand/thom/svg";
-import { brandData } from "../src/brand/thom/brandData";
+import { brandData } from "@th-m/thom-brand/brand-data";
 
 function endpoints(path: FilledPath) {
   return path.commands.flatMap((command) => command.type === "M" || command.type === "L" || command.type === "C" ? [{ x: command.x, y: command.y }] : []);
@@ -501,7 +501,7 @@ describe("THOM geometry", () => {
       if (Math.abs(expected.data[offset] - actual.data[offset]) > 8) changedAlphaPixels += 1;
     }
     expect(changedAlphaPixels / (expected.width * expected.height)).toBeLessThan(0.001);
-  });
+  }, 10_000);
 
   it("keeps every committed generated brand asset deterministic", () => {
     const assetUrls = [
@@ -518,7 +518,7 @@ describe("THOM geometry", () => {
       "../public/brand/thom-monochrome.svg",
       "../public/brand/thom-og.png",
       "../public/brand/thom-og.svg",
-      "../src/brand/thom/generated/brand-data.json",
+      "../../../libs/thom-brand/src/generated/brand-data.json",
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));

@@ -1,9 +1,10 @@
-import { HeadContent, Link, Scripts, createRootRoute } from "@tanstack/react-router";
+import { HeadContent, Link, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
 import { thomDesignTokens } from "@th-m/design-theme";
 import interCss from "@fontsource-variable/inter/wght.css?url";
 import newsreaderCss from "@fontsource-variable/newsreader/wght.css?url";
 import monoCss from "@fontsource/ibm-plex-mono/400.css?url";
 import appCss from "../styles.css?url";
+import { Layout } from "../layout/Layout";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -23,17 +24,26 @@ export const Route = createRootRoute({
       { rel: "icon", type: "image/svg+xml", href: "/brand/favicon.svg" },
     ],
   }),
+  component: RootLayout,
   notFoundComponent: NotFoundPage,
   shellComponent: RootDocument,
 });
 
+function RootLayout() {
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
+}
+
 function NotFoundPage() {
   return (
-    <main className="route-message bg-background text-foreground" id="main">
+    <div className="route-message bg-background text-foreground">
       <p className="eyebrow">404 · Not found</p>
       <h1>This page is outside the map.</h1>
       <Link to="/">Return home</Link>
-    </main>
+    </div>
   );
 }
 

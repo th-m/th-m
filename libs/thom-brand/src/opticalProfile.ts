@@ -1,3 +1,4 @@
+/** Optical detail profiles selected from the rendered wordmark width. */
 export type OpticalProfile = "display" | "compact" | "micro";
 export type LogoOpticalProfile = OpticalProfile | "auto";
 
@@ -12,5 +13,7 @@ export function opticalProfileForWidth(width: number): OpticalProfile {
   return "display";
 }
 
-export const opticalProfileAsset = (profile: OpticalProfile) =>
-  profile === "display" ? "/brand/thom-master.svg" : `/brand/thom-${profile}.svg`;
+export const opticalProfileAsset = (profile: OpticalProfile, assetBasePath = "/brand") => {
+  const basePath = assetBasePath.endsWith("/") ? assetBasePath.slice(0, -1) : assetBasePath;
+  return profile === "display" ? `${basePath}/thom-master.svg` : `${basePath}/thom-${profile}.svg`;
+};

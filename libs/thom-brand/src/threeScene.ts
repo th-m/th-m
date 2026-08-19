@@ -1,3 +1,4 @@
+/** WebGL scene controller for the THOM wordmark and isolated glyphs. */
 import {
   BufferGeometry,
   CircleGeometry,

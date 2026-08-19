@@ -11,9 +11,9 @@
     "geometryAndPlacement": "docs/brand/typography/thom-canonical.svg",
     "metrics": "docs/brand/typography/thom-typography-metrics.json",
     "colorMaterialsAndMotion": [
-      "src/brand/thom/geometry.ts",
-      "src/brand/thom/threeScene.ts",
-      "src/brand/thom/generated/brand-data.json"
+      "../../libs/thom-brand/src/geometry.ts",
+      "../../libs/thom-brand/src/threeScene.ts",
+      "../../libs/thom-brand/src/generated/brand-data.json"
     ]
   },
   "units": {

@@ -2,7 +2,7 @@ import { PNG } from "pngjs";
 import pixelmatch from "pixelmatch";
 
 const root = new URL("../../public/brand-audit/", import.meta.url);
-const calibrationUrl = new URL("../../src/brand/thom/o-calibration.json", import.meta.url);
+const calibrationUrl = new URL("../../../../libs/thom-brand/src/o-calibration.json", import.meta.url);
 const metadata = await Bun.file(new URL("o-candidates.json", root)).json() as {
   columns: number;
   tileWidth: number;

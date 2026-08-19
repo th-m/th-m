@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { loadBlogManifest } from "../content/blog-content";
-import { PublicationDate, WritingChrome } from "../writing/WritingChrome";
+import { PublicationDate } from "../writing/PublicationDate";
 
 export const Route = createFileRoute("/writing/")({
   loader: loadBlogManifest,
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/writing/")({
 function WritingIndexPage() {
   const manifest = Route.useLoaderData();
   return (
-    <WritingChrome>
+    <div className="writing-page">
       <header className="writing-intro">
         <p className="eyebrow">Writing</p>
         <h1>Ideas with enough structure to navigate.</h1>
@@ -52,6 +52,6 @@ function WritingIndexPage() {
           ))}
         </ol>
       )}
-    </WritingChrome>
+    </div>
   );
 }

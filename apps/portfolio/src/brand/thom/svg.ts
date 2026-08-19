@@ -1,4 +1,4 @@
-import type { BrandData, ChordNetwork, CubicBezierSegment, FilledPath, OpticalProfile, PathCommand, Point } from "./geometry";
+import type { BrandData, ChordNetwork, CubicBezierSegment, FilledPath, OpticalProfile, PathCommand, Point } from "@th-m/thom-brand/geometry";
 import {
   BRAND_COLORS,
   displayStrokeWorldWidth,
@@ -16,7 +16,7 @@ import {
   PI_MATERIAL,
   fourierCompactBezier,
   fourierPartialBezier,
-} from "./geometry";
+} from "@th-m/thom-brand/geometry";
 
 type SvgTheme = "dark" | "light" | "monochrome";
 

@@ -6,9 +6,9 @@ import { Resvg } from "@resvg/resvg-js";
 import { chromium } from "playwright";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
-import { brandData } from "../../src/brand/thom/brandData";
-import { H_ANIMATION, H_SPIRAL, OPTICAL_PLACEMENT_X } from "../../src/brand/thom/geometry";
-import { OPTICAL_PROFILE_WIDTHS } from "../../src/brand/thom/opticalProfile";
+import { brandData } from "@th-m/thom-brand/brand-data";
+import { H_ANIMATION, H_SPIRAL, OPTICAL_PLACEMENT_X } from "@th-m/thom-brand/geometry";
+import { OPTICAL_PROFILE_WIDTHS } from "@th-m/thom-brand/optical-profile";
 
 type Point = { x: number; y: number };
 type Bounds = { left: number; top: number; right: number; bottom: number; width: number; height: number };
@@ -320,9 +320,9 @@ const metrics = {
     geometryAndPlacement: "docs/brand/typography/thom-canonical.svg",
     metrics: "docs/brand/typography/thom-typography-metrics.json",
     colorMaterialsAndMotion: [
-      "src/brand/thom/geometry.ts",
-      "src/brand/thom/threeScene.ts",
-      "src/brand/thom/generated/brand-data.json",
+      "../../libs/thom-brand/src/geometry.ts",
+      "../../libs/thom-brand/src/threeScene.ts",
+      "../../libs/thom-brand/src/generated/brand-data.json",
     ],
   },
   units: {
@@ -601,9 +601,9 @@ The wordmark occupies a **460 × 120 master-unit artboard**. The former 460 × 1
 |---|---|---|
 | Shape and placement | \`docs/brand/typography/thom-canonical.svg\` | Governs glyph outlines, construction, relative scale, and spacing. |
 | Numeric geometry | \`docs/brand/typography/thom-typography-metrics.json\` | Governs lines, frames, bounds, overshoot, grid coordinates, and conversion constants. |
-| Color and materials | \`src/brand/thom/geometry.ts\` | Preserve the existing palette, metallic ramps, glow, stroke stacks, and source-energy compensation. |
-| Motion and WebGL behavior | \`src/brand/thom/threeScene.ts\` and generated brand data | Preserve timing, reveal order, animated construction, and material behavior during migration. |
-| Optical profiles | \`src/brand/thom/opticalProfile.ts\` and \`src/brand/thom/svg.ts\` | Select display, compact, or micro detail from rendered size while preserving the canonical silhouettes. |
+| Color and materials | \`../../libs/thom-brand/src/geometry.ts\` | Preserve the existing palette, metallic ramps, glow, stroke stacks, and source-energy compensation. |
+| Motion and WebGL behavior | \`../../libs/thom-brand/src/threeScene.ts\` and generated brand data | Preserve timing, reveal order, animated construction, and material behavior during migration. |
+| Optical profiles | \`../../libs/thom-brand/src/opticalProfile.ts\` and \`src/brand/thom/svg.ts\` | Select display, compact, or micro detail from rendered size while preserving the canonical silhouettes. |
 
 <div class="page-break"></div>
 

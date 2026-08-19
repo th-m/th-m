@@ -17,8 +17,8 @@ import {
   createBrandData,
   hSpiralFrame,
   type OpticalProfile,
-} from "../../src/brand/thom/geometry";
-import { opticalProfileForWidth } from "../../src/brand/thom/opticalProfile";
+} from "@th-m/thom-brand/geometry";
+import { opticalProfileForWidth } from "@th-m/thom-brand/optical-profile";
 import { renderGlyphContent, renderLogoSvg } from "../../src/brand/thom/svg";
 
 const GLYPHS = ["t", "h", "o", "m"] as const;

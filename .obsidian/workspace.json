@@ -11,10 +11,14 @@
             "id": "91b03bb627e84326",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "apps/blogs/articles/solutions-meaning-and-value/draft.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "draft"
             }
           }
         ]
@@ -95,6 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "apps/blogs/articles/solutions-meaning-and-value/draft.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,6 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "apps/blogs/articles/solutions-meaning-and-value/draft.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -182,47 +188,53 @@
       "bases:Create new base": false
     }
   },
-  "active": "4c25806f804a368f",
+  "active": "91b03bb627e84326",
   "lastOpenFiles": [
+    "apps/portfolio/test-results/e2e-site-documents-the-Tai-e397f--at-each-supported-viewport-mobile",
+    "apps/portfolio/test-results/e2e-site-reveals-the-O-fro-07d07-ps-settled-SVG-WebGL-parity-desktop",
+    "apps/portfolio/test-results/e2e-site-keeps-the-O-netwo-af62a-all-and-large-screen-scales-desktop",
+    "apps/portfolio/test-results/e2e-site-documents-the-Tai-e397f--at-each-supported-viewport-desktop",
+    "apps/portfolio/test-results",
+    "apps/portfolio/dist/client/_shell.html",
+    "apps/portfolio/dist/client/brand/index.html",
+    "apps/portfolio/dist/client/writing/index.html",
+    "apps/portfolio/dist/client/writing",
+    "apps/portfolio/dist/client/index.html",
+    "apps/portfolio/dist/client/design-system/index.html",
+    "apps/portfolio/dist/client/assets/thom-typography-overview-BMHu6mje.md",
+    "apps/portfolio/dist/client/assets/thom-canonical-RvZxVx17.svg",
+    "apps/portfolio/dist/client/assets/01-vertical-metrics-BGGoK4ah.svg",
+    "apps/blogs/articles/solutions-meaning-and-value/outline.md",
+    "apps/blogs/articles/solutions-meaning-and-value/draft.md",
+    "apps/portfolio/test-results/e2e-site-keeps-one-shared--5624b-while-route-content-changes-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-one-shared--5624b-while-route-content-changes-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-reveals-the-O-fro-07d07-ps-settled-SVG-WebGL-parity-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-traces-the-isolat-0bbed--and-keeps-SVG-WebGL-parity-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-the-O-netwo-af62a-all-and-large-screen-scales-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-replays-the-isola-19f53-d-returns-to-a-stopped-loop-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-the-H-cross-1c23d-d-bounded-across-hero-sizes-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-runs-the-H-golden-3004b-art-or-pointer-cancellation-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-optically-centers-fed10--at-the-reference-viewports-mobile/error-context.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/Human capabilities.md",
+    "apps/portfolio/test-results/e2e-site-optically-centers-fed10--at-the-reference-viewports-desktop/error-context.md",
+    "apps/portfolio/dist/client/assets/thom-typography-overview-BZTlfmsz.md",
+    "apps/blogs/articles/solutions-meaning-and-value/notes/barnum and strats.md",
+    "apps/blogs/solutions, meaning and value/draft.md",
+    "libs/thom-brand/README.md",
+    "libs/thom-brand/AGENTS.md",
+    "apps/portfolio/test-results/e2e-site-settles-WebGL-stages-and-stops-their-render-loops-desktop/error-context.md",
+    "apps/portfolio/test-results/visual-brand-compare-captu-11b09-the-reference-fidelity-gate-brand-audit/error-context.md",
+    "apps/portfolio/test-results/visual-brand-compare-captu-11b09-the-reference-fidelity-gate-brand-audit/current-t-expected.png",
+    "apps/portfolio/test-results/visual-brand-compare-captu-11b09-the-reference-fidelity-gate-brand-audit/current-t-diff.png",
+    "apps/portfolio/test-results/visual-brand-compare-captu-11b09-the-reference-fidelity-gate-brand-audit/current-t-actual.png",
     "apps/blogs/articles/the-factory-ontology/research/controlled-language-reference.md",
     "apps/blogs/articles/the-factory-strategy/outline.md",
     "apps/blogs/articles/the-factory-ontology/outline.md",
     "apps/blogs/articles/the-knowledge-factory/outline.md",
-    "apps/blogs/articles/understanding-is-the-bottleneck/outline.md",
-    "apps/blogs/articles/truth-entropy-and-inference/outline.md",
-    "apps/blogs/articles/the-factory-strategy/research",
-    "apps/blogs/articles/the-factory-strategy/notes",
-    "apps/blogs/articles/the-factory-strategy",
-    "apps/blogs/articles/the-factory-ontology/research/research-audit.md",
-    "apps/blogs/articles/the-factory-ontology/research",
-    "apps/blogs/articles/the-factory-ontology/notes",
-    "apps/blogs/articles/the-factory-ontology",
-    "apps/blogs/articles/truth-entropy-and-inference/research/research-review.md",
     "apps/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations@2x.png",
     "apps/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations.svg",
     "apps/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships@2x.png",
-    "apps/blogs/articles/truth-entropy-and-inference/assets/AGENTS.md",
     "apps/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships.svg",
-    "apps/blogs/articles/truth-entropy-and-inference/assets/README.md",
-    "apps/blogs/articles/truth-entropy-and-inference/research",
-    "apps/blogs/articles/truth-entropy-and-inference/notes",
-    "apps/blogs/articles/truth-entropy-and-inference/assets",
-    "apps/blogs/articles/truth-entropy-and-inference",
-    "apps/blogs/articles/solutions-meaning-and-value/research/research-review.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/research-conclusion-cognitive-loop.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/qualia-opportunity-spaces-ai-and-humans.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/phenomenal-consciousness-and-artificial-consciousness.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/ai-goals-and-cognitive-light-cone.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/formal-human-ai-reasoning-comparison.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/michael-levin-human-partiality.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/backup table.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/ai-innovation-details.md",
-    "apps/blogs/articles/solutions-meaning-and-value/outline.md",
-    "apps/blogs/articles/solutions-meaning-and-value/draft.md",
-    "apps/blogs/articles/AGENTS.md",
-    "apps/blogs/articles/README.md",
-    "apps/blogs/README.md",
-    "apps/portfolio/dist/client/assets/thom-canonical-RvZxVx17.svg",
-    "apps/portfolio/dist/client/assets/01-vertical-metrics-BGGoK4ah.svg"
+    "apps/blogs/articles/ai-knows-propositions-humans-navigate-relationships/assets/weather-propositions-and-sensations@2x.png"
   ]
 }

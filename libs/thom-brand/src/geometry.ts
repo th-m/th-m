@@ -1,3 +1,4 @@
+/** Canonical geometry shared by runtime animation and generated assets. */
 import { thomDesignTokens } from "@th-m/design-theme";
 import mCalibration from "./m-calibration.json";
 import oCalibration from "./o-calibration.json";

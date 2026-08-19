@@ -18,7 +18,7 @@ import {
   samplePathOutline,
   type FilledPath,
   type Point,
-} from "../../src/brand/thom/geometry";
+} from "@th-m/thom-brand/geometry";
 
 const GLYPHS = ["t", "h", "o", "m"] as const;
 type Glyph = (typeof GLYPHS)[number];
