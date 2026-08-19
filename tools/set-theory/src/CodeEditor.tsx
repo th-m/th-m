@@ -1,9 +1,13 @@
 import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
-import { defaultHighlightStyle, syntaxHighlighting } from "@codemirror/language";
+import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { EditorState } from "@codemirror/state";
 import { EditorView, drawSelection, highlightActiveLine, highlightActiveLineGutter, highlightSpecialChars, keymap, lineNumbers } from "@codemirror/view";
+import { tags } from "@lezer/highlight";
+import { thomDesignTokens } from "@th-m/design-theme";
 import { useEffect, useRef } from "react";
+
+const design = thomDesignTokens;
 
 interface CodeEditorProps {
   value: string;
@@ -15,28 +19,32 @@ interface CodeEditorProps {
 const thomEditorTheme = EditorView.theme({
   "&": {
     height: "100%",
-    backgroundColor: "#050505",
-    color: "#f2e5cf",
-    fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
+    backgroundColor: design.color.background,
+    color: design.color.foreground,
+    fontFamily: design.typography.mono,
     fontSize: "11px",
   },
-  ".cm-content": { padding: "14px 0", caretColor: "#d6b06a" },
+  ".cm-content": { padding: "14px 0", caretColor: design.color.primary.default },
   ".cm-line": { padding: "0 14px", lineHeight: "1.75" },
   ".cm-gutters": {
-    backgroundColor: "#080706",
-    color: "#6f6557",
-    borderRight: "1px solid #342d23",
+    backgroundColor: design.color.surface,
+    color: design.color.foregroundSubtle,
+    borderRight: `1px solid ${design.color.border}`,
   },
-  ".cm-activeLine, .cm-activeLineGutter": { backgroundColor: "rgba(214,176,106,.055)" },
+  ".cm-activeLine, .cm-activeLineGutter": { backgroundColor: `color-mix(in srgb, ${design.color.primary.default} 10%, transparent)` },
   ".cm-selectionBackground, &.cm-focused .cm-selectionBackground": {
-    backgroundColor: "rgba(214,176,106,.22) !important",
+    backgroundColor: `color-mix(in srgb, ${design.color.primary.default} 22%, transparent) !important`,
   },
-  "&.cm-focused": { outline: "1px solid #d6b06a", outlineOffset: "-1px" },
-  ".tok-keyword": { color: "#d6b06a" },
-  ".tok-typeName, .tok-className": { color: "#fff5dc" },
-  ".tok-string, .tok-number, .tok-bool": { color: "#c4aa7d" },
-  ".tok-comment": { color: "#756b5d", fontStyle: "italic" },
+  "&.cm-focused": { outline: `2px solid ${design.color.ring}`, outlineOffset: "-2px" },
 });
+
+const thomHighlightStyle = HighlightStyle.define([
+  { tag: tags.keyword, color: design.color.primary.default },
+  { tag: [tags.typeName, tags.className], color: design.color.foregroundStrong },
+  { tag: [tags.string, tags.number, tags.bool, tags.null], color: design.color.foreground },
+  { tag: [tags.variableName, tags.propertyName], color: design.color.foreground },
+  { tag: tags.comment, color: design.color.foregroundMuted, fontStyle: "italic" },
+]);
 
 export function CodeEditor({ value, onChange, readOnly = false, ariaLabel = "TypeScript source" }: CodeEditorProps) {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -59,7 +67,7 @@ export function CodeEditor({ value, onChange, readOnly = false, ariaLabel = "Typ
           history(),
           keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
           javascript({ typescript: true }),
-          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+          syntaxHighlighting(thomHighlightStyle),
           EditorState.readOnly.of(readOnly),
           EditorView.editable.of(!readOnly),
           EditorView.contentAttributes.of({ "aria-label": ariaLabel }),
@@ -70,6 +78,7 @@ export function CodeEditor({ value, onChange, readOnly = false, ariaLabel = "Typ
         ],
       }),
     });
+    view.scrollDOM.tabIndex = 0;
     viewRef.current = view;
     return () => {
       view.destroy();

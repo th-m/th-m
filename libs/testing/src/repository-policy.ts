@@ -1,9 +1,16 @@
 import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { join, relative, sep } from "node:path";
 
 export interface DocumentationViolation {
   path: string;
   message: string;
+}
+
+export interface FoundationColorViolation {
+  path: string;
+  line: number;
+  token: string;
+  value: string;
 }
 
 const ignoredDirectories = new Set([
@@ -24,6 +31,30 @@ const agentHeadings = [
   "## Required Verification Parameters Within Nested Context",
   "## Required Invariants Within Folder Context",
 ];
+
+const canonicalFoundationColors = [
+  ["background", "050505"],
+  ["surface", "0c0b09"],
+  ["surface-raised", "15120d"],
+  ["hover-card", "19150f"],
+  ["popover", "1d1811"],
+  ["dialog", "211b13"],
+  ["foreground", "f2e5cf"],
+  ["foreground-strong", "fff5dc"],
+  ["foreground-muted", "a99b87"],
+  ["foreground-subtle", "8f816e"],
+  ["foreground-inverse", "17130f"],
+  ["border", "30291f"],
+  ["border-strong", "776951"],
+  ["brand", "d6b06a"],
+] as const;
+
+const colorPolicyExclusions = [
+  "libs/design-theme/",
+  "apps/portfolio/scripts/brand/",
+  "apps/portfolio/scripts/visual/",
+  "tools/graph/scripts/legacy/",
+] as const;
 
 async function walk(directory: string): Promise<string[]> {
   const found: string[] = [];
@@ -61,6 +92,30 @@ export async function documentationViolations(workspaceRoot: string): Promise<Do
     }
     for (const heading of missingHeadings(agentContents, agentHeadings)) {
       violations.push({ path: agent, message: `missing heading: ${heading}` });
+    }
+  }
+
+  return violations;
+}
+
+/** Prevents implementation code from copying the canonical palette instead of consuming design-theme. */
+export async function foundationColorViolations(workspaceRoot: string): Promise<FoundationColorViolation[]> {
+  const files = await walk(workspaceRoot);
+  const violations: FoundationColorViolation[] = [];
+
+  for (const path of files) {
+    const workspacePath = relative(workspaceRoot, path).split(sep).join("/");
+    if (!/\.(?:css|ts|tsx)$/.test(workspacePath)) continue;
+    if (!/^(?:apps|libs|tools)\//.test(workspacePath)) continue;
+    if (colorPolicyExclusions.some((prefix) => workspacePath.startsWith(prefix))) continue;
+
+    const lines = (await readFile(path, "utf8")).split("\n");
+    for (const [index, line] of lines.entries()) {
+      const normalized = line.toLowerCase();
+      for (const [token, digits] of canonicalFoundationColors) {
+        const value = `#${digits}`;
+        if (normalized.includes(value)) violations.push({ path: workspacePath, line: index + 1, token, value });
+      }
     }
   }
 

@@ -23,6 +23,8 @@
     "web-worker": "latest"
   },
   "devDependencies": {
+    "@axe-core/playwright": "latest",
+    "@tailwindcss/vite": "^4.3.0",
     "@playwright/test": "latest",
     "@resvg/resvg-js": "latest",
     "@th-m/testing": "workspace:*",
@@ -32,6 +34,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
+    "tailwindcss": "^4.3.0",
     "typescript": "6.0.2",
     "vite": "latest",
     "vitest": "latest"

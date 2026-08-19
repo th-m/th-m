@@ -168,7 +168,7 @@ export function Inspector({
             />
             Pin position
           </label>
-          <button className="graph-button graph-button--danger" onClick={onDeleteSelection}>
+          <button className="graph-button graph-button--error" onClick={onDeleteSelection}>
             Delete proposition
           </button>
         </div>
@@ -249,7 +249,7 @@ export function Inspector({
             />
             Pin label position
           </label>
-          <button className="graph-button graph-button--danger" onClick={onDeleteSelection}>
+          <button className="graph-button graph-button--error" onClick={onDeleteSelection}>
             Delete relationship
           </button>
         </div>

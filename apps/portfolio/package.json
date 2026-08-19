@@ -33,6 +33,7 @@
     "@tanstack/react-router": "1.170.29",
     "@tanstack/react-start": "1.168.46",
     "@th-m/blogs": "workspace:*",
+    "@th-m/design-theme": "workspace:*",
     "motion": "latest",
     "react": "latest",
     "react-dom": "latest",
@@ -42,6 +43,7 @@
     "three": "latest"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
     "@th-m/testing": "workspace:*",
     "@axe-core/playwright": "latest",
     "@playwright/test": "latest",
@@ -61,6 +63,7 @@
     "pngjs": "^7.0.0",
     "playwright": "latest",
     "sharp": "^0.35.3",
+    "tailwindcss": "^4.3.0",
     "typescript": "6.0.2",
     "vite": "latest",
     "vitest": "latest"

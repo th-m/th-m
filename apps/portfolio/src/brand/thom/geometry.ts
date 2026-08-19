@@ -1,3 +1,4 @@
+import { thomDesignTokens } from "@th-m/design-theme";
 import mCalibration from "./m-calibration.json";
 import oCalibration from "./o-calibration.json";
 export type { OpticalProfile } from "./opticalProfile";
@@ -72,17 +73,17 @@ export type BrandData = {
 };
 
 export const BRAND_COLORS = {
-  background: "#050505",
-  surface: "#0a0908",
+  background: thomDesignTokens.color.background,
+  surface: thomDesignTokens.color.surface,
   shadow: "#765237",
-  ivory: "#f2e5cf",
-  gold: "#d6b06a",
-  highlight: "#fff5dc",
-  muted: "#a99b87",
+  ivory: thomDesignTokens.color.foreground,
+  gold: thomDesignTokens.color.primary.default,
+  highlight: thomDesignTokens.color.foregroundStrong,
+  muted: thomDesignTokens.color.foregroundMuted,
   construction: "rgba(214,176,106,.35)",
   glow: "rgba(214,176,106,.18)",
   lightBackground: "#f4efe6",
-  lightInk: "#17130f",
+  lightInk: thomDesignTokens.color.foregroundInverse,
   lightGold: "#8a652a",
 } as const;
 

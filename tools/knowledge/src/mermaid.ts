@@ -1,5 +1,6 @@
 import type { KnowledgeDocument } from "@th-m/knowledge-model";
 import { svgShell, tspans, wrapText, type EmbeddedFonts } from "./rendering.ts";
+import { knowledgeTheme } from "./theme.ts";
 
 export interface SystemNode {
   id: string;
@@ -193,15 +194,15 @@ export function renderSystemTopology(model: SystemModel, title: string, fonts: E
     const x = groupX.get(group.id)!;
     const nodes = group.nodeIds.map((id) => model.nodes.find((node) => node.id === id)).filter((node): node is SystemNode => Boolean(node));
     const boxHeight = Math.max(220, nodes.length * 102 + 92);
-    groupMarkup.push(`<rect x="${x}" y="132" width="430" height="${boxHeight}" rx="20" fill="#0c0b09" stroke="#554936" stroke-width="1.5"/>`);
-    groupMarkup.push(`<text class="display" x="${x + 26}" y="174" font-size="25" fill="#d6b06a">${tspans(wrapText(group.label, 34, 2), x + 26, 174, 25)}</text>`);
+    groupMarkup.push(`<rect x="${x}" y="132" width="430" height="${boxHeight}" rx="20" fill="${knowledgeTheme.surface}" stroke="${knowledgeTheme.border}" stroke-width="1.5"/>`);
+    groupMarkup.push(`<text class="display" x="${x + 26}" y="174" font-size="25" fill="${knowledgeTheme.primary}">${tspans(wrapText(group.label, 34, 2), x + 26, 174, 25)}</text>`);
     nodes.forEach((node, index) => positioned.set(node.id, { ...node, x: x + 25, y: 205 + index * 102, width: 380, height: 76 }));
   }
   const standalone = model.nodes.filter(({ groupId }) => !groupId);
   standalone.forEach((node, index) => positioned.set(node.id, { ...node, x: 54 + orderedGroups.length * 520, y: 205 + index * 110, width: 250, height: 82 }));
 
   const nodeMarkup = [...positioned.values()].map((node) => `<g id="node-${node.id}">
-    <rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="13" fill="#15120d" stroke="#6d5a3b"/>
+    <rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="13" fill="${knowledgeTheme.surfaceRaised}" stroke="${knowledgeTheme.borderStrong}"/>
     <text x="${node.x + 18}" y="${node.y + 29}" font-size="14">${tspans(wrapText(node.label, Math.floor((node.width - 36) / 8), 3), node.x + 18, node.y + 29, 18)}</text>
   </g>`).join("");
 
@@ -220,7 +221,7 @@ export function renderSystemTopology(model: SystemModel, title: string, fonts: E
     if (source.id === target.id) {
       const x = source.x + source.width;
       const y = source.y + source.height / 2;
-      return `<path d="M${x} ${y} C${x + 70} ${y - 62}, ${x + 70} ${y + 62}, ${x} ${y + 16}" fill="none" stroke="#d6b06a" stroke-width="2" marker-end="url(#arrow)"/><g transform="translate(${x + 50} ${y - 48})"><circle r="18" fill="#d6b06a"/><text x="0" y="5" text-anchor="middle" fill="#050505" font-size="12">${ordinals.join(",")}</text></g>`;
+      return `<path d="M${x} ${y} C${x + 70} ${y - 62}, ${x + 70} ${y + 62}, ${x} ${y + 16}" fill="none" stroke="${knowledgeTheme.primary}" stroke-width="2" marker-end="url(#arrow)"/><g transform="translate(${x + 50} ${y - 48})"><circle r="18" fill="${knowledgeTheme.primary}"/><text x="0" y="5" text-anchor="middle" fill="${knowledgeTheme.foregroundInverse}" font-size="12">${ordinals.join(",")}</text></g>`;
     }
     const leftToRight = source.x <= target.x;
     const sx = leftToRight ? source.x + source.width : source.x;
@@ -230,8 +231,8 @@ export function renderSystemTopology(model: SystemModel, title: string, fonts: E
     const offset = ((bundleIndex % 5) - 2) * 10;
     const midpoint = (sx + tx) / 2 + offset;
     const dash = supporting ? ' stroke-dasharray="7 7"' : "";
-    const stroke = supporting ? "#8f816e" : "#d6b06a";
-    const badge = ordinals.length > 0 ? `<g transform="translate(${midpoint} ${(sy + ty) / 2})"><rect x="-${14 + ordinals.join(",").length * 5}" y="-14" width="${28 + ordinals.join(",").length * 10}" height="28" rx="14" fill="#050505" stroke="${stroke}"/><text x="0" y="4" text-anchor="middle" font-size="11">${ordinals.join(" · ")}</text></g>` : "";
+    const stroke = supporting ? knowledgeTheme.foregroundSubtle : knowledgeTheme.primary;
+    const badge = ordinals.length > 0 ? `<g transform="translate(${midpoint} ${(sy + ty) / 2})"><rect x="-${14 + ordinals.join(",").length * 5}" y="-14" width="${28 + ordinals.join(",").length * 10}" height="28" rx="14" fill="${knowledgeTheme.background}" stroke="${stroke}"/><text x="0" y="4" text-anchor="middle" font-size="11">${ordinals.join(" · ")}</text></g>` : "";
     return `<path d="M${sx} ${sy} C${midpoint} ${sy}, ${midpoint} ${ty}, ${tx} ${ty}" fill="none" stroke="${stroke}" stroke-width="${supporting ? 1.5 : 2}"${dash} marker-end="url(#${supporting ? "arrow-muted" : "arrow"})"/>${badge}`;
   }).join("");
 
@@ -241,10 +242,10 @@ export function renderSystemTopology(model: SystemModel, title: string, fonts: E
     const row = Math.floor(index / 2);
     const x = 64 + column * 880;
     const y = diagramHeight + 146 + row * 52;
-    return `<g><circle cx="${x + 16}" cy="${y - 5}" r="16" fill="#d6b06a"/><text x="${x + 16}" y="${y}" text-anchor="middle" fill="#050505" font-size="11">${edge.ordinal}</text><text x="${x + 48}" y="${y - 8}" font-size="12" fill="#d6b06a">${edge.sourceId} → ${edge.targetId}</text><text x="${x + 48}" y="${y + 12}" font-size="13">${tspans(wrapText(edge.label, 82, 1), x + 48, y + 12, 18)}</text></g>`;
+    return `<g><circle cx="${x + 16}" cy="${y - 5}" r="16" fill="${knowledgeTheme.primary}"/><text x="${x + 16}" y="${y}" text-anchor="middle" fill="${knowledgeTheme.foregroundInverse}" font-size="11">${edge.ordinal}</text><text x="${x + 48}" y="${y - 8}" font-size="12" fill="${knowledgeTheme.primary}">${edge.sourceId} → ${edge.targetId}</text><text x="${x + 48}" y="${y + 12}" font-size="13">${tspans(wrapText(edge.label, 82, 1), x + 48, y + 12, 18)}</text></g>`;
   }).join("");
 
-  const content = `<text class="display" x="54" y="58" font-size="38">${title}</text><text x="54" y="112" font-size="12" fill="#a99b87">TOPOLOGY · OWNERSHIP LEFT TO RIGHT · ROUTES BUNDLED BY ENDPOINT PAIR</text>${groupMarkup.join("")}${edgeMarkup}${nodeMarkup}<path d="M54 ${diagramHeight + 42} H${width - 54}" stroke="#554936"/><text class="display" x="54" y="${diagramHeight + 94}" font-size="30">Relationship register</text>${register}`;
+  const content = `<text class="display" x="54" y="58" font-size="38">${title}</text><text x="54" y="112" font-size="12" fill="${knowledgeTheme.foregroundMuted}">TOPOLOGY · OWNERSHIP LEFT TO RIGHT · ROUTES BUNDLED BY ENDPOINT PAIR</text>${groupMarkup.join("")}${edgeMarkup}${nodeMarkup}<path d="M54 ${diagramHeight + 42} H${width - 54}" stroke="${knowledgeTheme.borderStrong}"/><text class="display" x="54" y="${diagramHeight + 94}" font-size="30">Relationship register</text>${register}`;
   return { svg: svgShell({ title: `${title} — THOM topology`, description: "System topology organized by ownership with bundled routes and a complete relationship register.", width, height, fonts, content }), width, height };
 }
 
@@ -262,11 +263,11 @@ export function renderPhasedProcess(model: SystemModel, title: string, fonts: Em
       const x = 60 + index * 274;
       const y = top + 58;
       const action = wrapText(step.label, 28, 4);
-      return `<g><rect x="${x}" y="${y}" width="246" height="142" rx="17" fill="#15120d" stroke="#6d5a3b"/><circle cx="${x + 27}" cy="${y + 27}" r="17" fill="#d6b06a"/><text x="${x + 27}" y="${y + 32}" text-anchor="middle" fill="#050505" font-size="12">${step.ordinal}</text><text x="${x + 54}" y="${y + 31}" font-size="12" fill="#d6b06a">${step.sourceId} → ${step.targetId}</text><text x="${x + 18}" y="${y + 65}" font-size="13">${tspans(action, x + 18, y + 65, 19)}</text></g>`;
+      return `<g><rect x="${x}" y="${y}" width="246" height="142" rx="17" fill="${knowledgeTheme.surfaceRaised}" stroke="${knowledgeTheme.borderStrong}"/><circle cx="${x + 27}" cy="${y + 27}" r="17" fill="${knowledgeTheme.primary}"/><text x="${x + 27}" y="${y + 32}" text-anchor="middle" fill="${knowledgeTheme.foregroundInverse}" font-size="12">${step.ordinal}</text><text x="${x + 54}" y="${y + 31}" font-size="12" fill="${knowledgeTheme.primary}">${step.sourceId} → ${step.targetId}</text><text x="${x + 18}" y="${y + 65}" font-size="13">${tspans(action, x + 18, y + 65, 19)}</text></g>`;
     }).join("");
     const noteText = notes.map((note) => `${note.sourceId} → ${note.targetId}${note.label ? `: ${note.label}` : ""}`).join("  ·  ");
-    return `<g><text class="display" x="60" y="${top + 34}" font-size="27"><tspan fill="#d6b06a">${phase.ordinal.toString().padStart(2, "0")}</tspan><tspan dx="18">${phase.title}</tspan></text><path d="M60 ${top + 46} H${width - 60}" stroke="#2d271e"/>${cards}${noteText ? `<text x="60" y="${top + 224}" font-size="11" fill="#a99b87">SUPPORTING · ${noteText}</text>` : ""}</g>`;
+    return `<g><text class="display" x="60" y="${top + 34}" font-size="27"><tspan fill="${knowledgeTheme.primary}">${phase.ordinal.toString().padStart(2, "0")}</tspan><tspan dx="18">${phase.title}</tspan></text><path d="M60 ${top + 46} H${width - 60}" stroke="${knowledgeTheme.border}"/>${cards}${noteText ? `<text x="60" y="${top + 224}" font-size="11" fill="${knowledgeTheme.foregroundMuted}">SUPPORTING · ${noteText}</text>` : ""}</g>`;
   }).join("");
-  const content = `<text class="display" x="60" y="58" font-size="38">${title}</text><text x="${width - 60}" y="56" text-anchor="end" font-size="12" fill="#a99b87">PROCESS · PHASES TOP TO BOTTOM · STEPS LEFT TO RIGHT</text>${markup}`;
+  const content = `<text class="display" x="60" y="58" font-size="38">${title}</text><text x="${width - 60}" y="56" text-anchor="end" font-size="12" fill="${knowledgeTheme.foregroundMuted}">PROCESS · PHASES TOP TO BOTTOM · STEPS LEFT TO RIGHT</text>${markup}`;
   return { svg: svgShell({ title: `${title} — phased process`, description: "Ordered process steps grouped by authoritative Mermaid phase comments.", width, height, fonts, content }), width, height };
 }

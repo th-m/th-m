@@ -1,4 +1,5 @@
 import { HeadContent, Link, Scripts, createRootRoute } from "@tanstack/react-router";
+import { thomDesignTokens } from "@th-m/design-theme";
 import interCss from "@fontsource-variable/inter/wght.css?url";
 import newsreaderCss from "@fontsource-variable/newsreader/wght.css?url";
 import monoCss from "@fontsource/ibm-plex-mono/400.css?url";
@@ -9,7 +10,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#050505" },
+      { name: "theme-color", content: thomDesignTokens.color.background },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:image", content: "https://th-m.netlify.app/brand/thom-og.png" },
       { name: "twitter:image", content: "https://th-m.netlify.app/brand/thom-og.png" },
@@ -28,7 +29,7 @@ export const Route = createRootRoute({
 
 function NotFoundPage() {
   return (
-    <main className="route-message" id="main">
+    <main className="route-message bg-background text-foreground" id="main">
       <p className="eyebrow">404 · Not found</p>
       <h1>This page is outside the map.</h1>
       <Link to="/">Return home</Link>

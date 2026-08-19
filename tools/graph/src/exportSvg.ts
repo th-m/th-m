@@ -209,26 +209,26 @@ function svgDefinitions(fonts: { newsreader: string; plex: string }): string {
     <style><![CDATA[
       @font-face { font-family: "Newsreader Embedded"; src: url(data:font/woff2;base64,${fonts.newsreader}) format("woff2"); font-weight: 200 800; }
       @font-face { font-family: "IBM Plex Mono Embedded"; src: url(data:font/woff2;base64,${fonts.plex}) format("woff2"); font-weight: 400; }
-      .relation-line { fill: none; stroke: ${thomTheme.color.gold}; stroke-width: 2; stroke-linecap: round; opacity: .82; }
-      .proposition circle { fill: ${thomTheme.color.surface}; stroke: ${thomTheme.color.line}; stroke-width: 2; }
-      .proposition.emphasis circle:first-child { stroke: ${thomTheme.color.gold}; }
+      .relation-line { fill: none; stroke: ${thomTheme.color.primary}; stroke-width: 2; stroke-linecap: round; opacity: .82; }
+      .proposition circle { fill: ${thomTheme.color.surface}; stroke: ${thomTheme.color.border}; stroke-width: 2; }
+      .proposition.emphasis circle:first-child { stroke: ${thomTheme.color.primary}; }
       .proposition .orbit { fill: none; stroke-width: 1; opacity: .42; }
-      .proposition .node-dot, .relationship circle { fill: ${thomTheme.color.gold}; stroke: none; }
-      .proposition-code, .proposition-caption, .relationship-code, .relationship-statement { font-family: "IBM Plex Mono Embedded", monospace; fill: ${thomTheme.color.gold}; letter-spacing: 2px; }
+      .proposition .node-dot, .relationship circle { fill: ${thomTheme.color.primary}; stroke: none; }
+      .proposition-code, .proposition-caption, .relationship-code, .relationship-statement { font-family: "IBM Plex Mono Embedded", monospace; fill: ${thomTheme.color.primary}; letter-spacing: 2px; }
       .proposition-code { font-size: 10px; }
-      .proposition-caption { fill: ${thomTheme.color.muted}; font-size: 9px; }
-      .proposition-statement { font-family: "Newsreader Embedded", serif; font-size: 28px; font-weight: 540; fill: ${thomTheme.color.ivory}; }
-      .relationship rect { fill: ${thomTheme.color.background}; stroke: ${thomTheme.color.gold}; stroke-width: 1.4; }
+      .proposition-caption { fill: ${thomTheme.color.foregroundMuted}; font-size: 9px; }
+      .proposition-statement { font-family: "Newsreader Embedded", serif; font-size: 28px; font-weight: 540; fill: ${thomTheme.color.foreground}; }
+      .relationship rect { fill: ${thomTheme.color.background}; stroke: ${thomTheme.color.primary}; stroke-width: 1.4; }
       .relationship-code { font-size: 9px; }
-      .relationship-statement { fill: ${thomTheme.color.ivory}; font-size: 12px; }
-      .poster-kicker, .poster-footer, .poster-legend { font-family: "IBM Plex Mono Embedded", monospace; letter-spacing: 3px; fill: ${thomTheme.color.gold}; }
+      .relationship-statement { fill: ${thomTheme.color.foreground}; font-size: 12px; }
+      .poster-kicker, .poster-footer, .poster-legend { font-family: "IBM Plex Mono Embedded", monospace; letter-spacing: 3px; fill: ${thomTheme.color.primary}; }
       .poster-kicker { font-size: 14px; }
-      .poster-title { font-family: "Newsreader Embedded", serif; font-size: 46px; fill: ${thomTheme.color.ivory}; }
+      .poster-title { font-family: "Newsreader Embedded", serif; font-size: 46px; fill: ${thomTheme.color.foreground}; }
       .poster-footer, .poster-legend { font-size: 11px; }
     ]]></style>
-    <marker id="arrow-node" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 10 0 L 0 5 L 10 10 z" fill="${thomTheme.color.gold}"/></marker>
-    <marker id="arrow-relation" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="${thomTheme.color.gold}"/></marker>
-    <radialGradient id="ambient" cx="68%" cy="32%"><stop offset="0" stop-color="${thomTheme.color.gold}" stop-opacity=".13"/><stop offset="1" stop-color="${thomTheme.color.background}" stop-opacity="0"/></radialGradient>
+    <marker id="arrow-node" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 10 0 L 0 5 L 10 10 z" fill="${thomTheme.color.primary}"/></marker>
+    <marker id="arrow-relation" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="${thomTheme.color.primary}"/></marker>
+    <radialGradient id="ambient" cx="68%" cy="32%"><stop offset="0" stop-color="${thomTheme.color.primary}" stop-opacity=".13"/><stop offset="1" stop-color="${thomTheme.color.background}" stop-opacity="0"/></radialGradient>
     <filter id="grain"><feTurbulence baseFrequency=".82" numOctaves="3" seed="17"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .045 0"/></filter>
   </defs>`;
 }
@@ -263,11 +263,11 @@ export async function createGraphSvg(
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title description">
       <title id="title">${title}</title><desc id="description">${description}</desc>${definitions}
       <rect width="1600" height="1000" fill="${thomTheme.color.background}"/><rect width="1600" height="1000" fill="url(#ambient)"/><rect width="1600" height="1000" filter="url(#grain)" opacity=".7"/>
-      <line x1="90" y1="58" x2="1510" y2="58" stroke="${thomTheme.color.line}"/>
+      <line x1="90" y1="58" x2="1510" y2="58" stroke="${thomTheme.color.border}"/>
       <text class="poster-kicker" x="90" y="105">${xml(document.poster.kicker)}</text>
       <text class="poster-title" x="90" y="158">${xml(document.poster.title)}</text>
       <g transform="translate(${tx} ${ty}) scale(${scale})">${contents}</g>
-      <line x1="90" y1="886" x2="1510" y2="886" stroke="${thomTheme.color.line}"/>
+      <line x1="90" y1="886" x2="1510" y2="886" stroke="${thomTheme.color.border}"/>
       <text class="poster-footer" x="90" y="914">${xml(document.poster.footer)}</text>${legend}
     </svg>`;
   }

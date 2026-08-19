@@ -1,17 +1,20 @@
-import { thomToolFoundation } from "@th-m/design-theme";
+import { thomDesignTokens } from "@th-m/design-theme";
+
+const foundation = thomDesignTokens;
 
 export interface GraphTheme {
   id: "thom-dark";
   color: {
     background: string;
+    scrim: string;
     surface: string;
     surfaceRaised: string;
-    ivory: string;
-    gold: string;
-    highlight: string;
-    muted: string;
-    line: string;
-    danger: string;
+    foreground: string;
+    foregroundStrong: string;
+    foregroundMuted: string;
+    primary: string;
+    border: string;
+    error: string;
   };
   typography: {
     display: string;
@@ -36,8 +39,19 @@ export interface GraphTheme {
 
 export const thomTheme: GraphTheme = {
   id: "thom-dark",
-  color: thomToolFoundation.color,
-  typography: thomToolFoundation.typography,
+  color: {
+    background: foundation.color.background,
+    scrim: foundation.color.scrim,
+    surface: foundation.color.surface,
+    surfaceRaised: foundation.color.surfaceRaised,
+    foreground: foundation.color.foreground,
+    foregroundStrong: foundation.color.foregroundStrong,
+    foregroundMuted: foundation.color.foregroundMuted,
+    primary: foundation.color.primary.default,
+    border: foundation.color.border,
+    error: foundation.color.semantic.error.default,
+  },
+  typography: foundation.typography,
   geometry: {
     propositionMin: 184,
     propositionMax: 296,
@@ -49,19 +63,5 @@ export const thomTheme: GraphTheme = {
     width: 2,
     arrowSize: 11,
   },
-  effect: thomToolFoundation.effect,
+  effect: foundation.effect,
 };
-
-export const graphThemeCssVariables = {
-  "--graph-background": thomTheme.color.background,
-  "--graph-surface": thomTheme.color.surface,
-  "--graph-surface-raised": thomTheme.color.surfaceRaised,
-  "--graph-ivory": thomTheme.color.ivory,
-  "--graph-gold": thomTheme.color.gold,
-  "--graph-highlight": thomTheme.color.highlight,
-  "--graph-muted": thomTheme.color.muted,
-  "--graph-line": thomTheme.color.line,
-  "--graph-danger": thomTheme.color.danger,
-  "--graph-display": thomTheme.typography.display,
-  "--graph-mono": thomTheme.typography.mono,
-} as React.CSSProperties;

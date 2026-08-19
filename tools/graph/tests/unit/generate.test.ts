@@ -2,6 +2,7 @@ import { mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { afterEach, describe, expect, it } from "vitest";
+import { thomDesignTokens } from "@th-m/design-theme";
 import { generateGraphArtifacts } from "../../src/generate";
 import { createWeatherGraph } from "../../src/seed";
 
@@ -24,7 +25,10 @@ describe("generateGraphArtifacts", () => {
       mode: "poster",
     });
 
-    expect(await readFile(result.svgPath, "utf8")).toContain("Newsreader Embedded");
+    const svg = await readFile(result.svgPath, "utf8");
+    expect(svg).toContain("Newsreader Embedded");
+    expect(svg).toContain(thomDesignTokens.color.background);
+    expect(svg).toContain(thomDesignTokens.color.primary.default);
     expect((await stat(result.pngPath)).size).toBeGreaterThan(1_000);
   }, 20_000);
 

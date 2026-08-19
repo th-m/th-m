@@ -2,6 +2,7 @@ import { mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { afterEach, describe, expect, it } from "vitest";
+import { thomDesignTokens } from "@th-m/design-theme";
 import { generateSetAtlasArtifacts } from "../../src/generate";
 
 const roots: string[] = [];
@@ -26,7 +27,10 @@ describe("generateSetAtlasArtifacts", () => {
       output: "generated/sets",
     });
 
-    expect(await readFile(result.svgPath, "utf8")).toContain("typescript-set-atlas");
+    const svg = await readFile(result.svgPath, "utf8");
+    expect(svg).toContain("typescript-set-atlas");
+    expect(svg).toContain(thomDesignTokens.color.background);
+    expect(svg).toContain(thomDesignTokens.color.primary.default);
     expect((await stat(result.pngPath)).size).toBeGreaterThan(1_000);
   }, 20_000);
 

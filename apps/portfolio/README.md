@@ -33,6 +33,7 @@ artifacts; audit captures are evidence rather than runtime authority.
 
 - `/` renders the minimal THOM mark and writings index.
 - `/brand` renders the full THOM brand, portfolio, and reference experience.
+- `/design-system` documents and exercises the shared color and state contracts.
 - `/writing` lists published articles.
 - `/writing/:slug` renders a published Markdown article as hydrated React.
 - `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
