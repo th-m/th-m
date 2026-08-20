@@ -1,5 +1,6 @@
 @import "tailwindcss" source("./");
 @import "@th-m/design-theme/theme.css";
+@import "@th-m/embedding-space/styles.css";
 @import "@th-m/thom-brand/styles.css";
 
 :root {
