@@ -1,0 +1,47 @@
+{
+  "name": "@th-m/tokenizer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --host 127.0.0.1 --port 5192 --strictPort --open /",
+    "publish": "bun run typecheck && vite build",
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run --config vite.config.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "latest",
+    "@fontsource-variable/newsreader": "latest",
+    "@fontsource/ibm-plex-mono": "latest",
+    "@th-m/tokenizer-visualization": "workspace:*",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@th-m/testing": "workspace:*",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "jsdom": "latest",
+    "tailwindcss": "^4.3.0",
+    "typescript": "6.0.2",
+    "vite": "latest",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "tokenizer",
+    "sourceRoot": "apps/tokenizer/src",
+    "projectType": "application",
+    "tags": ["kind:app", "runtime:web", "domain:tokenizer"],
+    "targets": {
+      "start": { "outputs": [] },
+      "publish": { "outputs": ["{projectRoot}/dist"] },
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}
