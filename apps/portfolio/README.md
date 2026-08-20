@@ -37,6 +37,8 @@ audit captures are evidence rather than runtime authority.
   canonical color system.
 - `/design-system` provides a direct route to the same shared color-system
   presentation.
+- `/embedding-space` demonstrates the reusable embedding atlas and deterministic
+  training lab from `@th-m/embedding-space`.
 - `/llm-visualization` demonstrates the reusable decoder-only inference trace
   and deterministic transformer lab from `@th-m/llm-visualization`.
 - `/writing` lists published articles.

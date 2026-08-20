@@ -1,0 +1,46 @@
+{
+  "name": "@th-m/embedding-space",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./training": "./src/training.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "gen": "bun run scripts/generate-gpt2-dataset.ts",
+    "gen-training": "bun run scripts/generate-training-checkpoints.ts",
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@th-m/design-theme": "workspace:*",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@th-m/testing": "workspace:*",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "jsdom": "latest",
+    "typescript": "6.0.2",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "embedding-space",
+    "sourceRoot": "libs/embedding-space/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:web", "domain:visualization"],
+    "targets": {
+      "gen": { "outputs": ["{projectRoot}/src/data/gpt2-embedding-space.json"] },
+      "gen-training": { "outputs": ["{projectRoot}/src/data/skip-gram-training.json"] },
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}

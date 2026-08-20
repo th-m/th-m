@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as EmbeddingSpaceRouteImport } from './routes/embedding-space'
 import { Route as LlmVisualizationRouteImport } from './routes/llm-visualization'
 import { Route as SpaShellRouteImport } from './routes/spa-shell'
 import { Route as WritingIndexRouteImport } from './routes/writing.index'
@@ -30,6 +31,11 @@ const BrandRoute = BrandRouteImport.update({
 const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmbeddingSpaceRoute = EmbeddingSpaceRouteImport.update({
+  id: '/embedding-space',
+  path: '/embedding-space',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LlmVisualizationRoute = LlmVisualizationRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
+  '/embedding-space': typeof EmbeddingSpaceRoute
   '/llm-visualization': typeof LlmVisualizationRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
+  '/embedding-space': typeof EmbeddingSpaceRoute
   '/llm-visualization': typeof LlmVisualizationRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
+  '/embedding-space': typeof EmbeddingSpaceRoute
   '/llm-visualization': typeof LlmVisualizationRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brand'
     | '/design-system'
+    | '/embedding-space'
     | '/llm-visualization'
     | '/spa-shell'
     | '/writing/$slug'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brand'
     | '/design-system'
+    | '/embedding-space'
     | '/llm-visualization'
     | '/spa-shell'
     | '/writing/$slug'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brand'
     | '/design-system'
+    | '/embedding-space'
     | '/llm-visualization'
     | '/spa-shell'
     | '/writing/$slug'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrandRoute: typeof BrandRoute
   DesignSystemRoute: typeof DesignSystemRoute
+  EmbeddingSpaceRoute: typeof EmbeddingSpaceRoute
   LlmVisualizationRoute: typeof LlmVisualizationRoute
   SpaShellRoute: typeof SpaShellRoute
   WritingSlugRoute: typeof WritingSlugRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/design-system'
       fullPath: '/design-system'
       preLoaderRoute: typeof DesignSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/embedding-space': {
+      id: '/embedding-space'
+      path: '/embedding-space'
+      fullPath: '/embedding-space'
+      preLoaderRoute: typeof EmbeddingSpaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/llm-visualization': {
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrandRoute: BrandRoute,
   DesignSystemRoute: DesignSystemRoute,
+  EmbeddingSpaceRoute: EmbeddingSpaceRoute,
   LlmVisualizationRoute: LlmVisualizationRoute,
   SpaShellRoute: SpaShellRoute,
   WritingSlugRoute: WritingSlugRoute,

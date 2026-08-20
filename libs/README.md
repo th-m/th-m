@@ -9,7 +9,8 @@ tools.
 
 A library has a typed public API and no independently started runtime. Design
 tokens live in `design-theme`; reusable THOM identity components and geometry
-live in `thom-brand`; reusable verification support lives in `testing`.
+live in `thom-brand`; the browser-safe tokenizer visualization lives in
+`tokenizer-visualization`; reusable verification support lives in `testing`.
 
 ## Key Terms
 
