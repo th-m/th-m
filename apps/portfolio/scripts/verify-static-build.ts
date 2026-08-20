@@ -27,6 +27,7 @@ async function requireHtml(relativePath: string, marker: string): Promise<void> 
 
 await requireHtml("index.html", "Writings");
 await requireHtml("brand/index.html", "Measured to stay itself at every scale.");
+await requireHtml("llm-visualization/index.html", "Inside a language model");
 await requireHtml("writing/index.html", "Ideas with enough structure to navigate.");
 await requireHtml("_shell.html", "__TSR");
 

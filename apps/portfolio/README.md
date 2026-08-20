@@ -37,6 +37,8 @@ audit captures are evidence rather than runtime authority.
   canonical color system.
 - `/design-system` provides a direct route to the same shared color-system
   presentation.
+- `/llm-visualization` demonstrates the reusable decoder-only inference trace
+  and deterministic transformer lab from `@th-m/llm-visualization`.
 - `/writing` lists published articles.
 - `/writing/:slug` renders a published Markdown article as hydrated React.
 - `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
