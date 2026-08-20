@@ -1,0 +1,39 @@
+{
+  "name": "@th-m/tokenizer-visualization",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@th-m/design-theme": "workspace:*",
+    "gpt-tokenizer": "4.0.0",
+    "react": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@th-m/testing": "workspace:*",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "jsdom": "latest",
+    "typescript": "6.0.2",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "tokenizer-visualization",
+    "sourceRoot": "libs/tokenizer-visualization/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:web", "domain:tokenizer"],
+    "targets": {
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}
