@@ -1,0 +1,34 @@
+LLMs are built upon a series of interconnected components and processes:
+
+- **Neural Network (Model)**: The fundamental structure of an LLM, comprising interconnected nodes (neurons) organized into layers. Data flows through input, hidden, and output layers, with each connection having a numerical weight controlling influence [[08:12]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Weights File**: A model is literally a file containing these calculated weight values [[11:33]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Backpropagation**: The training method for multi-layer networks where predictions are made, errors measured, and error signals propagated backward to adjust weights [[09:57]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+- **Tokenization**: The process of breaking down raw text (like your prompt) into smaller units called tokens, which the model can process [[16:01]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Token**: The smallest unit of text an LLM works with; not necessarily words or characters [[16:11]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **BPE (Byte Pair Encoding)**: An algorithm that iteratively merges the most common character pairs in training data to build a vocabulary of tokens [[16:32]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Vocabulary**: The set of unique tokens learned during the tokenization process, each with a numeric ID [[21:43]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+- **Embeddings**: The process of mapping tokens into a vast numerical space (vectors) where neighbors share meaning, allowing the model to reason about relationships between words and concepts [[22:00]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Vector**: A list of numbers representing a token's position in a high-dimensional space, encoding its meaning [[23:35]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Word2Vec**: An early model that trained a neural network to create these word embeddings, showing emergent semantic relationships [[22:52]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Corpus**: The large body of text data used to train embedding models [[25:34]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+- **Transformer**: The core architecture that processes embedded tokens, enabling them to exchange information and understand context [[30:54]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Attention**: A mechanism allowing the model to look back at the input and focus on words that matter for the current processing step [[31:26]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Self-Attention**: Generates Query, Key, and Value vectors for each token to compare every query against every key, scoring matches, and mixing values to create a context-enriched vector [[33:11]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Multi-Head Attention**: Runs self-attention multiple times in parallel, allowing different "heads" to specialize in tracking different linguistic relationships (e.g., pronouns, verb tenses) [[34:00]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Feed Forward Layers**: After attention, each token's context-enriched vector passes through a small two-layer network to refine the signal [[34:26]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Stacked Layers**: Transformers consist of many layers (blocks) of attention and feed-forward operations, with early layers capturing syntax, middle layers meaning, and late layers reasoning [[34:40]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Positional Embedding**: A learned component that allows the model to understand the order of tokens in an input prompt [[38:21]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+- **Output Generation (Sampling)**: The process of turning the transformer's output (a probability distribution over all possible tokens) into a single predicted next token [[41:39]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Logits**: The raw probability scores for every token in the vocabulary output by the transformer [[41:42]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Softmax**: An algorithm that converts logits into probabilities that sum to one [[41:51]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Temperature**: A parameter that controls the predictability (creativity) of the sampled output token. Lower temperature means more predictable, higher means more random [[42:05]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Top P**: A cutoff parameter that limits sampling to tokens covering a certain percentage of the probability distribution, shrinking the list of possible next tokens [[42:28]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+- **Auto-Regressive Generation**: The iterative loop where a single predicted token is appended to the input, and the entire process (tokenization, embedding, transformer, sampling) is run again to generate the next token in sequence [[43:14]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+- **Context Window**: The maximum number of tokens (including system prompt, conversation history, and current prompt) that the transformer can "see" and process to generate the next token [[44:10]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **System Prompt**: Hidden instructions provided by the AI developer [[43:36]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Conversation History**: All previous messages in a chat, providing memory for the model [[43:45]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+- **Training Phases**:
+    - **Pre-training**: Initial training on massive datasets (like Common Crawl, Wikipedia) to create a "fancy autocomplete" model [[45:28]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **Fine-tuning**: A secondary phase where the pre-trained model is trained on a refined dataset of Q&A pairs to make it behave more like a chatbot [[46:14]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+    - **RLHF (Reinforcement Learning from Human Feedback)**: Humans rank model responses (good/bad) to further tune the model's behavior [[46:42]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
+- **Tools**: A mechanism where the LLM can output structured code (tool calls) to interact with external systems (e.g., search the web, run code), with an external "harness" executing these calls and feeding results back into the model's context [[47:24]](https://www.youtube.com/watch?v=YmLp8qe87A0&t=2983s#).
