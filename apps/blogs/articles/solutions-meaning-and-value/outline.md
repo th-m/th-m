@@ -118,7 +118,7 @@ Use the room-temperature example. An AI can state that a room is 68°F, summariz
 
 ### A working comparison of human and AI capabilities
 
-Bring in the capability comparison from the [first-draft working document](draft.md). It should orient the reader, not pretend to establish a scientific test for consciousness. Each row is deliberately qualified: it identifies a present architectural difference or evidentiary gap, not a proof about every possible artificial system.
+Bring in the capability comparison from the [first-draft working document](draft%201.md). It should orient the reader, not pretend to establish a scientific test for consciousness. Each row is deliberately qualified: it identifies a present architectural difference or evidentiary gap, not a proof about every possible artificial system.
 
 | Capability | Human | Current AI systems | Comparative utility and boundary |
 | --- | --- | --- | --- |
