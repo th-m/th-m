@@ -35,6 +35,7 @@
     "@th-m/blogs": "workspace:*",
     "@th-m/design-theme": "workspace:*",
     "@th-m/embedding-space": "workspace:*",
+    "@th-m/llm-visualization": "workspace:*",
     "@th-m/thom-brand": "workspace:*",
     "motion": "latest",
     "react": "latest",
