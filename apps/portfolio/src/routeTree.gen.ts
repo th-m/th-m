@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as EmbeddingSpaceRouteImport } from './routes/embedding-space'
 import { Route as SpaShellRouteImport } from './routes/spa-shell'
 import { Route as WritingIndexRouteImport } from './routes/writing.index'
 import { Route as WritingSlugRouteImport } from './routes/writing.$slug'
@@ -29,6 +30,11 @@ const BrandRoute = BrandRouteImport.update({
 const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmbeddingSpaceRoute = EmbeddingSpaceRouteImport.update({
+  id: '/embedding-space',
+  path: '/embedding-space',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SpaShellRoute = SpaShellRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
+  '/embedding-space': typeof EmbeddingSpaceRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing/': typeof WritingIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
+  '/embedding-space': typeof EmbeddingSpaceRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing': typeof WritingIndexRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
+  '/embedding-space': typeof EmbeddingSpaceRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing/': typeof WritingIndexRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brand'
     | '/design-system'
+    | '/embedding-space'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing/'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brand'
     | '/design-system'
+    | '/embedding-space'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/brand'
     | '/design-system'
+    | '/embedding-space'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing/'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrandRoute: typeof BrandRoute
   DesignSystemRoute: typeof DesignSystemRoute
+  EmbeddingSpaceRoute: typeof EmbeddingSpaceRoute
   SpaShellRoute: typeof SpaShellRoute
   WritingSlugRoute: typeof WritingSlugRoute
   WritingIndexRoute: typeof WritingIndexRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/design-system'
       fullPath: '/design-system'
       preLoaderRoute: typeof DesignSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/embedding-space': {
+      id: '/embedding-space'
+      path: '/embedding-space'
+      fullPath: '/embedding-space'
+      preLoaderRoute: typeof EmbeddingSpaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/spa-shell': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrandRoute: BrandRoute,
   DesignSystemRoute: DesignSystemRoute,
+  EmbeddingSpaceRoute: EmbeddingSpaceRoute,
   SpaShellRoute: SpaShellRoute,
   WritingSlugRoute: WritingSlugRoute,
   WritingIndexRoute: WritingIndexRoute,
