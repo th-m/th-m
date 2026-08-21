@@ -12,7 +12,7 @@ Is the LLM fundementally disconnected from understanding meaning? Or is this a p
 
 # Breaking it down
 
-Let's just do rough functional map to tie an aspect of an LLM to a human analog.  Let's see what this helps us deduce.
+Let's just do rough functional map to tie an aspect of an LLM to a human analog.  We are going to compare human brains to the AI brain, which in this case I am going to designate as everything scoped to the nueral net and inference.  We will compose harnesses, data stores, and computational automationa later, but for know I want to see what is fundemental. 
 
 | Aspect        | AI component                                                  | Human analogue                                                           | Human term     |
 | ------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------- |
@@ -66,7 +66,32 @@ The literature on human learning is far more complex than LLM training.
 ### Model
 - **Learned parameters (weights), including embeddings:** Encode statistical regularities acquired during training, allowing the model to transform an input into context-sensitive predictions.
 
-Calling these parameters the model's "knowledge" is useful but incomplete. Human knowledge is intertwined with autobiographical memory, a sense of self, goals, and semantic control—the ability to retrieve and apply what we know to the situation at hand.
+> “You shall know a word by the company it keeps.”
+
+1. **Ferdinand de Saussure, lectures from 1906–1911, published in 1916**
+    
+    Saussure argued that a linguistic sign acquires its _value_ through its relationships and differences from other signs. He distinguished:
+    
+    - **Syntagmatic relations:** which elements occur together in a sequence.
+    - **Associative/paradigmatic relations:** which elements could occupy similar positions.
+    
+    This is a conceptual ancestor of embedding spaces, although Saussure was describing the structure of a linguistic system—not proposing corpus statistics or vectors. [_Course in General Linguistics_](https://fr.wikisource.org/wiki/Cours_de_linguistique_g%C3%A9n%C3%A9rale/Texte_entier)
+    
+2. **J. R. Firth himself, 1935**
+    
+    The famous sentence appeared in 1957, but Firth had already developed his contextual theory of meaning in “The Technique of Semantics” in 1935. Meaning involved relations between an expression and its linguistic and social contexts. [Firth’s 1935 paper](https://onlinelibrary.wiley.com/doi/10.1111/j.1467-968X.1935.tb01254.x)
+    
+3. **Zellig Harris, 1954**
+    
+    Harris provided the clearest immediate formulation of what became the modern **distributional hypothesis**: differences in meaning tend to correlate with differences in linguistic distribution. Crucially, he also warned that linguistic distribution does not reproduce the complete structure of subjective experience. [“Distributional Structure”](https://www.its.caltech.edu/~matilde/ZelligHarrisDistributionalStructure1954.pdf)
+
+As far as I can tell, this is the closest we can get to "meaning" that an LLM can derive.  However this is a by product of compression and information distillation. Information does not necasserily entail meaning. [link 3blue1brown](https://www.youtube.com/watch?v=GlYgs6v2YfU)
+
+remember how tokenization used a "lossless" compression technique. The reason is so that you can programmatically decompress responses back to natural language.  So natural language -> compression -> embedding traverse the neural net -> compressed response -> decompressed llm. 
+
+LLMs function by pattern matching over the corpus of all human language. That language composed of words, or morphemes are referential and lossy by nature. We now this because of the hard problem of conciousness. Fundemental to our human experience are things we distinctly know exist for others but have no measure to guage imperically. 
+
+Human knowledge is intertwined with autobiographical memory, a sense of self, goals, and semantic control—the ability to retrieve and apply what we know to the situation at hand.
 
 ```
 - **Semantic knowledge:** What concepts, facts, properties, and relationships you know.
@@ -88,6 +113,8 @@ Transformer:   repeats this cycle across many blocks.
 If you see smoke and expect fire, you have made an inference. You may not have deliberately reasoned through it.
 
 Reasoning is the more organized use and evaluation of inference. It requires keeping information active, comparing alternatives, integrating relationships, suppressing irrelevant responses, and checking whether a conclusion follows. [Johnson-Laird](https://pmc.ncbi.nlm.nih.gov/articles/PMC2972923/)
+
+## LLM are Pattern Matching
 
 
 ## Problem Spaces
