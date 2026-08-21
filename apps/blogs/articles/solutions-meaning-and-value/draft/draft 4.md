@@ -1,6 +1,6 @@
 # Solutions, Meaning, and Value
 
-I was going through a planning session with the new Gippity 5.6 Sol Ultra and I was struck with an idea. I toggled Goal mode and prompted "make this plan perfect".    9 hours later I had to kill the agent, the generated plan docs were completely unusable and incomprehensible.
+. I toggled Goal mode and prompted "make this plan perfect".  9 hours later I had to kill the agent, the generated plan docs were completely unusable and incomprehensible.
 
 Then I saw [this video](https://www.youtube.com/watch?v=pd1Km6bT104) which involved the speaker’s friend asking ChatGPT about some health symptoms
 - The friend suggested the symptoms might indicate **low testosterone**, and ChatGPT produced a convincing explanation supporting that diagnosis.
