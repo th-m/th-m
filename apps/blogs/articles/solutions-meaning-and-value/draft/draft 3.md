@@ -42,12 +42,14 @@ By the end, the reader should have a practical way to decide whether a task is:
 
 Open with the author's actual frustration: a week of tokens spent trying to
 force a model through work it was poorly configured to do. Then introduce the
-two videos that supplied evidence after the fact:
+two videos and the research they point toward:
 
 - [*Researchers Asked LLMs for Strategic Advice. They Got “Trendslop” in
   Return*](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return)
 - [*In Search of “Weird Corners”: Diagnosing the Limits of Convergent AI in
   Professional Creative Practice*](https://research.google/pubs/in-search-of-weird-corners-diagnosing-the-limits-of-convergent-ai-in-professional-creative-practice/)
+- [*StoryScope: Investigating Idiosyncrasies in AI
+  Fiction*](https://arxiv.org/html/2604.03136v6)
 
 Use the video titles as the provocative hook, but not as the article's factual
 language. The studies concern bounded failures in strategic recommendation and
@@ -102,6 +104,64 @@ This is the bridge the article must carry through every later section:
 > from the problem being solved and the outcome being pursued. A theory of
 > solutions therefore needs a second account of why the problem matters, why
 > the outcome is better, and whose judgment governs the tradeoffs.**
+
+The same relationship can be expressed as a hierarchy of inquiry. A goal guides
+the search for opportunities, each opportunity admits multiple candidate
+solutions, and experiments test whether selected solutions actually move the
+world toward that goal.
+
+```mermaid
+flowchart TD
+    DO["Goal"]
+
+    O1["Opportunity"]
+    O2["Opportunity"]
+    O3["Opportunity"]
+
+    S1["Solution"]
+    S2["Solution"]
+    S3["Solution"]
+    S4["Solution"]
+    S5["Solution"]
+    S6["Solution"]
+
+    E1["Experiment"]
+    E2["Experiment"]
+    E3["Experiment"]
+    E4["Experiment"]
+    E5["Experiment"]
+
+    DO --> O1
+    DO --> O2
+    DO --> O3
+
+    O1 --> S1
+    O1 --> S2
+    O2 --> S3
+    O3 --> S4
+    O3 --> S5
+    O3 --> S6
+
+    S1 --> E1
+    S1 --> E2
+    S1 --> E3
+    S4 --> E4
+    S4 --> E5
+
+    classDef desired fill:#0877e7,stroke:#0877e7,color:#ffffff
+    classDef opportunity fill:#ffe6e8,stroke:#ffe6e8,color:#111827
+    classDef solution fill:#c8fbd8,stroke:#c8fbd8,color:#111827
+    classDef experiment fill:#fff3a8,stroke:#fff3a8,color:#111827
+
+    class DO desired
+    class O1,O2,O3 opportunity
+    class S1,S2,S3,S4,S5,S6 solution
+    class E1,E2,E3,E4,E5 experiment
+
+    linkStyle 0,1,2 stroke:#ff2f3d,stroke-width:2px
+    linkStyle 3,4,5,6,7,8 stroke:#22c86b,stroke-width:2px
+    linkStyle 9,10,11,12,13 stroke:#f4bf00,stroke-width:2px
+```
 
 James Lindsay's problem-solving theory says that a good or service is valuable
 in relation to its ability to solve problems for people. That is a useful
@@ -285,6 +345,35 @@ Define strategy using the existing research note:
 > Strategy is the goal-directed coordination of cognitive operations and
 > actions over time. It can combine inference, prediction, planning, valuation,
 > action selection, and revision in response to feedback.
+
+A strategy serves a governing goal by creating and coordinating subordinate
+goals. It also operates in a field of goals held by other people and
+institutions. Depending on the relationship, a viable strategy may need to
+align with, coordinate with, negotiate around, or compete against those goals.
+
+```mermaid
+flowchart LR
+    G["Governing Goal"] -->|"gives direction"| S["Strategy"]
+
+    S -->|"creates and coordinates"| SG1["Subgoal"]
+    S -->|"creates and coordinates"| SG2["Subgoal"]
+    S -->|"creates and coordinates"| SG3["Subgoal"]
+
+    S -. "aligns with" .-> C["Customer Goals"]
+    S -. "coordinates with" .-> P["Partner Goals"]
+    S -. "anticipates or counters" .-> R["Competitor Goals"]
+    I["Institutional Goals"] -. "constrain or authorize" .-> S
+
+    classDef governing fill:#0877e7,stroke:#0877e7,color:#ffffff
+    classDef strategy fill:#7656d6,stroke:#7656d6,color:#ffffff
+    classDef subgoal fill:#c8fbd8,stroke:#c8fbd8,color:#111827
+    classDef external fill:#ffe6e8,stroke:#ffe6e8,color:#111827
+
+    class G governing
+    class S strategy
+    class SG1,SG2,SG3 subgoal
+    class C,P,R,I external
+```
 
 Reasoning can occur inside one execution. Strategy requires a continuing loop:
 
