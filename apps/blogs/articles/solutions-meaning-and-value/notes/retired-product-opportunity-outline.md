@@ -1,5 +1,9 @@
 # Solutions, Meaning, and Value
 
+> **Retired direction:** This outline preserves the product-opportunity framing
+> explored before Draft 2. It is reference material, not the active direction
+> for the article.
+
 ## Editorial Status
 
 This article is nearly complete. Preserve its developed argument, evidence
@@ -65,7 +69,7 @@ flowchart LR
 ```
 
 This sequence is shared with the related [*Truth, Entropy, and
-Inference*](../truth-entropy-and-inference/outline.md) outline. Use it to keep
+Inference*](../../truth-entropy-and-inference/draft/outline.md) outline. Use it to keep
 four questions separate.
 
 | Product-work question | What a current AI system can do | What it does not independently establish |
@@ -118,7 +122,7 @@ Use the room-temperature example. An AI can state that a room is 68°F, summariz
 
 ### A working comparison of human and AI capabilities
 
-Bring in the capability comparison from the [first-draft working document](draft%201.md). It should orient the reader, not pretend to establish a scientific test for consciousness. Each row is deliberately qualified: it identifies a present architectural difference or evidentiary gap, not a proof about every possible artificial system.
+Bring in the capability comparison from the [first-draft working document](../draft/draft%201.md). It should orient the reader, not pretend to establish a scientific test for consciousness. Each row is deliberately qualified: it identifies a present architectural difference or evidentiary gap, not a proof about every possible artificial system.
 
 | Capability | Human | Current AI systems | Comparative utility and boundary |
 | --- | --- | --- | --- |
@@ -294,7 +298,7 @@ Money matters, but it is a signal and a coordination mechanism rather than the f
 ### Transferred conceptual scaffolding: qualia, opportunity, and agency
 
 Carry the following premises alongside the related [*Truth, Entropy, and
-Inference*](../truth-entropy-and-inference/outline.md) outline. They make
+Inference*](../../truth-entropy-and-inference/draft/outline.md) outline. They make
 “opportunity begins in qualia” more precise than a slogan.
 
 - **The no-consciousness reductio.** If neither humans nor AI had any conscious experience, no system would have intrinsic relief, suffering, welfare, or lived stakes. Organizations and agents could still execute optimization rules, but no result would automatically count as valuable in the ordinary practical sense. This is not intended as a proof about universal consciousness; it makes the essay's premise visible: computation alone does not generate opportunity. Consequences for experience do.
@@ -440,4 +444,4 @@ Let the last line bind the fable back to opportunity:
 - [Google Accidentally Proved AI is Just “Paint-by-Numbers”](https://www.youtube.com/watch?v=Z_O6Lwj1yjQ)
 - [Harvard Just Caught AI Lying to Every Executive in America](https://www.youtube.com/watch?v=pd1Km6bT104)
 
-Treat the videos as commentary and entry points. Cite the primary research pages for publication claims. See [research review](research/research-review.md) for exact findings and limitations.
+Treat the videos as commentary and entry points. Cite the primary research pages for publication claims. See [research review](../research/research-review.md) for exact findings and limitations.

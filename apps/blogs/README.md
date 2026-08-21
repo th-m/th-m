@@ -22,8 +22,8 @@ contains a valid `article.md`.
 
 ## Key Terms
 
-- **Article workspace:** one directory beneath `articles/` containing an
-  outline and optional notes, research, draft, article, and assets.
+- **Article workspace:** one directory beneath `articles/` containing a private
+  `draft/` workshop and optional notes, research, public article, and assets.
 - **Article:** intentionally public Markdown stored as `article.md`.
 - **Manifest:** the deterministic, newest-first index of published articles
   using schema version 2.
@@ -43,7 +43,7 @@ conventions](./articles/README.md), or pass a note path relative to the
 repository root:
 
 ```sh
-bun run nx run blogs:start -- apps/blogs/articles/solutions-meaning-and-value/outline.md
+bun run nx run blogs:start -- apps/blogs/articles/solutions-meaning-and-value/draft/draft\ 2.md
 ```
 
 The command uses Obsidian's desktop URI handler. On Linux, register the

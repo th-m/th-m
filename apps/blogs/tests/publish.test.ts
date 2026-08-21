@@ -37,12 +37,13 @@ describe("buildBlogArtifact", () => {
   it("publishes only explicit articles and their assets", async () => {
     const root = await temporaryProject();
     await mkdir(join(root, "articles", "published", "assets"), { recursive: true });
-    await mkdir(join(root, "articles", "draft", "notes"), { recursive: true });
+    await mkdir(join(root, "articles", "published", "draft"));
+    await mkdir(join(root, "articles", "unpublished", "draft"), { recursive: true });
     await mkdir(join(root, "outside-articles"));
     await writeFile(join(root, "articles", "published", "article.md"), article());
-    await writeFile(join(root, "articles", "published", "outline.md"), "private outline");
+    await writeFile(join(root, "articles", "published", "draft", "outline.md"), "private outline");
     await writeFile(join(root, "articles", "published", "assets", "figure.svg"), "<svg/>");
-    await writeFile(join(root, "articles", "draft", "outline.md"), "# Draft");
+    await writeFile(join(root, "articles", "unpublished", "draft", "outline.md"), "# Draft");
     await writeFile(join(root, "outside-articles", "article.md"), article({ title: "Outside", h1: "Outside" }));
 
     const manifest = await buildBlogArtifact(root);
@@ -59,14 +60,14 @@ describe("buildBlogArtifact", () => {
       },
     ]);
     await expect(access(join(root, "dist", "posts", "published", "article.md"))).resolves.toBeUndefined();
-    await expect(access(join(root, "dist", "posts", "published", "outline.md"))).rejects.toThrow();
-    await expect(access(join(root, "dist", "posts", "draft"))).rejects.toThrow();
+    await expect(access(join(root, "dist", "posts", "published", "draft"))).rejects.toThrow();
+    await expect(access(join(root, "dist", "posts", "unpublished"))).rejects.toThrow();
   });
 
   it("creates a deterministic empty manifest when no articles exist", async () => {
     const root = await temporaryProject();
-    await mkdir(join(root, "articles", "draft"));
-    await writeFile(join(root, "articles", "draft", "outline.md"), "# Draft");
+    await mkdir(join(root, "articles", "unpublished", "draft"), { recursive: true });
+    await writeFile(join(root, "articles", "unpublished", "draft", "outline.md"), "# Draft");
 
     await buildBlogArtifact(root);
     const manifest = await readFile(join(root, "dist", "manifest.json"), "utf8");

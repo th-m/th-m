@@ -251,6 +251,13 @@ Organizations should invest in leaders who can:
    contrasted with multiple teams operating inside shared context.
 3. **The understanding loop:** observe → interpret → frame → test → revise.
 
+## Experiment TODOs
+
+- [ ] Create a test app with tasks that are computationally simple but difficult
+  for a person to complete. Identify the points where the user cannot proceed—the
+  “user can't” experience—then have AI redesign that experience and evaluate
+  whether the intervention helps the user succeed.
+
 ## Candidate Closing Line
 
 > The best leader in an age of abundant answers is not the person with the most
