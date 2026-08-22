@@ -44,7 +44,16 @@ export function LawsCatalog() {
               ].filter(Boolean).join(" ")}
               aria-pressed={selected}
               data-accent={lawLabelAccents[label]}
-              style={{ "--law-label-accent": lawLabelAccentVariable(label) } as CSSProperties}
+              style={{
+                "--law-label-accent": lawLabelAccentVariable(label),
+                ...(selected
+                  ? {
+                      background: `color-mix(in srgb, ${lawLabelAccentVariable(label)} 18%, transparent)`,
+                      color: lawLabelAccentVariable(label),
+                      opacity: 0.94,
+                    }
+                  : {}),
+              } as CSSProperties}
               onClick={() => toggle(label)}
             >
               {label}
