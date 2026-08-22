@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { Link } from "@tanstack/react-router";
+import { LinkPreview } from "@th-m/ui";
 import ReactMarkdown, { defaultUrlTransform } from "react-markdown";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
@@ -51,14 +52,35 @@ function Markdown({ content, article }: { content: string; article: PublishedArt
       urlTransform={(value) => defaultUrlTransform(articleAssetUrl(article, value))}
       components={{
         a: ({ href, children, node: _node, ...props }) => {
-          if (href === "/") return <Link to="/">{children}</Link>;
-          if (href === "/writing" || href === "/writing/") return <Link to="/writing">{children}</Link>;
-          const articleMatch = href?.match(/^\/writing\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/);
-          if (articleMatch) {
-            return <Link to="/writing/$slug" params={{ slug: articleMatch[1] }}>{children}</Link>;
+          if (!href) return <a {...props}>{children}</a>;
+          if (href === "/") {
+            return (
+              <LinkPreview url={href} asChild>
+                <Link to="/">{children}</Link>
+              </LinkPreview>
+            );
           }
-          const external = href ? /^https?:\/\//i.test(href) : false;
-          return <a href={href} {...props} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>{children}</a>;
+          if (href === "/writing" || href === "/writing/") {
+            return (
+              <LinkPreview url={href} asChild>
+                <Link to="/writing">{children}</Link>
+              </LinkPreview>
+            );
+          }
+          const articleMatch = href.match(/^\/writing\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/);
+          if (articleMatch) {
+            return (
+              <LinkPreview url={href} asChild>
+                <Link to="/writing/$slug" params={{ slug: articleMatch[1] }}>{children}</Link>
+              </LinkPreview>
+            );
+          }
+          const external = /^https?:\/\//i.test(href);
+          return (
+            <LinkPreview url={href} asChild>
+              <a href={href} {...props} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>{children}</a>
+            </LinkPreview>
+          );
         },
         img: ({ node: _node, ...props }) => <img {...props} loading="lazy" />,
       }}

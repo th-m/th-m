@@ -331,3 +331,189 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 120px 120px;
 }
+
+/* ------------------------------------------------------------------ */
+/* Floating dock (Aceternity port)                                     */
+/* ------------------------------------------------------------------ */
+
+.thom-floating-dock {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-surface-raised) 88%, transparent);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-glow), 0 16px 40px rgb(0 0 0 / 45%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.thom-floating-dock__link { display: block; border-radius: 999px; }
+.thom-floating-dock__link:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 3px; }
+.thom-floating-dock__button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground-muted);
+  transition: color .25s ease, border-color .25s ease, background-color .25s ease;
+}
+.thom-floating-dock__button:hover {
+  color: var(--color-primary);
+  border-color: var(--color-border-strong);
+}
+.thom-floating-dock__icon {
+  display: grid;
+  place-items: center;
+  color: currentColor;
+}
+.thom-floating-dock__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.thom-floating-dock__label {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  z-index: 2;
+  padding: 6px 10px;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--color-popover-foreground);
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-glow);
+}
+
+@media (max-width: 480px) {
+  .thom-floating-dock { gap: 6px; padding: 8px; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Link preview (Aceternity port)                                      */
+/* ------------------------------------------------------------------ */
+
+/* The trigger itself is a normal link; article/page CSS styles it. */
+.thom-link-preview__trigger { color: inherit; }
+
+.thom-link-preview__content {
+  z-index: 50;
+  max-width: min(280px, calc(100vw - 32px));
+  padding: 12px 14px;
+  background: var(--color-popover);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-popover-foreground);
+  font-size: 12px;
+  line-height: 1.55;
+  box-shadow: var(--shadow-glow);
+  animation: thom-link-preview-in .18s var(--ease-draw);
+}
+@keyframes thom-link-preview-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thom-link-preview__content { animation: none; }
+}
+
+.thom-link-preview__destination {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+}
+.thom-link-preview__host {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  overflow-wrap: anywhere;
+}
+.thom-link-preview__path {
+  color: var(--color-foreground-muted);
+  word-break: break-all;
+}
+.thom-link-preview__arrow { color: var(--color-primary); }
+
+.thom-link-preview__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Bento grid (Aceternity port)                                        */
+/* ------------------------------------------------------------------ */
+
+.thom-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 768px) {
+  .thom-bento-grid {
+    grid-template-columns: repeat(var(--bento-cols, 3), minmax(0, 1fr));
+  }
+}
+
+.thom-bento-grid__item {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: clamp(16px, 1.8vw, 24px);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-card-foreground);
+  text-decoration: none;
+  transition: transform .35s var(--ease-draw), border-color .3s ease, box-shadow .3s ease;
+}
+.thom-bento-grid__item:hover,
+.thom-bento-grid__item:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-glow);
+}
+.thom-bento-grid__item:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 3px; }
+
+@media (min-width: 768px) {
+  .thom-bento-grid__item--span-2 { grid-column: span 2; }
+  .thom-bento-grid__item--span-3 { grid-column: span 3; }
+  .thom-bento-grid__item--row-span-2 { grid-row: span 2; }
+}
+
+.thom-bento-grid__item-header { flex: 0 0 auto; }
+.thom-bento-grid__item-body { display: flex; flex-direction: column; gap: 8px; }
+.thom-bento-grid__item-icon { flex: 0 0 auto; }
+.thom-bento-grid__item-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 430;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: var(--color-foreground-strong);
+  transition: color .25s ease;
+}
+.thom-bento-grid__item:hover .thom-bento-grid__item-title,
+.thom-bento-grid__item:focus-visible .thom-bento-grid__item-title {
+  color: var(--color-primary);
+}
+.thom-bento-grid__item-description {
+  margin: 0;
+  color: var(--color-foreground-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.thom-bento-grid__item-footer {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}

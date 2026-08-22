@@ -56,9 +56,13 @@ audit captures are evidence rather than runtime authority.
 - `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
 
 The shared header links the THOM mark to `/brand` and exposes only the
-`Writings` navigation link on every route. The contextual-component decision
-rules for article pages — tooltip vs. hover card vs. card vs. modal vs. drawer —
-live in [writing-component-conventions.md](docs/writing-component-conventions.md).
+`Writings` navigation link on every route. A global **floating dock** (an
+Aceternity-style icon dock composed from `@th-m/ui`) is pinned to the bottom
+of the viewport on every route, mirroring the fixed header: it exposes icon
+buttons for LinkedIn, GitHub, X, and email (`thomvaladez@gmail.com`). The
+contextual-component decision rules for article pages — tooltip vs. hover card
+vs. card vs. modal vs. drawer — live in
+[writing-component-conventions.md](docs/writing-component-conventions.md).
 
 `portfolio:publish` generates brand assets, stages the public blog artifact,
 typechecks the route tree, builds `dist/client`, and verifies every manifest

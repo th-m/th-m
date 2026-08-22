@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { HeroOrbit, shouldPlayIntro, ThomLogo } from "@th-m/thom-brand";
 import { opticalProfileAsset, opticalProfileForWidth } from "@th-m/thom-brand/optical-profile";
 import App from "../src/App";
@@ -68,7 +68,7 @@ describe("accessible identity and content", () => {
     expect(logo.querySelector("img")).toHaveAttribute("src", "/brand/thom-micro.svg");
   });
 
-  it("renders all README-derived sections and safe external links", () => {
+  it("renders all README-derived sections and safe external links", async () => {
     render(<App />);
     expect(screen.getByRole("heading", { name: /software systems become understandable/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Software Design" })).toBeInTheDocument();
@@ -77,5 +77,8 @@ describe("accessible identity and content", () => {
     const soundsculpt = screen.getByRole("link", { name: /soundsculpt.app/i });
     expect(soundsculpt).toHaveAttribute("target", "_blank");
     expect(soundsculpt).toHaveAttribute("rel", "noreferrer");
+    // <App /> mounts the home hero, which lazy-loads the three.js scene on
+    // mount; wait for that import so it cannot resolve after teardown.
+    await vi.dynamicImportSettled();
   });
 });

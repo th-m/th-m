@@ -36,6 +36,7 @@
     "@th-m/design-theme": "workspace:*",
     "@th-m/embedding-space": "workspace:*",
     "@th-m/graph-visualization": "workspace:*",
+    "@th-m/laws": "workspace:*",
     "@th-m/llm-decoding": "workspace:*",
     "@th-m/llm-generation": "workspace:*",
     "@th-m/llm-training": "workspace:*",
@@ -83,14 +84,32 @@
     "name": "portfolio",
     "sourceRoot": "apps/portfolio/src",
     "projectType": "application",
-    "tags": ["kind:app", "runtime:web", "domain:portfolio"],
+    "tags": [
+      "kind:app",
+      "runtime:web",
+      "domain:portfolio"
+    ],
     "targets": {
-      "publish": { "outputs": ["{projectRoot}/dist"] },
-      "typecheck": { "outputs": [] },
-      "test": { "outputs": [] },
-      "start": { "outputs": [] },
-      "e2e": { "outputs": [] },
-      "audit": { "outputs": [] }
+      "publish": {
+        "outputs": [
+          "{projectRoot}/dist"
+        ]
+      },
+      "typecheck": {
+        "outputs": []
+      },
+      "test": {
+        "outputs": []
+      },
+      "start": {
+        "outputs": []
+      },
+      "e2e": {
+        "outputs": []
+      },
+      "audit": {
+        "outputs": []
+      }
     }
   }
 }

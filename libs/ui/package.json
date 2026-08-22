@@ -19,6 +19,7 @@
     "@th-m/design-theme": "workspace:*",
     "class-variance-authority": "latest",
     "clsx": "latest",
+    "motion": "latest",
     "react": "latest",
     "react-dom": "latest",
     "tailwind-merge": "latest",

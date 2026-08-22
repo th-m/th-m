@@ -56,7 +56,7 @@ async function renderGraph() {
 describe("ArticleBundleGraph", () => {
   it("renders six clickable article nodes linking to their essays", async () => {
     await renderGraph();
-    expect(screen.getByRole("heading", { name: "One argument, six essays" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "AI Factory" })).toBeInTheDocument();
     expect(screen.getAllByRole("link")).toHaveLength(6);
     expect(screen.getByRole("link", { name: /Solutions, Meaning, and Value/ })).toHaveAttribute(
       "href",

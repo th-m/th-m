@@ -2,11 +2,18 @@
 
 ## Editorial Status
 
-This article evolves the former “Next Abstraction Layer” essay into the first
-deep dive on knowledge-factory infrastructure. Existing Mango, SoundSculpt,
-abstraction, and ontology research remains relevant. The argument now centers
-on human responsibility for mapping a domain and on ontology as durable context
-for people and models.
+This article evolves the former "Next Abstraction Layer" essay into the first
+deep dive on knowledge-factory infrastructure.
+
+**Published form (2026-08-22):** the article now centers on the SoundSculpt
+repository ontology as the factory's semantic infrastructure — ownership
+visible from the path, layered dependency rules, and executable README/AGENTS/
+skill contracts. The primary source is `notes/soundsculpt-repository-ontology.md`.
+
+The domain-ontology plan below (controlled language, the ten-part ontology
+packet, Mango, and SoundSculpt creative distinctions) is retained as the
+working material for a separate future post on modeling product domains for
+AI systems. It is not part of the published article.
 
 ## Overview
 

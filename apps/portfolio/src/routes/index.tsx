@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { AnimatedThomLogo } from "@th-m/thom-brand";
 import { loadBlogManifest } from "../content/blog-content";
 import { ArticleBundleGraph } from "../home/ArticleBundleGraph";
-import { PublicationDate } from "../writing/PublicationDate";
+import { LawsBento } from "../home/LawsBento";
 
 export const Route = createFileRoute("/")({
   loader: loadBlogManifest,
@@ -37,40 +37,7 @@ function HomePage() {
 
       <ArticleBundleGraph posts={manifest.posts} />
 
-      <section className="home-writings" id="writings" aria-labelledby="writings-title">
-        <header className="home-writings__header">
-          <p className="eyebrow">Thomas Valadez</p>
-          <h2 id="writings-title">Writings</h2>
-        </header>
-
-        {manifest.posts.length > 0 ? (
-          <ol className="home-writing-list">
-            {manifest.posts.map((post, index) => (
-              <li key={post.slug}>
-                <span className="section-index">{String(index + 1).padStart(2, "0")}</span>
-                <article>
-                  <PublicationDate value={post.publishedAt} />
-                  <h3><Link to="/writing/$slug" params={{ slug: post.slug }}>{post.title}</Link></h3>
-                  <p>{post.description}</p>
-                </article>
-              </li>
-            ))}
-          </ol>
-        ) : null}
-
-        <Link className="home-writings__link" to="/writing">
-          <span>{manifest.posts.length > 0 ? "All writings" : "Writings"}</span>
-          <span aria-hidden="true">→</span>
-        </Link>
-
-        <p className="home-tools">
-          Tools: <Link to="/relationship-graph">Relationship graph</Link>
-          <span aria-hidden="true"> · </span>
-          <Link to="/embedding-space">Embedding space</Link>
-          <span aria-hidden="true"> · </span>
-          <Link to="/llm-visualization">Inside a language model</Link>
-        </p>
-      </section>
+      <LawsBento />
     </div>
   );
 }

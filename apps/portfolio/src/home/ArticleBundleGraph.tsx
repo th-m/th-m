@@ -58,14 +58,8 @@ export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps
   return (
     <section className={["home-graph", className].filter(Boolean).join(" ")} aria-labelledby="home-graph-title">
       <header className="home-graph__header">
-        <p className="eyebrow">The essays</p>
-        <h2 id="home-graph-title">One argument, six essays</h2>
+        <h2 id="home-graph-title">AI Factory</h2>
       </header>
-      <p className="home-graph__lede">
-        The three foundational essays converge on the knowledge factory — what solutions are, how truth and
-        entropy constrain inference, and why understanding is the bottleneck — which then branches into the
-        ontology and strategy of the factory itself.
-      </p>
 
       <div className="home-graph__viewport">
         <div className="home-graph__frame">

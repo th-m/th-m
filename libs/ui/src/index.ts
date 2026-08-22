@@ -1,5 +1,6 @@
 export { cn } from "./cn";
 export { Button, buttonVariants, type ButtonProps } from "./Button";
+export { FloatingDock, type FloatingDockItem, type FloatingDockProps } from "./FloatingDock";
 export {
   Card,
   CardContent,
@@ -22,6 +23,8 @@ export {
 } from "./Tooltip";
 export { TooltipCard, type TooltipCardProps } from "./TooltipCard";
 export { CardSpotlight, type CardSpotlightProps } from "./CardSpotlight";
+export { LinkPreview, type LinkPreviewProps } from "./LinkPreview";
+export { BentoGrid, BentoGridItem, type BentoGridItemProps, type BentoGridProps } from "./BentoGrid";
 export {
   Dialog,
   DialogClose,

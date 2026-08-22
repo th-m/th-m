@@ -45,7 +45,7 @@ unnumbered so editorial order can change without destabilizing paths.
 | 2 | [truth-entropy-and-inference](./truth-entropy-and-inference/) | **Truth, Entropy, and Inference:** truth practices, predictive language, code constraints, and domain fluency | Draft outline in progress; inherited research and visuals need expansion |
 | 3 | [understanding-is-the-bottleneck](./understanding-is-the-bottleneck/) | **Understanding Is the Bottleneck:** leaders who distill meaning and multiply team solutioning | Draft outline in progress |
 | 4 | [the-knowledge-factory](./the-knowledge-factory/) | **The Knowledge Factory:** distributed solutioning, factory engineers, graph context, and reusable organizational capital | Draft outline in progress |
-| 5 | [the-factory-ontology](./the-factory-ontology/) | **The Factory — Ontology:** human domain mapping, in-context learning, controlled language, and semantic infrastructure | Draft outline and research in progress |
+| 5 | [the-factory-ontology](./the-factory-ontology/) | **The Factory — Ontology:** the SoundSculpt repository ontology as the factory's semantic infrastructure — ownership visible from the path, layered dependency rules, and executable README/AGENTS/skill contracts | Published; a domain-ontology plan for product domains is retained in the draft workspace |
 | 6 | [the-factory-strategy](./the-factory-strategy/) | **The Factory — Strategy:** narrative, customer empathy, adversarial and diplomatic opportunity, feedback, and the organizational second brain | Draft outline in progress; research queue established |
 
 ### Series Architecture

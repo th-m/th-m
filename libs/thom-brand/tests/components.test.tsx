@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { AnimatedThomLogo, HeroOrbit, ThomGlyphStage, ThomLogo } from "../src";
 
 describe("THOM brand component exports", () => {
-  it("composes one interactive wordmark with one coordinated orbit", () => {
+  it("composes one interactive wordmark with one coordinated orbit", async () => {
     const { container } = render(<AnimatedThomLogo />);
     expect(container.querySelectorAll(".animated-thom-logo")).toHaveLength(1);
     expect(container.querySelectorAll(".hero-orbit")).toHaveLength(1);
@@ -12,6 +12,10 @@ describe("THOM brand component exports", () => {
     expect(screen.getByRole("button", { name: "Replay H equilibrium animation" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Replay O emergence animation" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Replay M superposition animation" })).toBeInTheDocument();
+    // The hero logo lazy-loads its three.js scene on mount. Wait for that
+    // import to settle so it cannot resolve after the test environment tears
+    // down (which Vitest reports as an unhandled error).
+    await vi.dynamicImportSettled();
   });
 
   it("keeps lower-level components independently exportable", () => {

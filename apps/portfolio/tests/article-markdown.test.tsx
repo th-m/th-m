@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import type { PublishedArticle } from "../src/content/blog-content";
 import { ArticleMarkdown } from "../src/writing/ArticleMarkdown";
@@ -36,6 +36,17 @@ describe("ArticleMarkdown", () => {
     );
     expect(screen.getByRole("table")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "external source" })).toHaveAttribute("rel", "noreferrer");
+  });
+
+  it("wraps every output link in a link preview that reveals the destination", async () => {
+    render(<ArticleMarkdown article={article} />);
+    const link = screen.getByRole("link", { name: "external source" });
+    expect(link).toHaveAttribute("href", "https://example.com/source");
+    fireEvent.pointerEnter(link);
+    await waitFor(() => {
+      expect(screen.getByText("example.com")).toBeInTheDocument();
+      expect(screen.getByText("/source")).toBeInTheDocument();
+    });
   });
 
   it("renders registered inline figures at their markers and ignores unregistered ones", () => {

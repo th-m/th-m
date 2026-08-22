@@ -13,11 +13,12 @@ The React article page contract itself is documented in
 [`libs/blogs/articles/README.md`](../../../libs/blogs/articles/README.md); this
 document governs the presentation layer.
 
-## The five contextual surfaces
+## The six contextual surfaces
 
 | Surface | Shape | Reading posture | Home for |
 | --- | --- | --- | --- |
 | **Tooltip** | ≤ 3-line floating gloss, `--color-popover` | Attention stays in the sentence | Inline jargon, abbreviations, token-level definitions |
+| **LinkPreview** | Floating destination card, `--color-popover` | Hover or focus on any output link | **Every link the article outputs** — external references, citations, sources, cross-article links |
 | **HoverCard / TooltipCard** | Structured floating card, `--color-hover-card` | Hover or focus on a term | Desktop glosses with definition + example + link |
 | **Card** | Always-visible block in the flow, `--color-card` | The paragraph pauses | Glossaries, key claims, "in short" boxes, formulas, comparisons |
 | **Modal / Dialog** | Blocking centered panel, `--color-dialog` + scrim | The reader stops to act | Confirmations, single focused tasks, large single artifacts |
@@ -29,23 +30,32 @@ document governs the presentation layer.
    can be defined in a breath (embedding, cross-entropy, BPE, logit). Trigger
    is the term itself, styled with the dotted-underline `thom-tooltip-trigger`
    treatment. Tooltips never contain links, controls, or more than ~45 words.
-2. **A structured gloss → HoverCard or TooltipCard.** The term needs a
+2. **A destination worth previewing → LinkPreview.** Every link an article
+   outputs — external references and citations, further-reading sources, and
+   cross-article links — is a `LinkPreview` (the Aceternity link-preview port
+   in `@th-m/ui`). Hover or focus reveals a small floating card above the link
+   showing where it goes: the destination hostname and path by default, or a
+   custom `preview` / static `imageSrc` when the article has richer material.
+   Internal site navigation keeps SPA behavior by passing the TanStack `Link`
+   through `asChild`; external links keep `target="_blank" rel="noreferrer"`.
+   The preview never replaces the link — it previews it.
+3. **A structured gloss → HoverCard or TooltipCard.** The term needs a
    definition, one worked example, and a link or formula. HoverCard is the
    inline-term variant (desktop only — on touch it degrades, so pair it with a
    card or a drawer link for the same content). TooltipCard is the
    Aceternity-style card that reveals a floating detail panel on hover or
    focus; use it for a term that deserves a small named object (a model, a
    concept, an algorithm) inside a comparison or reference block.
-3. **A block the reader should keep seeing → Card.** Glossary entries, key
+4. **A block the reader should keep seeing → Card.** Glossary entries, key
    claims ("the claim in one paragraph"), "in short" recaps, formula plates,
    and comparison tables. Cards are always visible; never hide essential
    information behind hover.
-4. **A forced decision → Modal.** Only when the reader must stop: confirm a
+5. **A forced decision → Modal.** Only when the reader must stop: confirm a
    destructive action, commit to a choice, or inspect one large artifact
    (a full derivation, a large diagram) in isolation. Modals are rare in
    essays — if the content is reference material, it belongs in the drawer or
    a card instead.
-5. **An interactive the reader uses *alongside* the prose → Drawer.** The
+6. **An interactive the reader uses *alongside* the prose → Drawer.** The
    right drawer is the designated home for auxiliary interactives: the
    embedding explorer, the compact relationship graph explorer, token viewers,
    simulation labs, calculators, glossary lookups. The article stays visible;
@@ -73,8 +83,9 @@ reduced motion.
 
 ### Escalation ladder
 
-Inline need → **tooltip**; needs structure → **hover card**; needs persistence
-→ **card**; needs interactivity → **drawer**; needs a decision → **modal**.
+Inline need → **tooltip**; a destination worth previewing → **link preview**;
+needs structure → **hover card**; needs persistence → **card**; needs
+interactivity → **drawer**; needs a decision → **modal**.
 When two surfaces would fit, pick the less disruptive one: the reader should
 never lose the sentence to learn a word.
 
@@ -83,10 +94,11 @@ never lose the sentence to learn a word.
 Every contextual component consumes `@th-m/design-theme` tokens — no copied
 palette values, no rounded corners, no generic shadows.
 
-- **Surfaces:** tooltip/hover-card use `--color-popover`/`--color-hover-card`;
-  cards use `--color-card`; modals and the drawer use `--color-dialog` with
-  `--color-scrim` overlay. All panels get a `1px solid var(--color-border)`
-  frame and `var(--shadow-glow)` where elevation is needed.
+- **Surfaces:** tooltip and link-preview cards use `--color-popover`;
+  hover cards use `--color-hover-card`; cards use `--color-card`; modals and
+  the drawer use `--color-dialog` with `--color-scrim` overlay. All panels get
+  a `1px solid var(--color-border)` frame and `var(--shadow-glow)` where
+  elevation is needed.
 - **Type:** display and body copy use `--font-display` (Newsreader); labels,
   eyebrows, metadata, and microcopy use `--font-mono` (IBM Plex Mono),
   9–10px, `letter-spacing: .08–.16em`, uppercase.
@@ -100,8 +112,8 @@ palette values, no rounded corners, no generic shadows.
   borders and surfaces, not radius.
 - **Accessibility:** every interactive trigger is a real button or link
   (Radix `asChild`); Radix handles focus trap, Escape, scroll lock, and
-  aria-modal for dialogs and the drawer; tooltips and hover cards are
-  keyboard-reachable via focus.
+  aria-modal for dialogs and the drawer; tooltips, link previews, and hover
+  cards are keyboard-reachable via focus.
 
 ## Trigger affordances
 
