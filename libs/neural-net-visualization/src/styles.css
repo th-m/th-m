@@ -257,6 +257,30 @@
   color: var(--nnl-error);
 }
 
+/* Loss line — the gap between the winning output node and the target */
+
+.nnl-loss__line {
+  fill: none;
+  stroke: var(--nnl-error);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 5;
+  stroke-opacity: .9;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--nnl-error) 45%, transparent));
+  animation: nnl-loss-flow 1.3s var(--nnl-ease) infinite;
+}
+
+.nnl-loss__label {
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  fill: var(--nnl-error);
+}
+
+@keyframes nnl-loss-flow {
+  to { stroke-dashoffset: -18; }
+}
+
 /* Controls */
 
 .nnl__controls {
@@ -418,6 +442,17 @@
 
 .nnl__legend-target {
   color: var(--nnl-rose);
+}
+
+.nnl__legend-loss {
+  color: var(--nnl-error);
+}
+
+.nnl__legend-loss i {
+  width: 10px;
+  height: 0;
+  border-top: 2px dashed var(--nnl-error);
+  vertical-align: 2px;
 }
 
 .nnl__disclaimer {

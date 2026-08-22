@@ -133,4 +133,16 @@ describe("NeuralNetAnimation", () => {
     fireEvent.click(screen.getByRole("button", { name: /Step 3 of 5: Backward · hidden 2/ }));
     expect(container.querySelectorAll(".nnl-edges.is-backward .nnl-edge.is-active")).toHaveLength(8);
   });
+
+  it("draws the loss line from the winning node to the target on the loss step", () => {
+    const { container } = render(<NeuralNetAnimation effect="backprop" reducedMotion="always" />);
+    // Default reduced frame is "update" — no loss line.
+    expect(container.querySelector(".nnl-loss__line")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: /Step 2 of 5: Loss/ }));
+    expect(container.querySelector(".nnl-loss__line")).not.toBeNull();
+    expect(container.querySelector(".nnl-loss__label")?.textContent).toBe("loss");
+    // Other steps show no loss line.
+    fireEvent.click(screen.getByRole("button", { name: /Step 1 of 5: Forward pass/ }));
+    expect(container.querySelector(".nnl-loss__line")).toBeNull();
+  });
 });

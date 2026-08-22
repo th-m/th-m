@@ -213,6 +213,34 @@ function Node({
   );
 }
 
+/** The loss gap: the forward pass ended at one output node, but the target
+ *  token is another — the curve between them is the error the loss measures. */
+function LossLine({
+  layerCount,
+  outputCount,
+  fromIndex,
+  toIndex,
+}: {
+  layerCount: number;
+  outputCount: number;
+  fromIndex: number;
+  toIndex: number;
+}) {
+  const x = layerX(layerCount - 1, layerCount);
+  const yFrom = nodeY(fromIndex, outputCount);
+  const yTo = nodeY(toIndex, outputCount);
+  const midY = (yFrom + yTo) / 2;
+  const bulge = 64;
+  return (
+    <g className="nnl-loss">
+      <path className="nnl-loss__line" d={`M ${x} ${yFrom} Q ${x + bulge} ${midY} ${x} ${yTo}`} />
+      <text className="nnl-loss__label" x={x + bulge / 2 + 16} y={midY + 3} textAnchor="middle">
+        loss
+      </text>
+    </g>
+  );
+}
+
 export function NeuralNetAnimation({
   effect = "inference",
   loop = true,
@@ -311,7 +339,9 @@ export function NeuralNetAnimation({
 
   const epochForDisplay = (phaseVisual: PhaseVisual): number => {
     if (effect !== "backprop") return 0;
-    const displayEpoch = reduced ? trace.epochs.length - 1 : epochIndex;
+    // Under reduced motion the untouched figure stays on the final trained
+    // epoch; once the reader steps through it, show the real timeline.
+    const displayEpoch = reduced && !interacted ? trace.epochs.length - 1 : epochIndex;
     if (phaseVisual.updating) return Math.min(displayEpoch + 1, trace.epochs.length - 1);
     return displayEpoch;
   };
@@ -420,6 +450,15 @@ export function NeuralNetAnimation({
               );
             });
           })}
+
+          {visual.lossBad && winnerIndex !== scenario.targetIndex ? (
+            <LossLine
+              layerCount={layerCount}
+              outputCount={scenario.layerSizes[layerCount - 1]}
+              fromIndex={winnerIndex}
+              toIndex={scenario.targetIndex}
+            />
+          ) : null}
         </svg>
 
         <div className="nnl__probs" aria-hidden="true">
@@ -500,6 +539,7 @@ export function NeuralNetAnimation({
         <span><i className="nnl__dot" /> activation value</span>
         <span className="nnl__legend-edge"><i /> edge = learned weight</span>
         {effect === "backprop" ? <span className="nnl__legend-target">target token ▸</span> : null}
+        {effect === "backprop" ? <span className="nnl__legend-loss"><i /> loss gap</span> : null}
       </div>
 
       <footer className="nnl__disclaimer"><span aria-hidden="true">◇</span>{mergedCopy.disclaimer}</footer>
