@@ -57,7 +57,7 @@ export {
   saveGraphLibrary,
 } from "./storage";
 
-export { createPropositionsGraph, createSeedLibrary, createWeatherGraph } from "./seed";
+export { createLayerDependencyGraph, createPropositionsGraph, createSeedLibrary, createUnderstandingLoopGraph, createUnderstandingPipelineGraph, createWeatherGraph } from "./seed";
 
 export {
   applyPinnedPositions,

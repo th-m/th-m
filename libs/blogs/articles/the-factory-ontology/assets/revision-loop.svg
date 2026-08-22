@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="640" viewBox="0 0 860 640" role="img" aria-labelledby="title description">
+  <title id="title">The revision loop</title>
+  <desc id="description">A cycle of five phases: observe, commit, implement, evaluate, revise. An observation or failing check routes through ontology contracts into implementation, verification, and revision, then loops back.</desc>
+  <rect width="860" height="640" fill="#0c0b09"/>
+  <style>
+    .kicker { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: 3px; fill: #d6b06a; }
+    .title { font-family: "Newsreader Variable", Georgia, serif; font-size: 34px; font-weight: 420; fill: #f2e5cf; }
+    .phase { font-family: "Newsreader Variable", Georgia, serif; font-size: 21px; font-weight: 480; fill: #fff5dc; }
+    .detail { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9.5px; letter-spacing: .5px; fill: #a99b87; }
+    .edge { stroke: #30291f; }
+    .arrow { fill: none; stroke: #d6b06a; stroke-width: 1.4; marker-end: url(#ah); }
+    .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: 2px; fill: #d6b06a; }
+    .center-note { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: 2px; fill: #a99b87; }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#d6b06a"/></marker>
+  </defs>
+
+  <text class="kicker" x="48" y="52">THE FACTORY · ONTOLOGY</text>
+  <text class="title" x="46" y="92">The revision loop</text>
+
+  <!-- pentagon: center (430, 350), radius 210 -->
+  <!-- Observe top (430,140) | Commit upper-right (635,255) | Implement lower-right (635,485) -->
+  <!-- Evaluate lower-left (225,485) | Revise upper-left (225,255) -->
+
+  <g>
+    <circle cx="430" cy="140" r="78" fill="none" class="edge"/>
+    <circle cx="430" cy="140" r="72" fill="#15120d"/>
+    <text class="num" x="430" y="126" text-anchor="middle">01</text>
+    <text class="phase" x="430" y="152" text-anchor="middle">Observe</text>
+    <text class="detail" x="430" y="172" text-anchor="middle">request or failing check</text>
+  </g>
+  <g>
+    <circle cx="635" cy="255" r="78" fill="none" class="edge"/>
+    <circle cx="635" cy="255" r="72" fill="#15120d"/>
+    <text class="num" x="635" y="241" text-anchor="middle">02</text>
+    <text class="phase" x="635" y="267" text-anchor="middle">Commit</text>
+    <text class="detail" x="635" y="287" text-anchor="middle">contracts route the work</text>
+  </g>
+  <g>
+    <circle cx="635" cy="485" r="78" fill="none" class="edge"/>
+    <circle cx="635" cy="485" r="72" fill="#15120d"/>
+    <text class="num" x="635" y="471" text-anchor="middle">03</text>
+    <text class="phase" x="635" y="497" text-anchor="middle">Implement</text>
+    <text class="detail" x="635" y="517" text-anchor="middle">issue, PR, skill</text>
+  </g>
+  <g>
+    <circle cx="225" cy="485" r="78" fill="none" class="edge"/>
+    <circle cx="225" cy="485" r="72" fill="#15120d"/>
+    <text class="num" x="225" y="471" text-anchor="middle">04</text>
+    <text class="phase" x="225" y="497" text-anchor="middle">Evaluate</text>
+    <text class="detail" x="225" y="517" text-anchor="middle">verification binds proof</text>
+  </g>
+  <g>
+    <circle cx="225" cy="255" r="78" fill="none" class="edge"/>
+    <circle cx="225" cy="255" r="72" fill="#15120d"/>
+    <text class="num" x="225" y="241" text-anchor="middle">05</text>
+    <text class="phase" x="225" y="267" text-anchor="middle">Revise</text>
+    <text class="detail" x="225" y="287" text-anchor="middle">review, merge, evidence</text>
+  </g>
+
+  <!-- arrows around the cycle (clockwise) -->
+  <path class="arrow" d="M 500 175 C 555 195, 590 220, 610 240"/>
+  <path class="arrow" d="M 655 330 C 660 380, 655 430, 645 465"/>
+  <path class="arrow" d="M 560 520 C 500 540, 440 540, 380 525"/>
+  <path class="arrow" d="M 205 420 C 195 380, 195 330, 210 295"/>
+  <path class="arrow" d="M 300 235 C 330 195, 360 165, 395 148"/>
+
+  <text class="center-note" x="430" y="346" text-anchor="middle">THE MAINTENANCE</text>
+  <text class="center-note" x="430" y="362" text-anchor="middle">CYCLE</text>
+
+  <text class="detail" x="430" y="608" text-anchor="middle">every change leaves evidence behind</text>
+</svg>

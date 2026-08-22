@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="620" viewBox="0 0 860 620" role="img" aria-labelledby="title description">
+  <title id="title">The four layers</title>
+  <desc id="description">The factory's semantic strata: platform at the base, then schema, engine, and edge on top, with apps above. Dependencies flow toward more foundational layers and never point upward.</desc>
+  <rect width="860" height="620" fill="#0c0b09"/>
+  <style>
+    .kicker { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: 3px; fill: #d6b06a; }
+    .title { font-family: "Newsreader Variable", Georgia, serif; font-size: 34px; font-weight: 420; fill: #f2e5cf; }
+    .layer { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; letter-spacing: 2px; fill: #d6b06a; }
+    .owns { font-family: "Newsreader Variable", Georgia, serif; font-size: 15px; font-weight: 420; fill: #f2e5cf; }
+    .note { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9.5px; letter-spacing: .5px; fill: #a99b87; }
+    .arrow { fill: none; stroke: #d6b06a; stroke-width: 1.4; marker-end: url(#ah); }
+    .skip { stroke-dasharray: 4 4; }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#d6b06a"/></marker>
+  </defs>
+
+  <text class="kicker" x="48" y="52">THE FACTORY · ONTOLOGY</text>
+  <text class="title" x="46" y="92">Dependencies flow toward the foundation</text>
+
+  <!-- stack: platform (base) up to edge (top); apps above -->
+  <!-- platform -->
+  <rect x="200" y="480" width="460" height="64" rx="2" fill="#15120d" stroke="#30291f"/>
+  <text class="layer" x="220" y="507">PLATFORM</text>
+  <text class="owns" x="220" y="528">Product-neutral mechanisms and helpers</text>
+
+  <!-- schema -->
+  <rect x="200" y="392" width="460" height="64" rx="2" fill="#15120d" stroke="#30291f"/>
+  <text class="layer" x="220" y="419">SCHEMA</text>
+  <text class="owns" x="220" y="440">Canonical models, invariants, taxonomy</text>
+
+  <!-- engine -->
+  <rect x="200" y="304" width="460" height="64" rx="2" fill="#15120d" stroke="#30291f"/>
+  <text class="layer" x="220" y="331">ENGINE</text>
+  <text class="owns" x="220" y="352">Deterministic audio/video execution</text>
+
+  <!-- edge -->
+  <rect x="200" y="216" width="460" height="64" rx="2" fill="#15120d" stroke="#30291f"/>
+  <text class="layer" x="220" y="243">EDGE</text>
+  <text class="owns" x="220" y="264">Product workflows and reactive state</text>
+
+  <!-- apps -->
+  <rect x="200" y="128" width="460" height="64" rx="2" fill="#15120d" stroke="#d6b06a"/>
+  <text class="layer" x="220" y="155">APPS</text>
+  <text class="owns" x="220" y="176">Composition and lifecycle</text>
+
+  <!-- dependency arrows (downward = toward more foundational) -->
+  <path class="arrow" d="M 430 192 L 430 212"/>
+  <path class="arrow" d="M 430 280 L 430 300"/>
+  <path class="arrow" d="M 430 368 L 430 388"/>
+  <path class="arrow" d="M 430 456 L 430 476"/>
+  <!-- skip example: apps may skip to platform (dashed) -->
+  <path class="arrow skip" d="M 668 160 C 720 200, 720 420, 668 480"/>
+
+  <text class="note" x="430" y="600" text-anchor="middle">Arrows may skip layers but never point upward</text>
+</svg>

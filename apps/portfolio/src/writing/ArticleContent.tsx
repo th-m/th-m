@@ -3,6 +3,16 @@ import { blogPages } from "../generated/blog-pages/registry";
 import { ArticleMarkdown, type InlineFigures } from "./ArticleMarkdown";
 import { PublicationDate } from "./PublicationDate";
 import { NeuralNetAnimation } from "@th-m/neural-net-visualization";
+import {
+  createLayerDependencyGraph,
+  createUnderstandingLoopGraph,
+  createUnderstandingPipelineGraph,
+  PropositionGraphFigure,
+} from "@th-m/graph-visualization";
+
+const pipelineGraph = createUnderstandingPipelineGraph("2026-08-22T00:00:00.000Z");
+const loopGraph = createUnderstandingLoopGraph("2026-08-22T00:00:00.000Z");
+const layerGraph = createLayerDependencyGraph("2026-08-22T00:00:00.000Z");
 
 /**
  * Inline interactive figures available to article markdown through
@@ -11,6 +21,9 @@ import { NeuralNetAnimation } from "@th-m/neural-net-visualization";
  */
 const articleInlineFigures: InlineFigures = {
   "neural-net-lab": () => <NeuralNetAnimation effect="backprop" />,
+  "understanding-pipeline": () => <PropositionGraphFigure document={pipelineGraph} title="Proof abundance pipeline" />,
+  "understanding-loop": () => <PropositionGraphFigure document={loopGraph} title="The understanding loop" />,
+  "ontology-layer-graph": () => <PropositionGraphFigure document={layerGraph} title="Factory layer dependencies" />,
 };
 
 /**

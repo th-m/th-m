@@ -1,12 +1,12 @@
 ---
-title: The Factory — Ontology
+title: Factory Ontology
 description: The factory's ontology is not a diagram in a wiki. It is the structure of the repository itself — ownership visible from every path, dependencies flowing toward more foundational layers, and contracts that make the map checkable.
 publishedAt: 2026-08-22
 tags: [Artificial Intelligence, Ontology, Software Systems, Knowledge Work]
 ---
-# The Factory — Ontology
+# Factory Ontology
 
-## A Map of the Factory's Own Domain
+## A Map of the Factory Itself
 
 The knowledge factory needs explicit, maintained maps of the domains in which
 people and AI act. *The Knowledge Factory* introduced the operating system:
@@ -31,12 +31,13 @@ SoundSculpt's core idea is compact: **ownership should be visible from the
 path, and dependencies should flow toward more foundational layers.** That
 single sentence turns the repository into a commitment about which distinctions
 the system recognizes, how they relate, and who remains accountable for
-revising the map. This essay reads the idea as an ontology and shows what a
-factory gains when it enforces one.
+revising the map. This essay reads the idea as an
+[ontology](https://tomgruber.org/writing/ontology-definition-2007.htm) and
+shows what a factory gains when it enforces one.
 
-## Ownership Visible from the Path
+## Ownership in the Path
 
-The first sentence of the SoundSculpt ontology is the repository root. Seven
+The first sentence of the SoundSculpt ontology is the repository root. Five
 top-level areas divide the factory, and each one carries a one-line answer to
 the question *what does this own?*:
 
@@ -47,16 +48,10 @@ the question *what does this own?*:
 | `tools/` | Repository-wide developer and operator workflows |
 | `infrastructure/` | Shared deployment/build infrastructure |
 | `supabase/` | Database migrations, generated types, local lifecycle, and database tests |
-| `reports/` | Historical evidence and audits, not current contracts |
-| `tests/` | Deprecated migration inventory; new tests belong beside their owners |
 
-Two details are worth pausing on, because they show what a real map looks like
-as opposed to a tidy one. First, ownership is stated as much by exclusion as by
-inclusion: `reports/` holds evidence and audits *and not current contracts*,
-and `tests/` is a *deprecated migration inventory* — new tests belong beside
-their owners, not in a shared pile. Second, the list is stable enough to read
-as a policy. Nothing about these boundaries follows from technology; they are
-decisions, which is exactly what makes them ontology.
+The list is stable enough to read as a policy. Nothing about these boundaries
+follows from technology; they are decisions, which is exactly what makes them
+ontology.
 
 Applications are the factory's edges. An app may be an app family, an
 executable facet, a worker, a CLI, or even a source-free Nx coordinator — the
@@ -82,8 +77,9 @@ libs/<layer>/<capability>/<library>
 @ss/<layer>/<capability>/<library>
 ```
 
-The layer is the bounded context, the capability is the subject, and the leaf
-names the responsibility. For example:
+The layer is the
+[bounded context](https://martinfowler.com/bliki/BoundedContext.html), the
+capability is the subject, and the leaf names the responsibility. For example:
 
 ```text
 libs/edge/audio/state-zustand-player
@@ -102,6 +98,8 @@ The four layers are the factory's semantic strata:
 | `engine` | Deterministic audio/video execution, analysis, playback, rendering, and encoding |
 | `edge` | Product workflows, provider-backed data, reactive state, billing, features, and product UI |
 
+![The four layers](assets/layer-strata.svg)
+
 Assigning a concept to a layer is not a matter of taste; it is a semantic
 commitment. State belongs to Edge. Canonical entities belong to Schema.
 Deterministic execution belongs to Engine. Product-neutral mechanisms belong
@@ -118,6 +116,8 @@ Dependency direction is the second sentence of the map:
 | `schema` | | | | ✓ |
 | `platform` | | | | |
 
+<!-- ontology-layer-graph -->
+
 Dependencies may skip layers, but must never point upward. A product workflow
 at the edge may reach past its neighbors straight to a foundation, and an app
 may depend on anything it needs. The interior, however, never reaches up into
@@ -127,9 +127,13 @@ problem and every future change's constraint.
 
 Skip-but-never-ascend is what keeps the map stable under growth. New workflows
 can appear at the edge and lean on whatever foundation they need; the interior
-never learns about them. The direction of arrows is enforced, not merely
-documented — and because it is enforced, the factory can grow without asking
-permission of its own past.
+never learns about them. The direction of arrows is
+[enforced, not merely documented](https://nx.dev/docs/kb/project-dependency-rules)
+— and because it is enforced, the factory can grow without asking permission of
+its own past. The same instinct — boundaries drawn from the domain rather than
+the technology — is what large platforms like
+[Uber's domain-oriented microservices](https://www.uber.com/us/en/blog/microservice-architecture/)
+describe at service scale.
 
 ## A Vocabulary for Identifiers
 
@@ -165,11 +169,15 @@ between the map and the machinery that checks it. A name is the ontology's
 term for a thing, and the thing is only real in the system when its term is
 stable enough to be validated against.
 
-## Contracts That Describe and Operate
+## Description and Operation
 
 Entities and arrows say what exists; they do not say what a scope means or how
 to work inside it. SoundSculpt splits that explanation into two contracts with
-complementary jobs, colocated with every scope.
+complementary jobs, colocated with every scope — the same
+[interface-versus-implementation discipline](https://web.stanford.edu/~ouster/cgi-bin/aposd2ndEdExtract.pdf)
+Ousterhout argues for in *A Philosophy of Software Design*: what a component
+promises is a contract, and how it keeps that promise stays behind the
+interface.
 
 A README describes what a scope *is*: its purpose, its boundaries, its
 vocabulary, and its stable relationships. The shape is enforced by executable
@@ -198,7 +206,7 @@ and *how do I safely work here?*, and neither answer may hide inside the
 other's file. Description and operation are kept apart so that each stays
 honest.
 
-## Skills Are Standard Operating Procedures
+## Skills Supply Procedure
 
 Where README and AGENTS say *what* and *how*, skills supply *procedure*.
 Canonical skills live at `.agents/skills/<name>/SKILL.md`, with frontmatter
@@ -244,12 +252,18 @@ and revision (review, merge, and an evidence card that lets the learning
 accumulate). The map is not a document updated by committee; it is a system
 that governs how the factory changes, and every change leaves evidence behind.
 
+![The revision loop](assets/revision-loop.svg)
+
 ## A Commitment, Not a Mirror
 
 The factory's ontology is not a description of what its repository happens to
 look like. It is a commitment about which distinctions the system will
 recognize, how those distinctions relate, and what evidence is sufficient to
-make claims about them. The SoundSculpt core idea — ownership visible from the
+make claims about them — the same
+[model-as-commitment discipline](https://www.domainlanguage.com/ddd/) Eric
+Evans describes in *Domain-Driven Design*, where the model is a deliberate
+choice about what matters, not a mirror of everything that exists. The
+SoundSculpt core idea — ownership visible from the
 path, dependencies flowing toward more foundational layers — is such a
 commitment. The repository root is the first sentence of the map; the layer
 rules are the second; naming and identity are its vocabulary; README, AGENTS,

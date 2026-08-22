@@ -167,6 +167,288 @@ export function createPropositionsGraph(now = new Date().toISOString()): GraphDo
   };
 }
 
+export function createUnderstandingPipelineGraph(now = new Date().toISOString()): GraphDocument {
+  return {
+    schemaVersion: 1,
+    id: "understanding-pipeline",
+    name: "Proof pipeline",
+    createdAt: now,
+    updatedAt: now,
+    themeId: "thom-dark",
+    layoutMode: "editorial",
+    propositions: [
+      {
+        id: "generate",
+        statement: "Generate candidate proofs",
+        emphasis: false,
+        pinned: false,
+      },
+      {
+        id: "verify",
+        statement: "Verify with proof assistants",
+        emphasis: true,
+        pinned: false,
+      },
+      {
+        id: "explain",
+        statement: "Explain and evaluate",
+        emphasis: true,
+        pinned: false,
+      },
+      {
+        id: "adopt",
+        statement: "Community adoption",
+        emphasis: false,
+        pinned: false,
+      },
+      {
+        id: "canonical",
+        statement: "Canonical knowledge",
+        emphasis: false,
+        pinned: false,
+      },
+    ],
+    relationships: [
+      {
+        id: "outrun-verification",
+        statement: "Candidate proofs outrun verification",
+        participants: [participant("generate"), participant("verify", false, true)],
+        pinned: false,
+      },
+      {
+        id: "outrun-explanation",
+        statement: "Verified proofs outrun explanation",
+        participants: [participant("verify"), participant("explain", false, true)],
+        pinned: false,
+      },
+      {
+        id: "outrun-absorption",
+        statement: "Published work outruns collective absorption",
+        participants: [participant("explain"), participant("adopt", false, true)],
+        pinned: false,
+      },
+      {
+        id: "accumulate-canonical",
+        statement: "Adoption accumulates into canonical knowledge",
+        participants: [participant("adopt"), participant("canonical", false, true)],
+        pinned: false,
+      },
+    ],
+    poster: {
+      kicker: "THE UNDERSTANDING BOTTLENECK",
+      title: "Proof abundance",
+      footer: "GENERATE → VERIFY → EXPLAIN → ADOPT → CANONICAL",
+      showLegend: false,
+    },
+  };
+}
+
+export function createUnderstandingLoopGraph(now = new Date().toISOString()): GraphDocument {
+  return {
+    schemaVersion: 1,
+    id: "understanding-loop",
+    name: "The understanding loop",
+    createdAt: now,
+    updatedAt: now,
+    themeId: "thom-dark",
+    layoutMode: "editorial",
+    propositions: [
+      {
+        id: "observe",
+        statement: "Observe evidence and lived stakes",
+        emphasis: false,
+        pinned: false,
+      },
+      {
+        id: "interpret",
+        statement: "Interpret what the output means",
+        emphasis: true,
+        pinned: false,
+      },
+      {
+        id: "frame",
+        statement: "Frame the testable problem",
+        emphasis: false,
+        pinned: false,
+      },
+      {
+        id: "propose",
+        statement: "Propose an intervention",
+        emphasis: false,
+        pinned: false,
+      },
+      {
+        id: "test",
+        statement: "Test with explicit learning goals",
+        emphasis: true,
+        pinned: false,
+      },
+      {
+        id: "revise",
+        statement: "Revise the shared model",
+        emphasis: false,
+        pinned: false,
+      },
+    ],
+    relationships: [
+      {
+        id: "observe-interpret",
+        statement: "Listen for evidence and lived stakes",
+        participants: [participant("observe"), participant("interpret", false, true)],
+        pinned: false,
+      },
+      {
+        id: "interpret-frame",
+        statement: "Separate observation from explanation",
+        participants: [participant("interpret"), participant("frame", false, true)],
+        pinned: false,
+      },
+      {
+        id: "frame-propose",
+        statement: "Return a clearer, testable problem frame",
+        participants: [participant("frame"), participant("propose", false, true)],
+        pinned: false,
+      },
+      {
+        id: "propose-test",
+        statement: "Small experiments with explicit learning goals",
+        participants: [participant("propose"), participant("test", false, true)],
+        pinned: false,
+      },
+      {
+        id: "test-revise",
+        statement: "Learn from consequences",
+        participants: [participant("test"), participant("revise", false, true)],
+        pinned: false,
+      },
+      {
+        id: "revise-observe",
+        statement: "The next decision starts from a stronger model",
+        participants: [participant("revise"), participant("observe", false, true)],
+        pinned: false,
+      },
+    ],
+    poster: {
+      kicker: "THE UNDERSTANDING BOTTLENECK",
+      title: "The understanding loop",
+      footer: "OBSERVE → INTERPRET → FRAME → PROPOSE → TEST → REVISE",
+      showLegend: false,
+    },
+  };
+}
+
+export function createLayerDependencyGraph(now = new Date().toISOString()): GraphDocument {
+  return {
+    schemaVersion: 1,
+    id: "factory-layer-dependencies",
+    name: "Factory layer dependencies",
+    createdAt: now,
+    updatedAt: now,
+    themeId: "thom-dark",
+    layoutMode: "directional",
+    propositions: [
+      {
+        id: "apps",
+        statement: "Apps — composition and lifecycle",
+        emphasis: true,
+        pinned: false,
+      },
+      {
+        id: "edge",
+        statement: "Edge — product workflows, provider-backed data, reactive state",
+        emphasis: true,
+        pinned: false,
+      },
+      {
+        id: "engine",
+        statement: "Engine — deterministic audio/video execution",
+        emphasis: false,
+        pinned: false,
+      },
+      {
+        id: "schema",
+        statement: "Schema — canonical models, invariants, taxonomy",
+        emphasis: false,
+        pinned: false,
+      },
+      {
+        id: "platform",
+        statement: "Platform — product-neutral mechanisms and helpers",
+        emphasis: false,
+        pinned: false,
+      },
+    ],
+    relationships: [
+      {
+        id: "apps-edge",
+        statement: "Apps may depend on Edge",
+        participants: [participant("apps"), participant("edge", false, true)],
+        pinned: false,
+      },
+      {
+        id: "apps-engine",
+        statement: "Apps may depend on Engine",
+        participants: [participant("apps"), participant("engine", false, true)],
+        pinned: false,
+      },
+      {
+        id: "apps-schema",
+        statement: "Apps may depend on Schema",
+        participants: [participant("apps"), participant("schema", false, true)],
+        pinned: false,
+      },
+      {
+        id: "apps-platform",
+        statement: "Apps may depend on Platform",
+        participants: [participant("apps"), participant("platform", false, true)],
+        pinned: false,
+      },
+      {
+        id: "edge-engine",
+        statement: "Edge may depend on Engine",
+        participants: [participant("edge"), participant("engine", false, true)],
+        pinned: false,
+      },
+      {
+        id: "edge-schema",
+        statement: "Edge may depend on Schema",
+        participants: [participant("edge"), participant("schema", false, true)],
+        pinned: false,
+      },
+      {
+        id: "edge-platform",
+        statement: "Edge may depend on Platform",
+        participants: [participant("edge"), participant("platform", false, true)],
+        pinned: false,
+      },
+      {
+        id: "engine-schema",
+        statement: "Engine may depend on Schema",
+        participants: [participant("engine"), participant("schema", false, true)],
+        pinned: false,
+      },
+      {
+        id: "engine-platform",
+        statement: "Engine may depend on Platform",
+        participants: [participant("engine"), participant("platform", false, true)],
+        pinned: false,
+      },
+      {
+        id: "schema-platform",
+        statement: "Schema may depend on Platform",
+        participants: [participant("schema"), participant("platform", false, true)],
+        pinned: false,
+      },
+    ],
+    poster: {
+      kicker: "THE FACTORY — ONTOLOGY",
+      title: "Dependencies flow toward more foundational layers",
+      footer: "APPS → EDGE → ENGINE → SCHEMA → PLATFORM",
+      showLegend: false,
+    },
+  };
+}
+
 export function createSeedLibrary(now = new Date().toISOString()): GraphLibrary {
   const weather = createWeatherGraph(now);
   const propositions = createPropositionsGraph(now);
