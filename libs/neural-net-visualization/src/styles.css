@@ -1,0 +1,432 @@
+/* Neural net animation — consumes THOM design-theme tokens.
+   Import after @th-m/design-theme/theme.css in the web consumer. */
+
+.nnl {
+  --nnl-bg: var(--color-surface);
+  --nnl-bg-raised: var(--color-surface-raised);
+  --nnl-fg: var(--color-foreground);
+  --nnl-strong: var(--color-foreground-strong);
+  --nnl-muted: var(--color-foreground-muted);
+  --nnl-subtle: var(--color-foreground-subtle);
+  --nnl-border: var(--color-border);
+  --nnl-gold: var(--color-primary);
+  --nnl-gold-soft: #8d7650;
+  --nnl-rose: var(--color-accent-rose);
+  --nnl-error: var(--color-error);
+  --nnl-success: var(--color-success);
+  --nnl-ease: var(--ease-draw, cubic-bezier(.22, 1, .36, 1));
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 28px 0;
+  padding: 22px 22px 18px;
+  color: var(--nnl-fg);
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--nnl-gold) 6%, transparent), transparent 60%),
+    var(--nnl-bg);
+  border: 1px solid var(--nnl-border);
+}
+
+.nnl__header {
+  display: grid;
+  gap: 4px;
+}
+
+.nnl__eyebrow,
+.nnl__phase,
+.nnl__readout-copy span,
+.nnl__chip,
+.nnl__prob-token,
+.nnl__prob-value,
+.nnl__legend,
+.nnl__disclaimer {
+  font-family: var(--font-mono, monospace);
+  letter-spacing: .1em;
+}
+
+.nnl__eyebrow {
+  margin: 0;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--nnl-gold);
+}
+
+.nnl__header h3 {
+  margin: 0;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  color: var(--nnl-strong);
+}
+
+.nnl__summary {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--nnl-muted);
+}
+
+.nnl__stage {
+  display: grid;
+  gap: 12px;
+}
+
+.nnl__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--nnl-bg-raised) 55%, transparent), transparent 42%),
+    transparent;
+  border: 1px solid var(--nnl-border);
+}
+
+/* Edges */
+
+.nnl-edges .nnl-edge {
+  fill: none;
+  stroke: var(--nnl-border);
+  stroke-width: 1;
+  stroke-opacity: .55;
+  transition: stroke .5s var(--nnl-ease), stroke-opacity .5s var(--nnl-ease), filter .5s var(--nnl-ease);
+}
+
+.nnl-edges.is-forward .nnl-edge.is-active {
+  stroke: url(#nnl-edge-gold);
+  stroke-opacity: 1;
+  stroke-width: 1.35;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--nnl-gold) 55%, transparent));
+  animation: nnl-edge-flow 1.15s var(--nnl-ease) infinite;
+}
+
+.nnl-edges.is-backward .nnl-edge.is-active {
+  stroke: var(--nnl-rose);
+  stroke-opacity: .9;
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--nnl-rose) 55%, transparent));
+  animation: nnl-edge-back 1.05s var(--nnl-ease) infinite;
+}
+
+.nnl-edges.is-cascade .nnl-edge.is-active {
+  animation-delay: calc(var(--nnl-i) * 26ms);
+}
+
+/* Nodes */
+
+.nnl-node__disc {
+  fill: url(#nnl-node-fill);
+  stroke: color-mix(in srgb, var(--nnl-fg) 30%, transparent);
+  stroke-width: 1;
+  transition: stroke .45s var(--nnl-ease), stroke-width .45s var(--nnl-ease), filter .45s var(--nnl-ease);
+}
+
+.nnl-node__ring {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 1;
+  transition: stroke .45s var(--nnl-ease), stroke-opacity .45s var(--nnl-ease);
+}
+
+.nnl-node__value {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  fill: var(--nnl-muted);
+  transition: fill .45s var(--nnl-ease);
+}
+
+.nnl-node__label {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  fill: var(--nnl-subtle);
+}
+
+.nnl-node.is-lit .nnl-node__disc {
+  stroke: var(--nnl-gold);
+  stroke-width: 1.4;
+  filter: drop-shadow(0 0 9px color-mix(in srgb, var(--nnl-gold) 52%, transparent));
+  animation: nnl-node-glow 1.6s var(--nnl-ease) infinite;
+}
+
+.nnl-node.is-lit .nnl-node__value {
+  fill: var(--nnl-strong);
+}
+
+.nnl-node.is-cascade {
+  animation-delay: calc(var(--nnl-i) * 90ms);
+}
+
+.nnl-node.is-adjusting .nnl-node__disc {
+  stroke: var(--nnl-gold);
+  stroke-width: 1.6;
+  animation: nnl-adjust 1.15s var(--nnl-ease) both;
+}
+
+.nnl-node.is-adjusting .nnl-node__value {
+  fill: var(--nnl-strong);
+  animation: nnl-value-swap 1.15s var(--nnl-ease) both;
+}
+
+.nnl-node.is-selected .nnl-node__ring {
+  stroke: var(--nnl-gold);
+  stroke-opacity: .9;
+  stroke-dasharray: 3 5;
+  animation: nnl-selected 1.4s var(--nnl-ease) infinite;
+}
+
+.nnl-node.is-selected .nnl-node__disc {
+  stroke: var(--nnl-gold);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--nnl-gold) 70%, transparent));
+}
+
+.nnl-node.is-target .nnl-node__ring {
+  stroke: var(--nnl-rose);
+  stroke-opacity: .75;
+  stroke-dasharray: 4 4;
+}
+
+/* Probability strip */
+
+.nnl__probs {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--nnl-border);
+  background: color-mix(in srgb, var(--nnl-bg-raised) 60%, transparent);
+}
+
+.nnl__prob {
+  display: grid;
+  grid-template-columns: 64px 1fr 48px;
+  align-items: center;
+  gap: 10px;
+}
+
+.nnl__prob-token {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--nnl-muted);
+}
+
+.nnl__prob-track {
+  position: relative;
+  height: 8px;
+  background: color-mix(in srgb, var(--nnl-fg) 8%, transparent);
+  border: 1px solid var(--nnl-border);
+}
+
+.nnl__prob-track > span {
+  display: block;
+  height: 100%;
+  background: color-mix(in srgb, var(--nnl-gold) 78%, var(--nnl-bg));
+  transition: width .6s var(--nnl-ease);
+}
+
+.nnl__prob-value {
+  font-size: 10px;
+  color: var(--nnl-muted);
+  text-align: right;
+}
+
+.nnl__prob.is-winner .nnl__prob-track {
+  border-color: var(--nnl-gold);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--nnl-gold) 32%, transparent);
+}
+
+.nnl__prob.is-winner .nnl__prob-value {
+  color: var(--nnl-strong);
+}
+
+.nnl__prob.is-target .nnl__prob-track {
+  border-style: dashed;
+  border-color: var(--nnl-rose);
+}
+
+.nnl__prob.is-bad-guess .nnl__prob-track {
+  border-color: var(--nnl-error);
+  animation: nnl-bad-guess 1.2s var(--nnl-ease) infinite;
+}
+
+.nnl__prob.is-bad-guess .nnl__prob-value {
+  color: var(--nnl-error);
+}
+
+/* Readout */
+
+.nnl__readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 40px;
+}
+
+.nnl__readout-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.nnl__readout-copy strong {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--nnl-gold);
+}
+
+.nnl__readout-copy span {
+  font-size: 10px;
+  letter-spacing: .02em;
+  color: var(--nnl-muted);
+}
+
+.nnl__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.nnl__chip {
+  padding: 3px 7px;
+  font-size: 9px;
+  border: 1px solid var(--nnl-border);
+  color: var(--nnl-muted);
+}
+
+.nnl__chip--epoch {
+  color: var(--nnl-subtle);
+}
+
+.nnl__chip--loss {
+  color: var(--nnl-gold);
+  border-color: color-mix(in srgb, var(--nnl-gold) 45%, transparent);
+}
+
+.nnl__chip--gradient {
+  color: var(--nnl-rose);
+  border-color: color-mix(in srgb, var(--nnl-rose) 45%, transparent);
+}
+
+/* Legend and disclaimer */
+
+.nnl__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 8px;
+  text-transform: uppercase;
+  color: var(--nnl-subtle);
+}
+
+.nnl__legend i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+.nnl__dot {
+  border-radius: 50%;
+  background: var(--nnl-gold);
+}
+
+.nnl__legend-edge i {
+  height: 2px;
+  vertical-align: 2px;
+  background: var(--nnl-gold);
+}
+
+.nnl__legend-target {
+  color: var(--nnl-rose);
+}
+
+.nnl__disclaimer {
+  font-size: 8px;
+  text-transform: uppercase;
+  color: var(--nnl-subtle);
+}
+
+.nnl__disclaimer span {
+  margin-right: 6px;
+  color: var(--nnl-gold);
+}
+
+/* Keyframes */
+
+@keyframes nnl-node-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--nnl-gold) 38%, transparent)); }
+  50% { filter: drop-shadow(0 0 12px color-mix(in srgb, var(--nnl-gold) 65%, transparent)); }
+}
+
+@keyframes nnl-edge-flow {
+  0%, 100% { stroke-opacity: .55; }
+  50% { stroke-opacity: 1; }
+}
+
+@keyframes nnl-edge-back {
+  0% { stroke-opacity: .35; }
+  60%, 100% { stroke-opacity: 1; }
+}
+
+@keyframes nnl-adjust {
+  0% { filter: none; }
+  40% { filter: drop-shadow(0 0 12px color-mix(in srgb, var(--nnl-gold) 70%, transparent)); }
+  100% { filter: none; }
+}
+
+@keyframes nnl-value-swap {
+  0% { opacity: .35; }
+  55% { opacity: 1; transform: translateY(-1px); }
+  100% { opacity: 1; transform: none; }
+}
+
+@keyframes nnl-selected {
+  0%, 100% { stroke-opacity: .45; }
+  50% { stroke-opacity: 1; }
+}
+
+@keyframes nnl-bad-guess {
+  0%, 100% { box-shadow: none; }
+  50% { box-shadow: 0 0 10px color-mix(in srgb, var(--nnl-error) 55%, transparent); }
+}
+
+/* Reduced motion: collapse to static highlighted frames. */
+
+.nnl[data-motion="reduced"] *,
+.nnl[data-motion="reduced"] *::before,
+.nnl[data-motion="reduced"] *::after {
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: .01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nnl *, .nnl *::before, .nnl *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .nnl {
+    padding: 16px 12px 14px;
+  }
+  .nnl__readout {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .nnl__chips {
+    justify-content: flex-start;
+  }
+}

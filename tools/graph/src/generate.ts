@@ -1,17 +1,19 @@
+import {
+  buildElkGraph,
+  createGraphSvg,
+  estimateDocumentSizes,
+  isGraphDocument,
+  normalizeLayout,
+  positionsFromElk,
+  type EmbeddedGraphFonts,
+  type SvgExportMode,
+} from "@th-m/graph-visualization/core";
 import { mkdir, readFile, realpath, writeFile } from "node:fs/promises";
 import { dirname, extname, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
 import ELK from "elkjs/lib/elk.bundled.js";
 import Worker from "web-worker";
-import { createGraphSvg, type EmbeddedGraphFonts, type SvgExportMode } from "./exportSvg";
-import {
-  buildElkGraph,
-  estimateDocumentSizes,
-  normalizeLayout,
-  positionsFromElk,
-} from "./layout";
-import { isGraphDocument } from "./storage";
 
 export interface GenerateGraphOptions {
   workspaceRoot: string;

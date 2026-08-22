@@ -1,8 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ToolDrawer } from "../src/tools/ToolDrawer";
 import { ToolDrawerProvider, useToolDrawer } from "../src/tools/ToolDrawerProvider";
+
+const GraphExplorerMock = vi.fn((props: { initialGraphId?: string }) => (
+  <div data-testid="graph-explorer-mock" />
+));
+
+vi.mock("@th-m/graph-visualization", () => ({
+  RelationshipGraphExplorer: (props: { initialGraphId?: string }) => GraphExplorerMock(props),
+}));
 
 function OpenEmbeddingButton() {
   const { openTool } = useToolDrawer();
@@ -13,16 +21,28 @@ function OpenEmbeddingButton() {
   );
 }
 
+function OpenGraphButton() {
+  const { openTool } = useToolDrawer();
+  return (
+    <button type="button" onClick={() => openTool("relationship-graph", { graphId: "weather-kolob" })}>
+      Open graph
+    </button>
+  );
+}
+
 function DrawerHarness() {
   return (
     <ToolDrawerProvider>
       <ToolDrawer />
       <OpenEmbeddingButton />
+      <OpenGraphButton />
     </ToolDrawerProvider>
   );
 }
 
 describe("global tool drawer", () => {
+  beforeEach(() => GraphExplorerMock.mockClear());
+
   it("opens the embedding explorer from the global tab and closes on Escape", async () => {
     const user = userEvent.setup();
     render(<DrawerHarness />);
@@ -57,5 +77,27 @@ describe("global tool drawer", () => {
 
     await user.type(screen.getByRole("searchbox", { name: "Search embedding entries" }), "king");
     expect(await screen.findByRole("button", { name: /king/i })).toBeInTheDocument();
+  });
+
+  it("switches to the relationship graph tool and renders its explorer", async () => {
+    const user = userEvent.setup();
+    render(<DrawerHarness />);
+
+    await user.click(screen.getByRole("button", { name: "Open tool drawer" }));
+    await screen.findByRole("dialog");
+
+    await user.click(screen.getByRole("button", { name: "Relationship graph" }));
+    expect(await screen.findByRole("heading", { name: "Relationship graph" })).toBeInTheDocument();
+    expect(await screen.findByTestId("graph-explorer-mock")).toBeInTheDocument();
+  });
+
+  it("passes tool options from openTool to the graph explorer", async () => {
+    const user = userEvent.setup();
+    render(<DrawerHarness />);
+
+    await user.click(screen.getByRole("button", { name: "Open graph" }));
+    await screen.findByRole("dialog");
+
+    expect(GraphExplorerMock).toHaveBeenCalledWith({ initialGraphId: "weather-kolob" });
   });
 });

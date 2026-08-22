@@ -4,7 +4,7 @@ import {
   createHistory,
   redoHistory,
   undoHistory,
-} from "../../src/history";
+} from "../src/history";
 
 describe("graph history", () => {
   it("undoes and redoes authoring changes", () => {

@@ -7,8 +7,8 @@ import {
   deleteDocument,
   duplicateDocument,
   removeProposition,
-} from "../../src/model";
-import { createSeedLibrary, createWeatherGraph } from "../../src/seed";
+} from "../src/model";
+import { createPropositionsGraph, createSeedLibrary, createWeatherGraph } from "../src/seed";
 
 describe("proposition graph model", () => {
   it("seeds the complete weather, Kolob, Iris, and sweat graph", () => {
@@ -77,12 +77,32 @@ describe("proposition graph model", () => {
     const withCopy = addDocument(initial, copy);
 
     expect(withCopy.activeDocumentId).toBe(copy.id);
-    expect(withCopy.documents).toHaveLength(2);
+    expect(withCopy.documents).toHaveLength(3);
 
     const afterCopyDelete = deleteDocument(withCopy, copy.id);
-    expect(afterCopyDelete.documents).toHaveLength(1);
-    const afterLastDelete = deleteDocument(afterCopyDelete, afterCopyDelete.documents[0].id);
-    expect(afterLastDelete.documents).toHaveLength(1);
-    expect(afterLastDelete.documents[0].name).toBe("Untitled graph");
+    expect(afterCopyDelete.documents).toHaveLength(2);
+
+    let drained = afterCopyDelete;
+    for (const document of [...afterCopyDelete.documents]) {
+      drained = deleteDocument(drained, document.id);
+    }
+    expect(drained.documents).toHaveLength(1);
+    expect(drained.documents[0].name).toBe("Untitled graph");
+  });
+
+  it("seeds the propositions-about-propositions graph and a two-document library", () => {
+    const graph = createPropositionsGraph("2026-08-15T12:00:00.000Z");
+    expect(graph.propositions).toHaveLength(5);
+    expect(graph.relationships).toHaveLength(4);
+    expect(
+      graph.relationships.find(({ id }) => id === "doc-carries")?.participants,
+    ).toHaveLength(3);
+
+    const library = createSeedLibrary("2026-08-15T12:00:00.000Z");
+    expect(library.documents.map(({ id }) => id)).toEqual([
+      "weather-kolob",
+      "propositions-about-propositions",
+    ]);
+    expect(library.activeDocumentId).toBe("weather-kolob");
   });
 });

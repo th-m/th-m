@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { Inspector } from "../../src/Inspector";
-import { createWeatherGraph } from "../../src/seed";
+import { Inspector } from "../src/Inspector";
+import { createWeatherGraph } from "../src/seed";
 
 describe("graph inspector", () => {
   it("edits a participant's arrowheads independently", () => {

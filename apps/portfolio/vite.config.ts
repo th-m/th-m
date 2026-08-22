@@ -33,6 +33,7 @@ function publishedPages() {
     { path: "/design-system", prerender: { enabled: true, outputPath: "/design-system/index.html" } },
     { path: "/embedding-space", prerender: { enabled: true, outputPath: "/embedding-space/index.html" } },
     { path: "/llm-visualization", prerender: { enabled: true, outputPath: "/llm-visualization/index.html" } },
+    { path: "/relationship-graph", prerender: { enabled: true, outputPath: "/relationship-graph/index.html" } },
     { path: "/writing", prerender: { enabled: true, outputPath: "/writing/index.html" } },
     ...slugs.map((slug) => ({
       path: `/writing/${slug}`,

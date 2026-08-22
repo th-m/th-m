@@ -47,11 +47,29 @@ document governs the presentation layer.
    a card instead.
 5. **An interactive the reader uses *alongside* the prose → Drawer.** The
    right drawer is the designated home for auxiliary interactives: the
-   embedding explorer, token viewers, simulation labs, calculators, glossary
-   lookups. The article stays visible; the reader consults the tool, then
-   returns to the sentence. Pages open it with
-   `useToolDrawer().openTool(id)` from an inline gold "Explore →" affordance;
-   the global right-edge tab opens it anywhere.
+   embedding explorer, the compact relationship graph explorer, token viewers,
+   simulation labs, calculators, glossary lookups. The article stays visible;
+   the reader consults the tool, then returns to the sentence. Pages open it
+   with `useToolDrawer().openTool(id)` from an inline gold "Explore →"
+   affordance, or `useToolDrawer().openTool(id, options)` when the tool should
+   start on specific content — for example
+   `openTool("relationship-graph", { graphId: "weather-kolob" })` opens the
+   relationship graph explorer on that graph. The global right-edge tab opens
+   the drawer anywhere; a switcher row inside the drawer header moves between
+   tools without closing it.
+
+### Inline animated figures (exception to the drawer rule)
+
+A self-playing animation that *is* the figure — an animated neural net
+replacing a static diagram, a looping constraint stack, a pulsing feedback
+loop — belongs in the prose flow, not the drawer. The reader should see it
+where the prose discusses it, and it must not require interaction to be
+understood. Author it in a reusable visualization library
+(`libs/neural-net-visualization` is the first), then register it in
+`ArticleContent`'s `inlineFigures` map under a marker id, and place
+`<!-- <marker-id> -->` in the article body at the exact point the figure
+belongs. Every such component must collapse to a static labeled frame under
+reduced motion.
 
 ### Escalation ladder
 

@@ -111,7 +111,7 @@
 }
 
 .dec-strategies button[aria-pressed="true"] {
-  color: var(--color-primary-foreground, #17130f);
+  color: var(--color-primary-foreground);
   background: var(--dec-gold);
   border-color: var(--dec-gold);
 }
@@ -286,7 +286,7 @@
 .dec-draw:hover,
 .dec-draw:focus-visible {
   background: var(--dec-gold);
-  color: var(--color-primary-foreground, #17130f);
+  color: var(--color-primary-foreground);
 }
 
 .dec-draw-count {

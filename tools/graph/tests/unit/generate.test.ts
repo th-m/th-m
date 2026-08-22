@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { afterEach, describe, expect, it } from "vitest";
 import { thomDesignTokens } from "@th-m/design-theme";
+import { createWeatherGraph } from "@th-m/graph-visualization/core";
 import { generateGraphArtifacts } from "../../src/generate";
-import { createWeatherGraph } from "../../src/seed";
 
 const roots: string[] = [];
 

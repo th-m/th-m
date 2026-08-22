@@ -59,6 +59,14 @@ function HomePage() {
           <span>{manifest.posts.length > 0 ? "All writings" : "Writings"}</span>
           <span aria-hidden="true">→</span>
         </Link>
+
+        <p className="home-tools">
+          Tools: <Link to="/relationship-graph">Relationship graph</Link>
+          <span aria-hidden="true"> · </span>
+          <Link to="/embedding-space">Embedding space</Link>
+          <span aria-hidden="true"> · </span>
+          <Link to="/llm-visualization">Inside a language model</Link>
+        </p>
       </section>
     </div>
   );

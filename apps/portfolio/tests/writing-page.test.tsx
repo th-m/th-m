@@ -27,8 +27,9 @@ describe("ArticleContent dispatch", () => {
   it("renders the dedicated React page when the slug has a generated page", () => {
     render(<ArticleContent article={article("solutions-meaning-and-value")} />);
     expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();
-    // The placeholder page renders only the title; the markdown fallback header is absent.
-    expect(screen.queryByText("Essay")).not.toBeInTheDocument();
+    // The React page renders the essay outline instead of the markdown fallback.
+    expect(screen.getByRole("heading", { name: "Goals and Strategies" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Agents and Their Principles" })).toBeInTheDocument();
     expect(screen.queryByText(/external source/i)).not.toBeInTheDocument();
   });
 

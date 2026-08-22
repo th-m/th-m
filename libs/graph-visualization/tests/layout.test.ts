@@ -7,9 +7,9 @@ import {
   normalizeLayout,
   positionsFromElk,
   propositionLayoutId,
-} from "../../src/layout";
-import { createWeatherGraph } from "../../src/seed";
-import type { GraphDocument } from "../../src/types";
+} from "../src/layout";
+import { createWeatherGraph } from "../src/seed";
+import type { GraphDocument } from "../src/types";
 
 describe("ELK graph layout", () => {
   it("discards stale asynchronous layout results", () => {

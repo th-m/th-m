@@ -1,14 +1,36 @@
-import type { ComponentType } from "react";
+import { lazy, type ComponentType } from "react";
 import { EmbeddingExplorer } from "./embedding/EmbeddingExplorer";
 import { LlmExplorer } from "./llm-explorer/LlmExplorer";
+
+/**
+ * Options passed to a tool's content component when opened programmatically
+ * (e.g. an article asking the drawer to open a specific graph).
+ */
+export interface ToolOptions {
+  /** Graph document id for tools that render a proposition graph. */
+  graphId?: string;
+}
+
+export interface ToolRenderProps {
+  options?: ToolOptions;
+}
 
 export interface ToolDefinition {
   id: string;
   label: string;
   eyebrow: string;
   description: string;
-  content: ComponentType;
+  content: ComponentType<ToolRenderProps>;
 }
+
+// The relationship graph explorer renders ReactFlow + the ELK worker, so it is
+// lazy-loaded to keep the heavy chunk out of the main bundle; ToolDrawer wraps
+// tool content in a Suspense boundary.
+const RelationshipGraphExplorer = lazy(() =>
+  import("./relationship-graph/RelationshipGraphExplorer").then((module) => ({
+    default: module.RelationshipGraphExplorer,
+  })),
+);
 
 /**
  * Registry of auxiliary interactives available in the global tool drawer.
@@ -29,5 +51,12 @@ export const toolRegistry: ToolDefinition[] = [
     eyebrow: "Auxiliary interactive",
     description: "Watch token-by-token generation, decoding strategies, and training in the browser.",
     content: LlmExplorer,
+  },
+  {
+    id: "relationship-graph",
+    label: "Relationship graph",
+    eyebrow: "Auxiliary interactive",
+    description: "Explore proposition graphs: pick a seed, click a claim, follow its relationships.",
+    content: RelationshipGraphExplorer,
   },
 ];

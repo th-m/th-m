@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -12,11 +13,13 @@ import { useToolDrawer } from "./ToolDrawerProvider";
 
 /**
  * Global right-side tool drawer. Mounted once in the root layout; any page can
- * open a registered tool through `useToolDrawer().openTool(id)`. The fixed
- * right-edge tab is the always-available affordance.
+ * open a registered tool through `useToolDrawer().openTool(id, options)`. The
+ * fixed right-edge tab is the always-available affordance. Tool content is
+ * wrapped in Suspense so lazy (heavy) tools like the relationship graph load
+ * on open instead of inflating the main bundle.
  */
 export function ToolDrawer() {
-  const { activeTool, openTool, closeTool } = useToolDrawer();
+  const { activeTool, activeOptions, openTool, closeTool } = useToolDrawer();
   const ActiveTool = activeTool?.content ?? null;
 
   return (
@@ -60,7 +63,9 @@ export function ToolDrawer() {
               </nav>
             </DrawerHeader>
             <DrawerBody>
-              {ActiveTool ? <ActiveTool /> : null}
+              <Suspense fallback={<p className="tool-drawer-loading">Opening…</p>}>
+                {ActiveTool ? <ActiveTool options={activeOptions ?? undefined} /> : null}
+              </Suspense>
             </DrawerBody>
             <p className="tool-drawer-footnote">
               Auxiliary interactives live beside the prose — the article stays visible.

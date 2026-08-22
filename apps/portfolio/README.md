@@ -41,13 +41,18 @@ audit captures are evidence rather than runtime authority.
   training lab from `@th-m/embedding-space`.
 - `/llm-visualization` demonstrates the reusable decoder-only inference trace
   and deterministic transformer lab from `@th-m/llm-visualization`.
+- `/relationship-graph` hosts the full proposition graph authoring editor
+  (claims as circles, relationships as cards, deterministic layout, SVG and
+  poster export) from `@th-m/graph-visualization`.
 - `/writing` lists published articles.
 - `/writing/:slug` dispatches to the article's dedicated React page when the
   published post ships one, otherwise renders the published Markdown as
   hydrated React.
 - The global right-side **tool drawer** (the fixed "TOOLS" tab on every route)
-  hosts auxiliary interactives such as the embedding explorer; article pages
-  open it with `useToolDrawer().openTool(id)`.
+  hosts auxiliary interactives such as the embedding explorer and the compact
+  relationship graph explorer; article pages open a tool with
+  `useToolDrawer().openTool(id, options)` (for example
+  `openTool("relationship-graph", { graphId })`).
 - `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
 
 The shared header links the THOM mark to `/brand` and exposes only the
@@ -77,8 +82,10 @@ Where is complexity collecting? What would make the next change easier without o
 The proposition graph and TypeScript set atlas are independently owned local
 tools. See [`tools/graph`](../../tools/graph/README.md) and
 [`tools/set-theory`](../../tools/set-theory/README.md) for their authoring,
-generation, and verification commands; neither tool is included in this app's
-publish artifact.
+generation, and verification commands. The graph tool's interactive editor and
+explorer are published through this app (the `/relationship-graph` route and
+the TOOLS drawer tool) via `@th-m/graph-visualization`; the tool's CLI and
+local authoring shell remain independent.
 
 ## Concepts Worth Knowing
 

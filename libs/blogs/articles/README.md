@@ -96,6 +96,25 @@ Run `bun run nx run blogs:publish` from the workspace root to validate public
 articles and recreate `libs/blogs/dist/`. Frontmatter itself is omitted from
 the published Markdown body.
 
+#### Inline interactive figures
+
+A published article can place an interactive figure exactly where a static
+figure would sit by inserting an HTML comment marker in the body:
+
+```md
+The animation below shows a bad guess, then backpropagation adjusting the network.
+
+<!-- neural-net-lab -->
+```
+
+The portfolio's generic Markdown fallback splits on registered markers and
+renders the matching interactive component (`ArticleContent` owns the
+marker-to-component map; the components live in reusable visualization
+libraries). Markers without a registration — and any renderer that ignores
+HTML comments — simply drop the marker, so the article stays readable as pure
+Markdown. This is the blog-owned placement contract; the interactive component
+itself is shared library code, not an asset stored in `assets/`.
+
 ### `index.tsx`
 
 An article becomes a dedicated React page when its workspace contains an

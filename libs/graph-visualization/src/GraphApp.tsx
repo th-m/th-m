@@ -653,7 +653,11 @@ function GraphWorkspace() {
   );
 }
 
-export function GraphApp() {
+/**
+ * Full proposition-graph authoring editor: library, canvas, toolbar, and
+ * inspector. Shared by the local authoring tool and the portfolio route.
+ */
+export function PropositionGraphEditor() {
   return (
     <ReactFlowProvider>
       <GraphWorkspace />

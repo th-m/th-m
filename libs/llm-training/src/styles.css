@@ -155,7 +155,7 @@
 }
 
 .tr-modes button[aria-pressed="true"] {
-  color: var(--color-primary-foreground, #17130f);
+  color: var(--color-primary-foreground);
   background: var(--tr-gold);
   border-color: var(--tr-gold);
 }
@@ -441,7 +441,7 @@
   width: auto;
   gap: 7px;
   padding: 0 14px;
-  color: var(--color-primary-foreground, #17130f);
+  color: var(--color-primary-foreground);
   background: var(--tr-gold);
   border-color: var(--tr-gold);
   font-size: 11px;

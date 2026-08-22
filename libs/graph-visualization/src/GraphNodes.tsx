@@ -11,6 +11,8 @@ export interface GraphNodeData extends Record<string, unknown> {
   onCommit: (layoutId: string, value: string) => void;
   onCancel: () => void;
   onCompositionChange: (composing: boolean) => void;
+  /** Read-only explorer hint: node is outside the focused neighborhood. */
+  dimmed?: boolean;
 }
 
 export type PropositionFlowNode = Node<GraphNodeData, "proposition">;
@@ -79,7 +81,7 @@ export const PropositionNode = memo(function PropositionNode({
 }: NodeProps<PropositionFlowNode>) {
   return (
     <div
-      className={`graph-proposition${data.emphasis ? " is-emphasis" : ""}${selected ? " is-selected" : ""}`}
+      className={`graph-proposition${data.emphasis ? " is-emphasis" : ""}${selected ? " is-selected" : ""}${data.dimmed ? " is-dimmed" : ""}`}
       role="group"
       aria-label={`Proposition: ${data.statement}`}
       tabIndex={0}
@@ -120,7 +122,7 @@ export const RelationshipNode = memo(function RelationshipNode({
 }: NodeProps<RelationshipFlowNode>) {
   return (
     <div
-      className={`graph-relationship${selected ? " is-selected" : ""}`}
+      className={`graph-relationship${selected ? " is-selected" : ""}${data.dimmed ? " is-dimmed" : ""}`}
       role="group"
       aria-label={`Relationship: ${data.statement}`}
       tabIndex={0}

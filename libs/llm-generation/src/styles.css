@@ -151,7 +151,7 @@
 }
 
 .gen-examples button[aria-pressed="true"] {
-  color: var(--color-primary-foreground, #17130f);
+  color: var(--color-primary-foreground);
   background: var(--gen-gold);
   border-color: var(--gen-gold);
 }
@@ -500,7 +500,7 @@
   width: auto;
   gap: 7px;
   padding: 0 14px;
-  color: var(--color-primary-foreground, #17130f);
+  color: var(--color-primary-foreground);
   background: var(--gen-gold);
   border-color: var(--gen-gold);
   font-size: 11px;
@@ -508,7 +508,7 @@
 }
 
 .gen-controls .gen-play:hover,
-.gen-controls .gen-play:focus-visible { color: var(--color-primary-foreground, #17130f); border-color: var(--gen-gold); }
+.gen-controls .gen-play:focus-visible { color: var(--color-primary-foreground); border-color: var(--gen-gold); }
 
 .gen-speed {
   display: inline-flex;

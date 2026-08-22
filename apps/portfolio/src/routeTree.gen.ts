@@ -14,6 +14,7 @@ import { Route as BrandRouteImport } from './routes/brand'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as EmbeddingSpaceRouteImport } from './routes/embedding-space'
 import { Route as LlmVisualizationRouteImport } from './routes/llm-visualization'
+import { Route as RelationshipGraphRouteImport } from './routes/relationship-graph'
 import { Route as SpaShellRouteImport } from './routes/spa-shell'
 import { Route as WritingIndexRouteImport } from './routes/writing.index'
 import { Route as WritingSlugRouteImport } from './routes/writing.$slug'
@@ -43,6 +44,11 @@ const LlmVisualizationRoute = LlmVisualizationRouteImport.update({
   path: '/llm-visualization',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RelationshipGraphRoute = RelationshipGraphRouteImport.update({
+  id: '/relationship-graph',
+  path: '/relationship-graph',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpaShellRoute = SpaShellRouteImport.update({
   id: '/spa-shell',
   path: '/spa-shell',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
   '/llm-visualization': typeof LlmVisualizationRoute
+  '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing/': typeof WritingIndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
   '/llm-visualization': typeof LlmVisualizationRoute
+  '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing': typeof WritingIndexRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
   '/llm-visualization': typeof LlmVisualizationRoute
+  '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing/': typeof WritingIndexRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/design-system'
     | '/embedding-space'
     | '/llm-visualization'
+    | '/relationship-graph'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing/'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/design-system'
     | '/embedding-space'
     | '/llm-visualization'
+    | '/relationship-graph'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/design-system'
     | '/embedding-space'
     | '/llm-visualization'
+    | '/relationship-graph'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing/'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   DesignSystemRoute: typeof DesignSystemRoute
   EmbeddingSpaceRoute: typeof EmbeddingSpaceRoute
   LlmVisualizationRoute: typeof LlmVisualizationRoute
+  RelationshipGraphRoute: typeof RelationshipGraphRoute
   SpaShellRoute: typeof SpaShellRoute
   WritingSlugRoute: typeof WritingSlugRoute
   WritingIndexRoute: typeof WritingIndexRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LlmVisualizationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/relationship-graph': {
+      id: '/relationship-graph'
+      path: '/relationship-graph'
+      fullPath: '/relationship-graph'
+      preLoaderRoute: typeof RelationshipGraphRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/spa-shell': {
       id: '/spa-shell'
       path: '/spa-shell'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   DesignSystemRoute: DesignSystemRoute,
   EmbeddingSpaceRoute: EmbeddingSpaceRoute,
   LlmVisualizationRoute: LlmVisualizationRoute,
+  RelationshipGraphRoute: RelationshipGraphRoute,
   SpaShellRoute: SpaShellRoute,
   WritingSlugRoute: WritingSlugRoute,
   WritingIndexRoute: WritingIndexRoute,
@@ -208,12 +229,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

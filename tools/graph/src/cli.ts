@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
+import type { SvgExportMode } from "@th-m/graph-visualization/core";
 import { generateGraphArtifacts } from "./generate";
-import type { SvgExportMode } from "./exportSvg";
 
 function valueFor(arguments_: string[], name: string): string | undefined {
   const index = arguments_.indexOf(name);

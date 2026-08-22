@@ -1,8 +1,8 @@
 import { afterAll, describe, expect, it, vi } from "vitest";
-import { createGraphSvg } from "../../src/exportSvg";
-import { estimateDocumentSizes } from "../../src/layout";
-import { createWeatherGraph } from "../../src/seed";
-import type { LayoutPositions } from "../../src/types";
+import { createGraphSvg } from "../src/exportSvg";
+import { estimateDocumentSizes } from "../src/layout";
+import { createWeatherGraph } from "../src/seed";
+import type { LayoutPositions } from "../src/types";
 
 vi.stubGlobal(
   "fetch",

@@ -37,4 +37,36 @@ describe("ArticleMarkdown", () => {
     expect(screen.getByRole("table")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "external source" })).toHaveAttribute("rel", "noreferrer");
   });
+
+  it("renders registered inline figures at their markers and ignores unregistered ones", () => {
+    const marked: PublishedArticle = {
+      ...article,
+      markdown: [
+        "# Public title",
+        "",
+        "Before the figure.",
+        "",
+        "<!-- neural-net-lab -->",
+        "",
+        "After the figure.",
+        "",
+        "<!-- unregistered-marker -->",
+        "",
+        "Tail text.",
+      ].join("\n"),
+    };
+    render(
+      <ArticleMarkdown
+        article={marked}
+        inlineFigures={{ "neural-net-lab": () => <div data-testid="figure-slot">animated lab</div> }}
+      />,
+    );
+
+    expect(screen.getByTestId("figure-slot")).toHaveTextContent("animated lab");
+    expect(screen.getByText("Before the figure.")).toBeInTheDocument();
+    expect(screen.getByText("After the figure.")).toBeInTheDocument();
+    expect(screen.getByText("Tail text.")).toBeInTheDocument();
+    expect(screen.getAllByRole("figure")).toHaveLength(1);
+    expect(screen.getAllByRole("figure")[0]).toHaveAttribute("data-figure", "neural-net-lab");
+  });
 });

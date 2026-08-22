@@ -1,7 +1,17 @@
 import { articleAssetUrl, type PublishedArticle } from "../content/blog-content";
 import { blogPages } from "../generated/blog-pages/registry";
-import { ArticleMarkdown } from "./ArticleMarkdown";
+import { ArticleMarkdown, type InlineFigures } from "./ArticleMarkdown";
 import { PublicationDate } from "./PublicationDate";
+import { NeuralNetAnimation } from "@th-m/neural-net-visualization";
+
+/**
+ * Inline interactive figures available to article markdown through
+ * `<!-- <id> -->` markers. Composition is portfolio-owned; the components
+ * themselves live in reusable visualization libraries.
+ */
+const articleInlineFigures: InlineFigures = {
+  "neural-net-lab": () => <NeuralNetAnimation effect="backprop" />,
+};
 
 /**
  * Dispatches a published article to its dedicated React page when one exists
@@ -25,7 +35,7 @@ export function ArticleContent({ article }: { article: PublishedArticle }) {
         </div>
         {article.tags.length > 0 ? <ul className="article-tags" aria-label="Topics">{article.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul> : null}
       </header>
-      <ArticleMarkdown article={article} />
+      <ArticleMarkdown article={article} inlineFigures={articleInlineFigures} />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createWeatherGraph } from "../../src/seed";
+import { createWeatherGraph } from "../src/seed";
 import {
   exportGraphDocument,
   GRAPH_LIBRARY_KEY,
@@ -7,7 +7,7 @@ import {
   isGraphDocument,
   loadGraphLibrary,
   saveGraphLibrary,
-} from "../../src/storage";
+} from "../src/storage";
 
 function memoryStorage(initial?: string) {
   const values = new Map<string, string>();

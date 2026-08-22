@@ -1,8 +1,11 @@
-@import "tailwindcss" source("./");
-@import "@th-m/design-theme/theme.css";
+/* Proposition graph editor + relationship graph explorer.
+   Scoped to `.graph-app` / `.graph-explorer` so consumers own their reset and
+   theme tokens; both import @th-m/design-theme/theme.css themselves. The
+   @xyflow/react canvas stylesheet is re-exported here so consumers get it with
+   a single stylesheet import. */
+@import "@xyflow/react/dist/style.css";
 
-:root {
-  color-scheme: dark;
+.graph-app {
   --graph-background: var(--color-background);
   --graph-surface: var(--color-surface);
   --graph-surface-raised: var(--color-surface-raised);
@@ -16,17 +19,11 @@
   --graph-display: var(--font-display);
   --graph-mono: var(--font-mono);
   --graph-glow: var(--shadow-glow);
+  color-scheme: dark;
   font-family: var(--font-mono);
   background: var(--color-background);
   font-synthesis: none;
 }
-
-* { box-sizing: border-box; }
-
-html, body, #graph-root { width: 100%; height: 100%; margin: 0; overflow: hidden; }
-
-button, input, textarea, select { font: inherit; }
-button { color: inherit; }
 
 .graph-app {
   width: 100%;
@@ -88,7 +85,8 @@ button { color: inherit; }
 
 .graph-button:focus-visible, .graph-icon-button:focus-visible, .graph-segmented button:focus-visible,
 .graph-export-menu button:focus-visible, .graph-document-list button:focus-visible,
-.graph-field input:focus-visible, .graph-field textarea:focus-visible, .graph-participants select:focus-visible {
+.graph-field input:focus-visible, .graph-field textarea:focus-visible, .graph-participants select:focus-visible,
+.graph-explorer select:focus-visible, .graph-explorer__action:focus-visible {
   outline: 2px solid var(--color-ring);
   outline-offset: 2px;
 }
@@ -208,6 +206,14 @@ button { color: inherit; }
 .react-flow__handle { width: 11px; height: 11px; border: 2px solid var(--graph-background); background: var(--graph-gold); opacity: 0; transition: opacity 120ms; }
 .graph-proposition:hover .react-flow__handle, .graph-proposition:focus-within .react-flow__handle { opacity: 1; }
 
+/* Read-only explorer focus: anything outside the selected neighborhood recedes. */
+.graph-explorer .graph-proposition.is-dimmed,
+.graph-explorer .graph-relationship.is-dimmed {
+  opacity: .22;
+  filter: saturate(.35);
+  transition: opacity 220ms ease, filter 220ms ease;
+}
+
 .graph-inline-editor { width: 100%; resize: none; border: 1px solid var(--graph-gold); border-radius: 2px; background: var(--color-background); color: var(--graph-highlight); outline: 0; }
 .graph-inline-editor--proposition { min-height: 86px; padding: 9px; font-family: var(--graph-display); font-size: 19px; line-height: 1.1; text-align: center; }
 .graph-inline-editor--relationship { grid-column: 3; padding: 7px; font-size: 10px; line-height: 1.5; text-align: center; }
@@ -242,6 +248,131 @@ button { color: inherit; }
 .graph-export-menu button { width: 100%; padding: 10px; text-align: left; border-color: transparent; font-size: 10px; }
 
 .graph-toast { position: fixed; z-index: 100; left: 50%; bottom: 26px; transform: translateX(-50%); max-width: 520px; padding: 11px 16px; border: 1px solid var(--graph-gold); background: var(--graph-surface-raised); color: var(--graph-ivory); font-size: 10px; box-shadow: 0 14px 40px rgba(0,0,0,.55); }
+
+/* Relationship graph explorer (compact, read-only) */
+.graph-explorer {
+  --graph-background: var(--color-background);
+  --graph-surface: var(--color-surface);
+  --graph-surface-raised: var(--color-surface-raised);
+  --graph-ivory: var(--color-foreground);
+  --graph-gold: var(--color-primary);
+  --graph-muted: var(--color-foreground-muted);
+  --graph-line: var(--color-border);
+  --graph-line-strong: var(--color-border-strong);
+  --graph-display: var(--font-display);
+  --graph-mono: var(--font-mono);
+  color-scheme: dark;
+  font-family: var(--font-mono);
+  background: var(--color-background);
+  color: var(--graph-ivory);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.graph-explorer__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.graph-explorer__bar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--graph-muted);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.graph-explorer select {
+  max-width: 200px;
+  padding: 7px 8px;
+  border: 1px solid var(--graph-line-strong);
+  border-radius: 2px;
+  background: var(--graph-surface);
+  color: var(--graph-ivory);
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: none;
+}
+.graph-explorer__actions { display: flex; gap: 6px; }
+.graph-explorer__action {
+  min-height: 28px;
+  padding: 5px 9px;
+  border: 1px solid var(--graph-line-strong);
+  border-radius: 2px;
+  background: var(--graph-surface);
+  color: var(--graph-ivory);
+  font-size: 9px;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+.graph-explorer__action:hover { background: var(--graph-surface-raised); }
+.graph-explorer__action:disabled { opacity: .4; cursor: not-allowed; }
+.graph-explorer__canvas {
+  position: relative;
+  min-height: 300px;
+  height: clamp(300px, 42vh, 420px);
+  border: 1px solid var(--graph-line);
+  background: radial-gradient(circle at 64% 34%, color-mix(in srgb, var(--color-primary) 7%, transparent), transparent 42%);
+}
+.graph-explorer__canvas .react-flow__controls, .graph-explorer__canvas .react-flow__minimap {
+  border: 1px solid var(--graph-line);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+}
+.graph-explorer__hint {
+  margin: 0;
+  color: var(--graph-muted);
+  font-size: 9px;
+  line-height: 1.6;
+  letter-spacing: .08em;
+}
+.graph-explorer__detail {
+  border: 1px solid var(--graph-line);
+  border-radius: 2px;
+  background: var(--graph-surface);
+  padding: 13px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.graph-explorer__detail header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.graph-explorer__detail h3 {
+  margin: 0;
+  color: var(--graph-ivory);
+  font-family: var(--graph-display);
+  font-size: 17px;
+  font-weight: 520;
+  line-height: 1.15;
+}
+.graph-explorer__detail .graph-eyebrow { letter-spacing: .16em; }
+.graph-explorer__detail ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.graph-explorer__detail li {
+  padding: 9px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--graph-line) 55%, transparent);
+  color: var(--graph-ivory);
+  font-size: 10px;
+  line-height: 1.55;
+}
+.graph-explorer__detail li strong { display: block; color: var(--graph-gold); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+.graph-explorer__detail li em { display: block; margin-top: 3px; color: var(--graph-muted); font-size: 9px; font-style: normal; }
+.graph-explorer__clear {
+  border: 0;
+  background: transparent;
+  color: var(--graph-muted);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 2px 0;
+}
+.graph-explorer__clear:hover { color: var(--graph-ivory); }
 
 @media (max-width: 1260px) {
   .graph-app { grid-template-columns: 228px minmax(0, 1fr) 286px; }
