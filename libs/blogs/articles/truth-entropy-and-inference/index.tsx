@@ -235,62 +235,200 @@ function TruthPracticesFigure() {
 /* F2 — Prediction under constraint (interactive distribution)         */
 /* ------------------------------------------------------------------ */
 
-const CONTINUATIONS = [
-  "generic reordering",
-  "sort by value",
-  "sort alphabetically",
-  "sort by priority",
-  "sort by size",
-  "bucket by range",
-  "hash partition",
-  "stable merge",
-  "counting sort",
-  "radix pass",
-] as const;
-
-const BASE_WEIGHTS = [6, 8, 7, 9, 8, 10, 8, 7, 6, 5];
-
-const CONSTRAINTS: Array<{
+type ScenarioConstraint = {
   label: string;
   technicalLabel: string;
   metaDescription: string;
   favored: number[];
   multiplier: number;
-}> = [
+};
+
+type Scenario = {
+  id: "sorting" | "design" | "business";
+  label: string;
+  requestBase: string;
+  continuations: string[];
+  baseWeights: number[];
+  constraints: ScenarioConstraint[];
+  /** Index of the continuation a model would reflexively pick with no constraints. */
+  naiveGuess: number;
+};
+
+const SCENARIOS: Scenario[] = [
   {
-    label: "The domain is bounded integer keys",
-    technicalLabel: "domain",
-    metaDescription: "The universe of values the request is allowed to touch.",
-    favored: [5, 6, 7, 8, 9],
-    multiplier: 3,
+    id: "sorting",
+    label: "Sorting",
+    requestBase: "Organize this list",
+    continuations: [
+      "generic reordering",
+      "sort by value",
+      "sort alphabetically",
+      "sort by priority",
+      "sort by size",
+      "bucket by range",
+      "hash partition",
+      "stable merge",
+      "counting sort",
+      "radix pass",
+    ],
+    baseWeights: [6, 8, 7, 9, 8, 10, 8, 7, 6, 5],
+    naiveGuess: 1,
+    constraints: [
+      {
+        label: "The domain is bounded integer keys",
+        technicalLabel: "domain",
+        metaDescription: "The universe of values the request is allowed to touch.",
+        favored: [5, 6, 7, 8, 9],
+        multiplier: 3,
+      },
+      {
+        label: "The family is hash-based partitioning",
+        technicalLabel: "family",
+        metaDescription: "The class of algorithms the request selects — hashing each key into a fixed bucket.",
+        favored: [6],
+        multiplier: 5,
+      },
+      {
+        label: "The family is bucket-based partitioning",
+        technicalLabel: "family",
+        metaDescription: "The class of algorithms the request selects — partitioning keys into value ranges.",
+        favored: [5],
+        multiplier: 5,
+      },
+      {
+        label: "Memory safety and stability are required",
+        technicalLabel: "invariant",
+        metaDescription: "Properties the result must preserve — and the failure modes when it does not.",
+        favored: [6, 7, 8],
+        multiplier: 3,
+      },
+      {
+        label: "Examples and counterexamples are included",
+        technicalLabel: "example",
+        metaDescription: "Concrete cases that must work, and cases that must not.",
+        favored: [5, 6, 7, 8, 9],
+        multiplier: 2,
+      },
+      {
+        label: "Tests define what counts as success",
+        technicalLabel: "test",
+        metaDescription: "The observable condition the result is judged against.",
+        favored: [6, 7, 8],
+        multiplier: 2,
+      },
+    ],
   },
   {
-    label: "The family is hash- or bucket-based partitioning",
-    technicalLabel: "family",
-    metaDescription: "The class of algorithms the request selects.",
-    favored: [5, 6],
-    multiplier: 5,
+    id: "design",
+    label: "Design",
+    requestBase: "Make this page look better",
+    continuations: [
+      "bump the type scale",
+      "recolor the buttons",
+      "add whitespace",
+      "rework the layout grid",
+      "rewrite the copy",
+      "add a hero illustration",
+      "introduce dark mode",
+      "add motion and transitions",
+      "redesign the whole flow",
+      "tune the palette tokens",
+    ],
+    baseWeights: [6, 10, 8, 7, 6, 5, 7, 6, 5, 9],
+    naiveGuess: 1,
+    constraints: [
+      {
+        label: "The domain is the checkout screen",
+        technicalLabel: "domain",
+        metaDescription: "The universe of values the request is allowed to touch.",
+        favored: [0, 3, 4, 8],
+        multiplier: 3,
+      },
+      {
+        label: "The family is a tokenized design system",
+        technicalLabel: "family",
+        metaDescription: "The class of solutions the request selects — shared tokens instead of one-off styling.",
+        favored: [0, 1, 9],
+        multiplier: 5,
+      },
+      {
+        label: "Contrast passes WCAG AA and focus states stay visible",
+        technicalLabel: "invariant",
+        metaDescription: "Properties the result must preserve — and the failure modes when it does not.",
+        favored: [1, 9],
+        multiplier: 3,
+      },
+      {
+        label: "Show the mobile viewport before and after",
+        technicalLabel: "example",
+        metaDescription: "Concrete cases that must work, and cases that must not.",
+        favored: [2, 3],
+        multiplier: 3,
+      },
+      {
+        label: "Success is a usability test: task time and error rate",
+        technicalLabel: "test",
+        metaDescription: "The observable condition the result is judged against.",
+        favored: [3, 4, 8],
+        multiplier: 5,
+      },
+    ],
   },
   {
-    label: "Memory safety and stability are required",
-    technicalLabel: "invariant",
-    metaDescription: "Properties the result must preserve — and the failure modes when it does not.",
-    favored: [6, 7, 8],
-    multiplier: 3,
-  },
-  {
-    label: "Examples and counterexamples are included",
-    technicalLabel: "example",
-    metaDescription: "Concrete cases that must work, and cases that must not.",
-    favored: [5, 6, 7, 8, 9],
-    multiplier: 2,
-  },
-  {
-    label: "Tests define what counts as success",
-    technicalLabel: "test",
-    metaDescription: "The observable condition the result is judged against.",
-    favored: [6, 7, 8],
-    multiplier: 2,
+    id: "business",
+    label: "Business strategy",
+    requestBase: "Grow the business",
+    continuations: [
+      "lower prices",
+      "raise prices",
+      "add a free tier",
+      "expand into a new market",
+      "hire more salespeople",
+      "improve retention",
+      "cut marketing spend",
+      "switch to usage-based pricing",
+      "launch an annual-plan discount",
+      "reduce operating costs",
+    ],
+    baseWeights: [10, 6, 7, 6, 5, 8, 6, 7, 7, 5],
+    naiveGuess: 0,
+    constraints: [
+      {
+        label: "The domain is the B2B SaaS segment",
+        technicalLabel: "domain",
+        metaDescription: "The universe of values the request is allowed to touch.",
+        favored: [3, 4, 5],
+        multiplier: 2,
+      },
+      {
+        label: "The family is pricing and packaging strategy",
+        technicalLabel: "family",
+        metaDescription: "The class of strategies the request selects — how the offer is priced and packaged.",
+        favored: [0, 1, 2, 7, 8],
+        multiplier: 5,
+      },
+      {
+        label: "Gross margin stays above 75% and monthly churn below 3%",
+        technicalLabel: "invariant",
+        metaDescription: "Properties the result must preserve — and the failure modes when it does not.",
+        favored: [5, 7, 8],
+        multiplier: 3,
+      },
+      {
+        label: "Counterexample: last year's blanket discount did not lift volume",
+        technicalLabel: "example",
+        metaDescription: "Concrete cases that must work, and cases that must not.",
+        favored: [5, 7, 8],
+        multiplier: 3,
+      },
+      {
+        label: "Success is NRR ≥ 110% measured over two quarters",
+        technicalLabel: "test",
+        metaDescription: "The observable condition the result is judged against.",
+        favored: [5, 8],
+        multiplier: 3,
+      },
+    ],
   },
 ];
 
@@ -306,22 +444,33 @@ function entropyBits(weights: number[]): number {
   return entropy;
 }
 
+/** Join clause strings with commas and an Oxford "and" so they read as one sentence. */
+function joinClauses(clauses: string[]): string {
+  if (clauses.length === 0) return "";
+  if (clauses.length === 1) return clauses[0];
+  if (clauses.length === 2) return `${clauses[0]} and ${clauses[1]}`;
+  return `${clauses.slice(0, -1).join(", ")}, and ${clauses[clauses.length - 1]}`;
+}
+
 function PredictionFigure() {
+  const [scenarioId, setScenarioId] = useState<Scenario["id"]>("sorting");
   const [active, setActive] = useState<Set<number>>(new Set());
   const [infoIndex, setInfoIndex] = useState<number | null>(null);
 
+  const scenario = SCENARIOS.find((entry) => entry.id === scenarioId) ?? SCENARIOS[0];
+
   const { weights, entropy } = useMemo(() => {
-    const computed = BASE_WEIGHTS.map((base, index) => {
+    const computed = scenario.baseWeights.map((base, index) => {
       let weight = base;
-      for (const constraint of CONSTRAINTS) {
-        if (active.has(CONSTRAINTS.indexOf(constraint))) {
+      for (const constraint of scenario.constraints) {
+        if (active.has(scenario.constraints.indexOf(constraint))) {
           weight *= constraint.favored.includes(index) ? constraint.multiplier : 1;
         }
       }
       return weight;
     });
     return { weights: computed, entropy: entropyBits(computed) };
-  }, [active]);
+  }, [active, scenario]);
 
   const toggle = (index: number) => {
     setActive((previous) => {
@@ -332,22 +481,78 @@ function PredictionFigure() {
     });
   };
 
+  const selectScenario = (id: Scenario["id"]) => {
+    setScenarioId(id);
+    setActive(new Set());
+    setInfoIndex(null);
+  };
+
   const maxWeight = Math.max(...weights);
   const constrained = active.size >= 3;
   const equallyLikely = 2 ** entropy;
+  const naiveLabel = scenario.continuations[scenario.naiveGuess];
+
+  // The checked clauses compose one request sentence; unchecked clauses stay out.
+  const checkedLabels = scenario.constraints
+    .filter((_, index) => active.has(index))
+    .map((constraint) => constraint.label.charAt(0).toLowerCase() + constraint.label.slice(1));
+  const sentence =
+    checkedLabels.length === 0
+      ? `${scenario.requestBase}.`
+      : `${scenario.requestBase}: ${joinClauses(checkedLabels)}.`;
 
   return (
     <figure aria-label="How constraints narrow the distribution of plausible continuations">
       <div style={figureFrame}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14, marginBottom: 18 }}>
-          <div style={{ padding: "12px 14px", border: "1px solid var(--line)", background: "var(--color-card)" }}>
-            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>Ambiguous request</p>
-            <p style={{ margin: "6px 0 0", fontSize: 14, lineHeight: 1.5, color: "var(--color-foreground)" }}>“Organize this list really fast.”</p>
-          </div>
-          <div style={{ padding: "12px 14px", border: "1px solid var(--color-primary)", background: "var(--color-card)" }}>
-            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>Constrained request</p>
-            <p style={{ margin: "6px 0 0", fontSize: 14, lineHeight: 1.5, color: "var(--color-foreground)" }}>“Implement hash-based sorting for these bounded integer keys.”</p>
-          </div>
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 14 }}>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+            Scenario
+          </span>
+          {SCENARIOS.map((entry) => (
+            <button
+              key={entry.id}
+              type="button"
+              aria-pressed={scenarioId === entry.id}
+              onClick={() => selectScenario(entry.id)}
+              style={{
+                padding: "6px 12px",
+                border: `1px solid ${scenarioId === entry.id ? "var(--color-primary)" : "var(--line)"}`,
+                borderRadius: 999,
+                background: scenarioId === entry.id ? "var(--color-card)" : "var(--color-surface)",
+                color: scenarioId === entry.id ? "var(--color-primary)" : "var(--color-foreground)",
+                cursor: "pointer",
+                fontFamily: "inherit",
+                fontSize: 12,
+                lineHeight: 1.45,
+              }}
+            >
+              {entry.label}
+            </button>
+          ))}
+        </div>
+
+        <div
+          style={{
+            padding: "12px 14px",
+            border: `1px solid ${active.size > 0 ? "var(--color-primary)" : "var(--line)"}`,
+            background: "var(--color-card)",
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-mono)",
+              fontSize: 9,
+              letterSpacing: ".1em",
+              textTransform: "uppercase",
+              color: active.size > 0 ? "var(--color-primary)" : "var(--color-foreground-muted)",
+            }}
+          >
+            {active.size > 0 ? "Composed request" : "Ambiguous request"}
+          </p>
+          <p style={{ margin: "6px 0 0", fontSize: 14, lineHeight: 1.5, color: "var(--color-foreground)" }}>
+            “{sentence}”
+          </p>
         </div>
 
         <h4
@@ -365,40 +570,45 @@ function PredictionFigure() {
         </h4>
         <div
           role="img"
-          aria-label={`Probability distribution across ${CONTINUATIONS.length} possible continuations with entropy ${entropy.toFixed(2)} bits`}
+          aria-label={`Probability distribution across ${scenario.continuations.length} possible continuations with entropy ${entropy.toFixed(2)} bits`}
           style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 160, margin: "12px 0 4px" }}
         >
-          {weights.map((weight, index) => (
-            <div key={CONTINUATIONS[index]} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, minWidth: 0 }}>
-              <div
-                aria-hidden="true"
-                style={{
-                  width: "100%",
-                  height: `${Math.max(4, Math.round((weight / maxWeight) * 128))}px`,
-                  background: constrained ? "var(--color-primary)" : "var(--color-foreground-muted)",
-                  opacity: 0.85,
-                  transition: "height 180ms var(--ease-draw), background 180ms var(--ease-draw)",
-                }}
-              />
-              <span
-                aria-hidden="true"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 8,
-                  letterSpacing: ".02em",
-                  color: "var(--color-foreground-muted)",
-                  textAlign: "center",
-                  lineHeight: 1.3,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  maxWidth: "100%",
-                }}
-              >
-                {CONTINUATIONS[index]}
-              </span>
-            </div>
-          ))}
+          {weights.map((weight, index) => {
+            const isNaive = index === scenario.naiveGuess;
+            return (
+              <div key={scenario.continuations[index]} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, minWidth: 0 }}>
+                <div
+                  aria-hidden="true"
+                  title={isNaive ? (constrained ? "The reflexive guess — now outranked by the constrained request" : "The reflexive guess with no constraints") : undefined}
+                  style={{
+                    width: "100%",
+                    height: `${Math.max(4, Math.round((weight / maxWeight) * 128))}px`,
+                    background: constrained || isNaive ? "var(--color-primary)" : "var(--color-foreground-muted)",
+                    opacity: constrained && isNaive ? 0.45 : 0.85,
+                    border: isNaive ? `1px dashed ${constrained ? "var(--line)" : "var(--color-primary)"}` : "none",
+                    transition: "height 180ms var(--ease-draw), background 180ms var(--ease-draw), opacity 180ms var(--ease-draw)",
+                  }}
+                />
+                <span
+                  aria-hidden="true"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 8,
+                    letterSpacing: ".02em",
+                    color: "var(--color-foreground-muted)",
+                    textAlign: "center",
+                    lineHeight: 1.3,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {scenario.continuations[index]}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
         <div style={{ margin: "14px 0 0" }}>
@@ -411,91 +621,96 @@ function PredictionFigure() {
             continuations.{" "}
             {constrained ? (
               <>
-                The selected constraints settle the structure — only a few continuations stay plausible, so the
-                model's choice is nearly determined.
+                The selected constraints settle the structure — the reflexive guess, “{naiveLabel}”, stops being the
+                obvious pick, only a few continuations stay plausible, and the model's choice is nearly determined.
               </>
             ) : (
               <>
                 The request pins down almost nothing — nearly any continuation is plausible, so the model must guess
-                what you mean.
+                what you mean. The reflexive guess is “{naiveLabel}”.
               </>
             )}
           </p>
         </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
-          {CONSTRAINTS.map((constraint, index) => {
-            const isActive = active.has(index);
-            const isInfo = infoIndex === index;
-            return (
-              <button
-                key={constraint.label}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() => {
-                  toggle(index);
-                  setInfoIndex(index);
-                }}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "6px 12px",
-                  border: `1px solid ${isActive ? "var(--color-primary)" : "var(--line)"}`,
-                  borderRadius: 999,
-                  background: isActive ? "var(--color-card)" : "var(--color-surface)",
-                  color: "var(--color-foreground)",
-                  cursor: "pointer",
-                  fontFamily: "inherit",
-                  fontSize: 12,
-                  lineHeight: 1.45,
-                }}
-              >
-                {constraint.label}
-                <span
-                  aria-hidden="true"
+        <div style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
+          <p style={{ margin: "0 0 10px", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+            Sentence structure — check clauses to compose the request
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {scenario.constraints.map((constraint, index) => {
+              const isActive = active.has(index);
+              const isInfo = infoIndex === index;
+              return (
+                <button
+                  key={constraint.label}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => {
+                    toggle(index);
+                    setInfoIndex(index);
+                  }}
                   style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 8,
-                    letterSpacing: ".1em",
-                    textTransform: "uppercase",
-                    color: isInfo ? "var(--color-primary)" : "var(--color-foreground-muted)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    padding: "6px 12px",
+                    border: `1px solid ${isActive ? "var(--color-primary)" : "var(--line)"}`,
+                    borderRadius: 999,
+                    background: isActive ? "var(--color-card)" : "var(--color-surface)",
+                    color: "var(--color-foreground)",
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                    fontSize: 12,
+                    lineHeight: 1.45,
                   }}
                 >
-                  meta
-                </span>
-              </button>
-            );
-          })}
-        </div>
+                  {constraint.label}
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 8,
+                      letterSpacing: ".1em",
+                      textTransform: "uppercase",
+                      color: isInfo ? "var(--color-primary)" : "var(--color-foreground-muted)",
+                    }}
+                  >
+                    meta
+                  </span>
+                </button>
+              );
+            })}
+          </div>
 
-        <div
-          role="status"
-          aria-live="polite"
-          style={{
-            marginTop: 10,
-            padding: "10px 12px",
-            border: "1px dashed var(--line)",
-            background: "var(--color-surface)",
-            fontSize: 12,
-            lineHeight: 1.55,
-            color: "var(--color-foreground-muted)",
-          }}
-        >
-          {infoIndex !== null ? (
-            <>
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>
-                technical label — {CONSTRAINTS[infoIndex].technicalLabel}
-              </span>
-              <span style={{ marginLeft: 8 }}>{CONSTRAINTS[infoIndex].metaDescription}</span>
-            </>
-          ) : (
-            <>Click a constraint chip to reveal its meta info — the technical label it contributes.</>
-          )}
+          <div
+            role="status"
+            aria-live="polite"
+            style={{
+              marginTop: 10,
+              padding: "10px 12px",
+              border: "1px dashed var(--line)",
+              background: "var(--color-surface)",
+              fontSize: 12,
+              lineHeight: 1.55,
+              color: "var(--color-foreground-muted)",
+            }}
+          >
+            {infoIndex !== null ? (
+              <>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+                  technical label — {scenario.constraints[infoIndex].technicalLabel}
+                </span>
+                <span style={{ marginLeft: 8 }}>{scenario.constraints[infoIndex].metaDescription}</span>
+              </>
+            ) : (
+              <>Click a constraint chip to reveal its meta info — the technical label it contributes.</>
+            )}
+          </div>
         </div>
       </div>
       <FigureCaption>
-        Prediction under constraint — each selected assumption compresses the distribution of plausible continuations and lowers the entropy the model must resolve.
+        Prediction under constraint — in every scenario, technical language narrows the distribution of plausible continuations and lowers the entropy the model must resolve.
       </FigureCaption>
     </figure>
   );
