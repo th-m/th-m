@@ -3,7 +3,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { isAbsolute, relative, resolve } from "node:path";
 import type { Plugin, PreviewServer, ViteDevServer } from "vite";
 import { analyzeSetAtlas } from "@th-m/knowledge-model";
-import type { AnalyzeError, AnalyzeRequest } from "./types.ts";
+import type { AnalyzeError, AnalyzeRequest } from "@th-m/set-theory-visualization";
 
 const ANALYZE_PATH = "/__sets/analyze";
 const MAX_REQUEST_BYTES = 2 * 1024 * 1024;

@@ -21,6 +21,7 @@
     "@lezer/highlight": "^1.2.3",
     "@th-m/design-theme": "workspace:*",
     "@th-m/knowledge-model": "workspace:*",
+    "@th-m/set-theory-visualization": "workspace:*",
     "react": "latest",
     "react-dom": "latest"
   },

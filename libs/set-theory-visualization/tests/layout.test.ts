@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import {
   buildSetAtlasScene,
   reduceTransitiveContainment,
-} from "../../src/layout";
+} from "../src/layout";
 import type {
   AnalyzeResult,
   AtlasSymbolStatus,
   TypeRelation,
   TypeSetSymbol,
-} from "../../src/types";
+} from "../src/types";
 
 const span = { start: 0, end: 1, line: 1, column: 1 };
 

@@ -1,0 +1,19 @@
+/* Local authoring shell for the TypeScript set atlas. The workbench canvas,
+   scene layout, and renderers live in @th-m/set-theory-visualization; this
+   file owns only the standalone-app reset, theme tokens, and shell rules. */
+@import "tailwindcss" source(none);
+@import "@th-m/design-theme/theme.css";
+@import "@th-m/set-theory-visualization/styles.css";
+
+* { box-sizing: border-box; }
+
+html, body, #sets-root { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea { font: inherit; }

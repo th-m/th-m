@@ -12,12 +12,12 @@ import {
   updateDocumentPin,
   updateDocumentSource,
   updateDocumentViewport,
-} from "../../src/model";
+} from "../src/model";
 import {
   createSeedLibrary,
   createSetTheoryDocument,
   SET_THEORY_SEED_CODE,
-} from "../../src/seed";
+} from "../src/seed";
 
 const CREATED = "2026-08-15T12:00:00.000Z";
 const UPDATED = "2026-08-15T12:01:00.000Z";

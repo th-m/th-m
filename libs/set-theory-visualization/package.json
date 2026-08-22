@@ -1,0 +1,48 @@
+{
+  "name": "@th-m/set-theory-visualization",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run",
+    "generate:curated": "bun run scripts/generate-curated-atlases.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/newsreader": "latest",
+    "@fontsource/ibm-plex-mono": "latest",
+    "@th-m/design-theme": "workspace:*",
+    "@th-m/knowledge-model": "workspace:*",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@th-m/testing": "workspace:*",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "jsdom": "latest",
+    "typescript": "6.0.2",
+    "vite": "latest",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "set-theory-visualization",
+    "sourceRoot": "libs/set-theory-visualization/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:web", "domain:set-theory"],
+    "targets": {
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] },
+      "generate:curated": { "outputs": ["{projectRoot}/src/data/curated-atlases.ts"] }
+    }
+  }
+}

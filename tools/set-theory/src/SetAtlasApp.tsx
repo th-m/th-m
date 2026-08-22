@@ -1,34 +1,34 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CodeEditor } from "./CodeEditor";
-import { exportSetAtlasPng, exportSetAtlasSvg } from "./export";
-import { buildSetAtlasScene } from "./layout";
 import {
   addDocument,
+  buildSetAtlasScene,
   createBlankDocument,
   deleteDocument,
   duplicateDocument,
+  exportSetAtlasPng,
+  exportSetAtlasSvg,
+  loadSetAtlasLibrary,
   removeDocumentPin,
   renameDocument,
   replaceDocument,
+  saveSetAtlasLibrary,
   setActiveDocument,
+  SetAtlasCanvas,
   updateDocumentPin,
   updateDocumentSource,
   updateDocumentViewport,
-} from "./model";
-import { SetAtlasCanvas } from "./SetAtlasCanvas";
-import { loadSetAtlasLibrary, saveSetAtlasLibrary } from "./storage";
-import type {
-  AnalyzeError,
-  AnalyzeResult,
-  AtlasDiagnostic,
-  AtlasSymbolStatus,
-  SetAtlasDocument,
-  SetAtlasLibrary,
-  SetAtlasScene,
-  SetAtlasSource,
-  TypeRelation,
-  TypeSetSymbol,
-} from "./types";
+  type AnalyzeError,
+  type AnalyzeResult,
+  type AtlasDiagnostic,
+  type AtlasSymbolStatus,
+  type SetAtlasDocument,
+  type SetAtlasLibrary,
+  type SetAtlasScene,
+  type SetAtlasSource,
+  type TypeRelation,
+  type TypeSetSymbol,
+} from "@th-m/set-theory-visualization";
+import { CodeEditor } from "./CodeEditor";
 
 type LeftTab = "library" | "types";
 type InspectorTab = "source" | "selection" | "diagnostics";

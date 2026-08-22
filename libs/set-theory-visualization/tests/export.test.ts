@@ -3,9 +3,9 @@ import {
   createSetAtlasPng,
   exportSetAtlasSvg,
   slugifySetAtlasFilename,
-} from "../../src/export";
-import { createSetAtlasSvg, renderSetAtlasSvg } from "../../src/renderSvg";
-import type { SetAtlasScene } from "../../src/types";
+} from "../src/export";
+import { createSetAtlasSvg, renderSetAtlasSvg } from "../src/renderSvg";
+import type { SetAtlasScene } from "../src/types";
 
 vi.stubGlobal(
   "fetch",

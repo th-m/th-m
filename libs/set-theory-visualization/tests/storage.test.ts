@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { createBlankDocument, updateDocumentSource } from "../../src/model";
-import { createSeedLibrary, createSetTheoryDocument } from "../../src/seed";
+import { createBlankDocument, updateDocumentSource } from "../src/model";
+import { createSeedLibrary, createSetTheoryDocument } from "../src/seed";
 import {
   isSetAtlasDocument,
   isSetAtlasLibrary,
@@ -9,8 +9,8 @@ import {
   saveSetAtlasLibrary,
   serializeSetAtlasLibrary,
   SET_ATLAS_LIBRARY_KEY,
-} from "../../src/storage";
-import type { SetAtlasLibrary } from "../../src/types";
+} from "../src/storage";
+import type { SetAtlasLibrary } from "../src/types";
 
 function memoryStorage(initial?: string) {
   const values = new Map<string, string>();

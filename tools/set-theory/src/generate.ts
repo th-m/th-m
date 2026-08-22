@@ -3,8 +3,11 @@ import { basename, dirname, extname, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
 import { analyzeSetAtlas } from "@th-m/knowledge-model";
-import { buildSetAtlasScene } from "./layout";
-import { createSetAtlasSvg, type EmbeddedSetAtlasFonts } from "./renderSvg";
+import {
+  buildSetAtlasScene,
+  createSetAtlasSvg,
+  type EmbeddedSetAtlasFonts,
+} from "@th-m/set-theory-visualization/core";
 
 export interface GenerateSetAtlasOptions {
   workspaceRoot: string;

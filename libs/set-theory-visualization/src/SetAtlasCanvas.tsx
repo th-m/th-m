@@ -9,6 +9,8 @@ interface SetAtlasCanvasProps {
   onSelect: (symbolId: string) => void;
   onPin: (sceneId: string, point: Point) => void;
   onViewportChange: (viewport: ViewportState) => void;
+  /** Read-only figure mode: disables drag-to-pin; pan/zoom/select remain. */
+  readOnly?: boolean;
 }
 
 type DragState =
@@ -25,6 +27,7 @@ export function SetAtlasCanvas({
   onSelect,
   onPin,
   onViewportChange,
+  readOnly = false,
 }: SetAtlasCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [drag, setDrag] = useState<DragState | null>(null);
@@ -55,6 +58,7 @@ export function SetAtlasCanvas({
   };
 
   const beginRegionDrag = (event: ReactPointerEvent<SVGGElement>, regionId: string, base: Point) => {
+    if (readOnly) return;
     event.stopPropagation();
     event.currentTarget.setPointerCapture(event.pointerId);
     setDrag({
