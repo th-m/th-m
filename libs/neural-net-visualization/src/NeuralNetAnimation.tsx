@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { Fragment, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useMediaQuery } from "./media";
 import {
   buildTrace,
@@ -117,6 +117,11 @@ function formatValue(value: number): string {
   return value.toFixed(2);
 }
 
+/** Signed gradient value for an edge label, e.g. "+0.57" or "-0.99". */
+function formatGradient(value: number): string {
+  return `${value >= 0 ? "+" : ""}${value.toFixed(2)}`;
+}
+
 function EdgeGroup({
   fromLayer,
   toLayer,
@@ -128,6 +133,7 @@ function EdgeGroup({
   cascade,
   pathFrom,
   pathTo,
+  gradients,
 }: {
   fromLayer: number;
   toLayer: number;
@@ -143,6 +149,8 @@ function EdgeGroup({
   pathFrom?: number;
   /** Dominant-path target node; when set, only that edge glows forward. */
   pathTo?: number;
+  /** ∂L/∂w matrix for this group [target][source]; labels each rose edge. */
+  gradients?: readonly (readonly number[])[];
 }) {
   const x1 = layerX(fromLayer, layerCount);
   const x2 = layerX(toLayer, layerCount);
@@ -157,13 +165,26 @@ function EdgeGroup({
         const midY = (y1 + y2) / 2;
         const onPath = forward && pathFrom !== undefined && pathTo !== undefined && i === pathFrom && j === pathTo;
         const edgeActive = backward || onPath;
+        const gradient = backward && gradients ? gradients[j]?.[i] : undefined;
         return (
-          <path
-            key={`${i}-${j}`}
-            className={`nnl-edge ${edgeActive ? "is-active" : ""}`}
-            style={{ "--nnl-i": pair } as CSSProperties}
-            d={`M ${x1} ${y1} Q ${midX} ${midY} ${x2} ${y2}`}
-          />
+          <Fragment key={`${i}-${j}`}>
+            <path
+              className={`nnl-edge ${edgeActive ? "is-active" : ""}`}
+              style={{ "--nnl-i": pair } as CSSProperties}
+              d={`M ${x1} ${y1} Q ${midX} ${midY} ${x2} ${y2}`}
+            />
+            {gradient !== undefined ? (
+              <text
+                className="nnl-edge__gradient"
+                x={midX + (i - j) * 11}
+                y={midY + 3}
+                textAnchor="middle"
+                aria-hidden="true"
+              >
+                {formatGradient(gradient)}
+              </text>
+            ) : null}
+          </Fragment>
         );
       })}
     </g>
@@ -422,6 +443,7 @@ export function NeuralNetAnimation({
                 cascade={visual.cascade === true}
                 pathFrom={forward ? pathByLayer[group] : undefined}
                 pathTo={forward ? pathByLayer[group + 1] : undefined}
+                gradients={backward ? epochData.gradients?.[group] : undefined}
               />
             );
           })}

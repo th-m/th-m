@@ -145,4 +145,19 @@ describe("NeuralNetAnimation", () => {
     fireEvent.click(screen.getByRole("button", { name: /Step 1 of 5: Forward pass/ }));
     expect(container.querySelector(".nnl-loss__line")).toBeNull();
   });
+
+  it("labels every rose edge with its gradient value during the backward steps", () => {
+    const { container } = render(<NeuralNetAnimation effect="backprop" reducedMotion="always" />);
+    fireEvent.click(screen.getByRole("button", { name: /Step 3 of 5: Backward · hidden 2/ }));
+    const hidden2Labels = container.querySelectorAll(".nnl-edge__gradient");
+    expect(hidden2Labels).toHaveLength(8); // hidden 2 (4) → output (2) fan
+    hidden2Labels.forEach((label) => expect(label.textContent).toMatch(/^[+-]\d\.\d\d$/));
+    fireEvent.click(screen.getByRole("button", { name: /Step 4 of 5: Backward · hidden 1/ }));
+    const hidden1Labels = container.querySelectorAll(".nnl-edge__gradient");
+    expect(hidden1Labels).toHaveLength(16); // hidden 1 (4) → hidden 2 (4) fan
+    hidden1Labels.forEach((label) => expect(label.textContent).toMatch(/^[+-]\d\.\d\d$/));
+    // The update step shows no gradient labels.
+    fireEvent.click(screen.getByRole("button", { name: /Step 5 of 5: Update/ }));
+    expect(container.querySelectorAll(".nnl-edge__gradient")).toHaveLength(0);
+  });
 });

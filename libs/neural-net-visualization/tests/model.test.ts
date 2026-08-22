@@ -101,6 +101,21 @@ describe("buildTrace", () => {
       1.46, 0.6, 0.36, 0.32, 0.31,
     ]);
   });
+
+  it("stores per-epoch weight gradients on every non-final epoch", () => {
+    const trace = buildTrace(illustrativeScenario);
+    trace.epochs.forEach((epoch, index) => {
+      if (index < trace.epochs.length - 1) {
+        expect(epoch.gradients).toHaveLength(3);
+        expect(epoch.gradients![0]).toHaveLength(4); // W1: 4×3
+        expect(epoch.gradients![0][0]).toHaveLength(3);
+        expect(epoch.gradients![2]).toHaveLength(2); // W3: 2×4
+        expect(epoch.gradients![2][0]).toHaveLength(4);
+      } else {
+        expect(epoch.gradients).toBeUndefined();
+      }
+    });
+  });
 });
 
 describe("phase timelines", () => {

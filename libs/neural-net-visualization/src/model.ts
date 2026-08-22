@@ -34,6 +34,10 @@ export interface EpochTrace {
   activations: LayerActivations;
   probabilities: readonly number[];
   loss: number;
+  /** Weight gradients ∂L/∂w computed during this epoch's backward pass,
+   *  shaped like the weights. Undefined on the final epoch, where no
+   *  update is applied. */
+  gradients?: (readonly (readonly number[])[])[];
 }
 
 export interface NeuralNetTrace {
@@ -188,13 +192,19 @@ export function buildTrace(scenario: NeuralNetScenario): NeuralNetTrace {
 
   for (let epoch = 0; epoch < scenario.epochs; epoch += 1) {
     const { activations, probabilities } = forwardPass(scenario, weights, biases);
-    epochs.push({ activations, probabilities, loss: crossEntropyLoss(probabilities, scenario.targetIndex) });
+    const entry: EpochTrace = {
+      activations,
+      probabilities,
+      loss: crossEntropyLoss(probabilities, scenario.targetIndex),
+    };
     if (epoch < scenario.epochs - 1) {
       const { weightGradients, biasGradients } = backwardPass(scenario, weights, activations);
+      entry.gradients = weightGradients;
       const updated = updateWeights(scenario, weights, biases, weightGradients, biasGradients);
       weights = updated.weights;
       biases = updated.biases;
     }
+    epochs.push(entry);
   }
 
   return { epochs, losses: epochs.map((epoch) => epoch.loss) };

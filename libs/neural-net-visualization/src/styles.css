@@ -115,6 +115,19 @@
   animation-delay: calc(var(--nnl-i) * 26ms);
 }
 
+/* Gradient value shown on each backward edge (∂L/∂w) */
+
+.nnl-edge__gradient {
+  font-family: var(--font-mono, monospace);
+  font-size: 7px;
+  fill: var(--nnl-rose);
+  paint-order: stroke;
+  stroke: color-mix(in srgb, var(--nnl-bg) 85%, transparent);
+  stroke-width: 3px;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* Nodes */
 
 .nnl-node__disc {

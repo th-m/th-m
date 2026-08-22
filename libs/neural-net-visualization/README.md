@@ -38,7 +38,10 @@ model.
 - **Forward pass:** activation signal traveling left to right through the
   layers, ending at output probabilities.
 - **Backward pass:** gradient signal traveling right to left during the
-  `backprop` effect, followed by visible parameter adjustments.
+  `backprop` effect, followed by visible parameter adjustments. During the
+  backward steps each rose edge carries its own `∂L/∂w` gradient value, so
+  the direction and magnitude of the error per weight are visible on the
+  edge itself.
 
 ## Public API
 
