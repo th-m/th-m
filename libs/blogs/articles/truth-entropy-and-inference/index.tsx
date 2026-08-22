@@ -250,12 +250,48 @@ const CONTINUATIONS = [
 
 const BASE_WEIGHTS = [6, 8, 7, 9, 8, 10, 8, 7, 6, 5];
 
-const CONSTRAINTS: Array<{ label: string; favored: number[]; multiplier: number }> = [
-  { label: "Name the domain: bounded integer keys", favored: [5, 6, 7, 8, 9], multiplier: 3 },
-  { label: "State the family: hash- or bucket-based partitioning", favored: [5, 6], multiplier: 5 },
-  { label: "Give invariants and failure modes (memory, stability)", favored: [6, 7, 8], multiplier: 3 },
-  { label: "Provide examples and counterexamples", favored: [5, 6, 7, 8, 9], multiplier: 2 },
-  { label: "Define what a test would count as success", favored: [6, 7, 8], multiplier: 2 },
+const CONSTRAINTS: Array<{
+  label: string;
+  technicalLabel: string;
+  metaDescription: string;
+  favored: number[];
+  multiplier: number;
+}> = [
+  {
+    label: "The domain is bounded integer keys",
+    technicalLabel: "domain",
+    metaDescription: "The universe of values the request is allowed to touch.",
+    favored: [5, 6, 7, 8, 9],
+    multiplier: 3,
+  },
+  {
+    label: "The family is hash- or bucket-based partitioning",
+    technicalLabel: "family",
+    metaDescription: "The class of algorithms the request selects.",
+    favored: [5, 6],
+    multiplier: 5,
+  },
+  {
+    label: "Memory safety and stability are required",
+    technicalLabel: "invariant",
+    metaDescription: "Properties the result must preserve — and the failure modes when it does not.",
+    favored: [6, 7, 8],
+    multiplier: 3,
+  },
+  {
+    label: "Examples and counterexamples are included",
+    technicalLabel: "example",
+    metaDescription: "Concrete cases that must work, and cases that must not.",
+    favored: [5, 6, 7, 8, 9],
+    multiplier: 2,
+  },
+  {
+    label: "Tests define what counts as success",
+    technicalLabel: "test",
+    metaDescription: "The observable condition the result is judged against.",
+    favored: [6, 7, 8],
+    multiplier: 2,
+  },
 ];
 
 function entropyBits(weights: number[]): number {
@@ -272,6 +308,7 @@ function entropyBits(weights: number[]): number {
 
 function PredictionFigure() {
   const [active, setActive] = useState<Set<number>>(new Set());
+  const [infoIndex, setInfoIndex] = useState<number | null>(null);
 
   const { weights, entropy } = useMemo(() => {
     const computed = BASE_WEIGHTS.map((base, index) => {
@@ -297,6 +334,7 @@ function PredictionFigure() {
 
   const maxWeight = Math.max(...weights);
   const constrained = active.size >= 3;
+  const equallyLikely = 2 ** entropy;
 
   return (
     <figure aria-label="How constraints narrow the distribution of plausible continuations">
@@ -312,9 +350,19 @@ function PredictionFigure() {
           </div>
         </div>
 
-        <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+        <h4
+          style={{
+            margin: "18px 0 0",
+            fontFamily: "var(--font-display)",
+            fontSize: 18,
+            fontWeight: 480,
+            letterSpacing: "-.01em",
+            lineHeight: 1.25,
+            color: "var(--color-foreground-strong)",
+          }}
+        >
           Distribution over plausible continuations
-        </p>
+        </h4>
         <div
           role="img"
           aria-label={`Probability distribution across ${CONTINUATIONS.length} possible continuations with entropy ${entropy.toFixed(2)} bits`}
@@ -353,25 +401,97 @@ function PredictionFigure() {
           ))}
         </div>
 
-        <p style={{ margin: "0 0 14px", fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".06em", color: "var(--color-primary)" }}>
-          Entropy H ≈ {entropy.toFixed(2)} bits —{" "}
-          {constrained
-            ? "the request selects the structure; few continuations remain plausible."
-            : "the model must guess what you mean; nearly any continuation is plausible."}
-        </p>
+        <div style={{ margin: "14px 0 0" }}>
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".06em", color: "var(--color-primary)" }}>
+            Entropy H ≈ {entropy.toFixed(2)} bits
+          </p>
+          <p style={{ margin: "6px 0 0", fontSize: 13, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
+            Entropy measures how much the request pins down: H bits is the same uncertainty as choosing from{" "}
+            2<sup style={{ fontSize: "0.8em" }}>{entropy.toFixed(2)}</sup> ≈ {equallyLikely.toFixed(1)} equally likely
+            continuations.{" "}
+            {constrained ? (
+              <>
+                The selected constraints settle the structure — only a few continuations stay plausible, so the
+                model's choice is nearly determined.
+              </>
+            ) : (
+              <>
+                The request pins down almost nothing — nearly any continuation is plausible, so the model must guess
+                what you mean.
+              </>
+            )}
+          </p>
+        </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, borderTop: "1px solid var(--line)", paddingTop: 14 }}>
-          {CONSTRAINTS.map((constraint, index) => (
-            <label key={constraint.label} style={{ display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", fontSize: 12, lineHeight: 1.45, color: "var(--color-foreground)" }}>
-              <input
-                type="checkbox"
-                checked={active.has(index)}
-                onChange={() => toggle(index)}
-                style={{ accentColor: "var(--color-primary)", width: 14, height: 14 }}
-              />
-              {constraint.label}
-            </label>
-          ))}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
+          {CONSTRAINTS.map((constraint, index) => {
+            const isActive = active.has(index);
+            const isInfo = infoIndex === index;
+            return (
+              <button
+                key={constraint.label}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => {
+                  toggle(index);
+                  setInfoIndex(index);
+                }}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "6px 12px",
+                  border: `1px solid ${isActive ? "var(--color-primary)" : "var(--line)"}`,
+                  borderRadius: 999,
+                  background: isActive ? "var(--color-card)" : "var(--color-surface)",
+                  color: "var(--color-foreground)",
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  fontSize: 12,
+                  lineHeight: 1.45,
+                }}
+              >
+                {constraint.label}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 8,
+                    letterSpacing: ".1em",
+                    textTransform: "uppercase",
+                    color: isInfo ? "var(--color-primary)" : "var(--color-foreground-muted)",
+                  }}
+                >
+                  meta
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            marginTop: 10,
+            padding: "10px 12px",
+            border: "1px dashed var(--line)",
+            background: "var(--color-surface)",
+            fontSize: 12,
+            lineHeight: 1.55,
+            color: "var(--color-foreground-muted)",
+          }}
+        >
+          {infoIndex !== null ? (
+            <>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+                technical label — {CONSTRAINTS[infoIndex].technicalLabel}
+              </span>
+              <span style={{ marginLeft: 8 }}>{CONSTRAINTS[infoIndex].metaDescription}</span>
+            </>
+          ) : (
+            <>Click a constraint chip to reveal its meta info — the technical label it contributes.</>
+          )}
         </div>
       </div>
       <FigureCaption>
