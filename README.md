@@ -18,7 +18,7 @@ The repository root is also an Obsidian vault. Blog authoring starts with
 | Owner | Meaning |
 | --- | --- |
 | [`apps/`](apps/README.md) | Deployable personal products and their content. |
-| [`libs/`](libs/README.md) | Reusable, non-deployable capabilities with typed public APIs. |
+| [`libs/`](libs/README.md) | Reusable, non-deployable capabilities with typed public APIs; `blogs` owns the essays' editorial content and publication pipeline. |
 | [`tools/`](tools/README.md) | Local authoring applications that generate durable content artifacts. |
 | [`netlify/`](netlify/README.md) | Future hosting and delivery configuration for the apps. |
 
@@ -31,8 +31,8 @@ documentation and routing boundaries rather than coordinator projects.
 
 - **Owner:** the nearest app, tool, or library responsible for source, tests,
   configuration, and operational documentation.
-- **Publish:** build an app-owned local artifact in `dist`; it does not deploy
-  remotely.
+- **Publish:** build an app- or library-owned local artifact in `dist`; it does
+  not deploy remotely.
 - **Generate (`gen`):** transform explicit tool input into paired SVG and PNG
   content artifacts.
 - **Start:** launch the local authoring or development experience.

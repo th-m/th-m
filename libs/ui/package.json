@@ -1,0 +1,49 @@
+{
+  "name": "@th-m/ui",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "latest",
+    "@radix-ui/react-hover-card": "latest",
+    "@radix-ui/react-slot": "latest",
+    "@radix-ui/react-tooltip": "latest",
+    "@th-m/design-theme": "workspace:*",
+    "class-variance-authority": "latest",
+    "clsx": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwind-merge": "latest",
+    "vaul": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@th-m/testing": "workspace:*",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "jsdom": "latest",
+    "typescript": "6.0.2",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "ui",
+    "sourceRoot": "libs/ui/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:web", "domain:design"],
+    "targets": {
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}

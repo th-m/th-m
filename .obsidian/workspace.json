@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "apps/blogs/articles/understanding-is-the-bottleneck/draft/outline.md",
+                "file": "libs/blogs/articles/solutions-meaning-and-value/article.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "outline"
+              "title": "article"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "apps/blogs/articles/understanding-is-the-bottleneck/draft/outline.md",
+                "file": "libs/blogs/articles/solutions-meaning-and-value/article.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "apps/blogs/articles/understanding-is-the-bottleneck/draft/outline.md",
+                "file": "libs/blogs/articles/solutions-meaning-and-value/article.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "apps/blogs/articles/understanding-is-the-bottleneck/draft/outline.md",
+                "file": "libs/blogs/articles/solutions-meaning-and-value/article.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,53 +188,53 @@
       "bases:Create new base": false
     }
   },
-  "active": "4c25806f804a368f",
+  "active": "782e1b708746460d",
   "lastOpenFiles": [
-    "libs/llm-visualization/node_modules/@types",
-    "libs/embedding-space/node_modules/@types",
-    "libs/embedding-space/node_modules/@th-m",
-    "libs/embedding-space/node_modules/@testing-library",
-    "libs/embedding-space/node_modules",
-    "libs/llm-visualization/node_modules/@th-m",
-    "libs/tokenizer-visualization/node_modules/@types",
-    "libs/tokenizer-visualization/node_modules/@th-m",
-    "libs/tokenizer-visualization/node_modules/@testing-library",
-    "libs/tokenizer-visualization/node_modules",
-    "apps/tokenizer/node_modules/@vitejs",
-    "apps/blogs/dist/posts/solutions-meaning-and-value/assets/llm-key-terms-glossary.md",
-    "apps/blogs/dist/posts/solutions-meaning-and-value/assets/self-attention-feed-forward-and-decoding.md",
-    "apps/blogs/dist/posts/solutions-meaning-and-value/assets/cross-entropy-next-token-loss.md",
-    "apps/blogs/dist/posts/solutions-meaning-and-value/article.md",
-    "apps/blogs/articles/truth-entropy-and-inference/draft/outline.md",
-    "apps/blogs/articles/truth-entropy-and-inference/notes/evaluative-closure-code-and-strategy.md",
-    "apps/blogs/articles/solutions-meaning-and-value/article.md",
-    "apps/blogs/articles/solutions-meaning-and-value/outline.md",
-    "apps/blogs/articles/solutions-meaning-and-value/assets/self-attention-feed-forward-and-decoding.md",
-    "apps/blogs/articles/solutions-meaning-and-value/assets/llm-key-terms-glossary.md",
-    "apps/blogs/articles/solutions-meaning-and-value/draft/draft 5.md",
-    "apps/blogs/articles/solutions-meaning-and-value/assets/cross-entropy-next-token-loss.md",
-    "apps/blogs/articles/solutions-meaning-and-value/draft/draft 4.md",
-    "apps/blogs/articles/solutions-meaning-and-value/draft/draft 3.md",
-    "apps/blogs/articles/solutions-meaning-and-value/draft/draft 2.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/wrong-governing-values-and-coordinated-failure.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/value-hierarchies-language-and-ai.md",
-    "apps/blogs/articles/solutions-meaning-and-value/notes/evaluative-closure-code-and-strategy.md",
-    "apps/blogs/articles/solutions-meaning-and-value 1/notes/training vs learning.md",
-    "apps/blogs/articles/solutions-meaning-and-value 1/notes/theories-of-value.md",
-    "apps/blogs/articles/solutions-meaning-and-value 1/notes/strategy.md",
-    "apps/blogs/articles/solutions-meaning-and-value 1/notes/review 1.md",
-    "apps/blogs/articles/solutions-meaning-and-value 1/notes/retired-product-opportunity-outline.md",
-    "apps/blogs/articles/solutions-meaning-and-value 1/notes/research-conclusion-cognitive-loop.md",
-    "apps/blogs/articles/solutions-meaning-and-value 1/notes/qualia-opportunity-spaces-ai-and-humans.md",
-    "apps/portfolio/dist/client/assets/thom-canonical-RvZxVx17.svg",
-    "apps/portfolio/dist/client/assets/01-vertical-metrics-BGGoK4ah.svg",
-    "apps/portfolio/test-results/visual-brand-compare-captu-11b09-the-reference-fidelity-gate-brand-audit/current-t-expected.png",
-    "apps/portfolio/test-results/visual-brand-compare-captu-11b09-the-reference-fidelity-gate-brand-audit/current-t-diff.png",
-    "apps/portfolio/test-results/visual-brand-compare-captu-11b09-the-reference-fidelity-gate-brand-audit/current-t-actual.png",
+    "libs/llm-generation/node_modules/@types",
+    "libs/llm-generation/node_modules/@th-m",
+    "libs/llm-generation/node_modules/@testing-library",
+    "libs/llm-decoding/node_modules/@types",
+    "libs/llm-decoding/node_modules/@th-m",
+    "libs/llm-decoding/node_modules/@testing-library",
+    "libs/llm-decoding/node_modules",
+    "libs/llm-training/node_modules/@types",
+    "libs/llm-training/node_modules/@th-m",
+    "libs/llm-training/node_modules/@testing-library",
+    "libs/llm-training/node_modules",
+    "libs/llm-training/AGENTS.md",
+    "libs/llm-training/README.md",
+    "libs/llm-decoding/AGENTS.md",
+    "libs/llm-decoding/README.md",
+    "libs/llm-generation/AGENTS.md",
+    "libs/llm-generation/README.md",
+    "apps/portfolio/test-results/e2e-site-no-JavaScript-ser-f3134--navigable-prerendered-HTML-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-no-JavaScript-ser-f3134--navigable-prerendered-HTML-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-no-JavaScript-pre-d8f17--brand-page-and-static-mark-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-no-JavaScript-pre-d8f17--brand-page-and-static-mark-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-no-JavaScript-pre-98656-l-home-and-writings-section-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-no-JavaScript-pre-98656-l-home-and-writings-section-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-one-shared--5624b-while-route-content-changes-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-one-shared--5624b-while-route-content-changes-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-navigates-to-the--8d5ae-on-without-losing-app-state-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-navigates-to-the--8d5ae-on-without-losing-app-state-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-uses-size-aware-u-6ec8e-exposes-alternate-downloads-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-uses-size-aware-u-6ec8e-exposes-alternate-downloads-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-the-static-identity-under-reduced-motion-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-the-static-identity-under-reduced-motion-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-retains-the-gener-37541--WebGL-initialization-fails-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-retains-the-gener-37541--WebGL-initialization-fails-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-the-settled-370cd-try-in-SVG-and-WebGL-parity-desktop/error-context.md",
+    "apps/portfolio/test-results/e2e-site-keeps-the-settled-370cd-try-in-SVG-and-WebGL-parity-mobile/error-context.md",
+    "apps/portfolio/test-results/e2e-site-reveals-the-O-fro-07d07-ps-settled-SVG-WebGL-parity-desktop/error-context.md",
     "apps/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations@2x.png",
     "apps/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations.svg",
     "apps/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships@2x.png",
     "apps/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships.svg",
-    "apps/blogs/articles/ai-knows-propositions-humans-navigate-relationships/assets/weather-propositions-and-sensations@2x.png"
+    "libs/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations@2x.png",
+    "libs/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations.svg",
+    "libs/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships@2x.png",
+    "libs/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships.svg",
+    "apps/portfolio/dist/client/assets/thom-canonical-RvZxVx17.svg",
+    "apps/portfolio/dist/client/assets/01-vertical-metrics-BGGoK4ah.svg"
   ]
 }

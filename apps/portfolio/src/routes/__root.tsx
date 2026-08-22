@@ -5,6 +5,8 @@ import newsreaderCss from "@fontsource-variable/newsreader/wght.css?url";
 import monoCss from "@fontsource/ibm-plex-mono/400.css?url";
 import appCss from "../styles.css?url";
 import { Layout } from "../layout/Layout";
+import { ToolDrawer } from "../tools/ToolDrawer";
+import { ToolDrawerProvider } from "../tools/ToolDrawerProvider";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -31,9 +33,12 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   return (
-    <Layout>
-      <Outlet />
-    </Layout>
+    <ToolDrawerProvider>
+      <Layout>
+        <Outlet />
+      </Layout>
+      <ToolDrawer />
+    </ToolDrawerProvider>
   );
 }
 

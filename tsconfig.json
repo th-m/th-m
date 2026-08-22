@@ -1,7 +1,7 @@
 {
   "files": [],
   "references": [
-    { "path": "./apps/blogs" },
+    { "path": "./libs/blogs" },
     { "path": "./apps/portfolio" },
     { "path": "./libs/design-theme" },
     { "path": "./libs/thom-brand" },

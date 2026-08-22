@@ -13,7 +13,7 @@ to create its local `dist/` artifact.
 The portfolio app owns the public route shell, generated public brand assets,
 portfolio-specific documentation, and visual evidence. Reusable THOM geometry
 and animation components are owned by `@th-m/thom-brand`. Published blog
-content remains owned by `apps/blogs` and is staged as an immutable build input.
+content remains owned by `libs/blogs` and is staged as an immutable build input.
 Brand source is implementation; generated files are reproducible artifacts;
 audit captures are evidence rather than runtime authority.
 
@@ -42,16 +42,25 @@ audit captures are evidence rather than runtime authority.
 - `/llm-visualization` demonstrates the reusable decoder-only inference trace
   and deterministic transformer lab from `@th-m/llm-visualization`.
 - `/writing` lists published articles.
-- `/writing/:slug` renders a published Markdown article as hydrated React.
+- `/writing/:slug` dispatches to the article's dedicated React page when the
+  published post ships one, otherwise renders the published Markdown as
+  hydrated React.
+- The global right-side **tool drawer** (the fixed "TOOLS" tab on every route)
+  hosts auxiliary interactives such as the embedding explorer; article pages
+  open it with `useToolDrawer().openTool(id)`.
 - `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
 
 The shared header links the THOM mark to `/brand` and exposes only the
-`Writings` navigation link on every route.
+`Writings` navigation link on every route. The contextual-component decision
+rules for article pages — tooltip vs. hover card vs. card vs. modal vs. drawer —
+live in [writing-component-conventions.md](docs/writing-component-conventions.md).
 
 `portfolio:publish` generates brand assets, stages the public blog artifact,
 typechecks the route tree, builds `dist/client`, and verifies every manifest
 entry has corresponding static HTML and Markdown. Outlines, notes, and research
-are never staged into this app.
+are never staged into this app. React article pages are compiled from the
+generated `src/generated/blog-pages/` tree that `prepare:content` rebuilds from
+`libs/blogs/dist`.
 
 I am interested in how software systems become understandable enough to change.
 

@@ -1,0 +1,35 @@
+{
+  "name": "@th-m/blogs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./publish": "./src/publish.ts"
+  },
+  "scripts": {
+    "start": "bun run scripts/open-obsidian.ts",
+    "publish": "bun run scripts/publish.ts",
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "yaml": "2.8.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "6.0.2",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "blogs",
+    "sourceRoot": "libs/blogs/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:content", "domain:blogs"],
+    "targets": {
+      "publish": { "outputs": ["{projectRoot}/dist"] },
+      "start": { "outputs": [] },
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}

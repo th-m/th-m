@@ -7,10 +7,10 @@ content, source, tests, and build configuration.
 
 ## Ontology
 
-An app is a deployable product boundary. `blogs` owns editorial content and its
-publication artifact; `portfolio` owns the public profile experience and brand
-system; `tokenizer` is the thin runnable surface for the reusable tokenizer
-visualization. The directory itself is a routing boundary, not an Nx project.
+An app is a deployable product boundary. `portfolio` owns the public profile
+experience and brand system; `tokenizer` is the thin runnable surface for the
+reusable tokenizer visualization. The directory itself is a routing boundary,
+not an Nx project.
 
 ## Key Terms
 

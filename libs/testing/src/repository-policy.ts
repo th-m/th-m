@@ -14,6 +14,7 @@ export interface FoundationColorViolation {
 }
 
 const ignoredDirectories = new Set([
+  ".bun-tmp",
   ".git",
   ".nx",
   "coverage",

@@ -52,14 +52,14 @@
       "e2e": { "outputs": [] },
       "generate:legacy:propositions": {
         "outputs": [
-          "{workspaceRoot}/apps/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships.svg",
-          "{workspaceRoot}/apps/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships@2x.png"
+          "{workspaceRoot}/libs/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships.svg",
+          "{workspaceRoot}/libs/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships@2x.png"
         ]
       },
       "generate:legacy:weather": {
         "outputs": [
-          "{workspaceRoot}/apps/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations.svg",
-          "{workspaceRoot}/apps/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations@2x.png"
+          "{workspaceRoot}/libs/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations.svg",
+          "{workspaceRoot}/libs/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations@2x.png"
         ]
       }
     }

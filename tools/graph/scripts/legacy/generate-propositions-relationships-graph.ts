@@ -4,7 +4,7 @@ import { Resvg } from "@resvg/resvg-js";
 const width = 1600;
 const height = 1000;
 const outputDirectory = new URL(
-  "../../../../apps/blogs/articles/truth-entropy-and-inference/assets/",
+  "../../../../libs/blogs/articles/truth-entropy-and-inference/assets/",
   import.meta.url,
 );
 

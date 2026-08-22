@@ -1,0 +1,269 @@
+/* THOM UI primitives. Consumes the @th-m/design-theme CSS variables. */
+
+/* ------------------------------------------------------------------ */
+/* Button                                                              */
+/* ------------------------------------------------------------------ */
+
+.thom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .25s ease, background-color .25s ease, border-color .25s ease, transform .3s var(--ease-draw);
+}
+.thom-button:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 3px; }
+.thom-button:disabled { opacity: .45; pointer-events: none; }
+
+.thom-button--default { background: var(--color-primary); color: var(--color-primary-foreground); }
+.thom-button--default:hover { background: var(--color-primary-hover); }
+.thom-button--default:active { background: var(--color-primary-active); }
+
+.thom-button--outline { background: transparent; color: var(--color-foreground); border-color: var(--color-border); }
+.thom-button--outline:hover { color: var(--color-primary); border-color: var(--color-border-strong); }
+
+.thom-button--ghost { background: transparent; color: var(--color-foreground-muted); }
+.thom-button--ghost:hover { color: var(--color-foreground); }
+
+.thom-button--link { background: transparent; color: var(--color-primary); padding: 0; height: auto; text-decoration: underline; text-underline-offset: .2em; }
+.thom-button--link:hover { color: var(--color-primary-hover); }
+
+.thom-button--size-default { height: 42px; padding: 0 20px; }
+.thom-button--size-sm { height: 32px; padding: 0 14px; font-size: 9px; }
+.thom-button--size-lg { height: 50px; padding: 0 28px; font-size: 11px; }
+.thom-button--size-icon { height: 42px; width: 42px; padding: 0; }
+
+/* ------------------------------------------------------------------ */
+/* Card                                                                */
+/* ------------------------------------------------------------------ */
+
+.thom-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(22px, 2.6vw, 34px);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-card-foreground);
+}
+.thom-card--interactive {
+  cursor: pointer;
+  transition: transform .35s var(--ease-draw), border-color .3s ease, box-shadow .3s ease;
+}
+.thom-card--interactive:hover,
+.thom-card--interactive:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-glow);
+}
+.thom-card--interactive:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 3px; }
+
+.thom-card__header { display: flex; flex-direction: column; gap: 8px; }
+.thom-card__title { margin: 0; font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 30px); font-weight: 420; line-height: 1.05; letter-spacing: -.02em; color: var(--color-foreground-strong); }
+.thom-card__description { margin: 0; color: var(--color-foreground-muted); font-size: 13px; line-height: 1.6; }
+.thom-card__content { color: var(--color-foreground); font-size: 14px; line-height: 1.65; }
+.thom-card__footer { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--color-border); }
+
+/* ------------------------------------------------------------------ */
+/* Tooltip                                                             */
+/* ------------------------------------------------------------------ */
+
+.thom-tooltip {
+  z-index: 90;
+  max-width: 280px;
+  padding: 10px 12px;
+  color: var(--color-popover-foreground);
+  background: var(--color-popover);
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  line-height: 1.55;
+  box-shadow: var(--shadow-glow);
+}
+
+.thom-tooltip-trigger {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: .22em;
+  text-decoration-color: var(--color-border-strong);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hover card                                                          */
+/* ------------------------------------------------------------------ */
+
+.thom-hover-card {
+  z-index: 90;
+  width: min(340px, calc(100vw - 48px));
+  padding: 16px;
+  color: var(--color-hover-card-foreground);
+  background: var(--color-hover-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dialog (modal)                                                      */
+/* ------------------------------------------------------------------ */
+
+.thom-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--color-scrim);
+}
+.thom-dialog-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 81;
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(720px, calc(100vh - 64px));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+  background: var(--color-dialog);
+  border: 1px solid var(--color-border);
+  color: var(--color-dialog-foreground);
+  outline: none;
+  box-shadow: 0 32px 80px rgb(0 0 0 / 48%);
+}
+.thom-dialog-header { display: flex; flex-direction: column; gap: 8px; padding-right: 44px; }
+.thom-dialog-title { margin: 0; font-family: var(--font-display); font-size: clamp(26px, 3vw, 38px); font-weight: 420; line-height: 1.02; letter-spacing: -.03em; }
+.thom-dialog-description { margin: 0; color: var(--color-foreground-muted); font-size: 14px; line-height: 1.6; }
+.thom-dialog-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--color-border); }
+.thom-dialog-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-foreground-muted);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .25s ease, border-color .25s ease;
+}
+.thom-dialog-close:hover, .thom-dialog-close:focus-visible { color: var(--color-primary); border-color: var(--color-border-strong); }
+.thom-dialog-close:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; }
+
+/* ------------------------------------------------------------------ */
+/* Drawer (right side sheet)                                           */
+/* ------------------------------------------------------------------ */
+
+.thom-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--color-scrim);
+}
+.thom-drawer-content {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 61;
+  width: min(420px, 100vw);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-dialog);
+  border-left: 1px solid var(--color-border);
+  color: var(--color-dialog-foreground);
+  outline: none;
+  box-shadow: -28px 0 72px rgb(0 0 0 / 42%);
+}
+.thom-drawer-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.thom-drawer-title { margin: 0; font-family: var(--font-display); font-size: 24px; font-weight: 420; line-height: 1.1; letter-spacing: -.02em; }
+.thom-drawer-description { margin: 4px 0 0; color: var(--color-foreground-muted); font-size: 12px; line-height: 1.5; }
+.thom-drawer-body { flex: 1; min-height: 0; overflow-y: auto; padding: 22px 24px 28px; }
+.thom-drawer-footer { padding: 14px 24px 18px; border-top: 1px solid var(--color-border); }
+.thom-drawer-close {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-foreground-muted);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .25s ease, border-color .25s ease;
+}
+.thom-drawer-close:hover, .thom-drawer-close:focus-visible { color: var(--color-primary); border-color: var(--color-border-strong); }
+.thom-drawer-close:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; }
+
+/* ------------------------------------------------------------------ */
+/* Tooltip card (Aceternity port)                                      */
+/* ------------------------------------------------------------------ */
+
+.thom-tooltip-card {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+.thom-tooltip-card__body { min-width: 0; }
+.thom-tooltip-card__icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 18px;
+}
+.thom-tooltip-card__title { margin: 0 0 6px; font-family: var(--font-display); font-size: 20px; font-weight: 430; line-height: 1.1; }
+.thom-tooltip-card__description { margin: 0; color: var(--color-foreground-muted); font-size: 12px; line-height: 1.55; }
+
+.thom-tooltip-card__floating {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 40;
+  width: min(320px, calc(100vw - 32px));
+  padding: 16px;
+  background: var(--color-popover);
+  border: 1px solid var(--color-border-strong);
+  box-shadow: var(--shadow-glow);
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .35s var(--ease-draw);
+}
+.thom-tooltip-card:hover .thom-tooltip-card__floating,
+.thom-tooltip-card:focus-within .thom-tooltip-card__floating {
+  opacity: 1;
+  transform: translateY(-14px);
+}
+.thom-tooltip-card__floating-title { margin: 0 0 8px; font-family: var(--font-display); font-size: 17px; font-weight: 430; line-height: 1.1; }
+.thom-tooltip-card__floating-body { color: var(--color-popover-foreground); font-size: 12px; line-height: 1.6; }
+.thom-tooltip-card__floating-footer { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-primary); }
