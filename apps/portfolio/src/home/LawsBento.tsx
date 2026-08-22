@@ -1,91 +1,45 @@
-import { useMemo, useState, type CSSProperties } from "react";
-import {
-  laws,
-  lawLabelAccents,
-  lawLabelAccentVariable,
-  lawLabels,
-  type LawLabel,
-} from "@th-m/laws";
-import { BentoGrid, BentoGridItem } from "@th-m/ui";
+import { Link } from "@tanstack/react-router";
+import { lawBySlug } from "@th-m/laws";
+import { LawCardGrid } from "../laws/LawCardGrid";
 
-const initialActive = (): Record<LawLabel, boolean> =>
-  Object.fromEntries(lawLabels.map((label) => [label, true])) as Record<LawLabel, boolean>;
+const FEATURED_LAW_SLUGS = [
+  "aesthetic-usability-effect",
+  "cognitive-load",
+  "hicks-law",
+  "law-of-uniform-connectedness",
+  "conways-law",
+  "goodharts-law",
+  "galls-law",
+  "shannons-theorem",
+  "bitter-lesson",
+  "gigo",
+  "curse-of-knowledge",
+  "second-law-of-thermodynamics",
+] as const;
+
+export const featuredLaws = FEATURED_LAW_SLUGS.map((slug) => lawBySlug[slug]).filter(
+  (law) => law !== undefined,
+);
 
 /**
- * The home-page "Laws" section: every law from @th-m/laws — the laws of UX,
- * the laws of software development, and the curated extension collections —
- * shown in a THOM-styled bento grid of uniform square cards, filtered by the
- * label pills above it. All pills start on; a law stays visible while at
- * least one of its labels still has its pill on, so a multi-label law
- * disappears only when every one of its pills is toggled off.
+ * A deliberately small home-page introduction to the complete Laws catalog.
  */
 export function LawsBento() {
-  const [active, setActive] = useState<Record<LawLabel, boolean>>(initialActive);
-
-  const visibleLaws = useMemo(
-    () => laws.filter((law) => law.labels.some((label) => active[label])),
-    [active],
-  );
-
-  const toggle = (label: LawLabel) => {
-    setActive((previous) => ({ ...previous, [label]: !previous[label] }));
-  };
-
   return (
     <section className="home-laws" aria-labelledby="home-laws-title">
       <header className="home-laws__header">
         <h2 id="home-laws-title">Laws</h2>
       </header>
-      <p className="home-laws__lede">
-        The principles this work leans on — the laws of UX, the laws of software
-        development, and the curated laws of information, AI, reasoning, and
-        organizations — collected and linked back to their sources.
-      </p>
-
-      <div className="home-laws__pills" role="group" aria-label="Filter laws by label">
-        {lawLabels.map((label) => (
-          <button
-            key={label}
-            type="button"
-            className={["home-laws__pill", active[label] ? "home-laws__pill--on" : ""].filter(Boolean).join(" ")}
-            aria-pressed={active[label]}
-            data-accent={lawLabelAccents[label]}
-            style={{ "--law-label-accent": lawLabelAccentVariable(label) } as CSSProperties}
-            onClick={() => toggle(label)}
-          >
-            {label}
-          </button>
-        ))}
+      <div className="home-laws__intro">
+        <p className="home-laws__lede">
+          A working set of principles for designing interfaces, software systems,
+          organizations, and intelligent tools.
+        </p>
+        <Link className="home-laws__all-link" to="/laws">
+          View all laws <span aria-hidden="true">→</span>
+        </Link>
       </div>
-
-      {visibleLaws.length > 0 ? (
-        <BentoGrid columns={4}>
-          {visibleLaws.map((law) => (
-            <BentoGridItem
-              key={law.slug}
-              className="home-laws__card"
-              href={law.sources[0]}
-              title={law.title}
-              description={law.definition}
-              footer={
-                <ul className="home-laws__labels" aria-label="Labels">
-                  {law.labels.map((label) => (
-                    <li
-                      key={label}
-                      data-accent={lawLabelAccents[label]}
-                      style={{ "--law-label-accent": lawLabelAccentVariable(label) } as CSSProperties}
-                    >
-                      {label}
-                    </li>
-                  ))}
-                </ul>
-              }
-            />
-          ))}
-        </BentoGrid>
-      ) : (
-        <p className="home-laws__empty">No laws match — turn a label back on to see them again.</p>
-      )}
+      <LawCardGrid items={featuredLaws} />
     </section>
   );
 }

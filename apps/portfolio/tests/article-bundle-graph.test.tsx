@@ -57,7 +57,9 @@ describe("ArticleBundleGraph", () => {
   it("renders six clickable article nodes linking to their essays", async () => {
     await renderGraph();
     expect(screen.getByRole("heading", { name: "AI Factory" })).toBeInTheDocument();
+    expect(screen.getByText(/Three foundations converge into the Knowledge Factory/)).toBeInTheDocument();
     expect(screen.getAllByRole("link")).toHaveLength(6);
+    expect(screen.getAllByText("Read essay")).toHaveLength(6);
     expect(screen.getByRole("link", { name: /Goals, Solutions & Value/ })).toHaveAttribute(
       "href",
       "/writing/goals-solutions-and-value",
@@ -86,8 +88,9 @@ describe("ArticleBundleGraph", () => {
 
   it("draws the five bundle edges as SVG paths", async () => {
     const { container } = await renderGraph();
-    expect(container.querySelectorAll(".home-graph__edges--desktop path")).toHaveLength(5);
-    expect(container.querySelectorAll(".home-graph__edges--mobile path")).toHaveLength(5);
+    expect(container.querySelectorAll(".home-graph__edges--desktop .home-graph__edge")).toHaveLength(5);
+    expect(container.querySelectorAll(".home-graph__edges--mobile .home-graph__edge")).toHaveLength(5);
+    expect(container.querySelectorAll(".home-graph__edge[marker-end]")).toHaveLength(10);
   });
 
   it("marks the knowledge factory as the hub and labels node kinds", async () => {
@@ -97,6 +100,7 @@ describe("ArticleBundleGraph", () => {
     expect(screen.getAllByText("Foundation", { selector: ".home-graph__node-kind" })).toHaveLength(3);
     expect(screen.getAllByText("Hub", { selector: ".home-graph__node-kind" })).toHaveLength(1);
     expect(screen.getAllByText("Branch", { selector: ".home-graph__node-kind" })).toHaveLength(2);
+    expect(screen.getAllByText(/0[1-6]/, { selector: ".home-graph__node-order" })).toHaveLength(6);
   });
 
   it("renders each node as a spotlight card", async () => {

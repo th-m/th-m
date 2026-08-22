@@ -45,7 +45,10 @@ export function ToolDrawer() {
 
       <Drawer open={activeTool !== null} onOpenChange={(open) => { if (!open) closeTool(); }}>
         {activeTool ? (
-          <DrawerContent id="portfolio-tool-drawer">
+          <DrawerContent
+            id="portfolio-tool-drawer"
+            className={activeTool.fullPageHref ? "tool-drawer-content--preview" : undefined}
+          >
             <DrawerHeader className="tool-drawer-header-stacked">
               <div className="tool-drawer-header-top">
                 <div>
@@ -75,6 +78,14 @@ export function ToolDrawer() {
                 {ActiveTool ? <ActiveTool options={activeOptions ?? undefined} /> : null}
               </Suspense>
             </DrawerBody>
+            {activeTool.fullPageHref ? (
+              <div className="tool-drawer-handoff">
+                <p>Use the drawer to inspect. Use the full route to author, arrange, and export.</p>
+                <a href={activeTool.fullPageHref} onClick={closeTool}>
+                  {activeTool.fullPageLabel ?? "Open full page"} <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            ) : null}
             <p className="tool-drawer-footnote">
               Auxiliary interactives live beside the prose — the article stays visible.
             </p>

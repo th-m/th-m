@@ -106,6 +106,10 @@ describe("global tool drawer", () => {
     await user.click(screen.getByRole("button", { name: "Relationship graph" }));
     expect(await screen.findByRole("heading", { name: "Relationship graph" })).toBeInTheDocument();
     expect(await screen.findByTestId("graph-explorer-mock")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Open full canvas/ })).toHaveAttribute(
+      "href",
+      "/relationship-graph",
+    );
   });
 
   it("switches to the set atlas tool and renders its explorer", async () => {

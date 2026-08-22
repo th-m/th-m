@@ -44,6 +44,8 @@ audit captures are evidence rather than runtime authority.
 - `/relationship-graph` hosts the full proposition graph authoring editor
   (claims as circles, relationships as cards, themed reagraph WebGL canvas,
   PNG and JSON export) from `@th-m/graph-visualization`.
+- `/laws` hosts the complete filterable principles catalog; the home page
+  carries a curated introduction to it.
 - `/writing` lists published articles.
 - `/writing/:slug` dispatches to the article's dedicated React page when the
   published post ships one, otherwise renders the published Markdown as
@@ -57,9 +59,9 @@ audit captures are evidence rather than runtime authority.
 
 The shared header links the THOM mark to `/brand` and exposes only the
 `Writings` navigation link on every route. A global **floating dock** (an
-Aceternity-style icon dock composed from `@th-m/ui`) is pinned to the bottom
-of the viewport on every route, mirroring the fixed header: it exposes icon
-buttons for LinkedIn, GitHub, X, and email (`thomvaladez@gmail.com`). The
+Aceternity-style icon dock composed from `@th-m/ui`) sits in the footer so it
+never obscures page content: it exposes icon buttons for LinkedIn, GitHub, X,
+and email (`thomvaladez@gmail.com`). The
 contextual-component decision rules for article pages — tooltip vs. hover card
 vs. card vs. modal vs. drawer — live in
 [writing-component-conventions.md](docs/writing-component-conventions.md).

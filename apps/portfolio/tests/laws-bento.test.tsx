@@ -1,54 +1,79 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Outlet,
+  RouterProvider,
+} from "@tanstack/react-router";
 import { describe, expect, it } from "vitest";
 import { laws, lawLabelAccents, lawLabels } from "@th-m/laws";
-import { LawsBento } from "../src/home/LawsBento";
+import { LawsBento, featuredLaws } from "../src/home/LawsBento";
+import { LawsCatalog } from "../src/laws/LawsCatalog";
 
 function cards(): HTMLElement[] {
   return document.querySelectorAll(".thom-bento-grid__item") as unknown as HTMLElement[];
 }
 
+async function renderHomeLaws() {
+  const rootRoute = createRootRoute({ component: () => <Outlet /> });
+  const indexRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/",
+    component: LawsBento,
+  });
+  const lawsRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/laws",
+    component: () => null,
+  });
+  const router = createRouter({
+    routeTree: rootRoute.addChildren([indexRoute, lawsRoute]),
+    history: createMemoryHistory({ initialEntries: ["/"] }),
+  });
+  await router.load();
+  return render(<RouterProvider router={router} />);
+}
+
 describe("LawsBento", () => {
-  it("renders every law from the laws library as a uniform square bento card", () => {
-    const { container } = render(<LawsBento />);
+  it("renders a curated twelve-law home collection", async () => {
+    const { container } = await renderHomeLaws();
     expect(screen.getByRole("heading", { level: 2, name: "Laws" })).toBeInTheDocument();
-    expect(container.querySelectorAll(".thom-bento-grid__item")).toHaveLength(laws.length);
-    expect(container.querySelectorAll(".thom-bento-grid__item--span-2")).toHaveLength(0);
-    expect(container.querySelectorAll(".home-laws__card")).toHaveLength(laws.length);
-    expect(container.querySelectorAll(".home-laws__tile")).toHaveLength(0);
+    expect(container.querySelectorAll(".thom-bento-grid__item")).toHaveLength(12);
+    expect(container.querySelectorAll(".home-laws__card")).toHaveLength(featuredLaws.length);
+    expect(container.querySelectorAll(".home-laws__pill")).toHaveLength(0);
   });
 
-  it("links each law card out to its primary source", () => {
-    render(<LawsBento />);
-    const links = screen.getAllByRole("link");
-    expect(links.length).toBe(laws.length);
-    for (const link of links) {
-      const href = link.getAttribute("href");
-      expect(href).toBeTruthy();
-      expect(href).toMatch(/^https?:\/\//);
-      expect(link).toHaveAttribute("target", "_blank");
+  it("hands off from the curated collection to the complete catalog", async () => {
+    await renderHomeLaws();
+    expect(screen.getByRole("link", { name: /View all laws/ })).toHaveAttribute("href", "/laws");
+  });
+
+  it("keeps featured law cards linked to their primary sources", async () => {
+    await renderHomeLaws();
+    const externalLinks = screen.getAllByRole("link").filter((link) => link.getAttribute("target") === "_blank");
+    expect(externalLinks).toHaveLength(featuredLaws.length);
+    for (const link of externalLinks) expect(link.getAttribute("href")).toMatch(/^https?:\/\//);
+  });
+});
+
+describe("LawsCatalog", () => {
+  it("renders the complete collection with filtering off by default", () => {
+    const { container } = render(<LawsCatalog />);
+    expect(container.querySelectorAll(".thom-bento-grid__item")).toHaveLength(laws.length);
+    expect(screen.getByText(`All ${laws.length} laws`)).toBeInTheDocument();
+    for (const label of lawLabels) {
+      const pill = screen.getByRole("button", { name: label });
+      expect(pill).toHaveAttribute("aria-pressed", "false");
+      expect(pill.className).not.toContain("home-laws__pill--selected");
     }
   });
 
-  it("shows the law title, definition, and labels per card, without a colored header", () => {
-    const { container } = render(<LawsBento />);
-    expect(screen.getByText("Fitts’s Law")).toBeInTheDocument();
-    expect(screen.getByText("The time to acquire a target is a function of the distance to and size of the target.")).toBeInTheDocument();
-    expect(screen.getByText("Conway’s Law")).toBeInTheDocument();
-    expect(screen.getByText("Goodhart’s Law")).toBeInTheDocument();
-    expect(screen.getByText("Zipf’s Law")).toBeInTheDocument();
-    expect(screen.getAllByText("ui", { selector: ".home-laws__labels li" }).length).toBeGreaterThan(0);
-    expect(screen.getAllByText("psychology", { selector: ".home-laws__labels li" }).length).toBeGreaterThan(0);
-    expect(screen.getAllByText("ai", { selector: ".home-laws__labels li" }).length).toBeGreaterThan(0);
-    expect(screen.getAllByText("information", { selector: ".home-laws__labels li" }).length).toBeGreaterThan(0);
-  });
-
-  it("shows one pill per distinct label, all toggled on by default", () => {
-    const { container } = render(<LawsBento />);
-    expect(container.querySelectorAll(".home-laws__pill")).toHaveLength(lawLabels.length);
+  it("uses outline pills with the label accent contract", () => {
+    render(<LawsCatalog />);
     for (const label of lawLabels) {
       const pill = screen.getByRole("button", { name: label });
-      expect(pill).toHaveAttribute("aria-pressed", "true");
-      expect(pill.className).toContain("home-laws__pill--on");
       expect(pill).toHaveAttribute("data-accent", lawLabelAccents[label]);
       expect(pill.style.getPropertyValue("--law-label-accent")).toBe(
         `var(--color-accent-${lawLabelAccents[label]})`,
@@ -56,51 +81,29 @@ describe("LawsBento", () => {
     }
   });
 
-  it("matches every card label to its corresponding filter accent", () => {
-    const { container } = render(<LawsBento />);
-    for (const label of lawLabels) {
-      const filter = screen.getByRole("button", { name: label });
-      const cardLabel = container.querySelector<HTMLElement>(
-        `.home-laws__labels li[data-accent="${lawLabelAccents[label]}"]`,
-      );
-      if (!cardLabel) continue;
-      expect(cardLabel.style.getPropertyValue("--law-label-accent")).toBe(
-        filter.style.getPropertyValue("--law-label-accent"),
-      );
-    }
-  });
-
-  it("hides only the cards whose every label pill is toggled off", () => {
-    render(<LawsBento />);
-    // Moore's Law carries only the "cs" label: turning cs off removes it,
-    // while multi-label cs laws (e.g. Fitts's Law) stay visible.
+  it("immediately focuses on the first selected type", () => {
+    render(<LawsCatalog />);
     fireEvent.click(screen.getByRole("button", { name: "cs" }));
-    expect(screen.getByRole("button", { name: "cs" })).toHaveAttribute("aria-pressed", "false");
-    expect(screen.queryByText("Moore’s Law")).not.toBeInTheDocument();
-    expect(screen.getByText("Fitts’s Law")).toBeInTheDocument();
-    expect(cards()).toHaveLength(laws.length - 1);
+
+    const expected = laws.filter((law) => law.labels.includes("cs"));
+    expect(screen.getByRole("button", { name: "cs" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "cs" }).className).toContain("home-laws__pill--selected");
+    expect(cards()).toHaveLength(expected.length);
   });
 
-  it("keeps a two-label card until both of its pills are off", () => {
-    render(<LawsBento />);
-    // Law of Prägnanz carries only "design" and "psychology".
-    fireEvent.click(screen.getByRole("button", { name: "design" }));
-    expect(screen.getByText("Law of Prägnanz")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "psychology" }));
-    expect(screen.queryByText("Law of Prägnanz")).not.toBeInTheDocument();
-    // Flipping either pill back on restores it.
-    fireEvent.click(screen.getByRole("button", { name: "design" }));
-    expect(screen.getByText("Law of Prägnanz")).toBeInTheDocument();
-  });
-
-  it("shows an empty state when every pill is off and restores cards when one returns", () => {
-    render(<LawsBento />);
-    for (const label of lawLabels) {
-      fireEvent.click(screen.getByRole("button", { name: label }));
-    }
-    expect(cards()).toHaveLength(0);
-    expect(screen.getByText(/No laws match/)).toBeInTheDocument();
+  it("matches any selected type and turns filtering off when the last is cleared", () => {
+    render(<LawsCatalog />);
     fireEvent.click(screen.getByRole("button", { name: "cs" }));
-    expect(cards().length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole("button", { name: "design" }));
+
+    const expectedUnion = laws.filter((law) => law.labels.some((label) => label === "cs" || label === "design"));
+    expect(cards()).toHaveLength(expectedUnion.length);
+
+    fireEvent.click(screen.getByRole("button", { name: "cs" }));
+    expect(cards()).toHaveLength(laws.filter((law) => law.labels.includes("design")).length);
+
+    fireEvent.click(screen.getByRole("button", { name: "design" }));
+    expect(cards()).toHaveLength(laws.length);
+    expect(screen.getByText(`All ${laws.length} laws`)).toBeInTheDocument();
   });
 });

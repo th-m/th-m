@@ -69,7 +69,7 @@ function Flow({ children }: { children: ReactNode }) {
 
 function Table({ head, rows }: { head: string[]; rows: Array<Array<ReactNode>> }) {
   return (
-    <table>
+    <table tabIndex={0}>
       <thead>
         <tr>
           {head.map((cell) => (
@@ -190,7 +190,12 @@ const valueLadder = [
 
 function ValueLadder() {
   return (
-    <div className="article-stepper" aria-label="Value-laden language becomes progressively more operational">
+    <div
+      className="article-stepper"
+      role="region"
+      tabIndex={0}
+      aria-label="Value-laden language becomes progressively more operational"
+    >
       {valueLadder.map((step, index) => (
         <Fragment key={step.kind}>
           {index > 0 ? (

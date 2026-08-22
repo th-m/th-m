@@ -20,6 +20,8 @@ export interface ToolDefinition {
   eyebrow: string;
   description: string;
   content: ComponentType<ToolRenderProps>;
+  fullPageHref?: string;
+  fullPageLabel?: string;
 }
 
 // The relationship graph explorer renders ReactFlow + the ELK worker, so it is
@@ -63,6 +65,8 @@ export const toolRegistry: ToolDefinition[] = [
     eyebrow: "Auxiliary interactive",
     description: "Explore proposition graphs: pick a seed, click a claim, follow its relationships.",
     content: RelationshipGraphExplorer,
+    fullPageHref: "/relationship-graph",
+    fullPageLabel: "Open full canvas",
   },
   {
     id: "set-atlas-explorer",

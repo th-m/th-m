@@ -99,7 +99,41 @@ export function ColorSystem({ embedded = false }: ColorSystemProps) {
       </section>
 
       <section className="py-20 md:py-28">
-        <SectionHeading eyebrow="02 · Semantics" title="Status colors that stay in their lane." copy="Each intent owns a readable base, a lightened hover, a darkened active state, and a dark foreground for solid fills." />
+        <SectionHeading eyebrow="02 · Elevation" title="Foregrounds follow the surface." copy="Elevation becomes slightly lighter and warmer as context moves from page content toward focused overlays." />
+        <div className="grid gap-5 lg:grid-cols-4">
+          {surfaceSpecimens.map((surface) => (
+            <article className={`min-h-52 border p-6 ${surface.classes}`} key={surface.label}>
+              <p className="m-0 font-mono text-[9px] uppercase tracking-[.14em] text-foreground-muted">Visual specimen</p>
+              <h3 className="mt-14 font-display text-3xl font-normal">{surface.label}</h3>
+              <p className="mt-3 font-mono text-[9px] leading-5 text-foreground-muted">{surface.token}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28">
+        <SectionHeading eyebrow="03 · Interaction" title="Hover invites. Active confirms. Focus locates." copy="State changes increase contrast without changing the role a color communicates." />
+        <div className="flex flex-wrap gap-4 border border-border bg-surface p-6 md:p-10">
+          <button className="border border-primary bg-primary px-5 py-3 font-mono text-[10px] uppercase tracking-[.12em] text-primary-foreground transition-colors duration-150 hover:border-primary-hover hover:bg-primary-hover active:border-primary-active active:bg-primary-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" type="button">Primary action</button>
+          <button className="border border-border bg-surface px-5 py-3 font-mono text-[10px] uppercase tracking-[.12em] text-foreground transition-colors duration-150 hover:border-border-strong hover:bg-surface-raised active:bg-popover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" type="button">Neutral action</button>
+          <button className="border border-border bg-surface px-5 py-3 font-mono text-[10px] uppercase tracking-[.12em] text-foreground opacity-40" type="button" disabled>Disabled</button>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28">
+        <SectionHeading eyebrow="04 · Composition" title="Constraints keep color coherent." copy="The system stays expressive by limiting where each family can carry meaning." />
+        <ol className="m-0 grid list-none gap-px border border-border bg-border p-0 md:grid-cols-2">
+          {rules.map((rule, index) => (
+            <li className="grid min-h-40 grid-cols-[40px_1fr] gap-5 bg-background p-6" key={rule}>
+              <span className="font-mono text-[10px] text-primary">{String(index + 1).padStart(2, "0")}</span>
+              <p className="m-0 text-sm leading-7 text-foreground-muted">{rule}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="py-20 md:py-28">
+        <SectionHeading eyebrow="05 · Semantics" title="Status colors that stay in their lane." copy="Each intent owns a readable base, a lightened hover, a darkened active state, and a dark foreground for solid fills." />
         <div className="grid gap-5 lg:grid-cols-2">
           {semanticColorNames.map((name) => (
             <article className="border border-border bg-surface p-6" key={name}>
@@ -118,7 +152,7 @@ export function ColorSystem({ embedded = false }: ColorSystemProps) {
       </section>
 
       <section className="py-20 md:py-28">
-        <SectionHeading eyebrow="03 · Accents" title="Six categorical colors, two stable handles." copy="Use hue names when the color itself matters and ordinal aliases when assigning a sequence dynamically." />
+        <SectionHeading eyebrow="06 · Accents" title="Six categorical colors, two stable handles." copy="Use hue names when the color itself matters and ordinal aliases when assigning a sequence dynamically." />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {accentPalette.map((accent, index) => (
             <article className={`border p-6 ${accentClasses[index]}`} key={accent.name}>
@@ -131,46 +165,12 @@ export function ColorSystem({ embedded = false }: ColorSystemProps) {
             </article>
           ))}
         </div>
-        <div className="mt-5 flex items-center gap-4 border border-border bg-surface p-5 text-sm text-foreground-muted">
+        <div className="mt-5 flex flex-col items-start gap-4 border border-border bg-surface p-5 text-sm text-foreground-muted sm:flex-row sm:items-center">
           <span className="flex shrink-0 gap-1" aria-hidden="true">
             {accentPalette.map((accent) => <i className="size-2 rounded-full bg-(--accent-color)" style={{ "--accent-color": accent.value } as CSSProperties} key={accent.name} />)}
           </span>
           Dynamic consumers set <code className="font-mono text-primary">--accent-color</code> from the typed palette and use Tailwind variable utilities.
         </div>
-      </section>
-
-      <section className="py-20 md:py-28">
-        <SectionHeading eyebrow="04 · Elevation" title="Foregrounds follow the surface." copy="Elevation becomes slightly lighter and warmer as context moves from page content toward focused overlays." />
-        <div className="grid gap-5 lg:grid-cols-4">
-          {surfaceSpecimens.map((surface) => (
-            <article className={`min-h-52 border p-6 ${surface.classes}`} key={surface.label}>
-              <p className="m-0 font-mono text-[9px] uppercase tracking-[.14em] text-foreground-muted">Visual specimen</p>
-              <h3 className="mt-14 font-display text-3xl font-normal">{surface.label}</h3>
-              <p className="mt-3 font-mono text-[9px] leading-5 text-foreground-muted">{surface.token}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="py-20 md:py-28">
-        <SectionHeading eyebrow="05 · Interaction" title="Hover invites. Active confirms. Focus locates." copy="State changes increase contrast without changing the role a color communicates." />
-        <div className="flex flex-wrap gap-4 border border-border bg-surface p-6 md:p-10">
-          <button className="border border-primary bg-primary px-5 py-3 font-mono text-[10px] uppercase tracking-[.12em] text-primary-foreground transition-colors duration-150 hover:border-primary-hover hover:bg-primary-hover active:border-primary-active active:bg-primary-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" type="button">Primary action</button>
-          <button className="border border-border bg-surface px-5 py-3 font-mono text-[10px] uppercase tracking-[.12em] text-foreground transition-colors duration-150 hover:border-border-strong hover:bg-surface-raised active:bg-popover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring" type="button">Neutral action</button>
-          <button className="border border-border bg-surface px-5 py-3 font-mono text-[10px] uppercase tracking-[.12em] text-foreground opacity-40" type="button" disabled>Disabled</button>
-        </div>
-      </section>
-
-      <section className="py-20 md:py-28">
-        <SectionHeading eyebrow="06 · Composition" title="Constraints keep color coherent." copy="The system stays expressive by limiting where each family can carry meaning." />
-        <ol className="m-0 grid list-none gap-px border border-border bg-border p-0 md:grid-cols-2">
-          {rules.map((rule, index) => (
-            <li className="grid min-h-40 grid-cols-[40px_1fr] gap-5 bg-background p-6" key={rule}>
-              <span className="font-mono text-[10px] text-primary">{String(index + 1).padStart(2, "0")}</span>
-              <p className="m-0 text-sm leading-7 text-foreground-muted">{rule}</p>
-            </li>
-          ))}
-        </ol>
       </section>
 
       <div className="flex justify-end border-t border-border pb-4 pt-16">

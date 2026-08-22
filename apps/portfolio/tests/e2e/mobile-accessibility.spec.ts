@@ -7,6 +7,7 @@ const routes = [
   "/writing/goals-solutions-and-value",
   "/brand",
   "/design-system",
+  "/laws",
   "/relationship-graph",
 ];
 
@@ -57,14 +58,15 @@ test.describe("mobile accessibility and reflow", () => {
     await expect(page.locator(".tool-drawer-tab")).toBeHidden();
     expect(await tools.evaluate((element) => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);
 
+    await page.goto("/laws");
     const firstFilter = page.locator(".home-laws__pill").first();
-    await expect(firstFilter).toHaveAttribute("aria-pressed", "true");
+    await expect(firstFilter).toHaveAttribute("aria-pressed", "false");
     expect(await firstFilter.evaluate((element) => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);
     await firstFilter.click();
-    await expect(firstFilter).toHaveAttribute("aria-pressed", "false");
-    await expect.poll(
-      () => firstFilter.evaluate((element) => getComputedStyle(element).backgroundColor),
-    ).toBe("rgba(0, 0, 0, 0)");
+    await expect(firstFilter).toHaveAttribute("aria-pressed", "true");
+    expect(await firstFilter.evaluate((element) => getComputedStyle(element).backgroundColor)).not.toBe("rgba(0, 0, 0, 0)");
+
+    await page.goto("/");
 
     const dock = page.locator(".site-dock");
     await expect(dock).toBeVisible();

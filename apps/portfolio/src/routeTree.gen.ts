@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as EmbeddingSpaceRouteImport } from './routes/embedding-space'
+import { Route as LawsRouteImport } from './routes/laws'
 import { Route as LlmVisualizationRouteImport } from './routes/llm-visualization'
 import { Route as RelationshipGraphRouteImport } from './routes/relationship-graph'
 import { Route as SpaShellRouteImport } from './routes/spa-shell'
@@ -37,6 +38,11 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
 const EmbeddingSpaceRoute = EmbeddingSpaceRouteImport.update({
   id: '/embedding-space',
   path: '/embedding-space',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LawsRoute = LawsRouteImport.update({
+  id: '/laws',
+  path: '/laws',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LlmVisualizationRoute = LlmVisualizationRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
+  '/laws': typeof LawsRoute
   '/llm-visualization': typeof LlmVisualizationRoute
   '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
+  '/laws': typeof LawsRoute
   '/llm-visualization': typeof LlmVisualizationRoute
   '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
+  '/laws': typeof LawsRoute
   '/llm-visualization': typeof LlmVisualizationRoute
   '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/brand'
     | '/design-system'
     | '/embedding-space'
+    | '/laws'
     | '/llm-visualization'
     | '/relationship-graph'
     | '/spa-shell'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/brand'
     | '/design-system'
     | '/embedding-space'
+    | '/laws'
     | '/llm-visualization'
     | '/relationship-graph'
     | '/spa-shell'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/brand'
     | '/design-system'
     | '/embedding-space'
+    | '/laws'
     | '/llm-visualization'
     | '/relationship-graph'
     | '/spa-shell'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   BrandRoute: typeof BrandRoute
   DesignSystemRoute: typeof DesignSystemRoute
   EmbeddingSpaceRoute: typeof EmbeddingSpaceRoute
+  LawsRoute: typeof LawsRoute
   LlmVisualizationRoute: typeof LlmVisualizationRoute
   RelationshipGraphRoute: typeof RelationshipGraphRoute
   SpaShellRoute: typeof SpaShellRoute
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/embedding-space'
       fullPath: '/embedding-space'
       preLoaderRoute: typeof EmbeddingSpaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laws': {
+      id: '/laws'
+      path: '/laws'
+      fullPath: '/laws'
+      preLoaderRoute: typeof LawsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/llm-visualization': {
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrandRoute: BrandRoute,
   DesignSystemRoute: DesignSystemRoute,
   EmbeddingSpaceRoute: EmbeddingSpaceRoute,
+  LawsRoute: LawsRoute,
   LlmVisualizationRoute: LlmVisualizationRoute,
   RelationshipGraphRoute: RelationshipGraphRoute,
   SpaShellRoute: SpaShellRoute,

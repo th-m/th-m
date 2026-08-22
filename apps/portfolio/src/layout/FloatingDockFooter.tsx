@@ -49,9 +49,8 @@ const SOCIAL_LINKS: FloatingDockItem[] = [
 ];
 
 /**
- * Global social dock pinned to the bottom of the viewport on every route,
- * mirroring the fixed header. Composition is portfolio-owned; the dock
- * primitive itself lives in `@th-m/ui`.
+ * Global social dock placed in the footer on every route. Composition is
+ * portfolio-owned; the dock primitive itself lives in `@th-m/ui`.
  */
 export function FloatingDockFooter() {
   return <FloatingDock items={SOCIAL_LINKS} className="site-dock" />;

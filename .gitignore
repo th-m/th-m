@@ -11,6 +11,7 @@ playwright-report/
 .playwright-browsers/
 apps/portfolio/public/_content/
 apps/portfolio/src/generated/
+apps/portfolio/.tanstack/
 .bun-tmp/
 .bun-install-cache/
 *.tsbuildinfo

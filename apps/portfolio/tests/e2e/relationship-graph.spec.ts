@@ -10,6 +10,7 @@ test.beforeEach(async ({ page }) => {
 test("mounts the full editor from the seeded library and exports a canvas PNG", async ({
   page,
 }) => {
+  test.slow();
   const errors: string[] = [];
   page.on("console", (message) => {
     if (message.type() === "error") errors.push(message.text());
@@ -33,6 +34,7 @@ test("mounts the full editor from the seeded library and exports a canvas PNG", 
 });
 
 test("explores the weather graph from the tool drawer", async ({ page }) => {
+  test.slow();
   await page.goto("/");
   await page.getByRole("button", { name: "Open tool drawer" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();

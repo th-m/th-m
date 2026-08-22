@@ -44,10 +44,57 @@ function edgePath({ from, to }: EdgeAnchor): string {
   return `M ${from.x} ${from.y} C ${from.x} ${mid}, ${to.x} ${mid}, ${to.x} ${to.y}`;
 }
 
+interface EdgeLayerProps {
+  className: string;
+  markerId: string;
+  nodes: BundleNode[];
+  viewBox: { width: number; height: number };
+}
+
+function EdgeLayer({ className, markerId, nodes, viewBox }: EdgeLayerProps) {
+  const bySlug = new Map(nodes.map((node) => [node.slug, node]));
+
+  return (
+    <svg
+      className={["home-graph__edges", className].join(" ")}
+      viewBox={`0 0 ${viewBox.width} ${viewBox.height}`}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <marker
+          id={markerId}
+          markerWidth="8"
+          markerHeight="8"
+          refX="7"
+          refY="4"
+          orient="auto"
+          markerUnits="userSpaceOnUse"
+        >
+          <path className="home-graph__arrow" d="M 0 0 L 8 4 L 0 8 z" />
+        </marker>
+      </defs>
+      {articleBundleEdges.map((edge) => {
+        const from = bySlug.get(edge.from);
+        const to = bySlug.get(edge.to);
+        if (!from || !to) return null;
+        return (
+          <path
+            key={`${edge.from}-${edge.to}`}
+            className="home-graph__edge"
+            d={edgePath(edgeAnchor(from, to))}
+            markerEnd={`url(#${markerId})`}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
 /**
  * The essay-bundle graph for the home page: the three fundamental essays
  * converge on the Knowledge Factory, which branches into the Ontology and
- * Strategy essays. Nodes are spotlight cards that link to their articles; the
+ * Cognitive Factory essays. Nodes are spotlight cards that link to their articles; the
  * edges are a fixed SVG layer behind them.
  */
 export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps) {
@@ -63,36 +110,25 @@ export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps
     <section className={["home-graph", className].filter(Boolean).join(" ")} aria-labelledby="home-graph-title">
       <header className="home-graph__header">
         <h2 id="home-graph-title">AI Factory</h2>
+        <p className="home-graph__lede">
+          Three foundations converge into the Knowledge Factory, then branch into ontology and cognition.
+        </p>
       </header>
 
       <div className="home-graph__viewport">
         <div className="home-graph__frame">
-          <svg
-            className="home-graph__edges home-graph__edges--desktop"
-            viewBox={`0 0 ${viewWidth} ${viewHeight}`}
-            aria-hidden="true"
-            focusable="false"
-          >
-            {articleBundleEdges.map((edge) => {
-              const from = nodes.find((node) => node.slug === edge.from);
-              const to = nodes.find((node) => node.slug === edge.to);
-              if (!from || !to) return null;
-              return <path key={`${edge.from}-${edge.to}`} d={edgePath(edgeAnchor(from, to))} />;
-            })}
-          </svg>
-          <svg
-            className="home-graph__edges home-graph__edges--mobile"
-            viewBox={`0 0 ${MOBILE_BUNDLE_VIEWBOX.width} ${MOBILE_BUNDLE_VIEWBOX.height}`}
-            aria-hidden="true"
-            focusable="false"
-          >
-            {articleBundleEdges.map((edge) => {
-              const from = mobileBySlug.get(edge.from);
-              const to = mobileBySlug.get(edge.to);
-              if (!from || !to) return null;
-              return <path key={`${edge.from}-${edge.to}`} d={edgePath(edgeAnchor(from, to))} />;
-            })}
-          </svg>
+          <EdgeLayer
+            className="home-graph__edges--desktop"
+            markerId="home-graph-arrow-desktop"
+            nodes={nodes}
+            viewBox={BUNDLE_VIEWBOX}
+          />
+          <EdgeLayer
+            className="home-graph__edges--mobile"
+            markerId="home-graph-arrow-mobile"
+            nodes={mobileNodes}
+            viewBox={MOBILE_BUNDLE_VIEWBOX}
+          />
 
           {nodes.map((node) => {
             const post = bySlug.get(node.slug);
@@ -119,9 +155,16 @@ export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps
                   className="home-graph__node-link"
                   aria-label={`${post.title}. ${post.description}`}
                 >
-                  <span className="home-graph__node-kind">{KIND_LABEL[node.kind]}</span>
+                  <span className="home-graph__node-meta">
+                    <span className="home-graph__node-kind">{KIND_LABEL[node.kind]}</span>
+                    <span className="home-graph__node-order">{node.order}</span>
+                  </span>
                   <span className="home-graph__node-title">{post.title}</span>
-                  <span className="home-graph__node-desc" aria-hidden="true">{post.description}</span>
+                  <span className="home-graph__node-desc" aria-hidden="true">{node.summary}</span>
+                  <span className="home-graph__node-cta" aria-hidden="true">
+                    <span className="home-graph__node-cta-label">Read essay</span>
+                    <span>↗</span>
+                  </span>
                 </Link>
               </CardSpotlight>
             );
