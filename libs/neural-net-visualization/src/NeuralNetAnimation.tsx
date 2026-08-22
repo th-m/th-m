@@ -123,23 +123,31 @@ function EdgeGroup({
   layerCount,
   fromCount,
   toCount,
-  active,
+  forward,
   backward,
   cascade,
+  pathFrom,
+  pathTo,
 }: {
   fromLayer: number;
   toLayer: number;
   layerCount: number;
   fromCount: number;
   toCount: number;
-  active: boolean;
+  /** The forward wave has reached the target layer of this group. */
+  forward: boolean;
+  /** This group carries the backward (gradient) signal. */
   backward: boolean;
   cascade: boolean;
+  /** Dominant-path source node; when set, only that edge glows forward. */
+  pathFrom?: number;
+  /** Dominant-path target node; when set, only that edge glows forward. */
+  pathTo?: number;
 }) {
   const x1 = layerX(fromLayer, layerCount);
   const x2 = layerX(toLayer, layerCount);
   return (
-    <g className={`nnl-edges ${active ? "is-forward" : ""} ${backward ? "is-backward" : ""} ${cascade ? "is-cascade" : ""}`}>
+    <g className={`nnl-edges ${forward ? "is-forward" : ""} ${backward ? "is-backward" : ""} ${cascade ? "is-cascade" : ""}`}>
       {Array.from({ length: fromCount * toCount }, (_, pair) => {
         const i = Math.floor(pair / toCount);
         const j = pair % toCount;
@@ -147,10 +155,12 @@ function EdgeGroup({
         const y2 = nodeY(j, toCount);
         const midX = (x1 + x2) / 2;
         const midY = (y1 + y2) / 2;
+        const onPath = forward && pathFrom !== undefined && pathTo !== undefined && i === pathFrom && j === pathTo;
+        const edgeActive = backward || onPath;
         return (
           <path
             key={`${i}-${j}`}
-            className={`nnl-edge ${active ? "is-active" : ""}`}
+            className={`nnl-edge ${edgeActive ? "is-active" : ""}`}
             style={{ "--nnl-i": pair } as CSSProperties}
             d={`M ${x1} ${y1} Q ${midX} ${midY} ${x2} ${y2}`}
           />
@@ -221,11 +231,13 @@ export function NeuralNetAnimation({
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [epochIndex, setEpochIndex] = useState(0);
   const [playing, setPlaying] = useState(loop);
+  const [interacted, setInteracted] = useState(false);
 
   useEffect(() => {
     setPhaseIndex(0);
     setEpochIndex(0);
     setPlaying(loop);
+    setInteracted(false);
   }, [effect, loop]);
 
   useEffect(() => {
@@ -250,7 +262,49 @@ export function NeuralNetAnimation({
     if (phaseIndex >= phases.length - 1) setPlaying(false);
   }, [phaseIndex, loop, reduced, phases.length]);
 
-  const displayPhaseIndex = reduced ? phases.length - 1 : phaseIndex;
+  // Manual stepping pauses autoplay so the reader can inspect one state.
+  const lastPhase = phases.length - 1;
+  const pauseForInspection = () => {
+    setInteracted(true);
+    setPlaying(false);
+  };
+  const goToStep = (index: number) => {
+    pauseForInspection();
+    setPhaseIndex(Math.min(Math.max(index, 0), lastPhase));
+  };
+  const stepForward = () => {
+    pauseForInspection();
+    setPhaseIndex((current) => {
+      if (current >= lastPhase) {
+        if (effect === "backprop" && loop) {
+          setEpochIndex((epoch) => (epoch + 1) % trace.epochs.length);
+        }
+        return loop ? 0 : current;
+      }
+      return current + 1;
+    });
+  };
+  const stepBack = () => {
+    pauseForInspection();
+    setPhaseIndex((current) => {
+      if (current <= 0) {
+        if (effect === "backprop" && epochIndex > 0) {
+          setEpochIndex((epoch) => epoch - 1);
+          return lastPhase;
+        }
+        return 0;
+      }
+      return current - 1;
+    });
+  };
+  const togglePlay = () => {
+    setInteracted(true);
+    setPlaying((current) => !current);
+  };
+
+  // Under reduced motion the figure stays on the final labeled frame until
+  // the reader steps through it manually.
+  const displayPhaseIndex = reduced && !interacted ? lastPhase : phaseIndex;
   const phase = phases[Math.min(displayPhaseIndex, phases.length - 1)];
   const visual = visualFor(effect, phase.id);
   const layerCount = scenario.layerSizes.length;
@@ -274,6 +328,17 @@ export function NeuralNetAnimation({
     const activations: LayerActivations = effect === "backprop" && visual.updating ? nextEpochData.activations : epochData.activations;
     return activations[layer] ?? [];
   };
+
+  // The dominant path: the strongest node per layer. A forward pass lights
+  // only this route through the dense network; the rest of the fan stays dim.
+  const pathByLayer = scenario.layerSizes.map((count, layer) => {
+    if (layer === layerCount - 1) {
+      const scores = probabilities;
+      return scores.indexOf(Math.max(...scores));
+    }
+    const values = activationsForNode(layer);
+    return values.indexOf(Math.max(...values));
+  });
 
   const backEdgeGroup = visual.backEdgeGroup;
   const edgeGroups = layerCount - 1;
@@ -313,7 +378,7 @@ export function NeuralNetAnimation({
 
           {Array.from({ length: edgeGroups }, (_, group) => {
             const backward = backEdgeGroup === group;
-            const forwardActive = !backward && visual.lit.includes(group + 1);
+            const forward = !backward && visual.lit.includes(group + 1);
             return (
               <EdgeGroup
                 key={group}
@@ -322,15 +387,18 @@ export function NeuralNetAnimation({
                 layerCount={layerCount}
                 fromCount={scenario.layerSizes[group]}
                 toCount={scenario.layerSizes[group + 1]}
-                active={forwardActive}
+                forward={forward}
                 backward={backward}
                 cascade={visual.cascade === true}
+                pathFrom={forward ? pathByLayer[group] : undefined}
+                pathTo={forward ? pathByLayer[group + 1] : undefined}
               />
             );
           })}
 
           {scenario.layerSizes.map((count, layer) => {
             const values = activationsForNode(layer);
+            const pathNode = pathByLayer[layer];
             return Array.from({ length: count }, (_, index) => {
               const isOutput = layer === layerCount - 1;
               const value = isOutput ? probabilities[index] : (values[index] ?? 0);
@@ -343,7 +411,7 @@ export function NeuralNetAnimation({
                   count={count}
                   value={value}
                   label={isOutput ? outputTokenLabels[index] : undefined}
-                  lit={visual.lit.includes(layer)}
+                  lit={visual.lit.includes(layer) && index === pathNode}
                   adjusting={visual.updating === true}
                   selecting={visual.selecting === true && index === winnerIndex}
                   target={effect === "backprop" && isOutput && index === scenario.targetIndex}
@@ -372,9 +440,48 @@ export function NeuralNetAnimation({
         </div>
       </div>
 
+      <div className="nnl__controls" aria-label="Step through the animation">
+        <button type="button" className="nnl__ctrl nnl__ctrl--prev" onClick={stepBack} aria-label="Previous step">
+          <span aria-hidden="true">‹</span>
+          <span className="nnl__ctrl-label">Prev</span>
+        </button>
+        <ol className="nnl__steps">
+          {phases.map((phase, index) => {
+            const active = displayPhaseIndex === index;
+            return (
+              <li key={phase.id}>
+                <button
+                  type="button"
+                  className="nnl__step"
+                  aria-current={active ? "step" : undefined}
+                  aria-label={`Step ${index + 1} of ${phases.length}: ${phase.label} — ${phase.detail}`}
+                  onClick={() => goToStep(index)}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+        <button type="button" className="nnl__ctrl nnl__ctrl--next" onClick={stepForward} aria-label="Next step">
+          <span className="nnl__ctrl-label">Next</span>
+          <span aria-hidden="true">›</span>
+        </button>
+        <button
+          type="button"
+          className="nnl__ctrl nnl__ctrl--play"
+          onClick={togglePlay}
+          aria-pressed={playing}
+          aria-label={playing ? "Pause the animation" : "Play the animation"}
+        >
+          {playing ? "Pause" : "Play"}
+        </button>
+      </div>
+
       <div className="nnl__readout" role="status" aria-live="polite">
         <div className="nnl__readout-copy">
-          <strong>{phase.label}</strong>
+          <p className="nnl__readout-step">Step {displayPhaseIndex + 1} of {phases.length}</p>
+          <strong className="nnl__readout-op">{phase.label}</strong>
           <span>{phase.detail}</span>
         </div>
         {effect === "backprop" ? (

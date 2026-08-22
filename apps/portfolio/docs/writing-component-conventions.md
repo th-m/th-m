@@ -79,7 +79,9 @@ understood. Author it in a reusable visualization library
 `ArticleContent`'s `inlineFigures` map under a marker id, and place
 `<!-- <marker-id> -->` in the article body at the exact point the figure
 belongs. Every such component must collapse to a static labeled frame under
-reduced motion.
+reduced motion. It may offer optional step controls (as
+`libs/neural-net-visualization` does — numbered steps, Prev/Next, Play/Pause)
+as long as it stays self-playing and understandable without any interaction.
 
 ### Escalation ladder
 

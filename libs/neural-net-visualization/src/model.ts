@@ -213,18 +213,18 @@ export interface NeuralNetPhase {
 }
 
 const inferencePhases: readonly NeuralNetPhase[] = [
-  { id: "input", label: "Input", detail: "The input values light the first layer." },
-  { id: "h1", label: "Hidden 1", detail: "Activations propagate through the first hidden layer." },
-  { id: "h2", label: "Hidden 2", detail: "The second hidden layer transforms the signal." },
-  { id: "output", label: "Output", detail: "The output layer scores every candidate token." },
-  { id: "select", label: "Selection", detail: "The highest-scoring token is selected." },
+  { id: "input", label: "Forward pass · Input", detail: "The input values light the first layer." },
+  { id: "h1", label: "Forward pass · Hidden 1", detail: "Activations propagate through the first hidden layer." },
+  { id: "h2", label: "Forward pass · Hidden 2", detail: "The second hidden layer transforms the signal." },
+  { id: "output", label: "Forward pass · Output", detail: "The output layer scores every candidate token." },
+  { id: "select", label: "Selection · highest score", detail: "The highest-scoring token is selected." },
 ];
 
 const feedForwardPhases: readonly NeuralNetPhase[] = [
-  { id: "input", label: "Input", detail: "Each input node supplies one value." },
-  { id: "h1", label: "Hidden 1 · compute", detail: "Weighted sums pass through the activation, node by node." },
-  { id: "h2", label: "Hidden 2 · compute", detail: "The next layer recomputes every node from the previous one." },
-  { id: "output", label: "Output · compute", detail: "Output scores are normalized into probabilities." },
+  { id: "input", label: "Feed-forward · Input", detail: "Each input node supplies one value." },
+  { id: "h1", label: "Feed-forward · Hidden 1", detail: "Weighted sums pass through the activation, node by node." },
+  { id: "h2", label: "Feed-forward · Hidden 2", detail: "The next layer recomputes every node from the previous one." },
+  { id: "output", label: "Feed-forward · Output", detail: "Output scores are normalized into probabilities." },
 ];
 
 const backpropPhases: readonly NeuralNetPhase[] = [

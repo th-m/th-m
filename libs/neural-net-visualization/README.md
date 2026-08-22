@@ -2,27 +2,34 @@
 
 ## Purpose
 
-`@th-m/neural-net-visualization` provides a reusable, non-interactive React
-component that plays preset animated scenes on a small left-to-right neural
-network: a forward inference pass with glowing nodes, a focused feed-forward
-computation wave, and a training scene in which a bad guess produces a loss and
-backpropagation visibly adjusts the numbers inside the nodes. It uses local
-illustrative values, makes no live model calls, and never requires the reader
-to operate controls.
+`@th-m/neural-net-visualization` provides a reusable React component that plays
+preset animated scenes on a small left-to-right neural network: a forward
+inference pass with glowing nodes, a focused feed-forward computation wave, and
+a training scene in which a bad guess produces a loss and backpropagation
+visibly adjusts the numbers inside the nodes. The figure is self-playing by
+default, and the reader can pause it and step through the timeline — jumping to
+any numbered step, or moving one step forward or backward — to inspect the
+exact network state at each operation. It uses local illustrative values, makes
+no live model calls, and displays only deterministic seeded teaching traces.
 
 ## Ontology
 
 The component separates the deterministic illustrative scenario, the pure
-forward and training math, the per-effect animation timeline, and the SVG
-rendering. A **neural-net figure** is one self-playing scene selected by an
-`effect` prop; the reader watches it rather than stepping through it. Learned
-parameters and temporary activations remain explicit semantic kinds, and all
-values are seeded teaching traces rather than measurements of a real model.
+forward and training math, the per-effect operation timeline, and the SVG
+rendering. A **neural-net figure** is one scene selected by an `effect` prop;
+each scene exposes one **step** per operation (for example, a forward pass
+through hidden layer 1), shown as a numbered control the reader can activate.
+Learned parameters and temporary activations remain explicit semantic kinds,
+and all values are seeded teaching traces rather than measurements of a real
+model.
 
 ## Key Terms
 
-- **Effect:** one self-playing animation scene — `inference`, `feed-forward`,
-  or `backprop` — selected through the component props.
+- **Effect:** one animation scene — `inference`, `feed-forward`, or `backprop`
+  — selected through the component props.
+- **Step:** one operation within a scene (input, a hidden-layer pass, output,
+  loss, backward pass, update), reachable by number so the reader can inspect
+  the network state at that exact point.
 - **Scenario:** the deterministic layer sizes, weights, biases, input, and
   target that define the illustrative network and its traces.
 - **Teaching trace:** the fixed per-phase activation, probability, loss, and
@@ -46,11 +53,16 @@ import { NeuralNetAnimation } from "@th-m/neural-net-visualization";
 <NeuralNetAnimation effect="backprop" />
 ```
 
+The figure plays automatically by default. Selecting a numbered step, pressing
+Prev/Next, or toggling Play/Pause pauses autoplay so the reader can inspect a
+single state; Play resumes the loop.
+
 ## Accessibility
 
-The figure is decorative-by-default with a labeled summary; when the summary is
-hidden the component still carries an `aria-label`. The active phase is
-announced through an `aria-live` region so screen-reader users learn what the
-animation is showing without needing controls. `prefers-reduced-motion`
-collapses every scene to a static labeled frame (the system preference can be
-overridden through the `reducedMotion` prop).
+The figure carries an `aria-label` naming the effect and a step bar of real
+buttons, each labeled `Step N of M: <operation> — <detail>`, with the active
+step marked via `aria-current`. The current operation is announced through an
+`aria-live` region, and the Play/Pause control uses `aria-pressed`.
+`prefers-reduced-motion` collapses every scene to a static labeled frame (the
+system preference can be overridden through the `reducedMotion` prop); under
+reduced motion the reader can still step through the static frames manually.
