@@ -121,7 +121,7 @@ test("renders the minimal home with logo and writings", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
   await expect(page.getByRole("heading", { name: "Writings" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Explore the THOM brand" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Explore the writing" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Measured to stay itself at every scale." })).toHaveCount(0);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(overflow).toBe(false);
@@ -743,7 +743,7 @@ test.describe("no JavaScript", () => {
     await page.goto("/");
     await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
     await expect(page.getByRole("heading", { name: "Writings" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Explore the THOM brand" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Explore the writing" })).toBeVisible();
   });
 
   test("prerenders the full brand page and static mark", async ({ page }) => {

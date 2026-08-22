@@ -31,7 +31,7 @@ function HomePage() {
         <div className="home-mark__logo">
           <AnimatedThomLogo />
         </div>
-        <Link className="home-mark__link" to="/brand">Explore the THOM brand <span aria-hidden="true">→</span></Link>
+        <Link className="home-mark__link" to="/writing">Explore the writing <span aria-hidden="true">→</span></Link>
       </section>
 
       <section className="home-writings" id="writings" aria-labelledby="writings-title">
