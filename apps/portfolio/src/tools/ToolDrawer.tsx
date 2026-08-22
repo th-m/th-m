@@ -35,15 +35,29 @@ export function ToolDrawer() {
       <Drawer open={activeTool !== null} onOpenChange={(open) => { if (!open) closeTool(); }}>
         {activeTool ? (
           <DrawerContent>
-            <DrawerHeader>
-              <div>
-                <p className="eyebrow">{activeTool.eyebrow}</p>
-                <DrawerTitle>{activeTool.label}</DrawerTitle>
-                <DrawerDescription>{activeTool.description}</DrawerDescription>
+            <DrawerHeader className="tool-drawer-header-stacked">
+              <div className="tool-drawer-header-top">
+                <div>
+                  <p className="eyebrow">{activeTool.eyebrow}</p>
+                  <DrawerTitle>{activeTool.label}</DrawerTitle>
+                  <DrawerDescription>{activeTool.description}</DrawerDescription>
+                </div>
+                <DrawerClose className="thom-drawer-close" aria-label="Close tool drawer">
+                  <span aria-hidden="true">×</span>
+                </DrawerClose>
               </div>
-              <DrawerClose className="thom-drawer-close" aria-label="Close tool drawer">
-                <span aria-hidden="true">×</span>
-              </DrawerClose>
+              <nav className="tool-drawer-switcher" aria-label="Auxiliary tools">
+                {toolRegistry.map((tool) => (
+                  <button
+                    type="button"
+                    key={tool.id}
+                    aria-pressed={activeTool.id === tool.id}
+                    onClick={() => openTool(tool.id)}
+                  >
+                    {tool.label}
+                  </button>
+                ))}
+              </nav>
             </DrawerHeader>
             <DrawerBody>
               {ActiveTool ? <ActiveTool /> : null}

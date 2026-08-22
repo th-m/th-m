@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { EmbeddingExplorer } from "./embedding/EmbeddingExplorer";
+import { LlmExplorer } from "./llm-explorer/LlmExplorer";
 
 export interface ToolDefinition {
   id: string;
@@ -21,5 +22,12 @@ export const toolRegistry: ToolDefinition[] = [
     eyebrow: "Auxiliary interactive",
     description: "Search the curated GPT-2 token space and inspect nearest neighbors.",
     content: EmbeddingExplorer,
+  },
+  {
+    id: "llm-explorer",
+    label: "LLM explorer",
+    eyebrow: "Auxiliary interactive",
+    description: "Watch token-by-token generation, decoding strategies, and training in the browser.",
+    content: LlmExplorer,
   },
 ];
