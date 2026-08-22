@@ -72,6 +72,9 @@ problem-solving capacity.
   features.
 - **Distillation:** compressing many observations into a useful model while
   preserving uncertainty, dissent, provenance, and consequential detail.
+- **Evaluative closure:** enough relevant understanding, evidence, criteria, and
+  authority to accept, revise, reject, or stop without pretending to have
+  certainty.
 - **Customer empathy:** disciplined contact with how a situation is experienced,
   including the customer's goals, costs, habits, fears, incentives, and trust.
 
@@ -87,144 +90,85 @@ problem-solving capacity.
   understanding.
 - AI can contribute to interpretation and discovery; the narrower claim is that
   people and institutions remain accountable for which model guides action.
-- Do not present AI coding as a demonstrated cause of addiction, psychosis, or
-  burnout. Distinguish personal accounts, a self-selected survey, expert
-  interpretation, correlational findings, and prospective hypotheses.
+- Attribute claims from Terence Tao's talk to Tao, and distinguish the recorded
+  lecture, the accompanying essay, and the article's application of the example
+  to organizational understanding.
 
 ## Section Notes
 
-### 1. When Output Outruns Understanding
+### 1. When Verification Outruns Understanding
 
-Open with a tension: AI coding can feel simultaneously productive,
-exhilarating, compulsive, and exhausting. In Scott Tolinski's
-[“The True Cost of AI Coding”](https://www.youtube.com/watch?v=iPUn1Fnfn0k),
-Adam Elmore describes intense late-night AI use preceding the worst burnout of
-his 17-year development career. The pull was not only to finish a task, but to
-keep the model working and get to the next prompt. His experience eventually
-included disrupted sleep, exhaustion, and a loss of his former excitement for
-programming. Treat this as one person's account, not as causal evidence for a
-general population.
+Open with AI-assisted mathematics because it provides an unusually clean case
+of output becoming abundant while understanding remains scarce. Mathematical
+work can separate three operations that ordinary knowledge work often blends:
 
-Tolinski also reports an exploratory survey of nearly 1,300 developers. The
-respondents were self-selected, the survey was still collecting data when the
-video was produced, and the results should not be generalized to all
-developers. Within that respondent group:
+1. **Generation:** produce candidate conjectures, proofs, counterexamples,
+   programs, and intermediate lemmas.
+2. **Verification:** determine whether an artifact satisfies stated formal
+   constraints through expert review, tests, or a proof assistant.
+3. **Interpretation and adoption:** determine whether the formalization matches
+   the intended question, what the result teaches, why it matters, how it should
+   be explained, and whether it belongs in the field's reusable knowledge.
 
-- 46% said they regularly continued prompting past their intended stopping
-  time;
-- among those who overran their stopping time, 58% reported moderate or greater
-  changes to sleep, compared with 17% among those who stopped on time;
-- 65% reported often or daily pressure to produce more because AI made more
-  output possible;
-- 59% felt their coding skills were diminishing; and
-- 54% reported less genuine enjoyment or flow from coding.
+Terence Tao's 2026 ICM talk,
+[“Mathematics in the Age of AI”](https://www.simonsfoundation.org/2026/08/13/fields-medalist-terence-tao-on-artificial-intelligence-and-why-we-do-math/),
+and the accompanying
+[essay](https://arxiv.org/abs/2608.16753) provide the organizing example. Tao
+asks the mathematical community to assume that AI will perform a meaningful
+share of research-level tasks, then examine the harder question this abundance
+exposes: what are the actual goals and values of mathematical work?
 
-These associations do not establish direction or cause. Sleep disruption might
-increase compulsive use; compulsive use might disrupt sleep; workplace pressure
-or another variable might contribute to both. Use the survey to establish that
-the experience deserves investigation, not that the mechanism has already been
-proven.
-
-[Dr. Courtney Tolinski](https://phases.fm/) interprets part of the pull as a
-variable-reward system: an imperfect result creates anticipation that one more
-prompt might produce the ideal solution. The slot-machine comparison is closer
-to **variable-ratio operant conditioning** than classical Pavlovian
-conditioning. Do not call this `psychosis` as a clinical diagnosis. If
-developers' colloquial phrases such as “AI psychosis” or “cyber psychosis” are
-used, identify them as provocative descriptions of an intense or compulsive
-work pattern.
-
-Do not reduce the whole phenomenon to a dopamine story. The interviews suggest
-several interacting pressures:
-
-- time saved in generation can be replaced by more review, decisions,
-  supervision, and context switching;
-- higher output can become a new managerial baseline rather than reclaimed
-  time;
-- supervising generated code can weaken the flow, craft, and professional
-  identity some developers valued in writing it;
-- job insecurity can make stopping feel professionally dangerous; and
-- people differ: boundaries, active review, specialized goals, and control over
-  work conditions can make AI use energizing rather than depleting.
-
-The [2026 Stanford AI Index](https://hai.stanford.edu/assets/files/ai_index_report_2026.pdf)
-is useful context for this pressure, not evidence about mental health. It
-reports a study in which developers with GitHub Copilot completed 26% more pull
-requests, while also reviewing evidence that productivity effects vary by task
-and expertise. Faster production is real in some settings; it does not tell us
-whether the additional output is valuable, sustainable, or psychologically
-healthy.
-
-The article's contribution is a narrower hypothesis: the intermittent-reward
-loop may become especially destabilizing when the user lacks **evaluative
-closure**—the domain knowledge, tests, constraints, and authority needed to
-predict, inspect, and stop on valuable output. Prompting then becomes repeated
-guessing instead of controlled inference. An occasional success rewards another
-attempt, but the user may be unable to explain why it worked, reproduce it, or
-recognize when continued iteration is making the system worse.
+Solving or verifying a proof is only the beginning of the pipeline. The result
+must still be explained, evaluated, attributed, reviewed, connected to other
+work, taught, and eventually incorporated into the field's canonical knowledge.
+If proof generation accelerates faster than those downstream practices, the
+community develops what Tao calls **proof indigestion**: candidate proofs outrun
+verification, verified proofs outrun explanation, and published work outruns
+collective absorption.
 
 ```mermaid
 flowchart LR
-    A["Ambiguous prompt"] --> B["Rapid, plausible result"]
-    B --> C{"Can the user evaluate it?"}
-    C -- "No clear basis" --> D["Intermittent reward and another prompt"]
-    D --> E["Context switching, rework, and fatigue"]
-    E --> A
-    C -- "Domain criteria available" --> F["Test, accept, revise, or stop"]
+    G["Generate"] --> V["Verify"]
+    V --> E["Explain and evaluate"]
+    E --> A["Community adoption"]
+    A --> C["Canonical knowledge"]
 ```
 
-Connect this to Rossi, Fraccaro, and Manzotti's open-access commentary,
-[“The brain side of human-AI interactions in the long-term: the ‘3R
-principle’”](https://www.nature.com/articles/s44387-025-00063-1). Their framework
-distinguishes an AI **Result** from a human **Response** through
-**Responsibility**: a person must actively interpret, evaluate, and take
-responsibility for the result before acting on it. The authors hypothesize that
-passive AI reliance may weaken activity-dependent plasticity while active
-co-creation may preserve it, but they explicitly call for prospective studies.
-Use the 3R principle as a conceptual bridge, not as proof that AI coding has
-already degraded developers' brains:
+A formal certificate can establish that a derivation follows from encoded
+definitions and axioms. It cannot by itself establish that the encoding
+faithfully represents the informal question, that the result is significant,
+or that anyone has developed a transferable understanding of why it works. Tao
+proposes a practical test: authors should be able to give a clear, correct, and
+properly attributed expert talk about a result before it is treated as complete,
+even when the proof has been formally verified.
 
-```mermaid
-flowchart LR
-    AI["AI output"] --> R1["Result"]
-    R1 --> R2["Responsibility<br/>human evaluation"]
-    R2 --> R3["Response<br/>situated action"]
-```
+The recent OpenAI unit-distance result gives the opening a concrete case. Its
+proof was checked by external mathematicians, while OpenAI's own account still
+concludes that people choose important problems and interpret their
+significance: [“An OpenAI model has disproved a central conjecture in discrete
+geometry”](https://openai.com/index/model-disproves-discrete-geometry-conjecture/).
+The [Leiden Declaration on Artificial Intelligence and
+Mathematics](https://leidendeclaration.ai/) adds the institutional requirements:
+correctness must sit alongside understanding, depth, attribution, transparency,
+and human direction of research.
 
-This produces the opening question: **does AI-assisted development become more
-compulsive and exhausting when people can generate results faster than they can
-understand, evaluate, and turn into responsible responses?**
+This connects directly to **Truth, Entropy, and Inference**. Mathematics is
+unusually pattern-dense and mechanically constrained, so AI systems can search
+and verify candidate work at extraordinary scale. The case then reveals the
+next bottleneck: even where correctness can be checked, someone must interpret
+what the output means, decide what deserves attention, connect it to existing
+knowledge, and make it usable by other people.
 
-The question is organizational as well as personal. When output accelerates but
-understanding does not, people inherit more artifacts to inspect, more decisions
-to make, and more uncertainty about when the work is good enough. A workplace
-that treats generation as the bottleneck will demand still more output. One
-that recognizes understanding as the bottleneck will build the context,
-evaluation, boundaries, and shared judgment that let people stop responsibly.
+The opening question becomes:
 
-Source leads and perspectives for this opening:
+> **What becomes scarce when a system can produce more correct work than a
+> community can understand, evaluate, and absorb?**
 
-- [Dr. Courtney Tolinski](https://phases.fm/), PhD, LP, NCSP, for the
-  mental-health and variable-reward interpretation.
-- [Adam Elmore](https://x.com/adamdotdev) for the opening burnout account.
-- [Mark Erikson](https://bsky.app/profile/acemarke.dev) and his
-  [blog](https://blog.isquaredsoftware.com/) for the shift from writing code to
-  supervising output and retaining decision control.
-- [Miranda Heath](https://mirandaheath.website/) for research perspectives on
-  software-developer burnout and AI-agent use.
-- [Aaron Francis](https://aaronfrancis.com/) for the counterexample of
-  sustainable use through boundaries, offline life, and narrower ambition.
-- The [2026 Stanford AI Index](https://hai.stanford.edu/assets/files/ai_index_report_2026.pdf)
-  for productivity and labor-market context.
-- Rossi, Fraccaro, and Manzotti's [3R principle](https://www.nature.com/articles/s44387-025-00063-1)
-  for the result–responsibility–response distinction and its stated research
-  limitations.
-
-If the published article describes anxiety, depression, sleep disruption, or
-loss of functioning, include a short resource note: readers can consult a
-licensed mental-health professional or [ADAA](https://adaa.org/); people in
-crisis in the United States can call or text [988](https://988lifeline.org/),
-and immediate danger requires emergency services.
+That is not only a question for mathematicians. Every organization can produce
+more research summaries, analyses, specifications, designs, and code than its
+people can integrate into a responsible model of what to do next. Formal
+verification makes the boundary unusually visible; understanding is the general
+organizational bottleneck.
 
 ### 2. What Understanding Adds
 
@@ -341,69 +285,7 @@ undefined term. Therefore every important synthesis should expose:
 - its confidence and limits; and
 - the next observation that would discriminate among alternatives.
 
-### 9. When Verification Outruns Understanding
-
-Use recent AI-assisted mathematics as a clean case study. The examples connect
-back to **Truth, Entropy, and Inference**: mathematics is unusually
-pattern-dense because its definitions, symbols, proof practices,
-counterexamples, and formal verification systems supply precise constraints
-and unusually strong rejection signals.
-
-The important development is not merely that models can generate plausible
-proofs. Agentic systems can produce conjectures, proof attempts,
-counterexamples, programs, intermediate lemmas, and—in some cases—formal
-certificates at a rate no mathematical community could read line by line. Much
-of this machine-generated corpus may be mechanically filtered, discarded, or
-retained without a person ever reading it end to end.
-
-Keep the terminology precise. These artifacts are **synthetic mathematical
-work** or a **machine-generated corpus**. They become **synthetic training
-data** only when they are retained and used to train, fine-tune, or otherwise
-condition future systems.
-
-Separate three operations that are easy to collapse:
-
-1. **Generation:** search produces candidate claims, proofs, counterexamples,
-   code, and intermediate artifacts.
-2. **Verification:** experts, tests, or proof assistants determine whether an
-   artifact satisfies stated formal constraints.
-3. **Interpretation and governance:** people determine whether the
-   formalization matches the intended problem, what the result teaches, how
-   significant it is, who should receive credit, and which questions deserve
-   further pursuit.
-
-A formal certificate can establish that a derivation follows from encoded
-definitions and axioms. It does not by itself establish that the encoding
-faithfully represents the informal question, that the result contributes human
-understanding, or that it was worth the resources and attention devoted to it.
-
-The recent OpenAI unit-distance result is useful because its proof was checked
-by external mathematicians, while OpenAI's own account still concludes that
-people choose important problems and interpret their significance:
-[“An OpenAI model has disproved a central conjecture in discrete
-geometry”](https://openai.com/index/model-disproves-discrete-geometry-conjecture/).
-The [Leiden Declaration on Artificial Intelligence and
-Mathematics](https://leidendeclaration.ai/) supplies the complementary
-qualification: mathematical practice values not only correctness but also
-understanding, depth, significance, attribution, transparency, and human
-control over research direction. Use the
-[video explainer](https://www.youtube.com/watch?v=iuZPTE5qsJY) as the narrative
-lead, but verify each named result against its paper or another primary source
-before publication.
-
-Candidate compact passage:
-
-> Mathematics may be the clearest case of output outrunning understanding. It
-> is unusually pattern-dense and increasingly machine-verifiable: models can
-> generate conjectures, proof attempts, counterexamples, programs, and formal
-> certificates faster than a mathematical community could read them line by
-> line. Verification can filter this machine-generated corpus for formal
-> validity, but it cannot by itself determine whether the formalization matches
-> the intended question, whether a result is significant, or which questions
-> deserve pursuit. The bottleneck moves from producing candidate knowledge to
-> interpreting and governing it.
-
-### 10. Understanding Is Organizational, Not Merely Individual
+### 9. Understanding Is Organizational, Not Merely Individual
 
 An insight trapped in one person's head is a throughput constraint. Shared
 understanding becomes visible through language, models, decisions, tests,
@@ -413,7 +295,7 @@ The organization needs mechanisms that let teams retrieve why a decision was
 made, trace concepts to evidence, see where contexts differ, and update the
 model after outcomes arrive. This is the bridge to the knowledge factory.
 
-### 11. Action Completes the Loop
+### 10. Action Completes the Loop
 
 Understanding is demonstrated by better prediction and revision, not by the
 feeling of clarity. Teams must act at a scale that makes learning affordable,
@@ -427,7 +309,7 @@ Use the loop:
 The discipline is to improve the loop's fidelity and speed without allowing
 speed to erase meaningful context.
 
-### 12. Understanding Is a Skill to Look For
+### 11. Understanding Is a Skill to Look For
 
 As generated output becomes cheaper, the ability to turn it into a grounded,
 testable model becomes more valuable. Organizations should look for, develop,
@@ -450,11 +332,11 @@ making it common across roles.
 
 ## Visual Notes
 
-1. **The evaluative-closure loop:** ambiguous prompt → plausible result →
-   inability to evaluate → intermittent reward → more prompting and fatigue,
-   contrasted with a path to testing and stopping.
-2. **The 3R bridge:** AI output → result → human responsibility → situated
-   response.
+1. **Proof abundance:** generation → verification → explanation and evaluation →
+   community adoption → canonical knowledge, with bottlenecks accumulating at
+   each downstream stage.
+2. **Correctness versus understanding:** a formally verified artifact contrasted
+   with the human work required to interpret, teach, value, and reuse it.
 3. **Understanding as a multiplier:** team signals flow through distillation and
    return as shared context, clearer boundaries, and greater team autonomy.
 4. **Gated versus distributed solutioning:** a queue through one decision-maker
@@ -470,20 +352,16 @@ making it common across roles.
 
 ## Research Queue
 
-- Primary research on variable-ratio reinforcement, compulsive technology use,
-  automation bias, cognitive load, and developer burnout. Look specifically for
-  evidence that distinguishes an intermittent-reward hypothesis from a merely
-  provocative analogy.
-- The final questionnaire, sampling method, analysis, and dataset—if
-  published—for Tolinski's developer survey. Do not promote its percentages
-  from an exploratory source lead into final population claims without that
-  methodological review.
-- Research separating the effects of output volume, review load, context
-  switching, managerial expectations, skill offloading, and loss of flow in
-  AI-assisted development.
-- Prospective evidence testing passive versus actively engaged AI use, rather
-  than treating the 3R commentary's neuroplasticity hypothesis as an observed
-  long-term effect.
+- Terence Tao's ICM lecture and accompanying essay on the goals and values of
+  mathematical research, the proof pipeline, proof indigestion, and the
+  expert-talk test. Attribute quotations to the correct version.
+- The primary paper and external mathematical review for the OpenAI
+  unit-distance result; keep generation, formal verification, independent
+  checking, significance, and attribution distinct.
+- The Leiden Declaration's recommendations on verification, understanding,
+  transparency, attribution, and human direction of mathematical work.
+- Research on how expert communities turn individually correct results into
+  shared, teachable, cumulative knowledge.
 
 ## Candidate Closing Line
 
