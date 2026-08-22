@@ -275,11 +275,11 @@
 .nnl-loss__line {
   fill: none;
   stroke: var(--nnl-error);
-  stroke-width: 1.5;
-  stroke-dasharray: 4 5;
-  stroke-opacity: .9;
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--nnl-error) 45%, transparent));
-  animation: nnl-loss-flow 1.3s var(--nnl-ease) infinite;
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+  stroke-opacity: 1;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--nnl-error) 65%, transparent));
+  animation: nnl-loss-glow 1.2s var(--nnl-ease) infinite;
 }
 
 .nnl-loss__label {
@@ -290,8 +290,15 @@
   fill: var(--nnl-error);
 }
 
-@keyframes nnl-loss-flow {
-  to { stroke-dashoffset: -18; }
+@keyframes nnl-loss-glow {
+  0%, 100% {
+    stroke-opacity: .7;
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--nnl-error) 40%, transparent));
+  }
+  50% {
+    stroke-opacity: 1;
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--nnl-error) 85%, transparent));
+  }
 }
 
 /* Controls */
