@@ -64,6 +64,10 @@ export default defineConfig(({ mode }) => ({
         crawlLinks: false,
         retryCount: 2,
         retryDelay: 250,
+        // Low concurrency keeps the local preview-server fetches from racing
+        // (transient failures would silently drop a page, since this
+        // tanstack-start version's prerender retry is a no-op).
+        concurrency: 1,
         failOnError: true,
       },
       pages: publishedPages(),
