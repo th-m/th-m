@@ -184,7 +184,26 @@ vendor architecture:
 8. **Feedback and learning:** outcomes update decisions, ontologies, examples,
    evaluations, and future context.
 
-### 6. Graph Context Exploration
+### 6. The Cognitive Light Cone Scorecard
+
+Use the cognitive light cone as a diagnostic for how much of the relevant
+domain a system can observe, interpret, affect, and learn from:
+
+- **LLM:** works from supplied context without its own harness. Humans select
+  the evidence, state the goal, and evaluate the response.
+- **Agent:** combines an LLM with tools, memory, and bounded workflows. Humans
+  establish its objective, permissions, evaluation, and escalation boundaries.
+- **Knowledge factory:** connects agents to organizational data, context stores,
+  operational signals, evaluations, and feedback loops. Humans systematize the
+  inputs, govern how evidence is interpreted, and remain accountable for the
+  values and decisions propagated through the system.
+
+Score each system across decision-relevant observability, semantic context,
+evaluation, feedback, reversibility, authority, and accountability. Expanding a
+system's cognitive light cone increases what it can coordinate; it does not by
+itself authorize the governing values it applies.
+
+### 7. Graph Context Exploration
 
 Make this a signature concept rather than a generic knowledge graph pitch.
 
@@ -202,7 +221,7 @@ The graph may be implemented through links, metadata, schemas, code
 dependencies, event lineage, or a graph database. The product requirement is
 traversable relationships with provenance, not a particular storage engine.
 
-### 7. From Documents to Executable Context
+### 8. From Documents to Executable Context
 
 Documents remain important, but the factory needs context that can guide and
 check action:
@@ -217,7 +236,7 @@ check action:
 This is how institutional knowledge becomes productive capital rather than a
 larger pile of prose.
 
-### 8. The Compounding Loop
+### 9. The Compounding Loop
 
 Use the loop:
 
@@ -227,7 +246,7 @@ Use the loop:
 The loop compounds only when the organization captures corrections. More AI
 output without retained learning is throughput, not a knowledge factory.
 
-### 9. What Companies Should Build First
+### 10. What Companies Should Build First
 
 Offer a diagnostic order:
 
@@ -241,7 +260,7 @@ Offer a diagnostic order:
 7. Measure whether capability, learning speed, and customer outcomes improve—not
    only whether token or labor costs fall.
 
-### 10. The Two Factory Disciplines
+### 11. The Two Factory Disciplines
 
 Close by introducing the follow-on essays:
 
@@ -260,7 +279,10 @@ Ontology makes the factory coherent. Strategy makes it purposeful.
    improving the capability that produces many units.
 3. **Knowledge-factory stack:** the eight layers from observation through
    learning.
-4. **Graph context exploration:** a decision linked to evidence, concepts,
+4. **Cognitive light cone scorecard:** compare the observable context,
+   evaluation, feedback, and authority available to an LLM, an agent, and a
+   knowledge factory.
+5. **Graph context exploration:** a decision linked to evidence, concepts,
    systems, evaluations, owners, and outcomes.
 
 ## Candidate Closing Line
