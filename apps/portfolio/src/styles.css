@@ -1097,13 +1097,13 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   outline-offset: 3px;
 }
 .home-laws__pill--selected {
-  color: var(--color-accent-foreground);
-  background: var(--law-label-accent, var(--color-primary));
+  color: var(--law-label-accent, var(--color-primary));
+  background: color-mix(in srgb, var(--law-label-accent, var(--color-primary)) 18%, transparent);
   border-color: var(--law-label-accent, var(--color-primary));
-  opacity: 1;
+  opacity: .94;
 }
 .home-laws__pill--selected:hover {
-  color: var(--color-accent-foreground);
+  color: var(--law-label-accent, var(--color-primary));
 }
 
 .home-laws__empty {
