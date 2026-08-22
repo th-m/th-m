@@ -10,7 +10,7 @@ Use [Paper](https://paper.design/) for visual comparison, review, and final desi
 
 ## Current Baseline
 
-The Golden-Ratio H redesign is present on `master` through PR #5. Its important properties are:
+The Golden-Ratio H redesign is present on `main` through PR #5. Its important properties are:
 
 - Master coordinate system: `416 × 120`.
 - T: custom π/T filled contour with the legs already tightened.

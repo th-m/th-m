@@ -10,7 +10,7 @@ complete.
 - [x] Document preview promotion and atomic rollback behavior.
 - [x] Connect `th-m/th-m` with a scoped read-only deploy key and GitHub webhook,
   keep the base directory at the repository root, set package directory
-  `apps/portfolio`, use `master` as the production branch, and enable deploy
+  `apps/portfolio`, use `main` as the production branch, and enable deploy
   previews.
 - [ ] Push the checked-in monorepo and Netlify configuration, then verify one
   deploy preview before relying on continuous deployment.

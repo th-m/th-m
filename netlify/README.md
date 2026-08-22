@@ -44,13 +44,13 @@ The Netlify project is connected to `th-m/th-m` with a scoped, read-only deploy
 key and a GitHub webhook. Netlify installs and builds from the repository root,
 uses `apps/portfolio` as the package directory, runs
 `bun run nx run portfolio:publish`, and publishes
-`apps/portfolio/dist/client`. `master` is the production branch, and deploy
+`apps/portfolio/dist/client`. `main` is the production branch, and deploy
 previews are enabled for pull requests against it.
 
 ## Preview Promotion and Rollback
 
 After the checked-in monorepo migration reaches GitHub, pull requests receive
-deploy previews and merges to `master` create production deploys. Before
+deploy previews and merges to `main` create production deploys. Before
 promotion, verify `/`, `/writing`, a non-prerendered fallback URL, and the
 content manifest on the immutable deploy URL.
 

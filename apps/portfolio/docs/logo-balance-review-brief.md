@@ -7,7 +7,7 @@ Act as an independent senior identity designer, type designer, and visual QA rev
 ## Repository State
 
 - Repository: `th-m/th-m`.
-- Default branch: `master`.
+- Default branch: `main`.
 - Reviewed implementation: merge commit `321d9e53e461c80221b40e3cd23fb0595354b667` from PR #7.
 - The deterministic balance implementation and user-directed refinement are complete and merged.
 - This is a review-only phase. Do not edit logo geometry, materials, animation, generated assets, reference snapshots, or production code unless the user explicitly starts a later implementation phase.
