@@ -184,6 +184,17 @@ vendor architecture:
 8. **Feedback and learning:** outcomes update decisions, ontologies, examples,
    evaluations, and future context.
 
+AI-assisted mathematics provides a compact example of the whole stack. A
+problem statement and the research literature supply context; an orchestrator
+and specialized agents generate conjectures, lemmas, counterexamples, scripts,
+and proofs; tests or proof assistants reject invalid candidates; provenance
+records which tools and assumptions produced the survivors; and mathematicians
+evaluate whether the formalization is faithful, the result is significant, and
+the research direction is worth pursuing. The factory may process far more
+intermediate work than any human reads line by line. That can increase useful
+search only when mechanical verification is trustworthy and people continue to
+govern meaning, standards, attribution, and direction.
+
 ### 6. The Cognitive Light Cone Scorecard
 
 Use the cognitive light cone as a diagnostic for how much of the relevant

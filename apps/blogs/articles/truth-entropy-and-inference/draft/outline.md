@@ -180,6 +180,15 @@ These filters produce large corpora in which many patterns map to executable
 behavior. That makes code unusually compatible with predictive generation. It
 does not guarantee that the requested behavior was the right behavior.
 
+Formal mathematics intensifies the same pattern density. Definitions restrict
+meaning; proof rules constrain inference; counterexamples eliminate false
+generalizations; and proof assistants can mechanically reject invalid
+derivations. Models can therefore search a dense field of candidate steps and
+receive sharper feedback than most natural-language domains provide. Even so,
+a verified derivation does not decide whether the formal statement captures
+the intended problem or whether the result matters. That consequence becomes a
+case study in **Understanding Is the Bottleneck**.
+
 ### 6. “Hash Sort” Versus “Organize This List Really Fast”
 
 Use the contrast to teach semantic compression.
@@ -214,6 +223,26 @@ feedback, and evaluation that depends entirely on whether an answer sounds
 right.
 
 ### 8. Prompting as Constraint Selection
+
+Open with a first-person anecdote. While vibe designing a web logo, I realized
+I needed to eat my own dog food. My early prompts described the result I wanted
+in broad visual language, but they left too many consequential choices
+ambiguous. The model could produce plausible variations without reliably
+producing the typography I had in mind.
+
+I then pulled in visual references, established guidelines, and principles of
+typography. I also began prompting with the specific language used in bona fide
+typography work. The model performed much more accurately—not because the
+terminology was a magic incantation, but because the prompt now selected a more
+structured domain and supplied distinctions against which the result could be
+judged.
+
+Use the anecdote to make the section's practical point: the original failure
+was not simply a lack of prompt cleverness. I had supplied an underspecified
+problem. References narrowed the visual possibility space; typography
+principles supplied constraints; and professional vocabulary activated patterns
+connected to established relationships and practices. The model still required
+human evaluation, but it no longer had to guess what kind of work I meant.
 
 Offer a practical sequence:
 
