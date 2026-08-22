@@ -2,6 +2,7 @@ import { GraphCanvas as ReagraphCanvas, type GraphCanvasRef, type GraphEdge, typ
 import plexWoffUrl from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff?url";
 import { forwardRef, useCallback, useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { layoutTopology } from "./layout";
+import { thomTopologyNodeRenderer } from "./nodes";
 import { TopologyCanvasControls } from "./CanvasControls";
 import { createReagraphTheme } from "./reagraphTheme";
 import { topologyTheme } from "./theme";
@@ -115,6 +116,7 @@ export const TopologyCanvas = forwardRef<GraphCanvasRef, TopologyCanvasProps>(
           layoutOverrides={layoutOverrides}
           labelType="all"
           labelFontUrl={plexWoffUrl}
+          renderNode={thomTopologyNodeRenderer}
           theme={theme}
           cameraMode="pan"
           minZoom={0.12}

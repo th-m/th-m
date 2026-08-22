@@ -178,29 +178,29 @@
 .set-export-menu > div { position: absolute; z-index: 30; top: calc(100% + 7px); right: 0; width: 210px; padding: 6px; border: 1px solid var(--set-line-strong); background: var(--color-popover); color: var(--color-popover-foreground); box-shadow: 0 16px 42px rgba(0,0,0,.5); }
 .set-export-menu > div button { width: 100%; border-color: transparent; text-align: left; }
 
-.set-canvas-shell { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: radial-gradient(circle at 64% 34%, color-mix(in srgb, var(--color-primary) 6.5%, transparent), transparent 44%); }
+.set-canvas-shell { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: radial-gradient(circle at 64% 34%, color-mix(in srgb, var(--color-foreground) 5%, transparent), transparent 44%); }
 .set-canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; user-select: none; }
 .set-canvas.is-panning { cursor: grabbing; }
 .set-canvas-bg { fill: var(--set-background); }
-.set-region { cursor: move; }
-.set-region ellipse { stroke: var(--set-line-strong); stroke-width: 2; transition: stroke 140ms, filter 140ms; }
-.set-region:hover ellipse { stroke: var(--set-gold); }
-.set-region.is-selected ellipse { stroke: var(--color-primary); stroke-width: 3; filter: url(#set-glow); }
+.set-region { cursor: move; --region-accent: var(--color-primary); color: var(--region-accent); }
+.set-region ellipse { stroke: var(--region-accent); stroke-width: 2; transition: stroke 140ms, filter 140ms; }
+.set-region:hover ellipse { filter: brightness(1.25); }
+.set-region.is-selected ellipse { stroke: var(--region-accent); stroke-width: 3; filter: url(#set-glow); }
 .set-region.is-approximate ellipse { stroke-dasharray: 8 7; }
-.set-region-register { fill: var(--set-gold); }
-.set-region-code { fill: var(--set-highlight); font-family: var(--set-mono); font-size: 9px; letter-spacing: 2px; paint-order: stroke; stroke: var(--set-background); stroke-width: 2px; stroke-linejoin: round; }
-.set-region-label { fill: var(--set-ivory); font-family: var(--set-display); font-size: 21px; font-weight: 520; paint-order: stroke; stroke: var(--set-background); stroke-width: 3px; stroke-linejoin: round; }
-.set-region-display { fill: var(--set-ivory); font-family: var(--set-mono); font-size: 9px; paint-order: stroke; stroke: var(--set-background); stroke-width: 2px; stroke-linejoin: round; }
-.set-atom rect { fill: color-mix(in srgb, var(--color-background) 78%, transparent); stroke: var(--set-gold); stroke-width: 1; }
-.set-atom text { fill: var(--set-highlight); font-family: var(--set-mono); font-size: 10px; }
+.set-region-register { fill: var(--region-accent); }
+.set-region-code { fill: var(--region-accent); font-family: var(--set-mono); font-size: 9px; letter-spacing: 2px; paint-order: stroke; stroke: var(--set-background); stroke-width: 2px; stroke-linejoin: round; }
+.set-region-label { fill: var(--region-accent); font-family: var(--set-display); font-size: 21px; font-weight: 520; paint-order: stroke; stroke: var(--set-background); stroke-width: 3px; stroke-linejoin: round; }
+.set-region-display { fill: var(--region-accent); font-family: var(--set-mono); font-size: 9px; paint-order: stroke; stroke: var(--set-background); stroke-width: 2px; stroke-linejoin: round; }
+.set-atom rect { fill: color-mix(in srgb, var(--color-background) 78%, transparent); stroke: var(--set-line); stroke-width: 1; }
+.set-atom text { fill: var(--set-ivory); font-family: var(--set-mono); font-size: 10px; }
 .set-card { cursor: pointer; }
 .set-card rect { fill: color-mix(in srgb, var(--color-background) 96%, transparent); stroke: var(--set-line); stroke-width: 1.5; }
 .set-card:hover rect, .set-card.is-selected rect { stroke: var(--color-primary); }
 .set-card.is-template rect { stroke-dasharray: 6 5; }
 .set-card.is-exception rect { stroke: var(--set-error); }
-.set-card circle { fill: var(--set-gold); }
+.set-card circle { fill: var(--set-muted); }
 .set-card.is-exception circle { fill: var(--set-error); }
-.set-card-status { fill: var(--set-gold); font-family: var(--set-mono); font-size: 8px; letter-spacing: 1.5px; }
+.set-card-status { fill: var(--set-muted); font-family: var(--set-mono); font-size: 8px; letter-spacing: 1.5px; }
 .set-card-label { fill: var(--set-ivory); font-family: var(--set-display); font-size: 17px; }
 .set-scene-warning rect { fill: color-mix(in srgb, var(--color-surface) 92%, transparent); stroke: var(--set-gold); }
 .set-scene-warning circle { fill: var(--set-gold); }
@@ -210,7 +210,7 @@
 .set-zoom-controls button { min-height: 33px; border: 0; border-right: 1px solid var(--set-line); background: transparent; color: var(--set-ivory); padding: 0 10px; font-size: 8px; cursor: pointer; }
 .set-zoom-controls button:hover { background: var(--set-surface-raised); }
 .set-zoom-controls span { width: 48px; color: var(--set-gold); font-size: 8px; text-align: center; }
-.set-canvas-empty { min-height: 0; padding: 10vw; background: radial-gradient(circle at 62% 36%, color-mix(in srgb, var(--color-primary) 8%, transparent), transparent 45%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.set-canvas-empty { min-height: 0; padding: 10vw; background: radial-gradient(circle at 62% 36%, color-mix(in srgb, var(--color-foreground) 6%, transparent), transparent 45%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .set-canvas-empty span { color: var(--set-gold); font-size: 8px; letter-spacing: .2em; }
 .set-canvas-empty h2 { max-width: 600px; margin: 18px 0 7px; font-family: var(--set-display); font-size: clamp(30px, 4vw, 58px); font-weight: 420; }
 .set-canvas-empty p { max-width: 520px; color: var(--set-muted); font-size: 10px; line-height: 1.7; }

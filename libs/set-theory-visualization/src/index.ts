@@ -63,7 +63,7 @@ export {
 
 export { createSeedDocument, createSeedLibrary, createSetTheoryDocument } from "./seed";
 
-export { setAtlasTheme } from "./theme";
+export { setAtlasAccent, setAtlasAccentPalette, setAtlasTheme } from "./theme";
 
 export {
   buildSetAtlasScene,

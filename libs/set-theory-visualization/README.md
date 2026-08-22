@@ -62,7 +62,11 @@ bun run nx run set-theory-visualization:render:overlap -- \
 
 Each `groups` entry sets `label`, `cx`/`cy`/`rx`/`ry`, and `fill`/`opacity`/
 `stroke`/`strokeWidth`; unspecified values fall back to the `style` defaults.
-With `"analysis"` pointing at an `AnalyzeResult` JSON (or
+Groups without a color take the ordered accent palette one accent per group
+(blue, rose, lime, violet, teal, plum — cycling), and the label text inside a
+group inherits the group accent unless a global `style.labelColor` or a
+per-group `labelColor` is given. With `"analysis"` pointing at an
+`AnalyzeResult` JSON (or
 `{ "source": "...", "tsconfig": "..." }`), groups are derived from the
 compiler analysis and the `groups` entries override them by label or symbol
 id. The SVG is sized exactly to the placed ellipses, so outputs never get

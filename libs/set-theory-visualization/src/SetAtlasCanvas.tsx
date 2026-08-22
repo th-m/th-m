@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type WheelEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type WheelEvent } from "react";
+import { setAtlasAccent } from "./theme";
 import type { Point, SetAtlasScene, ViewportState } from "./types";
 
 interface SetAtlasCanvasProps {
@@ -40,6 +41,18 @@ export function SetAtlasCanvas({
     () => [...scene.regions].sort((first, second) => first.depth - second.depth || second.rx - first.rx),
     [scene.regions],
   );
+
+  // One accent per set, assigned in the same depth-then-id order the static
+  // renderer uses, so a set keeps its color on every surface.
+  const accentByRegion = useMemo(() => {
+    const sorted = [...scene.regions].sort(
+      (first, second) => first.depth - second.depth || first.id.localeCompare(second.id, "en"),
+    );
+    return new Map(sorted.map((region, index) => [region.id, setAtlasAccent(index)]));
+  }, [scene.regions]);
+
+  const regionAccent = (regionId: string): CSSProperties =>
+    ({ "--region-accent": accentByRegion.get(regionId) ?? setAtlasAccent(0) }) as CSSProperties;
 
   const unitsPerPixel = () => {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -134,9 +147,9 @@ export function SetAtlasCanvas({
         <desc>Nested and overlapping regions show relationships between named TypeScript types.</desc>
         <defs>
           <radialGradient id="set-region-fill" cx="58%" cy="38%">
-            <stop offset="0" stopColor="var(--color-primary)" stopOpacity=".58" />
-            <stop offset=".72" stopColor="var(--color-primary)" stopOpacity=".48" />
-            <stop offset="1" stopColor="var(--color-primary)" stopOpacity=".42" />
+            <stop offset="0" stopColor="currentColor" stopOpacity=".58" />
+            <stop offset=".72" stopColor="currentColor" stopOpacity=".48" />
+            <stop offset="1" stopColor="currentColor" stopOpacity=".42" />
           </radialGradient>
           <pattern id="set-grid" width="28" height="28" patternUnits="userSpaceOnUse">
             <circle cx="1" cy="1" r="1" fill="var(--color-primary)" opacity=".1" />
@@ -164,6 +177,7 @@ export function SetAtlasCanvas({
                 key={region.id}
                 data-set-item="region"
                 className={`set-region${isSelected ? " is-selected" : ""}${region.approximate ? " is-approximate" : ""}`}
+                style={regionAccent(region.id)}
                 role="button"
                 tabIndex={0}
                 aria-label={`${region.labels.join(", ")} set${display ? `, ${display}` : ""}${region.approximate ? ", approximate geometry" : ""}`}
@@ -210,7 +224,7 @@ export function SetAtlasCanvas({
                 ? `${region.display.slice(0, 41)}…`
                 : region.display;
             return (
-              <g key={`annotation:${region.id}`} className="set-region">
+              <g key={`annotation:${region.id}`} className="set-region" style={regionAccent(region.id)}>
                 <circle className="set-region-register" cx={cx} cy={top} r="4.5" />
                 <text className="set-region-code" x={cx} y={top + 24} textAnchor="middle">
                   {`SET ${String(index + 1).padStart(2, "0")}${region.approximate ? " / ≈" : ""}`}

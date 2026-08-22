@@ -40,6 +40,39 @@ describe("renderOverlapSvg", () => {
     expect(svg).not.toMatch(/<rect /);
   });
 
+  it("defaults groups to cycling accent fills with accent label colors", async () => {
+    const resolved = await resolveOverlap({
+      groups: [
+        { label: "First", cx: 100, cy: 100, rx: 60, ry: 50 },
+        { label: "Second", cx: 240, cy: 100, rx: 60, ry: 50 },
+        { label: "Third", cx: 170, cy: 210, rx: 60, ry: 50 },
+      ],
+    });
+
+    const fills = resolved.groups.map((group) => group.fill);
+    // Accent palette cycles by group order (blue, rose, lime) instead of gold.
+    expect(fills).toEqual(["#7a8aff", "#e579c4", "#c8bc00"]);
+    for (const group of resolved.groups) {
+      expect(group.stroke).toBe(group.fill);
+      // Label text inside the group inherits the accent unless overridden.
+      expect(group.labelColor).toBe(group.fill);
+    }
+  });
+
+  it("lets a global style fill and label color override the per-group accents", async () => {
+    const resolved = await resolveOverlap({
+      style: { fill: "#3077c6", labelColor: "#0f172a" },
+      groups: [
+        { label: "A", cx: 100, cy: 100, rx: 60, ry: 50 },
+        { label: "B", cx: 240, cy: 100, rx: 60, ry: 50, fill: "#e579c4", labelColor: "#ffffff" },
+      ],
+    });
+
+    expect(resolved.groups[0]).toMatchObject({ fill: "#3077c6", labelColor: "#0f172a" });
+    // Per-group overrides still win over the global style.
+    expect(resolved.groups[1]).toMatchObject({ fill: "#e579c4", labelColor: "#ffffff" });
+  });
+
   it("honors explicit placement, coloring, background, and canvas overrides", async () => {
     const { svg, resolved } = await renderOverlapSvg({
       canvas: { width: 900, height: 600, background: "#0b0a08", margin: 20 },

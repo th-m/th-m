@@ -1,4 +1,5 @@
 import { thomDesignTokens } from "@th-m/design-theme";
+import { setAtlasAccent } from "./theme";
 import type { AtlasCard, RegionShape, SetAtlasScene } from "./types";
 
 export interface EmbeddedSetAtlasFonts {
@@ -129,7 +130,10 @@ function renderRegion(region: RegionShape, index: number): string {
   const typeY = labelY + labelLines.length * 20 + 6;
   const className = `set-region depth-${region.depth % 4}${region.approximate ? " approximate" : ""}`;
   const code = `S.${String(index + 1).padStart(2, "0")} / DEPTH ${region.depth}`;
-  return `<g class="${className}" data-region-id="${xml(region.id)}" data-symbol-ids="${xml(region.symbolIds.join(" "))}" aria-label="${xml(`${label}: ${region.display}`)}">
+  // Each set owns an accent for its outline, translucent fill, and inside text;
+  // the index matches the depth-then-id order the caller sorted regions into.
+  const accent = setAtlasAccent(index);
+  return `<g class="${className}" style="--region-accent:${accent}" data-region-id="${xml(region.id)}" data-symbol-ids="${xml(region.symbolIds.join(" "))}" aria-label="${xml(`${label}: ${region.display}`)}">
     <ellipse class="region-field" cx="${fixed(region.cx)}" cy="${fixed(region.cy)}" rx="${fixed(region.rx)}" ry="${fixed(region.ry)}"/>
     <circle class="region-index-dot" cx="${fixed(region.cx)}" cy="${fixed(top + 9)}" r="3.5"/>
     <text class="region-code" x="${fixed(region.cx)}" y="${fixed(top + 19)}" text-anchor="middle">${xml(code)}</text>
@@ -191,21 +195,21 @@ function definitions(fonts?: EmbeddedSetAtlasFonts): string {
   const { color, effect } = thomDesignTokens;
   return `<defs>
   <style><![CDATA[${fontFaceDefinitions(fonts)}
-    .region-field { fill: ${color.primary.default}; fill-opacity: .5; stroke: ${color.primary.default}; stroke-width: 2; vector-effect: non-scaling-stroke; }
-    .set-region.approximate .region-field { stroke: ${color.semantic.error.default}; stroke-dasharray: 8 7; }
-    .region-index-dot { fill: ${color.primary.default}; }
+    .region-field { fill: var(--region-accent); fill-opacity: .5; stroke: var(--region-accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
+    .set-region.approximate .region-field { stroke-dasharray: 8 7; }
+    .region-index-dot { fill: var(--region-accent); }
     .region-code, .region-type, .approximate-label, .card-code, .card-detail, .warning-heading, .warning-entry, .atom-label { font-family: "IBM Plex Mono Atlas", ${thomDesignTokens.typography.mono}; }
-    .region-code { fill: ${color.foregroundStrong}; font-size: 8px; letter-spacing: 1.45px; paint-order: stroke; stroke: ${color.background}; stroke-width: 2px; stroke-linejoin: round; }
-    .region-label { fill: ${color.foreground}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 19px; font-weight: 570; paint-order: stroke; stroke: ${color.background}; stroke-width: 3px; stroke-linejoin: round; }
-    .region-type { fill: ${color.foreground}; font-size: 9px; paint-order: stroke; stroke: ${color.background}; stroke-width: 2px; stroke-linejoin: round; }
+    .region-code { fill: var(--region-accent); font-size: 8px; letter-spacing: 1.45px; paint-order: stroke; stroke: ${color.background}; stroke-width: 2px; stroke-linejoin: round; }
+    .region-label { fill: var(--region-accent); font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 19px; font-weight: 570; paint-order: stroke; stroke: ${color.background}; stroke-width: 3px; stroke-linejoin: round; }
+    .region-type { fill: var(--region-accent); font-size: 9px; paint-order: stroke; stroke: ${color.background}; stroke-width: 2px; stroke-linejoin: round; }
     .approximate-label { fill: ${color.semantic.error.default}; font-size: 8px; letter-spacing: 1.7px; paint-order: stroke; stroke: ${color.background}; stroke-width: 2px; stroke-linejoin: round; }
-    .atom-dot { fill: ${color.foregroundStrong}; stroke: ${color.primary.default}; stroke-width: 1.5; }
+    .atom-dot { fill: ${color.foregroundStrong}; stroke: ${color.border}; stroke-width: 1.5; }
     .atom-label { fill: ${color.foreground}; font-size: 11px; paint-order: stroke; stroke: ${color.background}; stroke-width: 3px; stroke-linejoin: round; }
     .atlas-card rect { fill: ${color.surface}; stroke: ${color.border}; stroke-width: 1.15; }
     .atlas-card.exception rect { stroke: ${color.semantic.error.default}; }
-    .card-badge { fill: ${color.primary.default}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 21px; }
+    .card-badge { fill: ${color.foregroundMuted}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 21px; }
     .atlas-card.exception .card-badge { fill: ${color.semantic.error.default}; }
-    .card-code { fill: ${color.primary.default}; font-size: 7.5px; letter-spacing: 1.25px; }
+    .card-code { fill: ${color.foregroundMuted}; font-size: 7.5px; letter-spacing: 1.25px; }
     .card-label { fill: ${color.foreground}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 17px; font-weight: 570; }
     .card-detail { fill: ${color.foregroundMuted}; font-size: 8.5px; }
     .warning-legend line { stroke: ${color.border}; }
@@ -213,7 +217,7 @@ function definitions(fonts?: EmbeddedSetAtlasFonts): string {
     .warning-entry { fill: ${color.foregroundMuted}; font-size: 9px; }
     .warning-mark { fill: ${color.semantic.error.default}; }
   ]]></style>
-  <radialGradient id="atlas-ambient" cx="68%" cy="27%" r="74%"><stop offset="0" stop-color="${color.primary.default}" stop-opacity=".12"/><stop offset="1" stop-color="${color.background}" stop-opacity="0"/></radialGradient>
+  <radialGradient id="atlas-ambient" cx="68%" cy="27%" r="74%"><stop offset="0" stop-color="${color.foreground}" stop-opacity=".09"/><stop offset="1" stop-color="${color.background}" stop-opacity="0"/></radialGradient>
   <filter id="atlas-grain" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".84" numOctaves="3" seed="17"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${effect.grainOpacity} 0"/></filter>
 </defs>`;
 }

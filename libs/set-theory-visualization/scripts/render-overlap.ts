@@ -26,6 +26,7 @@ import { fileURLToPath } from "node:url";
 import { thomDesignTokens } from "@th-m/design-theme";
 import { analyzeSetAtlas, type AnalyzeResult } from "@th-m/knowledge-model";
 import { buildSetAtlasScene } from "../src/layout";
+import { setAtlasAccent } from "../src/theme";
 import type { RegionShape } from "../src/types";
 
 export interface OverlapGroupSpec {
@@ -43,6 +44,8 @@ export interface OverlapGroupSpec {
   opacity?: number;
   stroke?: string;
   strokeWidth?: number;
+  /** Overrides the label color for this group; falls back to the group accent. */
+  labelColor?: string;
   /** Drops the group (e.g. hide a derived region you do not want drawn). */
   hidden?: boolean;
 }
@@ -90,6 +93,7 @@ export interface OverlapGroup {
   opacity: number;
   stroke: string;
   strokeWidth: number;
+  labelColor: string;
   depth: number;
 }
 
@@ -115,7 +119,10 @@ export interface ResolvedOverlap {
   detailColor: string;
 }
 
-const DEFAULT_FILL = thomDesignTokens.color.primary.default;
+// Groups without an explicit fill take the ordered accent palette (one accent
+// per group, cycling) so sets are distinguishable by color; a global
+// `style.fill` still applies to every group. Labels inherit the group accent
+// unless a global `style.labelColor` (or per-group `labelColor`) is set.
 const DEFAULT_OPACITY = 0.5;
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_LABEL_COLOR = thomDesignTokens.color.foreground;
@@ -128,10 +135,11 @@ const DEFAULT_MARGIN = 60;
 const WORKSPACE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
 interface ResolvedStyle {
-  fill: string;
+  fill?: string;
   opacity: number;
   stroke?: string;
   strokeWidth: number;
+  labelColor?: string;
 }
 
 const xml = (value: string): string =>
@@ -240,7 +248,8 @@ function matchesRegion(region: RegionShape, key: string): boolean {
   );
 }
 
-function groupFromRegion(region: RegionShape, style: ResolvedStyle): OverlapGroup {
+function groupFromRegion(region: RegionShape, style: ResolvedStyle, index: number): OverlapGroup {
+  const fill = style.fill ?? setAtlasAccent(index);
   return {
     id: region.id,
     label: region.labels.join(" ≡ "),
@@ -249,10 +258,11 @@ function groupFromRegion(region: RegionShape, style: ResolvedStyle): OverlapGrou
     cy: region.cy,
     rx: region.rx,
     ry: region.ry,
-    fill: style.fill,
+    fill,
     opacity: style.opacity,
-    stroke: style.stroke ?? style.fill,
+    stroke: style.stroke ?? fill,
     strokeWidth: style.strokeWidth,
+    labelColor: style.labelColor ?? fill,
     depth: region.depth,
   };
 }
@@ -260,12 +270,12 @@ function groupFromRegion(region: RegionShape, style: ResolvedStyle): OverlapGrou
 function resolveGroup(
   entry: OverlapGroupSpec,
   fallback: Pick<OverlapGroup, "id" | "label" | "detail" | "cx" | "cy" | "rx" | "ry" | "depth"> &
-    Partial<Pick<OverlapGroup, "opacity" | "stroke" | "strokeWidth">>,
+    Partial<Pick<OverlapGroup, "fill" | "opacity" | "stroke" | "strokeWidth" | "labelColor">>,
   style: ResolvedStyle,
   index: number,
 ): OverlapGroup {
   const id = entry.id ?? entry.label ?? fallback.id ?? `group-${index + 1}`;
-  const fill = entry.fill ?? style.fill;
+  const fill = entry.fill ?? style.fill ?? fallback.fill ?? setAtlasAccent(index);
   return {
     id,
     label: entry.label ?? fallback.label ?? entry.id ?? `group-${index + 1}`,
@@ -278,6 +288,7 @@ function resolveGroup(
     opacity: entry.opacity ?? fallback.opacity ?? style.opacity,
     stroke: entry.stroke ?? fallback.stroke ?? style.stroke ?? fill,
     strokeWidth: entry.strokeWidth ?? fallback.strokeWidth ?? style.strokeWidth,
+    labelColor: entry.labelColor ?? style.labelColor ?? fallback.labelColor ?? fill,
     depth: fallback.depth,
   };
 }
@@ -289,10 +300,11 @@ function resolveGroup(
 export async function resolveOverlap(spec: OverlapSpec): Promise<ResolvedOverlap> {
   const warnings: string[] = [];
   const style: ResolvedStyle = {
-    fill: spec.style?.fill ?? DEFAULT_FILL,
+    fill: spec.style?.fill,
     opacity: spec.style?.opacity ?? DEFAULT_OPACITY,
     stroke: spec.style?.stroke,
     strokeWidth: spec.style?.strokeWidth ?? DEFAULT_STROKE_WIDTH,
+    labelColor: spec.style?.labelColor,
   };
 
   const byId = new Map<string, OverlapGroup>();
@@ -303,7 +315,7 @@ export async function resolveOverlap(spec: OverlapSpec): Promise<ResolvedOverlap
     const analysis = await loadAnalysis(spec.analysis);
     const scene = buildSetAtlasScene(analysis);
     regions = scene.regions;
-    for (const region of regions) byId.set(region.id, groupFromRegion(region, style));
+    for (const [index, region] of regions.entries()) byId.set(region.id, groupFromRegion(region, style, index));
   }
 
   for (let index = 0; index < spec.groups.length; index += 1) {
@@ -452,7 +464,7 @@ function renderGroup(group: OverlapGroup, resolved: ResolvedOverlap): string {
   const detailY = labelY + labelLines.length * (labelSize + 2) + 6;
   return `<g class="overlap-group">
     <ellipse cx="${fixed(group.cx)}" cy="${fixed(group.cy)}" rx="${fixed(group.rx)}" ry="${fixed(group.ry)}" fill="${xml(group.fill)}" fill-opacity="${fixed(group.opacity)}" stroke="${xml(group.stroke)}" stroke-width="${fixed(group.strokeWidth)}"/>
-    <text class="overlap-label" text-anchor="middle">${tspans(labelLines, group.cx, labelY, labelSize + 2)}</text>
+    <text class="overlap-label" fill="${xml(group.labelColor)}" text-anchor="middle">${tspans(labelLines, group.cx, labelY, labelSize + 2)}</text>
     ${detailLines.length > 0 ? `<text class="overlap-detail" text-anchor="middle">${tspans(detailLines, group.cx, detailY, 15)}</text>` : ""}
   </g>`;
 }
@@ -461,7 +473,7 @@ function renderGroup(group: OverlapGroup, resolved: ResolvedOverlap): string {
 export async function renderOverlapSvg(spec: OverlapSpec): Promise<{ svg: string; resolved: ResolvedOverlap }> {
   const resolved = await resolveOverlap(spec);
   const fonts = await embeddedFonts();
-  const { viewBox, background, labelColor, haloColor, labelSize, detailColor } = resolved;
+  const { viewBox, background, haloColor, labelSize, detailColor } = resolved;
   const fontFaces = [
     fonts.newsreader
       ? `@font-face { font-family: "Newsreader Overlap"; src: url(data:font/woff2;base64,${fonts.newsreader}) format("woff2"); font-weight: 200 800; font-style: normal; }`
@@ -481,7 +493,7 @@ export async function renderOverlapSvg(spec: OverlapSpec): Promise<{ svg: string
   <defs>
   <style><![CDATA[
     ${fontFaces}
-    .overlap-label { fill: ${xml(labelColor)}; font-family: "Newsreader Overlap", Georgia, serif; font-size: ${fixed(labelSize)}px; font-weight: 570; paint-order: stroke; stroke: ${xml(haloColor)}; stroke-width: 3px; stroke-linejoin: round; }
+    .overlap-label { font-family: "Newsreader Overlap", Georgia, serif; font-size: ${fixed(labelSize)}px; font-weight: 570; paint-order: stroke; stroke: ${xml(haloColor)}; stroke-width: 3px; stroke-linejoin: round; }
     .overlap-detail { fill: ${xml(detailColor)}; font-family: "IBM Plex Mono Overlap", ui-monospace, monospace; font-size: 9px; paint-order: stroke; stroke: ${xml(haloColor)}; stroke-width: 2px; stroke-linejoin: round; }
   ]]></style>
   </defs>
@@ -559,6 +571,7 @@ async function main(): Promise<void> {
         opacity: group.opacity,
         stroke: group.stroke,
         strokeWidth: group.strokeWidth,
+        labelColor: group.labelColor,
       })),
     };
     console.log(JSON.stringify(printed, null, 2));

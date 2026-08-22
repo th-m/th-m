@@ -74,10 +74,14 @@ describe("set atlas SVG rendering", () => {
     expect(first).toContain("APPROXIMATE");
     expect(first).toContain('id="set-atlas-atoms"');
     expect(first).toContain('id="set-atlas-cards"');
-    // Translucent region fills stack cleanly; strokes and haloed labels stay legible.
+    // Translucent accent region fills stack cleanly; strokes and haloed labels stay legible.
     expect(first).toContain("fill-opacity: .5;");
     expect(first).toContain("stroke-width: 2; vector-effect: non-scaling-stroke");
     expect(first).toContain("paint-order: stroke");
+    // Each set region owns an accent for its outline, fill, and inside text.
+    expect(first).toContain('style="--region-accent:#7a8aff"');
+    expect(first).toContain(".region-field { fill: var(--region-accent);");
+    expect(first).toContain(".region-label { fill: var(--region-accent);");
   });
 
   it("fetches and embeds both Vite font assets for a self-contained SVG", async () => {
