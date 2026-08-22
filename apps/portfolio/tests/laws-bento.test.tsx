@@ -86,8 +86,14 @@ describe("LawsCatalog", () => {
     fireEvent.click(screen.getByRole("button", { name: "cs" }));
 
     const expected = laws.filter((law) => law.labels.includes("cs"));
-    expect(screen.getByRole("button", { name: "cs" })).toHaveAttribute("aria-pressed", "true");
-    expect(screen.getByRole("button", { name: "cs" }).className).toContain("home-laws__pill--selected");
+    const selected = screen.getByRole("button", { name: "cs" });
+    expect(selected).toHaveAttribute("aria-pressed", "true");
+    expect(selected.className).toContain("home-laws__pill--selected");
+    expect(selected.style.background).toBe(
+      `color-mix(in srgb, var(--color-accent-${lawLabelAccents.cs}) 18%, transparent)`,
+    );
+    expect(selected.style.color).toBe(`var(--color-accent-${lawLabelAccents.cs})`);
+    expect(selected.style.opacity).toBe("0.94");
     expect(cards()).toHaveLength(expected.length);
   });
 
