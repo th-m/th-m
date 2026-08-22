@@ -3,16 +3,19 @@
 ## Operational Flow
 
 Use the TypeScript compiler as semantic authority, keep analysis independent of
-rendering, and require explicit source/output paths for CLI generation.
+rendering, and keep the workbench a read-only analysis surface: it never writes
+source or artifacts. Static set diagrams come from the overlap renderer in
+`@th-m/set-theory-visualization`.
 
 ## Required Verification Parameters Within Nested Context
 
-Run `set-theory:typecheck` and `set-theory:test`. Run `set-theory:gen` after
-analyzer, relation, layout, font, theme, or renderer changes; use
-`set-theory:e2e` for interaction changes.
+Run `set-theory:typecheck` and `set-theory:test`. Use `set-theory:e2e` for
+workbench interaction changes.
 
 ## Required Invariants Within Folder Context
 
-Inputs and outputs remain inside the workspace. Compiler errors prevent output;
-non-fatal approximation warnings are embedded in the SVG. Every successful run
-overwrites one self-contained SVG and one 2× PNG.
+The workbench persists only authoring state in browser `localStorage` and never
+writes source files. Compiler errors preserve the last valid canvas; non-fatal
+approximation warnings remain visible in the diagnostics. The tool does not
+generate SVG or PNG artifacts — use
+`set-theory-visualization:render:overlap` for static output.

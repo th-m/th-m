@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "start": "vite --host 127.0.0.1 --port 5191 --strictPort --open /",
-    "gen": "bun run src/cli.ts",
     "typecheck": "tsc -p tsconfig.json --pretty false",
     "test": "vitest run --config vite.config.ts",
     "e2e": "playwright test --config playwright.config.ts"
@@ -29,15 +28,12 @@
     "@axe-core/playwright": "latest",
     "@tailwindcss/vite": "^4.3.0",
     "@playwright/test": "latest",
-    "@resvg/resvg-js": "latest",
     "@th-m/testing": "workspace:*",
     "@testing-library/jest-dom": "latest",
     "@types/bun": "latest",
-    "@types/pngjs": "^6.0.5",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
-    "pngjs": "^7.0.0",
     "tailwindcss": "^4.3.0",
     "vite": "latest",
     "vitest": "latest"
@@ -46,13 +42,24 @@
     "name": "set-theory",
     "sourceRoot": "tools/set-theory/src",
     "projectType": "application",
-    "tags": ["kind:tool", "runtime:web", "domain:set-theory"],
+    "tags": [
+      "kind:tool",
+      "runtime:web",
+      "domain:set-theory"
+    ],
     "targets": {
-      "start": { "outputs": [] },
-      "gen": { "outputs": [] },
-      "typecheck": { "outputs": [] },
-      "test": { "outputs": [] },
-      "e2e": { "outputs": [] }
+      "start": {
+        "outputs": []
+      },
+      "typecheck": {
+        "outputs": []
+      },
+      "test": {
+        "outputs": []
+      },
+      "e2e": {
+        "outputs": []
+      }
     }
   }
 }

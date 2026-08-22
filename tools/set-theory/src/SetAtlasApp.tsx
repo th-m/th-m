@@ -5,8 +5,6 @@ import {
   createBlankDocument,
   deleteDocument,
   duplicateDocument,
-  exportSetAtlasPng,
-  exportSetAtlasSvg,
   loadSetAtlasLibrary,
   removeDocumentPin,
   renameDocument,
@@ -474,16 +472,6 @@ export function SetAtlasApp() {
     setLibrary((current) => deleteDocument(current, document.id));
   };
 
-  const exportAtlas = async (format: "svg" | "png") => {
-    try {
-      if (format === "svg") await exportSetAtlasSvg(scene, { title: document.name });
-      else await exportSetAtlasPng(scene, { title: document.name });
-      setToast(`${format === "svg" ? "SVG" : "2× PNG"} exported.`);
-    } catch (error) {
-      setToast(error instanceof Error ? error.message : "Export failed.");
-    }
-  };
-
   const isStale = analysisStatus === "stale";
 
   return (
@@ -519,13 +507,6 @@ export function SetAtlasApp() {
             {renderAnalysis && <span className="set-compiler-version">TS {renderAnalysis.compilerVersion}</span>}
             <button className="set-button" type="button" onClick={() => { commitDocument({ ...document, pins: {}, updatedAt: new Date().toISOString() }); setToast("Generated layout restored."); }}>Reset pins</button>
             <button className="set-button" type="button" onClick={() => setFitRequest((value) => value + 1)}>Fit</button>
-            <details className="set-export-menu">
-              <summary className="set-button">Export</summary>
-              <div>
-                <button type="button" onClick={() => void exportAtlas("svg")} disabled={!renderAnalysis}>Self-contained SVG</button>
-                <button type="button" onClick={() => void exportAtlas("png")} disabled={!renderAnalysis}>2× PNG</button>
-              </div>
-            </details>
             <button className="set-button set-mobile-panel-button" type="button" onClick={() => setInspectorOpen(true)}>Inspector</button>
           </div>
         </header>

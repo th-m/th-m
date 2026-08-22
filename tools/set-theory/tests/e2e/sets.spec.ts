@@ -1,7 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
-import { readFile } from "node:fs/promises";
-import { PNG } from "pngjs";
 
 const desktopOnly = (projectName: string) =>
   test.skip(projectName !== "sets-desktop", "This workflow is covered at the full desktop layout.");
@@ -93,45 +91,6 @@ test("persists library changes and opens type relationships in the inspector", a
   page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "Delete" }).click();
   await expect(documents).toHaveCount(2);
-});
-
-test("downloads a self-contained SVG and a two-times PNG", async ({ page }, testInfo) => {
-  desktopOnly(testInfo.project.name);
-  await waitForCompiledAtlas(page);
-
-  await page.getByText("Export", { exact: true }).click();
-  const [svgDownload] = await Promise.all([
-    page.waitForEvent("download"),
-    page.getByRole("button", { name: "Self-contained SVG" }).click(),
-  ]);
-  expect(svgDownload.suggestedFilename()).toMatch(/^typescript-is-set-theory.*\.svg$/);
-  const svgPath = await svgDownload.path();
-  expect(svgPath).not.toBeNull();
-  const svg = await readFile(svgPath as string, "utf8");
-  expect(svg).toContain("<svg");
-  expect(svg).toContain('<title id="set-atlas-title">TypeScript is set theory</title>');
-  expect(svg).toContain('aria-labelledby="set-atlas-title set-atlas-description"');
-  expect(svg).toContain("data:font/woff2;base64,");
-  expect(svg).toContain("Stop");
-  expect(svg).not.toMatch(/<script|<(?:image|use)[^>]+href=["']https?:/i);
-  const exportWidth = Number(svg.match(/<svg\b[^>]*\bwidth="([0-9.]+)"/i)?.[1]);
-  const exportHeight = Number(svg.match(/<svg\b[^>]*\bheight="([0-9.]+)"/i)?.[1]);
-  expect(exportWidth).toBeGreaterThan(0);
-  expect(exportHeight).toBeGreaterThan(0);
-
-  if (!(await page.getByRole("button", { name: "2× PNG" }).isVisible())) {
-    await page.getByText("Export", { exact: true }).click();
-  }
-  const [pngDownload] = await Promise.all([
-    page.waitForEvent("download"),
-    page.getByRole("button", { name: "2× PNG" }).click(),
-  ]);
-  expect(pngDownload.suggestedFilename()).toMatch(/^typescript-is-set-theory.*\.png$/);
-  const pngPath = await pngDownload.path();
-  expect(pngPath).not.toBeNull();
-  const png = PNG.sync.read(await readFile(pngPath as string));
-  expect(png.width).toBe(Math.ceil(exportWidth * 2));
-  expect(png.height).toBe(Math.ceil(exportHeight * 2));
 });
 
 test("uses accessible library and inspector drawers on mobile", async ({ page }, testInfo) => {

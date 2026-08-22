@@ -6,7 +6,7 @@ import { createMermaidErd, erdToKnowledgeDocument, parsePostgresSchema, renderEr
 import { parseMermaidFlowchart, renderPhasedProcess, renderSystemTopology, systemToKnowledgeDocument } from "./mermaid.ts";
 import { loadEmbeddedFonts, rasterizeSvg, renderNativeMermaid, xml, type EmbeddedFonts, type RenderedDiagram } from "./rendering.ts";
 import { knowledgeTheme } from "./theme.ts";
-import { createPublicApiHtml, createSetProjection, renderPackageDependencies, renderPublicApiOverview, renderSchemaHierarchy, renderSetProjection, snapshotToKnowledgeDocument } from "./typescript-workspace.ts";
+import { createPublicApiHtml, renderPackageDependencies, renderPublicApiOverview, renderSchemaHierarchy, snapshotToKnowledgeDocument } from "./typescript-workspace.ts";
 import type { DiagramArtifact, ErdProofSource, MermaidProofSource, ProofManifest, ProofReport, ProofSource, SourceReport, TypeScriptProofSource, TypeScriptWorkspaceSnapshot } from "./types.ts";
 
 export interface GenerateKnowledgeProofOptions {
@@ -154,7 +154,7 @@ async function generateTypeScriptSource(root: string, source: TypeScriptProofSou
   const directory = join(outputRoot, source.id);
   await mkdir(directory);
   const files = await writeModelFiles(directory, document);
-  const counts = { packages: snapshot.packages.length, publicSymbols: snapshot.symbols.length, capabilities: new Set(snapshot.packages.map(({ capability }) => capability)).size, selectedSetSymbols: source.selection?.length ?? 0 };
+  const counts = { packages: snapshot.packages.length, publicSymbols: snapshot.symbols.length, capabilities: new Set(snapshot.packages.map(({ capability }) => capability)).size };
   const artifacts: DiagramArtifact[] = [];
   let registerFile: string | undefined;
   const warnings: string[] = snapshot.diagnostics.filter(({ severity }) => severity !== "error").map(({ message }) => message);
@@ -165,11 +165,6 @@ async function generateTypeScriptSource(root: string, source: TypeScriptProofSou
       artifacts.push(await writeCustomArtifact(directory, "public-api", "Public API overview", perspective, renderPublicApiOverview(snapshot, source.title, fonts), counts, warnings));
       registerFile = "public-api.html";
       await writeFile(join(directory, registerFile), createPublicApiHtml(snapshot));
-    } else if (perspective === "set-atlas") {
-      const projection = createSetProjection(snapshot, source.selection ?? []);
-      warnings.push(...projection.warnings);
-      await writeFile(join(directory, "set-projection.json"), `${JSON.stringify(projection, null, 2)}\n`);
-      artifacts.push(await writeCustomArtifact(directory, "songs-set-atlas", "Focused Songs set atlas", perspective, renderSetProjection(projection, source.title, fonts), { ...counts, setRelations: projection.relations.length }, projection.warnings));
     } else throw new Error(`Perspective ${perspective} is not valid for TypeScript workspace snapshots.`);
   }
   return { id: source.id, title: source.title, kind: source.kind, revision: snapshot.repository.revision, ...files, ...(registerFile ? { registerFile } : {}), artifacts, counts, warnings: [...new Set(warnings)] };

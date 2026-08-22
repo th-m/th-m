@@ -24,19 +24,7 @@
       "kind": "typescript-workspace-snapshot",
       "title": "SoundSculpt schema domain",
       "path": "tools/knowledge/fixtures/soundsculpt-schema/model.json",
-      "selection": [
-        "GainEnvelope",
-        "FilterEnvelope",
-        "GainSwell",
-        "FilterSwell",
-        "Swell",
-        "LegacyDrumSet",
-        "DrumSet",
-        "SwellConfig",
-        "SwellPhraseConfig",
-        "TrackConfig"
-      ],
-      "perspectives": ["hierarchy", "dependency", "public-api", "set-atlas"]
+            "perspectives": ["hierarchy", "dependency", "public-api"]
     }
   ],
   "reviewCriteria": [

@@ -131,7 +131,6 @@ function renderRegion(region: RegionShape, index: number): string {
   const code = `S.${String(index + 1).padStart(2, "0")} / DEPTH ${region.depth}`;
   return `<g class="${className}" data-region-id="${xml(region.id)}" data-symbol-ids="${xml(region.symbolIds.join(" "))}" aria-label="${xml(`${label}: ${region.display}`)}">
     <ellipse class="region-field" cx="${fixed(region.cx)}" cy="${fixed(region.cy)}" rx="${fixed(region.rx)}" ry="${fixed(region.ry)}"/>
-    <ellipse class="region-orbit" cx="${fixed(region.cx)}" cy="${fixed(region.cy)}" rx="${fixed(region.rx + 7)}" ry="${fixed(region.ry + 7)}"/>
     <circle class="region-index-dot" cx="${fixed(region.cx)}" cy="${fixed(top + 9)}" r="3.5"/>
     <text class="region-code" x="${fixed(region.cx)}" y="${fixed(top + 19)}" text-anchor="middle">${xml(code)}</text>
     <text class="region-label" text-anchor="middle">${tspans(labelLines, region.cx, labelY, 20)}</text>
@@ -192,19 +191,14 @@ function definitions(fonts?: EmbeddedSetAtlasFonts): string {
   const { color, effect } = thomDesignTokens;
   return `<defs>
   <style><![CDATA[${fontFaceDefinitions(fonts)}
-    .set-region { --region-opacity: .042; }
-    .set-region.depth-1 { --region-opacity: .052; }
-    .set-region.depth-2 { --region-opacity: .065; }
-    .set-region.depth-3 { --region-opacity: .08; }
-    .region-field { fill: ${color.primary.default}; fill-opacity: var(--region-opacity); stroke: ${color.primary.default}; stroke-width: 1.45; vector-effect: non-scaling-stroke; }
-    .region-orbit { fill: none; stroke: ${color.border}; stroke-width: .8; stroke-opacity: .52; vector-effect: non-scaling-stroke; }
-    .set-region.approximate .region-field, .set-region.approximate .region-orbit { stroke: ${color.semantic.error.default}; stroke-dasharray: 8 7; }
+    .region-field { fill: ${color.primary.default}; fill-opacity: .5; stroke: ${color.primary.default}; stroke-width: 2; vector-effect: non-scaling-stroke; }
+    .set-region.approximate .region-field { stroke: ${color.semantic.error.default}; stroke-dasharray: 8 7; }
     .region-index-dot { fill: ${color.primary.default}; }
     .region-code, .region-type, .approximate-label, .card-code, .card-detail, .warning-heading, .warning-entry, .atom-label { font-family: "IBM Plex Mono Atlas", ${thomDesignTokens.typography.mono}; }
-    .region-code { fill: ${color.primary.default}; font-size: 8px; letter-spacing: 1.45px; }
-    .region-label { fill: ${color.foreground}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 19px; font-weight: 570; }
-    .region-type { fill: ${color.foregroundMuted}; font-size: 9px; }
-    .approximate-label { fill: ${color.semantic.error.default}; font-size: 8px; letter-spacing: 1.7px; }
+    .region-code { fill: ${color.foregroundStrong}; font-size: 8px; letter-spacing: 1.45px; paint-order: stroke; stroke: ${color.background}; stroke-width: 2px; stroke-linejoin: round; }
+    .region-label { fill: ${color.foreground}; font-family: "Newsreader Atlas", ${thomDesignTokens.typography.display}; font-size: 19px; font-weight: 570; paint-order: stroke; stroke: ${color.background}; stroke-width: 3px; stroke-linejoin: round; }
+    .region-type { fill: ${color.foreground}; font-size: 9px; paint-order: stroke; stroke: ${color.background}; stroke-width: 2px; stroke-linejoin: round; }
+    .approximate-label { fill: ${color.semantic.error.default}; font-size: 8px; letter-spacing: 1.7px; paint-order: stroke; stroke: ${color.background}; stroke-width: 2px; stroke-linejoin: round; }
     .atom-dot { fill: ${color.foregroundStrong}; stroke: ${color.primary.default}; stroke-width: 1.5; }
     .atom-label { fill: ${color.foreground}; font-size: 11px; paint-order: stroke; stroke: ${color.background}; stroke-width: 3px; stroke-linejoin: round; }
     .atlas-card rect { fill: ${color.surface}; stroke: ${color.border}; stroke-width: 1.15; }

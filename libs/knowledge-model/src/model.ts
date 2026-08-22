@@ -89,8 +89,7 @@ export type KnowledgePerspectiveKind =
   | "erd"
   | "hierarchy"
   | "dependency"
-  | "public-api"
-  | "set-atlas";
+  | "public-api";
 
 export interface KnowledgePerspective {
   id: string;

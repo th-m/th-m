@@ -134,9 +134,9 @@ export function SetAtlasCanvas({
         <desc>Nested and overlapping regions show relationships between named TypeScript types.</desc>
         <defs>
           <radialGradient id="set-region-fill" cx="58%" cy="38%">
-            <stop offset="0" stopColor="var(--color-primary)" stopOpacity=".18" />
-            <stop offset=".72" stopColor="var(--color-surface-raised)" stopOpacity=".92" />
-            <stop offset="1" stopColor="var(--color-surface)" stopOpacity=".97" />
+            <stop offset="0" stopColor="var(--color-primary)" stopOpacity=".58" />
+            <stop offset=".72" stopColor="var(--color-primary)" stopOpacity=".48" />
+            <stop offset="1" stopColor="var(--color-primary)" stopOpacity=".42" />
           </radialGradient>
           <pattern id="set-grid" width="28" height="28" patternUnits="userSpaceOnUse">
             <circle cx="1" cy="1" r="1" fill="var(--color-primary)" opacity=".1" />
@@ -149,7 +149,7 @@ export function SetAtlasCanvas({
         <rect x={0} y={0} width={scene.width} height={scene.height} className="set-canvas-bg" />
         <rect x={0} y={0} width={scene.width} height={scene.height} fill="url(#set-grid)" pointerEvents="none" />
         <g aria-label="Set regions">
-          {orderedRegions.map((region, index) => {
+          {orderedRegions.map((region) => {
             const isSelected = Boolean(selectedSymbolId && region.symbolIds.includes(selectedSymbolId));
             const activeDrag = drag?.kind === "region" && drag.regionId === region.id ? drag.delta : { x: 0, y: 0 };
             const cx = region.cx + activeDrag.x;
@@ -182,7 +182,6 @@ export function SetAtlasCanvas({
                   rx={region.rx}
                   ry={region.ry}
                   fill="url(#set-region-fill)"
-                  style={{ opacity: Math.max(0.52, 0.94 - index * 0.025) }}
                 />
               </g>
             );

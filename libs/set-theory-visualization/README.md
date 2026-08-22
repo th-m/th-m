@@ -31,8 +31,9 @@ optional font embedding), browser PNG rasterization, and the React canvas. The
 - **Curated analysis:** a committed `AnalyzeResult` for a hand-picked snippet
   (`curatedSetAtlasAnalyses`), so the static site renders atlases with no
   compiler.
-- **Artifact pair:** `<output>.svg` and `<output>@2x.png`, produced by the
-  `tools/set-theory` CLI from this library's renderer.
+- **Overlap figure:** a static, placement- and color-controlled SVG of
+  overlapping set groups produced by `scripts/render-overlap.ts` — the general
+  output path that replaced the tool's artifact generation.
 
 ## Usage
 
@@ -50,6 +51,23 @@ Regenerate the curated analyses (requires a TypeScript compiler):
 ```sh
 bun run nx run set-theory-visualization:generate:curated
 ```
+
+Render a static overlap figure from a JSON spec — explicit placement and
+coloring, optionally bootstrapped from an `AnalyzeResult`:
+
+```sh
+bun run nx run set-theory-visualization:render:overlap -- \
+  --input dist-sets/known-sets.json --output dist-sets/known-sets
+```
+
+Each `groups` entry sets `label`, `cx`/`cy`/`rx`/`ry`, and `fill`/`opacity`/
+`stroke`/`strokeWidth`; unspecified values fall back to the `style` defaults.
+With `"analysis"` pointing at an `AnalyzeResult` JSON (or
+`{ "source": "...", "tsconfig": "..." }`), groups are derived from the
+compiler analysis and the `groups` entries override them by label or symbol
+id. The SVG is sized exactly to the placed ellipses, so outputs never get
+unexpected dimensions. `--print` writes the resolved groups back as a pure
+spec for hand-tuning.
 
 ## Verification
 

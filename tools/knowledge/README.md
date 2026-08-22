@@ -11,8 +11,8 @@ and a multi-package TypeScript schema domain.
 
 Adapters normalize source syntax into `@th-m/knowledge-model`. A manifest asks
 for perspectives over those semantics. Renderers derive native baselines,
-topology, phased process, ERD, package hierarchy, dependency, public API, and
-set-atlas evidence. Normalized snapshots and visual artifacts are derived;
+topology, phased process, ERD, package hierarchy, dependency, and public API
+evidence. Normalized snapshots and visual artifacts are derived;
 there is no canonical author-facing knowledge DSL in this iteration.
 
 ## Key Terms

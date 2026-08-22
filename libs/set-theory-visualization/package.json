@@ -11,7 +11,8 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --pretty false",
     "test": "vitest run",
-    "generate:curated": "bun run scripts/generate-curated-atlases.ts"
+    "generate:curated": "bun run scripts/generate-curated-atlases.ts",
+    "render:overlap": "bun run scripts/render-overlap.ts"
   },
   "dependencies": {
     "@fontsource-variable/newsreader": "latest",
@@ -38,11 +39,26 @@
     "name": "set-theory-visualization",
     "sourceRoot": "libs/set-theory-visualization/src",
     "projectType": "library",
-    "tags": ["kind:lib", "runtime:web", "domain:set-theory"],
+    "tags": [
+      "kind:lib",
+      "runtime:web",
+      "domain:set-theory"
+    ],
     "targets": {
-      "typecheck": { "outputs": [] },
-      "test": { "outputs": [] },
-      "generate:curated": { "outputs": ["{projectRoot}/src/data/curated-atlases.ts"] }
+      "typecheck": {
+        "outputs": []
+      },
+      "test": {
+        "outputs": []
+      },
+      "generate:curated": {
+        "outputs": [
+          "{projectRoot}/src/data/curated-atlases.ts"
+        ]
+      },
+      "render:overlap": {
+        "outputs": []
+      }
     }
   }
 }

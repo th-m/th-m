@@ -1,7 +1,7 @@
-import type { KnowledgeDocument, TypeRelation, TypeSetSymbol } from "@th-m/knowledge-model";
+import type { KnowledgeDocument } from "@th-m/knowledge-model";
 import { svgShell, tspans, wrapText, xml, type EmbeddedFonts } from "./rendering.ts";
 import { knowledgeTheme } from "./theme.ts";
-import type { SetProjection, TypeScriptSymbolSnapshot, TypeScriptWorkspaceSnapshot } from "./types.ts";
+import type { TypeScriptSymbolSnapshot, TypeScriptWorkspaceSnapshot } from "./types.ts";
 
 export function snapshotToKnowledgeDocument(snapshot: TypeScriptWorkspaceSnapshot): KnowledgeDocument {
   const capabilities = [...new Set(snapshot.packages.map(({ capability }) => capability))].sort();
@@ -34,7 +34,6 @@ export function snapshotToKnowledgeDocument(snapshot: TypeScriptWorkspaceSnapsho
       { id: "hierarchy", kind: "hierarchy", title: "Schema package hierarchy" },
       { id: "dependency", kind: "dependency", title: "Public package dependencies" },
       { id: "public-api", kind: "public-api", title: "Public API register" },
-      { id: "set-atlas", kind: "set-atlas", title: "Focused Songs set atlas" },
     ],
     diagnostics: snapshot.diagnostics,
   };
@@ -136,102 +135,4 @@ export function renderPublicApiOverview(snapshot: TypeScriptWorkspaceSnapshot, t
 export function createPublicApiHtml(snapshot: TypeScriptWorkspaceSnapshot): string {
   const rows = snapshot.symbols.map((symbol) => `<tr><td>${xml(packageLabel(symbol.packageId))}</td><td>${xml(symbol.name)}</td><td>${xml(symbol.kind)}</td><td><code>${xml(symbol.sourcePath)}:${symbol.line}</code></td><td>${symbol.deprecated ? "deprecated" : ""}</td></tr>`).join("");
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${xml(snapshot.title)} public API</title><style>body{background:${knowledgeTheme.background};color:${knowledgeTheme.foreground};font:13px ui-monospace,monospace;margin:32px}table{border-collapse:collapse;width:100%}th,td{padding:10px;border-bottom:1px solid ${knowledgeTheme.border};text-align:left}th{color:${knowledgeTheme.primary};position:sticky;top:0;background:${knowledgeTheme.background}}code{color:${knowledgeTheme.foregroundMuted}}</style></head><body><h1>${xml(snapshot.title)} public API</h1><p>${snapshot.symbols.length} exports at <code>${xml(snapshot.repository.revision)}</code></p><table><thead><tr><th>Package</th><th>Symbol</th><th>Kind</th><th>Provenance</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
-}
-
-function selectedSymbols(snapshot: TypeScriptWorkspaceSnapshot, names: string[]): TypeScriptSymbolSnapshot[] {
-  if (names.length > 24) throw new Error(`Set analysis accepts at most 24 symbols; received ${names.length}.`);
-  const selected: TypeScriptSymbolSnapshot[] = [];
-  for (const name of names) {
-    const matches = snapshot.symbols.filter((symbol) => symbol.name === name);
-    if (matches.length === 0) throw new Error(`Selected TypeScript symbol was not found in the snapshot: ${name}`);
-    if (matches.length > 1) throw new Error(`Selected TypeScript symbol is ambiguous; qualify it in a future manifest revision: ${name}`);
-    selected.push(matches[0]);
-  }
-  return selected;
-}
-
-export function createSetProjection(snapshot: TypeScriptWorkspaceSnapshot, names: string[]): SetProjection {
-  const selected = selectedSymbols(snapshot, names);
-  const byName = new Map(selected.map((symbol) => [symbol.name, symbol]));
-  const symbols: TypeSetSymbol[] = selected.map((symbol) => ({
-    id: symbol.id,
-    name: symbol.name,
-    kind: symbol.kind === "interface" || symbol.kind === "class" || symbol.kind === "enum" ? symbol.kind : "alias",
-    display: symbol.display,
-    status: "region",
-    typeFlags: 0,
-    sourceSpan: { start: 0, end: 0, line: symbol.line, column: symbol.column },
-    atomIds: [],
-  }));
-  const relations: TypeRelation[] = [];
-  const relationKeys = new Set<string>();
-  const add = (source: TypeScriptSymbolSnapshot, targetName: string, kind: TypeRelation["kind"], confidence: TypeRelation["confidence"], reason: string): void => {
-    const target = byName.get(targetName);
-    if (!target || target.id === source.id) return;
-    const unordered = kind === "equivalent" || kind === "overlap" || kind === "disjoint";
-    const endpoints = unordered ? [source.id, target.id].sort() : [source.id, target.id];
-    const key = `${kind}:${endpoints.join(":")}`;
-    if (relationKeys.has(key)) return;
-    relationKeys.add(key);
-    relations.push({ sourceId: source.id, targetId: target.id, kind, confidence, reason });
-  };
-  for (const symbol of selected) {
-    if (symbol.aliasTarget) add(symbol, symbol.aliasTarget, "equivalent", "compiler-proven", "Public compatibility alias targets the same declared type.");
-    for (const parent of symbol.extends) add(symbol, parent, "proper-subset", "derived", "Interface or class inheritance is structural containment in TypeScript.");
-    for (const member of symbol.intersectionMembers) add(symbol, member, "proper-subset", "approximate", "Intersection values must satisfy the selected member.");
-  }
-  for (const symbol of selected.filter(({ unionMembers }) => unionMembers.length > 0)) {
-    for (const candidateName of symbol.unionMembers) {
-      const candidate = byName.get(candidateName);
-      if (!candidate) continue;
-      const everyMemberContained = symbol.unionMembers.every((memberName) => memberName === candidateName || relations.some((relation) => relation.kind === "proper-subset" && byName.get(memberName)?.id === relation.sourceId && candidate.id === relation.targetId));
-      if (everyMemberContained) add(symbol, candidateName, "equivalent", "approximate", "Every selected union member is assignable to the broader member; the union collapses structurally.");
-    }
-  }
-  const warnings = selected.some((symbol) => symbol.kind === "interface" || /\{/.test(symbol.display)) ? ["Open structural TypeScript object types are approximated as closed visual regions; excess properties and compiler configuration can change mathematical interpretation."] : [];
-  return { symbols, relations: relations.sort((left, right) => `${left.kind}:${left.sourceId}:${left.targetId}`.localeCompare(`${right.kind}:${right.sourceId}:${right.targetId}`)), warnings };
-}
-
-class DisjointSets {
-  private readonly parent = new Map<string, string>();
-  constructor(ids: string[]) { for (const id of ids) this.parent.set(id, id); }
-  find(id: string): string { const parent = this.parent.get(id) ?? id; if (parent === id) return id; const root = this.find(parent); this.parent.set(id, root); return root; }
-  union(left: string, right: string): void { const a = this.find(left); const b = this.find(right); if (a !== b) this.parent.set([a, b].sort()[1], [a, b].sort()[0]); }
-}
-
-export function renderSetProjection(projection: SetProjection, title: string, fonts: EmbeddedFonts): { svg: string; width: number; height: number } {
-  const sets = new DisjointSets(projection.symbols.map(({ id }) => id));
-  for (const relation of projection.relations) if (relation.kind === "equivalent") sets.union(relation.sourceId, relation.targetId);
-  const members = new Map<string, TypeSetSymbol[]>();
-  for (const symbol of projection.symbols) {
-    const root = sets.find(symbol.id);
-    members.set(root, [...(members.get(root) ?? []), symbol]);
-  }
-  const groups = [...members].map(([id, symbols]) => ({ id, symbols: symbols.sort((left, right) => left.name.localeCompare(right.name)) }));
-  const groupFor = (symbolId: string): string => sets.find(symbolId);
-  const parentByGroup = new Map<string, string>();
-  for (const relation of projection.relations.filter(({ kind }) => kind === "proper-subset")) {
-    const child = groupFor(relation.sourceId);
-    const parent = groupFor(relation.targetId);
-    if (child !== parent) parentByGroup.set(child, parent);
-  }
-  const roots = groups.filter(({ id }) => !parentByGroup.has(id)).sort((left, right) => left.id.localeCompare(right.id));
-  const width = Math.max(1280, 80 + roots.length * 310);
-  const warningHeight = projection.warnings.length * 54;
-  const height = 610 + warningHeight;
-  const markup = roots.map((root, index) => {
-    const x = 200 + index * 310;
-    const y = 330;
-    const children = groups.filter((group) => parentByGroup.get(group.id) === root.id);
-    const rootLabel = root.symbols.map(({ name }) => name).join(" ≡ ");
-    const childMarkup = children.map((child, childIndex) => {
-      const cx = x + (childIndex - (children.length - 1) / 2) * 90;
-      const cy = y + 18;
-      return `<ellipse cx="${cx}" cy="${cy}" rx="104" ry="68" fill="${knowledgeTheme.dialog}" fill-opacity=".88" stroke="${knowledgeTheme.primary}"/><text x="${cx}" y="${cy - 3}" text-anchor="middle" font-size="11">${tspans(wrapText(child.symbols.map(({ name }) => name).join(" ≡ "), 22, 2), cx, cy - 3, 17)}</text>`;
-    }).join("");
-    return `<g><ellipse cx="${x}" cy="${y}" rx="142" ry="122" fill="${knowledgeTheme.surfaceRaised}" stroke="${knowledgeTheme.borderStrong}" stroke-width="2"/><text x="${x}" y="${y - 75}" text-anchor="middle" font-size="12" fill="${knowledgeTheme.primary}">${tspans(wrapText(rootLabel, 25, 2), x, y - 75, 17)}</text>${childMarkup}</g>`;
-  }).join("");
-  const warnings = projection.warnings.map((warning, index) => `<g><rect x="54" y="${566 + index * 54}" width="${width - 108}" height="42" rx="10" fill="${knowledgeTheme.surfaceRaised}" stroke="${knowledgeTheme.border}"/><text x="70" y="${592 + index * 54}" font-size="10" fill="${knowledgeTheme.foregroundMuted}">APPROXIMATION · ${xml(warning)}</text></g>`).join("");
-  const content = `<text class="display" x="54" y="58" font-size="38">${xml(title)}</text><text x="${width - 54}" y="56" text-anchor="end" font-size="12" fill="${knowledgeTheme.foregroundMuted}">FOCUSED SET / EULER ATLAS · EQUIVALENCE MERGED · CONTAINMENT NESTED</text><text x="54" y="112" font-size="11" fill="${knowledgeTheme.primary}">${projection.symbols.length} SELECTED SYMBOLS · ${projection.relations.length} EXPLICIT RELATIONS</text>${markup}${warnings}`;
-  return { svg: svgShell({ title: `${title} — set atlas`, description: "Focused TypeScript set atlas merging equivalent types and nesting structural containment.", width, height, fonts, content }), width, height };
 }

@@ -2,8 +2,6 @@ import type {
   KnowledgeDiagnostic,
   KnowledgeDocument,
   KnowledgePerspectiveKind,
-  TypeRelation,
-  TypeSetSymbol,
 } from "@th-m/knowledge-model";
 
 export interface ProofManifest {
@@ -35,7 +33,6 @@ export interface ErdProofSource extends BaseProofSource {
 
 export interface TypeScriptProofSource extends BaseProofSource {
   kind: "typescript-workspace-snapshot";
-  selection?: string[];
 }
 
 export interface TypeScriptPackageSnapshot {
@@ -115,12 +112,6 @@ export interface ProofReport {
   title: string;
   sources: SourceReport[];
   reviewCriteria: string[];
-}
-
-export interface SetProjection {
-  symbols: TypeSetSymbol[];
-  relations: TypeRelation[];
-  warnings: string[];
 }
 
 export type NormalizedProofModel = KnowledgeDocument;
