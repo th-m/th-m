@@ -72,7 +72,7 @@ export const articleBundleNodes: BundleNode[] = [
   },
   // Bottom row: the factory branches.
   {
-    slug: "the-factory-ontology",
+    slug: "the-ontology-factory",
     kind: "branch",
     order: "05",
     summary: "Repository structure makes ownership and dependencies visible.",
@@ -107,7 +107,7 @@ export const articleBundleEdges: BundleEdge[] = [
   { from: "goals-solutions-and-value", to: "the-knowledge-factory" },
   { from: "truth-entropy-and-inference", to: "the-knowledge-factory" },
   { from: "understanding-is-the-bottleneck", to: "the-knowledge-factory" },
-  { from: "the-knowledge-factory", to: "the-factory-ontology" },
+  { from: "the-knowledge-factory", to: "the-ontology-factory" },
   { from: "the-knowledge-factory", to: "the-cognitive-factory" },
 ];
 

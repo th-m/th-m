@@ -1,4 +1,4 @@
-# Research Audit: “The Factory — Ontology”
+# Research Audit: “The Ontology Factory”
 
 > **Coordination note:** This audit was produced for the earlier “Software
 > Engineering Becomes Ontology Design” outline. Its ontology, bounded-context,

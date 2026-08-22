@@ -297,7 +297,7 @@ const seriesLinks: Array<[string, string]> = [
   ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
   ["The Understanding Bottleneck", "/writing/understanding-is-the-bottleneck"],
   ["The Knowledge Factory", "/writing/the-knowledge-factory"],
-  ["Factory Ontology", "/writing/the-factory-ontology"],
+  ["Ontology Factory", "/writing/the-ontology-factory"],
   ["Cognitive Factory", "/writing/the-cognitive-factory"],
 ];
 
@@ -378,7 +378,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <ArticleLink slug="the-knowledge-factory"><strong>The Knowledge Factory</strong></ArticleLink>{" "}
           introduced the operating system: an organization that turns evidence and intent into reusable
           capability.{" "}
-          <ArticleLink slug="the-factory-ontology"><strong>The Factory — Ontology</strong></ArticleLink>{" "}
+          <ArticleLink slug="the-ontology-factory"><strong>The Ontology Factory</strong></ArticleLink>{" "}
           mapped that system's semantic infrastructure. This essay examines how the factory thinks — the
           cognition that makes the map useful, the learning compound, and the light cone that measures how far
           that cognition reaches. The strategy discipline that chooses where the factory should act is covered
@@ -523,7 +523,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
       <Section index="09" title="6. The Two Factory Disciplines">
         <p>
           The knowledge factory needs two human-governed disciplines.{" "}
-          <ArticleLink slug="the-factory-ontology">Factory Ontology</ArticleLink> asks how humans map the domain
+          <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink> asks how humans map the domain
           so models and teams share the right entities, relationships, constraints, and evidence. The strategy
           discipline — covered in{" "}
           <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink> — asks how humans choose

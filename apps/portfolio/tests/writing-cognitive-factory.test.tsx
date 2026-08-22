@@ -106,7 +106,7 @@ describe("Cognitive Factory published page", () => {
       ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
       ["The Understanding Bottleneck", "/writing/understanding-is-the-bottleneck"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
-      ["Factory Ontology", "/writing/the-factory-ontology"],
+      ["Ontology Factory", "/writing/the-ontology-factory"],
     ];
     for (const [name, href] of links) {
       const matches = screen.getAllByRole("link", { name });

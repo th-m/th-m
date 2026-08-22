@@ -1,10 +1,10 @@
 ---
-title: Factory Ontology
+title: Ontology Factory
 description: The factory's ontology is not a diagram in a wiki. It is the structure of the repository itself — ownership visible from every path, dependencies flowing toward more foundational layers, and contracts that make the map checkable.
 publishedAt: 2026-08-22
 tags: [Artificial Intelligence, Ontology, Software Systems, Knowledge Work]
 ---
-# Factory Ontology
+# Ontology Factory
 
 ## A Map of the Factory Itself
 

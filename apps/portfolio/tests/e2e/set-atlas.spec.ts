@@ -18,7 +18,9 @@ test("explores a curated TypeScript set atlas from the tool drawer", async ({ pa
   await page.getByLabel("Choose a TypeScript snippet").selectOption({ label: "TypeScript is set theory" });
   await expect(page.getByRole("figure", { name: "TypeScript is set theory" })).toBeVisible();
 
-  await page.locator(".set-region").first().click();
+  const region = page.locator(".set-region").first();
+  await region.focus();
+  await region.press("Enter");
   await expect(page.locator(".set-figure__detail h3").first()).toBeVisible();
 });
 

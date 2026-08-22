@@ -120,7 +120,8 @@ async function normalizedHeroOCrop(buffer: Buffer) {
 test("renders the minimal home with logo and writings", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
-  await expect(page.getByRole("heading", { name: "Writings" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "AI Factory" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Laws" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Explore the writing" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Measured to stay itself at every scale." })).toHaveCount(0);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
@@ -742,7 +743,8 @@ test.describe("no JavaScript", () => {
   test("prerenders the minimal home and writings section", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { name: "THOM — Thomas Valadez" })).toBeAttached();
-    await expect(page.getByRole("heading", { name: "Writings" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "AI Factory" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Laws" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Explore the writing" })).toBeVisible();
   });
 
@@ -756,6 +758,7 @@ test.describe("no JavaScript", () => {
   test("serves the writing index as navigable prerendered HTML", async ({ page }) => {
     await page.goto("/writing");
     await expect(page.getByRole("heading", { name: "Ideas with enough structure to navigate." })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "The drafts are still becoming articles." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "AI Factory series" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Goals, Solutions & Value" })).toBeVisible();
   });
 });

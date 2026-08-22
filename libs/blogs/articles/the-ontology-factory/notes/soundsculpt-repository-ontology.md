@@ -1,6 +1,6 @@
 # SoundSculpt Repository Ontology — Source Material
 
-Primary source for the *The Factory — Ontology* article's SoundSculpt case study.
+Primary source for the *The Ontology Factory* article's SoundSculpt case study.
 Captured from the SoundSculpt monorepo's own root documentation, 2026-08-22.
 This is the raw contract text; the article is the author's interpretation and
 framing of it.

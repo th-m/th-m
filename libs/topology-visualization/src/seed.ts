@@ -40,7 +40,7 @@ export function createFactoryTopology(now = new Date().toISOString()): TopologyD
       { id: "schema-platform", source: "schema-node", target: "platform-node", label: "may depend on" },
     ],
     poster: {
-      kicker: "THE FACTORY — ONTOLOGY",
+      kicker: "THE ONTOLOGY FACTORY",
       title: "Dependencies flow toward more foundational layers",
       footer: "APPS → EDGE → ENGINE → SCHEMA → PLATFORM",
       showLegend: true,

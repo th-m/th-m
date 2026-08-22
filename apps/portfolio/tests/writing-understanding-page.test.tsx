@@ -105,7 +105,7 @@ describe("The Understanding Bottleneck published page", () => {
       ["Goals, Solutions & Value", "/writing/goals-solutions-and-value"],
       ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
-      ["Factory Ontology", "/writing/the-factory-ontology"],
+      ["Ontology Factory", "/writing/the-ontology-factory"],
       ["Cognitive Factory", "/writing/the-cognitive-factory"],
     ];
     for (const [name, href] of series) {

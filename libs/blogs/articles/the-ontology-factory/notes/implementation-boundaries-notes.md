@@ -2,7 +2,7 @@
 
 ## Status and purpose
 
-Working note for *The Factory — Ontology*. These sources support the claim that
+Working note for *The Ontology Factory*. These sources support the claim that
 an ontology's commitments are expressed and enforced through implementation
 boundaries — modules, services, and dependency rules — and that maintaining a
 map of the domain is continuous with maintaining the architecture that encodes

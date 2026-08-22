@@ -214,7 +214,7 @@ strategy more learnable without pretending to automate the art.
 > **Systematize the feedback. Do not automate away the judgment.**
 
 The factory's ontology describes the world it can recognize — the subject of
-the companion essay [**Factory Ontology**](/writing/the-factory-ontology).
+the companion essay [**Ontology Factory**](/writing/the-ontology-factory).
 Strategy chooses where in that world to act, which change to pursue, how to
 earn the cooperation required, and which risks to accept. How the factory
 represents and reuses context — graph context, executable context, and the

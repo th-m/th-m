@@ -281,7 +281,7 @@ Offer a diagnostic order:
 
 Close by introducing the follow-on essays:
 
-- **The Factory — Ontology** asks how humans map the domain so models and teams
+- **The Ontology Factory** asks how humans map the domain so models and teams
   share the right entities, relationships, constraints, and evidence.
 - **Cognitive Factory** asks how the factory thinks — graph context,
   executable context, and the compounding loop — while this article's strategy

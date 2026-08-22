@@ -1,4 +1,4 @@
-# The Factory — Ontology
+# The Ontology Factory
 
 ## Editorial Status
 

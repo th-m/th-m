@@ -27,7 +27,7 @@ const posts: BlogManifest["posts"] = [
   post("truth-entropy-and-inference", "Truth, Entropy, and Inference", "How truth and entropy constrain inference."),
   post("understanding-is-the-bottleneck", "Understanding Is the Bottleneck", "Why understanding limits progress."),
   post("the-knowledge-factory", "The Knowledge Factory", "The factory that turns knowledge into work."),
-  post("the-factory-ontology", "The Factory — Ontology", "The ontology of the factory."),
+  post("the-ontology-factory", "The Ontology Factory", "The ontology of the factory."),
   post("the-cognitive-factory", "Cognitive Factory", "The cognition of the factory."),
 ];
 
@@ -76,9 +76,9 @@ describe("ArticleBundleGraph", () => {
       "href",
       "/writing/the-knowledge-factory",
     );
-    expect(screen.getByRole("link", { name: /The Factory — Ontology/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /The Ontology Factory/ })).toHaveAttribute(
       "href",
-      "/writing/the-factory-ontology",
+      "/writing/the-ontology-factory",
     );
     expect(screen.getByRole("link", { name: /Cognitive Factory/ })).toHaveAttribute(
       "href",

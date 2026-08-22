@@ -441,7 +441,7 @@ export function createLayerDependencyGraph(now = new Date().toISOString()): Grap
       },
     ],
     poster: {
-      kicker: "THE FACTORY — ONTOLOGY",
+      kicker: "THE ONTOLOGY FACTORY",
       title: "Dependencies flow toward more foundational layers",
       footer: "APPS → EDGE → ENGINE → SCHEMA → PLATFORM",
       showLegend: false,

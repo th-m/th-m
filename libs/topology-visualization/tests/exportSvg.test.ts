@@ -29,7 +29,7 @@ describe("createTopologySvg", () => {
     const svg = createTopologySvg(factory, positions, "poster", extent, fonts);
 
     expect(svg).toContain('width="1600" height="1000"');
-    expect(svg).toContain("THE FACTORY — ONTOLOGY");
+    expect(svg).toContain("THE ONTOLOGY FACTORY");
     expect(svg).toContain("Dependencies flow toward more foundational layers");
     expect(svg).toContain("APPS → EDGE → ENGINE → SCHEMA → PLATFORM");
     expect(svg).toContain("topology-legend");

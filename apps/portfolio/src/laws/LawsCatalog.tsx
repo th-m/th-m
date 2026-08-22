@@ -48,9 +48,9 @@ export function LawsCatalog() {
                 "--law-label-accent": lawLabelAccentVariable(label),
                 ...(selected
                   ? {
-                      background: `color-mix(in srgb, ${lawLabelAccentVariable(label)} 18%, transparent)`,
-                      color: lawLabelAccentVariable(label),
-                      opacity: 0.94,
+                      background: lawLabelAccentVariable(label),
+                      color: "var(--color-accent-foreground)",
+                      opacity: 1,
                     }
                   : {}),
               } as CSSProperties}

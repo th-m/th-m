@@ -102,7 +102,7 @@ describe("The Knowledge Factory published page", () => {
       ["Goals, Solutions & Value", "/writing/goals-solutions-and-value"],
       ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
       ["The Understanding Bottleneck", "/writing/understanding-is-the-bottleneck"],
-      ["Factory Ontology", "/writing/the-factory-ontology"],
+      ["Ontology Factory", "/writing/the-ontology-factory"],
       ["Cognitive Factory", "/writing/the-cognitive-factory"],
     ];
     for (const [name, href] of links) {

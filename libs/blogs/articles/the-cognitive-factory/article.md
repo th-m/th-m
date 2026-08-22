@@ -41,7 +41,7 @@ developed in their own essays, and this essay closes by connecting them.
 
 This is the sixth essay in the sequence. *The Knowledge Factory* introduced the
 operating system: an organization that turns evidence and intent into reusable
-capability. *The Factory — Ontology* mapped that system's semantic
+capability. *The Ontology Factory* mapped that system's semantic
 infrastructure. This essay examines how the factory thinks — the cognition that
 makes the map useful, the learning compound, and the light cone that measures
 how far that cognition reaches. The strategy discipline that chooses where the
@@ -157,7 +157,7 @@ Not everything at once. A diagnostic order:
 ## 6. The Two Factory Disciplines
 
 The knowledge factory needs two human-governed disciplines.
-[**Factory Ontology**](/writing/the-factory-ontology) asks how humans map the
+[**Ontology Factory**](/writing/the-ontology-factory) asks how humans map the
 domain so models and teams share the right entities, relationships,
 constraints, and evidence. The strategy discipline — covered in
 [**The Knowledge Factory**](/writing/the-knowledge-factory) — asks how humans
@@ -172,5 +172,5 @@ Ontology makes the factory coherent. Strategy makes it purposeful.
 - [Truth, Entropy & Inference](/writing/truth-entropy-and-inference)
 - [The Understanding Bottleneck](/writing/understanding-is-the-bottleneck)
 - [The Knowledge Factory](/writing/the-knowledge-factory)
-- [Factory Ontology](/writing/the-factory-ontology)
+- [Ontology Factory](/writing/the-ontology-factory)
 - Cognitive Factory (this essay)

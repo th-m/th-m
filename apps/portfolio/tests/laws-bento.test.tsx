@@ -90,10 +90,10 @@ describe("LawsCatalog", () => {
     expect(selected).toHaveAttribute("aria-pressed", "true");
     expect(selected.className).toContain("home-laws__pill--selected");
     expect(selected.style.background).toBe(
-      `color-mix(in srgb, var(--color-accent-${lawLabelAccents.cs}) 18%, transparent)`,
+      `var(--color-accent-${lawLabelAccents.cs})`,
     );
-    expect(selected.style.color).toBe(`var(--color-accent-${lawLabelAccents.cs})`);
-    expect(selected.style.opacity).toBe("0.94");
+    expect(selected.style.color).toBe("var(--color-accent-foreground)");
+    expect(selected.style.opacity).toBe("1");
     expect(cards()).toHaveLength(expected.length);
   });
 

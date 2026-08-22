@@ -858,7 +858,7 @@ export default function ArticlePage({
         </Figure>
         <p>
           The factory's ontology describes the world it can recognize — the subject of the companion essay{" "}
-          <ArticleLink slug="the-factory-ontology">Factory Ontology</ArticleLink>. Strategy chooses where in
+          <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink>. Strategy chooses where in
           that world to act, which change to pursue, how to earn the cooperation required, and which risks to
           accept. How the factory represents and reuses context — graph context, executable context, and the
           compounding loop — is the subject of{" "}
