@@ -26,7 +26,7 @@ export const BUNDLE_VIEWBOX = { width: 960, height: 660 } as const;
 
 export const articleBundleNodes: BundleNode[] = [
   // Top row: the three fundamental essays.
-  { slug: "solutions-meaning-and-value", kind: "fundamental", x: 30, y: 20, width: 250, height: 130 },
+  { slug: "goals-solutions-and-value", kind: "fundamental", x: 30, y: 20, width: 250, height: 130 },
   { slug: "truth-entropy-and-inference", kind: "fundamental", x: 355, y: 20, width: 250, height: 130 },
   { slug: "understanding-is-the-bottleneck", kind: "fundamental", x: 680, y: 20, width: 250, height: 130 },
   // Hub: the knowledge factory.
@@ -37,7 +37,7 @@ export const articleBundleNodes: BundleNode[] = [
 ];
 
 export const articleBundleEdges: BundleEdge[] = [
-  { from: "solutions-meaning-and-value", to: "the-knowledge-factory" },
+  { from: "goals-solutions-and-value", to: "the-knowledge-factory" },
   { from: "truth-entropy-and-inference", to: "the-knowledge-factory" },
   { from: "understanding-is-the-bottleneck", to: "the-knowledge-factory" },
   { from: "the-knowledge-factory", to: "the-factory-ontology" },

@@ -159,7 +159,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
         <Section index="03" title="Relationship to the Series">
           <p>This is the third essay in a coordinated sequence:</p>
           <ol>
-            <li><EssayLink slug="solutions-meaning-and-value">Solutions, Meaning &amp; Value</EssayLink> establishes the human stakes that make an opportunity worth pursuing.</li>
+            <li><EssayLink slug="goals-solutions-and-value">Goals, Solutions &amp; Value</EssayLink> establishes the human stakes that make an opportunity worth pursuing.</li>
             <li><EssayLink slug="truth-entropy-and-inference">Truth, Entropy &amp; Inference</EssayLink> explains why AI can be fluent and coherent in some domains while remaining weakly grounded in others.</li>
             <li><strong>The Understanding Bottleneck</strong> defines the human and organizational capability needed to direct and evaluate abundant output.</li>
             <li><EssayLink slug="the-knowledge-factory">The Knowledge Factory</EssayLink> turns that capability into an organizational operating system.</li>

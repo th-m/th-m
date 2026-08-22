@@ -41,7 +41,7 @@ unnumbered so editorial order can change without destabilizing paths.
 
 | Order | Workspace | Subject | Status |
 | --- | --- | --- | --- |
-| 1 | [solutions-meaning-and-value](./solutions-meaning-and-value/) | **Solutions, Meaning, and Value:** AI problem fit, functional cognition, agency, meaning, and theories of value | Draft 3 outline in progress; Draft 2 retained as source material and prior product-opportunity outline preserved in notes |
+| 1 | [goals-solutions-and-value](./goals-solutions-and-value/) | **Goals, Solutions & Value:** AI problem fit, functional cognition, agency, goals, and theories of value | Draft 3 outline in progress; Draft 2 retained as source material and prior product-opportunity outline preserved in notes |
 | 2 | [truth-entropy-and-inference](./truth-entropy-and-inference/) | **Truth, Entropy, and Inference:** truth practices, predictive language, code constraints, and domain fluency | Draft outline in progress; inherited research and visuals need expansion |
 | 3 | [understanding-is-the-bottleneck](./understanding-is-the-bottleneck/) | **Understanding Is the Bottleneck:** leaders who distill meaning and multiply team solutioning | Published essay page; proof pipeline and understanding-loop figures rendered from `@th-m/graph-visualization` seeds |
 | 4 | [the-knowledge-factory](./the-knowledge-factory/) | **The Knowledge Factory:** distributed solutioning, factory engineers, graph context, and reusable organizational capital | Draft outline in progress |

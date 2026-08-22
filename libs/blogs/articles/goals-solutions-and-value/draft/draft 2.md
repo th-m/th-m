@@ -1,4 +1,4 @@
-# Solutions, Meaning, and Value
+# Goals, Solutions, and Value
 ## The Problem
 
 [Harvard Just Caught AI Lying to Every Executive in America](https://www.youtube.com/watch?v=pd1Km6bT104)

@@ -1,4 +1,4 @@
-# Solutions, Meaning, and Value
+# Goals, Solutions, and Value
 
 > **Retired direction:** This outline preserves the product-opportunity framing
 > explored before Draft 2. It is reference material, not the active direction

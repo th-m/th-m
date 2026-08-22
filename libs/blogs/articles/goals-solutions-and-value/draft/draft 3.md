@@ -1,4 +1,4 @@
-# Solutions, Meaning, and Value
+# Goals, Solutions, and Value
 
 ## Draft 3 Outline
 

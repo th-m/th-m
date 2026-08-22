@@ -23,7 +23,7 @@ const post = (slug: string, title: string, description: string): BlogManifest["p
 });
 
 const posts: BlogManifest["posts"] = [
-  post("solutions-meaning-and-value", "Solutions, Meaning, and Value", "Why predictive systems need explicit goals."),
+  post("goals-solutions-and-value", "Goals, Solutions & Value", "Why predictive systems need explicit goals."),
   post("truth-entropy-and-inference", "Truth, Entropy, and Inference", "How truth and entropy constrain inference."),
   post("understanding-is-the-bottleneck", "Understanding Is the Bottleneck", "Why understanding limits progress."),
   post("the-knowledge-factory", "The Knowledge Factory", "The factory that turns knowledge into work."),
@@ -58,9 +58,9 @@ describe("ArticleBundleGraph", () => {
     await renderGraph();
     expect(screen.getByRole("heading", { name: "AI Factory" })).toBeInTheDocument();
     expect(screen.getAllByRole("link")).toHaveLength(6);
-    expect(screen.getByRole("link", { name: /Solutions, Meaning, and Value/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Goals, Solutions & Value/ })).toHaveAttribute(
       "href",
-      "/writing/solutions-meaning-and-value",
+      "/writing/goals-solutions-and-value",
     );
     expect(screen.getByRole("link", { name: /Truth, Entropy, and Inference/ })).toHaveAttribute(
       "href",

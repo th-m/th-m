@@ -33,7 +33,7 @@ decisions remain gated above the people doing the work.
 This is the fourth essay in the sequence. The earlier essays describe the
 landscape, the problem, and the opportunity:
 
-1. **[Solutions, Meaning & Value](/writing/solutions-meaning-and-value):** the
+1. **[Goals, Solutions & Value](/writing/goals-solutions-and-value):** the
    factory cannot derive its own definition of value from output volume;
    opportunities remain grounded in human stakes and accountable choices.
 2. **[Truth, Entropy & Inference](/writing/truth-entropy-and-inference):**

@@ -39,7 +39,7 @@ a coherent continuation from a correct or meaningful answer.
 > is that their language has been shaped by different feedback systems.
 
 This is the second essay in a coordinated sequence:
-[Solutions, Meaning & Value](/writing/solutions-meaning-and-value) establishes
+[Goals, Solutions & Value](/writing/goals-solutions-and-value) establishes
 that valuable opportunities are grounded in human stakes; this essay explains
 why learned language patterns are powerful, when they carry constraints, and
 where fluency breaks;

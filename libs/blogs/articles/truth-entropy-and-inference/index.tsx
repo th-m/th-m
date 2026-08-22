@@ -610,8 +610,8 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             </ClaimCard>
             <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--color-foreground-muted)" }}>
               This is the second essay in a coordinated sequence:{" "}
-              <LinkPreview url="/writing/solutions-meaning-and-value" asChild>
-                <Link to="/writing/$slug" params={{ slug: "solutions-meaning-and-value" }}>Solutions, Meaning &amp; Value</Link>
+              <LinkPreview url="/writing/goals-solutions-and-value" asChild>
+                <Link to="/writing/$slug" params={{ slug: "goals-solutions-and-value" }}>Goals, Solutions &amp; Value</Link>
               </LinkPreview>{" "}
               establishes that valuable opportunities are grounded in human stakes; this essay explains why learned
               language patterns are powerful, when they carry constraints, and where fluency breaks;{" "}

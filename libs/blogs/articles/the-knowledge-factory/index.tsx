@@ -584,7 +584,7 @@ export default function ArticlePage({
         </p>
         <ul>
           <li>
-            <strong><ArticleLink slug="solutions-meaning-and-value">Solutions, Meaning &amp; Value</ArticleLink>:</strong>{" "}
+            <strong><ArticleLink slug="goals-solutions-and-value">Goals, Solutions &amp; Value</ArticleLink>:</strong>{" "}
             the factory cannot derive its own definition of value from output volume; opportunities remain grounded
             in human stakes and accountable choices.
           </li>

@@ -51,7 +51,7 @@ conventions](./articles/README.md), or pass a note path relative to the
 repository root:
 
 ```sh
-bun run nx run blogs:start -- libs/blogs/articles/solutions-meaning-and-value/draft/draft\ 2.md
+bun run nx run blogs:start -- libs/blogs/articles/goals-solutions-and-value/draft/draft\ 2.md
 ```
 
 The command uses Obsidian's desktop URI handler. On Linux, register the

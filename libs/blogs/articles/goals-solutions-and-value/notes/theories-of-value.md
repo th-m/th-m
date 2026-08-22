@@ -2,7 +2,7 @@
 
 ## Status and purpose
 
-Working reference note for *Solutions, Meaning, and Value*. This note separates
+Working reference note for *Goals, Solutions, and Value*. This note separates
 several questions that are often compressed into the word **value** and records
 theories that may help the article explain the bridge between a problem, a
 solution, and a worthwhile outcome.

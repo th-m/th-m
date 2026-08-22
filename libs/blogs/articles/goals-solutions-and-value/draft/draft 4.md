@@ -1,4 +1,4 @@
-# Solutions, Meaning, and Value
+# Goals, Solutions, and Value
 
 . I toggled Goal mode and prompted "make this plan perfect".  9 hours later I had to kill the agent, the generated plan docs were completely unusable and incomprehensible.
 

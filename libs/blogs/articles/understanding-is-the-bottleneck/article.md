@@ -46,7 +46,7 @@ keeping meaning, evidence, and accountability intact.
 
 This is the third essay in a coordinated sequence:
 
-1. [Solutions, Meaning & Value](/writing/solutions-meaning-and-value)
+1. [Goals, Solutions & Value](/writing/goals-solutions-and-value)
    establishes the human stakes that make an opportunity worth pursuing.
 2. [Truth, Entropy & Inference](/writing/truth-entropy-and-inference) explains
    why AI can be fluent and coherent in some domains while remaining weakly

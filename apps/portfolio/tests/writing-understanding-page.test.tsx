@@ -102,7 +102,7 @@ describe("The Understanding Bottleneck published page", () => {
       expect(screen.getByRole("link", { name })).toHaveAttribute("target", "_blank");
     }
     const series: Array<[string, string]> = [
-      ["Solutions, Meaning & Value", "/writing/solutions-meaning-and-value"],
+      ["Goals, Solutions & Value", "/writing/goals-solutions-and-value"],
       ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
       ["Factory Ontology", "/writing/the-factory-ontology"],

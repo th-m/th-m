@@ -40,7 +40,7 @@ describe("ArticleContent dispatch", () => {
   it("renders the dedicated React page when the slug has a generated page", () => {
     render(
       <ToolDrawerProvider>
-        <ArticleContent article={article("solutions-meaning-and-value")} />
+        <ArticleContent article={article("goals-solutions-and-value")} />
       </ToolDrawerProvider>,
     );
     expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();

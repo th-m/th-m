@@ -1,4 +1,4 @@
-# Research Review: “Solutions, Meaning, and Value”
+# Research Review: “Goals, Solutions, and Value”
 
 ## Executive Summary
 

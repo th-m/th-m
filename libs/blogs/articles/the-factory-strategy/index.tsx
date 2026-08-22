@@ -388,7 +388,7 @@ function AdversarialDiplomaticFigure() {
 /* ------------------------------------------------------------------ */
 
 const seriesLinks: Array<[string, string]> = [
-  ["Solutions, Meaning & Value", "/writing/solutions-meaning-and-value"],
+  ["Goals, Solutions & Value", "/writing/goals-solutions-and-value"],
   ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
   ["The Understanding Bottleneck", "/writing/understanding-is-the-bottleneck"],
   ["The Knowledge Factory", "/writing/the-knowledge-factory"],
