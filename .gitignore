@@ -8,8 +8,10 @@ dist-knowledge/
 coverage/
 test-results/
 playwright-report/
+.playwright-browsers/
 apps/portfolio/public/_content/
 apps/portfolio/src/generated/
 .bun-tmp/
+.bun-install-cache/
 *.tsbuildinfo
 .DS_Store
