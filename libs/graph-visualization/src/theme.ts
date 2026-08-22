@@ -1,4 +1,4 @@
-import { thomDesignTokens } from "@th-m/design-theme";
+import { accentPalette, thomDesignTokens } from "@th-m/design-theme";
 
 const foundation = thomDesignTokens;
 
@@ -13,6 +13,10 @@ export interface GraphTheme {
     foregroundStrong: string;
     foregroundMuted: string;
     primary: string;
+    /** Categorical accent for the relationship (connector) node type. */
+    accent: string;
+    /** Ordered accent palette available to node types and layers. */
+    accents: readonly string[];
     border: string;
     error: string;
   };
@@ -48,6 +52,8 @@ export const thomTheme: GraphTheme = {
     foregroundStrong: foundation.color.foregroundStrong,
     foregroundMuted: foundation.color.foregroundMuted,
     primary: foundation.color.primary.default,
+    accent: foundation.color.accents.violet,
+    accents: accentPalette.map(({ value }) => value),
     border: foundation.color.border,
     error: foundation.color.semantic.error.default,
   },

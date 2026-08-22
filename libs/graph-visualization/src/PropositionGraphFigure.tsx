@@ -38,7 +38,7 @@ export function PropositionGraphFigure({
 
   const label = title ?? `${document.name} proposition graph`;
   const caption = showCaption
-    ? `${document.propositions.length} propositions connected by ${document.relationships.length} relationships.`
+    ? `${document.propositions.length} propositions connected by ${document.relationships.length} relationships. Drag to pan · scroll to zoom.`
     : null;
 
   return (
@@ -53,8 +53,9 @@ export function PropositionGraphFigure({
             nodes={data.nodes}
             edges={data.edges}
             layoutMode={document.layoutMode}
-            density="compact"
-            disabled
+            density="comfortable"
+            fitPadding={0.14}
+            fitMinScale={1.9}
             onError={() => setFailed(true)}
             style={{ width: "100%", height: "100%" }}
           />

@@ -20,7 +20,10 @@ export function createReagraphTheme(): Theme {
         color: thomTheme.color.foreground,
         activeColor: thomTheme.color.foregroundStrong,
         backgroundColor: thomTheme.color.surface,
-        backgroundOpacity: 0.72,
+        // Subtle label backing: reagraph sizes the backing box by character
+        // count while the text wraps narrower, so a heavy opacity makes
+        // adjacent boxes read as one dense blob on fitted figures.
+        backgroundOpacity: 0.34,
         padding: 6,
         radius: 4,
         strokeColor: thomTheme.color.border,

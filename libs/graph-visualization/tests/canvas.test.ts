@@ -18,7 +18,7 @@ describe("graphToReagraph", () => {
 
     const iris = data.nodeById.get(relationshipLayoutId("iris"));
     expect(iris?.label).toContain("Ambivalent Iris");
-    expect(iris?.fill).toBe(thomTheme.color.primary);
+    expect(iris?.fill).toBe(thomTheme.color.accent);
     expect(iris?.data.kind).toBe("relationship");
   });
 

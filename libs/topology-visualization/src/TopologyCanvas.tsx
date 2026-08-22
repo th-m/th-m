@@ -2,6 +2,7 @@ import { GraphCanvas as ReagraphCanvas, type GraphCanvasRef, type GraphEdge, typ
 import plexWoffUrl from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff?url";
 import { forwardRef, useCallback, useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { layoutTopology } from "./layout";
+import { TopologyCanvasControls } from "./CanvasControls";
 import { createReagraphTheme } from "./reagraphTheme";
 import { topologyTheme } from "./theme";
 import type { TopologyDocument } from "./types";
@@ -17,13 +18,21 @@ export interface TopologyCanvasProps {
 }
 
 export function topologyToReagraph(document: TopologyDocument): { nodes: GraphNode[]; edges: GraphEdge[] } {
+  // Each layer owns a categorical accent (by document order) so node types are
+  // identifiable at a glance; emphasis nodes step up to the primary gold.
+  const layerAccent = new Map(
+    document.layers.map((layer, index) => [
+      layer.id,
+      topologyTheme.color.layerAccents[index % topologyTheme.color.layerAccents.length],
+    ]),
+  );
   const layerName = new Map(document.layers.map((layer) => [layer.id, layer.name]));
   const nodes: GraphNode[] = document.nodes.map((node) => ({
     id: node.id,
     label: node.label,
     subLabel: layerName.get(node.layerId) ?? "Layer",
     size: node.emphasis ? 11 : 8,
-    fill: node.emphasis ? topologyTheme.color.primary : topologyTheme.color.foreground,
+    fill: node.emphasis ? topologyTheme.color.primary : (layerAccent.get(node.layerId) ?? topologyTheme.color.foreground),
     ...(node.pinned && node.position ? { fx: node.position.x, fy: node.position.y } : {}),
     data: { kind: "node" as const, nodeId: node.id, layerId: node.layerId },
   }));
@@ -118,6 +127,7 @@ export const TopologyCanvas = forwardRef<GraphCanvasRef, TopologyCanvasProps>(
             onNodeDragged?.(node.id, { x: node.position?.x ?? 0, y: node.position?.y ?? 0 })
           }
         />
+        <TopologyCanvasControls canvasRef={canvasRef} />
       </div>
     );
   },

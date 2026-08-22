@@ -144,6 +144,7 @@
       "dependencies": {
         "@fontsource-variable/newsreader": "latest",
         "@fontsource/ibm-plex-mono": "latest",
+        "@react-three/fiber": "^9.7.0",
         "@th-m/design-theme": "workspace:*",
         "react": "latest",
         "react-dom": "latest",

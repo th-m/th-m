@@ -4,6 +4,9 @@ import { describe, expect, it, vi } from "vitest";
 const canvas = vi.hoisted(() => ({
   fit: vi.fn(),
   zoomTo: vi.fn(),
+  zoomIn: vi.fn(),
+  zoomOut: vi.fn(),
+  truck: vi.fn(),
 }));
 
 vi.mock("reagraph", async () => {
@@ -15,7 +18,14 @@ vi.mock("reagraph", async () => {
     ) {
       React.useImperativeHandle(ref, () => ({
         fitNodesInView: canvas.fit,
-        getControls: () => ({ camera: { zoom: 1.4 }, zoomTo: canvas.zoomTo }),
+        zoomIn: canvas.zoomIn,
+        zoomOut: canvas.zoomOut,
+        getControls: () => ({
+          camera: { zoom: 1.4 },
+          zoomTo: canvas.zoomTo,
+          distance: 1000,
+          truck: canvas.truck,
+        }),
       }));
       return <div data-testid="reagraph" data-layout={JSON.stringify(props.layoutOverrides)} />;
     }),
@@ -117,5 +127,46 @@ describe("ThomGraphCanvas fitting and keyboard access", () => {
     fireEvent.keyDown(button, { key: "Enter" });
     fireEvent.click(button);
     expect(activate).toHaveBeenCalledWith("proposition:one");
+    expect(screen.getByTestId("reagraph").parentElement).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("keeps Reagraph in the accessibility tree when no native node layer is present", () => {
+    render(<ThomGraphCanvas nodes={nodes} edges={edges} autoFit={false} />);
+    expect(screen.getByTestId("reagraph").parentElement).not.toHaveAttribute("aria-hidden");
+  });
+
+  it("exposes zoom, fit, and a directional pan nob over the canvas", () => {
+    canvas.zoomIn.mockClear();
+    canvas.zoomOut.mockClear();
+    canvas.fit.mockClear();
+    canvas.truck.mockClear();
+    render(
+      <div style={{ position: "relative", width: 600, height: 400 }}>
+        <ThomGraphCanvas nodes={nodes} edges={edges} autoFit={false} />
+      </div>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+    expect(canvas.zoomIn).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByRole("button", { name: "Zoom out" }));
+    expect(canvas.zoomOut).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByRole("button", { name: "Fit graph" }));
+    expect(canvas.fit).toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole("button", { name: "Pan left" }));
+    expect(canvas.truck).toHaveBeenLastCalledWith(80, 0, false);
+    fireEvent.click(screen.getByRole("button", { name: "Pan up" }));
+    expect(canvas.truck).toHaveBeenLastCalledWith(0, 80, false);
+    fireEvent.click(screen.getByRole("button", { name: "Pan right" }));
+    expect(canvas.truck).toHaveBeenLastCalledWith(-80, 0, false);
+    fireEvent.click(screen.getByRole("button", { name: "Pan down" }));
+    expect(canvas.truck).toHaveBeenLastCalledWith(0, -80, false);
+
+    expect(screen.getByRole("group", { name: "Graph view controls" })).toBeInTheDocument();
+  });
+
+  it("hides the controls when showControls is false", () => {
+    render(<ThomGraphCanvas nodes={nodes} edges={edges} autoFit={false} showControls={false} />);
+    expect(screen.queryByRole("group", { name: "Graph view controls" })).not.toBeInTheDocument();
   });
 });

@@ -58,7 +58,10 @@ export function graphToReagraph(document: GraphDocument): GraphCanvasData {
       label: relationship.statement,
       subLabel: `R.${String(index + 1).padStart(2, "0")} / RELATIONSHIP`,
       size: 12,
-      fill: thomTheme.color.primary,
+      // Relationships are the connector node type: the categorical accent
+      // keeps them instantly distinct from proposition spheres while the
+      // edges stay on the primary brand color.
+      fill: thomTheme.color.accent,
       data: {
         kind: "relationship" as const,
         entityId: relationship.id,

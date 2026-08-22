@@ -1,4 +1,4 @@
-import { thomDesignTokens } from "@th-m/design-theme";
+import { accentPalette, thomDesignTokens } from "@th-m/design-theme";
 
 const foundation = thomDesignTokens;
 
@@ -12,6 +12,8 @@ export interface TopologyTheme {
     foregroundStrong: string;
     foregroundMuted: string;
     primary: string;
+    /** Ordered categorical accents, assigned to layers by document order. */
+    layerAccents: readonly string[];
     border: string;
     borderStrong: string;
     error: string;
@@ -46,6 +48,7 @@ export const topologyTheme: TopologyTheme = {
     foregroundStrong: foundation.color.foregroundStrong,
     foregroundMuted: foundation.color.foregroundMuted,
     primary: foundation.color.primary.default,
+    layerAccents: accentPalette.map(({ value }) => value),
     border: foundation.color.border,
     borderStrong: foundation.color.borderStrong,
     error: foundation.color.semantic.error.default,

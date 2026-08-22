@@ -12,6 +12,8 @@ import {
   type ReactNode,
 } from "react";
 import { createReagraphTheme } from "./reagraphTheme";
+import { CanvasControls } from "./CanvasControls";
+import { thomGraphNodeRenderer } from "./nodes";
 
 export type GraphLayoutDensity = "comfortable" | "compact";
 
@@ -92,6 +94,12 @@ export interface ThomGraphCanvasProps {
   autoFit?: boolean;
   /** Fractional padding added after fitting. */
   fitPadding?: number;
+  /**
+   * Minimum zoom applied after fitting (default 0.1 = no floor). Raises the
+   * settled view so labels stay readable on small fitted figures; the graph
+   * overflows the viewport and is explored by panning/zooming.
+   */
+  fitMinScale?: number;
   disabled?: boolean;
   draggable?: boolean;
   onNodeClick?: (nodeId: string) => void;
@@ -101,6 +109,8 @@ export interface ThomGraphCanvasProps {
   onNodeKeyboardActivate?: (nodeId: string) => void;
   keyboardActionLabel?: string;
   onCanvasClick?: () => void;
+  /** Show the floating zoom/pan controls over the canvas. Defaults to true. */
+  showControls?: boolean;
   /** Invoked when the WebGL canvas fails to mount. */
   onError?: () => void;
   className?: string;
@@ -143,6 +153,7 @@ export const ThomGraphCanvas = forwardRef<GraphCanvasRef, ThomGraphCanvasProps>(
       density = "comfortable",
       autoFit = true,
       fitPadding = 0.08,
+      fitMinScale = 0.1,
       disabled = false,
       draggable = false,
       onNodeClick,
@@ -151,6 +162,7 @@ export const ThomGraphCanvas = forwardRef<GraphCanvasRef, ThomGraphCanvasProps>(
       onNodeKeyboardActivate,
       keyboardActionLabel = "Open",
       onCanvasClick,
+      showControls = true,
       onError,
       className,
       style,
@@ -196,11 +208,16 @@ export const ThomGraphCanvas = forwardRef<GraphCanvasRef, ThomGraphCanvasProps>(
           }
           const controls = canvas.getControls();
           const initialZoom = Math.min(1, controls?.camera.zoom ?? 1);
-          void controls?.zoomTo(Math.max(0.12, initialZoom * (1 - fitPadding)), false);
+          // Fit padding breathes around the graph; `fitMinScale` then enforces
+          // a legibility floor so fitted figures never shrink labels below
+          // readable size (the graph overflows the viewport and pans/zooms).
+          const padded = initialZoom * (1 - fitPadding);
+          const target = Math.max(padded, fitMinScale);
+          void controls?.zoomTo(Math.max(0.12, target), false);
         }, animated ? 240 : 80);
         fitTimersRef.current.push(paddingTimer);
       },
-      [fitPadding, nodes.length],
+      [fitPadding, fitMinScale, nodes.length],
     );
 
     const scheduleSettledFit = useCallback(() => {
@@ -267,33 +284,40 @@ export const ThomGraphCanvas = forwardRef<GraphCanvasRef, ThomGraphCanvasProps>(
         }}
       >
         <CanvasErrorBoundary onError={onError}>
-          <ReagraphCanvas
-            ref={assignCanvasRef}
-            nodes={nodes}
-            edges={edges}
-            selections={selections ?? []}
-            actives={actives ?? []}
-            layoutType="forceDirected2d"
-            layoutOverrides={graphLayoutOverrides(layoutMode, resolvedDensity)}
-            labelType="all"
-            labelFontUrl={plexWoffUrl}
-            theme={theme}
-            cameraMode="pan"
-            minZoom={0.12}
-            maxZoom={4}
-            draggable={draggable}
-            disabled={disabled}
-            onNodeClick={(node) => onNodeClick?.(node.id)}
-            onNodeDoubleClick={(node) => onNodeDoubleClick?.(node.id)}
-            onNodeDragged={(node) =>
-              onNodeDragged?.(node.id, {
-                x: node.position?.x ?? 0,
-                y: node.position?.y ?? 0,
-              })
-            }
-            onCanvasClick={() => onCanvasClick?.()}
-          />
+          <div
+            className="graph-canvas-renderer"
+            aria-hidden={onNodeKeyboardActivate ? true : undefined}
+          >
+            <ReagraphCanvas
+              ref={assignCanvasRef}
+              nodes={nodes}
+              edges={edges}
+              selections={selections ?? []}
+              actives={actives ?? []}
+              layoutType="forceDirected2d"
+              layoutOverrides={graphLayoutOverrides(layoutMode, resolvedDensity)}
+              labelType="all"
+              labelFontUrl={plexWoffUrl}
+              renderNode={thomGraphNodeRenderer}
+              theme={theme}
+              cameraMode="pan"
+              minZoom={0.12}
+              maxZoom={4}
+              draggable={draggable}
+              disabled={disabled}
+              onNodeClick={(node) => onNodeClick?.(node.id)}
+              onNodeDoubleClick={(node) => onNodeDoubleClick?.(node.id)}
+              onNodeDragged={(node) =>
+                onNodeDragged?.(node.id, {
+                  x: node.position?.x ?? 0,
+                  y: node.position?.y ?? 0,
+                })
+              }
+              onCanvasClick={() => onCanvasClick?.()}
+            />
+          </div>
         </CanvasErrorBoundary>
+        {showControls ? <CanvasControls canvasRef={canvasRef} /> : null}
         {onNodeKeyboardActivate ? (
           <div className="graph-canvas-keyboard" role="group" aria-label="Graph nodes">
             {nodes.map((node) => (

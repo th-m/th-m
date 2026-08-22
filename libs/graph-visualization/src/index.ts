@@ -34,6 +34,10 @@ export {
 
 export { createReagraphTheme } from "./reagraphTheme";
 
+export { CanvasControls, type CanvasControlsProps } from "./CanvasControls";
+
+export { thomGraphNodeRenderer } from "./nodes";
+
 export { downloadText, slugifyFilename } from "./exportText";
 
 export type {

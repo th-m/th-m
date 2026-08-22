@@ -105,6 +105,12 @@ function renderLinks(
     .join("");
 }
 
+function layerAccent(document: TopologyDocument, layerId: string): string {
+  const index = document.layers.findIndex((candidate) => candidate.id === layerId);
+  const accents = topologyTheme.color.layerAccents;
+  return index >= 0 ? accents[index % accents.length] : topologyTheme.color.foregroundMuted;
+}
+
 function renderNodeCards(
   document: TopologyDocument,
   positions: LayoutPositions,
@@ -118,9 +124,10 @@ function renderNodeCards(
       const code = nodeCode(document.nodes, node);
       const emphasis = node.emphasis ? " is-emphasis" : "";
       const lines = wrapText(node.label, 26);
+      const dot = node.emphasis ? topologyTheme.color.primary : layerAccent(document, node.layerId);
       return `<g class="topology-node${emphasis}" aria-label="${xml(`${node.label} (layer ${layer?.name ?? "?"})`)}">
   <rect x="${position.x}" y="${position.y}" width="${nodeWidth}" height="${nodeHeight}" rx="4" class="topology-node-frame"/>
-  <circle cx="${position.x + 22}" cy="${position.y + nodeHeight / 2}" r="5" class="topology-node-dot"/>
+  <circle cx="${position.x + 22}" cy="${position.y + nodeHeight / 2}" r="5" class="topology-node-dot" fill="${dot}"/>
   <text class="topology-node-code" x="${position.x + 36}" y="${position.y + 22}">${code} / ${xml(layer?.name ?? "LAYER").toUpperCase()}</text>
   ${textLines(lines, position.x + nodeWidth / 2, position.y + nodeHeight / 2 + 12, 17, "topology-node-label")}
 </g>`;
@@ -155,7 +162,7 @@ function renderLegend(document: TopologyDocument, x: number, y: number): string 
   const rows = document.layers
     .map(
       (layer, index) =>
-        `<g transform="translate(${x}, ${y + index * 30})"><rect x="0" y="-6" width="10" height="10" fill="${index === 0 ? topologyTheme.color.primary : topologyTheme.color.foregroundMuted}"/><text class="topology-legend-label" x="20" y="3">${String(index + 1).padStart(2, "0")} — ${xml(layer.name)}</text></g>`,
+        `<g transform="translate(${x}, ${y + index * 30})"><rect x="0" y="-6" width="10" height="10" fill="${layerAccent(document, layer.id)}"/><text class="topology-legend-label" x="20" y="3">${String(index + 1).padStart(2, "0")} — ${xml(layer.name)}</text></g>`,
     )
     .join("");
   return `<g class="topology-legend" aria-label="Legend"><text class="topology-legend-title" x="${x}" y="${y - 22}">LAYERS</text>${rows}</g>`;
@@ -250,7 +257,6 @@ export function createTopologySvg(
     .topology-layer-detail { font-size: 8.5px; letter-spacing: .12em; fill: ${theme.color.foregroundMuted}; }
     .topology-node-frame { fill: ${theme.color.surface}; stroke: ${theme.color.border}; stroke-width: 1; }
     .topology-node.is-emphasis .topology-node-frame { stroke: ${theme.color.primary}; stroke-width: 2; fill: ${theme.color.surfaceRaised}; }
-    .topology-node-dot { fill: ${theme.color.primary}; }
     .topology-node-code { font-size: 7.5px; letter-spacing: .24em; fill: ${theme.color.foregroundMuted}; }
     .topology-node-label { font-family: "Newsreader Embedded", serif; font-size: 16px; font-weight: 520; fill: ${theme.color.foreground}; }
     .topology-node.is-emphasis .topology-node-label { fill: ${theme.color.foregroundStrong}; }

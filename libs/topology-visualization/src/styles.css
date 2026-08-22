@@ -9,3 +9,62 @@
 .topology-canvas-surface canvas {
   display: block;
 }
+
+/* Floating view controls: zoom in/out, refit, and a directional pan nob. */
+.topology-canvas-controls {
+  position: absolute;
+  z-index: 5;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  pointer-events: none;
+}
+.topology-canvas-controls__zoom,
+.topology-canvas-controls__nob {
+  display: grid;
+  pointer-events: auto;
+}
+.topology-canvas-controls__zoom {
+  grid-template-columns: repeat(3, 30px);
+  border: 1px solid var(--tp-line-strong);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--tp-surface) 92%, transparent);
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+}
+.topology-canvas-controls__nob {
+  grid-template-columns: repeat(3, 30px);
+  grid-template-rows: repeat(3, 26px);
+  border: 1px solid var(--tp-line-strong);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--tp-surface) 92%, transparent);
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+}
+.topology-canvas-controls__button {
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--tp-ivory);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+}
+.topology-canvas-controls__button:hover { background: var(--tp-surface-raised); color: var(--color-foreground-strong); }
+.topology-canvas-controls__button:active { background: var(--color-popover); }
+.topology-canvas-controls__button:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: -2px;
+  position: relative;
+  z-index: 1;
+}
+.topology-canvas-controls__zoom .topology-canvas-controls__button + .topology-canvas-controls__button { border-left: 1px solid color-mix(in srgb, var(--tp-line) 55%, transparent); }
+.topology-canvas-controls__nob .topology-canvas-controls__button:nth-child(1) { grid-column: 2; grid-row: 1; }
+.topology-canvas-controls__nob .topology-canvas-controls__button:nth-child(2) { grid-column: 1; grid-row: 2; }
+.topology-canvas-controls__nob .topology-canvas-controls__button:nth-child(3) { grid-column: 3; grid-row: 2; }
+.topology-canvas-controls__nob .topology-canvas-controls__button:nth-child(4) { grid-column: 2; grid-row: 3; }

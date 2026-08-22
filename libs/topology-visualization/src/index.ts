@@ -1,5 +1,9 @@
 // Public API for the layered system topology domain and interactive canvas.
 export { TopologyCanvas, topologyToReagraph, type TopologyCanvasProps } from "./TopologyCanvas";
+export {
+  TopologyCanvasControls,
+  type TopologyCanvasControlsProps,
+} from "./CanvasControls";
 export { createReagraphTheme } from "./reagraphTheme";
 
 export type {
