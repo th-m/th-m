@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ThomLogo } from "@th-m/thom-brand";
+import { ToolsTrigger } from "../tools/ToolsTrigger";
 
 export function Header() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -15,6 +16,7 @@ export function Header() {
       </Link>
       <nav aria-label="Primary navigation">
         <Link to="/writing">Writings</Link>
+        <ToolsTrigger placement="header" />
       </nav>
     </header>
   );

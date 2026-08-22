@@ -3,6 +3,7 @@ import { laws as snapshotLaws, lawBySlug as snapshotLawBySlug } from "./laws";
 import type { Law } from "./types";
 export { adaptLawColor, adaptLawGraphic, SOURCE_EGGSHELL, BRAND_FILL } from "./adapt";
 export type { HslColor, RgbColor } from "./adapt";
+export { lawLabelAccents, lawLabelAccentVariable } from "./accents";
 export { LawGraphic, lawMonogram, type LawGraphicProps } from "./LawGraphic";
 export { LawCard, type LawCardProps } from "./LawCard";
 export { LawDetail, type LawDetailProps } from "./LawDetail";

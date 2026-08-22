@@ -1,5 +1,11 @@
-import { useMemo, useState } from "react";
-import { laws, lawLabels, type LawLabel } from "@th-m/laws";
+import { useMemo, useState, type CSSProperties } from "react";
+import {
+  laws,
+  lawLabelAccents,
+  lawLabelAccentVariable,
+  lawLabels,
+  type LawLabel,
+} from "@th-m/laws";
 import { BentoGrid, BentoGridItem } from "@th-m/ui";
 
 const initialActive = (): Record<LawLabel, boolean> =>
@@ -43,6 +49,8 @@ export function LawsBento() {
             type="button"
             className={["home-laws__pill", active[label] ? "home-laws__pill--on" : ""].filter(Boolean).join(" ")}
             aria-pressed={active[label]}
+            data-accent={lawLabelAccents[label]}
+            style={{ "--law-label-accent": lawLabelAccentVariable(label) } as CSSProperties}
             onClick={() => toggle(label)}
           >
             {label}
@@ -62,7 +70,13 @@ export function LawsBento() {
               footer={
                 <ul className="home-laws__labels" aria-label="Labels">
                   {law.labels.map((label) => (
-                    <li key={label}>{label}</li>
+                    <li
+                      key={label}
+                      data-accent={lawLabelAccents[label]}
+                      style={{ "--law-label-accent": lawLabelAccentVariable(label) } as CSSProperties}
+                    >
+                      {label}
+                    </li>
                   ))}
                 </ul>
               }

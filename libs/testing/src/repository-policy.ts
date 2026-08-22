@@ -54,7 +54,7 @@ const colorPolicyExclusions = [
   "libs/design-theme/",
   "apps/portfolio/scripts/brand/",
   "apps/portfolio/scripts/visual/",
-  "tools/graph/scripts/legacy/",
+  "tools/topology/scripts/legacy/",
 ] as const;
 
 async function walk(directory: string): Promise<string[]> {

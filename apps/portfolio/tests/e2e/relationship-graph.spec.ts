@@ -1,6 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { readFile } from "node:fs/promises";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/relationship-graph");
@@ -8,7 +7,7 @@ test.beforeEach(async ({ page }) => {
   await page.reload();
 });
 
-test("mounts the full editor from the seeded library and exports a graph SVG", async ({
+test("mounts the full editor from the seeded library and exports a canvas PNG", async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -17,22 +16,18 @@ test("mounts the full editor from the seeded library and exports a graph SVG", a
   });
 
   await expect(page.getByText("Opening the graph editor…").first()).toBeVisible();
-  await expect(page.locator(".react-flow__node-proposition")).toHaveCount(6);
-  await expect(page.locator(".react-flow__node-relationship")).toHaveCount(6);
+  await expect(page.locator(".graph-canvas-surface canvas")).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole("button", { name: /^Edit / })).toHaveCount(12);
   await expect(page.getByRole("button", { name: "+ Proposition" })).toBeVisible();
 
   await page.getByRole("button", { name: "+ Proposition" }).click();
-  await expect(page.locator(".react-flow__node-proposition")).toHaveCount(7);
+  await expect(page.getByRole("button", { name: /^Edit / })).toHaveCount(13);
 
   await page.getByText("Export", { exact: true }).click();
   const downloadPromise = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Graph SVG" }).click();
+  await page.getByRole("button", { name: "Canvas PNG" }).click();
   const download = await downloadPromise;
-  const path = await download.path();
-  expect(path).not.toBeNull();
-  const svg = await readFile(path as string, "utf8");
-  expect(svg).toContain("data:font/woff2;base64,");
-  expect(svg).toContain('aria-labelledby="title description"');
+  expect(download.suggestedFilename()).toMatch(/\.png$/);
 
   expect(errors).toEqual([]);
 });
@@ -47,10 +42,11 @@ test("explores the weather graph from the tool drawer", async ({ page }) => {
 
   const canvas = page.locator(".graph-explorer__canvas");
   await expect(canvas).toBeVisible();
-  await expect(canvas.locator(".react-flow__node-proposition")).toHaveCount(6);
-  await expect(page.getByText(/^Balanced/)).toBeVisible({ timeout: 20_000 });
+  await expect(canvas.locator("canvas")).toBeVisible({ timeout: 20_000 });
+  await expect(canvas.getByRole("button", { name: /^Select / })).toHaveCount(12);
 
-  await canvas.locator(".graph-proposition-statement", { hasText: "Temperature is 85°F" }).click();
+  await canvas.getByRole("button", { name: "Select Temperature is 85°F" }).focus();
+  await page.keyboard.press("Enter");
   await expect(page.getByRole("heading", { name: "Temperature is 85°F" })).toBeVisible();
   await expect(
     page.locator(".graph-explorer__detail").getByText("It feels warm and muggy outside", { exact: true }),
@@ -63,7 +59,7 @@ test("explores the weather graph from the tool drawer", async ({ page }) => {
 test("has no serious or critical accessibility violations on the graph route", async ({
   page,
 }) => {
-  await expect(page.locator(".react-flow__node-proposition")).toHaveCount(6);
+  await expect(page.getByRole("button", { name: /^Edit / })).toHaveCount(12);
   const results = await new AxeBuilder({ page }).analyze();
   const violations = results.violations.filter(
     (violation) => violation.impact === "serious" || violation.impact === "critical",

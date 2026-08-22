@@ -16,11 +16,9 @@
     "@fontsource-variable/newsreader": "latest",
     "@fontsource/ibm-plex-mono": "latest",
     "@th-m/design-theme": "workspace:*",
-    "@xyflow/react": "^12.11.3",
-    "elkjs": "^0.12.0",
     "react": "latest",
     "react-dom": "latest",
-    "web-worker": "latest"
+    "reagraph": "^4.32.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "latest",

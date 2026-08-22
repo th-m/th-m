@@ -7,6 +7,12 @@ describes the organizational landscape, introduces factory engineering for
 knowledge work, and inventories the context, evaluation, and feedback tools the
 new operating model requires.
 
+After the series restructure, this outline is partially historical: the
+cognitive light cone scorecard (section 6) and the cognition sections that
+followed it — graph context, executable context, and the compounding loop —
+moved to *Cognitive Factory*, and this article's published form now carries the
+strategy discipline sections 6–15 in their place.
+
 ## Overview
 
 Every company is building a factory, either explicitly or implicitly. Its raw
@@ -46,7 +52,7 @@ will pass.
 The opening should explicitly state that the earlier essays describe the
 landscape, the problem, and the opportunity:
 
-1. **Solutions, Meaning, and Value:** the factory cannot derive its own
+1. **Goals, Solutions, and Value:** the factory cannot derive its own
    definition of value from output volume; opportunities remain grounded in
    human stakes and accountable choices.
 2. **Truth, Entropy, and Inference:** predictive systems are strongest where
@@ -277,7 +283,9 @@ Close by introducing the follow-on essays:
 
 - **The Factory — Ontology** asks how humans map the domain so models and teams
   share the right entities, relationships, constraints, and evidence.
-- **The Factory — Strategy** asks how humans choose direction through narrative,
+- **Cognitive Factory** asks how the factory thinks — graph context,
+  executable context, and the compounding loop — while this article's strategy
+  sections cover the human discipline that chooses direction through narrative,
   empathy, opportunism, memory, and systematic feedback.
 
 Ontology makes the factory coherent. Strategy makes it purposeful.

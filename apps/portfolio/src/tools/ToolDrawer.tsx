@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -10,6 +10,7 @@ import {
   useToolDrawer,
 } from "@th-m/ui";
 import { toolRegistry } from "./registry";
+import { ToolsTrigger } from "./ToolsTrigger";
 
 /**
  * Global right-side tool drawer. Mounted once in the root layout; any page can
@@ -22,23 +23,29 @@ export function ToolDrawer() {
   const { activeToolId, activeOptions, openTool, closeTool } = useToolDrawer();
   const activeTool = toolRegistry.find((tool) => tool.id === activeToolId) ?? null;
   const ActiveTool = activeTool?.content ?? null;
+  const restoreFocusRef = useRef<HTMLElement | null>(null);
+  const wasOpenRef = useRef(false);
+
+  useEffect(() => {
+    const open = activeTool !== null;
+    if (open && !wasOpenRef.current) {
+      restoreFocusRef.current = document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    } else if (!open && wasOpenRef.current) {
+      const target = restoreFocusRef.current;
+      window.requestAnimationFrame(() => target?.focus());
+    }
+    wasOpenRef.current = open;
+  }, [activeTool]);
 
   return (
     <>
-      <button
-        type="button"
-        className="tool-drawer-tab"
-        aria-expanded={activeTool !== null}
-        aria-label={activeTool ? "Close tool drawer" : "Open tool drawer"}
-        onClick={() => (activeTool ? closeTool() : openTool(toolRegistry[0].id))}
-      >
-        <span aria-hidden="true">↖</span>
-        Tools
-      </button>
+      <ToolsTrigger placement="edge" />
 
       <Drawer open={activeTool !== null} onOpenChange={(open) => { if (!open) closeTool(); }}>
         {activeTool ? (
-          <DrawerContent>
+          <DrawerContent id="portfolio-tool-drawer">
             <DrawerHeader className="tool-drawer-header-stacked">
               <div className="tool-drawer-header-top">
                 <div>

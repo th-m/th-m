@@ -1,5 +1,5 @@
 // Core domain exports for non-browser consumers (CLI generators). Excludes
-// React components so Bun and Node never load @xyflow/react or the ELK worker.
+// React and reagraph so Bun and Node never load the WebGL runtime.
 export type {
   GraphDocument,
   GraphLibrary,
@@ -7,11 +7,6 @@ export type {
   Relationship,
   RelationshipParticipant,
   Point,
-  ItemSize,
-  ItemSizes,
-  LayoutPositions,
-  LayoutRequest,
-  LayoutResponse,
   Selection,
 } from "./types";
 
@@ -50,26 +45,4 @@ export {
 
 export { createPropositionsGraph, createSeedLibrary, createWeatherGraph } from "./seed";
 
-export {
-  applyPinnedPositions,
-  buildElkGraph,
-  estimateDocumentSizes,
-  estimatePropositionSize,
-  estimateRelationshipSize,
-  isCurrentLayoutRequest,
-  normalizeLayout,
-  positionsFromElk,
-  propositionLayoutId,
-  relationshipLayoutId,
-  resolveOverlaps,
-} from "./layout";
-
 export { thomTheme, type GraphTheme } from "./theme";
-
-export {
-  createGraphSvg,
-  downloadText,
-  slugifyFilename,
-  type EmbeddedGraphFonts,
-  type SvgExportMode,
-} from "./exportSvg";

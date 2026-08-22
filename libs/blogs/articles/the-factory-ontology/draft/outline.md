@@ -62,8 +62,10 @@ becomes shareable, testable, and available in context.
 
 This is the fifth essay and the first implementation-oriented factory deep dive.
 **The Knowledge Factory** introduces the operating system; this article defines
-its semantic infrastructure. **The Factory — Strategy** follows with the human
-discipline that chooses direction and updates the factory's goals.
+its semantic infrastructure. **Cognitive Factory** follows with the
+factory's cognition — graph context, executable context, and the compounding
+loop — while the strategy discipline that chooses direction and updates the
+factory's goals is covered inside **The Knowledge Factory**.
 
 ## Intended Reader
 

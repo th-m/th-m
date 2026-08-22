@@ -11,10 +11,10 @@ export const Route = createFileRoute("/relationship-graph")({
   head: () => ({
     meta: [
       { title: "Relationship Graph — THOM" },
-      { name: "description", content: "Author proposition graphs: state what can be asserted, connect propositions with relationships, and export the graph as a self-contained SVG or poster." },
+      { name: "description", content: "Author proposition graphs: state what can be asserted, connect propositions with relationships, and export the graph as a themed WebGL canvas or portable JSON." },
       { property: "og:type", content: "website" },
       { property: "og:title", content: "Relationship Graph" },
-      { property: "og:description", content: "An interactive proposition graph editor — claims as circles, relationships as cards, balanced with deterministic layout." },
+      { property: "og:description", content: "An interactive proposition graph editor — claims as spheres, relationships as cards, arranged on a themed reagraph canvas." },
       { property: "og:url", content: "https://th-m.netlify.app/relationship-graph" },
     ],
     links: [{ rel: "canonical", href: "https://th-m.netlify.app/relationship-graph" }],
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/relationship-graph")({
 });
 
 /**
- * Full proposition-graph authoring route. ReactFlow + the ELK worker are
+ * Full proposition-graph authoring route. The reagraph WebGL canvas is
  * client-only, so the prerendered page shows a placeholder and the editor
  * mounts lazily after hydration.
  */

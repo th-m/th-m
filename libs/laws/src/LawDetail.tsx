@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { Law } from "./types";
+import { lawLabelAccents, lawLabelAccentVariable } from "./accents";
 import { lawBySlug } from "./laws";
 import { LawGraphic } from "./LawGraphic";
 
@@ -29,7 +30,12 @@ export function LawDetail({ law, animated, className }: LawDetailProps) {
           <p className="thom-law-detail__definition">{law.definition}</p>
           <ul className="thom-law-detail__labels" aria-label="Labels">
             {law.labels.map((label) => (
-              <li key={label} className="thom-law-label">
+              <li
+                key={label}
+                className="thom-law-label"
+                data-accent={lawLabelAccents[label]}
+                style={{ "--law-label-accent": lawLabelAccentVariable(label) } as React.CSSProperties}
+              >
                 {label}
               </li>
             ))}

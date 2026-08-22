@@ -123,9 +123,9 @@
 .thom-law-card__labels { margin-top: 4px; }
 .thom-law-label {
   padding: 3px 8px;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface-raised);
-  color: var(--color-foreground-subtle);
+  border: 1px solid var(--law-label-accent, var(--color-primary));
+  background: var(--law-label-accent, var(--color-primary));
+  color: var(--color-accent-foreground);
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: .14em;
@@ -135,10 +135,7 @@
 }
 .thom-law-card:hover .thom-law-label,
 .thom-law-card:focus-within .thom-law-label,
-.thom-law-label:hover {
-  color: var(--color-primary);
-  border-color: var(--color-border-strong);
-}
+.thom-law-label:hover { filter: brightness(1.08); }
 
 /* ------------------------------------------------------------------ */
 /* Laws grid                                                           */

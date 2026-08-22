@@ -61,7 +61,7 @@ different feedback systems.
 
 This is the second essay in the coordinated sequence:
 
-1. **Solutions, Meaning, and Value** establishes that valuable opportunities
+1. **Goals, Solutions, and Value** establishes that valuable opportunities
    are grounded in human stakes.
 2. **Truth, Entropy, and Inference** explains why learned language patterns are
    powerful, when those patterns carry constraints, and where fluency breaks.

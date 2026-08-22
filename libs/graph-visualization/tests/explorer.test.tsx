@@ -3,23 +3,13 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { RelationshipGraphExplorer } from "../src/RelationshipGraphExplorer";
 import { GRAPH_LIBRARY_KEY } from "../src/storage";
 
-vi.mock("elkjs/lib/elk-api.js", () => ({
-  default: class {
-    layout = vi.fn(async () => ({ children: [] }));
-    terminateWorker = vi.fn();
-  },
-}));
-
-vi.mock("elkjs/lib/elk-worker.min.js?worker", () => ({ default: class {} }));
-
-vi.mock("@xyflow/react", async () => {
-  const actual = await vi.importActual<typeof import("@xyflow/react")>("@xyflow/react");
+vi.mock("reagraph", async () => {
+  const actual = await vi.importActual<typeof import("reagraph")>("reagraph");
   return {
     ...actual,
-    ReactFlow: ({ nodes }: { nodes: unknown[] }) => (
+    GraphCanvas: ({ nodes }: { nodes: unknown[] }) => (
       <div data-testid="graph-canvas" data-node-count={nodes.length} />
     ),
-    ReactFlowProvider: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
   };
 });
 

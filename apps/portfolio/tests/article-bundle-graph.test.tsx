@@ -28,7 +28,7 @@ const posts: BlogManifest["posts"] = [
   post("understanding-is-the-bottleneck", "Understanding Is the Bottleneck", "Why understanding limits progress."),
   post("the-knowledge-factory", "The Knowledge Factory", "The factory that turns knowledge into work."),
   post("the-factory-ontology", "The Factory — Ontology", "The ontology of the factory."),
-  post("the-factory-strategy", "The Factory — Strategy", "The strategy of the factory."),
+  post("the-cognitive-factory", "Cognitive Factory", "The cognition of the factory."),
 ];
 
 async function renderGraph() {
@@ -78,15 +78,16 @@ describe("ArticleBundleGraph", () => {
       "href",
       "/writing/the-factory-ontology",
     );
-    expect(screen.getByRole("link", { name: /The Factory — Strategy/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Cognitive Factory/ })).toHaveAttribute(
       "href",
-      "/writing/the-factory-strategy",
+      "/writing/the-cognitive-factory",
     );
   });
 
   it("draws the five bundle edges as SVG paths", async () => {
     const { container } = await renderGraph();
-    expect(container.querySelectorAll(".home-graph__edges path")).toHaveLength(5);
+    expect(container.querySelectorAll(".home-graph__edges--desktop path")).toHaveLength(5);
+    expect(container.querySelectorAll(".home-graph__edges--mobile path")).toHaveLength(5);
   });
 
   it("marks the knowledge factory as the hub and labels node kinds", async () => {

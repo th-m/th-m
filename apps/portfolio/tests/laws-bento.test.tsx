@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { laws, lawLabels } from "@th-m/laws";
+import { laws, lawLabelAccents, lawLabels } from "@th-m/laws";
 import { LawsBento } from "../src/home/LawsBento";
 
 function cards(): HTMLElement[] {
@@ -49,6 +49,24 @@ describe("LawsBento", () => {
       const pill = screen.getByRole("button", { name: label });
       expect(pill).toHaveAttribute("aria-pressed", "true");
       expect(pill.className).toContain("home-laws__pill--on");
+      expect(pill).toHaveAttribute("data-accent", lawLabelAccents[label]);
+      expect(pill.style.getPropertyValue("--law-label-accent")).toBe(
+        `var(--color-accent-${lawLabelAccents[label]})`,
+      );
+    }
+  });
+
+  it("matches every card label to its corresponding filter accent", () => {
+    const { container } = render(<LawsBento />);
+    for (const label of lawLabels) {
+      const filter = screen.getByRole("button", { name: label });
+      const cardLabel = container.querySelector<HTMLElement>(
+        `.home-laws__labels li[data-accent="${lawLabelAccents[label]}"]`,
+      );
+      if (!cardLabel) continue;
+      expect(cardLabel.style.getPropertyValue("--law-label-accent")).toBe(
+        filter.style.getPropertyValue("--law-label-accent"),
+      );
     }
   });
 

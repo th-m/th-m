@@ -1,0 +1,11 @@
+/* Layered topology canvas surface. The reagraph canvas must own its full box;
+   the radial wash behind the graph comes from the tool/editor container. */
+.topology-canvas-surface {
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+}
+.topology-canvas-surface canvas {
+  display: block;
+}

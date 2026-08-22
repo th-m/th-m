@@ -335,7 +335,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
 
         <div className="article-outline__closing">
           <blockquote>In an age of abundant answers, the scarce skill is building enough shared understanding to know what deserves to be solved — and whether an answer survives contact with the world.</blockquote>
-          <p>Next in the series — <EssayLink slug="the-knowledge-factory">The Knowledge Factory</EssayLink>, then <EssayLink slug="the-factory-ontology">Factory Ontology</EssayLink> and <EssayLink slug="the-factory-strategy">Factory Strategy</EssayLink>.</p>
+          <p>Next in the series — <EssayLink slug="the-knowledge-factory">The Knowledge Factory</EssayLink>, then <EssayLink slug="the-factory-ontology">Factory Ontology</EssayLink> and <EssayLink slug="the-cognitive-factory">Cognitive Factory</EssayLink>.</p>
         </div>
       </div>
     </TooltipProvider>

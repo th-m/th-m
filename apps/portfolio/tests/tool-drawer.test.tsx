@@ -73,6 +73,7 @@ describe("global tool drawer", () => {
 
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Open tool drawer" })).toHaveFocus();
   });
 
   it("opens a tool programmatically through the provider context", async () => {

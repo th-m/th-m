@@ -1,4 +1,5 @@
 import { ThomLogo } from "@th-m/thom-brand";
+import { FloatingDockFooter } from "./FloatingDockFooter";
 
 export function Footer() {
   return (
@@ -9,6 +10,7 @@ export function Footer() {
         <a href="#top">Return to top ↑</a>
       </div>
       <p className="footer-domain">th-m.codes</p>
+      <FloatingDockFooter />
     </footer>
   );
 }

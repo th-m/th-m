@@ -1,70 +1,14 @@
-import {
-  Background,
-  BackgroundVariant,
-  Controls,
-  MarkerType,
-  ReactFlow,
-  ReactFlowProvider,
-  type Edge,
-  type ReactFlowInstance,
-} from "@xyflow/react";
-import ELK, { type ELK as ElkInstance } from "elkjs/lib/elk-api.js";
-import ElkWorker from "elkjs/lib/elk-worker.min.js?worker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { type GraphFlowNode, PropositionNode, RelationshipNode } from "./GraphNodes";
-import { createGraphSvg, downloadText, slugifyFilename } from "./exportSvg";
-import {
-  buildElkGraph,
-  estimateDocumentSizes,
-  isCurrentLayoutRequest,
-  normalizeLayout,
-  positionsFromElk,
-  propositionLayoutId,
-  relationshipLayoutId,
-} from "./layout";
+import type { GraphCanvasRef } from "reagraph";
+import { graphToReagraph, propositionLayoutId, relationshipLayoutId, selectionFromLayoutId } from "./canvas";
+import { ThomGraphCanvas } from "./GraphCanvas";
+import { downloadText, slugifyFilename } from "./exportText";
 import { exportGraphDocument, loadGraphLibrary } from "./storage";
-import { thomTheme } from "./theme";
-import type {
-  GraphDocument,
-  GraphLibrary,
-  ItemSizes,
-  LayoutPositions,
-  Selection,
-} from "./types";
-
-const nodeTypes = {
-  proposition: PropositionNode,
-  relationship: RelationshipNode,
-};
+import type { GraphLibrary, Selection } from "./types";
 
 export interface RelationshipGraphExplorerProps {
   /** Optional graph id to open initially (e.g. from an article's openTool call). */
   initialGraphId?: string;
-}
-
-function fallbackPositions(document: GraphDocument): LayoutPositions {
-  const positions: LayoutPositions = {};
-  document.propositions.forEach((proposition, index) => {
-    const column = index % 3;
-    const row = Math.floor(index / 3);
-    positions[propositionLayoutId(proposition.id)] =
-      proposition.pinned && proposition.position
-        ? proposition.position
-        : { x: column * 390, y: row * 390 };
-  });
-  document.relationships.forEach((relationship, index) => {
-    const column = index % 3;
-    const row = Math.floor(index / 3);
-    positions[relationshipLayoutId(relationship.id)] =
-      relationship.pinned && relationship.position
-        ? relationship.position
-        : { x: column * 390 + 215, y: row * 390 + 270 };
-  });
-  return positions;
-}
-
-function noopEditing() {
-  /* Read-only explorer: nodes never enter edit mode. */
 }
 
 function ExplorerWorkspace({ initialGraphId }: RelationshipGraphExplorerProps) {
@@ -73,78 +17,25 @@ function ExplorerWorkspace({ initialGraphId }: RelationshipGraphExplorerProps) {
     const requested = library.documents.find(({ id }) => id === initialGraphId);
     return requested?.id ?? library.activeDocumentId;
   });
-  const [nodes, setNodes] = useState<GraphFlowNode[]>([]);
-  const [positions, setPositions] = useState<LayoutPositions>(() => {
-    const document = library.documents.find(({ id }) => id === documentId) ?? library.documents[0];
-    return fallbackPositions(document);
-  });
   const [selection, setSelection] = useState<Selection>(null);
-  const [layoutState, setLayoutState] = useState<"working" | "settled" | "error">("working");
-  const [flow, setFlow] = useState<ReactFlowInstance<GraphFlowNode, Edge> | null>(null);
-  const elkRef = useRef<ElkInstance | null>(null);
-  const latestRequestRef = useRef(0);
-  const documentRef = useRef<GraphDocument | null>(null);
+  const canvasRef = useRef<GraphCanvasRef | null>(null);
 
-  const document =
-    library.documents.find(({ id }) => id === documentId) ?? library.documents[0];
-  documentRef.current = document;
+  const document = library.documents.find(({ id }) => id === documentId) ?? library.documents[0];
 
-  useEffect(() => {
-    setPositions(fallbackPositions(document));
-    setSelection(null);
-  }, [document]);
+  const data = useMemo(() => graphToReagraph(document), [document]);
 
-  useEffect(() => {
-    const elk = new ELK({ workerFactory: () => new ElkWorker() });
-    elkRef.current = elk;
-    return () => elk.terminateWorker();
-  }, []);
-
-  const estimatedSizes = useMemo(() => estimateDocumentSizes(document), [document]);
-  const sizes = estimatedSizes;
-  const sizeSignature = useMemo(
+  const selections = useMemo(
     () =>
-      Object.entries(sizes)
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([id, size]) => `${id}:${Math.round(size.width)}x${Math.round(size.height)}`)
-        .join("|"),
-    [sizes],
+      selection
+        ? [selection.kind === "proposition" ? propositionLayoutId(selection.id) : relationshipLayoutId(selection.id)]
+        : [],
+    [selection],
   );
 
-  useEffect(() => {
-    latestRequestRef.current += 1;
-    const requestId = latestRequestRef.current;
-    const timer = window.setTimeout(() => {
-      if (!elkRef.current) {
-        setPositions((current) => normalizeLayout(document, current, sizes));
-        setLayoutState("settled");
-        return;
-      }
-      setLayoutState("working");
-      void elkRef.current
-        .layout(buildElkGraph(document, sizes))
-        .then((result) => {
-          if (!isCurrentLayoutRequest(requestId, latestRequestRef.current)) return;
-          setPositions(
-            normalizeLayout(documentRef.current ?? document, positionsFromElk(result), sizes),
-          );
-          setLayoutState("settled");
-        })
-        .catch(() => {
-          if (!isCurrentLayoutRequest(requestId, latestRequestRef.current)) return;
-          setLayoutState("error");
-        });
-    }, 300);
-    return () => window.clearTimeout(timer);
-  }, [document, sizeSignature]);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => flow?.fitView({ padding: 0.14, duration: 350 }), 360);
-    return () => window.clearTimeout(timer);
-  }, [document.id, flow]);
-
-  const focus = useMemo(() => {
-    if (!selection) return null;
+  // Focus neighborhood: the selected entity plus everything it participates
+  // with. Everything outside `actives` is dimmed by the theme.
+  const actives = useMemo(() => {
+    if (!selection) return [];
     const ids = new Set<string>();
     if (selection.kind === "proposition") {
       ids.add(propositionLayoutId(selection.id));
@@ -162,105 +53,21 @@ function ExplorerWorkspace({ initialGraphId }: RelationshipGraphExplorerProps) {
         ids.add(propositionLayoutId(nodeId));
       }
     }
-    return ids;
+    return [...ids];
   }, [selection, document]);
 
-  const nodesWithState = useMemo<GraphFlowNode[]>(() => {
-    const currentById = new Map(nodes.map((node) => [node.id, node]));
-    const next: GraphFlowNode[] = [
-      ...document.propositions.map((proposition, index) => {
-        const id = propositionLayoutId(proposition.id);
-        const previous = currentById.get(id);
-        const size = estimatedSizes[id];
-        return {
-          ...(previous?.type === "proposition" ? previous : {}),
-          id,
-          type: "proposition" as const,
-          position: positions[id] ?? { x: index * 340, y: 0 },
-          style: { width: size.width, height: size.height },
-          data: {
-            entityId: proposition.id,
-            statement: proposition.statement,
-            emphasis: proposition.emphasis,
-            code: `P.${String(index + 1).padStart(2, "0")}`,
-            isEditing: false,
-            onBeginEdit: noopEditing,
-            onCommit: noopEditing,
-            onCancel: noopEditing,
-            onCompositionChange: noopEditing,
-            dimmed: focus !== null && !focus.has(id),
-          },
-          ariaLabel: `Proposition: ${proposition.statement}`,
-        } satisfies GraphFlowNode;
-      }),
-      ...document.relationships.map((relationship, index) => {
-        const id = relationshipLayoutId(relationship.id);
-        const previous = currentById.get(id);
-        const size = estimatedSizes[id];
-        return {
-          ...(previous?.type === "relationship" ? previous : {}),
-          id,
-          type: "relationship" as const,
-          position: positions[id] ?? { x: index * 360, y: 340 },
-          style: { width: size.width, height: size.height },
-          data: {
-            entityId: relationship.id,
-            statement: relationship.statement,
-            code: `R.${String(index + 1).padStart(2, "0")}`,
-            isEditing: false,
-            onBeginEdit: noopEditing,
-            onCommit: noopEditing,
-            onCancel: noopEditing,
-            onCompositionChange: noopEditing,
-            dimmed: focus !== null && !focus.has(id),
-          },
-          ariaLabel: `Relationship: ${relationship.statement}`,
-        } satisfies GraphFlowNode;
-      }),
-    ];
-    return next;
-  }, [document, positions, estimatedSizes, nodes, focus]);
+  useEffect(() => {
+    setSelection(null);
+  }, [document.id]);
 
-  const edges = useMemo<Edge[]>(
-    () =>
-      document.relationships.flatMap((relationship) =>
-        relationship.participants.map((participant) => ({
-          id: `${relationship.id}:${participant.nodeId}`,
-          source: propositionLayoutId(participant.nodeId),
-          target: relationshipLayoutId(relationship.id),
-          sourceHandle: "source-right",
-          targetHandle: "relation-target",
-          type: document.layoutMode === "directional" ? "smoothstep" : "default",
-          selectable: false,
-          ariaLabel: `${participant.nodeId} participates in ${relationship.statement}`,
-          style: { stroke: thomTheme.color.primary, strokeWidth: 2, opacity: 0.8 },
-          markerStart: participant.arrowAtNode
-            ? { type: MarkerType.ArrowClosed, color: thomTheme.color.primary, width: 18, height: 18 }
-            : undefined,
-          markerEnd: participant.arrowAtRelation
-            ? { type: MarkerType.ArrowClosed, color: thomTheme.color.primary, width: 18, height: 18 }
-            : undefined,
-        })),
-      ),
-    [document],
-  );
-
-  const onSelectionChange = useCallback(({ nodes: selected }: { nodes: GraphFlowNode[] }) => {
-    setSelection((current) => {
-      if (selected.length !== 1) return null;
-      const node = selected[0];
-      const next: Selection =
-        node.type === "proposition"
-          ? { kind: "proposition", id: node.data.entityId }
-          : { kind: "relationship", id: node.data.entityId };
-      return current?.kind === next.kind && current.id === next.id ? current : next;
-    });
-  }, []);
-
-  const exportSvg = useCallback(async () => {
-    const svg = await createGraphSvg(document, positions, "graph", sizes);
-    downloadText(`${slugifyFilename(document.name)}-graph.svg`, svg, "image/svg+xml");
-  }, [document, positions, sizes]);
+  const exportPng = useCallback(() => {
+    const dataUrl = canvasRef.current?.exportCanvas();
+    if (!dataUrl) return;
+    const link = globalThis.document.createElement("a");
+    link.href = dataUrl;
+    link.download = `${slugifyFilename(document.name)}-graph.png`;
+    link.click();
+  }, [document]);
 
   const exportJson = useCallback(() => {
     downloadText(
@@ -290,13 +97,6 @@ function ExplorerWorkspace({ initialGraphId }: RelationshipGraphExplorerProps) {
         .filter((proposition): proposition is NonNullable<typeof proposition> => Boolean(proposition))
     : [];
 
-  const statusLabel =
-    layoutState === "working"
-      ? "Balancing…"
-      : layoutState === "error"
-        ? "Layout issue"
-        : "Balanced";
-
   return (
     <div className="graph-explorer" aria-label="Relationship graph explorer">
       <div className="graph-explorer__bar">
@@ -315,8 +115,8 @@ function ExplorerWorkspace({ initialGraphId }: RelationshipGraphExplorerProps) {
           </select>
         </label>
         <div className="graph-explorer__actions">
-          <button type="button" className="graph-explorer__action" onClick={() => void exportSvg()}>
-            Graph SVG
+          <button type="button" className="graph-explorer__action" onClick={exportPng}>
+            PNG
           </button>
           <button type="button" className="graph-explorer__action" onClick={exportJson}>
             JSON
@@ -325,41 +125,25 @@ function ExplorerWorkspace({ initialGraphId }: RelationshipGraphExplorerProps) {
       </div>
 
       <div className="graph-explorer__canvas">
-        <ReactFlow<GraphFlowNode, Edge>
-          nodes={nodesWithState}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          onInit={setFlow}
-          onSelectionChange={onSelectionChange}
-          onNodeClick={(_, node) => {
-            const next: Selection =
-              node.type === "proposition"
-                ? { kind: "proposition", id: node.data.entityId }
-                : { kind: "relationship", id: node.data.entityId };
-            setSelection((current) =>
-              current?.kind === next.kind && current.id === next.id ? current : next,
-            );
-          }}
-          onPaneClick={() => setSelection(null)}
-          panOnDrag={[1, 2]}
-          nodesConnectable={false}
-          minZoom={0.16}
-          maxZoom={2.2}
-          fitView
-          fitViewOptions={{ padding: 0.14 }}
-          colorMode="dark"
-          proOptions={{ hideAttribution: true }}
-        >
-          <Background variant={BackgroundVariant.Dots} gap={28} size={1} color={thomTheme.color.border} />
-          <Controls showInteractive={false} />
-        </ReactFlow>
+        <ThomGraphCanvas
+          ref={canvasRef}
+          nodes={data.nodes}
+          edges={data.edges}
+          selections={selections}
+          actives={actives}
+          layoutMode={document.layoutMode}
+          density="auto"
+          onNodeClick={(layoutId) => setSelection(selectionFromLayoutId(layoutId))}
+          onNodeKeyboardActivate={(layoutId) => setSelection(selectionFromLayoutId(layoutId))}
+          keyboardActionLabel="Select"
+          onCanvasClick={() => setSelection(null)}
+        />
       </div>
 
       <p className="graph-explorer__hint" role="status">
-        {statusLabel}
         {selection
-          ? " · click empty space to clear"
-          : " · click a claim to follow its relationships."}
+          ? "click empty space to clear"
+          : "click a claim to follow its relationships."}
       </p>
 
       {selectedProposition || selectedRelationship ? (
@@ -416,13 +200,9 @@ function ExplorerWorkspace({ initialGraphId }: RelationshipGraphExplorerProps) {
 /**
  * Compact, read-only relationship graph explorer for the portfolio tool
  * drawer: pick a seeded graph, pan and zoom, click a claim to follow its
- * relationships. Shares the model, layout, and export pipeline with the full
- * editor; never mutates the library.
+ * relationships. Renders on the reagraph WebGL canvas with the THOM theme;
+ * never mutates the library.
  */
 export function RelationshipGraphExplorer({ initialGraphId }: RelationshipGraphExplorerProps) {
-  return (
-    <ReactFlowProvider>
-      <ExplorerWorkspace initialGraphId={initialGraphId} />
-    </ReactFlowProvider>
-  );
+  return <ExplorerWorkspace initialGraphId={initialGraphId} />;
 }

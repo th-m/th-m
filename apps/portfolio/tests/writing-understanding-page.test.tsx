@@ -106,7 +106,7 @@ describe("The Understanding Bottleneck published page", () => {
       ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
       ["Factory Ontology", "/writing/the-factory-ontology"],
-      ["Factory Strategy", "/writing/the-factory-strategy"],
+      ["Cognitive Factory", "/writing/the-cognitive-factory"],
     ];
     for (const [name, href] of series) {
       const links = screen.getAllByRole("link", { name });

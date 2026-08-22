@@ -44,18 +44,20 @@ unnumbered so editorial order can change without destabilizing paths.
 | 1 | [goals-solutions-and-value](./goals-solutions-and-value/) | **Goals, Solutions & Value:** AI problem fit, functional cognition, agency, goals, and theories of value | Draft 3 outline in progress; Draft 2 retained as source material and prior product-opportunity outline preserved in notes |
 | 2 | [truth-entropy-and-inference](./truth-entropy-and-inference/) | **Truth, Entropy, and Inference:** truth practices, predictive language, code constraints, and domain fluency | Draft outline in progress; inherited research and visuals need expansion |
 | 3 | [understanding-is-the-bottleneck](./understanding-is-the-bottleneck/) | **Understanding Is the Bottleneck:** leaders who distill meaning and multiply team solutioning | Published essay page; proof pipeline and understanding-loop figures rendered from `@th-m/graph-visualization` seeds |
-| 4 | [the-knowledge-factory](./the-knowledge-factory/) | **The Knowledge Factory:** distributed solutioning, factory engineers, graph context, and reusable organizational capital | Draft outline in progress |
+| 4 | [the-knowledge-factory](./the-knowledge-factory/) | **The Knowledge Factory:** distributed solutioning, factory engineers, the knowledge-factory stack, and the strategy discipline that chooses direction | Draft outline in progress |
 | 5 | [the-factory-ontology](./the-factory-ontology/) | **The Factory — Ontology:** the SoundSculpt repository ontology as the factory's semantic infrastructure — ownership visible from the path, layered dependency rules, and executable README/AGENTS/skill contracts | Published; a domain-ontology plan for product domains is retained in the draft workspace |
-| 6 | [the-factory-strategy](./the-factory-strategy/) | **The Factory — Strategy:** narrative, customer empathy, adversarial and diplomatic opportunity, feedback, and the organizational second brain | Draft outline in progress; research queue established |
+| 6 | [the-cognitive-factory](./the-cognitive-factory/) | **Cognitive Factory:** loop and graph engineering extended with ontology and cognition — graph context, executable context, the compounding loop, the cognitive light cone, and a diagnostic build order | Draft outline in progress; research queue established |
 
 ### Series Architecture
 
 - Articles 1–3 establish the landscape: human value, the strengths and limits
   of predictive language, and understanding-centered leadership.
 - Article 4 introduces the organizational response: an explicit knowledge
-  factory that turns learning into reusable capability.
-- Articles 5–6 develop its two human-governed disciplines: ontology maps the
-  domain, while strategy chooses and revises direction.
+  factory that turns learning into reusable capability — including the strategy
+  discipline that chooses and revises direction.
+- Articles 5–6 develop the factory's cognition: ontology maps the domain, while
+  the cognitive factory examines graph context, executable context, and the
+  compounding loop.
 
 ## Workspace Structure
 

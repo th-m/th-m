@@ -47,7 +47,7 @@ keeping meaning, evidence, and accountability intact.
 
 This is the third essay:
 
-1. **Solutions, Meaning, and Value** establishes the human stakes that make an
+1. **Goals, Solutions, and Value** establishes the human stakes that make an
    opportunity worth pursuing.
 2. **Truth, Entropy, and Inference** explains why AI can be fluent and coherent
    in some domains while remaining weakly grounded in others.

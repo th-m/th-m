@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import {
   createMemoryHistory,
   createRootRoute,
@@ -91,8 +90,8 @@ describe("The Knowledge Factory published page", () => {
   it("renders the essay sections, glossary, and the graph figure", async () => {
     await renderPage();
     expect(screen.getByRole("heading", { name: "Core Thesis" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "7. Graph Context Exploration" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "9. The Compounding Loop" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "The Strategy Discipline" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "12. The Organizational Second Brain" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Factory engineer" })).toBeInTheDocument();
     expect(screen.getByTestId("proposition-graph-figure")).toBeInTheDocument();
   });
@@ -104,27 +103,10 @@ describe("The Knowledge Factory published page", () => {
       ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
       ["The Understanding Bottleneck", "/writing/understanding-is-the-bottleneck"],
       ["Factory Ontology", "/writing/the-factory-ontology"],
-      ["Factory Strategy", "/writing/the-factory-strategy"],
+      ["Cognitive Factory", "/writing/the-cognitive-factory"],
     ];
     for (const [name, href] of links) {
       expect(screen.getByRole("link", { name })).toHaveAttribute("href", href);
     }
-  });
-
-  it("seeds the knowledge-factory graph and opens it in the relationship-graph drawer", async () => {
-    const user = userEvent.setup();
-    await renderPage();
-
-    await user.click(screen.getByRole("button", { name: /Explore the graph/ }));
-
-    expect(await screen.findByRole("dialog")).toBeInTheDocument();
-    expect(await screen.findByTestId("graph-explorer-mock")).toHaveAttribute(
-      "data-initial-graph-id",
-      "knowledge-factory",
-    );
-
-    const stored = localStorage.getItem("thom:proposition-graph:v1");
-    expect(stored).toBeTruthy();
-    expect(stored).toContain("knowledge-factory");
   });
 });

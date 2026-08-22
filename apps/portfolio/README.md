@@ -42,8 +42,8 @@ audit captures are evidence rather than runtime authority.
 - `/llm-visualization` demonstrates the reusable decoder-only inference trace
   and deterministic transformer lab from `@th-m/llm-visualization`.
 - `/relationship-graph` hosts the full proposition graph authoring editor
-  (claims as circles, relationships as cards, deterministic layout, SVG and
-  poster export) from `@th-m/graph-visualization`.
+  (claims as circles, relationships as cards, themed reagraph WebGL canvas,
+  PNG and JSON export) from `@th-m/graph-visualization`.
 - `/writing` lists published articles.
 - `/writing/:slug` dispatches to the article's dedicated React page when the
   published post ships one, otherwise renders the published Markdown as
@@ -83,14 +83,15 @@ Where is complexity collecting? What would make the next change easier without o
 
 ## Workspace Tools
 
-The proposition graph and TypeScript set atlas are independently owned local
-tools. See [`tools/graph`](../../tools/graph/README.md) and
+The layered topology and TypeScript set atlas are independently owned local
+tools. See [`tools/topology`](../../tools/topology/README.md) and
 [`tools/set-theory`](../../tools/set-theory/README.md) for their authoring,
-generation, and verification commands. The graph tool's interactive editor and
-explorer are published through this app (the `/relationship-graph` route and
-the TOOLS drawer) via `@th-m/graph-visualization`; the set atlas explorer is
-published through the TOOLS drawer via `@th-m/set-theory-visualization`. Blog
-figures render dynamically as React components rather than checked-in assets.
+generation, and verification commands. The proposition graph's interactive
+editor and explorer are published through this app (the `/relationship-graph`
+route and the TOOLS drawer) via `@th-m/graph-visualization`; the set atlas
+explorer is published through the TOOLS drawer via
+`@th-m/set-theory-visualization`. Blog figures render dynamically as React
+components rather than checked-in assets.
 
 ## Concepts Worth Knowing
 

@@ -1,4 +1,6 @@
-// Public API for the proposition graph domain, editor, and explorer.
+// Public API for the proposition graph domain, editor, and explorer. All
+// interactive surfaces render on the reagraph WebGL canvas with the THOM
+// theme; the `./core` entry stays free of React and reagraph for CLI use.
 export { PropositionGraphEditor } from "./GraphApp";
 export {
   RelationshipGraphExplorer,
@@ -8,6 +10,31 @@ export {
   PropositionGraphFigure,
   type PropositionGraphFigureProps,
 } from "./PropositionGraphFigure";
+export {
+  ThomGraphCanvas,
+  graphLayoutOverrides,
+  graphLayoutProfiles,
+  graphNeedsCompactLayout,
+  type GraphLayoutDensity,
+  type GraphLayoutOptions,
+  type GraphLayoutProfile,
+  type ThomGraphCanvasProps,
+} from "./GraphCanvas";
+
+export {
+  entityIdFromLayoutId,
+  graphToReagraph,
+  kindFromLayoutId,
+  propositionLayoutId,
+  relationshipLayoutId,
+  selectionFromLayoutId,
+  type GraphCanvasData,
+  type GraphElementKind,
+} from "./canvas";
+
+export { createReagraphTheme } from "./reagraphTheme";
+
+export { downloadText, slugifyFilename } from "./exportText";
 
 export type {
   GraphDocument,
@@ -16,11 +43,6 @@ export type {
   Relationship,
   RelationshipParticipant,
   Point,
-  ItemSize,
-  ItemSizes,
-  LayoutPositions,
-  LayoutRequest,
-  LayoutResponse,
   Selection,
 } from "./types";
 
@@ -59,28 +81,4 @@ export {
 
 export { createLayerDependencyGraph, createPropositionsGraph, createSeedLibrary, createUnderstandingLoopGraph, createUnderstandingPipelineGraph, createWeatherGraph } from "./seed";
 
-export {
-  applyPinnedPositions,
-  buildElkGraph,
-  estimateDocumentSizes,
-  estimatePropositionSize,
-  estimateRelationshipSize,
-  isCurrentLayoutRequest,
-  normalizeLayout,
-  positionsFromElk,
-  propositionLayoutId,
-  relationshipLayoutId,
-  resolveOverlaps,
-} from "./layout";
-
 export { thomTheme, type GraphTheme } from "./theme";
-
-export {
-  createGraphSvg,
-  downloadText,
-  slugifyFilename,
-  type EmbeddedGraphFonts,
-  type SvgExportMode,
-} from "./exportSvg";
-
-export type { GraphFlowNode, GraphNodeData } from "./GraphNodes";

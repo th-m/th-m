@@ -1,10 +1,8 @@
 /* Proposition graph editor + relationship graph explorer.
-   Scoped to `.graph-app` / `.graph-explorer` so consumers own their reset and
-   theme tokens; both import @th-m/design-theme/theme.css themselves. The
-   @xyflow/react canvas stylesheet is re-exported here so consumers get it with
-   a single stylesheet import. */
-@import "@xyflow/react/dist/style.css";
-
+   Scoped to `.graph-app` / `.graph-explorer` / `.graph-figure` so consumers
+   own their reset and theme tokens; all surfaces import
+   @th-m/design-theme/theme.css themselves. Interactive canvases render on the
+   reagraph WebGL canvas; this file styles the editor chrome around it. */
 .graph-app {
   --graph-background: var(--color-background);
   --graph-surface: var(--color-surface);
@@ -118,6 +116,7 @@
 .graph-document-list button.is-active { border-color: var(--graph-line); background: var(--graph-surface-raised); color: var(--graph-ivory); }
 .graph-document-list strong { display: block; font-family: var(--graph-display); font-size: 15px; font-weight: 520; }
 .graph-document-list span { display: block; margin-top: 6px; font-size: 8px; letter-spacing: .08em; color: var(--graph-muted); }
+
 .graph-library-footer { padding: 15px 16px 18px; border-top: 1px solid var(--graph-line); display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .graph-library-footer p { grid-column: 1 / -1; margin: 7px 0 0; color: var(--graph-muted); font-size: 9px; line-height: 1.5; }
 
@@ -154,81 +153,61 @@
 .graph-segmented button.is-active { background: var(--graph-gold); color: var(--graph-background); border-color: var(--graph-gold); }
 
 .graph-mobile-panel-button { display: none; }
+
+/* Reagraph WebGL canvas surface. The canvas must own its full box; the radial
+   wash behind the graph comes from the stage/explorer containers. */
 .graph-canvas { min-width: 0; min-height: 0; position: relative; background: radial-gradient(circle at 64% 34%, color-mix(in srgb, var(--color-primary) 7%, transparent), transparent 42%); }
-.react-flow { background: transparent; }
-.react-flow__node { transition: transform 360ms cubic-bezier(.2,.8,.2,1); }
-.graph-stage.is-dragging .react-flow__node { transition: none; }
-.react-flow__node:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 5px; }
-.react-flow__controls, .react-flow__minimap { border: 1px solid var(--graph-line); border-radius: 2px; background: color-mix(in srgb, var(--color-surface) 92%, transparent); box-shadow: none; }
-.react-flow__controls-button { border-bottom-color: var(--graph-line); background: transparent; fill: var(--graph-ivory); }
-.react-flow__controls-button:hover { background: var(--graph-surface-raised); }
-.react-flow__attribution { display: none; }
-
-.graph-proposition {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  border: 2px solid var(--graph-line);
-  border-radius: 50%;
-  background: radial-gradient(circle at 60% 40%, var(--graph-surface-raised), var(--graph-surface) 60%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 42px 28px 34px;
-  box-shadow: 0 0 0 9px color-mix(in srgb, var(--color-border-strong) 22%, transparent), var(--graph-glow);
-  text-align: center;
+.graph-canvas-surface { position: absolute; inset: 0; min-width: 0; min-height: 0; }
+.graph-canvas-surface canvas { display: block; }
+.graph-canvas-keyboard {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
 }
-.graph-proposition.is-emphasis { border-color: var(--graph-gold); }
-.graph-proposition.is-selected { box-shadow: 0 0 0 3px var(--color-primary), 0 0 0 10px color-mix(in srgb, var(--color-primary) 20%, transparent), 0 0 48px color-mix(in srgb, var(--color-primary) 16%, transparent); }
-.graph-node-code { position: absolute; top: 22px; color: var(--graph-gold); font-size: 9px; letter-spacing: .18em; }
-.graph-node-caption { position: absolute; bottom: 22px; color: var(--graph-muted); font-size: 8px; letter-spacing: .19em; }
-.graph-node-dot { position: absolute; top: -5px; width: 9px; height: 9px; border-radius: 50%; background: var(--graph-gold); }
-.graph-proposition-statement { color: var(--graph-ivory); font-family: var(--graph-display); font-size: clamp(20px, 1.9vw, 29px); font-weight: 520; line-height: 1.03; text-wrap: balance; }
-
-.graph-relationship {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  border: 1px solid var(--graph-gold);
-  border-radius: 3px;
-  background: color-mix(in srgb, var(--color-background) 97%, transparent);
-  display: grid;
-  grid-template-columns: 46px 40px 1fr;
-  align-items: center;
-  padding: 13px 17px;
-  box-shadow: 0 10px 35px rgba(0,0,0,.35);
+.graph-canvas-keyboard__node {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
+  background: var(--graph-surface-raised, var(--color-surface-raised));
+  color: var(--graph-ivory, var(--color-foreground));
+  font-family: var(--graph-mono, var(--font-mono));
+  font-size: 10px;
+  pointer-events: auto;
 }
-.graph-relationship.is-selected { box-shadow: 0 0 0 2px var(--color-primary), 0 10px 35px rgba(0,0,0,.35); }
-.graph-relationship-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--graph-gold); }
-.graph-relationship-code { color: var(--graph-gold); font-size: 9px; letter-spacing: .14em; }
-.graph-relationship-statement { color: var(--graph-ivory); font-size: 11px; line-height: 1.7; letter-spacing: .12em; text-align: center; text-transform: uppercase; text-wrap: balance; }
-.react-flow__handle { width: 11px; height: 11px; border: 2px solid var(--graph-background); background: var(--graph-gold); opacity: 0; transition: opacity 120ms; }
-.graph-proposition:hover .react-flow__handle, .graph-proposition:focus-within .react-flow__handle { opacity: 1; }
-
-/* Read-only explorer focus: anything outside the selected neighborhood recedes. */
-.graph-explorer .graph-proposition.is-dimmed,
-.graph-explorer .graph-relationship.is-dimmed {
-  opacity: .22;
-  filter: saturate(.35);
-  transition: opacity 220ms ease, filter 220ms ease;
+.graph-canvas-keyboard__node:focus-visible {
+  width: auto;
+  max-width: calc(100% - 16px);
+  height: auto;
+  min-height: 44px;
+  padding: 10px 14px;
+  overflow: visible;
+  clip-path: none;
+  border: 1px solid var(--graph-gold, var(--color-primary));
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
 }
 
-/* Dynamic article figure: the font-embedded SVG rendered inline at runtime. */
+/* Dynamic article figure: reagraph canvas rendered client-side at runtime. */
 .graph-figure {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-.graph-figure__svg {
-  overflow-x: auto;
-  border: 1px solid var(--graph-line);
-  background: var(--graph-background);
-}
-.graph-figure__svg svg {
-  display: block;
+  width: 100%;
   max-width: 100%;
-  height: auto;
+  overflow: hidden;
+}
+.graph-figure__canvas {
+  position: relative;
+  min-height: 440px;
+  height: clamp(420px, 62vh, 620px);
+  border: 1px solid var(--graph-line);
+  background: radial-gradient(circle at 64% 34%, color-mix(in srgb, var(--color-primary) 7%, transparent), transparent 42%);
 }
 .graph-figure__status {
   margin: 0;
@@ -248,10 +227,6 @@
   line-height: 1.6;
   letter-spacing: .08em;
 }
-
-.graph-inline-editor { width: 100%; resize: none; border: 1px solid var(--graph-gold); border-radius: 2px; background: var(--color-background); color: var(--graph-highlight); outline: 0; }
-.graph-inline-editor--proposition { min-height: 86px; padding: 9px; font-family: var(--graph-display); font-size: 19px; line-height: 1.1; text-align: center; }
-.graph-inline-editor--relationship { grid-column: 3; padding: 7px; font-size: 10px; line-height: 1.5; text-align: center; }
 
 .graph-inspector-stack { padding: 18px 20px 28px; display: flex; flex-direction: column; gap: 18px; }
 .graph-field { display: flex; flex-direction: column; gap: 7px; }
@@ -351,11 +326,6 @@
   border: 1px solid var(--graph-line);
   background: radial-gradient(circle at 64% 34%, color-mix(in srgb, var(--color-primary) 7%, transparent), transparent 42%);
 }
-.graph-explorer__canvas .react-flow__controls, .graph-explorer__canvas .react-flow__minimap {
-  border: 1px solid var(--graph-line);
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-}
 .graph-explorer__hint {
   margin: 0;
   color: var(--graph-muted);
@@ -398,6 +368,8 @@
 .graph-explorer__detail li strong { display: block; color: var(--graph-gold); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
 .graph-explorer__detail li em { display: block; margin-top: 3px; color: var(--graph-muted); font-size: 9px; font-style: normal; }
 .graph-explorer__clear {
+  min-width: 24px;
+  min-height: 24px;
   border: 0;
   background: transparent;
   color: var(--graph-muted);
@@ -426,10 +398,20 @@
   .graph-toolbar { min-height: auto; padding: 9px; }
   .graph-title-block { width: 150px; }
   .graph-toolbar-primary .graph-button:not(.graph-button--primary) { display: none; }
-  .graph-minimap { display: none; }
+  .graph-button, .graph-icon-button, .graph-segmented button,
+  .graph-export-menu summary, .graph-export-menu button,
+  .graph-explorer select, .graph-explorer__action, .graph-explorer__clear {
+    min-height: 44px;
+  }
+  .graph-icon-button { width: 44px; height: 44px; }
+  .graph-figure__canvas { min-height: 340px; height: min(62vh, 480px); }
+  .graph-explorer__bar { flex-wrap: wrap; }
+  .graph-explorer__bar label { flex: 1 1 100%; }
+  .graph-explorer select { flex: 1; max-width: none; }
+  .graph-explorer__actions { margin-left: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .react-flow__node, .graph-panel-shell { transition: none; }
+  .graph-panel-shell { transition: none; }
   .graph-layout-status.is-working i { animation: none; }
 }
