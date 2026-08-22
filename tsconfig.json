@@ -4,7 +4,7 @@
     { "path": "./libs/blogs" },
     { "path": "./apps/portfolio" },
     { "path": "./libs/design-theme" },
-    { "path": "./libs/laws-of-ux" },
+    { "path": "./libs/laws" },
     { "path": "./libs/thom-brand" },
     { "path": "./libs/testing" },
     { "path": "./tools/graph" },

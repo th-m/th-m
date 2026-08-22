@@ -1,0 +1,42 @@
+{
+  "name": "@th-m/laws",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "fetch-laws": "bun run scripts/fetch-laws.ts",
+    "typecheck": "tsc -p tsconfig.json --pretty false",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@th-m/design-theme": "workspace:*",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@th-m/testing": "workspace:*",
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "jsdom": "latest",
+    "typescript": "6.0.2",
+    "vitest": "latest"
+  },
+  "nx": {
+    "name": "laws",
+    "sourceRoot": "libs/laws/src",
+    "projectType": "library",
+    "tags": ["kind:lib", "runtime:web", "domain:design"],
+    "targets": {
+      "fetch-laws": { "outputs": ["{projectRoot}/src/laws"] },
+      "typecheck": { "outputs": [] },
+      "test": { "outputs": [] }
+    }
+  }
+}
