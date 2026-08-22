@@ -12,7 +12,7 @@ complete.
   keep the base directory at the repository root, set package directory
   `apps/portfolio`, use `main` as the production branch, and enable deploy
   previews.
-- [ ] Push the checked-in monorepo and Netlify configuration, then verify one
+- [x] Push the checked-in monorepo and Netlify configuration, then verify one
   deploy preview before relying on continuous deployment.
 
 Custom-domain setup is intentionally deferred. Continue using
