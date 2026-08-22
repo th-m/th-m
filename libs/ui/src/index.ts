@@ -21,6 +21,7 @@ export {
   TooltipTrigger,
 } from "./Tooltip";
 export { TooltipCard, type TooltipCardProps } from "./TooltipCard";
+export { CardSpotlight, type CardSpotlightProps } from "./CardSpotlight";
 export {
   Dialog,
   DialogClose,

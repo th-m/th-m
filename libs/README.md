@@ -10,9 +10,12 @@ tools.
 A library has a typed public API and no independently started runtime. Design
 tokens live in `design-theme`; reusable THOM identity components and geometry
 live in `thom-brand`; the browser-safe tokenizer visualization lives in
-`tokenizer-visualization`; the proposition graph domain, editor, and explorer
-live in `graph-visualization` (with a React-free `core` entry for CLI
-generators); reusable verification support lives in `testing`;
+`tokenizer-visualization`; the proposition graph domain, editor, explorer, and
+dynamic article figure live in `graph-visualization` (with a React-free `core`
+entry for CLI generators); the TypeScript set atlas domain, renderers, and
+dynamic figure live in `set-theory-visualization` (with a React-free `core`
+entry, analysis owned by `knowledge-model`); reusable verification support
+lives in `testing`;
 the curated laws of UX and software development live in `laws`;
 the essays' editorial content, publication pipeline, and content artifact
 live in `blogs`; and the deterministic LLM teaching instrumentals live in

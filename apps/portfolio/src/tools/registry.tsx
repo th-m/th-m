@@ -32,6 +32,12 @@ const RelationshipGraphExplorer = lazy(() =>
   })),
 );
 
+const SetAtlasExplorer = lazy(() =>
+  import("./set-atlas/SetAtlasExplorer").then((module) => ({
+    default: module.SetAtlasExplorer,
+  })),
+);
+
 /**
  * Registry of auxiliary interactives available in the global tool drawer.
  * The drawer is the designated home for small interactive experiences that
@@ -58,5 +64,12 @@ export const toolRegistry: ToolDefinition[] = [
     eyebrow: "Auxiliary interactive",
     description: "Explore proposition graphs: pick a seed, click a claim, follow its relationships.",
     content: RelationshipGraphExplorer,
+  },
+  {
+    id: "set-atlas-explorer",
+    label: "Set atlas",
+    eyebrow: "Auxiliary interactive",
+    description: "Inspect TypeScript types as sets — curated snippets, rendered from compiler analysis.",
+    content: SetAtlasExplorer,
   },
 ];

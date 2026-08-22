@@ -266,6 +266,21 @@
   border: 1px solid var(--set-line);
 }
 .set-figure__canvas .set-region { cursor: pointer; }
+.set-figure__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.set-figure__bar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--set-muted);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
 .set-figure__notes {
   margin: 0;
   color: var(--set-muted);

@@ -9,6 +9,7 @@
 @import "@th-m/thom-brand/styles.css";
 @import "@th-m/ui/styles.css";
 @import "@th-m/graph-visualization/styles.css";
+@import "@th-m/set-theory-visualization/styles.css";
 
 :root {
   color-scheme: dark;
@@ -604,4 +605,105 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   font-size: 10px;
   letter-spacing: .14em;
   text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------ */
+/* Home page essay-bundle graph                                        */
+/* ------------------------------------------------------------------ */
+
+.home-graph {
+  width: var(--page);
+  margin: 0 auto;
+  padding: clamp(72px, 9vw, 140px) clamp(0px, 2vw, 32px);
+  border-bottom: 1px solid var(--line);
+}
+.home-graph__header {
+  display: grid;
+  grid-template-columns: minmax(130px, .34fr) 1fr;
+  gap: 32px;
+  align-items: start;
+  padding-bottom: clamp(32px, 4vw, 56px);
+}
+.home-graph__header h2 {
+  margin: 0;
+  font-family: "Newsreader Variable", Georgia, serif;
+  font-size: clamp(44px, 7vw, 96px);
+  font-weight: 390;
+  line-height: .85;
+  letter-spacing: -.05em;
+}
+.home-graph__lede {
+  max-width: 720px;
+  margin: 0 0 clamp(40px, 6vw, 72px);
+  color: var(--brand-muted);
+  line-height: 1.7;
+}
+.home-graph__viewport {
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.home-graph__frame {
+  position: relative;
+  width: 100%;
+  min-width: 640px;
+  aspect-ratio: 960 / 660;
+}
+.home-graph__edges {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.home-graph__edges path {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+}
+.home-graph__node {
+  position: absolute;
+}
+.home-graph__node-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: clamp(10px, 1.3vw, 18px);
+  color: inherit;
+}
+.home-graph__node-link:hover .home-graph__node-title,
+.home-graph__node-link:focus-visible .home-graph__node-title {
+  color: var(--brand-gold);
+}
+.home-graph__node-kind {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--brand-gold);
+}
+.home-graph__node-title {
+  font-family: "Newsreader Variable", Georgia, serif;
+  font-size: clamp(13px, 1.6vw, 20px);
+  font-weight: 430;
+  line-height: 1.05;
+  letter-spacing: -.01em;
+  color: var(--color-foreground-strong);
+  transition: color .25s ease;
+}
+.home-graph__node-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: auto;
+  color: var(--brand-muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+.home-graph__node--hub {
+  border-color: var(--color-border-strong);
+}
+.home-graph__node--hub .home-graph__node-title {
+  font-size: clamp(15px, 1.9vw, 24px);
 }

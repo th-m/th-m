@@ -131,8 +131,13 @@ export default function ArticlePage({ post, assetUrl }: {
 }
 ```
 
-Pages import only from `@th-m/blogs/publish`, `react`, and `@th-m/ui` — never
-from application source. The publisher stages the file into `dist/` and marks
+Pages import only from `@th-m/blogs/publish`, `react`, `@th-m/ui`, and THOM
+visualization libraries (`@th-m/graph-visualization`,
+`@th-m/set-theory-visualization`, and peers) — never from application or tool
+source. Visualization imports let a page embed dynamic figures such as
+`<PropositionGraphFigure document={...} />` or
+`<SetAtlasVisualization analysis={...} />` in place of checked-in assets. The
+publisher stages the file into `dist/` and marks
 the manifest post with `page: true`; the portfolio compiles it and dispatches
 `/writing/:slug` to it. Without a page, the portfolio renders the published
 Markdown through its generic fallback. See the [writing component

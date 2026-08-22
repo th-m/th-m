@@ -3,7 +3,12 @@
 ## Purpose
 
 This tool analyzes TypeScript types as sets of possible values and generates a
-self-contained SVG plus 2× PNG atlas from a source file.
+self-contained SVG plus 2× PNG atlas from a source file. The atlas domain,
+scene layout, renderers, and canvas are owned by
+[`@th-m/set-theory-visualization`](../../libs/set-theory-visualization/README.md);
+this tool is the local interactive workbench (paste TypeScript → compiler
+analysis through its Vite middleware) and the CLI generator. The compiler
+analysis itself lives in `@th-m/knowledge-model` and runs only locally.
 
 ## Ontology
 
@@ -32,3 +37,7 @@ discovered `tsconfig.json`, never writes source, persists only authoring state i
 browser `localStorage`, and preserves the last valid atlas when edits contain
 compiler errors. Compiler-proven containment and equivalence render directly;
 approximations and type-system exceptions remain visibly qualified.
+
+The portfolio publishes a read-only "Set atlas" drawer tool that renders the
+same atlases dynamically from committed curated analyses — no compiler in the
+browser.

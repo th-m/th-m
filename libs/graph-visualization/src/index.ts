@@ -4,6 +4,10 @@ export {
   RelationshipGraphExplorer,
   type RelationshipGraphExplorerProps,
 } from "./RelationshipGraphExplorer";
+export {
+  PropositionGraphFigure,
+  type PropositionGraphFigureProps,
+} from "./PropositionGraphFigure";
 
 export type {
   GraphDocument,

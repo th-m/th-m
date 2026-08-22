@@ -8,12 +8,15 @@ durable visual content.
 ## Ontology
 
 Tools are local authoring runtimes with deterministic command-line generators.
-`graph` renders proposition graphs (its interactive editor and explorer are
-shared with the portfolio through `@th-m/graph-visualization`); `set-theory`
-renders TypeScript type relationships as set atlases; `knowledge` normalizes
-established semantic sources into domain-organized comparison boards. Each
-tool's interactive surface is reusable through a library when the portfolio
-publishes it as an interactive UI tool.
+`graph` renders proposition graphs (its interactive editor, explorer, and
+dynamic article figure are shared with the portfolio through
+`@th-m/graph-visualization`); `set-theory` renders TypeScript type
+relationships as set atlases (its rendering is shared through
+`@th-m/set-theory-visualization`); `knowledge` normalizes established semantic
+sources into domain-organized comparison boards. Each tool's interactive
+surface is reusable through a library when the portfolio publishes it as an
+interactive UI tool; blog figures render dynamically as React components
+instead of checked-in SVG/PNG assets.
 
 ## Key Terms
 

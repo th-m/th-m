@@ -267,3 +267,67 @@
 .thom-tooltip-card__floating-title { margin: 0 0 8px; font-family: var(--font-display); font-size: 17px; font-weight: 430; line-height: 1.1; }
 .thom-tooltip-card__floating-body { color: var(--color-popover-foreground); font-size: 12px; line-height: 1.6; }
 .thom-tooltip-card__floating-footer { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-primary); }
+
+/* ------------------------------------------------------------------ */
+/* Card spotlight (Aceternity port)                                    */
+/* ------------------------------------------------------------------ */
+
+.thom-card-spotlight {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-card-foreground);
+}
+
+.thom-card-spotlight__spotlight,
+.thom-card-spotlight__border,
+.thom-card-spotlight__noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+
+.thom-card-spotlight:hover .thom-card-spotlight__spotlight,
+.thom-card-spotlight:focus-within .thom-card-spotlight__spotlight {
+  opacity: 1;
+}
+.thom-card-spotlight:hover .thom-card-spotlight__border,
+.thom-card-spotlight:focus-within .thom-card-spotlight__border {
+  opacity: .8;
+}
+.thom-card-spotlight:hover .thom-card-spotlight__noise,
+.thom-card-spotlight:focus-within .thom-card-spotlight__noise {
+  opacity: .06;
+}
+
+/* Radial glow that follows the cursor via --spot-x / --spot-y. */
+.thom-card-spotlight__spotlight {
+  background: radial-gradient(
+    var(--spot-radius, 280px) circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    color-mix(in srgb, var(--color-primary) 20%, transparent),
+    transparent 70%
+  );
+}
+
+/* Border-only glow: same radial gradient, masked to a 1px ring. */
+.thom-card-spotlight__border {
+  padding: 1px;
+  background: radial-gradient(
+    var(--spot-radius, 280px) circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    color-mix(in srgb, var(--color-primary) 55%, transparent),
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+/* Subtle grain over the hovered card. */
+.thom-card-spotlight__noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}

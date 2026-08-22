@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { AnimatedThomLogo } from "@th-m/thom-brand";
 import { loadBlogManifest } from "../content/blog-content";
+import { ArticleBundleGraph } from "../home/ArticleBundleGraph";
 import { PublicationDate } from "../writing/PublicationDate";
 
 export const Route = createFileRoute("/")({
@@ -33,6 +34,8 @@ function HomePage() {
         </div>
         <Link className="home-mark__link" to="/writing">Explore the writing <span aria-hidden="true">→</span></Link>
       </section>
+
+      <ArticleBundleGraph posts={manifest.posts} />
 
       <section className="home-writings" id="writings" aria-labelledby="writings-title">
         <header className="home-writings__header">

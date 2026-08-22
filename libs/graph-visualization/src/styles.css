@@ -214,6 +214,41 @@
   transition: opacity 220ms ease, filter 220ms ease;
 }
 
+/* Dynamic article figure: the font-embedded SVG rendered inline at runtime. */
+.graph-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.graph-figure__svg {
+  overflow-x: auto;
+  border: 1px solid var(--graph-line);
+  background: var(--graph-background);
+}
+.graph-figure__svg svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.graph-figure__status {
+  margin: 0;
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--graph-line);
+  color: var(--graph-muted);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.graph-figure__caption {
+  margin: 0;
+  color: var(--graph-muted);
+  font-size: 9px;
+  line-height: 1.6;
+  letter-spacing: .08em;
+}
+
 .graph-inline-editor { width: 100%; resize: none; border: 1px solid var(--graph-gold); border-radius: 2px; background: var(--color-background); color: var(--graph-highlight); outline: 0; }
 .graph-inline-editor--proposition { min-height: 86px; padding: 9px; font-family: var(--graph-display); font-size: 19px; line-height: 1.1; text-align: center; }
 .graph-inline-editor--relationship { grid-column: 3; padding: 7px; font-size: 10px; line-height: 1.5; text-align: center; }

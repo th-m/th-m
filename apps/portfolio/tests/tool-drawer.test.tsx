@@ -8,8 +8,24 @@ const GraphExplorerMock = vi.fn((props: { initialGraphId?: string }) => (
   <div data-testid="graph-explorer-mock" />
 ));
 
+const SetAtlasMock = vi.fn(() => <div data-testid="set-atlas-mock" />);
+
 vi.mock("@th-m/graph-visualization", () => ({
   RelationshipGraphExplorer: (props: { initialGraphId?: string }) => GraphExplorerMock(props),
+}));
+
+vi.mock("@th-m/set-theory-visualization", () => ({
+  SetAtlasVisualization: () => SetAtlasMock(),
+  buildSetAtlasScene: () => ({ width: 100, height: 100, regions: [], cards: [], atoms: [], warnings: [] }),
+  curatedSetAtlasAnalyses: [
+    {
+      id: "traffic-light",
+      label: "Traffic light",
+      description: "Test snippet",
+      analysis: { revision: 1, compilerVersion: "5", sourceText: "", sourceFilePath: "x.ts", diagnostics: [], symbols: [], relations: [], atoms: [] },
+    },
+  ],
+  exportSetAtlasSvg: async () => "svg",
 }));
 
 function OpenEmbeddingButton() {
@@ -89,6 +105,18 @@ describe("global tool drawer", () => {
     await user.click(screen.getByRole("button", { name: "Relationship graph" }));
     expect(await screen.findByRole("heading", { name: "Relationship graph" })).toBeInTheDocument();
     expect(await screen.findByTestId("graph-explorer-mock")).toBeInTheDocument();
+  });
+
+  it("switches to the set atlas tool and renders its explorer", async () => {
+    const user = userEvent.setup();
+    render(<DrawerHarness />);
+
+    await user.click(screen.getByRole("button", { name: "Open tool drawer" }));
+    await screen.findByRole("dialog");
+
+    await user.click(screen.getByRole("button", { name: "Set atlas" }));
+    expect(await screen.findByRole("heading", { name: "Set atlas" })).toBeInTheDocument();
+    expect(await screen.findByTestId("set-atlas-mock")).toBeInTheDocument();
   });
 
   it("passes tool options from openTool to the graph explorer", async () => {

@@ -8,9 +8,7 @@
     "gen": "bun run src/cli.ts",
     "typecheck": "tsc -p tsconfig.json --pretty false",
     "test": "vitest run --config vite.config.ts",
-    "e2e": "playwright test --config playwright.config.ts",
-    "generate:legacy:propositions": "bun run scripts/legacy/generate-propositions-relationships-graph.ts",
-    "generate:legacy:weather": "bun run scripts/legacy/generate-weather-relationships-graph.ts"
+    "e2e": "playwright test --config playwright.config.ts"
   },
   "dependencies": {
     "@fontsource-variable/newsreader": "latest",
@@ -49,19 +47,7 @@
       "gen": { "outputs": [] },
       "typecheck": { "outputs": [] },
       "test": { "outputs": [] },
-      "e2e": { "outputs": [] },
-      "generate:legacy:propositions": {
-        "outputs": [
-          "{workspaceRoot}/libs/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships.svg",
-          "{workspaceRoot}/libs/blogs/articles/truth-entropy-and-inference/assets/propositions-and-relationships@2x.png"
-        ]
-      },
-      "generate:legacy:weather": {
-        "outputs": [
-          "{workspaceRoot}/libs/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations.svg",
-          "{workspaceRoot}/libs/blogs/articles/truth-entropy-and-inference/assets/weather-propositions-and-sensations@2x.png"
-        ]
-      }
+      "e2e": { "outputs": [] }
     }
   }
 }

@@ -49,9 +49,9 @@ audit captures are evidence rather than runtime authority.
   published post ships one, otherwise renders the published Markdown as
   hydrated React.
 - The global right-side **tool drawer** (the fixed "TOOLS" tab on every route)
-  hosts auxiliary interactives such as the embedding explorer and the compact
-  relationship graph explorer; article pages open a tool with
-  `useToolDrawer().openTool(id, options)` (for example
+  hosts auxiliary interactives such as the embedding explorer, the compact
+  relationship graph explorer, and the set atlas explorer; article pages open a
+  tool with `useToolDrawer().openTool(id, options)` (for example
   `openTool("relationship-graph", { graphId })`).
 - `/_shell.html` is a Netlify fallback artifact, not a navigable content page.
 
@@ -84,8 +84,9 @@ tools. See [`tools/graph`](../../tools/graph/README.md) and
 [`tools/set-theory`](../../tools/set-theory/README.md) for their authoring,
 generation, and verification commands. The graph tool's interactive editor and
 explorer are published through this app (the `/relationship-graph` route and
-the TOOLS drawer tool) via `@th-m/graph-visualization`; the tool's CLI and
-local authoring shell remain independent.
+the TOOLS drawer) via `@th-m/graph-visualization`; the set atlas explorer is
+published through the TOOLS drawer via `@th-m/set-theory-visualization`. Blog
+figures render dynamically as React components rather than checked-in assets.
 
 ## Concepts Worth Knowing
 

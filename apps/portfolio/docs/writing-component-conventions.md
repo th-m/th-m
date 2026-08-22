@@ -115,8 +115,14 @@ palette values, no rounded corners, no generic shadows.
 
 An article ships a React page as `libs/blogs/articles/<slug>/index.tsx` when
 its presentation genuinely needs React. The default export receives
-`{ post, assetUrl }`; it may import `@th-m/ui` components and
-`@th-m/blogs/publish` types only. Until a page exists, the portfolio renders
-the published Markdown through the generic fallback — so a page is an
-enhancement, never a requirement, and an article must remain readable as pure
-Markdown.
+`{ post, assetUrl }`; it may import `@th-m/ui` components,
+`@th-m/blogs/publish` types, and THOM visualization libraries
+(`@th-m/graph-visualization`, `@th-m/set-theory-visualization`, and peers) to
+embed **dynamic figures** — for example
+`<PropositionGraphFigure document={graph} />` or
+`<SetAtlasVisualization analysis={curated.analysis} />`. Dynamic figures
+render at runtime from data and replace the old checked-in SVG/PNG blog
+assets; `assetUrl` remains for genuinely static content. Until a page exists,
+the portfolio renders the published Markdown through the generic fallback — so
+a page is an enhancement, never a requirement, and an article must remain
+readable as pure Markdown.

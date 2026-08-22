@@ -29,4 +29,6 @@ bun run nx run graph:gen -- --input path/to/graph.json --output path/to/name [--
 
 The same interactive editor is published on the portfolio as
 [`/relationship-graph`](../../apps/portfolio/README.md), with a compact
-read-only explorer in the global TOOLS drawer.
+read-only explorer in the global TOOLS drawer. Article pages embed the graph
+directly as a dynamic React figure (`PropositionGraphFigure`) — the former
+checked-in SVG/PNG blog assets and their legacy generators were removed.
