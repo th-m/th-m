@@ -3,23 +3,28 @@ I wrote a bad prompt, agent spent 9 hours crafting the most ludicrous plan. It p
 
 In this study [researchers evaluated leading LLMs on seven strategic tradeoffs](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return), 
 The surprising part is that **the order of the choices affected the answer more than useful information about the company did**.
+
 - **Less than 2%:** Changing the wording or telling the robot to think harder barely helped. Out of 100 answers, fewer than 2 changed.
 - **11%:** Giving the robot more information about the company helped somewhat. Roughly 11 out of 100 answers changed.
 - **19%:** Simply putting the choices in a different order changed the robot’s answer even more. Roughly 19 out of 100 answers moved away from the trendy choice.
 
-Is the LLM fundementally disconnected from understanding meaning? Or is this a problem of large datasets generating generic average? Can we gain an intuition for questions that AI will do bad at?
+A smaller [Google Research study of professional creative practice](https://research.google/pubs/in-search-of-weird-corners-diagnosing-the-limits-of-convergent-ai-in-professional-creative-practice/) found a related interaction problem.
+
+- **9 expert creatives:** The tested workflow helped ignite early ideas, but its linear structure also encouraged premature convergence and standardized some of the participants' individual nuance.
 
 
-# Breaking it down
+Is the LLM fundamentally incapable of certain tasks? 
+Is this a problem of large datasets generating a generic average?
+Maybe a side effect from a harness that enacts a personality?
 
-Let's just do rough functional map to tie an aspect of an LLM to a human analog.  We are going to compare human brains to the AI brain, which in this case I am going to designate as everything scoped to the nueral net and inference.  We will compose harnesses, data stores, and computational automationa later, but for know I want to see what is fundemental. 
+Let's breakdown what an LLM is, and compare its capabilities against different types of problems. 
 
-| Aspect        | AI component                                                  | Human analogue                                                           | Human term     |
-| ------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------- |
-| **Input**     | Data, **Tokenizer**                                           | Sensory receptors, perceptual segmentation and  encoding                 | **Experience** |
-| **Training**  | **Loss function, backpropagation, optimizer**                 | Teaching signals, credit assignment, neural plasticity and consolidation | **Learning**   |
-| **Model**     | **Learned parameters (weights), including embeddings**        | Neural circuit organization shaped by experience                         | **Knowledge**  |
-| **Inference** | **Transformer blocks (self-attention + feed-forward layers)** | Attention, working memory, and cognitive control                         | **Reasoning**  |
+
+# Dissecting the Brain
+
+The model is like the "brain" of an AI. Tools
+
+
 
 ## Input
 AI suggested:
@@ -247,4 +252,3 @@ A language model can reason about a goal within one execution. That is not yet t
 Persistent memory, tools, environmental feedback, controllers, permissions, and schedulers can assemble this loop around a model. The resulting service may exhibit genuine functional agency across many executions, even if no individual model instance maintains the goal by itself.
 
 This creates an attribution problem. If a scheduler restores the objective, a database preserves the memory, people supply the funding, and an institution decides whether the goal remains valuable, then the service can operationally pursue the goal without the model independently originating, valuing, or experiencing it.
-
