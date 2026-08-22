@@ -3,14 +3,17 @@
 ## Purpose
 
 `@th-m/laws` owns a curated collection of famous laws, principles, and effects
-from two sources — the 30 laws of UX from [lawsofux.com](https://lawsofux.com/)
-and the laws of software development from
-[timsommer.be](https://www.timsommer.be/famous-laws-of-software-development/) —
-as typed, deterministic content plus THOM-styled React components that present
-them. Each law keeps its definition, domain labels, takeaways, long-form copy,
-further reading links, related laws, provenance URLs, and (where the source
-provides it) the original SVG artwork, recolored at render time onto the THOM
-brand: gold shapes on a darkened, hue-tinted tone of the law's source color.
+from two layers — the fetched snapshots of the 30 laws of UX from
+[lawsofux.com](https://lawsofux.com/) and the laws of software development from
+[timsommer.be](https://www.timsommer.be/famous-laws-of-software-development/),
+plus hand-curated extension collections covering information & language, AI/ML,
+reasoning & epistemology, organizations & economics, operations & systems,
+cognitive effects, and physical metaphors — as typed, deterministic content
+plus THOM-styled React components that present them. Each law keeps its
+definition, domain labels, takeaways, long-form copy, further reading links,
+related laws, provenance URLs, and (where the source provides it) the original
+SVG artwork, recolored at render time onto the THOM brand: gold shapes on a
+darkened, hue-tinted tone of the law's source color.
 
 ## Ontology
 
@@ -27,7 +30,13 @@ the components; the library does not own application layout or routes.
   copy, further reading links, and provenance.
 - **Labels:** the curated `LawLabel` taxonomy (`ui`, `design`, `psychology`,
   `cs`, `software-engineering`, `architecture`, `management`, `product`,
-  `security`) describing the domains and theories a law applies to.
+  `security`, `ai`, `information`, `economics`, `epistemology`, `physics`)
+  describing the domains and theories a law applies to.
+- **Snapshot:** the generator-owned `src/laws/` records fetched from
+  lawsofux.com and timsommer.be by `scripts/fetch-laws.ts`.
+- **Curated layer:** the hand-authored `src/laws-curated/` records for the
+  extension collections, with Wikipedia and canonical provenance; the public
+  `laws`/`lawBySlug` exports merge the snapshot with this layer.
 - **Source artwork:** the original lawsofux.com SVG, stored verbatim in the
   law's data file; laws without artwork render a monogram fallback tile.
 - **Adaptation:** the deterministic transform that recolors source artwork

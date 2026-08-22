@@ -43,7 +43,7 @@ unnumbered so editorial order can change without destabilizing paths.
 | --- | --- | --- | --- |
 | 1 | [solutions-meaning-and-value](./solutions-meaning-and-value/) | **Solutions, Meaning, and Value:** AI problem fit, functional cognition, agency, meaning, and theories of value | Draft 3 outline in progress; Draft 2 retained as source material and prior product-opportunity outline preserved in notes |
 | 2 | [truth-entropy-and-inference](./truth-entropy-and-inference/) | **Truth, Entropy, and Inference:** truth practices, predictive language, code constraints, and domain fluency | Draft outline in progress; inherited research and visuals need expansion |
-| 3 | [understanding-is-the-bottleneck](./understanding-is-the-bottleneck/) | **Understanding Is the Bottleneck:** leaders who distill meaning and multiply team solutioning | Draft outline in progress |
+| 3 | [understanding-is-the-bottleneck](./understanding-is-the-bottleneck/) | **Understanding Is the Bottleneck:** leaders who distill meaning and multiply team solutioning | Published essay page; proof pipeline and understanding-loop figures rendered from `@th-m/graph-visualization` seeds |
 | 4 | [the-knowledge-factory](./the-knowledge-factory/) | **The Knowledge Factory:** distributed solutioning, factory engineers, graph context, and reusable organizational capital | Draft outline in progress |
 | 5 | [the-factory-ontology](./the-factory-ontology/) | **The Factory — Ontology:** the SoundSculpt repository ontology as the factory's semantic infrastructure — ownership visible from the path, layered dependency rules, and executable README/AGENTS/skill contracts | Published; a domain-ontology plan for product domains is retained in the draft workspace |
 | 6 | [the-factory-strategy](./the-factory-strategy/) | **The Factory — Strategy:** narrative, customer empathy, adversarial and diplomatic opportunity, feedback, and the organizational second brain | Draft outline in progress; research queue established |
@@ -131,16 +131,20 @@ export default function ArticlePage({ post, assetUrl }: {
 }
 ```
 
-Pages import only from `@th-m/blogs/publish`, `react`, `@th-m/ui`, and THOM
-visualization libraries (`@th-m/graph-visualization`,
-`@th-m/set-theory-visualization`, and peers) — never from application or tool
-source. Visualization imports let a page embed dynamic figures such as
-`<PropositionGraphFigure document={...} />` or
-`<SetAtlasVisualization analysis={...} />` in place of checked-in assets. The
-publisher stages the file into `dist/` and marks
-the manifest post with `page: true`; the portfolio compiles it and dispatches
-`/writing/:slug` to it. Without a page, the portfolio renders the published
-Markdown through its generic fallback. See the [writing component
+Pages import only from `@th-m/blogs/publish`, `react`, `@th-m/ui`,
+`@tanstack/react-router` (for internal SPA links), and THOM visualization
+libraries (`@th-m/graph-visualization`, `@th-m/set-theory-visualization`, and
+peers) — never from application or tool source. Visualization imports let a
+page embed dynamic figures such as `<PropositionGraphFigure document={...} />`
+or `<SetAtlasVisualization analysis={...} />` in place of checked-in assets.
+`@th-m/ui` also exports `useToolDrawer` (and `ToolDrawerOptions`), the shared
+drawer-context hook, so a page can open an auxiliary interactive beside the
+prose — for example
+`useToolDrawer().openTool("relationship-graph", { graphId })` after seeding the
+graph into the drawer's library. The publisher stages the file into `dist/` and
+marks the manifest post with `page: true`; the portfolio compiles it and
+dispatches `/writing/:slug` to it. Without a page, the portfolio renders the
+published Markdown through its generic fallback. See the [writing component
 conventions](../../../apps/portfolio/docs/writing-component-conventions.md) for
 when a custom page is worth building and which contextual components to use.
 

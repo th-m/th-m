@@ -312,6 +312,9 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 .article-outline__header h1 { margin: 18px 0 24px; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(52px, 8vw, 112px); font-weight: 420; line-height: .88; letter-spacing: -.045em; }
 .article-outline__status { display: flex; gap: 14px; align-items: baseline; margin: 0 0 16px; color: var(--color-foreground-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; line-height: 1.7; letter-spacing: .06em; }
 .article-outline__status strong { color: var(--color-primary); font-weight: 400; }
+.article-outline__lede { margin: 34px 0 0; max-width: 780px; }
+.article-outline__lede > p { margin: 0 0 1.15em; color: var(--color-foreground); font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(17px, 1.7vw, 19px); line-height: 1.7; }
+.article-outline__figure { margin: 1.75em 0; }
 .article-outline__section { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); padding: clamp(40px, 5vw, 64px) 0; border-bottom: 1px solid var(--line); }
 .article-outline__index { margin: 8px 0 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .13em; color: var(--color-primary); text-transform: uppercase; }
 .article-outline__content { min-width: 0; }
@@ -337,6 +340,119 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 .article-outline__closing { padding: clamp(40px, 6vw, 72px) 0 clamp(60px, 7vw, 90px); }
 .article-outline__closing blockquote { margin: 0; padding: 24px 28px; border-left: 2px solid var(--color-primary); background: var(--color-card); font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.32; color: var(--color-foreground-strong); }
 .article-outline__closing p { margin: 14px 0 0; color: var(--color-foreground-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.article-outline__closing p a { color: var(--color-primary); }
+
+/* Published essay pages: contextual surfaces and figures inside the article grid. */
+.article-claim { margin: 1.5em 0; }
+.article-outline__content .thom-tooltip-trigger { text-decoration-color: var(--color-primary); }
+.article-outline__content .graph-figure { margin: 1.75em 0; }
+.article-gloss h4 { margin: 0 0 8px; font-family: "Newsreader Variable", Georgia, serif; font-size: 18px; font-weight: 430; line-height: 1.15; color: var(--color-foreground-strong); }
+.article-gloss p { margin: 0; font-size: 12px; line-height: 1.6; }
+
+/* The Knowledge Factory page: figures, flow strips, scorecard, and affordances. */
+.essay-figure { margin: 1.75em 0 2em; }
+.essay-figure__svg { display: block; width: 100%; height: auto; border: 1px solid var(--color-border); background: var(--color-surface); }
+.essay-figure__caption { margin: 10px 0 0; color: var(--color-foreground-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.essay-figure__caption::before { content: "Figure — "; color: var(--color-primary); }
+
+.essay-flow { display: flex; flex-wrap: wrap; gap: 8px 0; margin: 0; padding: 16px 20px; list-style: none; border: 1px solid var(--color-border); background: var(--color-surface); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-foreground-muted); }
+.essay-flow li { display: inline-flex; align-items: center; gap: 10px; margin: 0; }
+.essay-flow__arrow { color: var(--color-primary); }
+
+.essay-fig-title { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; fill: var(--color-primary); }
+.essay-fig-sub { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .06em; fill: var(--color-foreground-muted); }
+.essay-fig-number { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .12em; fill: var(--color-primary); }
+.essay-fig-panel { fill: var(--color-card); stroke: var(--color-border); }
+.essay-fig-panel--accent { stroke: color-mix(in srgb, var(--color-primary) 55%, var(--color-border)); }
+.essay-fig-box { fill: var(--color-surface); stroke: var(--color-border); }
+.essay-fig-box--small { fill: var(--color-surface); stroke: var(--color-border); }
+.essay-fig-bar { fill: var(--color-card); stroke: var(--color-border); }
+.essay-fig-label { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .04em; fill: var(--color-foreground-strong); }
+.essay-fig-label--muted { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .04em; fill: var(--color-foreground-muted); }
+.essay-fig-detail { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .02em; fill: var(--color-foreground-muted); }
+.essay-fig-note { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .08em; fill: var(--color-foreground-muted); }
+.essay-fig-line { fill: none; stroke: var(--color-border-strong); stroke-width: 1.5; }
+.essay-fig-loop { fill: none; stroke: var(--color-primary); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.essay-fig-arrow { fill: var(--color-primary); }
+
+.essay-scorecard { width: 100%; border-collapse: collapse; margin: 1.75em 0 2em; font-family: "Inter Variable", sans-serif; font-size: 13px; }
+.essay-scorecard caption { caption-side: top; text-align: left; margin: 0 0 10px; color: var(--color-foreground-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.essay-scorecard caption::before { content: "Figure — "; color: var(--color-primary); }
+.essay-scorecard th, .essay-scorecard td { padding: 10px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+.essay-scorecard thead th { color: var(--color-foreground-strong); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.essay-scorecard tbody th { color: var(--color-primary); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+.essay-scorecard td { color: var(--color-foreground-muted); line-height: 1.55; }
+
+.essay-card { margin: 1.5em 0; }
+.essay-card h4 { margin: 0 0 14px; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--color-primary); }
+.essay-card__claim { margin: 0; color: var(--color-foreground-strong); font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(18px, 2vw, 22px); line-height: 1.4; }
+.essay-mapping { display: grid; grid-template-columns: minmax(160px, 260px) minmax(0, 1fr); gap: 10px 22px; margin: 0; }
+.essay-mapping dt { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; color: var(--color-primary); letter-spacing: .04em; }
+.essay-mapping dd { margin: 0; color: var(--color-foreground-muted); font-size: 14px; line-height: 1.6; }
+
+.essay-glossary { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 0 0 1.25em; }
+.essay-glossary__item { margin: 0; }
+.essay-glossary h4 { margin: 0 0 8px; font-family: "Newsreader Variable", Georgia, serif; font-size: 18px; font-weight: 430; line-height: 1.15; color: var(--color-foreground-strong); }
+.essay-glossary p { margin: 0; font-size: 12px; line-height: 1.6; }
+
+.essay-explore-row { margin: 0 0 1.25em; }
+.essay-explore { display: inline-flex; align-items: center; gap: 10px; padding: 13px 18px; border: 1px solid var(--color-primary); background: transparent; color: var(--color-primary); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: color .25s ease, background-color .25s ease; }
+.essay-explore:hover, .essay-explore:focus-visible { color: var(--color-primary-foreground); background: var(--color-primary); }
+.essay-explore:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 3px; }
+
+.essay-closing { padding: clamp(30px, 5vw, 56px) 0 clamp(10px, 2vw, 20px); }
+.essay-closing blockquote { margin: 0; padding: 24px 28px; border-left: 2px solid var(--color-primary); background: var(--color-card); font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.32; color: var(--color-foreground-strong); }
+
+/* Solutions, Meaning & Value page: custom figures and interactions. */
+.article-outline__content code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .8em; }
+.article-outline__content li p { margin: .5em 0; color: var(--color-foreground-muted); font-size: 15px; line-height: 1.7; }
+.article-claim .thom-card__content { font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(17px, 1.8vw, 20px); line-height: 1.55; }
+.article-outline__content .article-figure { margin: 2.2em 0; }
+.article-figure figcaption { margin-top: 12px; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-foreground-muted); line-height: 1.6; }
+
+.article-tool-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: .4em 0 1.5em;
+  padding: 0 0 3px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.article-tool-trigger:hover,
+.article-tool-trigger:focus-visible { color: var(--color-foreground-strong); border-bottom-color: var(--color-foreground-strong); }
+.article-tool-trigger:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 3px; }
+
+.article-stepper { display: flex; gap: 8px; align-items: stretch; overflow-x: auto; padding: 2px 2px 8px; }
+.article-stepper__node { flex: 0 0 auto; width: 150px; padding: 14px 16px; border: 1px solid var(--color-border); background: var(--color-surface); }
+.article-stepper__node strong { display: block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--color-primary); }
+.article-stepper__node span { display: block; margin-top: 8px; color: var(--color-foreground-muted); font-size: 13px; line-height: 1.5; }
+.article-stepper__arrow { align-self: center; color: var(--color-primary); }
+
+.article-loop { display: flex; gap: 18px; align-items: stretch; }
+.article-loop__chain { flex: 1; display: flex; flex-direction: column; }
+.article-loop__node { padding: 12px 16px; border: 1px solid var(--color-border); background: var(--color-card); color: var(--color-foreground); font-size: 13px; line-height: 1.5; text-align: center; }
+.article-loop__arrow { align-self: center; color: var(--color-primary); font-size: 14px; }
+.article-loop__back {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  color: var(--color-primary);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.article-loop__back span:first-child { writing-mode: vertical-rl; }
 
 /* ------------------------------------------------------------------ */
 /* Global tool drawer                                                  */
@@ -739,17 +855,13 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   color: var(--brand-muted);
   line-height: 1.7;
 }
-.home-laws__tile {
-  display: flex;
-  align-items: center;
+.home-laws__card {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.home-laws__card .thom-bento-grid__item-body {
+  flex: 1;
   justify-content: center;
-  height: 64px;
-  font-family: "Newsreader Variable", Georgia, serif;
-  font-size: 24px;
-  font-weight: 350;
-  letter-spacing: .04em;
-  color: var(--color-primary);
-  user-select: none;
 }
 .home-laws__labels {
   display: flex;

@@ -7,9 +7,9 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
+  useToolDrawer,
 } from "@th-m/ui";
 import { toolRegistry } from "./registry";
-import { useToolDrawer } from "./ToolDrawerProvider";
 
 /**
  * Global right-side tool drawer. Mounted once in the root layout; any page can
@@ -19,7 +19,8 @@ import { useToolDrawer } from "./ToolDrawerProvider";
  * on open instead of inflating the main bundle.
  */
 export function ToolDrawer() {
-  const { activeTool, activeOptions, openTool, closeTool } = useToolDrawer();
+  const { activeToolId, activeOptions, openTool, closeTool } = useToolDrawer();
+  const activeTool = toolRegistry.find((tool) => tool.id === activeToolId) ?? null;
   const ActiveTool = activeTool?.content ?? null;
 
   return (

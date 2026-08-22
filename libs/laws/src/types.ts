@@ -11,6 +11,11 @@ export const lawLabels = [
   "management", // teams, projects, and process
   "product", // product strategy and adoption
   "security", // security and cryptography
+  "ai", // machine learning and artificial intelligence
+  "information", // information theory, language, and data
+  "economics", // markets, incentives, and cost
+  "epistemology", // knowledge, truth, and reasoning
+  "physics", // physical laws used as explanatory metaphor
 ] as const;
 export type LawLabel = (typeof lawLabels)[number];
 

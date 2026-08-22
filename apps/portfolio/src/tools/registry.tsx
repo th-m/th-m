@@ -1,15 +1,14 @@
 import { lazy, type ComponentType } from "react";
+import type { ToolDrawerOptions } from "@th-m/ui";
 import { EmbeddingExplorer } from "./embedding/EmbeddingExplorer";
 import { LlmExplorer } from "./llm-explorer/LlmExplorer";
 
 /**
  * Options passed to a tool's content component when opened programmatically
- * (e.g. an article asking the drawer to open a specific graph).
+ * (e.g. an article asking the drawer to open a specific graph). The shared
+ * shape lives in `@th-m/ui` so article pages can type their `openTool` calls.
  */
-export interface ToolOptions {
-  /** Graph document id for tools that render a proposition graph. */
-  graphId?: string;
-}
+export type ToolOptions = ToolDrawerOptions;
 
 export interface ToolRenderProps {
   options?: ToolOptions;

@@ -1,16 +1,16 @@
 import { useMemo, useState } from "react";
 import { laws, lawLabels, type LawLabel } from "@th-m/laws";
-import { adaptLawColor, lawMonogram } from "@th-m/laws";
 import { BentoGrid, BentoGridItem } from "@th-m/ui";
 
 const initialActive = (): Record<LawLabel, boolean> =>
   Object.fromEntries(lawLabels.map((label) => [label, true])) as Record<LawLabel, boolean>;
 
 /**
- * The home-page "Laws" section: every law from @th-m/laws (the laws of UX and
- * the laws of software development) shown in a THOM-styled bento grid, filtered
- * by the label pills above it. All pills start on; a law stays visible while
- * at least one of its labels still has its pill on, so a multi-label law
+ * The home-page "Laws" section: every law from @th-m/laws — the laws of UX,
+ * the laws of software development, and the curated extension collections —
+ * shown in a THOM-styled bento grid of uniform square cards, filtered by the
+ * label pills above it. All pills start on; a law stays visible while at
+ * least one of its labels still has its pill on, so a multi-label law
  * disappears only when every one of its pills is toggled off.
  */
 export function LawsBento() {
@@ -31,9 +31,9 @@ export function LawsBento() {
         <h2 id="home-laws-title">Laws</h2>
       </header>
       <p className="home-laws__lede">
-        The principles this work leans on — the laws of UX and the laws of software
-        development — collected, adapted onto the THOM theme, and linked back to
-        their sources.
+        The principles this work leans on — the laws of UX, the laws of software
+        development, and the curated laws of information, AI, reasoning, and
+        organizations — collected and linked back to their sources.
       </p>
 
       <div className="home-laws__pills" role="group" aria-label="Filter laws by label">
@@ -52,16 +52,11 @@ export function LawsBento() {
 
       {visibleLaws.length > 0 ? (
         <BentoGrid columns={4}>
-          {visibleLaws.map((law, index) => (
+          {visibleLaws.map((law) => (
             <BentoGridItem
               key={law.slug}
+              className="home-laws__card"
               href={law.sources[0]}
-              span={index % 6 === 5 ? 2 : 1}
-              header={
-                <div className="home-laws__tile" style={{ background: adaptLawColor(law.color) }}>
-                  <span aria-hidden="true">{lawMonogram(law.title)}</span>
-                </div>
-              }
               title={law.title}
               description={law.definition}
               footer={

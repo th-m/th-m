@@ -1,10 +1,10 @@
 ---
-title: Solutions, Meaning, and Value
+title: Solutions, Meaning & Value
 description: Why predictive systems can pursue explicit goals but cannot independently determine which goals should govern.
 publishedAt: 2026-08-22
 tags: [Artificial Intelligence, Language Models, Strategy, Values]
 ---
-# Solutions, Meaning, and Value
+# Solutions, Meaning & Value
 
 ## Problem
 I wrote a bad prompt, agent spent 9 hours crafting the most ludicrous plan. It pages of markdown checkmarks that were completely unusable. I prompted something clever like "make this plan as optimal as possible"

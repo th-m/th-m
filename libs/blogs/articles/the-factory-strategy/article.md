@@ -1,10 +1,10 @@
 ---
-title: The Factory — Strategy
+title: Factory Strategy
 description: "Strategy is a human art: choose a direction before the evidence determines the answer, and make the feedback systematic without automating the judgment."
 publishedAt: 2026-08-22
 tags: [Artificial Intelligence, Strategy, Leadership, Knowledge Work]
 ---
-# The Factory — Strategy
+# Factory Strategy
 
 ## Overview
 
@@ -15,9 +15,10 @@ and accepts tradeoffs for which people remain accountable.
 
 AI can accelerate research, generate options, simulate reactions, and expose
 inconsistencies. It cannot independently decide which future an organization
-should attempt to create or whose outcome should count. A knowledge factory
-therefore needs a strategy discipline that keeps human judgment central while
-making its evidence and feedback substantially more systematic.
+should attempt to create or whose outcome should count. A
+[knowledge factory](/writing/the-knowledge-factory) therefore needs a strategy
+discipline that keeps human judgment central while making its evidence and
+feedback substantially more systematic.
 
 The central tool is an organizational **second brain**: not a warehouse of
 notes, but a living memory linking narratives, assumptions, customer evidence,
@@ -42,15 +43,15 @@ of plausible recommendations.
 
 ## Relationship to the Series
 
-This is the sixth essay and the strategic companion to **The Factory —
-Ontology**:
+This is the sixth essay and the strategic companion to **[The Factory —
+Ontology](/writing/the-factory-ontology)**:
 
 - Ontology asks: **What exists here, how does it relate, and what can we know?**
 - Strategy asks: **What future should we pursue, with whom, against what
   resistance, and at what cost?**
 
-Together they supply semantic coherence and purposeful direction to **The
-Knowledge Factory**.
+Together they supply semantic coherence and purposeful direction to **[The
+Knowledge Factory](/writing/the-knowledge-factory)**.
 
 ## Intended Reader
 
@@ -275,6 +276,15 @@ humans.
   memory.
 - Evidence on AI-supported strategic work, sycophancy, order effects, and
   scenario generation.
+
+## Series
+
+- [Solutions, Meaning & Value](/writing/solutions-meaning-and-value)
+- [Truth, Entropy & Inference](/writing/truth-entropy-and-inference)
+- [The Understanding Bottleneck](/writing/understanding-is-the-bottleneck)
+- [The Knowledge Factory](/writing/the-knowledge-factory)
+- [Factory Ontology](/writing/the-factory-ontology)
+- Factory Strategy (this essay)
 
 ## Candidate Closing Line
 

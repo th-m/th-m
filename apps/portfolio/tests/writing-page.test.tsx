@@ -1,7 +1,20 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { PublishedArticle } from "../src/content/blog-content";
 import { ArticleContent } from "../src/writing/ArticleContent";
+import { ToolDrawerProvider } from "../src/tools/ToolDrawerProvider";
+
+// The dispatch test verifies page selection, not ELK layout: mock the dynamic
+// graph figure so jsdom never constructs a web worker (see the graph library's
+// own figure tests for worker-level coverage). Other pages import seed data
+// from the same package, so keep the real module and override only the figure.
+vi.mock("@th-m/graph-visualization", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@th-m/graph-visualization")>();
+  return {
+    ...actual,
+    PropositionGraphFigure: () => <div data-testid="proposition-graph-figure" />,
+  };
+});
 
 const markdown = [
   "# Public title",
@@ -25,11 +38,16 @@ function article(slug: string): PublishedArticle {
 
 describe("ArticleContent dispatch", () => {
   it("renders the dedicated React page when the slug has a generated page", () => {
-    render(<ArticleContent article={article("solutions-meaning-and-value")} />);
+    render(
+      <ToolDrawerProvider>
+        <ArticleContent article={article("solutions-meaning-and-value")} />
+      </ToolDrawerProvider>,
+    );
     expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();
-    // The React page renders the essay outline instead of the markdown fallback.
-    expect(screen.getByRole("heading", { name: "Goals and Strategies" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Agents and Their Principles" })).toBeInTheDocument();
+    // The React page renders the full essay instead of the markdown fallback.
+    expect(screen.getByRole("heading", { name: "Problem" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Goals and Strategy" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "AI Principles and Value Hierarchies" })).toBeInTheDocument();
     expect(screen.queryByText(/external source/i)).not.toBeInTheDocument();
   });
 

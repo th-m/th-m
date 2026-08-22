@@ -20,13 +20,31 @@ artifacts without making it more intelligent.
 
 Many engineers will work inside these factories. The decisive organizational
 choice is whether they are treated primarily as workers who receive solution
-instructions or as **factory engineers** who improve the system that turns
+instructions — or as **factory engineers** who improve the system that turns
 evidence and intent into reliable outcomes.
 
-Companies that distribute solutioning—while supplying clear context, semantic
-boundaries, evaluation, and accountability—should gain a disproportionate
-advantage over companies where problem framing and meaningful decisions remain
-gated above the people doing the work.
+Companies that distribute **solutioning** — while supplying clear context,
+semantic boundaries, evaluation, and accountability — should gain a
+disproportionate advantage over companies where problem framing and meaningful
+decisions remain gated above the people doing the work.
+
+## What the Previous Articles Establish
+
+This is the fourth essay in the sequence. The earlier essays describe the
+landscape, the problem, and the opportunity:
+
+1. **[Solutions, Meaning & Value](/writing/solutions-meaning-and-value):** the
+   factory cannot derive its own definition of value from output volume;
+   opportunities remain grounded in human stakes and accountable choices.
+2. **[Truth, Entropy & Inference](/writing/truth-entropy-and-inference):**
+   predictive systems are strongest where language carries stable constraints
+   and feedback; coherence alone is not evidence of correctness or meaning.
+3. **[The Understanding Bottleneck](/writing/understanding-is-the-bottleneck):**
+   the scarce leadership capability is distilling meaningful context and
+   multiplying a team's capacity to solve problems.
+
+This article asks what an organization must build once it accepts those three
+claims.
 
 ## Core Thesis
 
@@ -40,79 +58,47 @@ context graph, domain ontology, workflows, evaluation, observability, and
 feedback mechanisms through which many future decisions and implementations
 will pass.
 
-## What the Previous Articles Establish
-
-The opening should explicitly state that the earlier essays describe the
-landscape, the problem, and the opportunity:
-
-1. **Solutions, Meaning, and Value:** the factory cannot derive its own
-   definition of value from output volume; opportunities remain grounded in
-   human stakes and accountable choices.
-2. **Truth, Entropy, and Inference:** predictive systems are strongest where
-   language carries stable constraints and feedback; coherence alone is not
-   evidence of correctness or meaning.
-3. **Understanding Is the Bottleneck:** the scarce leadership capability is
-   distilling meaningful context and multiplying a team's capacity to solve
-   problems.
-
-This article asks what an organization must build once it accepts those three
-claims.
-
-## Intended Reader
-
-Engineering and product leaders, platform teams, staff-plus engineers, founders,
-and knowledge-management practitioners deciding how AI should change an
-organization's architecture and division of work.
+> Learning becomes reusable capital; reusable capital becomes
+> problem-solving capacity.
 
 ## Key Terms
 
 - **Knowledge factory:** the socio-technical system that transforms evidence,
   expertise, and intent into decisions and product outcomes.
 - **Factory worker:** any participant executing a bounded step designed by the
-  larger system. This is a role, not a judgment about talent or status.
+  larger system — a role, not a judgment about talent or status.
 - **Factory engineer:** a participant who improves the reusable machinery,
   context, standards, and feedback loops through which many work items pass.
-- **Shared capital:** reusable organizational assets—ontologies, context graphs,
-  tools, evaluations, workflows, infrastructure, and accumulated learning—that
-  increase future capability.
+- **Shared capital:** reusable organizational assets — ontologies, context
+  graphs, tools, evaluations, workflows, infrastructure, and accumulated
+  learning — that increase future capability.
 - **Solutioning:** framing, generating, testing, and revising interventions in
   response to a meaningful problem.
+- **Graph context:** navigable relationships among people, concepts, systems,
+  evidence, decisions, dependencies, and outcomes, with provenance.
+- **Cognitive light cone:** how much of the relevant domain a system can
+  observe, interpret, affect, and learn from.
 
-## Editorial Guardrails
-
-- Do not reduce people to interchangeable factory inputs. The analogy describes
-  repeatable systems, capital, queues, quality, and feedback.
-- Do not imply every engineer must become a platform engineer. Factory
-  engineering occurs in product, domain, research, operations, design, and
-  leadership work.
-- Do not make distributed solutioning mean unbounded autonomy. Context,
-  decision rights, safety constraints, and evaluation make distribution viable.
-- Do not claim AI makes implementation effortless. Verification, integration,
-  operations, security, and maintenance remain material work.
-- Distinguish purchased model capability from organizational capital the
-  company owns or can reliably carry between vendors.
-
-## Section Notes
-
-### 1. Every Company Already Has a Factory
+## 1. Every Company Already Has a Factory
 
 Open by tracing one ordinary product change:
 
 > Customer experience → evidence → interpretation → priority → design →
 > implementation → verification → release → observed consequence.
 
-Whether or not the company names it, this is a production system. It has queues,
-handoffs, specialized stations, quality checks, rework, bottlenecks, and
-feedback. Organizational design determines which information survives each
-handoff and who is allowed to alter the plan.
+Whether or not the company names it, this is a production system. It has
+queues, handoffs, specialized stations, quality checks, rework, bottlenecks,
+and feedback. Organizational design determines which information survives each
+handoff — and who is allowed to alter the plan.
 
 AI enters this existing system. It amplifies whatever is already there: clear
 context or vague tickets, shared learning or fragmented memory, good evaluation
-or cosmetic acceptance.
+or cosmetic acceptance. The factory was always there; AI just makes its shape
+consequential faster.
 
-### 2. The Implicit Factory Creates Factory Workers
+## 2. The Implicit Factory Creates Factory Workers
 
-Describe the common operating model:
+The common operating model is familiar:
 
 - leaders or product specialists define the solution;
 - work is decomposed into tickets;
@@ -121,16 +107,16 @@ Describe the common operating model:
 - success is measured through output and schedule; and
 - lessons remain in conversations, pull requests, or individuals.
 
-This model makes many engineers factory workers by design. Even highly capable
-people are prevented from improving the problem frame or production system when
+An implicit factory keeps queues hidden and decisions gated; an explicit
+factory makes context, evaluation, and feedback visible. This model makes many
+engineers **factory workers** by design. Even highly capable people are
+prevented from improving the problem frame or the production system when
 solutioning is gated elsewhere.
 
-### 3. The Factory Engineer
+## 3. The Factory Engineer
 
 A factory engineer improves more than one output. They improve the capability
-that produces a class of outputs.
-
-Examples:
+that produces a class of outputs. The work takes recognizable forms:
 
 - clarifying a domain concept so prompts, schemas, APIs, analytics, and UI use
   the same distinction;
@@ -143,15 +129,16 @@ Examples:
   change through specialists.
 
 The role combines domain understanding, systems thinking, software craft,
-teaching, and institutional design.
+teaching, and institutional design. It is not a new job title; it is a way of
+working available in product, domain, research, operations, design, and
+leadership work.
 
-### 4. Distributed Solutioning Is the Advantage
+## 4. Distributed Solutioning Is the Advantage
 
-Compare two organizations with access to similar models.
-
-In the gated organization, a small group frames problems and sends solutions
-downstream. AI accelerates task completion, so the gate receives more requests
-and reviews more output.
+Compare two organizations with access to similar models. In the gated
+organization, a small group frames problems and sends solutions downstream. AI
+accelerates task completion, so the gate receives more requests and reviews
+more output.
 
 In the distributed organization, teams receive customer evidence, domain
 context, decision boundaries, tools, and evaluations. They can frame and test
@@ -159,12 +146,13 @@ solutions locally, escalating choices that truly require broader authority.
 
 The second organization can explore more opportunities without lowering its
 standards because it invests in the infrastructure that makes judgment
-portable.
+portable. Distribution is not unbounded autonomy: context, decision rights,
+safety constraints, and evaluation are exactly what make it viable.
 
-### 5. The New Knowledge-Factory Stack
+## 5. The New Knowledge-Factory Stack
 
-Introduce the reusable layers without pretending they form one mandatory
-vendor architecture:
+The stack is a way of inventorying what a factory must build — not one
+mandatory vendor architecture. Eight reusable layers:
 
 1. **Observation and intake:** customer evidence, operational telemetry,
    research, support, and market signals.
@@ -176,8 +164,8 @@ vendor architecture:
    context for a person, model, or workflow.
 5. **Workflows and agents:** repeatable transformations with explicit inputs,
    outputs, tools, and escalation rules.
-6. **Evaluation:** deterministic tests, rubrics, simulations, expert review, and
-   customer outcome checks.
+6. **Evaluation:** deterministic tests, rubrics, simulations, expert review,
+   and customer outcome checks.
 7. **Observability and provenance:** what ran, which evidence was used, which
    model or person decided, and where uncertainty entered.
 8. **Feedback and learning:** outcomes update decisions, ontologies, examples,
@@ -189,36 +177,46 @@ and specialized agents generate conjectures, lemmas, counterexamples, scripts,
 and proofs; tests or proof assistants reject invalid candidates; provenance
 records which tools and assumptions produced the survivors; and mathematicians
 evaluate whether the formalization is faithful, the result is significant, and
-the research direction is worth pursuing. The factory may process far more
-intermediate work than any human reads line by line. That can increase useful
-search only when mechanical verification is trustworthy and people continue to
-govern meaning, standards, attribution, and direction.
+the research direction is worth pursuing.
 
-### 6. The Cognitive Light Cone Scorecard
+The factory may process far more intermediate work than any human reads line
+by line. That can increase useful search only when mechanical verification is
+trustworthy — and people continue to govern meaning, standards, attribution,
+and direction.
 
-Use the cognitive light cone as a diagnostic for how much of the relevant
-domain a system can observe, interpret, affect, and learn from:
+## 6. The Cognitive Light Cone Scorecard
+
+Use the **cognitive light cone** as a diagnostic for how much of the relevant
+domain a system can observe, interpret, affect, and learn from. Three systems
+in increasing reach:
 
 - **LLM:** works from supplied context without its own harness. Humans select
   the evidence, state the goal, and evaluate the response.
 - **Agent:** combines an LLM with tools, memory, and bounded workflows. Humans
   establish its objective, permissions, evaluation, and escalation boundaries.
-- **Knowledge factory:** connects agents to organizational data, context stores,
-  operational signals, evaluations, and feedback loops. Humans systematize the
-  inputs, govern how evidence is interpreted, and remain accountable for the
-  values and decisions propagated through the system.
+- **Knowledge factory:** connects agents to organizational data, context
+  stores, operational signals, evaluations, and feedback loops. Humans
+  systematize the inputs, govern how evidence is interpreted, and remain
+  accountable for the values and decisions propagated through the system.
 
-Score each system across decision-relevant observability, semantic context,
-evaluation, feedback, reversibility, authority, and accountability. Expanding a
-system's cognitive light cone increases what it can coordinate; it does not by
-itself authorize the governing values it applies.
+| Dimension | LLM | Agent | Knowledge factory |
+| --- | --- | --- | --- |
+| Observability | Supplied context only | Tools and memory within its bounds | Organization-wide signals, context stores, telemetry |
+| Semantic context | Prompt and retrieved text | Objective, permissions, escalation boundaries | Ontologies and graph context with provenance |
+| Evaluation | Humans judge the response | Bounded checks humans design | Deterministic tests, rubrics, simulations, outcome checks |
+| Feedback | None — the session ends | Tool outcomes feed back into its workflow | Outcomes update context, evaluations, and future work |
+| Reversibility | The prompt can be rewritten | Bounded actions can be reversed | Provenance enables tracing and rollback |
+| Authority | Humans select evidence and state the goal | Humans set objectives and permissions | Humans govern meaning, standards, and decisions |
+| Accountability | Humans remain accountable for use | Humans remain accountable for boundaries | Humans remain accountable for propagated values |
 
-### 7. Graph Context Exploration
+Expanding a system's cognitive light cone increases what it can coordinate; it
+does not by itself authorize the governing values it applies.
 
-Make this a signature concept rather than a generic knowledge graph pitch.
+## 7. Graph Context Exploration
 
-Most organizational search treats context as documents containing matching
-words. Graph context exploration asks relational questions:
+Graph context is a signature concept, not a generic knowledge-graph pitch. Most
+organizational search treats context as documents containing matching words.
+Graph context exploration asks relational questions:
 
 - Which customer evidence motivated this capability?
 - Which definition of `conversation` applies in this service?
@@ -229,9 +227,12 @@ words. Graph context exploration asks relational questions:
 
 The graph may be implemented through links, metadata, schemas, code
 dependencies, event lineage, or a graph database. The product requirement is
-traversable relationships with provenance, not a particular storage engine.
+traversable relationships with provenance — not a particular storage engine.
+On the published page, this section embeds a live proposition graph connecting
+a decision to its evidence, concepts, systems, evaluations, owners, and
+outcomes, and opens the same graph in the relationship-graph explorer.
 
-### 8. From Documents to Executable Context
+## 8. From Documents to Executable Context
 
 Documents remain important, but the factory needs context that can guide and
 check action:
@@ -246,9 +247,9 @@ check action:
 This is how institutional knowledge becomes productive capital rather than a
 larger pile of prose.
 
-### 9. The Compounding Loop
+## 9. The Compounding Loop
 
-Use the loop:
+The factory's return comes from a loop:
 
 > Work produces outcomes → outcomes produce evidence → evidence updates context
 > and evaluation → better context improves the next work.
@@ -256,9 +257,9 @@ Use the loop:
 The loop compounds only when the organization captures corrections. More AI
 output without retained learning is throughput, not a knowledge factory.
 
-### 10. What Companies Should Build First
+## 10. What Companies Should Build First
 
-Offer a diagnostic order:
+Not everything at once. A diagnostic order:
 
 1. Identify the decisions or workflows with repeated context loss and review
    burden.
@@ -267,35 +268,19 @@ Offer a diagnostic order:
 4. Build evaluation before scaling generation.
 5. Instrument outcomes and connect them back to decisions.
 6. Give teams authority inside the new boundaries.
-7. Measure whether capability, learning speed, and customer outcomes improve—not
-   only whether token or labor costs fall.
+7. Measure whether capability, learning speed, and customer outcomes improve —
+   not only whether token or labor costs fall.
 
-### 11. The Two Factory Disciplines
+## 11. The Two Factory Disciplines
 
-Close by introducing the follow-on essays:
-
-- **The Factory — Ontology** asks how humans map the domain so models and teams
-  share the right entities, relationships, constraints, and evidence.
-- **The Factory — Strategy** asks how humans choose direction through narrative,
-  empathy, opportunism, memory, and systematic feedback.
+The factory needs two human-governed disciplines.
+[**Factory Ontology**](/writing/the-factory-ontology) asks how humans map the
+domain so models and teams share the right entities, relationships,
+constraints, and evidence. [**Factory Strategy**](/writing/the-factory-strategy)
+asks how humans choose direction through narrative, empathy, opportunism,
+memory, and systematic feedback.
 
 Ontology makes the factory coherent. Strategy makes it purposeful.
-
-## Visual Notes
-
-1. **Implicit versus explicit factory:** hidden handoffs and gates contrasted
-   with visible context, evaluation, and feedback.
-2. **Worker versus factory engineer:** completing one unit of work versus
-   improving the capability that produces many units.
-3. **Knowledge-factory stack:** the eight layers from observation through
-   learning.
-4. **Cognitive light cone scorecard:** compare the observable context,
-   evaluation, feedback, and authority available to an LLM, an agent, and a
-   knowledge factory.
-5. **Graph context exploration:** a decision linked to evidence, concepts,
-   systems, evaluations, owners, and outcomes.
-
-## Candidate Closing Line
 
 > The companies that win will not be the ones that turn the most engineers into
 > faster workers. They will be the ones that give engineers the context,
