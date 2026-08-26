@@ -1,3 +1,142 @@
+# Trustworthiness Balance — Design QA
+
+final result: passed
+
+## Scope
+
+This pass updates only the third situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied evidence/reliance balance while preserving the surrounding article layout, content, and behavior.
+
+## Source visual truth
+
+- Source: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.18 PM.png` (`432 × 318 px`).
+
+## Implementation evidence
+
+- Live browser viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/trustworthiness-balance-browser-full-pass-2.png` (`698 × 862 px`).
+- Focused implementation crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/trustworthiness-balance-browser-focused.png` (`278 × 205 px`).
+- Normalized side-by-side comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/trustworthiness-balance-final-comparison.png` (`556 × 205 px`).
+- Viewport/state: `698 × 862` CSS px, device pixel ratio `2`, dark article route, third instrument fully loaded and centered.
+- Density normalization: the browser capture API returned a `698 × 862` CSS-pixel image; the rendered diagram measured `277.89 × 204.55` CSS px and was cropped to `278 × 205`. The `432 × 318` source was resized to the same `278 × 205` comparison slot.
+- Browser console: no warnings or errors.
+- Primary interactions: none apply to this static article illustration; the route shell and surrounding article remained hydrated and visible.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: IBM Plex Mono uppercase labels and the Newsreader italic risk caption preserve the reference hierarchy, tracking, optical weight, centering, and vertical placement.
+- Spacing and layout rhythm: the asset now uses the source's exact `432:318` frame. Beam endpoints, pivot, suspension lines, pans, icons, labels, twin center post, stepped pedestal, risk block, and lower rule align with the normalized reference.
+- Colors and visual tokens: a near-black warm ground, deterministic paper grain, muted sepia structure, and warmer gold labels reproduce the reference's restrained tonal balance without changing page-wide tokens.
+- Image quality and asset fidelity: the existing article-owned SVG remains a vector asset with explicit intrinsic dimensions and a source-matched texture. It renders at its natural aspect ratio without compression.
+- Copy and content: `EVIDENCE`, `RELIANCE`, `RISK`, and `cost of being wrong` remain exactly as supplied. The accessible description and surrounding prose retain their meaning.
+- Full-view evidence: the live viewport confirms the corrected plate fits the third-instrument section without overflow or collision with the language, feedback, and parallel notes.
+- Focused evidence: the normalized side-by-side comparison confirms matching crop, balance geometry, icon scale, text placement, contrast, and aged treatment. Expected vector-versus-raster antialiasing is below P3.
+
+## Comparison history
+
+1. Initial implementation: the `440 × 300` viewBox had no explicit intrinsic size, used a taller and wider balance construction, omitted the textured ground and lower rule, and was forced into the shared `250 px` image cap at the supplied narrow breakpoint. These were P1 source-fidelity issues.
+2. First fix: rebuilt the asset at `432 × 318`, restored the source coordinates and vocabulary, added deterministic grain, and removed the third instrument's height cap. The first direct comparison then exposed P2 shape and optical-weight mismatches in the shield, pedestal, and small labels.
+3. Final fix: lifted and reshaped the shield, reconstructed the compact four-tier pedestal and twin post, and tuned sepia stroke and label weights. The post-fix browser capture and normalized comparison contain no actionable P0–P2 issue.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this diagram.
+
+---
+
+# Sincerity Alignment Instrument — Design QA
+
+final result: passed
+
+## Scope
+
+This pass updates only the second situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied inner-state/outward-expression reference while preserving the surrounding article layout, content, and behavior.
+
+## Source visual truth
+
+- Source: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.10 PM.png` (`454 × 294 px`).
+
+## Implementation evidence
+
+- Live browser viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/sincerity-alignment-final-viewport.png` (`553 × 862 px`).
+- Focused implementation crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/sincerity-alignment-final-element.png` (`507 × 328 px`).
+- Normalized side-by-side comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/sincerity-alignment-final-comparison.png` (`1034 × 328 px`).
+- Viewport/state: `553 × 862` CSS px, device pixel ratio `2`, dark article route, second instrument fully loaded and centered.
+- Density normalization: the browser capture API returned a `553 × 862` CSS-pixel image; the rendered diagram measured `506.89 × 328.25` CSS px and was cropped to `507 × 328`. The `454 × 294` source was resized to the same `507 × 328` comparison slot.
+- Browser console: no warnings or errors.
+- Primary interactions: none apply to this static article illustration; the route shell and surrounding article remained hydrated and visible.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: the source hierarchy is preserved with IBM Plex Mono uppercase instrument labels and Newsreader italic explanatory lines. Size, tracking, weight, centering, and vertical placement match the normalized reference.
+- Spacing and layout rhythm: the asset now preserves its `454:294` ratio instead of compressing to a `250 px` maximum height. The offset `x = 210` axis, label baselines, dots, circle, equality mark, waveform extrema, and lower text block align with the source crop.
+- Colors and visual tokens: a dark warm ground, deterministic paper grain, muted gray-sepia linework, and warmer gold labels and nodes match the reference without changing page-wide tokens.
+- Image quality and asset fidelity: the existing article-owned SVG remains a vector asset with explicit intrinsic dimensions. Its wave, axis, equality mark, and text render without stretching at the inspected breakpoint.
+- Copy and content: `INNER STATE`, `OUTWARD EXPRESSION`, and both italic explanations remain exactly as supplied. The accessible description and surrounding prose are unchanged.
+- Full-view evidence: the live viewport confirms the taller corrected image fits the existing second-instrument section without overflow or collision with its notes.
+- Focused evidence: the normalized side-by-side comparison confirms matching crop, waveform phase, axis geometry, text placement, contrast, and aged treatment. Expected SVG-versus-raster antialiasing is below P3.
+
+## Comparison history
+
+1. Initial implementation: the diagram rendered at `506.89 × 250` CSS px from a `440 × 260` viewBox, vertically compressing the circle, wave, labels, and axis relative to the reference. The center axis and waveform geometry also drifted from the supplied crop. These were P1 source-fidelity issues.
+2. First fix: rebuilt the asset at `454 × 294`, restored the reference coordinates and waveform phase, added deterministic grain, and removed the second instrument's height cap. The comparison then exposed a P2 optical mismatch: central strokes were too gold and the field was slightly too bright.
+3. Final fix: shifted structural strokes toward the reference's gray-sepia balance, tuned the equality/circle weights and dot color, and darkened the base field while preserving grain. The final browser comparison contains no actionable P0–P2 issue.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this diagram.
+
+---
+
+# Relational Acquaintance Map — Design QA
+
+final result: passed
+
+## Scope
+
+This pass updates only the first situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied sepia relational diagram while preserving the surrounding article layout, content, and behavior.
+
+## Source visual truth
+
+- Source: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.26 PM.png` (`520 × 386 px`).
+- The clipped `ANCE` fragment at the source's upper-left edge belongs to neighboring content outside the diagram and is intentionally excluded from the article asset.
+
+## Implementation evidence
+
+- Live browser viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/acquaintance-map-final-viewport.png` (`553 × 862 px`).
+- Focused implementation crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/acquaintance-map-final-element.png` (`507 × 376 px`).
+- Normalized side-by-side comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/acquaintance-map-final-comparison.png` (`1034 × 376 px`).
+- Viewport/state: `553 × 862` CSS px, device pixel ratio `2`, dark article route, first instrument fully loaded and centered.
+- Density normalization: the browser capture API returned a `553 × 862` CSS-pixel image; the rendered diagram measured `506.89 × 376.27` CSS px and was cropped to `507 × 376`. The `520 × 386` source was resized to the same `507 × 376` comparison slot.
+- Browser console: no warnings or errors.
+- Primary interactions: none apply to this static article illustration; the route shell and surrounding article remained hydrated and visible.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: the diagram uses IBM Plex Mono at `12 px`, weight `600`, uppercase, with the source labels `PLACE`, `EXPERIENCE`, `PERSON`, and `CONSEQUENCE`. Label position and tracking match the normalized reference.
+- Spacing and layout rhythm: the asset now preserves its `520:386` ratio instead of compressing to a `250 px` maximum height. Circle centers, radii, diamond paths, horizontal axis, marker dots, labels, star, and lower rule align with the source composition.
+- Colors and visual tokens: a near-black warm ground, restrained sepia strokes, brighter gold markers and labels, and deterministic paper grain reproduce the reference's foreground/background balance without changing page-wide tokens.
+- Image quality and asset fidelity: the existing article-owned SVG remains a real vector asset, now with explicit intrinsic dimensions and texture. It renders without stretching at the inspected breakpoint.
+- Copy and content: semantic labels and accessible description now describe place, experience, consequence, and person exactly as the source does. Surrounding prose is unchanged.
+- Full-view evidence: the live viewport confirms the corrected image fits the existing first-instrument section without overflow or collision with the notes below.
+- Focused evidence: the normalized comparison confirms matching composition, crop, label vocabulary, scale, and aged visual treatment. Remaining antialiasing differences are expected between the supplied raster and browser-rendered SVG and are below P3.
+
+## Comparison history
+
+1. Initial implementation: the diagram was stretched to `506.89 × 250` CSS px, used `PHYSICAL / INTERNAL / TEMPORAL`, lacked the reference texture and lower rule, and placed markers differently. These were P1 source-fidelity issues.
+2. First fix: rebuilt the asset at `520 × 386`, restored the reference labels and geometry, added deterministic grain, and removed the first instrument's height compression. The first browser comparison then found a P2 optical-weight mismatch: lines and labels were too faint.
+3. Final fix: increased only the diagram's line opacity and label weight while retaining quiet outer circles and paper grain. The post-fix browser capture and normalized side-by-side comparison show no remaining actionable P0–P2 issue.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this diagram.
+
+---
+
 # Logarithmic Golden-Spiral H Motion — Design QA
 
 final result: passed

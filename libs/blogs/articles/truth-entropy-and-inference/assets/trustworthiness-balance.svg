@@ -1,29 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 300" fill="none" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" width="432" height="318" viewBox="0 0 432 318" fill="none" role="img" aria-labelledby="title description">
   <title id="title">Trustworthiness balance</title>
-  <desc id="description">Evidence and reliance balance above the risk or cost of being wrong.</desc>
-  <g stroke="#a48756" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M220 18v18M214 24l6-6 6 6-6 6-6-6ZM220 68v164M106 52h228" opacity=".86"/>
-    <circle cx="220" cy="52" r="16" fill="#0d0e0f"/>
-    <circle cx="220" cy="52" r="16" opacity=".9"/>
-    <circle cx="220" cy="52" r="3.5"/>
-    <circle cx="106" cy="52" r="4.5" fill="#0d0e0f"/>
-    <circle cx="334" cy="52" r="4.5" fill="#0d0e0f"/>
+  <desc id="description">Evidence and reliance held in balance above the risk or cost of being wrong.</desc>
 
-    <path d="M106 56 66 158M106 56l40 102M334 56l-40 102M334 56l40 102" opacity=".8"/>
-    <path d="M58 158h96M66 158c11 16 69 16 80 0M286 158h96M294 158c11 16 69 16 80 0" opacity=".84"/>
+  <defs>
+    <filter id="paper-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".58" numOctaves="3" seed="29" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="
+        .16 0 0 0 0
+        0 .14 0 0 0
+        0 0 .1 0 0
+        0 0 0 .42 0"/>
+    </filter>
+  </defs>
 
-    <path d="M90 108v27l16 9 16-9v-27l-16-7-16 7Z"/>
-    <path d="m98 124 6 6 11-13"/>
-    <circle cx="334" cy="116" r="11"/>
-    <path d="M314 144c0-16 8-23 20-23s20 7 20 23"/>
+  <rect width="432" height="318" fill="#080a09"/>
+  <rect width="432" height="318" fill="#8f7b5a" filter="url(#paper-grain)" opacity=".36"/>
 
-    <path d="M214 218h12v14h-12zM206 232h28l8 10h-44l8-10ZM190 242h60v8h-60M182 258h76" opacity=".8"/>
+  <g stroke="#a18a65" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M115 44h214" opacity=".72"/>
+    <path d="M216 29c0-4 2-6 6-8M222 21c-4-3-4-7 0-9 4 2 4 6 0 9v8" opacity=".63"/>
+    <circle cx="222" cy="44" r="14" fill="#090a09" stroke="none"/>
+    <circle cx="222" cy="44" r="14" opacity=".76"/>
+    <circle cx="222" cy="44" r="3.2" opacity=".9"/>
+
+    <circle cx="115" cy="44" r="5" fill="#090a09" opacity=".9"/>
+    <circle cx="329" cy="44" r="5" fill="#090a09" opacity=".9"/>
+    <path d="m112 49-51 96M118 49l51 96M326 49l-51 96M332 49l51 96" opacity=".78"/>
+
+    <path d="M61 145h108M61 145c12 18 96 18 108 0M275 145h108M275 145c12 18 96 18 108 0" opacity=".84"/>
+
+    <path d="m115 95-17 7v20c0 7 5 12 17 17 12-5 17-10 17-17v-20l-17-7Z" opacity=".9"/>
+    <path d="m107 118 7 7 12-14" opacity=".94"/>
+
+    <circle cx="329" cy="105" r="10.5" opacity=".9"/>
+    <path d="M310 137c0-16 7-24 19-24s19 8 19 24" opacity=".9"/>
+
+    <path d="M219.5 58v139M224.5 58v139" opacity=".62"/>
+    <path d="M213 197h18v7h-18zM213 204h18c5 0 8 6 10 13h-38c2-7 5-13 10-13ZM203 217h38c7 0 11 5 13 10h-64c2-5 6-10 13-10ZM190 227h64c7 0 11 3 12 7h-88c1-4 5-7 12-7Z" opacity=".72"/>
+
+    <path d="M0 313h431" opacity=".22"/>
   </g>
 
-  <g fill="#a48756" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="9" letter-spacing="1.7" text-anchor="middle">
-    <text x="106" y="194">EVIDENCE</text>
-    <text x="334" y="194">RELIANCE</text>
-    <text x="220" y="279">RISK</text>
+  <g fill="#b4976c" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" font-weight="600" letter-spacing="1.35" text-anchor="middle">
+    <text x="115" y="181">EVIDENCE</text>
+    <text x="329" y="181">RELIANCE</text>
+    <text x="222" y="260">RISK</text>
   </g>
-  <text x="220" y="295" fill="#948b7b" font-family="Newsreader, Georgia, serif" font-size="10" font-style="italic" text-anchor="middle">cost of being wrong</text>
+  <text x="222" y="285" fill="#958b79" font-family="Newsreader, Georgia, serif" font-size="14" font-style="italic" text-anchor="middle">cost of being wrong</text>
 </svg>

@@ -215,7 +215,7 @@ const SITUATED_TRUTH_INSTRUMENTS = [
     headline: "Situated significance known through direct familiarity.",
     supporting: "Experiences, people, places, purposes, and relationships establish the relevant context.",
     asset: "assets/acquaintance-map.svg",
-    alt: "A relational map connecting a person with physical, internal, and temporal dimensions",
+    alt: "A relational map connecting a person with place, experience, and consequence",
   },
   {
     index: "02",

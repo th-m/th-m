@@ -95,7 +95,7 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(situatedFigure.querySelectorAll("img")).toHaveLength(3);
     expect(
       screen.getByAltText(
-        "A relational map connecting a person with physical, internal, and temporal dimensions",
+        "A relational map connecting a person with place, experience, and consequence",
       ),
     ).toHaveAttribute("src", expect.stringMatching(/assets\/acquaintance-map\.svg$/));
     expect(
