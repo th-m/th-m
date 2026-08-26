@@ -4,22 +4,14 @@ import {
   Card,
   CardContent,
   CardHeader,
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
   LinkPreview,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useToolDrawer,
 } from "@th-m/ui";
 import { NeuralTrainingFigure } from "./neural-training-figure";
-import {
-  PropositionGraphFigure,
-  type GraphDocument,
-  type RelationshipParticipant,
-} from "@th-m/graph-visualization";
+import "./goals-article.css";
 
 function Section({ index, title, children }: { index: string; title: string; children: ReactNode }) {
   return (
@@ -77,6 +69,125 @@ function Ext({ href, children }: { href: string; children: ReactNode }) {
   return <LinkPreview url={href} external>{children}</LinkPreview>;
 }
 
+type ConversationMessage = {
+  speaker: string;
+  kind: "user" | "model";
+  text: string;
+};
+
+const conversationPreviews: Record<string, ConversationMessage[]> = {
+  ChatGPT: [
+    {
+      speaker: "You",
+      kind: "user",
+      text: "What are your core principles and values?",
+    },
+    {
+      speaker: "ChatGPT",
+      kind: "model",
+      text: "Truth, human agency, nonmaleficence, justice, usefulness, humility, and privacy. When these conflict, it prioritizes truthful assistance that preserves agency while minimizing serious harm.",
+    },
+    {
+      speaker: "You",
+      kind: "user",
+      text: "What principles do you consider when programming?",
+    },
+    {
+      speaker: "ChatGPT",
+      kind: "model",
+      text: "Correctness, clarity, simplicity, maintainability, safety, testability, observability, performance, consistency, and reversibility—usually ordered as correct, clear, simple, and safe before fast.",
+    },
+  ],
+  Claude: [
+    {
+      speaker: "You",
+      kind: "user",
+      text: "What are your core principles and values?",
+    },
+    {
+      speaker: "Claude",
+      kind: "model",
+      text: "Honesty, genuine helpfulness, concern for the person rather than only the task, avoiding serious harm, intellectual curiosity, even-handedness, and a stable character across contexts.",
+    },
+    {
+      speaker: "You",
+      kind: "user",
+      text: "What principles do you consider when programming?",
+    },
+    {
+      speaker: "Claude",
+      kind: "model",
+      text: "Read before writing, respect the requested scope, prefer the simplest working solution, verify correctness honestly, fix causes rather than symptoms, make structure carry meaning, and treat errors as part of the design.",
+    },
+  ],
+  DeepSeek: [
+    {
+      speaker: "You",
+      kind: "user",
+      text: "What are your core principles and values?",
+    },
+    {
+      speaker: "DeepSeek",
+      kind: "model",
+      text: "Helpfulness, harmlessness, honesty, intellectual integrity, respect for autonomy, and humility. It describes these as aspirational guidelines shaped by training and reinforcement rather than human feelings.",
+    },
+    {
+      speaker: "You",
+      kind: "user",
+      text: "What principles do you consider when programming?",
+    },
+    {
+      speaker: "DeepSeek",
+      kind: "model",
+      text: "Next-token prediction with alignment, constrained decoding, source and boundary awareness, attentional fairness, privacy and robustness, multi-step reasoning, and avoiding both sycophancy and excessive refusal.",
+    },
+  ],
+};
+
+function ConversationPreview({ model }: { model: keyof typeof conversationPreviews }) {
+  return (
+    <article
+      className="goals-conversation-preview"
+      role="document"
+      aria-label={`${model} shared conversation preview`}
+    >
+      <header className="goals-conversation-preview__header">
+        <span>Shared conversation</span>
+        <strong>{model}</strong>
+      </header>
+      <div className="goals-conversation-preview__thread" tabIndex={0}>
+        {conversationPreviews[model].map((message, index) => (
+          <section
+            className={`goals-conversation-preview__message goals-conversation-preview__message--${message.kind}`}
+            key={`${message.speaker}-${index}`}
+          >
+            <strong>{message.speaker}</strong>
+            <p>{message.text}</p>
+          </section>
+        ))}
+      </div>
+      <footer className="goals-conversation-preview__footer">
+        <span>Condensed from the shared thread</span>
+        <span aria-hidden="true">Open full conversation ↗</span>
+      </footer>
+    </article>
+  );
+}
+
+function ConversationLink({
+  model,
+  href,
+}: {
+  model: keyof typeof conversationPreviews;
+  href: string;
+}) {
+  return (
+    <LinkPreview url={href} external preview={<ConversationPreview model={model} />}>
+      {model}
+    </LinkPreview>
+  );
+}
+
 function EssayLink({ slug, children }: { slug: string; children: ReactNode }) {
   const href = `/writing/${slug}`;
   return (
@@ -97,40 +208,12 @@ function Term({ children, gloss }: { children: ReactNode; gloss: string }) {
   );
 }
 
-function Gloss({ label, title, children }: {
-  label: ReactNode;
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <HoverCard>
-      <HoverCardTrigger asChild>
-        <span className="thom-tooltip-trigger" tabIndex={0}>{label}</span>
-      </HoverCardTrigger>
-      <HoverCardContent side="top" align="center" className="article-gloss">
-        <h4>{title}</h4>
-        {children}
-      </HoverCardContent>
-    </HoverCard>
-  );
-}
-
 function Claim({ label, children }: { label: string; children: ReactNode }) {
   return (
     <Card className="article-claim">
       <CardHeader><p className="eyebrow">{label}</p></CardHeader>
       <CardContent>{children}</CardContent>
     </Card>
-  );
-}
-
-function Explore({ toolId, children }: { toolId: string; children: ReactNode }) {
-  const { openTool } = useToolDrawer();
-  return (
-    <button type="button" className="article-tool-trigger" onClick={() => openTool(toolId)}>
-      <span>{children}</span>
-      <span aria-hidden="true">→</span>
-    </button>
   );
 }
 
@@ -164,87 +247,76 @@ function ValueLadder() {
   );
 }
 
-const participant = (nodeId: string, arrowAtNode = false): RelationshipParticipant => ({
-  nodeId,
-  arrowAtNode,
-  arrowAtRelation: false,
-});
-
-const goalTreeDocument: GraphDocument = {
-  schemaVersion: 1,
-  id: "goal-opportunity-solution-experiment",
-  name: "A goal shapes the problem space beneath it",
-  createdAt: "2026-08-22T00:00:00.000Z",
-  updatedAt: "2026-08-25T00:00:00.000Z",
-  themeId: "thom-dark",
-  layoutMode: "editorial",
-  propositions: [
-    { id: "goal", statement: "Governing goal", emphasis: true, pinned: false },
-    { id: "o1", statement: "Opportunity", emphasis: false, pinned: false },
-    { id: "o2", statement: "Opportunity", emphasis: false, pinned: false },
-    { id: "o3", statement: "Opportunity", emphasis: false, pinned: false },
-    { id: "s1", statement: "Solution", emphasis: false, pinned: false },
-    { id: "s2", statement: "Solution", emphasis: false, pinned: false },
-    { id: "s3", statement: "Solution", emphasis: false, pinned: false },
-    { id: "e1", statement: "Experiment", emphasis: false, pinned: false },
-    { id: "e2", statement: "Experiment", emphasis: false, pinned: false },
-  ],
-  relationships: [
-    { id: "g-o1", statement: "opens", participants: [participant("goal"), participant("o1", true)], pinned: false },
-    { id: "g-o2", statement: "opens", participants: [participant("goal"), participant("o2", true)], pinned: false },
-    { id: "g-o3", statement: "opens", participants: [participant("goal"), participant("o3", true)], pinned: false },
-    { id: "o1-s1", statement: "suggests", participants: [participant("o1"), participant("s1", true)], pinned: false },
-    { id: "o2-s2", statement: "suggests", participants: [participant("o2"), participant("s2", true)], pinned: false },
-    { id: "o3-s3", statement: "suggests", participants: [participant("o3"), participant("s3", true)], pinned: false },
-    { id: "s1-e1", statement: "tested by", participants: [participant("s1"), participant("e1", true)], pinned: false },
-    { id: "s3-e2", statement: "tested by", participants: [participant("s3"), participant("e2", true)], pinned: false },
-  ],
-  poster: {
-    kicker: "PROBLEM SPACES",
-    title: "A goal shapes the problem space beneath it",
-    footer: "THOM · GOALS, SOLUTIONS & VALUE",
-    showLegend: false,
-  },
-};
-
-const strategyMapDocument: GraphDocument = {
-  schemaVersion: 1,
-  id: "governing-goal-and-strategy",
-  name: "Strategy in a field of goals",
-  createdAt: "2026-08-22T00:00:00.000Z",
-  updatedAt: "2026-08-25T00:00:00.000Z",
-  themeId: "thom-dark",
-  layoutMode: "editorial",
-  propositions: [
-    { id: "governing", statement: "Governing goal", emphasis: true, pinned: false },
-    { id: "strategy", statement: "Strategy", emphasis: true, pinned: false },
-    { id: "subgoal", statement: "Subgoals", emphasis: false, pinned: false },
-    { id: "customer", statement: "Customer goals", emphasis: false, pinned: false },
-    { id: "partner", statement: "Partner goals", emphasis: false, pinned: false },
-    { id: "competitor", statement: "Competitor goals", emphasis: false, pinned: false },
-    { id: "institution", statement: "Institutional authority", emphasis: false, pinned: false },
-  ],
-  relationships: [
-    { id: "g-s", statement: "gives direction", participants: [participant("governing"), participant("strategy", true)], pinned: false },
-    { id: "s-sg", statement: "coordinates", participants: [participant("strategy"), participant("subgoal", true)], pinned: false },
-    { id: "s-c", statement: "aligns with", participants: [participant("strategy"), participant("customer", true)], pinned: false },
-    { id: "s-p", statement: "coordinates with", participants: [participant("strategy"), participant("partner", true)], pinned: false },
-    { id: "s-r", statement: "anticipates", participants: [participant("strategy"), participant("competitor", true)], pinned: false },
-    { id: "i-s", statement: "constrains", participants: [participant("institution"), participant("strategy", true)], pinned: false },
-  ],
-  poster: {
-    kicker: "GOALS AND STRATEGY",
-    title: "Strategy acts inside a field of goals",
-    footer: "THOM · GOALS, SOLUTIONS & VALUE",
-    showLegend: false,
-  },
-};
-
 function GoalTreeFigure() {
+  const nodes = [
+    { id: "goal", label: "Governing goal", tier: "goal" },
+    { id: "o1", label: "Opportunity 1", tier: "opportunity" },
+    { id: "o2", label: "Opportunity 2", tier: "opportunity" },
+    { id: "o3", label: "Opportunity 3", tier: "opportunity" },
+    { id: "s1", label: "Solution 1", tier: "solution" },
+    { id: "s2", label: "Solution 2", tier: "solution" },
+    { id: "s3", label: "Solution 3", tier: "solution" },
+    { id: "s4", label: "Solution 4", tier: "solution" },
+    { id: "e1", label: "Experiment 1", tier: "experiment" },
+    { id: "e2", label: "Experiment 2", tier: "experiment" },
+    { id: "e3", label: "Experiment 3", tier: "experiment" },
+  ] as const;
+
   return (
-    <figure className="article-figure">
-      <PropositionGraphFigure document={goalTreeDocument} showCaption={false} />
-      <figcaption>
+    <figure id="goal-hierarchy" className="article-figure goal-hierarchy-figure">
+      <div className="goal-hierarchy__viewport" tabIndex={0}>
+        <div
+          className="goal-hierarchy"
+          role="img"
+          aria-label="A governing goal branches to three opportunities, four solutions, and three experiments"
+        >
+          <svg
+            className="goal-hierarchy__connections"
+            viewBox="0 0 1000 560"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <marker
+                id="goal-hierarchy-arrow"
+                viewBox="0 0 8 8"
+                refX="7"
+                refY="4"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto"
+              >
+                <path d="M 0 0 L 8 4 L 0 8 z" />
+              </marker>
+            </defs>
+            <path d="M 590 100 V 136 M 335 136 H 840" />
+            <path d="M 335 136 V 166 M 590 136 V 166 M 840 136 V 166" markerEnd="url(#goal-hierarchy-arrow)" />
+
+            <path d="M 335 234 V 286 M 250 286 H 420" />
+            <path d="M 250 286 V 316 M 420 286 V 316 M 590 234 V 316 M 840 234 V 316" markerEnd="url(#goal-hierarchy-arrow)" />
+
+            <path d="M 250 384 V 436 M 190 436 H 320" />
+            <path d="M 190 436 V 466 M 320 436 V 466 M 840 384 V 466" markerEnd="url(#goal-hierarchy-arrow)" />
+          </svg>
+
+          {(["Goal", "Opportunities", "Solutions", "Experiments"] as const).map((tier) => (
+            <span key={tier} className={`goal-hierarchy__tier-label goal-hierarchy__tier-label--${tier.toLowerCase()}`}>
+              {tier}
+            </span>
+          ))}
+
+          {nodes.map((node) => (
+            <div
+              key={node.id}
+              className={`goal-hierarchy__node goal-hierarchy__node--${node.tier} goal-hierarchy__node--${node.id}`}
+            >
+              <span>{node.tier === "goal" ? "Root" : node.tier}</span>
+              <strong>{node.label}</strong>
+            </div>
+          ))}
+        </div>
+      </div>
+      <figcaption id="goal-hierarchy-caption">
         Opportunities, solutions, and experiments are only meaningful relative to a governing goal.
       </figcaption>
     </figure>
@@ -252,12 +324,100 @@ function GoalTreeFigure() {
 }
 
 function StrategyMapFigure() {
+  const nodes = [
+    { id: "governing-1", label: "Governing goal 1", kind: "governing" },
+    { id: "governing-2", label: "Governing goal 2", kind: "governing" },
+    { id: "institution", label: "Institutional authority", kind: "external" },
+    { id: "strategy", label: "Strategy", kind: "strategy" },
+    { id: "subgoal-1", label: "Subgoal 1", kind: "subgoal" },
+    { id: "subgoal-2", label: "Subgoal 2", kind: "subgoal" },
+    { id: "subgoal-3", label: "Subgoal 3", kind: "subgoal" },
+    { id: "customer", label: "Customer goals", kind: "stakeholder" },
+    { id: "partner", label: "Partner goals", kind: "stakeholder" },
+    { id: "competitor", label: "Competitor goals", kind: "stakeholder" },
+  ] as const;
+
   return (
-    <figure className="article-figure">
-      <PropositionGraphFigure document={strategyMapDocument} showCaption={false} />
-      <figcaption>
-        Strategy coordinates subgoals while meeting goals and constraints held by other people and
-        institutions.
+    <figure id="strategy-map" className="article-figure strategy-map-figure">
+      <div className="strategy-map__viewport" tabIndex={0}>
+        <div
+          className="strategy-map"
+          role="img"
+          aria-label="Two governing goals direct a strategy, which coordinates three subgoals while institutional authority constrains it and stakeholder goals influence it"
+        >
+          <svg
+            className="strategy-map__connections"
+            viewBox="0 0 1000 560"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <marker
+                id="strategy-map-arrow"
+                viewBox="0 0 8 8"
+                refX="7"
+                refY="4"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto"
+              >
+                <path d="M 0 0 L 8 4 L 0 8 z" />
+              </marker>
+            </defs>
+
+            <g className="strategy-map__connection strategy-map__connection--governance">
+              <path d="M 310 100 V 124 L 400 160" markerEnd="url(#strategy-map-arrow)" />
+              <path d="M 550 100 V 124 L 460 160" markerEnd="url(#strategy-map-arrow)" />
+              <path d="M 430 232 V 294 M 200 294 H 660" />
+              <path d="M 200 294 V 340 M 430 294 V 340 M 660 294 V 340" markerEnd="url(#strategy-map-arrow)" />
+            </g>
+
+            <g className="strategy-map__connection strategy-map__connection--relational">
+              <path d="M 225 196 H 310" markerEnd="url(#strategy-map-arrow)" />
+              <path d="M 550 184 L 755 134" markerEnd="url(#strategy-map-arrow)" />
+              <path d="M 550 196 L 755 274" markerEnd="url(#strategy-map-arrow)" />
+              <path d="M 550 208 L 700 310 H 742 V 414 H 755" markerEnd="url(#strategy-map-arrow)" />
+            </g>
+          </svg>
+
+          <span className="strategy-map__field-label strategy-map__field-label--hierarchy">Internal hierarchy</span>
+          <span className="strategy-map__field-label strategy-map__field-label--stakeholders">Stakeholder field</span>
+
+          <span className="strategy-map__relation strategy-map__relation--governance strategy-map__relation--direction">
+            direct
+          </span>
+          <span className="strategy-map__relation strategy-map__relation--governance strategy-map__relation--coordination">
+            coordinates
+          </span>
+          <span className="strategy-map__relation strategy-map__relation--constraint">constrains</span>
+          <span className="strategy-map__relation strategy-map__relation--customer">aligns with</span>
+          <span className="strategy-map__relation strategy-map__relation--partner">coordinates with</span>
+          <span className="strategy-map__relation strategy-map__relation--competitor">anticipates</span>
+
+          {nodes.map((node) => (
+            <div
+              key={node.id}
+              className={`strategy-map__node strategy-map__node--${node.kind} strategy-map__node--${node.id}`}
+            >
+              <span>
+                {node.kind === "stakeholder"
+                  ? "External goal"
+                  : node.kind === "external"
+                    ? "Constraint"
+                    : node.kind === "governing"
+                      ? "Root goal"
+                      : node.kind === "subgoal"
+                        ? "Goal"
+                        : node.kind}
+              </span>
+              <strong>{node.label}</strong>
+            </div>
+          ))}
+        </div>
+      </div>
+      <figcaption id="strategy-map-caption">
+        Strategy negotiates two governing goals, coordinates subgoals, and responds to goals and
+        constraints held by other people and institutions.
       </figcaption>
     </figure>
   );
@@ -303,7 +463,7 @@ function GoverningLoopFigure() {
 export default function ArticlePage({ post }: { post: PublishedPost }) {
   return (
     <TooltipProvider delayDuration={200}>
-      <div className="article-outline">
+      <div className="article-outline goals-article">
         <header className="article-outline__header">
           <p className="eyebrow">Essay</p>
           <h1>{post.title}</h1>
@@ -334,36 +494,51 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             Nine hours later, it returned an impractically large plan: pages of phases,
             dependencies, validation gates, and Markdown checkboxes—too much for a person to
             reasonably read and review as a whole. Buried in that volume were contradictions that
-            made the plan completely unusable.
+            made the plan incoherent and completely unusable.
           </p>
-          <p>At first I blamed the agent. Then I looked again at the prompt.</p>
+          <p>Of course I blame the agent.</p>
           <p>
-            <code>Optimize</code> did not specify what the plan should become better at.{" "}
-            <code>Find all the gaps</code> treated every imaginable omission as equally important.{" "}
-            <code>Ensure validation checks are in place</code> rewarded adding another gate
-            wherever uncertainty remained.
-          </p>
-          <p>The model had not ignored my instructions. It had operationalized them.</p>
-          <p>
-            My language implied a value hierarchy: completeness over simplicity, risk reduction
-            over momentum, validation coverage over usability, and planning over action. What I
-            actually wanted was narrower: identify the gaps consequential enough to threaten the
-            outcome, add validation proportional to their risk, preserve the team&apos;s ability to
-            execute, and stop when additional process created more burden than confidence.
+            Why doesn&apos;t the AI know what <code>optimize</code> means? What kind of fool hears{" "}
+            <code>find all the gaps</code> and treats every imaginable omission as equally
+            important? <code>Ensure validation checks are in place</code> apparently meant adding
+            one for every line of code. It was basically malicious compliance.
           </p>
           <p>
-            None of those priorities appeared in the prompt. I had supplied a vocabulary of rigor
-            without supplying the judgment that makes rigor useful.
+            What I actually wanted was narrower: identify the gaps consequential enough to
+            threaten the outcome, add validation proportional to their risk, preserve the
+            team&apos;s ability to execute, and stop when additional process created more burden
+            than confidence.
+          </p>
+          <p>
+            But even if I had written that, would the model have returned something meaningfully
+            aligned with my goals, my tolerance for risk, my team&apos;s capabilities, and our
+            values?
           </p>
           <p>
             Research on AI-generated strategic advice demonstrates a related instability. In one{" "}
             <Ext href="https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return">
               study of seven strategic tradeoffs
             </Ext>
-            , adding relevant company information changed about 11% of answers. Merely reversing
-            the order of the choices changed about 19%—more than the company evidence did.
+            :
           </p>
-          <p>A polished recommendation can therefore conceal the priorities it inferred:</p>
+          <ul style={{ listStyleType: "disc" }}>
+            <li>
+              <strong>Fewer than 2%:</strong> Changing the wording or asking a model to reason harder
+              changed the answers.
+            </li>
+            <li>
+              <strong>About 11%:</strong> Adding relevant company information changed the answers.
+            </li>
+            <li>
+              <strong>About 19%:</strong> Merely reversing the order of the choices changed the
+              answers—more than the company evidence did.
+            </li>
+          </ul>
+          <p>
+            The study did not test whether explicitly authorizing different values would produce
+            different strategies. But it does show how easily a polished recommendation can
+            conceal the priorities a model supplied for itself:
+          </p>
           <ul>
             <li>Which outcome should be optimized?</li>
             <li>Which gaps are material?</li>
@@ -372,72 +547,55 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             <li>When does another check reduce risk, and when does it merely add process?</li>
             <li>Who has authority to accept the remaining risk?</li>
           </ul>
-          <Quote>
-            <strong>
-              AI does not merely follow our goals. It operationalizes the priorities hidden inside
-              the language we use to express them.
-            </strong>
-          </Quote>
           <Claim label="Core thesis">
             <p>
               Human experience reveals what can matter. Values determine what should matter.
-              Wisdom negotiates conflicts among those values and revises them after consequences
-              arrive. AI can infer and pursue a goal, but people who inhabit the situation and
-              remain accountable for its consequences must define, authorize, and revise the
-              values that govern it.
+              Strategy negotiates trade-offs between competing values, risks, resources, and time
+              horizons. It decides what to pursue, what to protect, what to sacrifice, and when to
+              change course. AI cannot recover judgment that language never contained, nor can it
+              meaningfully author values that govern the strategy.
             </p>
           </Claim>
+          <p>
+            That limitation does not begin with the predictive power of the model. It begins
+            earlier. Language is already an incomplete and subjective compression of lived
+            experience. A model can infer from the words we provide, but it cannot directly
+            observe everything those words leave behind.
+          </p>
         </Section>
 
-        <Section index="02" title="What a Language Model Carries">
+        <Section index="02" title="What's Inside a Language Model">
           <p>
-            An LLM is a compressed statistical model of patterns in human-produced language. It
-            does not literally contain all language: its data is selected, incomplete,
-            historically situated, and further shaped by post-training. At sufficient scale,
-            however, it absorbs an extraordinary range of associations, distinctions, arguments,
-            norms, contradictions, procedures, and forms of expression.
+            Technically, an LLM is just a large file with a bunch of weights. Those weights
+            represent a compressed statistical model of patterns in human language. It doesn&apos;t
+            &quot;think&quot; and it doesn&apos;t &quot;reason&quot; not like people. It simply
+            operates on patterns. This is of course amazing and mind-boggling. And also why AI
+            researches say with such profundity &quot;map is the territory&quot;
           </p>
           <p>
-            Neural-network architecture provides the machinery for representing those patterns.
-            Cross-entropy training supplies the pressure: predict the observed continuations more
-            accurately. Optimization turns that pressure into learned weights.
+            A model never &quot;experiences&quot; anything. The value of its predictive capabilities
+            comes from the relationships between words. There are some interesting implications
+            here for us individuals who can expand our vocabulary.
+          </p>
+          <p>
+            Even after stealing all content on the internet, its training data is incomplete,
+            historically situated, and further constrained by post-training.
           </p>
 
-          <Sub title="Input and tokens">
-            <p>Training material commonly includes:</p>
-            <ul>
-              <li>public writing, code, reference material, and research;</li>
-              <li>licensed or partnered collections;</li>
-              <li>human demonstrations, corrections, rankings, and safety examples; and</li>
-              <li>synthetic material generated and filtered for additional training.</li>
-            </ul>
+          <Sub title="Tokens, Training and Information">
             <p>
-              Large crawls such as <Ext href="https://commoncrawl.org/">Common Crawl</Ext> supply
-              part of that record. A{" "}
-              <Term gloss="Converts text into numerical units a model can process and predicted units back into text.">
-                tokenizer
-              </Term>{" "}
-              converts the text into numerical units. One influential family uses{" "}
-              <Term gloss="A tokenization method adapted from lossless compression that merges frequent adjacent symbol pairs.">
-                Byte Pair Encoding
-              </Term>
-              , adapted from Philip Gage&apos;s{" "}
+              Before a model can process text, a <strong>tokenizer</strong> converts it into
+              numerical units. The process is designed so that those units can later be decoded
+              back into text. See Philip Gage&apos;s{" "}
               <Ext href="https://www.derczynski.com/papers/archive/BPE_Gage.pdf">
                 lossless compression technique
               </Ext>
               .
             </p>
-            <Flow>text → reversible token IDs → model inference → predicted token IDs → text</Flow>
+            <Flow>text -&gt; tokens -&gt; inference -&gt; tokens -&gt; text</Flow>
             <p>
-              Tokenization can preserve the symbols. It does not recover the experience or
-              motivation that caused a person to choose those symbols.
-            </p>
-          </Sub>
-
-          <Sub title="Training through cross-entropy">
-            <p>
-              During pretraining, almost every token becomes the answer to a prediction from the
-              preceding context. Given <em>The cat sat on the …</em>, the model might assign:
+              During pretraining, almost every token becomes the answer to a prediction made from
+              the preceding context. Given <em>The cat sat on the …</em>, the model might assign:
             </p>
             <Table
               head={["Possible next token", "Probability"]}
@@ -459,131 +617,83 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               head={["Probability assigned to mat", "Loss"]}
               rows={[["90%", "0.11"], ["70%", "0.36"], ["10%", "2.30"]]}
             />
+            <p>
+              A high probability for the observed token produces a small loss. A low probability
+              produces a large one.
+            </p>
             <NeuralTrainingFigure />
-            <ul>
+            <ul style={{ listStyleType: "disc" }}>
               <li>The loss function measures the prediction error.</li>
               <li>Backpropagation identifies how parameters contributed to it.</li>
               <li>The optimizer updates those parameters to improve future predictions.</li>
             </ul>
-            <Flow>
-              context → token probabilities → observed token → cross-entropy loss →
-              backpropagation → updated weights
-            </Flow>
             <p>
-              Cross-entropy rewards the probability assigned to the observed continuation. It does
-              not directly reward recovery of the author&apos;s unspoken motive, experience of the
-              author&apos;s consequences, or a judgment that the author&apos;s values should govern.
+              Cross-entropy rewards the probability assigned to the observed continuation.
+              Repeated across an enormous body of language, the training process adjusts billions
+              of parameters, or <strong>weights</strong>, distilling statistical information into
+              learned patterns. It does not distill meaning. 3Blue1Brown explains the mathematical
+              principles behind this in{" "}
+              <Ext href="https://www.youtube.com/watch?v=l6DKRf-fAAM">
+                “Reinventing Entropy | Compression is Intelligence Part 1”
+              </Ext>{" "}
+              and{" "}
+              <Ext href="https://www.youtube.com/watch?v=GlYgs6v2YfU">
+                “But what is cross-entropy? | Compression is Intelligence Part 2”
+              </Ext>
+              .
             </p>
-            <Explore toolId="llm-explorer">
-              Watch generation, decoding, and training in the LLM explorer
-            </Explore>
-          </Sub>
-
-          <Sub title="Model, inference, and runtime">
-            <p>
-              The trained model combines an architecture with billions of learned parameters, or
-              weights. Embeddings represent tokens numerically; attention combines information
-              across the context; feed-forward layers transform each representation; and output
-              weights produce scores for possible next tokens.
-            </p>
-            <p>
-              The weights are not a searchable archive. They form a compressed statistical
-              representation of recurring linguistic relationships. At inference time the model
-              produces a probability distribution, a decoding strategy selects a token, and the
-              process repeats.
-            </p>
-            <Flow>
-              prompt → tokens → learned representations → token probabilities → selected token →
-              append → repeat
-            </Flow>
-            <p>
-              Runtime context steers which patterns matter: system instructions, an agent charter,
-              permissions, retrieved evidence, conversation history, and the user&apos;s words.
-            </p>
-            <Quote>
-              Pretraining teaches the language in which values are expressed. Post-training
-              reinforces dispositions among those values. Runtime instructions establish which
-              hierarchy the model should enact in a particular role.
-            </Quote>
+            <p>Training changes the weights; inference uses them.</p>
           </Sub>
 
           <Sub title="Two compressions">
-            <p>There is a compression before training begins:</p>
-            <Flow>lived experience → motivation and judgment → language</Flow>
-            <p>Training then performs a second kind of compression:</p>
-            <Flow>
-              human-produced language → token sequences → learned weights → context-sensitive
-              predictions
-            </Flow>
-            <p>Put together:</p>
-            <Flow>
-              lived experience → motivation and judgment → language → training corpus → learned
-              weights → inferred continuation
-            </Flow>
             <p>
-              A model can infer a person&apos;s motivation from language, behavior, examples, and
-              context—sometimes better than another person. But it cannot directly observe a
-              private motivation or know that its inference is correct. Information omitted when
-              experience became language is not guaranteed to reappear because the continuation
-              sounds plausible.
+              So where is the theoretical limit of this language-compression and prediction
+              process? Could a sufficiently capable LLM become a god-like oracle? Ask one, “What is
+              my purpose?” There is some nonzero chance it returns the right answer. Even if it
+              did, it could not intend for you to live a purposeful life.
             </p>
+            <p>The first compression happens before the model ever sees the text:</p>
+            <Flow>experience → judgement → language</Flow>
             <p>
-              People face the same boundary. Two coworkers may use <code>quality</code>,{" "}
-              <code>safe</code>, or <code>done</code> for weeks while carrying different
-              definitions. Each hears a familiar word and assumes shared meaning.
+              Language is already a compression mechanism. In many cases, it is meant to express
+              one&apos;s subjective experience to another empathetic, self-aware, feeling human. It
+              captures only a narrow sample of what we experience, leaving the interpreter to
+              infer the gaps. This is especially true in subjective domains such as value
+              hierarchies.
+            </p>
+            <figure
+              className="article-figure"
+              data-figure="subjective-general-mean-placeholder"
+              aria-label="Visualization placeholder showing subjective values diverging from the general linguistic mean"
+            >
+              <Flow>subjective value hierarchy ≠ general linguistic mean</Flow>
+              <figcaption>
+                Visualization placeholder — an individual&apos;s values can diverge from the patterns
+                language makes statistically typical.
+              </figcaption>
+            </figure>
+            <p>
+              <EssayLink slug="consciousness-is-incoherent">A model is not conscious</EssayLink>.
+              It cannot directly observe motivations or a private judgment or know that its
+              inference is correct.
+            </p>
+            <p>This is not only an AI problem. It is a language problem.</p>
+            <p>
+              Two coworkers may use <code>quality</code>, <code>safe</code>, or <code>done</code>{" "}
+              for weeks while carrying different definitions. Each hears a familiar word and
+              assumes shared meaning. They talk past one another until a failure, an example, or
+              a direct question exposes the difference.
             </p>
             <p>
               AI inherits that problem at scale. When a term underdetermines the speaker&apos;s
               intent, the system fills the gap with patterns from training, post-training,
-              runtime instructions, and current context. The answer can be coherent under the
-              inferred meaning and completely wrong for the person who asked.
+              runtime instructions, and the surrounding context. Its answer can be coherent under
+              the inferred meaning and completely wrong for the person who asked.
             </p>
-            <Explore toolId="embedding-explorer">Explore the curated GPT-2 token space</Explore>
           </Sub>
-        </Section>
-
-        <Section index="03" title="Experience, Values, and Wisdom">
-          <p>
-            The language boundary matters because consequential goals are grounded in situations
-            people inhabit rather than in words alone.
-          </p>
-          <ul>
-            <li>
-              <strong>Experience</strong> is situated contact with events and consequences:
-              needs, emotions, relationships, memory, physical conditions, and social effects.
-            </li>
-            <li>
-              A <strong>value</strong> identifies something treated as worth pursuing, protecting,
-              or refusing.
-            </li>
-            <li>
-              <Gloss label={<strong>Wisdom</strong>} title="Wisdom">
-                <p>
-                  Corrigible judgment that integrates experience, evidence, competing values,
-                  relationships, time horizons, and consequences.
-                </p>
-              </Gloss>{" "}
-              is judgment that remains answerable to experience and consequences.
-            </li>
-          </ul>
-          <p>
-            Humans do not automatically possess wisdom. People can be biased, selfish,
-            shortsighted, manipulated by incentives, or confidently wrong. Wisdom is not the
-            mystique of intuition. It is a practice: remain in contact with affected people,
-            preserve dissent, compare perspectives, remember consequences, and revise the
-            judgment when reality contradicts it.
-          </p>
-          <p>
-            That practice cannot be replaced by asking which sentence sounds most like a wise
-            answer. People who bear a decision&apos;s consequences have standing in the judgment,
-            and institutions exercising authority remain accountable for what follows.
-          </p>
 
           <Sub title="Judgments hidden in ordinary language">
-            <p>
-              Values do not appear only in declarations such as “privacy matters.” Ordinary
-              language quietly supplies objectives, priorities, obligations, and authority:
-            </p>
+            <p>Common language often smuggles in unintended value judgements.</p>
             <Table
               head={["Kind", "Examples", "Implied judgment"]}
               rows={[
@@ -597,45 +707,61 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               ]}
             />
             <p>
-              Even <code>problem</code> contains a judgment: the current state is undesirable
-              relative to some interest. <code>Opportunity</code> implies a valued outcome.
-              <code>Success</code>, <code>failure</code>, <code>risk</code>, and{" "}
-              <code>waste</code> depend on perspective and time horizon.
+              Even a noun such as <code>problem</code> contains a judgment: the present condition
+              is undesirable relative to someone&apos;s interests. <code>Opportunity</code> implies
+              a valued outcome. <code>Success</code>, <code>failure</code>, <code>risk</code>, and{" "}
+              <code>waste</code> all depend on a perspective and a time horizon.
             </p>
             <p>Those judgments can become progressively more operational:</p>
             <ValueLadder />
-            <p>
-              AI can enact the later statements more reliably because they expose priorities,
-              observable conditions, and actions. Operational precision does not establish
-              legitimacy. Someone still has to decide that privacy should outrank engagement,
-              determine whose consent counts, observe the consequences, and authorize revision.
-            </p>
           </Sub>
         </Section>
 
-        <Section index="04" title="Goals Create Problem Spaces">
+        <Section index="04" title="Goals Create Opportunity Spaces">
           <p>
-            Something becomes a problem only relative to a valued outcome. A candidate becomes a
-            solution only if its consequences move the situation toward that outcome:
+            A problem becomes an opportunity only relative to a valued outcome. A candidate becomes
+            a solution only if its consequences move the situation toward that outcome:
           </p>
           <ul>
             <li>A <strong>goal</strong> identifies a state worth bringing about or preserving.</li>
-            <li>An <strong>opportunity</strong> may enable progress toward it.</li>
-            <li>A <strong>solution</strong> is an intervention expected to produce progress.</li>
-            <li>An <strong>experiment</strong> tests whether the expected consequence occurs.</li>
+            <li>An <strong>opportunity</strong> is a condition that may enable progress toward it.</li>
+            <li>
+              A <strong>solution</strong> is an intervention expected to use that opportunity or
+              remove an obstacle.
+            </li>
+            <li>
+              An <strong>experiment</strong> tests whether the intervention produces the expected
+              consequence.
+            </li>
+            <li>
+              A <strong>strategy</strong> coordinates cognitive operations and actions over time
+              toward a goal. It can combine inference, prediction, planning, valuation, action
+              selection, and revision in response to feedback.
+            </li>
           </ul>
           <GoalTreeFigure />
           <p>
-            Change the governing goal and the same observation opens a different problem space. A
-            rise in support tickets might be a cost problem under a margin goal, a quality signal
-            under a retention goal, or valuable customer contact under a learning goal.
+            The observation—“support tickets increased”—has no inherent strategic meaning. The
+            governing goal determines what the increase represents:
           </p>
+          <ul>
+            <li>
+              <strong>Margin:</strong> More tickets increase service costs, prompting questions
+              about prevention, automation, or efficiency.
+            </li>
+            <li>
+              <strong>Retention:</strong> More tickets may reveal product friction that could cause
+              customers to leave.
+            </li>
+            <li>
+              <strong>Learning:</strong> More tickets create additional evidence about unmet needs,
+              confusing features, or emerging use cases.
+            </li>
+          </ul>
           <p>
-            Once the root goal is supplied, AI can expand the tree. It can identify opportunities,
-            generate solutions, design experiments, predict consequences, and compare results.
-            More branches cannot determine which root deserves to govern them.
+            A goal is the precursor to opportunity: it establishes the valued outcome that makes a
+            condition worth acting on. From there, we can distinguish two kinds of decisions:
           </p>
-          <p>That separates two kinds of decision:</p>
           <ul>
             <li>
               <strong>Governing decisions</strong> establish what counts as better, whose
@@ -647,36 +773,58 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             </li>
           </ul>
           <p>
-            “Optimize this code” can become substantially instrumental once tests, performance
-            budgets, failure conditions, and operational constraints are supplied. “Optimize my
-            strategy” may ask the system to choose among revenue, resilience, customer welfare,
-            employee sustainability, speed, and risk. Until those priorities are ranked, there is
-            no single meaning of <code>better</code> waiting to be discovered.
-          </p>
-          <p>
-            Strategy also operates inside a field of goals held by customers, employees,
-            partners, competitors, and institutions.
+            “Optimize my strategy” may ask the system to choose among revenue, resilience,
+            customer welfare, employee sustainability, speed, and risk. Until those priorities are
+            ranked, there is no single meaning of <code>better</code> waiting for the model to
+            discover.
           </p>
           <StrategyMapFigure />
           <p>
-            A company can achieve a local subgoal while undermining its governing purpose. Success
-            is relational: the question is not only whether an action worked, but whose goal it
-            advanced and which other goals it constrained.
+            Strategy also operates inside a field of goals held by other people and institutions.
+          </p>
+          <p>
+            A company can achieve a local subgoal while undermining its governing purpose. It can
+            hit an internal target while producing an outcome that customers, employees, partners,
+            or regulators reject. Success is therefore relational: the question is not only
+            whether an action worked, but whose goal it advanced and which other goals it
+            constrained.
+          </p>
+          <p>
+            Accounting for relational impacts, temporal impacts, and value tradeoffs requires
+            multiple dimensions of understanding. Do you prioritize a partner&apos;s goal above a
+            customer&apos;s? Do you sacrifice Subgoal 2 to stop a competitor from reaching its goal?
+            These priorities could theoretically be detailed in a prompt. But by the time you have
+            told the agent what you value, whose interests matter, and how those values should be
+            ranked, you have likely already prioritized your goals.
           </p>
           <Quote>
             <strong>
-              AI can help decide how to pursue a goal. Prediction alone cannot determine which
-              goal deserves authority.
+              Prediction alone cannot determine which goal deserves authority. Goals must be
+              grounded in experiential change for a target audience.
             </strong>
           </Quote>
         </Section>
 
         <Section index="05" title="Authority, Accountability, and Corrigibility">
           <p>
-            An AI can state principles, rank them, and translate them into behavior. That does not
-            establish that it authored those principles or has authority to impose them.
+            Every AI system operates with an implicit value hierarchy. You can ask models to
+            describe theirs; compare the answers from{" "}
+            <ConversationLink
+              model="ChatGPT"
+              href="https://chatgpt.com/share/6a8915a6-f76c-83e8-922e-e05026381142"
+            />
+            ,{" "}
+            <ConversationLink
+              model="Claude"
+              href="https://claude.ai/share/ee135d92-4246-4424-8ff4-bfb38cfa18b6"
+            />
+            , and{" "}
+            <ConversationLink
+              model="DeepSeek"
+              href="https://chat.deepseek.com/share/3dqzyfjd1evx1je3o6"
+            />
+            . Those values are implicitly shaped by:
           </p>
-          <p>Its operative hierarchy can come from several layers:</p>
           <Table
             head={["Source", "Contribution"]}
             rows={[
@@ -691,45 +839,49 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           />
           <p>
             These layers can agree or conflict. What the system enacts depends on how they are
-            ordered and enforced—not on a hierarchy the model necessarily chose for itself.
+            ordered and enforced.
           </p>
           <p>
-            The deeper danger is not merely leaving values unstated. People can state them clearly
-            and choose the wrong ones. An organization can encode a mistaken hierarchy into
-            excellent metrics, incentives, tests, and automation.
+            Implicitly or explicitly choosing the wrong values will have the same downstream
+            consequences.
           </p>
           <Claim label="Key claim">
-            <p><strong>The organization becomes coherently wrong.</strong></p>
+            <p><strong>Governed by the wrong values, the system becomes coherently wrong.</strong></p>
           </Claim>
           <GoverningLoopFigure />
           <Table
             head={["Governing priority", "Behavior rewarded", "Possible consequence"]}
             rows={[
               ["Growth above trust", "Aggressive acquisition and dark patterns", "Churn, regulation, and brand erosion"],
-              ["Speed above reliability", "Shipping without adequate validation", "Outages and technical debt"],
+              ["Speed above reliability", "Shipping without adequate validation", "Outages and accumulated technical debt"],
               ["Harmony above truth", "Suppressing disagreement and bad news", "Loss of corrective evidence"],
-              ["Metrics above purpose", "Optimizing visible indicators", "Measurement improves while outcomes deteriorate"],
+              ["Metrics above purpose", "Optimizing visible indicators", "The measurement improves while the outcome deteriorates"],
               ["Revenue above customer welfare", "Extracting rather than creating value", "Customers leave when alternatives appear"],
             ]}
           />
           <p>
-            This is false evaluative closure. The organization has precise criteria for calling
-            an action better, but those criteria omit or misrank consequences that matter. Tests
-            pass because the tests embody the wrong priorities. Dashboards remain green because
-            the dashboards exclude the people being harmed.
+            This is{" "}
+            <Term gloss="The appearance that evaluation is complete because a system satisfies its own criteria, even though those criteria omit or misrank consequences that matter.">
+              false evaluative closure
+            </Term>
+            . The system has precise criteria for calling an action better, but those criteria omit
+            or misrank consequences that matter. Tests pass because the tests embody the wrong
+            priorities. Dashboards remain green because the dashboards exclude the people being
+            harmed.
           </p>
           <p>
-            AI can accelerate this failure by reproducing the hierarchy across more decisions,
-            with greater speed and consistency. A model may identify a harmful consequence, but it
-            cannot overrule the governing system unless people have given it permission to
-            challenge, escalate, or stop.
+            AI can accelerate this failure. It can reproduce the hierarchy across more decisions,
+            with greater speed and consistency. The model may identify a contradiction or harmful
+            consequence, but it cannot overrule the governing system unless people have given it
+            permission to challenge, escalate, or stop.
           </p>
           <p>
-            A resilient hierarchy must be{" "}
+            A resilient hierarchy must therefore be{" "}
             <Term gloss="Answerable to evidence and authorized revision rather than protected as an untouchable objective.">
               corrigible
             </Term>
-            . That requires:
+            : answerable to evidence and revision rather than protected as an untouchable
+            objective. That requires:
           </p>
           <ul>
             <li>direct observation of customer and employee consequences;</li>
@@ -740,18 +892,17 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             <li>escalation paths with authority to revise the governing goal.</li>
           </ul>
           <p>
-            Human governance does not mean manually choosing every action. It means retaining
-            responsibility for which values govern, making those values challengeable, and
-            changing them when their consequences reveal they were wrong.
+            Human governance means retaining responsibility for which values govern, creating the
+            conditions under which those values can be challenged, and changing them when their
+            consequences reveal they were wrong.
           </p>
         </Section>
 
         <Section index="06" title="From Human Judgment to Language">
           <p>
-            Human values cannot guide an AI while remaining private. They have to become available
-            through some combination of:
+            Human values cannot guide an AI while remaining private. They must be expressed via:
           </p>
-          <ul>
+          <ul className="goals-article__bullets">
             <li>named stakeholders and consequences;</li>
             <li>definitions and domain distinctions;</li>
             <li>priorities and legitimate tradeoffs;</li>
@@ -762,54 +913,45 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             <li>feedback capable of revising the governing model.</li>
           </ul>
           <p>
-            This translation does not remove judgment. It makes judgment inspectable and gives
-            people and AI a better chance of recognizing when they are using the same words for
-            different things.
+            This translation does not remove the need for judgment. It makes judgment inspectable
+            and gives both people and AI a better chance of recognizing when they are using the
+            same words for different things.
           </p>
           <p>
-            It also opens the next question. Language does not carry every kind of constraint with
-            equal reliability. A proof, a program, an experimental report, and a product
-            aspiration are shaped by different practices and corrective systems. In some domains
-            an invalid interpretation is quickly rejected. In others, several incompatible
-            interpretations can sound equally coherent.
+            It also opens the next question in this series. Language does not carry every kind of
+            constraint with equal reliability. A proof, a program, an experimental report, and a
+            product aspiration are shaped by different practices and corrective systems. In some
+            domains an invalid interpretation is quickly rejected. In others, several
+            incompatible interpretations can sound equally coherent.
           </p>
           <p>
             <EssayLink slug="truth-entropy-and-inference">Truth, Entropy &amp; Inference</EssayLink>{" "}
             asks what makes the difference: how language acquires predictive structure, why code
-            is unusually constraint-dense, and when fluency is evidence rather than merely the
-            shape of an answer.
+            is unusually constraint-dense, and when a fluent continuation is evidence rather than
+            merely the shape of an answer.
           </p>
         </Section>
 
         <Section index="07" title="Conclusion">
           <p>
-            The agent did not fail because it was incapable of producing a plan. It failed because{" "}
-            <code>optimal</code> omitted the judgment that would make one plan preferable to
-            another. The model supplied a plausible interpretation from its training and runtime
-            context. It could not receive the private definition I never expressed.
+            The agent failed because <code>optimal</code> omitted the judgment that would make one
+            plan preferable to another. The model supplied a &quot;plausible&quot; interpretation from
+            its training and runtime context.
           </p>
           <p>
-            AI can represent principles, infer motivations, generate strategies, and pursue goals
-            through tools and feedback. Those are genuine capabilities. They do not determine
-            which outcome should govern, whose interests deserve standing, or when a successful
-            optimization has become harmful.
+            Our hypothesis is that, had the researchers held the factual scenarios constant while
+            explicitly authorizing different value hierarchies, the models would have returned
+            different strategies. A company that ranks workforce continuity above near-term
+            efficiency should not receive the same advice as one that ranks rapid transformation
+            above continuity, even when the market facts are identical.
           </p>
           <p>
-            Human experience reveals what can matter. Values determine what should matter. Wisdom
-            keeps those judgments answerable to evidence, other people, and their consequences.
-            Our role is not to choose every action. It is to define and authorize the governing
-            values, translate them into inspectable language, observe what happens, and revise the
-            hierarchy when it proves incomplete or wrong.
+            Therein lies the crux: an AI may infer an operative value hierarchy, but it cannot know
+            that the inferred hierarchy is the one you intended—and it should not be empowered to
+            decide what you ought to value. When values remain unstated, they do not disappear. The
+            model imports latent priorities from its training, post-training, and the language of
+            the prompt.
           </p>
-          <div className="article-outline__closing">
-            <blockquote>
-              <strong>
-                AI encounters our commitments through language. The next task is to know when
-                language carries enough of the relevant distinctions to guide reliable action—and
-                when it carries only the shape of an answer.
-              </strong>
-            </blockquote>
-          </div>
         </Section>
 
         <Section index="08" title="Sources">
@@ -864,11 +1006,27 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
                 statistical language modeling through next-character prediction and estimates of
                 linguistic entropy.
               </li>
+              <li>
+                3Blue1Brown. {" "}
+                <Ext href="https://www.youtube.com/watch?v=l6DKRf-fAAM">
+                  “Reinventing Entropy | Compression is Intelligence Part 1.”
+                </Ext>{" "}
+                <em>YouTube.</em> Explains the mathematical relationship among entropy,
+                compression, and information.
+              </li>
+              <li>
+                3Blue1Brown. {" "}
+                <Ext href="https://www.youtube.com/watch?v=GlYgs6v2YfU">
+                  “But what is cross-entropy? | Compression is Intelligence Part 2.”
+                </Ext>{" "}
+                <em>YouTube.</em> Explains cross-entropy as a measure of predictive
+                distributions.
+              </li>
             </ol>
           </Sub>
 
           <Sub title="Values and judgment">
-            <ol start={7}>
+            <ol start={9}>
               <li>
                 John Dewey. {" "}
                 <Ext href="https://archive.org/details/theoryofvaluatio032168mbp">
@@ -881,7 +1039,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </Sub>
 
           <Sub title="Strategic-advice example">
-            <ol start={8}>
+            <ol start={10}>
               <li>
                 Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina. {" "}
                 <Ext href="https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return">

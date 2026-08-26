@@ -7,6 +7,12 @@
   color: var(--color-foreground-strong);
 }
 
+.neural-training-figure .nnl__readout {
+  min-block-size: 85px;
+  align-content: start;
+  align-items: start;
+}
+
 .neural-training-figure__loss-readout {
   color: var(--color-error);
   border-color: color-mix(in srgb, var(--color-error) 48%, transparent);
@@ -29,4 +35,10 @@
 .neural-training-figure .neural-training-figure__update-sign--negative .nnl-node__value {
   font-size: 20px;
   font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .neural-training-figure .nnl__readout {
+    min-block-size: 170px;
+  }
 }

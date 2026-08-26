@@ -1,6 +1,6 @@
 ---
 title: Goals, Solutions & Value
-description: Why human experience, values, and wisdom must govern the goals that predictive systems pursue.
+description: Why human experience, values, and strategy must govern the goals that predictive systems pursue.
 publishedAt: 2026-08-22
 updatedAt: 2026-08-26
 tags: [Artificial Intelligence, Language Models, Strategy, Values]
@@ -17,30 +17,35 @@ I once gave an agent an existing plan and asked:
 Nine hours later, it returned an impractically large plan: pages of phases,
 dependencies, validation gates, and Markdown checkboxes—too much for a person
 to reasonably read and review as a whole. Buried in that volume were
-contradictions that made the plan incoherent and unusable.
+contradictions that made the plan incoherent and completely unusable.
 
 Of course I blame the agent.
 
-Why doesn't the AI know what `Optimize` means? What kind of fool hears
-`Find all the gaps` and treats every imaginable omission is equally important? `Ensure validation
-checks are in place` for every line of code :face-palm:... it was basically malicious compliance.
+Why doesn't the AI know what `optimize` means? What kind of fool hears `find all
+the gaps` and treats every imaginable omission as equally important? `Ensure
+validation checks are in place` apparently meant adding one for every line of
+code. It was basically malicious compliance.
 
-What I actually wanted was: identify the gaps consequential
-enough to threaten the outcome, add validation proportional to their risk,
-preserve the team's ability to execute, and stop when additional process
-created more burden than confidence.
+What I actually wanted was narrower: identify the gaps consequential enough to
+threaten the outcome, add validation proportional to their risk, preserve the
+team's ability to execute, and stop when additional process created more burden
+than confidence.
 
-Even if I had written that, would the model have produced a meaningful response that aligned with my goals, risk tolerance and teams capability and values?
+But even if I had written that, would the model have returned something
+meaningfully aligned with my goals, my tolerance for risk, my team's
+capabilities, and our values?
 
 Research on AI-generated strategic advice demonstrates a related instability.
 In one study of seven strategic tradeoffs, changing the wording or asking a
-model to reason harder changed fewer than 2% of answers. Adding relevant
+model to reason harder changed fewer than 2% of its answers. Adding relevant
 company information changed about 11%. Merely reversing the order of the
 choices changed about 19%—more than the company evidence did.
 [“Researchers Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in
 Return”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return).
 
-A polished recommendation can therefore conceal the priorities it inferred:
+The study did not test whether explicitly authorizing different values would
+produce different strategies. But it does show how easily a polished
+recommendation can conceal the priorities a model supplied for itself:
 
 - Which outcome should be optimized?
 - Which gaps are material?
@@ -50,14 +55,16 @@ A polished recommendation can therefore conceal the priorities it inferred:
 - Who has authority to accept the remaining risk?
 
 > **Core thesis — Human experience reveals what can matter. Values determine
-> what should matter. Wisdom negotiates conflicts among those values and
-> revises them after consequences arrive. AI will infer and pursue a goal.
-> people who inhabit the situation remain accountable for its consequences and they
-> must define, authorize, and revise the values that govern it.**
+> what should matter. Strategy negotiates trade-offs between competing values,
+> risks, resources, and time horizons. It decides what to pursue, what to
+> protect, what to sacrifice, and when to change course. AI cannot recover
+> judgment that language never contained, nor can it meaningfully author values
+> that govern the strategy.**
 
-To understand why the missing judgment matters, we need a compact account of
-what a language model carries—and what even a very capable model does not
-receive automatically.
+That limitation does not begin with the predictive power of the model. It
+begins earlier. Language is already an incomplete and subjective compression of
+lived experience. A model can infer from the words we provide, but it cannot
+directly observe everything those words leave behind.
 
 ## 2. What a Language Model Carries
 
@@ -418,13 +425,6 @@ cannot know that the inferred hierarchy is the one you intended—and it should
 not be empowered to decide what you ought to value. When values remain
 unstated, they do not disappear. The model imports latent priorities from its
 training, post-training, and the language of the prompt.
-
-Human experience reveals what can matter. Values determine what should matter.
-Strategy is balancing values and making trade-offs, deciding when it's "worth the risk". An AI cannot experience what matters, and it cannot decide for you aught to value.
-
-> **AI encounters our commitments through language. The next task is to know
-> when language carries enough of the relevant distinctions to guide reliable
-> action—and when it carries only the shape of an answer.**
 
 ## Sources
 
