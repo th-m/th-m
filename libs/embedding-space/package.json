@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./composition": "./src/composition.ts",
     "./training": "./src/training.ts",
     "./styles.css": "./src/styles.css"
   },

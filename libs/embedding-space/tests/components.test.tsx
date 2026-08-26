@@ -1,6 +1,7 @@
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { EmbeddingSpaceVisualization } from "../src";
+import { EmbeddingCompositionExplorer } from "../src/composition";
 
 afterEach(() => {
   cleanup();
@@ -146,5 +147,39 @@ describe("EmbeddingSpaceVisualization", () => {
     fireEvent.click(await screen.findByRole("button", { name: /Start training replay/ }));
     expect(screen.getByText("Epoch 120 / 120")).toBeInTheDocument();
     expect(container.querySelector(".embedding-training")).toHaveAttribute("data-reduced-motion", "true");
+  });
+});
+
+describe("EmbeddingCompositionExplorer", () => {
+  it("combines a starting term with an illustrative semantic direction", () => {
+    render(<EmbeddingCompositionExplorer />);
+
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("man+royal=king");
+    expect(
+      screen.getByRole("img", {
+        name: "man plus royal moves toward king on an illustrative two-dimensional semantic map",
+      }),
+    ).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText("Added embedding direction"), { target: { value: "young" } });
+    fireEvent.change(screen.getByLabelText("Starting embedding term"), { target: { value: "king" } });
+
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("king+young=prince");
+    expect(
+      screen.getByRole("img", {
+        name: "king plus young moves toward prince on an illustrative two-dimensional semantic map",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("limits the royalty direction to compatible starting terms", () => {
+    render(<EmbeddingCompositionExplorer />);
+    fireEvent.change(screen.getByLabelText("Added embedding direction"), { target: { value: "young" } });
+    fireEvent.change(screen.getByLabelText("Starting embedding term"), { target: { value: "queen" } });
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("queen+young=princess");
+
+    fireEvent.change(screen.getByLabelText("Added embedding direction"), { target: { value: "royal" } });
+    expect(screen.getByLabelText("Starting embedding term")).toHaveValue("man");
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("man+royal=king");
   });
 });

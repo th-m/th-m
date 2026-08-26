@@ -54,6 +54,32 @@ async function renderPage() {
 }
 
 describe("Truth, Entropy & Inference language visualization", () => {
+  it("bridges token embeddings to output probabilities before the entropy interaction", async () => {
+    await renderPage();
+
+    const sectionHeadings = screen.getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent);
+    expect(sectionHeadings.indexOf("From Tokens to Embeddings to Probabilities")).toBeLessThan(
+      sectionHeadings.indexOf("Entropy, Surprise, and Conditional Prediction"),
+    );
+    expect(
+      screen.getByRole("figure", {
+        name: "Technical path from token IDs through embeddings to next-token probabilities",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("eᵢ = E[xᵢ] ∈ ℝᵈ")).toBeInTheDocument();
+    expect(screen.getByText("z = Wₒhₙ + b ∈ ℝ|V|")).toBeInTheDocument();
+    expect(screen.getByText("P(j | x≤n) = softmax(z)ⱼ")).toBeInTheDocument();
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("man+royal=king");
+    fireEvent.change(screen.getByLabelText("Added embedding direction"), { target: { value: "young" } });
+    fireEvent.change(screen.getByLabelText("Starting embedding term"), { target: { value: "king" } });
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("king+young=prince");
+    expect(screen.getByRole("link", { name: /training walkthrough in Goals, Solutions & Value/i })).toHaveAttribute(
+      "href",
+      "/writing/goals-solutions-and-value",
+    );
+    expect(screen.getByRole("button", { name: /Inspect a learned token embedding space/i })).toBeInTheDocument();
+  });
+
   it("lets a term of art direct the response without conflating the choice with the ambiguity meter", async () => {
     await renderPage();
 
@@ -78,6 +104,8 @@ describe("Truth, Entropy & Inference language visualization", () => {
       "4.8",
     );
     expect(screen.getByText("Broad response")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Assumptions activated")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "The domain is bounded integer keys" })).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("radio", { name: "Term of art: stable counting sort" }));
 
@@ -91,6 +119,9 @@ describe("Truth, Entropy & Inference language visualization", () => {
     );
     expect(screen.getByText("Domain response activated — stable counting sort")).toBeInTheDocument();
     expect(screen.getByText(/Use a stable counting sort for bounded integer keys/)).toBeInTheDocument();
+    expect(screen.getByLabelText("Assumptions activated")).toHaveTextContent(
+      "Bounded integer keys · Key range known and compact · Memory safety and stability required",
+    );
   });
 
   it("supplies domain-specific language choices for design and business strategy", async () => {
@@ -98,6 +129,7 @@ describe("Truth, Entropy & Inference language visualization", () => {
     const domain = screen.getByRole("combobox", { name: "Example domain" });
 
     fireEvent.change(domain, { target: { value: "design" } });
+    expect(screen.getByText("“Make the checkout easier to use.”")).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: "Plain language: make the checkout easier to use" })).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: "Slang: give it some polish" })).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: "Adjacent domain: optimize the conversion funnel" })).toBeInTheDocument();
@@ -116,7 +148,7 @@ describe("Truth, Entropy & Inference language visualization", () => {
 
     fireEvent.change(domain, { target: { value: "cybersecurity" } });
     expect(screen.getByRole("radio", { name: "Term of art: phishing-resistant MFA" })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "The domain is administrative access" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Term of art: phishing-resistant MFA" }));
     expect(screen.getByText("Domain response activated — phishing-resistant MFA")).toBeInTheDocument();
 
     fireEvent.change(domain, { target: { value: "manufacturing" } });

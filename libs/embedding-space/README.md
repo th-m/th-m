@@ -38,9 +38,14 @@ curated teaching scenario while keeping the offline artifact compact.
   negative-sampling checkpoints, learned vectors, similarities, and analogies.
 - **Public API:** `EmbeddingSpaceVisualization`, the default scenario, typed
   Explore and Train datasets, typed configuration, search/query helpers, and
-  framework-independent vector math. Advanced training-only exports are
+  framework-independent vector math. The compact
+  `EmbeddingCompositionExplorer` is available from
+  `@th-m/embedding-space/composition`. Advanced training-only exports are
   available from `@th-m/embedding-space/training` so the default Explore entry
   can load checkpoint data only when Train mode is opened.
+- **Composition explorer:** A hand-authored two-dimensional teaching projection
+  that demonstrates semantic directions without presenting its exact equations
+  as measured Word2Vec output.
 
 ## Data and License
 

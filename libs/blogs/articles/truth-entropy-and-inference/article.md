@@ -123,7 +123,66 @@ context remain in good-faith alignment; knowledge by acquaintance by whether a
 description or demonstration remains faithful to experience. The language of a
 domain records which of these checks have been running — and how hard they bite.
 
-## 3. Entropy, Surprise, and Conditional Prediction
+## 3. From Tokens to Embeddings to Probabilities
+
+A tokenizer does not hand the model words or definitions. It hands the model
+token IDs. For a vocabulary `V` and embedding width `d`, a learned table
+`E ∈ ℝ|V|×d` stores one input vector for each token ID. Looking up token `xᵢ`
+selects the row `E[xᵢ]`. A phrase such as *stable
+counting sort* may occupy several tokens, so it begins as a sequence of vectors
+rather than one indivisible concept.
+
+Distributed representations can also encode useful directions. The familiar
+shorthand `man + royal ≈ king` is best read as a geometric intuition: adding a
+learned feature can move a vector toward a neighborhood of related roles. It is
+not symbolic arithmetic, and no equation is guaranteed across models. On the
+published page, a compact interactive teaching projection lets readers combine
+terms such as `man + royal = king` and `king + young = prince`, then see the
+starting word, direction, and illustrative result on an x-y plane. Its points
+are hand-authored for clarity; real Word2Vec-style arithmetic operates in the
+model's original high-dimensional space and returns ranked neighbors whose
+order depends on the model and training corpus.
+
+Those lookup vectors are only the starting state. Positional information is
+added, and transformer layers use attention and feed-forward transformations to
+produce a **contextual hidden state** for every position. The input row for a
+token is fixed during ordinary inference, but its hidden state changes with the
+surrounding language. The representation of *stable* in *stable counting sort*
+therefore differs from its representation in *stable employment*.
+
+The common decoder-style path is:
+
+```text
+token IDs          x₁, x₂, …, xₙ ∈ V
+embedding lookup   eᵢ = E[xᵢ] ∈ ℝᵈ
+contextual states  h₁…hₙ = Transformer(e₁…eₙ)
+output logits      z = Wₒhₙ + b ∈ ℝ|V|
+probabilities      P(j | x≤n) = softmax(z)ⱼ
+```
+
+At the final prompt position, the output projection produces one **logit**, or
+unnormalized score, per vocabulary token. **Softmax** exponentiates and
+normalizes those scores into `P(next token | prompt)`. A decoding rule chooses
+or samples a token, appends it to the context, and repeats the same computation.
+
+> **Important boundary — Embedding geometry is not output probability.**
+> Distance or cosine similarity between input embeddings can expose useful
+> learned relationships, but it does not determine the next token by itself.
+> The full prompt, every transformer layer, and the output projection intervene
+> before softmax produces a distribution.
+
+This is how a valid term of art can steer a response without acting like a
+magic command or a database key. Its tokens shift the model's contextual state
+toward learned patterns associated with that technical usage; the rest of the
+prompt supplies the assumptions that make those patterns applicable. The next
+section turns that mechanism into the prompt-and-ambiguity interaction.
+
+The embedding table and every downstream weight acquired this predictive role
+during training. For the cross-entropy, backpropagation, and optimizer loop that
+updates those parameters, return to the [training walkthrough in *Goals,
+Solutions & Value*](/writing/goals-solutions-and-value).
+
+## 4. Entropy, Surprise, and Conditional Prediction
 
 Information theory gives us a precise way to talk about the uncertainty a
 request leaves behind. A **probability distribution** represents uncertainty
@@ -156,14 +215,15 @@ distribution (high entropy, many plausible continuations); a fitting term of art
 selects a response family, and valid assumptions narrow it into a handful of
 testable continuations. On the published page, an interactive figure keeps those
 roles distinct: the scenario sets context, the chosen phrase directs the
-response, and a small ambiguity meter shows the remaining uncertainty as
-supporting concepts are added. Its number is an illustrative proxy, not a
-measured model probability.
+response, and a small ambiguity meter shows the remaining uncertainty. Choosing
+the term of art automatically reveals a compact summary of the assumptions that
+make it applicable. Its number is an illustrative proxy, not a measured model
+probability.
 
 The model did not become smarter between the two prompts; the second prompt
 simply selected more of the structure the model had learned.
 
-## 4. Language Patterns Carry the History of Constraint
+## 5. Language Patterns Carry the History of Constraint
 
 Patterns become meaningful when practices repeatedly reward some distinctions
 and reject others. Technical terms survive because they compress a history of
@@ -186,7 +246,7 @@ prompt activates named patterns, how feedback systems shape those patterns, and
 how executable checks ground coherence. It is a map of the argument, not a
 claim about which sentences are true.
 
-## 5. Why Code Is So Pattern-Dense
+## 6. Why Code Is So Pattern-Dense
 
 The practical constraints that enforce programming-language patterns form a
 stack. Each layer rejects invalid expressions before the next one ever sees
@@ -226,7 +286,7 @@ values, and the acceptable tradeoffs. The repository contains much of the
 relevant state for one; the decisive facts for the other may be tacit, private,
 or still being discovered.
 
-## 6. “Hash Sort” Versus “Organize This List Really Fast”
+## 7. “Hash Sort” Versus “Organize This List Really Fast”
 
 The two prompts from the opening are a lesson in semantic compression. An
 algorithm name can activate expectations about input shape, complexity, memory,
@@ -245,7 +305,7 @@ by value, whether or not that is what you wanted. The lesson is not “use
 jargon.” It is: **use the most specific valid concept available, then state the
 conditions that make it valid.**
 
-## 7. A Map of Domain Fluency
+## 8. A Map of Domain Fluency
 
 When you need to know whether a model can be trusted in a domain, look for
 evidence that the domain’s language is well grounded:
@@ -265,7 +325,7 @@ right. Fluency is domain- and task-specific, not one global measure of
 intelligence — the same model can be sharp in a strongly constrained domain and
 glib in a weakly constrained one.
 
-## 8. Prompting as Constraint Selection
+## 9. Prompting as Constraint Selection
 
 While vibe designing a web logo, I realized I needed to eat my own dog food. My
 early prompts described the result I wanted in broad visual language, but they
@@ -302,7 +362,7 @@ the model for predicting what the training text actually contains, and training
 text from strongly constrained domains contains fewer plausible continuations
 to choose between.
 
-## 9. Coherence Is Evidence About a Pattern, Not the World
+## 10. Coherence Is Evidence About a Pattern, Not the World
 
 Close by separating three judgments that are easy to conflate:
 
@@ -329,6 +389,7 @@ continuation from a correct answer, and both from a meaningful one.
 - Claude E. Shannon, [“A Mathematical Theory of Communication”](https://doi.org/10.1002/j.1538-7305.1948.tb01338.x) (1948). Defines information entropy and conditional uncertainty.
 - Claude E. Shannon, [“Prediction and Entropy of Printed English”](https://doi.org/10.1002/j.1538-7305.1951.tb01366.x) (1951). Uses next-character prediction to estimate the redundancy of English.
 - Yoshua Bengio, Réjean Ducharme, Pascal Vincent, and Christian Jauvin, [“A Neural Probabilistic Language Model”](https://www.jmlr.org/papers/v3/bengio03a.html) (2003). Connects conditional word-sequence probabilities with learned distributed representations.
+- Ashish Vaswani et al., [“Attention Is All You Need”](https://arxiv.org/abs/1706.03762) (2017). Describes learned token embeddings, contextual transformation through attention, and projection plus softmax into output-token probabilities.
 - Eric Evans, [*Domain-Driven Design Reference*](https://www.domainlanguage.com/ddd/reference/). Defines bounded contexts and model-aligned domain language.
 - Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein, [*Introduction to Algorithms*](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). Provides the sorting and algorithmic assumptions referenced in the essay.
 - Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, [*Theorem Proving in Lean 4*](https://docs.lean-lang.org/theorem_proving_in_lean4/). Documents mechanically checked propositions and proof objects.

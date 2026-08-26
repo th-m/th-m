@@ -103,6 +103,7 @@
       "name": "@th-m/blogs",
       "version": "1.0.0",
       "dependencies": {
+        "@th-m/embedding-space": "workspace:*",
         "yaml": "2.8.1",
       },
       "devDependencies": {

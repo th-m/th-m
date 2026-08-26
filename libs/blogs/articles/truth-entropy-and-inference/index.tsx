@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import type { PublishedPost } from "@th-m/blogs/publish";
 import {
@@ -18,6 +18,7 @@ import {
 } from "@th-m/ui";
 import { PropositionGraphFigure } from "@th-m/graph-visualization";
 import type { GraphDocument } from "@th-m/graph-visualization";
+import { EmbeddingCompositionExplorer } from "@th-m/embedding-space/composition";
 
 /* ------------------------------------------------------------------ */
 /* Small prose primitives                                              */
@@ -244,7 +245,129 @@ function TruthPracticesFigure() {
 }
 
 /* ------------------------------------------------------------------ */
-/* F2 — Prompt direction and remaining ambiguity                       */
+/* F2 — From token embeddings to output probabilities                  */
+/* ------------------------------------------------------------------ */
+
+const EMBEDDING_PIPELINE = [
+  {
+    label: "Token IDs",
+    formula: "x₁, x₂, …, xₙ ∈ V",
+    detail: "The tokenizer maps text pieces to indices in a fixed vocabulary.",
+  },
+  {
+    label: "Embedding lookup",
+    formula: "eᵢ = E[xᵢ] ∈ ℝᵈ",
+    detail: "Each ID selects one learned row from the embedding matrix.",
+  },
+  {
+    label: "Contextual states",
+    formula: "h₁…hₙ = Transformer(e₁…eₙ)",
+    detail: "Attention and feed-forward layers rewrite each position relative to its context.",
+  },
+  {
+    label: "Output logits",
+    formula: "z = Wₒhₙ + b ∈ ℝ|V|",
+    detail: "The final state produces one unnormalized score for every possible next token.",
+  },
+  {
+    label: "Probabilities",
+    formula: "P(j | x≤n) = softmax(z)ⱼ",
+    detail: "Softmax normalizes those scores; decoding then chooses or samples a token.",
+  },
+] as const;
+
+function EmbeddingMechanicsFigure() {
+  return (
+    <figure aria-label="Technical path from token IDs through embeddings to next-token probabilities">
+      <div style={figureFrame}>
+        <ol
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+            gap: 10,
+            margin: 0,
+            padding: 0,
+            listStyle: "none",
+          }}
+        >
+          {EMBEDDING_PIPELINE.map((stage, index) => (
+            <li
+              key={stage.label}
+              style={{
+                minWidth: 0,
+                padding: "13px 14px",
+                border: "1px solid var(--line)",
+                background: "var(--color-card)",
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 8,
+                  letterSpacing: ".1em",
+                  textTransform: "uppercase",
+                  color: "var(--color-primary)",
+                }}
+              >
+                {String(index + 1).padStart(2, "0")} · {stage.label}
+              </p>
+              <code
+                style={{
+                  display: "block",
+                  marginTop: 8,
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 11,
+                  lineHeight: 1.45,
+                  color: "var(--color-foreground)",
+                  overflowWrap: "anywhere",
+                }}
+              >
+                {stage.formula}
+              </code>
+              <p style={{ margin: "8px 0 0", fontSize: 11, lineHeight: 1.5, color: "var(--color-foreground-muted)" }}>
+                {stage.detail}
+              </p>
+            </li>
+          ))}
+        </ol>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: 10,
+            marginTop: 10,
+          }}
+        >
+          <div style={{ padding: "12px 14px", border: "1px solid var(--line)", background: "var(--color-surface)" }}>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+              Training changes the map
+            </p>
+            <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.5, color: "var(--color-foreground)" }}>
+              Gradients update <code>E</code>, the transformer weights, and <code>Wₒ</code> to reduce prediction loss.
+            </p>
+          </div>
+          <div style={{ padding: "12px 14px", border: "1px solid var(--line)", background: "var(--color-surface)" }}>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+              Inference moves through the map
+            </p>
+            <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.5, color: "var(--color-foreground)" }}>
+              The weights normally stay fixed; changing the prompt changes the hidden states, logits, and probabilities.
+            </p>
+          </div>
+        </div>
+      </div>
+      <FigureCaption>
+        Embedding mechanics — learned lookup vectors begin the computation; contextual processing and output scoring
+        turn the prompt into a next-token distribution.
+      </FigureCaption>
+    </figure>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* F3 — Prompt direction and remaining ambiguity                       */
 /* ------------------------------------------------------------------ */
 
 type ScenarioConstraint = {
@@ -341,7 +464,7 @@ const SCENARIOS: Scenario[] = [
   {
     id: "design",
     label: "Design",
-    requestBase: "Make this page look better",
+    requestBase: "Make the checkout easier to use",
     targetResponse:
       "Redesign the checkout flow around keyboard operation, visible focus, labeled controls, accessible errors, WCAG AA contrast, and a mobile task-flow test.",
     languageOptions: [
@@ -834,75 +957,57 @@ const REGISTER_INTERPRETATIONS: Record<LanguageOption["register"], number> = {
   "Term of art": 1.8,
 };
 
-/** Join clause strings with commas and an Oxford "and" so they read as one sentence. */
-function joinClauses(clauses: string[]): string {
-  if (clauses.length === 0) return "";
-  if (clauses.length === 1) return clauses[0];
-  if (clauses.length === 2) return `${clauses[0]} and ${clauses[1]}`;
-  return `${clauses.slice(0, -1).join(", ")}, and ${clauses[clauses.length - 1]}`;
+const RESPONSE_METHOD_LABELS = new Set(["family", "method", "control", "system"]);
+const RESPONSE_EVIDENCE_LABELS = new Set(["example", "counterexample", "evidence", "test"]);
+
+function compactAssumption(label: string): string {
+  return label
+    .replace(/^The domain is /i, "")
+    .replace(/^The scope is /i, "")
+    .replace(/^The /i, "")
+    .replace(/\bis known\b/i, "known")
+    .replace(/\bare required\b/i, "required")
+    .replace(/\bis required\b/i, "required")
+    .replace(/^./, (character) => character.toUpperCase());
 }
 
 function PredictionFigure() {
   const [scenarioId, setScenarioId] = useState<Scenario["id"]>("sorting");
   const [languageIndex, setLanguageIndex] = useState(SCENARIOS[0].naiveGuess);
-  const [active, setActive] = useState<Set<number>>(new Set());
-  const [infoIndex, setInfoIndex] = useState<number | null>(null);
 
   const scenario = SCENARIOS.find((entry) => entry.id === scenarioId) ?? SCENARIOS[0];
   const selectedOption = scenario.languageOptions[languageIndex] ?? scenario.languageOptions[scenario.naiveGuess];
   const termOfArt = scenario.languageOptions[scenario.termOfArt];
-
-  const { possibleInterpretations, entropy, ambiguityPercent } = useMemo(() => {
-    const totalConstraintWeight = scenario.constraints.reduce((sum, constraint) => sum + constraint.multiplier, 0);
-    const activeConstraintWeight = scenario.constraints.reduce(
-      (sum, constraint, index) => sum + (active.has(index) ? constraint.multiplier : 0),
-      0,
-    );
-    const constraintCoverage = totalConstraintWeight === 0 ? 0 : activeConstraintWeight / totalConstraintWeight;
-    const baseInterpretations = REGISTER_INTERPRETATIONS[selectedOption.register];
-    const interpretations = 1 + (baseInterpretations - 1) * (1 - constraintCoverage);
-    const percent = ((interpretations - 1) / (REGISTER_INTERPRETATIONS.Slang - 1)) * 100;
-
-    return {
-      possibleInterpretations: interpretations,
-      entropy: Math.log2(interpretations),
-      ambiguityPercent: Math.max(2, percent),
-    };
-  }, [active, scenario, selectedOption.register]);
-
-  const toggle = (index: number) => {
-    setActive((previous) => {
-      const next = new Set(previous);
-      if (next.has(index)) next.delete(index);
-      else next.add(index);
-      return next;
-    });
-  };
+  const possibleInterpretations = REGISTER_INTERPRETATIONS[selectedOption.register];
+  const entropy = Math.log2(possibleInterpretations);
+  const ambiguityPercent = Math.max(
+    2,
+    ((possibleInterpretations - 1) / (REGISTER_INTERPRETATIONS.Slang - 1)) * 100,
+  );
 
   const selectScenario = (id: Scenario["id"]) => {
     const nextScenario = SCENARIOS.find((entry) => entry.id === id) ?? SCENARIOS[0];
     setScenarioId(id);
     setLanguageIndex(nextScenario.naiveGuess);
-    setActive(new Set());
-    setInfoIndex(null);
   };
 
   const termSelected = languageIndex === scenario.termOfArt;
-  const strongDomainCueSelected = [...active].some((index) => scenario.constraints[index]?.multiplier >= 5);
-  const targetActivated = termSelected || strongDomainCueSelected;
-
-  const checkedLabels = scenario.constraints
-    .filter((_, index) => active.has(index))
-    .map((constraint) => constraint.label.charAt(0).toLowerCase() + constraint.label.slice(1));
+  const targetActivated = termSelected;
+  const activatedAssumptions = scenario.constraints
+    .filter(
+      (constraint) =>
+        !RESPONSE_METHOD_LABELS.has(constraint.technicalLabel) &&
+        !RESPONSE_EVIDENCE_LABELS.has(constraint.technicalLabel),
+    )
+    .slice(0, 3)
+    .map((constraint) => compactAssumption(constraint.label));
 
   const responseText = targetActivated
-    ? termSelected
-      ? scenario.targetResponse
-      : `The supporting concepts point to “${termOfArt.term}.” ${scenario.targetResponse}`
+    ? scenario.targetResponse
     : `“${selectedOption.term}” changes the phrasing, but it does not yet select the governing domain method. Several response families remain plausible.`;
 
   return (
-    <figure aria-label="How a term of art directs a response and valid assumptions narrow it">
+    <figure aria-label="How prompt language directs a response">
       <div style={figureFrame}>
         <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(180px, .6fr)", gap: 14, alignItems: "end", marginBottom: 14 }}>
           <div>
@@ -1056,14 +1161,6 @@ function PredictionFigure() {
               Direction
             </dt>
             <dd style={{ margin: 0, fontSize: 12, lineHeight: 1.45, color: "var(--color-foreground)" }}>{selectedOption.term}</dd>
-            {checkedLabels.length > 0 ? (
-              <>
-                <dt style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
-                  Assumptions
-                </dt>
-                <dd style={{ margin: 0, fontSize: 12, lineHeight: 1.45, color: "var(--color-foreground)" }}>{joinClauses(checkedLabels)}</dd>
-              </>
-            ) : null}
           </dl>
         </div>
 
@@ -1108,98 +1205,47 @@ function PredictionFigure() {
           <p style={{ margin: "7px 0 0", fontSize: 13, lineHeight: 1.55, color: "var(--color-foreground)" }}>
             {responseText}
           </p>
+          {termSelected ? (
+            <div
+              aria-label="Assumptions activated"
+              style={{
+                marginTop: 11,
+                paddingTop: 10,
+                borderTop: "1px solid var(--line)",
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 9,
+                  letterSpacing: ".1em",
+                  textTransform: "uppercase",
+                  color: "var(--color-primary)",
+                }}
+              >
+                Assumptions activated
+              </p>
+              <p style={{ margin: "6px 0 0", fontSize: 11, lineHeight: 1.5, color: "var(--color-foreground-muted)" }}>
+                {activatedAssumptions.join(" · ")}
+              </p>
+            </div>
+          ) : null}
           <p style={{ margin: "9px 0 0", fontSize: 11, lineHeight: 1.45, color: "var(--color-foreground-muted)" }}>
             Specific valid terms activate structure; jargon without valid assumptions does not.
           </p>
         </div>
-
-        <div style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
-          <p style={{ margin: "0 0 10px", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
-            Add supporting concepts — assumptions make the direction valid
-          </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {scenario.constraints.map((constraint, index) => {
-              const isActive = active.has(index);
-              const isInfo = infoIndex === index;
-              return (
-                <button
-                  key={constraint.label}
-                  type="button"
-                  aria-pressed={isActive}
-                  aria-label={constraint.label}
-                  onClick={() => {
-                    toggle(index);
-                    setInfoIndex(index);
-                  }}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    padding: "6px 12px",
-                    border: `1px solid ${isActive ? "var(--color-primary)" : "var(--line)"}`,
-                    borderRadius: 999,
-                    background: isActive ? "var(--color-card)" : "var(--color-surface)",
-                    color: "var(--color-foreground)",
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                    fontSize: 12,
-                    lineHeight: 1.45,
-                  }}
-                >
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 8,
-                      letterSpacing: ".1em",
-                      textTransform: "uppercase",
-                      color: isActive || isInfo ? "var(--color-primary)" : "var(--color-foreground-muted)",
-                    }}
-                  >
-                    {constraint.technicalLabel}
-                  </span>
-                  <span aria-hidden="true">{constraint.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div
-            role="status"
-            aria-live="polite"
-            style={{
-              marginTop: 10,
-              padding: "10px 12px",
-              border: "1px dashed var(--line)",
-              background: "var(--color-surface)",
-              fontSize: 12,
-              lineHeight: 1.55,
-              color: "var(--color-foreground-muted)",
-            }}
-          >
-            {infoIndex !== null ? (
-              <>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>
-                  technical label — {scenario.constraints[infoIndex].technicalLabel}
-                </span>
-                <span style={{ marginLeft: 8 }}>{scenario.constraints[infoIndex].metaDescription}</span>
-              </>
-            ) : (
-              <>Choose a supporting concept to see the structure it contributes.</>
-            )}
-          </div>
-        </div>
       </div>
       <FigureCaption>
-        Prompt direction and ambiguity — the scenario sets context, the selected phrase directs the response, and
-        valid assumptions narrow it further.
+        Prompt direction and ambiguity — the scenario sets context, the selected phrase directs the response, and a
+        valid term reveals the assumptions that make its direction meaningful.
       </FigureCaption>
     </figure>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* F3 — The code constraint stack                                      */
+/* F4 — The code constraint stack                                      */
 /* ------------------------------------------------------------------ */
 
 const CONSTRAINT_STACK = [
@@ -1253,7 +1299,7 @@ function ConstraintStackFigure() {
 }
 
 /* ------------------------------------------------------------------ */
-/* F4 — Concept graph (revised proposition/relationship visual)        */
+/* F5 — Concept graph (revised proposition/relationship visual)        */
 /* ------------------------------------------------------------------ */
 
 const constraintGraphDocument: GraphDocument = {
@@ -1518,7 +1564,76 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="03" title="Entropy, Surprise, and Conditional Prediction">
+        <Section index="03" title="From Tokens to Embeddings to Probabilities">
+          <p>
+            A tokenizer does not hand the model words or definitions. It hands the model token IDs. For a vocabulary{" "}
+            <code>V</code> and embedding width <code>d</code>, a learned table <code>E ∈ ℝ|V|×d</code> stores one input
+            vector for each token ID. Looking up token <code>xᵢ</code> selects the row <code>E[xᵢ]</code>. A phrase such
+            as <em>stable counting sort</em> may occupy several tokens, so it begins as a sequence of vectors rather
+            than one indivisible concept.
+          </p>
+          <p>
+            Distributed representations can also encode useful directions. The familiar shorthand{" "}
+            <code>man + royal ≈ king</code> is best read as a geometric intuition: adding a learned feature can move a
+            vector toward a neighborhood of related roles. It is not symbolic arithmetic, and no equation is guaranteed
+            across models. The compact teaching projection below makes that movement visible before we return to the
+            full model path.
+          </p>
+          <EmbeddingCompositionExplorer />
+          <p>
+            Those lookup vectors are only the starting state. Positional information is added, and transformer layers
+            use attention and feed-forward transformations to produce a{" "}
+            <Term label="contextual hidden state">
+              A vector produced for one token position after the model has combined that token with information from
+              the surrounding prompt.
+            </Term>
+            . The input row for a token is fixed during ordinary inference, but its hidden state changes with the
+            surrounding language. The representation of <em>stable</em> in <em>stable counting sort</em> therefore
+            differs from its representation in <em>stable employment</em>.
+          </p>
+
+          <EmbeddingMechanicsFigure />
+
+          <p>
+            At the final prompt position, an output projection converts the contextual state into one{" "}
+            <Term label="logit">
+              An unnormalized score for a possible next token. Larger logits become larger probabilities after
+              softmax, but a logit is not itself a probability.
+            </Term>{" "}
+            per vocabulary token. <Term label="Softmax">
+              A normalization that exponentiates the logits and divides by their sum so the resulting probabilities
+              add to one.
+            </Term>{" "}
+            turns those scores into <code>P(next token | prompt)</code>. A decoding rule chooses or samples a token,
+            appends it to the context, and repeats the same computation.
+          </p>
+          <ClaimCard eyebrow="Important boundary" title="Embedding geometry is not output probability">
+            <p style={{ margin: 0 }}>
+              Distance or cosine similarity between input embeddings can expose useful learned relationships, but it
+              does not determine the next token by itself. The full prompt, every transformer layer, and the output
+              projection intervene before softmax produces a distribution.
+            </p>
+          </ClaimCard>
+          <p>
+            This is how a valid term of art can steer a response without acting like a magic command or a database
+            key. Its tokens shift the model&apos;s contextual state toward learned patterns associated with that technical
+            usage; the rest of the prompt supplies the assumptions that make those patterns applicable. The following
+            section turns that mechanism into the prompt-and-ambiguity interaction.
+          </p>
+          <p>
+            The embedding table and every downstream weight acquired this predictive role during training. For the
+            cross-entropy, backpropagation, and optimizer loop that updates those parameters, return to the{" "}
+            <LinkPreview url="/writing/goals-solutions-and-value" asChild>
+              <Link to="/writing/$slug" params={{ slug: "goals-solutions-and-value" }}>
+                training walkthrough in Goals, Solutions &amp; Value
+              </Link>
+            </LinkPreview>
+            .
+          </p>
+          <Explore toolId="embedding-explorer">Inspect a learned token embedding space</Explore>
+        </Section>
+
+        <Section index="04" title="Entropy, Surprise, and Conditional Prediction">
           <p>
             Information theory gives us a precise way to talk about the uncertainty a request leaves behind. A{" "}
             <Term label="probability distribution">
@@ -1579,7 +1694,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="04" title="Language Patterns Carry the History of Constraint">
+        <Section index="05" title="Language Patterns Carry the History of Constraint">
           <p>
             Patterns become meaningful when practices repeatedly reward some distinctions and reject others.
             Technical terms survive because they compress a history of use:
@@ -1620,7 +1735,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="05" title="Why Code Is So Pattern-Dense">
+        <Section index="06" title="Why Code Is So Pattern-Dense">
           <p>
             The practical constraints that enforce programming-language patterns form a stack. Each layer rejects
             invalid expressions before the next one ever sees them:
@@ -1661,7 +1776,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="06" title="“Hash Sort” Versus “Organize This List Really Fast”">
+        <Section index="07" title="“Hash Sort” Versus “Organize This List Really Fast”">
           <p>
             The two prompts from the opening are a lesson in semantic compression. An algorithm name can activate
             expectations about input shape, complexity, memory, stability, and implementation. But{" "}
@@ -1688,7 +1803,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="07" title="A Map of Domain Fluency">
+        <Section index="08" title="A Map of Domain Fluency">
           <p>
             When you need to know whether a model can be trusted in a domain, look for evidence that the domain’s
             language is well grounded:
@@ -1710,7 +1825,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="08" title="Prompting as Constraint Selection">
+        <Section index="09" title="Prompting as Constraint Selection">
           <p>
             While vibe designing a web logo, I realized I needed to eat my own dog food. My early prompts described
             the result I wanted in broad visual language, but they left too many consequential choices ambiguous. The
@@ -1748,7 +1863,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="09" title="Coherence Is Evidence About a Pattern, Not the World">
+        <Section index="10" title="Coherence Is Evidence About a Pattern, Not the World">
           <p>Close by separating three judgments that are easy to conflate:</p>
           <Card style={{ margin: "1.5em 0" }}>
             <CardHeader>
@@ -1801,7 +1916,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <p>Closing line</p>
         </div>
 
-        <Section index="10" title="Sources">
+        <Section index="11" title="Sources">
           <ul>
             <li>
               Claude E. Shannon, {" "}
@@ -1823,6 +1938,14 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
                 “A Neural Probabilistic Language Model”
               </LinkPreview>{" "}
               (2003). Connects conditional word-sequence probabilities with learned distributed representations.
+            </li>
+            <li>
+              Ashish Vaswani et al., {" "}
+              <LinkPreview url="https://arxiv.org/abs/1706.03762" external>
+                “Attention Is All You Need”
+              </LinkPreview>{" "}
+              (2017). Describes learned token embeddings, contextual transformation through attention, and projection
+              plus softmax into output-token probabilities.
             </li>
             <li>
               Eric Evans, {" "}
