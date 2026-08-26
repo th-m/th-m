@@ -275,3 +275,13 @@ shareable, testable, and available in context — for the next engineer, for the
 next review, and for the next model asked to change the system. A contract
 system can make the factory speak clearly. The ontology gives it a world clear
 enough to speak about.
+
+## Sources
+
+- Thomas R. Gruber, [“A Translation Approach to Portable Ontology Specifications”](https://tomgruber.org/writing/ontolingua-kaj-1993.pdf) (1993). Defines a computational ontology through explicit representational vocabulary that can be shared across implementations.
+- Eric Evans, [*Domain-Driven Design Reference*](https://www.domainlanguage.com/ddd/reference/). Provides the bounded-context, ubiquitous-language, and deliberate-model foundations used in the essay.
+- David L. Parnas, [“On the Criteria To Be Used in Decomposing Systems into Modules”](https://doi.org/10.1145/361598.361623) (1972). Grounds stable responsibility boundaries and the hiding of changeable design decisions.
+- Edsger W. Dijkstra, [“The Structure of the ‘THE’-Multiprogramming System”](https://doi.org/10.1145/363095.363143) (1968). Provides primary historical support for deliberate layered-system structure.
+- John Ousterhout, [*A Philosophy of Software Design*, second-edition excerpt](https://web.stanford.edu/~ouster/cgi-bin/aposd2ndEdExtract.pdf). Supports deep modules and keeping implementation decisions behind compact interfaces.
+- Nx, [“Enforce Module Boundaries”](https://nx.dev/docs/features/enforce-module-boundaries). Documents the project-tag and automated-rule mechanism used to make repository layers enforceable.
+- Uber Engineering, [“Introducing Domain-Oriented Microservice Architecture”](https://www.uber.com/us/en/blog/microservice-architecture/). Describes domain-oriented service boundaries, gateways, layers, and ownership at large-platform scale.

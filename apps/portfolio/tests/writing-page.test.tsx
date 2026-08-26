@@ -45,9 +45,16 @@ describe("ArticleContent dispatch", () => {
     );
     expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();
     // The React page renders the full essay instead of the markdown fallback.
-    expect(screen.getByRole("heading", { name: "Problem" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Goals and Strategy" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "AI Principles and Value Hierarchies" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "The Priorities Hidden Inside the Prompt" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Training through cross-entropy" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "A bad guess, then training" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Goals Create Problem Spaces" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Authority, Accountability, and Corrigibility" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Sources" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Attention Is All You Need/ })).toHaveAttribute(
+      "href",
+      "https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html",
+    );
     expect(screen.queryByText(/external source/i)).not.toBeInTheDocument();
   });
 

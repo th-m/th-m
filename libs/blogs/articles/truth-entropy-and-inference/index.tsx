@@ -1297,6 +1297,60 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
+        <Section index="10" title="Sources">
+          <ul>
+            <li>
+              Claude E. Shannon, {" "}
+              <LinkPreview url="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" external>
+                “A Mathematical Theory of Communication”
+              </LinkPreview>{" "}
+              (1948). Defines information entropy and conditional uncertainty.
+            </li>
+            <li>
+              Claude E. Shannon, {" "}
+              <LinkPreview url="https://doi.org/10.1002/j.1538-7305.1951.tb01366.x" external>
+                “Prediction and Entropy of Printed English”
+              </LinkPreview>{" "}
+              (1951). Uses next-character prediction to estimate the redundancy of English.
+            </li>
+            <li>
+              Yoshua Bengio, Réjean Ducharme, Pascal Vincent, and Christian Jauvin, {" "}
+              <LinkPreview url="https://www.jmlr.org/papers/v3/bengio03a.html" external>
+                “A Neural Probabilistic Language Model”
+              </LinkPreview>{" "}
+              (2003). Connects conditional word-sequence probabilities with learned distributed representations.
+            </li>
+            <li>
+              Eric Evans, {" "}
+              <LinkPreview url="https://www.domainlanguage.com/ddd/reference/" external>
+                <em>Domain-Driven Design Reference</em>
+              </LinkPreview>
+              . Defines bounded contexts and model-aligned domain language.
+            </li>
+            <li>
+              Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein, {" "}
+              <LinkPreview url="https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/" external>
+                <em>Introduction to Algorithms</em>
+              </LinkPreview>
+              . Provides the sorting and algorithmic assumptions referenced in the essay.
+            </li>
+            <li>
+              Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, {" "}
+              <LinkPreview url="https://docs.lean-lang.org/theorem_proving_in_lean4/" external>
+                <em>Theorem Proving in Lean 4</em>
+              </LinkPreview>
+              . Documents mechanically checked propositions and proof objects.
+            </li>
+            <li>
+              Microsoft, {" "}
+              <LinkPreview url="https://www.typescriptlang.org/docs/handbook/" external>
+                <em>The TypeScript Handbook</em>
+              </LinkPreview>
+              . Provides an official example of a type checker rejecting invalid program relationships.
+            </li>
+          </ul>
+        </Section>
+
         <div className="article-outline__closing">
           <blockquote>
             A model is fluent where language has learned to carry the constraints. Our work is to know when those

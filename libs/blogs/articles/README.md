@@ -50,6 +50,12 @@ unnumbered so editorial order can change without destabilizing paths.
 | 5 | [the-ontology-factory](./the-ontology-factory/) | **The Ontology Factory:** the SoundSculpt repository ontology as the factory's semantic infrastructure — ownership visible from the path, layered dependency rules, and executable README/AGENTS/skill contracts | Published; a domain-ontology plan for product domains is retained in the draft workspace |
 | 6 | [the-cognitive-factory](./the-cognitive-factory/) | **Cognitive Factory:** loop and graph engineering extended with ontology and cognition — graph context, executable context, the compounding loop, the cognitive light cone, and a diagnostic build order | Draft outline in progress; research queue established |
 
+### Related Essays
+
+| Workspace | Subject | Status |
+| --- | --- | --- |
+| [consciousness-is-incoherent](./consciousness-is-incoherent/) | **Consciousness is incoherent:** why an unqualified machine-consciousness claim lacks a stable cross-substrate predicate, and what evidence a coherent attribution would require | Published essay page; draws its logical and evidentiary spine from the consciousness notes developed for *Goals, Solutions & Value* |
+
 ### Series Architecture
 
 - Articles 1–3 establish the landscape: human value, the strengths and limits
