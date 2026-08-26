@@ -642,10 +642,14 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               </Ext>
               .
             </p>
-            <p>Training changes the weights; inference uses them.</p>
+            <p>
+              Training changes the weights. Inference uses them. However remarkable the
+              capabilities that emerge, the underlying process remains probabilistic prediction
+              across learned patterns. There is no evidence to suggest anything beyond that.
+            </p>
           </Sub>
 
-          <Sub title="Two compressions">
+          <Sub title="What Language Leaves Out">
             <p>
               So where is the theoretical limit of this language-compression and prediction
               process? Could a sufficiently capable LLM become a god-like oracle? Ask one, “What is

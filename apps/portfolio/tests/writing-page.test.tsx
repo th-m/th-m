@@ -83,10 +83,15 @@ describe("ArticleContent dispatch", () => {
     expect(screen.getByText(/A model never "experiences" anything/)).toHaveTextContent(
       "The value of its predictive capabilities comes from the relationships between words.",
     );
+    expect(screen.getByText(/Training changes the weights\. Inference uses them/)).toHaveTextContent(
+      "the underlying process remains probabilistic prediction across learned patterns",
+    );
     expect(screen.queryByText(/The model never encounters a cat/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Tokens, Training and Information" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Input and tokens" })).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Training and inference" })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "What Language Leaves Out" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Two compressions" })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "LLM Training" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "A model is not conscious" })).toHaveAttribute(
       "href",
