@@ -457,17 +457,23 @@ background, account of revisable valuation, and opening example.
    Technical Journal* 30, no. 1 (1951): 50–64. A precursor to statistical
    language modeling through next-character prediction and estimates of
    linguistic entropy.
+7. 3Blue1Brown. [“Reinventing Entropy | Compression is Intelligence Part
+   1.”](https://www.youtube.com/watch?v=l6DKRf-fAAM) *YouTube.* Explains the
+   mathematical relationship among entropy, compression, and information.
+8. 3Blue1Brown. [“But what is cross-entropy? | Compression is Intelligence Part
+   2.”](https://www.youtube.com/watch?v=GlYgs6v2YfU) *YouTube.* Explains
+   cross-entropy as a measure of predictive distributions.
 
 ### Values and judgment
 
-7. John Dewey. [*Theory of
+9. John Dewey. [*Theory of
    Valuation.*](https://archive.org/details/theoryofvaluatio032168mbp)
    (1939). Develops valuation as inquiry in which ends and means remain
    answerable to consequences.
 
 ### Strategic-advice example
 
-8. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina. [“Researchers
+10. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina. [“Researchers
    Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in
    Return.”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return)
    *Harvard Business Review* (March 16, 2026). Reports the prompt-order and

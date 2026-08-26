@@ -333,6 +333,11 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <p>This capability is not confined to management. It may appear in an engineer who finds the missing constraint, a designer who connects behavior to lived experience, a support specialist who recognizes a recurring causal pattern, or a researcher who distinguishes evidence from a compelling story. Leadership is one place to look for the skill, but the organizational advantage comes from making it common across roles.</p>
         </Section>
 
+        <div className="article-outline__closing">
+          <blockquote>In an age of abundant answers, the scarce skill is building enough shared understanding to know what deserves to be solved — and whether an answer survives contact with the world.</blockquote>
+          <p>Next in the series — <EssayLink slug="the-knowledge-factory">The Knowledge Factory</EssayLink>, then <EssayLink slug="the-ontology-factory">Ontology Factory</EssayLink> and <EssayLink slug="the-cognitive-factory">Cognitive Factory</EssayLink>.</p>
+        </div>
+
         <Section index="17" title="Sources">
           <ul>
             <li>Terence Tao, <ExternalLink href="https://arxiv.org/abs/2608.16753">“Mathematics in the Age of AI”</ExternalLink> (2026). Develops the essay&apos;s organizing example of proof abundance, verification, explanation, and mathematical value.</li>
@@ -344,11 +349,6 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             <li>ISO, <ExternalLink href="https://www.iso.org/standard/77520.html"><em>ISO 9241-210:2019 — Human-centred design for interactive systems</em></ExternalLink>. Grounds sustained attention to users, needs, and human-system consequences throughout design.</li>
           </ul>
         </Section>
-
-        <div className="article-outline__closing">
-          <blockquote>In an age of abundant answers, the scarce skill is building enough shared understanding to know what deserves to be solved — and whether an answer survives contact with the world.</blockquote>
-          <p>Next in the series — <EssayLink slug="the-knowledge-factory">The Knowledge Factory</EssayLink>, then <EssayLink slug="the-ontology-factory">Ontology Factory</EssayLink> and <EssayLink slug="the-cognitive-factory">Cognitive Factory</EssayLink>.</p>
-        </div>
       </div>
     </TooltipProvider>
   );

@@ -1,9 +1,27 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 import type { PublishedArticle } from "../src/content/blog-content";
 import { ArticleContent } from "../src/writing/ArticleContent";
 import { ToolDrawerProvider } from "../src/tools/ToolDrawerProvider";
+
+vi.mock("@tanstack/react-router", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@tanstack/react-router")>();
+  const { forwardRef } = await import("react");
+  const Link = forwardRef<
+    HTMLAnchorElement,
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
+      children: ReactNode;
+      params?: Record<string, string>;
+      to: string;
+    }
+  >(function TestLink({ children, params, to, ...props }, ref) {
+    const href = params?.slug ? to.replace("$slug", params.slug) : to;
+    return <a {...props} href={href} ref={ref}>{children}</a>;
+  });
+  return { ...actual, Link };
+});
 
 // The dispatch test verifies page selection, not ELK layout: mock the dynamic
 // graph figure so jsdom never constructs a web worker (see the graph library's
@@ -36,6 +54,15 @@ function article(slug: string): PublishedArticle {
     markdown,
   };
 }
+
+const dedicatedPageSlugs = [
+  "consciousness-is-incoherent",
+  "goals-solutions-and-value",
+  "the-cognitive-factory",
+  "the-knowledge-factory",
+  "truth-entropy-and-inference",
+  "understanding-is-the-bottleneck",
+] as const;
 
 describe("ArticleContent dispatch", () => {
   it("renders the dedicated React page when the slug has a generated page", async () => {
@@ -139,5 +166,19 @@ describe("ArticleContent dispatch", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();
     expect(screen.getByText("A concise public description.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "external source" })).toHaveAttribute("rel", "noreferrer");
+  });
+
+  it.each(dedicatedPageSlugs)("renders Sources as the final section of %s", (slug) => {
+    render(
+      <ToolDrawerProvider>
+        <ArticleContent article={article(slug)} />
+      </ToolDrawerProvider>,
+    );
+
+    const sourcesHeading = screen.getByRole("heading", { level: 2, name: "Sources" });
+    const sourcesSection = sourcesHeading.closest("section");
+    expect(sourcesSection).not.toBeNull();
+    expect(sourcesSection?.nextElementSibling).toBeNull();
+    expect(screen.getAllByRole("heading", { level: 2 }).at(-1)).toBe(sourcesHeading);
   });
 });
