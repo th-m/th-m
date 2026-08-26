@@ -61,15 +61,14 @@ describe("AI's Consciousness explanation published page", () => {
     );
   });
 
-  it("ends with the verbatim originating prompt", () => {
+  it("ends with a structured original brief", () => {
     render(<ArticleContent article={consciousnessArticle()} />);
 
-    expect(screen.getByRole("heading", { name: "Originating prompt" })).toBeInTheDocument();
-    expect(screen.getByLabelText("Originating prompt transcript")).toHaveTextContent(
-      "I need to add a new blog page and article with this:",
-    );
-    expect(screen.getByLabelText("Originating prompt transcript")).toHaveTextContent(
-      "all claims of machine consiosness are dependent on hypotheticals",
-    );
+    expect(screen.getByRole("heading", { name: "Original brief" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Questions to investigate" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Argument to develop" })).toBeInTheDocument();
+    expect(screen.getByText(/Could consciousness emerge from neural mechanisms/)).toBeInTheDocument();
+    expect(screen.getByText(/Express that incongruency as a concise logical argument/)).toBeInTheDocument();
+    expect(screen.queryByText(/I need to add a new blog page and article/)).not.toBeInTheDocument();
   });
 });
