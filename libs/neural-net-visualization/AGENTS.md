@@ -2,10 +2,12 @@
 
 ## Operational Flow
 
-Keep the illustrative scenario and teaching traces in `model.ts`, the
-per-effect phase timelines in pure data consumed by the component, and the SVG
-scene in `NeuralNetAnimation.tsx`. Expose only the component, its props, and
-the effect list through the package root.
+Keep the declarative scene contract and validation in `src/scene.ts`, visual
+class builders in `src/style-builders.ts`, generic rendering and interaction in
+`src/NeuralNetAnimation.tsx`, and atomic implementation classes in
+`src/styles.css`. Export the renderer, scene helper, builders, and their public
+types through the package root. Define semantic labels, numerical data, and
+local style aliases in the consuming article or feature.
 
 ## Required Verification Parameters Within Nested Context
 
@@ -16,15 +18,11 @@ contract.
 
 ## Required Invariants Within Folder Context
 
-The component is a self-playing explanatory figure by default, with optional
-reader-steppable controls: numbered step buttons for every operation, Prev and
-Next stepping, and a Play/Pause toggle. Any control interaction pauses
-autoplay so a single state can be inspected; the figure never exposes editing
-or transport controls beyond this stepping. It never calls a live model or
-service, never samples randomness, and displays only deterministic seeded
-teaching traces. The `backprop` effect is the only scene that shows
-training-only behavior, and it always labels loss, backward pass, and
-parameter updates as training-only; `inference` and `feed-forward` never
-include them. Learned parameters and temporary activations remain
-distinguishable without color, and every scene collapses to a static labeled
-frame under reduced motion, with manual stepping still available.
+The library models generic ordered layers, nodes, geometric edges, value-bar
+groups, snapshots, steps, frames, and iterations. It never owns article
+semantics, preset animations, seeded training math, or visual flags named for a
+domain concept. Every snapshot contains exactly one finite value per node, and
+every iteration contains exactly one independently resolved frame per step.
+Style builders remain deterministic and domain-neutral. Manual navigation,
+autoplay, accessible labels, data identifiers, and the final-frame reduced
+motion behavior remain covered by tests.

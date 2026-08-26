@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
   useToolDrawer,
 } from "@th-m/ui";
-import { NeuralNetAnimation } from "@th-m/neural-net-visualization";
+import { NeuralTrainingFigure } from "./neural-training-figure";
 import {
   PropositionGraphFigure,
   type GraphDocument,
@@ -131,18 +131,6 @@ function Explore({ toolId, children }: { toolId: string; children: ReactNode }) 
       <span>{children}</span>
       <span aria-hidden="true">→</span>
     </button>
-  );
-}
-
-function TrainingFigure() {
-  return (
-    <figure className="article-figure">
-      <NeuralNetAnimation effect="backprop" />
-      <figcaption>
-        A bad next-token guess, then backpropagation adjusting the network. Training changes the
-        model&apos;s weights; inference later uses those weights.
-      </figcaption>
-    </figure>
   );
 }
 
@@ -471,7 +459,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               head={["Probability assigned to mat", "Loss"]}
               rows={[["90%", "0.11"], ["70%", "0.36"], ["10%", "2.30"]]}
             />
-            <TrainingFigure />
+            <NeuralTrainingFigure />
             <ul>
               <li>The loss function measures the prediction error.</li>
               <li>Backpropagation identifies how parameters contributed to it.</li>

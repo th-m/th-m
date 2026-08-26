@@ -116,8 +116,6 @@ probability produces a large one. Backpropagation identifies how the model’s
 parameters contributed to the error, and an optimizer adjusts those parameters
 to improve future predictions.
 
-<!-- neural-net-lab -->
-
 ```text
 context → token probabilities → observed token → cross-entropy loss
 → backpropagation → updated weights

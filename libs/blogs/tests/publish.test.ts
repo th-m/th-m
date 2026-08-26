@@ -64,19 +64,29 @@ describe("buildBlogArtifact", () => {
     await expect(access(join(root, "dist", "posts", "unpublished"))).rejects.toThrow();
   });
 
-  it("stages an optional React page and marks the post with page: true", async () => {
+  it("stages an optional React page with immediate TSX and CSS modules", async () => {
     const root = await temporaryProject();
     await mkdir(join(root, "articles", "published"));
     await writeFile(join(root, "articles", "published", "article.md"), article());
     await writeFile(
       join(root, "articles", "published", "index.tsx"),
-      'import type { PublishedPost } from "@th-m/blogs/publish";\nexport default function ArticlePage({ post }: { post: PublishedPost }) { return <h1>{post.title}</h1>; }\n',
+      'import type { PublishedPost } from "@th-m/blogs/publish";\nimport { NeuralFigure } from "./neural-figure";\nexport default function ArticlePage({ post }: { post: PublishedPost }) { return <><h1>{post.title}</h1><NeuralFigure /></>; }\n',
     );
+    await writeFile(
+      join(root, "articles", "published", "neural-figure.tsx"),
+      'import "./neural-figure.css";\nexport function NeuralFigure() { return <figure>Scene</figure>; }\n',
+    );
+    await writeFile(join(root, "articles", "published", "neural-figure.css"), ".scene { display: grid; }\n");
+    await mkdir(join(root, "articles", "published", "private"));
+    await writeFile(join(root, "articles", "published", "private", "secret.tsx"), "export const secret = true;\n");
 
     const manifest = await buildBlogArtifact(root);
 
     expect(manifest.posts[0]).toMatchObject({ slug: "published", page: true });
     await expect(readFile(join(root, "dist", "posts", "published", "index.tsx"), "utf8")).resolves.toContain("export default function ArticlePage");
+    await expect(readFile(join(root, "dist", "posts", "published", "neural-figure.tsx"), "utf8")).resolves.toContain("NeuralFigure");
+    await expect(readFile(join(root, "dist", "posts", "published", "neural-figure.css"), "utf8")).resolves.toContain("display: grid");
+    await expect(access(join(root, "dist", "posts", "published", "private"))).rejects.toThrow();
   });
 
   it("ignores a page without a publishable article and rejects invalid pages", async () => {
@@ -98,6 +108,28 @@ describe("buildBlogArtifact", () => {
     await writeFile(join(emptyRoot, "articles", "empty-page", "article.md"), article());
     await writeFile(join(emptyRoot, "articles", "empty-page", "index.tsx"), "   \n");
     await expect(buildBlogArtifact(emptyRoot)).rejects.toThrow("must not be empty");
+  });
+
+  it("requires an article page for auxiliary modules and validates their filenames and contents", async () => {
+    const orphanModuleRoot = await temporaryProject();
+    await mkdir(join(orphanModuleRoot, "articles", "orphan-module"));
+    await writeFile(join(orphanModuleRoot, "articles", "orphan-module", "article.md"), article());
+    await writeFile(join(orphanModuleRoot, "articles", "orphan-module", "figure.tsx"), "export const Figure = () => null;\n");
+    await expect(buildBlogArtifact(orphanModuleRoot)).rejects.toThrow("auxiliary page modules require index.tsx");
+
+    const invalidNameRoot = await temporaryProject();
+    await mkdir(join(invalidNameRoot, "articles", "invalid-module"));
+    await writeFile(join(invalidNameRoot, "articles", "invalid-module", "article.md"), article());
+    await writeFile(join(invalidNameRoot, "articles", "invalid-module", "index.tsx"), "export default function Page() { return null; }\n");
+    await writeFile(join(invalidNameRoot, "articles", "invalid-module", "NeuralFigure.tsx"), "export const Figure = () => null;\n");
+    await expect(buildBlogArtifact(invalidNameRoot)).rejects.toThrow("must use a kebab-case TSX or CSS filename");
+
+    const emptyModuleRoot = await temporaryProject();
+    await mkdir(join(emptyModuleRoot, "articles", "empty-module"));
+    await writeFile(join(emptyModuleRoot, "articles", "empty-module", "article.md"), article());
+    await writeFile(join(emptyModuleRoot, "articles", "empty-module", "index.tsx"), "export default function Page() { return null; }\n");
+    await writeFile(join(emptyModuleRoot, "articles", "empty-module", "figure.css"), "  \n");
+    await expect(buildBlogArtifact(emptyModuleRoot)).rejects.toThrow("figure.css must not be empty");
   });
 
   it("creates a deterministic empty manifest when no articles exist", async () => {

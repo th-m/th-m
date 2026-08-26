@@ -30,6 +30,7 @@
     "@fontsource-variable/inter": "latest",
     "@fontsource-variable/newsreader": "latest",
     "@fontsource/ibm-plex-mono": "latest",
+    "@supabase/supabase-js": "2.112.4",
     "@tanstack/react-router": "1.170.29",
     "@tanstack/react-start": "1.168.46",
     "@th-m/blogs": "workspace:*",

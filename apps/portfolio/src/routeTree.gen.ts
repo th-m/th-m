@@ -15,6 +15,7 @@ import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as EmbeddingSpaceRouteImport } from './routes/embedding-space'
 import { Route as LawsRouteImport } from './routes/laws'
 import { Route as LlmVisualizationRouteImport } from './routes/llm-visualization'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as RelationshipGraphRouteImport } from './routes/relationship-graph'
 import { Route as SpaShellRouteImport } from './routes/spa-shell'
 import { Route as WritingIndexRouteImport } from './routes/writing.index'
@@ -50,6 +51,11 @@ const LlmVisualizationRoute = LlmVisualizationRouteImport.update({
   path: '/llm-visualization',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 const RelationshipGraphRoute = RelationshipGraphRouteImport.update({
   id: '/relationship-graph',
   path: '/relationship-graph',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/embedding-space': typeof EmbeddingSpaceRoute
   '/laws': typeof LawsRoute
   '/llm-visualization': typeof LlmVisualizationRoute
+  '/login': typeof LoginRoute
   '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/embedding-space': typeof EmbeddingSpaceRoute
   '/laws': typeof LawsRoute
   '/llm-visualization': typeof LlmVisualizationRoute
+  '/login': typeof LoginRoute
   '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/embedding-space': typeof EmbeddingSpaceRoute
   '/laws': typeof LawsRoute
   '/llm-visualization': typeof LlmVisualizationRoute
+  '/login': typeof LoginRoute
   '/relationship-graph': typeof RelationshipGraphRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/embedding-space'
     | '/laws'
     | '/llm-visualization'
+    | '/login'
     | '/relationship-graph'
     | '/spa-shell'
     | '/writing/$slug'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/embedding-space'
     | '/laws'
     | '/llm-visualization'
+    | '/login'
     | '/relationship-graph'
     | '/spa-shell'
     | '/writing/$slug'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/embedding-space'
     | '/laws'
     | '/llm-visualization'
+    | '/login'
     | '/relationship-graph'
     | '/spa-shell'
     | '/writing/$slug'
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   EmbeddingSpaceRoute: typeof EmbeddingSpaceRoute
   LawsRoute: typeof LawsRoute
   LlmVisualizationRoute: typeof LlmVisualizationRoute
+  LoginRoute: typeof LoginRoute
   RelationshipGraphRoute: typeof RelationshipGraphRoute
   SpaShellRoute: typeof SpaShellRoute
   WritingSlugRoute: typeof WritingSlugRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LlmVisualizationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/relationship-graph': {
       id: '/relationship-graph'
       path: '/relationship-graph'
@@ -242,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmbeddingSpaceRoute: EmbeddingSpaceRoute,
   LawsRoute: LawsRoute,
   LlmVisualizationRoute: LlmVisualizationRoute,
+  LoginRoute: LoginRoute,
   RelationshipGraphRoute: RelationshipGraphRoute,
   SpaShellRoute: SpaShellRoute,
   WritingSlugRoute: WritingSlugRoute,

@@ -22,8 +22,8 @@ neither starts nor deploys an application runtime.
 
 An article directory is an editorial boundary. The publisher discovers only
 immediate children of `articles/` and selects a post only when that directory
-contains a valid `article.md`. A sibling `index.tsx` is published alongside the
-article as its React page.
+contains a valid `article.md`. A sibling `index.tsx` and its immediate sibling
+TSX/CSS modules are published together as the article's React page.
 
 ## Key Terms
 
@@ -33,6 +33,8 @@ article as its React page.
 - **Article:** intentionally public Markdown stored as `article.md`.
 - **Page:** an intentionally public React component stored as `index.tsx`; its
   default export receives `{ post, assetUrl }` and renders the article page.
+- **Page module:** a non-empty, kebab-case TSX or CSS sibling imported by an
+  article page; it is published and compiled with that page.
 - **Manifest:** the deterministic, newest-first index of published articles
   using schema version 2.
 - **Publish:** validate public source and recreate the local `dist/` artifact;
@@ -66,8 +68,9 @@ bun run nx run blogs:publish
 ```
 
 Only `articles/*/article.md`, its validated metadata, a sibling non-empty
-`assets/` directory, and an optional sibling `index.tsx` page can enter
-`dist/`. Outlines, notes, research, drafts, and the article-workspace
-documentation remain private. See the [writing component
+`assets/` directory, and an optional sibling `index.tsx` page with immediate
+non-empty, kebab-case `*.tsx` and `*.css` modules can enter `dist/`. Auxiliary
+modules require a page. Outlines, notes, research, drafts, nested private page
+modules, and article-workspace documentation remain private. See the [writing component
 conventions](../../apps/portfolio/docs/writing-component-conventions.md) for
 when an article should ship a custom React page.

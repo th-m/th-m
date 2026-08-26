@@ -34,6 +34,7 @@ function publishedPages() {
     { path: "/embedding-space", prerender: { enabled: true, outputPath: "/embedding-space/index.html" } },
     { path: "/llm-visualization", prerender: { enabled: true, outputPath: "/llm-visualization/index.html" } },
     { path: "/laws", prerender: { enabled: true, outputPath: "/laws/index.html" } },
+    { path: "/login", prerender: { enabled: true, outputPath: "/login/index.html" } },
     { path: "/relationship-graph", prerender: { enabled: true, outputPath: "/relationship-graph/index.html" } },
     { path: "/writing", prerender: { enabled: true, outputPath: "/writing/index.html" } },
     ...slugs.map((slug) => ({
