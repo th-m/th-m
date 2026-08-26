@@ -2,7 +2,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { PublishedPost } from "@th-m/blogs/publish";
-import { articleAssetUrl } from "../src/content/blog-content";
+import { articleAssetUrl, organizeBlogPosts } from "../src/content/blog-content";
 
 const post: PublishedPost = {
   slug: "public-title",
@@ -26,6 +26,23 @@ describe("articleAssetUrl", () => {
     for (const value of ["https://example.com/figure.svg", "/brand/thom.svg", "#detail", "../private.md"]) {
       expect(articleAssetUrl(post, value)).toBe(value);
     }
+  });
+});
+
+describe("organizeBlogPosts", () => {
+  it("keeps addenda out of the primary list and groups them beneath their parent", () => {
+    const addendum: PublishedPost = {
+      ...post,
+      slug: "public-title-addendum",
+      title: "Public title addendum",
+      addendumTo: post.slug,
+      articlePath: "posts/public-title-addendum/article.md",
+    };
+
+    const organized = organizeBlogPosts([addendum, post]);
+
+    expect(organized.primaryPosts).toEqual([post]);
+    expect(organized.addendaByParent.get(post.slug)).toEqual([addendum]);
   });
 });
 

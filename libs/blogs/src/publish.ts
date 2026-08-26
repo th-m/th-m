@@ -9,6 +9,7 @@ export interface PublishedPost {
   description: string;
   publishedAt: string;
   updatedAt?: string;
+  addendumTo?: string;
   tags: string[];
   articlePath: string;
   assetsPath?: string;
@@ -77,6 +78,18 @@ function articleTags(value: unknown, slug: string): string[] {
   return tags;
 }
 
+function articleAddendumTarget(value: unknown, slug: string): string | undefined {
+  if (value === undefined) return undefined;
+  const target = requiredString(value, "addendumTo", slug);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(target)) {
+    throw new Error(`${slug}/article.md addendumTo must be a stable kebab-case slug.`);
+  }
+  if (target === slug) {
+    throw new Error(`${slug}/article.md cannot be an addendum to itself.`);
+  }
+  return target;
+}
+
 export function parseArticleDocument(markdown: string, slug: string): ParsedArticle {
   const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
   if (!match) throw new Error(`${slug}/article.md must begin with YAML frontmatter.`);
@@ -93,6 +106,7 @@ export function parseArticleDocument(markdown: string, slug: string): ParsedArti
   const updatedAt = fields.updatedAt === undefined
     ? undefined
     : publicationDate(fields.updatedAt, "updatedAt", slug);
+  const addendumTo = articleAddendumTarget(fields.addendumTo, slug);
   if (updatedAt && updatedAt < publishedAt) {
     throw new Error(`${slug}/article.md updatedAt must not precede publishedAt.`);
   }
@@ -109,6 +123,7 @@ export function parseArticleDocument(markdown: string, slug: string): ParsedArti
       description,
       publishedAt,
       ...(updatedAt ? { updatedAt } : {}),
+      ...(addendumTo ? { addendumTo } : {}),
       tags: articleTags(fields.tags, slug),
     },
     body,
@@ -218,6 +233,13 @@ export async function buildBlogArtifact(projectDirectory = resolve(dirname(fileU
       ...(assetsPath ? { assetsPath } : {}),
       ...(hasPage ? { page: true } : {}),
     });
+  }
+
+  const publishedSlugs = new Set(posts.map((post) => post.slug));
+  for (const post of posts) {
+    if (post.addendumTo && !publishedSlugs.has(post.addendumTo)) {
+      throw new Error(`${post.slug}/article.md addendumTo references unpublished article ${post.addendumTo}.`);
+    }
   }
 
   posts.sort((left, right) => right.publishedAt.localeCompare(left.publishedAt) || left.slug.localeCompare(right.slug, "en"));

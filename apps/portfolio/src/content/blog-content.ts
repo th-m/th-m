@@ -45,6 +45,23 @@ export async function loadPublishedArticle(slug: string): Promise<PublishedArtic
   return { ...post, markdown: await readPublishedText(post.articlePath) };
 }
 
+export function organizeBlogPosts(posts: BlogManifest["posts"]): {
+  primaryPosts: BlogManifest["posts"];
+  addendaByParent: Map<string, BlogManifest["posts"]>;
+} {
+  const primaryPosts = posts.filter((post) => !post.addendumTo);
+  const addendaByParent = new Map<string, BlogManifest["posts"]>();
+
+  for (const post of posts) {
+    if (!post.addendumTo) continue;
+    const addenda = addendaByParent.get(post.addendumTo) ?? [];
+    addenda.push(post);
+    addendaByParent.set(post.addendumTo, addenda);
+  }
+
+  return { primaryPosts, addendaByParent };
+}
+
 export function articleAssetUrl(post: PublishedPost, value: string): string {
   if (/^(?:[a-z][a-z\d+.-]*:|\/|#)/i.test(value)) return value;
 

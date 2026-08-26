@@ -10,6 +10,7 @@ function consciousnessArticle(): PublishedArticle {
     description: "Machine consciousness claims become coherent only when they name a theory, a discriminating measure, and a validated bridge to phenomenal experience.",
     publishedAt: "2026-08-25",
     updatedAt: "2026-08-26",
+    addendumTo: "ai-consciousness-is-incoherent",
     tags: ["Artificial Intelligence", "Consciousness", "Philosophy of Mind", "Language"],
     articlePath: "posts/consciousness-is-incoherent/article.md",
     markdown: "# AI's Consciousness explanation\n\nBody.\n",
@@ -20,12 +21,17 @@ describe("AI's Consciousness explanation published page", () => {
   it("renders the dedicated essay page and publication metadata", () => {
     render(<ArticleContent article={consciousnessArticle()} />);
 
-    expect(screen.getByText("Essay")).toBeInTheDocument();
+    expect(screen.getByText("Addendum", { selector: ".eyebrow" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "AI's Consciousness explanation" })).toBeInTheDocument();
     expect(screen.getByText(/Machine consciousness claims become coherent/)).toBeInTheDocument();
     expect(screen.getByText("Published August 25, 2026")).toBeInTheDocument();
     expect(screen.getByText("August 26, 2026")).toHaveAttribute("datetime", "2026-08-26");
     expect(screen.getByRole("list", { name: "Topics" }).children).toHaveLength(4);
+    const parentArticleLinks = screen.getAllByRole("link", { name: "AI Consciousness Is Incoherent" });
+    expect(parentArticleLinks).toHaveLength(2);
+    for (const parentArticleLink of parentArticleLinks) {
+      expect(parentArticleLink).toHaveAttribute("href", "/writing/ai-consciousness-is-incoherent");
+    }
   });
 
   it("renders the competing theories, logical form, and evidentiary standard", () => {
@@ -61,14 +67,22 @@ describe("AI's Consciousness explanation published page", () => {
     );
   });
 
-  it("ends with a structured original brief", () => {
+  it("opens with a preface and the restored original prompt without rewriting its wording", () => {
     render(<ArticleContent article={consciousnessArticle()} />);
 
-    expect(screen.getByRole("heading", { name: "Original brief" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Questions to investigate" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Argument to develop" })).toBeInTheDocument();
-    expect(screen.getByText(/Could consciousness emerge from neural mechanisms/)).toBeInTheDocument();
-    expect(screen.getByText(/Express that incongruency as a concise logical argument/)).toBeInTheDocument();
-    expect(screen.queryByText(/I need to add a new blog page and article/)).not.toBeInTheDocument();
+    const preface = screen.getByRole("heading", { name: "Preface" });
+    const firstSection = screen.getByRole("heading", { name: "The question collapses too soon" });
+
+    expect(preface.compareDocumentPosition(firstSection) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByText("00", { selector: ".article-outline__index" })).toBeInTheDocument();
+    expect(screen.getByText(/same surrounding file context later used to develop/)).toBeInTheDocument();
+    expect(screen.getByText(/ability to potentially “be a real boy.”/)).toBeInTheDocument();
+    expect(screen.getByText(/its own “reasoning,” “problem solving,” “thought process,” or “consciousness.”/)).toBeInTheDocument();
+    expect(screen.getByText(/“kind-a-sort-a” is conscious probably contributes to AI psychosis/)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Original Prompt" })).toBeInTheDocument();
+    expect(screen.getByText("I need to add a new blog page and article with this:")).toBeInTheDocument();
+    expect(screen.getByText(/measures of nueral activity in the brain/)).toBeInTheDocument();
+    expect(screen.getByText(/all claims of machine consiosness are dependent on hypotheticals/)).toBeInTheDocument();
+    expect(screen.getByText(/notes in the exisitng blogs for that too/)).toBeInTheDocument();
   });
 });

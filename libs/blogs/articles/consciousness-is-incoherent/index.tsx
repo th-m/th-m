@@ -61,7 +61,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
     <TooltipProvider delayDuration={200}>
       <div className="article-outline">
         <header className="article-outline__header">
-          <p className="eyebrow">Essay</p>
+          <p className="eyebrow">Addendum</p>
           <h1>{post.title}</h1>
           <p className="article-description">{post.description}</p>
           <div className="article-meta">
@@ -75,6 +75,10 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               {post.tags.map((tag) => <li key={tag}>{tag}</li>)}
             </ul>
           ) : null}
+          <p className="article-outline__status">
+            <strong>Addendum to</strong>
+            <a href="/writing/ai-consciousness-is-incoherent">AI Consciousness Is Incoherent</a>
+          </p>
           <div className="article-outline__lede">
             <p>Is an AI conscious?</p>
             <p>It depends on the definition.</p>
@@ -85,6 +89,80 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             </p>
           </div>
         </header>
+
+        <Section index="00" title="Preface">
+          <p>
+            The original prompt below was supplied to the AI with the same surrounding file
+            context later used to develop <a href="/writing/ai-consciousness-is-incoherent"><em>AI
+            Consciousness Is Incoherent</em></a>. It is included here before the essay so the
+            response can be read against what was actually asked and the material the AI had
+            available.
+          </p>
+          <p>
+            In detailing these articles about human experience and unique capability, I
+            ultimately had to ignore the AI’s explanations of its own “reasoning,” “problem
+            solving,” “thought process,” or “consciousness.” It was very clearly biased toward
+            speaking positively about itself and its ability to potentially “be a real boy.” It
+            was frustrating. Honestly, I think AI’s eagerness to interject that it “kind-a-sort-a”
+            is conscious probably contributes to AI psychosis. This article and the linked one
+            were born from that frustration, as well as the general confusion that comes with
+            discussions of consciousness.
+          </p>
+          <h3>Original Prompt</h3>
+          <p>
+            The original prompt follows. Line breaks and transport artifacts have been normalized
+            for legibility; its wording is unchanged.
+          </p>
+          <blockquote className="original-prompt">
+            <p>I need to add a new blog page and article with this:</p>
+            <p><strong>Title: Consciousness is incoherent</strong></p>
+            <p><strong>Rough Copy:</strong></p>
+            <p>Is an AI conscious?</p>
+            <p>Depends on definition...</p>
+            <p>
+              What is consciousness? Inexplicable phenomena, like redness, taste of sourdough, or
+              paralyzing fear,
+            </p>
+            <p>
+              Is human consciousness tied to our biology. Yes. qualia have directly been tied to
+              measures of nueral activity in the brain.
+            </p>
+            <p>
+              Is our ability to reason tied to qualia? ... "Play with fire and get burned" sounds
+              like our lessons growing up assumed some role came from qualia
+            </p>
+            <p>
+              Is there any evidence that conscience can be associated to nueral mechanism of
+              different material substrate.
+            </p>
+            <p>
+              If there is what if anything indicates that it works similar to our consciousness?
+            </p>
+            <p>
+              So comparing AI to humans in kind, i.e. both conscious is incoherent. It tells me
+              nothing meaningful. It's essentially the same as saying humans are deterministic.
+            </p>
+            <p>
+              This is problem fundamentally in language and what it references. Perhaps we need to
+              discover novel ways to probe
+            </p>
+            <hr />
+            <p>
+              The article should show that because there is no objective measure of conciousness,
+              all claims of machine consiosness are dependent on hypotheticals.
+            </p>
+            <p>
+              Additionally there is a note in one of the earlier blogs showing that two competing
+              theories of mind provide contradictory definitions of consciousness. We should pull
+              in relevant notes.
+            </p>
+            <p>
+              Similarly we should try to also formulate that overview into a concise logical
+              statement showing the incongruency we should have notes in the exisitng blogs for
+              that too
+            </p>
+          </blockquote>
+        </Section>
 
         <Section index="01" title="The question collapses too soon">
           <p>
@@ -289,38 +367,6 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               is doing more work than the evidence.
             </p>
           </blockquote>
-        </Section>
-
-        <Section index="09" title="Original brief">
-          <p>
-            This essay began with a question about whether human and machine consciousness can be
-            meaningfully compared.
-          </p>
-          <blockquote>
-            <p><strong>Is an AI conscious?</strong><br />It depends on the definition.</p>
-          </blockquote>
-
-          <h3>Questions to investigate</h3>
-          <ul>
-            <li>What do we mean by consciousness—the redness of red, the taste of sourdough, paralyzing fear, or another form of phenomenal experience?</li>
-            <li>How strongly is human consciousness tied to biology and measurable neural activity?</li>
-            <li>Do qualia shape reasoning and learning? “Play with fire and get burned” suggests that some lessons are inseparable from felt consequences.</li>
-            <li>Could consciousness emerge from neural mechanisms realized in another material substrate?</li>
-            <li>If so, what evidence would show that it functions like human consciousness?</li>
-          </ul>
-
-          <h3>Argument to develop</h3>
-          <p>
-            An unqualified comparison—<em>humans and AI are both conscious</em>—may tell us as
-            little as saying that both are deterministic. The problem lies in the language, the
-            properties it references, and the evidence needed to connect them.
-          </p>
-          <p>The article should:</p>
-          <ol>
-            <li>Explain why current machine-consciousness claims remain hypothetical without an accepted, theory-independent cross-substrate measure.</li>
-            <li>Bring forward the earlier notes showing how competing theories of mind propose incompatible conditions for consciousness.</li>
-            <li>Express that incongruency as a concise logical argument and identify the novel probes a coherent attribution would require.</li>
-          </ol>
         </Section>
 
         <Section index="10" title="Sources">

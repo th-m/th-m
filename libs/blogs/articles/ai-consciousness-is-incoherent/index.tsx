@@ -577,7 +577,16 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </Claim>
         </Section>
 
-        <Section index="09" title="Sources">
+        <Section index="09" title="Addendum">
+          <ul>
+            <li>
+              <a href="/writing/consciousness-is-incoherent">AI's Consciousness explanation</a>
+              {" — "}the earlier essay and its restored original prompt.
+            </li>
+          </ul>
+        </Section>
+
+        <Section index="10" title="Sources">
           <p>
             The argument above is my synthesis. These primary sources support its definitions,
             biological evidence, theory comparison, and technical boundaries.

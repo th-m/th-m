@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import type { BlogManifest } from "@th-m/blogs/publish";
-import { loadBlogManifest } from "../content/blog-content";
+import { loadBlogManifest, organizeBlogPosts } from "../content/blog-content";
 import { articleBundleNodes } from "../content/article-bundle";
 import { PublicationDate } from "../writing/PublicationDate";
 
@@ -24,13 +24,14 @@ export const Route = createFileRoute("/writing/")({
 
 function WritingIndexPage() {
   const manifest = Route.useLoaderData();
-  const bySlug = new Map(manifest.posts.map((post) => [post.slug, post]));
+  const { primaryPosts, addendaByParent } = organizeBlogPosts(manifest.posts);
+  const bySlug = new Map(primaryPosts.map((post) => [post.slug, post]));
   const factorySeries = articleBundleNodes.flatMap((node) => {
     const post = bySlug.get(node.slug);
     return post ? [post] : [];
   });
   const factorySlugs = new Set(factorySeries.map((post) => post.slug));
-  const remainingPosts = manifest.posts.filter((post) => !factorySlugs.has(post.slug));
+  const remainingPosts = primaryPosts.filter((post) => !factorySlugs.has(post.slug));
 
   return (
     <div className="writing-page">
@@ -39,7 +40,7 @@ function WritingIndexPage() {
         <h1>Ideas with enough structure to navigate.</h1>
         <p>Essays about AI, ontology, software systems, and the economics of knowledge work.</p>
       </header>
-      {manifest.posts.length === 0 ? (
+      {primaryPosts.length === 0 ? (
         <section className="writing-empty" aria-labelledby="writing-empty-title">
           <p className="section-index">00</p>
           <div>
@@ -61,7 +62,7 @@ function WritingIndexPage() {
                   </p>
                 </div>
               </header>
-              <WritingList posts={factorySeries} />
+              <WritingList posts={factorySeries} addendaByParent={addendaByParent} />
             </section>
           ) : null}
 
@@ -74,7 +75,7 @@ function WritingIndexPage() {
                   <p>Arguments and field notes that sit outside the factory sequence.</p>
                 </div>
               </header>
-              <WritingList posts={remainingPosts} />
+              <WritingList posts={remainingPosts} addendaByParent={addendaByParent} />
             </section>
           ) : null}
         </>
@@ -83,7 +84,13 @@ function WritingIndexPage() {
   );
 }
 
-function WritingList({ posts }: { posts: BlogManifest["posts"] }) {
+function WritingList({
+  posts,
+  addendaByParent,
+}: {
+  posts: BlogManifest["posts"];
+  addendaByParent: Map<string, BlogManifest["posts"]>;
+}) {
   return (
     <ol className="writing-list">
       {posts.map((post, index) => (
@@ -94,6 +101,16 @@ function WritingList({ posts }: { posts: BlogManifest["posts"] }) {
             <h3><Link to="/writing/$slug" params={{ slug: post.slug }}>{post.title}</Link></h3>
             <p>{post.description}</p>
             {post.tags.length > 0 ? <ul className="article-tags" aria-label="Topics">{post.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul> : null}
+            {(addendaByParent.get(post.slug)?.length ?? 0) > 0 ? (
+              <ul className="writing-addenda" aria-label={`Addenda to ${post.title}`}>
+                {addendaByParent.get(post.slug)?.map((addendum) => (
+                  <li key={addendum.slug}>
+                    <span>Addendum</span>
+                    <Link to="/writing/$slug" params={{ slug: addendum.slug }}>{addendum.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </article>
         </li>
       ))}
