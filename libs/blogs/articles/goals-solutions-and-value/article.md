@@ -2,7 +2,7 @@
 title: Goals, Solutions & Value
 description: Why human experience, values, and wisdom must govern the goals that predictive systems pursue.
 publishedAt: 2026-08-22
-updatedAt: 2026-08-25
+updatedAt: 2026-08-26
 tags: [Artificial Intelligence, Language Models, Strategy, Values]
 ---
 # Goals, Solutions & Value
@@ -191,29 +191,6 @@ intent, the system fills the gap with patterns from training, post-training,
 runtime instructions, and the surrounding context. The answer can be coherent
 under the inferred meaning and completely wrong for the person who asked.
 
-## 3. Experience, Values, and Wisdom
-
-The language boundary matters because consequential goals are grounded in
-situations people inhabit rather than in words alone.
-
-- **Experience** is situated contact with events and consequences: needs,
-  emotions, relationships, memory, physical conditions, social effects, and
-  the changes an action produces.
-- A **value** identifies something treated as worth pursuing, protecting, or
-  refusing.
-- **Wisdom** is corrigible judgment that integrates experience, evidence,
-  competing values, relationships, time horizons, and consequences.
-
-Humans do not automatically possess wisdom. People can be biased, selfish,
-shortsighted, manipulated by incentives, or confidently wrong. Wisdom is not
-the mystique of human intuition. It is a practice: remain in contact with the
-people and conditions affected, preserve dissent, compare perspectives,
-remember consequences, and revise the judgment when reality contradicts it.
-
-That practice cannot be replaced by asking which sentence sounds most like a
-wise answer. The people who bear a decision’s consequences have standing in
-the judgment, and the institutions exercising authority remain accountable for
-what follows.
 
 ### Judgments hidden in ordinary language
 
@@ -284,10 +261,9 @@ space. A rise in support tickets might be a cost problem under a margin goal, a
 quality signal under a retention goal, or valuable customer contact under a
 learning goal.
 
-Once the root goal is supplied, AI can expand the tree. It can identify
+Once the root goal is supplied. Then it becomes valuable to explore
 opportunities, generate solutions, design experiments, predict consequences,
-and compare results. Generating more branches cannot determine which root
-deserves to govern them.
+and compare results.
 
 That distinction separates two kinds of decision:
 
@@ -324,8 +300,7 @@ employees, partners, or regulators reject. Success is therefore relational:
 the question is not only whether an action worked, but whose goal it advanced
 and which other goals it constrained.
 
-> **AI can help decide how to pursue a goal. Prediction alone cannot determine
-> which goal deserves authority.**
+> **Prediction alone cannot determine which goal deserves authority.**
 
 ## 5. Authority, Accountability, and Corrigibility
 
@@ -346,12 +321,9 @@ Its operative value hierarchy can come from several layers:
 | Evaluation and feedback | Criteria that reward, reject, or revise behavior |
 
 These layers can agree or conflict. What the system enacts depends on how they
-are ordered and enforced—not on a single value hierarchy the model necessarily
-chose for itself.
+are ordered and enforced.
 
-The deeper danger is not merely leaving values unstated. People can state them
-clearly and choose the wrong ones. An organization can encode a mistaken value
-hierarchy into excellent metrics, incentives, tests, and automation.
+Implicitly or explicitly choosing the wrong values will have the same downstream consequences.
 
 > **The organization becomes coherently wrong.**
 
@@ -431,20 +403,24 @@ than merely the shape of an answer.
 
 The agent did not fail because it was incapable of producing a plan. It failed
 because `optimal` omitted the judgment that would make one plan preferable to
-another. The model supplied a plausible interpretation from its training and
-runtime context. It could not receive the private definition I never expressed.
+another. The model supplied a "plausible" interpretation from its training and
+runtime context.
 
-AI can represent principles, infer motivations, generate strategies, and
-pursue goals through tools and feedback. Those are genuine capabilities. They
-do not determine which outcome should govern, whose interests deserve standing,
-or when a successful optimization has become harmful.
+The strategic-advice study did not test this claim directly. Our hypothesis is
+that, had the researchers held the factual scenarios constant while explicitly
+authorizing different value hierarchies, the models would have returned
+different strategies. A company that ranks workforce continuity above
+near-term efficiency should not receive the same advice as one that ranks rapid
+transformation above continuity, even when the market facts are identical.
+
+Therein lies the crux: an AI may infer an operative value hierarchy, but it
+cannot know that the inferred hierarchy is the one you intended—and it should
+not be empowered to decide what you ought to value. When values remain
+unstated, they do not disappear. The model imports latent priorities from its
+training, post-training, and the language of the prompt.
 
 Human experience reveals what can matter. Values determine what should matter.
-Wisdom keeps those judgments answerable to evidence, other people, and their
-consequences. Our role is not to choose every action. It is to define and
-authorize the governing values, translate them into inspectable language,
-observe what happens, and revise the hierarchy when it proves incomplete or
-wrong.
+Strategy is balancing values and making trade-offs, deciding when it's "worth the risk". An AI cannot experience what matters, and it cannot decide for you aught to value.
 
 > **AI encounters our commitments through language. The next task is to know
 > when language carries enough of the relevant distinctions to guide reliable
