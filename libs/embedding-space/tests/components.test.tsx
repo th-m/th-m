@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { EmbeddingSpaceVisualization } from "../src";
 import { EmbeddingCompositionExplorer } from "../src/composition";
@@ -55,8 +55,8 @@ function expectComposition(equation: string) {
   );
 }
 
-function addCompositionTerm(group: "Role" | "Status" | "Age" | "Creature", term: string) {
-  fireEvent.change(screen.getByRole("combobox", { name: `Add ${group} term` }), { target: { value: term } });
+function setCompositionTerm(slot: number, term: string) {
+  fireEvent.change(screen.getByRole("combobox", { name: `Composition term ${slot}` }), { target: { value: term } });
 }
 
 beforeEach(() => {
@@ -214,7 +214,40 @@ describe("EmbeddingSpaceVisualization", () => {
 });
 
 describe("EmbeddingCompositionExplorer", () => {
-  it("starts with removable term pills and defers its three-dimensional network until it enters the viewport", () => {
+  it("stacks input vectors, composition, and result as non-wrapping arithmetic steps", async () => {
+    const { VectorCompositionReadout } = await vi.importActual<
+      typeof import("../src/EmbeddingCompositionScene3D")
+    >("../src/EmbeddingCompositionScene3D");
+    const { container } = render(
+      <VectorCompositionReadout
+        projection={{
+          components: [
+            { label: "man", vector: [-1.46, 1.12, -1.12] },
+            { label: "royal", vector: [2.92, -0.25, 0.3] },
+          ],
+          location: [1.46, 0.87, -0.82],
+          result: "king",
+          method: "direction",
+          resultKind: "exact",
+        }}
+      />,
+    );
+
+    const calculation = screen.getByRole("group", { name: "Vector composition calculation" });
+    const stages = Array.from(calculation.querySelectorAll<HTMLElement>(".embedding-composition__algebra-step"));
+    expect(stages.map((stage) => stage.dataset.stage)).toEqual(["input-vectors", "compose", "result"]);
+    expect(stages.map((stage) => within(stage).getByRole("heading").textContent)).toEqual([
+      "Input vectors",
+      "Compose",
+      "Result",
+    ]);
+    expect(container.querySelectorAll(".embedding-composition__assignment")).toHaveLength(5);
+    expect(within(stages[0]!).getByText("v(man) = [-1.46, 1.12, -1.12]")).toHaveClass(
+      "embedding-composition__assignment",
+    );
+  });
+
+  it("keeps four stable vocabulary slots and defers its three-dimensional network until it enters the viewport", () => {
     render(<EmbeddingCompositionExplorer />);
 
     expectComposition("man+royal=king");
@@ -224,81 +257,106 @@ describe("EmbeddingCompositionExplorer", () => {
     expect(screen.queryByTestId("mock-composition-3d-scene")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Remove man term" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Remove royal term" })).toBeInTheDocument();
-    expect(screen.getByRole("combobox", { name: "Role term 1" })).toHaveValue("man");
-    expect(screen.getByRole("combobox", { name: "Status term 1" })).toHaveValue("royal");
-    expect(within(screen.getByRole("combobox", { name: "Add Age term" })).getByRole("option", { name: "young" })).toBeInTheDocument();
-    expect(within(screen.getByRole("combobox", { name: "Add Role term" })).getByRole("option", { name: "feminine" })).toBeInTheDocument();
-    expect(screen.getByRole("combobox", { name: "Add Creature term" })).toBeDisabled();
+    const slots = screen.getAllByRole("combobox");
+    expect(slots).toHaveLength(4);
+    expect(slots[0]).toHaveValue("man");
+    expect(slots[1]).toHaveValue("royal");
+    expect(slots[2]).toHaveValue("");
+    expect(slots[3]).toHaveValue("");
+    const optionCounts = slots.map((slot) => within(slot).getAllByRole("option").length);
+    expect(new Set(optionCounts).size).toBe(1);
+    for (const slot of slots) {
+      expect(within(slot).getByRole("option", { name: "young" })).toBeInTheDocument();
+      expect(within(slot).getByRole("option", { name: "feminine" })).toBeInTheDocument();
+      expect(within(slot).getByRole("option", { name: "tiger" })).toBeInTheDocument();
+      expect(within(slot).getByRole("option", { name: "knowledge" })).toBeInTheDocument();
+    }
   });
 
-  it("keeps selected terms visible and replaces them in place", () => {
+  it("replaces any slot in place without changing sibling slots or their options", () => {
     render(<EmbeddingCompositionExplorer />);
 
-    const status = screen.getByRole("combobox", { name: "Status term 1" });
+    const status = screen.getByRole("combobox", { name: "Composition term 2" });
     expect(within(status).getByRole("option", { name: "noble" })).toBeInTheDocument();
     fireEvent.change(status, { target: { value: "noble" } });
     expectComposition("man+noble=lord");
-    expect(screen.getByRole("combobox", { name: "Status term 1" })).toHaveValue("noble");
+    expect(screen.getByRole("combobox", { name: "Composition term 2" })).toHaveValue("noble");
+    expect(screen.getByRole("combobox", { name: "Composition term 3" })).toHaveValue("");
 
-    fireEvent.change(screen.getByRole("combobox", { name: "Role term 1" }), { target: { value: "woman" } });
+    setCompositionTerm(1, "woman");
     expectComposition("woman+noble=lady");
-    expect(screen.getByRole("combobox", { name: "Role term 1" })).toHaveValue("woman");
+    expect(screen.getByRole("combobox", { name: "Composition term 1" })).toHaveValue("woman");
+    expect(within(screen.getByRole("combobox", { name: "Composition term 4" })).getByRole("option", { name: "divine" })).toBeInTheDocument();
   });
 
-  it("composes multiple directions, removes any pill, and supports undo and reset", () => {
+  it("composes multiple directions, clears pills without removing slots, and supports undo and reset", () => {
     render(<EmbeddingCompositionExplorer />);
 
-    addCompositionTerm("Age", "young");
+    setCompositionTerm(3, "young");
     expectComposition("man+royal+young=prince");
-    addCompositionTerm("Role", "feminine");
+    setCompositionTerm(4, "feminine");
     expectComposition("man+royal+young+feminine=princess");
 
     fireEvent.click(screen.getByRole("button", { name: "Remove royal term" }));
     expectComposition("man+young+feminine=girl");
-    expect(within(screen.getByRole("combobox", { name: "Add Status term" })).getByRole("option", { name: "royal" })).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Composition term 2" })).toHaveValue("");
+    expect(screen.getAllByRole("combobox")).toHaveLength(4);
 
     fireEvent.click(screen.getByRole("button", { name: "Undo" }));
-    expectComposition("man+young=boy");
+    expectComposition("man+royal+young+feminine=princess");
     fireEvent.click(screen.getByRole("button", { name: "Reset" }));
-    expectComposition("man=man");
+    expectComposition("man+royal=king");
   });
 
-  it("enumerates starting terms after the last pill is removed", () => {
+  it("keeps all four empty slots available after every pill is removed", () => {
     render(<EmbeddingCompositionExplorer />);
-    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
     fireEvent.click(screen.getByRole("button", { name: "Remove man term" }));
+    fireEvent.click(screen.getByRole("button", { name: "Remove royal term" }));
     expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("Choose a starting term");
-    const roleOptions = screen.getByRole("combobox", { name: "Add Role term" });
+    const roleOptions = screen.getByRole("combobox", { name: "Composition term 1" });
     expect(within(roleOptions).queryByRole("option", { name: "king" })).not.toBeInTheDocument();
     expect(within(roleOptions).queryByRole("option", { name: "princess" })).not.toBeInTheDocument();
-    addCompositionTerm("Role", "boy");
+    setCompositionTerm(1, "boy");
     expectComposition("boy=boy");
-    addCompositionTerm("Status", "royal");
+    setCompositionTerm(2, "royal");
     expectComposition("boy+royal=prince");
   });
 
   it("offers a broader ingredient vocabulary without exposing derived results as new inputs", () => {
     render(<EmbeddingCompositionExplorer />);
-    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
-    fireEvent.click(screen.getByRole("button", { name: "Remove man term" }));
-
-    const creatureOptions = screen.getByRole("combobox", { name: "Add Creature term" });
-    for (const ingredient of ["wolf", "bear", "owl", "snake", "deer", "cat", "dog"]) {
+    const creatureOptions = screen.getByRole("combobox", { name: "Composition term 3" });
+    for (const ingredient of [
+      "wolf", "bear", "owl", "snake", "deer", "cat", "dog", "fox", "shark", "tiger", "raven",
+      "knowledge", "courage", "freedom", "order", "chaos", "memory", "time", "mystery",
+      "justice", "truth", "beauty", "power", "hope", "fear", "love", "reason",
+    ]) {
       expect(within(creatureOptions).getByRole("option", { name: ingredient })).toBeInTheDocument();
     }
-    for (const endpoint of ["werewolf", "owlbear", "catfish", "puppy"]) {
+    for (const endpoint of [
+      "werewolf", "owlbear", "catfish", "puppy", "wisdom", "sphinx", "omniscience", "understanding", "legitimacy",
+    ]) {
       expect(within(creatureOptions).queryByRole("option", { name: endpoint })).not.toBeInTheDocument();
     }
 
-    addCompositionTerm("Creature", "cat");
-    addCompositionTerm("Creature", "fish");
+    setCompositionTerm(1, "cat");
+    setCompositionTerm(2, "fish");
     expectComposition("cat+fish=catfish");
+  });
+
+  it("composes abstract terms with one another and with concrete vocabulary", () => {
+    render(<EmbeddingCompositionExplorer />);
+    setCompositionTerm(1, "knowledge");
+    setCompositionTerm(2, "time");
+    expectComposition("knowledge+time=wisdom");
+
+    setCompositionTerm(1, "mystery");
+    setCompositionTerm(2, "cat");
+    expectComposition("mystery+cat=sphinx");
   });
 
   it("lazy-loads the semantic network on viewport entry and preserves the active composition", async () => {
     render(<EmbeddingCompositionExplorer />);
-    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
-    addCompositionTerm("Role", "feminine");
+    setCompositionTerm(2, "feminine");
     expectComposition("man+feminine=woman");
     expect(screen.queryByTestId("mock-composition-3d-scene")).not.toBeInTheDocument();
 
@@ -310,31 +368,35 @@ describe("EmbeddingCompositionExplorer", () => {
     expectComposition("man+feminine=woman");
   });
 
+  it("names the nearest projected point after the lazy network data becomes available", async () => {
+    render(<EmbeddingCompositionExplorer />);
+    setCompositionTerm(3, "tiger");
+    expectComposition("man+royal+tiger=projectedpoint");
+
+    revealCompositionScene();
+    await waitFor(() => expectComposition("man+royal+tiger=owlbear"));
+    expect(screen.getAllByRole("combobox")).toHaveLength(4);
+  });
+
   it("builds mythical and animal pair recipes from the same Add section", async () => {
     render(<EmbeddingCompositionExplorer />);
-    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
-    addCompositionTerm("Creature", "horse");
+    setCompositionTerm(2, "horse");
     expectComposition("man+horse=centaur");
     expect(screen.queryByText("Mythical blends")).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: "Remove man term" }));
-    fireEvent.click(screen.getByRole("button", { name: "Remove horse term" }));
-    addCompositionTerm("Age", "young");
-    addCompositionTerm("Creature", "horse");
+    setCompositionTerm(1, "young");
+    setCompositionTerm(2, "horse");
     expectComposition("young+horse=foal");
 
-    fireEvent.click(screen.getByRole("button", { name: "Remove young term" }));
-    addCompositionTerm("Creature", "fish");
-    expectComposition("horse+fish=seahorse");
+    setCompositionTerm(1, "fish");
+    expectComposition("fish+horse=seahorse");
 
-    fireEvent.click(screen.getByRole("button", { name: "Remove horse term" }));
-    fireEvent.click(screen.getByRole("button", { name: "Remove fish term" }));
-    addCompositionTerm("Creature", "lion");
-    addCompositionTerm("Creature", "eagle");
+    setCompositionTerm(1, "lion");
+    setCompositionTerm(2, "eagle");
     expectComposition("lion+eagle=griffin");
-    expect(screen.getByRole("combobox", { name: "Creature term 1" })).toHaveValue("lion");
-    expect(screen.getByRole("combobox", { name: "Creature term 2" })).toHaveValue("eagle");
-    fireEvent.change(screen.getByRole("combobox", { name: "Creature term 2" }), { target: { value: "fish" } });
+    expect(screen.getByRole("combobox", { name: "Composition term 1" })).toHaveValue("lion");
+    expect(screen.getByRole("combobox", { name: "Composition term 2" })).toHaveValue("eagle");
+    setCompositionTerm(2, "fish");
     expectComposition("lion+fish=lionfish");
 
     revealCompositionScene();

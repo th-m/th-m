@@ -15,6 +15,7 @@ import {
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import {
   COMPOSITION_OUTPUT_ONLY_TERMS,
+  resolveTermComposition,
   type CompositionResultWord,
   type CompositionTerm,
   type PairRecipe,
@@ -22,7 +23,9 @@ import {
 } from "./compositionModel";
 import {
   SEMANTIC_NETWORK_NODES,
+  projectComposition3d,
   semanticEdgesForHighlights,
+  type CompositionProjection,
   type SemanticNetworkEdge,
   type SemanticNetworkNode,
   type SemanticNetworkRelation,
@@ -221,6 +224,22 @@ function WordMarker({ node, isPath, isSource, isResult }: {
   );
 }
 
+function ProjectedLocationMarker({ position }: { position: readonly [number, number, number] }) {
+  return (
+    <group position={position}>
+      <mesh>
+        <sphereGeometry args={[0.105, 20, 20]} />
+        <meshBasicMaterial color={COLORS.background} />
+      </mesh>
+      <mesh>
+        <torusGeometry args={[0.14, 0.022, 10, 28]} />
+        <meshBasicMaterial color={COLORS.accent} />
+      </mesh>
+      <LabelSprite label="v*" position={[0, 0.27, 0]} color={COLORS.accent} scale={0.82} />
+    </group>
+  );
+}
+
 function networkPosition(word: SemanticNetworkWord): readonly [number, number, number] {
   const position = NETWORK_POSITIONS.get(word);
   if (!position) throw new Error(`No 3D teaching point is defined for ${word}.`);
@@ -292,20 +311,33 @@ export function EmbeddingCompositionScene3D({
   source,
   result,
   recipe,
+  terms,
   onUnavailable,
 }: {
   path: readonly SemanticWord[];
   source: SemanticNetworkWord | null;
   result: CompositionResultWord | CompositionTerm | null;
   recipe: PairRecipe | null;
+  terms: readonly CompositionTerm[];
   onUnavailable: () => void;
 }) {
+  const projection: CompositionProjection = useMemo(
+    () => projectComposition3d(terms, resolveTermComposition(terms)),
+    [terms],
+  );
+  const effectiveResult = result ?? projection.result;
   const highlightedWords = useMemo(
     () => new Set<SemanticNetworkWord>([
       ...path,
+      ...terms.flatMap((term) => NETWORK_POSITIONS.has(term as SemanticNetworkWord)
+        ? [term as SemanticNetworkWord]
+        : []),
       ...(recipe ? [...recipe.terms, recipe.result] : []),
+      ...(effectiveResult && NETWORK_POSITIONS.has(effectiveResult as SemanticNetworkWord)
+        ? [effectiveResult as SemanticNetworkWord]
+        : []),
     ]),
-    [path, recipe],
+    [effectiveResult, path, recipe, terms],
   );
   const visibleEdges = useMemo(
     () => semanticEdgesForHighlights([...highlightedWords]),
@@ -342,9 +374,12 @@ export function EmbeddingCompositionScene3D({
               node={node}
               isPath={highlightedWords.has(node.word)}
               isSource={node.word === source}
-              isResult={node.word === result}
+              isResult={node.word === effectiveResult}
             />
           ))}
+          {projection.method === "mean" && terms.length > 1 ? (
+            <ProjectedLocationMarker position={projection.location} />
+          ) : null}
           {path.slice(1).map((word, index) => (
             <MovementSegment key={`${path[index]}-${word}`} from={path[index] as SemanticWord} to={word} />
           ))}
@@ -357,6 +392,70 @@ export function EmbeddingCompositionScene3D({
           <SceneControls onUnavailable={onUnavailable} />
         </Canvas>
       </div>
+      <VectorCompositionReadout projection={projection} />
     </div>
+  );
+}
+
+function formatVector(vector: readonly [number, number, number]) {
+  return `[${vector.map((value) => value.toFixed(2)).join(", ")}]`;
+}
+
+export function VectorCompositionReadout({ projection }: { projection: CompositionProjection }) {
+  const resultLabel = projection.resultKind === "authored"
+    ? "Authored lexical result"
+    : projection.resultKind === "nearest"
+      ? "Nearest point in this projection"
+      : "Result point";
+  const operation = projection.method === "direction"
+    ? `v* = v(${projection.components[0]?.label ?? "start"}) + ${projection.components.slice(1).map(({ label }) => `Δ(${label})`).join(" + ")}`
+    : projection.method === "mean"
+      ? `v* = (1 / ${Math.max(1, projection.components.length)}) Σ v(tᵢ)`
+      : `v* = v(${projection.components[0]?.label ?? "term"})`;
+
+  return (
+    <section className="embedding-composition__algebra" aria-labelledby="embedding-composition-algebra-title">
+      <header>
+        <p>Linear algebra</p>
+        <h4 id="embedding-composition-algebra-title">From selected vectors to a location</h4>
+      </header>
+      {projection.components.length > 0 ? (
+        <div className="embedding-composition__algebra-steps" role="group" aria-label="Vector composition calculation">
+          <section className="embedding-composition__algebra-step" data-stage="input-vectors">
+            <h5>Input vectors</h5>
+            <div className="embedding-composition__algebra-lines">
+              {projection.components.map(({ label, vector }, index) => (
+                <code className="embedding-composition__assignment" key={`${label}-${index}`}>
+                  {projection.method === "direction" && index > 0 ? "Δ" : "v"}({label}) = {formatVector(vector)}
+                </code>
+              ))}
+            </div>
+          </section>
+          <section className="embedding-composition__algebra-step" data-stage="compose">
+            <h5>Compose</h5>
+            <div className="embedding-composition__algebra-lines">
+              <code className="embedding-composition__assignment">{operation}</code>
+              <code className="embedding-composition__assignment embedding-composition__assignment--total">
+                v* = {formatVector(projection.location)}
+              </code>
+            </div>
+          </section>
+          <section className="embedding-composition__algebra-step embedding-composition__algebra-step--result" data-stage="result">
+            <div className="embedding-composition__algebra-step-heading">
+              <h5>Result</h5>
+              <span>{resultLabel}</span>
+            </div>
+            <div className="embedding-composition__algebra-lines">
+              <code className="embedding-composition__assignment">{projection.result ?? "unnamed point"}</code>
+              {projection.resultKind === "nearest" ? (
+                <code className="embedding-composition__assignment">arg min₍w₎ ‖v(w) − v*‖₂</code>
+              ) : null}
+            </div>
+          </section>
+        </div>
+      ) : (
+        <p className="embedding-composition__algebra-empty">Choose a term to compose its projected vector.</p>
+      )}
+    </section>
   );
 }

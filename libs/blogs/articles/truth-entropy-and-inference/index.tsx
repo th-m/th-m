@@ -14,10 +14,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useToolDrawer,
 } from "@th-m/ui";
-import { PropositionGraphFigure } from "@th-m/graph-visualization";
-import type { GraphDocument } from "@th-m/graph-visualization";
 import { EmbeddingCompositionExplorer } from "@th-m/embedding-space/composition";
 
 /* ------------------------------------------------------------------ */
@@ -118,17 +115,6 @@ function ClaimCard({ eyebrow, title, children }: { eyebrow?: string; title: stri
   );
 }
 
-/** Gold affordance that opens a registered tool in the global drawer. */
-function Explore({ toolId, children }: { toolId: string; children: React.ReactNode }) {
-  const { openTool } = useToolDrawer();
-  return (
-    <button type="button" className="article-tool-trigger" onClick={() => openTool(toolId)}>
-      <span>{children}</span>
-      <span aria-hidden="true">→</span>
-    </button>
-  );
-}
-
 function FigureCaption({ children }: { children: React.ReactNode }) {
   return (
     <figcaption
@@ -217,227 +203,120 @@ const TRUTH_PRACTICES = [
     language: "warranted reliance, reliability, evidence, risk, dependence, justified trust",
     feedback: "failures of warranted reliance expose what ought not be trusted, including failures without deception",
   },
-  {
-    label: "Teleological Theory",
-    formulation: null,
-    validity: "X is true if and only if X is an ideal instance of its kind; X is false if and only if X is a defective instance",
-    parallel: null,
-    language: "kind, purpose, function, ideal, defect, success conditions, governing norms",
-    feedback: "failures to fulfill a kind's governing purpose expose defective instances and unsuccessful acts",
-  },
 ] as const;
 
-function TruthPracticesFigure() {
+const RECURRING_TRUTH_PRACTICES = TRUTH_PRACTICES.slice(0, 3);
+const SITUATED_TRUTH_PRACTICES = TRUTH_PRACTICES.slice(3);
+
+type TruthPractice = (typeof TRUTH_PRACTICES)[number];
+
+function TruthPracticesFigure({
+  practices,
+  ariaLabel,
+  eyebrow,
+  title,
+  caption,
+}: {
+  practices: readonly TruthPractice[];
+  ariaLabel: string;
+  eyebrow: string;
+  title: string;
+  caption: string;
+}) {
   return (
-    <figure aria-label="Seven truth practices and the feedback that constrains their language">
-      <div
-        style={{
-          ...figureFrame,
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: 14,
-        }}
-      >
-        {TRUTH_PRACTICES.map((practice) => (
-          <div
-            key={practice.label}
-            style={{
-              padding: "16px 18px",
-              border: "1px solid var(--line)",
-              background: "var(--color-card)",
-              display: "flex",
-              flexDirection: "column",
-              gap: 10,
-            }}
-          >
-            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".13em", textTransform: "uppercase", color: "var(--color-primary)" }}>
-              {practice.label}
-            </p>
-            {practice.formulation ? (
-              <p
-                style={{
-                  margin: 0,
-                  padding: "9px 10px",
-                  borderLeft: "2px solid var(--color-primary)",
-                  background: "color-mix(in srgb, var(--color-primary) 8%, transparent)",
-                  fontSize: 13,
-                  lineHeight: 1.45,
-                  color: "var(--color-foreground)",
-                }}
-              >
-                <strong>{practice.formulation.lens}</strong> — {practice.formulation.question}
-              </p>
-            ) : null}
-            <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--color-foreground)" }}>
-              {practice.validity}
-            </p>
-            {practice.parallel ? (
-              <p
-                style={{
-                  margin: 0,
-                  padding: "10px 11px",
-                  borderLeft: "2px solid color-mix(in srgb, var(--color-primary) 65%, transparent)",
-                  background: "color-mix(in srgb, var(--color-primary) 5%, transparent)",
-                  fontSize: 11,
-                  lineHeight: 1.55,
-                  color: "var(--color-foreground-muted)",
-                }}
-              >
-                <span
-                  style={{
-                    display: "block",
-                    marginBottom: 4,
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 9,
-                    letterSpacing: ".1em",
-                    textTransform: "uppercase",
-                    color: "var(--color-primary)",
-                  }}
-                >
-                  {practice.parallel.label}
-                </span>
-                {practice.parallel.text}{" "}
-                <a href={practice.parallel.url} target="_blank" rel="noreferrer">
-                  {practice.parallel.linkLabel} ↗
-                </a>
-              </p>
-            ) : null}
-            <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase" }}>Language favors — </span>
-              {practice.language}
-            </p>
-            <p style={{ margin: 0, paddingTop: 8, borderTop: "1px solid var(--line)", fontSize: 12, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>Feedback — </span>
-              {practice.feedback}
-            </p>
-          </div>
-        ))}
-      </div>
-      <FigureCaption>
-        Truth practices and their feedback — each form of truth produces a language, and an institution or consequence that rejects what does not survive it.
-      </FigureCaption>
-    </figure>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* F2 — From token embeddings to output probabilities                  */
-/* ------------------------------------------------------------------ */
-
-const EMBEDDING_PIPELINE = [
-  {
-    label: "Token IDs",
-    formula: "x₁, x₂, …, xₙ ∈ V",
-    detail: "The tokenizer maps text pieces to indices in a fixed vocabulary.",
-  },
-  {
-    label: "Embedding lookup",
-    formula: "eᵢ = E[xᵢ] ∈ ℝᵈ",
-    detail: "Each ID selects one learned row from the embedding matrix.",
-  },
-  {
-    label: "Contextual states",
-    formula: "h₁…hₙ = Transformer(e₁…eₙ)",
-    detail: "Attention and feed-forward layers rewrite each position relative to its context.",
-  },
-  {
-    label: "Output logits",
-    formula: "z = Wₒhₙ + b ∈ ℝ|V|",
-    detail: "The final state produces one unnormalized score for every possible next token.",
-  },
-  {
-    label: "Probabilities",
-    formula: "P(j | x≤n) = softmax(z)ⱼ",
-    detail: "Softmax normalizes those scores; decoding then chooses or samples a token.",
-  },
-] as const;
-
-function EmbeddingMechanicsFigure() {
-  return (
-    <figure aria-label="Technical path from token IDs through embeddings to next-token probabilities">
+    <figure aria-label={ariaLabel}>
       <div style={figureFrame}>
-        <ol
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-            gap: 10,
-            margin: 0,
-            padding: 0,
-            listStyle: "none",
-          }}
-        >
-          {EMBEDDING_PIPELINE.map((stage, index) => (
-            <li
-              key={stage.label}
-              style={{
-                minWidth: 0,
-                padding: "13px 14px",
-                border: "1px solid var(--line)",
-                background: "var(--color-card)",
-              }}
-            >
-              <p
-                style={{
-                  margin: 0,
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 8,
-                  letterSpacing: ".1em",
-                  textTransform: "uppercase",
-                  color: "var(--color-primary)",
-                }}
-              >
-                {String(index + 1).padStart(2, "0")} · {stage.label}
-              </p>
-              <code
-                style={{
-                  display: "block",
-                  marginTop: 8,
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  lineHeight: 1.45,
-                  color: "var(--color-foreground)",
-                  overflowWrap: "anywhere",
-                }}
-              >
-                {stage.formula}
-              </code>
-              <p style={{ margin: "8px 0 0", fontSize: 11, lineHeight: 1.5, color: "var(--color-foreground-muted)" }}>
-                {stage.detail}
-              </p>
-            </li>
-          ))}
-        </ol>
-
+        <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+          {eyebrow}
+        </p>
+        <h3 style={{ margin: "7px 0 0", fontFamily: "var(--font-display)", fontSize: "clamp(20px, 3vw, 28px)", fontWeight: 470, lineHeight: 1.2, color: "var(--color-foreground-strong)" }}>
+          {title}
+        </h3>
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 10,
-            marginTop: 10,
+            gap: 14,
+            marginTop: 16,
           }}
         >
-          <div style={{ padding: "12px 14px", border: "1px solid var(--line)", background: "var(--color-surface)" }}>
-            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
-              Training changes the map
-            </p>
-            <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.5, color: "var(--color-foreground)" }}>
-              Gradients update <code>E</code>, the transformer weights, and <code>Wₒ</code> to reduce prediction loss.
-            </p>
-          </div>
-          <div style={{ padding: "12px 14px", border: "1px solid var(--line)", background: "var(--color-surface)" }}>
-            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
-              Inference moves through the map
-            </p>
-            <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.5, color: "var(--color-foreground)" }}>
-              The weights normally stay fixed; changing the prompt changes the hidden states, logits, and probabilities.
-            </p>
-          </div>
+          {practices.map((practice) => (
+            <div
+              key={practice.label}
+              style={{
+                padding: "16px 18px",
+                border: "1px solid var(--line)",
+                background: "var(--color-card)",
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+              }}
+            >
+              <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".13em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+                {practice.label}
+              </p>
+              {practice.formulation ? (
+                <p
+                  style={{
+                    margin: 0,
+                    padding: "9px 10px",
+                    borderLeft: "2px solid var(--color-primary)",
+                    background: "color-mix(in srgb, var(--color-primary) 8%, transparent)",
+                    fontSize: 13,
+                    lineHeight: 1.45,
+                    color: "var(--color-foreground)",
+                  }}
+                >
+                  <strong>{practice.formulation.lens}</strong> — {practice.formulation.question}
+                </p>
+              ) : null}
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--color-foreground)" }}>
+                {practice.validity}
+              </p>
+              {practice.parallel ? (
+                <p
+                  style={{
+                    margin: 0,
+                    padding: "10px 11px",
+                    borderLeft: "2px solid color-mix(in srgb, var(--color-primary) 65%, transparent)",
+                    background: "color-mix(in srgb, var(--color-primary) 5%, transparent)",
+                    fontSize: 11,
+                    lineHeight: 1.55,
+                    color: "var(--color-foreground-muted)",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "block",
+                      marginBottom: 4,
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 9,
+                      letterSpacing: ".1em",
+                      textTransform: "uppercase",
+                      color: "var(--color-primary)",
+                    }}
+                  >
+                    {practice.parallel.label}
+                  </span>
+                  {practice.parallel.text}{" "}
+                  <a href={practice.parallel.url} target="_blank" rel="noreferrer">
+                    {practice.parallel.linkLabel} ↗
+                  </a>
+                </p>
+              ) : null}
+              <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase" }}>Language favors — </span>
+                {practice.language}
+              </p>
+              <p style={{ margin: 0, paddingTop: 8, borderTop: "1px solid var(--line)", fontSize: 12, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>Feedback — </span>
+                {practice.feedback}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
-      <FigureCaption>
-        Embedding mechanics — learned lookup vectors begin the computation; contextual processing and output scoring
-        turn the prompt into a next-token distribution.
-      </FigureCaption>
+      <FigureCaption>{caption}</FigureCaption>
     </figure>
   );
 }
@@ -1320,6 +1199,233 @@ function PredictionFigure() {
   );
 }
 
+const HASH_SORT_EXAMPLE = `type SortOrder =
+  | "ascending"
+  | "descending";
+
+export function hashSort(
+  values: readonly number[],
+  order: SortOrder = "ascending",
+): number[] {
+  const frequencyByValue =
+    new Map<number, number>();
+
+  for (const value of values) {
+    if (!Number.isSafeInteger(value)) {
+      throw new TypeError("hashSort accepts safe integers only");
+    }
+
+    frequencyByValue.set(
+      value,
+      (frequencyByValue.get(value) ?? 0) + 1,
+    );
+  }
+
+  const keys = [...frequencyByValue.keys()].sort((left, right) =>
+    order === "ascending" ? left - right : right - left,
+  );
+
+  return keys.flatMap((value) =>
+    Array.from(
+      { length: frequencyByValue.get(value)! },
+      () => value,
+    ),
+  );
+}
+
+const input = [7, 2, 7, 1, 4, 2];
+hashSort(input); // [1, 2, 2, 4, 7, 7]`;
+
+const HASH_SORT_INFERRED_STRUCTURE = [
+  "Map-based frequency buckets",
+  "Ascending numeric order",
+  "Duplicate preservation",
+  "Immutable input",
+  "Safe-integer validation",
+] as const;
+
+function PromptExpansionFigure() {
+  return (
+    <figure aria-label="Generative decompression from a compact prompt to a TypeScript implementation">
+      <div style={{ ...figureFrame, padding: "clamp(14px, 3vw, 22px)" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+            gap: 16,
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <p
+              style={{
+                margin: 0,
+                fontFamily: "var(--font-mono)",
+                fontSize: 9,
+                letterSpacing: ".12em",
+                textTransform: "uppercase",
+                color: "var(--color-primary)",
+              }}
+            >
+              Generative decompression
+            </p>
+            <h4
+              style={{
+                margin: "6px 0 0",
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(20px, 3vw, 28px)",
+                fontWeight: 470,
+                letterSpacing: "-.015em",
+                lineHeight: 1.15,
+                color: "var(--color-foreground-strong)",
+              }}
+            >
+              A small address opens a large structure
+            </h4>
+          </div>
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-mono)",
+              fontSize: 9,
+              letterSpacing: ".08em",
+              textTransform: "uppercase",
+              color: "var(--color-foreground-muted)",
+            }}
+          >
+            4 words → many output tokens
+          </p>
+        </div>
+
+        <div
+          aria-label="Compact prompt"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1fr) auto minmax(0, 1fr)",
+            alignItems: "stretch",
+            gap: 10,
+            marginTop: 18,
+          }}
+        >
+          <div style={{ padding: "14px", border: "1px solid var(--color-primary)", background: "var(--color-card)" }}>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+              Algorithm family
+            </p>
+            <code style={{ display: "block", marginTop: 7, fontSize: "clamp(14px, 2vw, 18px)", color: "var(--color-foreground-strong)" }}>
+              hash sort
+            </code>
+          </div>
+          <span aria-hidden="true" style={{ alignSelf: "center", color: "var(--color-primary)", fontFamily: "var(--font-mono)", fontSize: 18 }}>
+            +
+          </span>
+          <div style={{ padding: "14px", border: "1px solid var(--color-primary)", background: "var(--color-card)" }}>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+              Language and form
+            </p>
+            <code style={{ display: "block", marginTop: 7, fontSize: "clamp(14px, 2vw, 18px)", color: "var(--color-foreground-strong)" }}>
+              in TypeScript
+            </code>
+          </div>
+        </div>
+
+        <div style={{ display: "grid", justifyItems: "center", gap: 7, margin: "13px 0" }}>
+          <span aria-hidden="true" style={{ color: "var(--color-primary)", fontFamily: "var(--font-mono)", fontSize: 18, lineHeight: 1 }}>
+            ↓
+          </span>
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center", color: "var(--color-foreground-muted)" }}>
+            Selects a learned response family
+          </p>
+        </div>
+
+        <div
+          aria-label="Defaults inferred while expanding the prompt"
+          style={{ padding: "13px 14px", border: "1px solid var(--line)", background: "var(--color-surface)" }}
+        >
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+            Learned conventions supplied during expansion
+          </p>
+          <ul
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 7,
+              margin: "10px 0 0",
+              padding: 0,
+              listStyle: "none",
+            }}
+          >
+            {HASH_SORT_INFERRED_STRUCTURE.map((item) => (
+              <li
+                key={item}
+                style={{
+                  padding: "5px 8px",
+                  border: "1px solid var(--line)",
+                  background: "var(--color-card)",
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 8,
+                  letterSpacing: ".04em",
+                  lineHeight: 1.4,
+                  color: "var(--color-foreground-muted)",
+                }}
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div style={{ display: "grid", justifyItems: "center", gap: 7, margin: "13px 0" }}>
+          <span aria-hidden="true" style={{ color: "var(--color-primary)", fontFamily: "var(--font-mono)", fontSize: 18, lineHeight: 1 }}>
+            ↓
+          </span>
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", textAlign: "center", color: "var(--color-foreground-muted)" }}>
+            Expands into an explicit, testable artifact
+          </p>
+        </div>
+
+        <div aria-label="Expanded TypeScript response" style={{ border: "1px solid var(--line)", background: "var(--color-card)" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap", padding: "10px 13px", borderBottom: "1px solid var(--line)" }}>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+              Example TypeScript implementation
+            </p>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".06em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+              Response length depends on tokenizer
+            </p>
+          </div>
+          <pre
+            style={{
+              maxWidth: "100%",
+              margin: 0,
+              padding: "16px",
+              overflowX: "auto",
+              fontFamily: "var(--font-mono)",
+              fontSize: "clamp(9px, 1.35vw, 12px)",
+              lineHeight: 1.65,
+              color: "var(--color-foreground)",
+              tabSize: 2,
+            }}
+          >
+            <code>{HASH_SORT_EXAMPLE}</code>
+          </pre>
+          <div style={{ padding: "11px 13px", borderTop: "1px solid var(--line)" }}>
+            <p style={{ margin: 0, fontSize: 11, lineHeight: 1.5, color: "var(--color-foreground-muted)" }}>
+              The generated answer makes the chosen defaults inspectable: duplicates survive, the input is unchanged,
+              and the cost is <code>O(n + k log k)</code> time with <code>O(k)</code> additional space for <code>k</code>{" "}
+              distinct values.
+            </p>
+          </div>
+        </div>
+      </div>
+      <FigureCaption>
+        Prompt expansion — the four-word instruction preserves a compact direction, while the response supplies
+        learned conventions and inferred defaults. This is generative reconstruction, not lossless decoding of
+        information literally stored in four words.
+      </FigureCaption>
+    </figure>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* F4 — The code constraint stack                                      */
 /* ------------------------------------------------------------------ */
@@ -1375,118 +1481,219 @@ function ConstraintStackFigure() {
 }
 
 /* ------------------------------------------------------------------ */
-/* F5 — Concept graph (revised proposition/relationship visual)        */
+/* F5 — How constraints become language and return to practice         */
 /* ------------------------------------------------------------------ */
 
-const constraintGraphDocument: GraphDocument = {
-  schemaVersion: 1,
-  id: "truth-entropy-constraints",
-  name: "How language carries constraints",
-  createdAt: "2026-08-22T00:00:00.000Z",
-  updatedAt: "2026-08-22T00:00:00.000Z",
-  themeId: "thom-dark",
-  layoutMode: "editorial",
-  propositions: [
-    {
-      id: "prompt-hash",
-      statement: "Prompt: “Implement hash-based sorting for these bounded integer keys.”",
-      emphasis: true,
-      pinned: false,
-    },
-    {
-      id: "prompt-organize",
-      statement: "Prompt: “Can you put these numbers in order? Be efficient.”",
-      emphasis: false,
-      pinned: false,
-    },
-    {
-      id: "patterns",
-      statement: "Technical language activates named patterns and assumptions",
-      emphasis: true,
-      pinned: false,
-    },
-    {
-      id: "feedback",
-      statement: "Feedback systems reject invalid expressions",
-      emphasis: true,
-      pinned: false,
-    },
-    {
-      id: "code",
-      statement: "Parsers, types, tests, runtimes, and consequences filter candidate continuations",
-      emphasis: false,
-      pinned: false,
-    },
-    {
-      id: "coherence",
-      statement: "Coherence is evidence about a pattern, not the world",
-      emphasis: true,
-      pinned: false,
-    },
-  ],
-  relationships: [
-    {
-      id: "activates",
-      statement: "activates a region of precise language",
-      participants: [
-        { nodeId: "prompt-hash", arrowAtNode: false, arrowAtRelation: false },
-        { nodeId: "patterns", arrowAtNode: true, arrowAtRelation: false },
-      ],
-      pinned: false,
-    },
-    {
-      id: "guesses",
-      statement: "leaves the ordering rule and costs unspecified — the model guesses",
-      participants: [
-        { nodeId: "prompt-organize", arrowAtNode: false, arrowAtRelation: false },
-        { nodeId: "coherence", arrowAtNode: true, arrowAtRelation: false },
-      ],
-      pinned: false,
-    },
-    {
-      id: "shapes",
-      statement: "rewards stable distinctions and rejects noise",
-      participants: [
-        { nodeId: "feedback", arrowAtNode: false, arrowAtRelation: false },
-        { nodeId: "patterns", arrowAtNode: true, arrowAtRelation: false },
-      ],
-      pinned: false,
-    },
-    {
-      id: "corpora",
-      statement: "produces pattern-dense corpora a model can learn",
-      participants: [
-        { nodeId: "feedback", arrowAtNode: false, arrowAtRelation: false },
-        { nodeId: "code", arrowAtNode: true, arrowAtRelation: false },
-      ],
-      pinned: false,
-    },
-    {
-      id: "checks",
-      statement: "lets patterns be checked against executable behavior",
-      participants: [
-        { nodeId: "code", arrowAtNode: false, arrowAtRelation: false },
-        { nodeId: "coherence", arrowAtNode: true, arrowAtRelation: false },
-      ],
-      pinned: false,
-    },
-    {
-      id: "selects",
-      statement: "constrains which continuations are plausible",
-      participants: [
-        { nodeId: "patterns", arrowAtNode: false, arrowAtRelation: false },
-        { nodeId: "coherence", arrowAtNode: true, arrowAtRelation: false },
-      ],
-      pinned: false,
-    },
-  ],
-  poster: {
-    kicker: "TRUTH, ENTROPY & INFERENCE",
-    title: "How language carries constraints",
-    footer: "THOM · PROPOSITION GRAPH 02",
-    showLegend: true,
+const TRUTH_TO_COMPUTATION_STAGES = [
+  {
+    phase: "Labeling",
+    lens: "Correspondence · Does it match?",
+    title: "Labels are tested against the world",
+    body: "Observation, measurement, and counterexamples correct names that fail to track events, objects, properties, or relations.",
+    signal: "observe + name + correct",
   },
-};
+  {
+    phase: "Operationalization",
+    lens: "Consequence · Does it work?",
+    title: "Useful distinctions become efficient terms",
+    body: "Repeated practice compresses successful inputs, operations, boundaries, and failure modes into terms of art that guide action.",
+    signal: "execute + select + compress",
+  },
+  {
+    phase: "Formalization",
+    lens: "Coherence · Does it fit?",
+    title: "Explicit rules make labels compositional",
+    body: "Mathematics, logic, type systems, and programming languages specify how symbols may combine and what follows.",
+    signal: "abstract + relate + derive",
+  },
+] as const;
+
+function ConstraintFeedbackFigure() {
+  return (
+    <figure aria-label="Working hypothesis from correspondence through consequence and coherence to computation">
+      <div style={{ ...figureFrame, padding: "clamp(14px, 3vw, 22px)" }}>
+        <p
+          style={{
+            margin: 0,
+            fontFamily: "var(--font-mono)",
+            fontSize: 9,
+            letterSpacing: ".12em",
+            textTransform: "uppercase",
+            color: "var(--color-primary)",
+          }}
+        >
+          Working hypothesis
+        </p>
+        <h4
+          style={{
+            margin: "6px 0 0",
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(21px, 3vw, 29px)",
+            fontWeight: 470,
+            letterSpacing: "-.015em",
+            lineHeight: 1.15,
+            color: "var(--color-foreground-strong)",
+          }}
+        >
+          From labeling the world to computation
+        </h4>
+        <p style={{ margin: "9px 0 0", fontSize: 12, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
+          Read downward. Correspondence grounds labels; consequence operationalizes and compresses those that work;
+          coherence formalizes their relations; computation applies the resulting structure.
+        </p>
+
+        <ol style={{ margin: "18px 0 0", padding: 0, listStyle: "none" }}>
+          {TRUTH_TO_COMPUTATION_STAGES.map((stage, index) => (
+            <li key={stage.phase}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "38px minmax(0, 1fr)",
+                  gap: 12,
+                  alignItems: "stretch",
+                }}
+              >
+                <div
+                  aria-hidden="true"
+                  style={{
+                    display: "grid",
+                    placeItems: "center",
+                    width: 34,
+                    height: 34,
+                    marginTop: 2,
+                    border: "1px solid var(--color-primary)",
+                    borderRadius: "50%",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 9,
+                    color: "var(--color-primary)",
+                  }}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+                <div style={{ padding: "13px 14px", border: "1px solid var(--line)", background: "var(--color-surface)" }}>
+                  <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".11em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+                    {stage.phase}
+                  </p>
+                  <p style={{ margin: "5px 0 0", fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".04em", lineHeight: 1.45, color: "var(--color-foreground-muted)" }}>
+                    {stage.lens}
+                  </p>
+                  <p style={{ margin: "5px 0 0", fontFamily: "var(--font-display)", fontSize: 17, fontWeight: 470, lineHeight: 1.25, color: "var(--color-foreground-strong)" }}>
+                    {stage.title}
+                  </p>
+                  <p style={{ margin: "6px 0 0", fontSize: 11, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
+                    {stage.body}
+                  </p>
+                  <code style={{ display: "inline-block", marginTop: 9, padding: "4px 7px", border: "1px solid var(--line)", fontSize: 8, lineHeight: 1.4, color: "var(--color-foreground)" }}>
+                    {stage.signal}
+                  </code>
+                </div>
+              </div>
+              {index < TRUTH_TO_COMPUTATION_STAGES.length - 1 ? (
+                <div
+                  aria-hidden="true"
+                  style={{
+                    width: 1,
+                    height: 18,
+                    margin: "4px 0 4px 17px",
+                    background: "var(--color-primary)",
+                    position: "relative",
+                  }}
+                >
+                  <span style={{ position: "absolute", left: -4, bottom: -5, color: "var(--color-primary)", fontSize: 11 }}>↓</span>
+                </div>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+
+        <div
+          aria-hidden="true"
+          style={{
+            width: 1,
+            height: 18,
+            margin: "4px 0 4px 17px",
+            background: "var(--color-primary)",
+            position: "relative",
+          }}
+        >
+          <span style={{ position: "absolute", left: -4, bottom: -5, color: "var(--color-primary)", fontSize: 11 }}>↓</span>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "38px minmax(0, 1fr)",
+            gap: 12,
+            alignItems: "stretch",
+          }}
+        >
+          <div
+            aria-hidden="true"
+            style={{
+              display: "grid",
+              placeItems: "center",
+              width: 34,
+              height: 34,
+              marginTop: 2,
+              border: "1px solid var(--line)",
+              borderRadius: "50%",
+              fontFamily: "var(--font-mono)",
+              fontSize: 14,
+              color: "var(--color-primary)",
+            }}
+          >
+            →
+          </div>
+          <div style={{ padding: "13px 14px", border: "1px solid var(--color-primary)", background: "var(--color-card)" }}>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".11em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+              Computation
+            </p>
+            <p style={{ margin: "5px 0 0", fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: ".04em", lineHeight: 1.45, color: "var(--color-foreground-muted)" }}>
+              Resulting capability — not a fourth theory of truth
+            </p>
+            <p style={{ margin: "5px 0 0", fontFamily: "var(--font-display)", fontSize: 17, fontWeight: 470, lineHeight: 1.25, color: "var(--color-foreground-strong)" }}>
+              Formal relations become machine-operable
+            </p>
+            <p style={{ margin: "6px 0 0", fontSize: 11, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
+              Machines can generate synthetic cases, type-check programs, prove derivations, simulate models, and
+              execute tests.
+            </p>
+            <code style={{ display: "inline-block", marginTop: 9, padding: "4px 7px", border: "1px solid var(--line)", fontSize: 8, lineHeight: 1.4, color: "var(--color-foreground)" }}>
+              generate + derive + execute
+            </code>
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "auto minmax(0, 1fr)",
+            gap: 10,
+            alignItems: "center",
+            marginTop: 14,
+            padding: "11px 13px",
+            border: "1px solid var(--color-primary)",
+            background: "var(--color-card)",
+          }}
+        >
+          <span aria-hidden="true" style={{ fontFamily: "var(--font-mono)", fontSize: 18, color: "var(--color-primary)" }}>
+            ↺
+          </span>
+          <p style={{ margin: 0, fontSize: 11, lineHeight: 1.5, color: "var(--color-foreground-muted)" }}>
+            <strong style={{ color: "var(--color-foreground-strong)" }}>Regrounding closes the loop.</strong>{" "}
+            A proof establishes derivability from stated premises; a program may compile and pass its tests. Neither
+            result alone shows that the premises model the world, the synthetic data are representative, or the outcome
+            is worth pursuing.
+          </p>
+        </div>
+      </div>
+      <FigureCaption>
+        Hypothesis — correspondence grounds labels; consequence selects and compresses those that work; coherence
+        formalizes their relations. Computation uses that structure, but its results must be regrounded.
+      </FigureCaption>
+    </figure>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /* Page                                                                */
@@ -1518,11 +1725,18 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           ) : null}
 
           <div className="article-outline__lede">
+            <p>Consider two prompts that ask for the same outcome:</p>
+            <blockquote>
+              <p>Implement hash-based sorting for this array.</p>
+            </blockquote>
+            <blockquote>
+              <p>Efficiently organize these numbers.</p>
+            </blockquote>
             <p>
-              Language models learn recurring patterns, but those patterns inherit the discipline of the practices
-              that produced them. Proofs, experiments, programs, and product narratives are shaped by different
-              checks. This essay connects those checks to embeddings, entropy, and prompting — then asks when fluency
-              signals reliable structure and when it only sounds right.
+              Both ask for an efficient ordering. Only the first identifies a known problem space. Used correctly,
+              that identification carries a higher and more useful information density: it activates shared
+              assumptions, methods, and tradeoffs, sharply narrowing what a competent response should contain. The
+              terminology is not a guarantee; its assumptions still have to fit the problem.
             </p>
             <ClaimCard eyebrow="Core thesis" title="Fluency follows constraint.">
               <p style={{ margin: 0 }}>
@@ -1530,6 +1744,11 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
                 fluent output informative; weak feedback makes it merely plausible.
               </p>
             </ClaimCard>
+            <p>
+              The question driving this essay is: <strong>how do communities compress tested distinctions into
+              language, and how do models use that language to narrow plausible continuations?</strong> The answer
+              connects forms of truth to embeddings, entropy, and prompting.
+            </p>
             <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--color-foreground-muted)" }}>
               Building on{" "}
               <LinkPreview url="/writing/goals-solutions-and-value" asChild>
@@ -1548,157 +1767,183 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </div>
         </header>
 
-        <Section index="01" title="The Mystery of the Plausible Continuation">
-          <p>Consider two prompts that are grammatically similar but structurally very different:</p>
-          <blockquote>
-            <p>Implement hash-based sorting for these bounded integer keys.</p>
-          </blockquote>
-          <blockquote>
-            <p>Can you put these numbers in order? Be efficient.</p>
-          </blockquote>
+        <Section index="01" title="Truth and Propositional Formulations">
           <p>
-            Both ask for an efficient ordering. The first activates a technical region of language containing named
-            assumptions, known implementation patterns, and recognizable tradeoffs. The second communicates the
-            visible goal but leaves the ordering direction, integer representation, input size, duplicate handling,
-            stability, memory budget, and meaning of “efficient” unspecified. A model can answer both fluently; only one
-            prompt gives it much of a correctness surface.
-          </p>
-          <p>
-            The governing question is: <strong>what happened in the world that made one pattern of language more
-            informative than the other?</strong> It was not that one sentence was longer or cleverer. The
-            informativity came from outside the sentence — from a community of practice that had spent decades
-            encoding its distinctions into words, syntax, and standards.
-          </p>
-        </Section>
-
-        <Section index="02" title="Forms of Truth and Propositional Formulations">
-          <p>
-            Seven overlapping truth practices shape the language around us. Treat them as an editorial framework, not
+            Six overlapping truth practices shape the language around us. Treat them as an editorial framework, not
             a universal philosophical taxonomy: the same claim can participate in several practices at once.
           </p>
           <p>
-            A temperature reading can be empirically calibrated and operationally relevant to a machine; someone can
-            sincerely report that the same room feels oppressive, while direct acquaintance makes its heat significant
-            within that person&apos;s experience and relationships. Trustworthiness adds another question: whether a
-            claim, representation, or object warrants reliance even when nobody intends to deceive. Teleology asks
-            whether something fulfills the governing purpose or norm of its kind. The categories describe different
-            constraint and meaning systems, not sealed kinds of sentence.
+            Begin with three practices most visibly entangled with subjective experience, belief, and personal or
+            communal value: relational acquaintance, sincerity, and trustworthiness. They ask whether an
+            account remains faithful to lived experience, whether expression aligns with inward state, whether
+            reliance is warranted, and how those judgments reflect what people value. This is the territory of{" "}
+            <LinkPreview url="/writing/goals-solutions-and-value" asChild>
+              <Link to="/writing/$slug" params={{ slug: "goals-solutions-and-value" }}>
+                Goals, Solutions &amp; Value
+              </Link>
+            </LinkPreview>
+            {": what matters, what ought to be trusted, and whose purposes count cannot be supplied by formalism alone. "}
+            These practices are situated and value-laden, but that does not make them arbitrary.
           </p>
-          <TruthPracticesFigure />
+          <TruthPracticesFigure
+            practices={SITUATED_TRUTH_PRACTICES}
+            ariaLabel="Three situated truth practices shaped by experience, belief, and value"
+            eyebrow="Situated and normative practices"
+            title="Experience, belief, and value"
+            caption="Situated truth — constrained through faithful experience, good-faith expression, and warranted reliance."
+          />
           <p>
-            Each practice is also a feedback system. Formal work is checked by counterexamples and proof obligations;
-            empirical work by failed predictions and unreplicated results; operational work by systems that crash,
-            stall, or cost too much; relational and acquaintance-based work by whether situated people find a claim
-            faithful to their experience and its consequences; sincerity by whether avowal, conduct, and context remain
-            in good-faith alignment; and trustworthiness by whether relying on a claim, representation, or object is
-            warranted; teleology by whether an instance fulfills the purpose and norms of its kind. The stage-door
-            example in Kane Baker&apos;s{" "}
+            Their feedback remains substantive: people with direct acquaintance can challenge an account; conduct can
+            contradict an avowal; and reliance can fail. The
+            stage-door example in Kane Baker&apos;s{" "}
             <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s" external>
               “Nonpropositional Truth”
             </LinkPreview>{" "}
             makes the distinction concrete: a door that ought not be trusted by either Sienna or Pearl counts as false
-            in this normative sense regardless of anyone&apos;s intent to deceive. The{" "}
-            <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s" external>
-              teleological account
-            </LinkPreview>{" "}
-            changes the relevant kind: the same door can be a true prop door when it ideally serves its intended
-            theatrical purpose, even if it is untrustworthy as an ordinary door. A true heart likewise fulfills its
-            function by efficiently pumping blood. The language of a domain records which of these checks have been
-            running — and how hard they bite.
+            in this normative sense regardless of anyone&apos;s intent to deceive. The language of a domain records which
+            of these checks have been running — and how hard they bite.
+          </p>
+          <p>
+            Three other practices become the recurring thread of this article: formal truth as coherence, empirical
+            truth as correspondence, and operational truth as consequence. Their memorable questions — does it fit,
+            does it match, and does it work? — separate internal validity, contact with the world, and successful
+            action.
+          </p>
+          <TruthPracticesFigure
+            practices={RECURRING_TRUTH_PRACTICES}
+            ariaLabel="Three recurring truth practices that compose reusable problem-solving formulations"
+            eyebrow="Recurring thread"
+            title="Coherence · Correspondence · Consequence"
+            caption="Recurring truth practices — correspondence grounds labels, consequence tests operations, and coherence makes the surviving relationships compositional."
+          />
+          <p>
+            Together, the three can compose into patterned formulations. Correspondence gives stable labels to
+            recurring observable features; consequence preserves procedures that repeatedly produce useful outputs;
+            coherence abstracts those labels and operations into definitions, algorithms, and proofs. A community can
+            therefore build a reusable problem-solving pattern before the next concrete problem instance is known.
+            When a new situation is recognized as an instance of that pattern, its terminology retrieves candidate
+            operations and exposes assumptions for testing. The pattern does not solve an unknown problem by magic; it
+            gives future problems a tested structure into which they may fit.
           </p>
         </Section>
 
-        <Section index="03" title="From Tokens to Embeddings to Probabilities">
+        <Section index="02" title="From Context to Coordinates to Probabilities">
           <p>
-            CJ&apos;s{" "}
-            <LinkPreview url="https://www.youtube.com/watch?v=YmLp8qe87A0&t=1297s" external>
-              from-scratch Word2Vec demonstration
-            </LinkPreview>{" "}
-            offers a useful way into embeddings: do not ask a vector to contain a dictionary definition. Give every
-            word a small list of initially arbitrary numbers, then train those numbers on context. For each target word
-            and nearby context word, a dot product scores how compatible their vectors are. Training raises that score
-            for observed pairs and lowers it for sampled non-neighbors. Across many examples, words used in similar
-            contexts tend to occupy nearby regions or share useful directions. No coordinate is handed a label such as{" "}
-            <em>royal</em>, <em>age</em>, or <em>animal</em>; the useful structure is distributed across relationships
-            among all the coordinates.
-          </p>
-          <p>
-            Technically, CJ&apos;s skip-gram example learns two tables, <code>Wᵢₙ</code> and <code>Wₒᵤₜ</code>, each with
-            shape <code>|V| × d</code>. After training, the rows of <code>Wᵢₙ</code> are used as the word embeddings. A
-            decoder transformer is trained differently: its embedding table is updated as part of the full next-token
-            objective rather than by a standalone Word2Vec task. But the entry operation is the same. A tokenizer hands
-            the model token IDs, and each ID is only a row address. For a vocabulary <code>V</code> and embedding width{" "}
-            <code>d</code>, the learned table <code>E ∈ ℝ^&#123;|V|×d&#125;</code> stores one input vector for each token ID;
-            looking up token <code>xᵢ</code> selects <code>E[xᵢ]</code>. A phrase such as <em>stable counting sort</em>{" "}
-            may occupy several tokens, so it begins as a sequence of vectors rather than one indivisible concept.
-          </p>
-          <p>
-            Distributed representations can also encode useful directions. The familiar shorthand{" "}
-            <code>man + royal ≈ king</code> is best read as a geometric intuition: adding a learned feature can move a
-            vector toward a neighborhood of related roles. It is not symbolic arithmetic, and no equation is guaranteed
-            across models. The 3D teaching space below puts the composition controls and navigable network into one
-            experience before we return to the full model path. Its WebGL scene is requested only when the reader
-            reaches the explorer, keeping the article&apos;s initial load lightweight. The network reveals all three
-            teaching coordinates and a larger vocabulary of linked terms. Role, status, age, and creature dropdowns
-            reveal only ingredients that can complete the current composition. Derived endpoints stay out of the
-            menus: the controls can produce <code>king</code>, <code>catfish</code>, or <code>phoenix</code> without then
-            offering every result as another starting branch. The authored recipes include status shifts such as
-            <code>man + noble = lord</code> and <code>man + sovereign = emperor</code>, life-stage relations such as
-            <code>young + cat = kitten</code>, compounds such as <code>cat + fish = catfish</code>, and mythical blends
-            such as <code>bear + owl = owlbear</code>. Typed relation edges connect these local families without implying
-            that every term shares the role region&apos;s status, age, and convention axes.
+            J. R. Firth&apos;s maxim, “You shall know a word by the company it keeps,” captured the distributional premise
+            later formalized by Zellig Harris&apos;s{" "}
+            <LinkPreview
+              url="https://www.its.caltech.edu/~matilde/ZelligHarrisDistributionalStructure1954.pdf"
+              external
+            >
+              <em>Distributional Structure</em>
+            </LinkPreview>
+            . Modern embeddings operationalize a limited version of that idea: repeated context becomes geometry, not a
+            complete theory of meaning. In Word2Vec&apos;s skip-gram objective, target and context tables{" "}
+            <code>Wᵢₙ</code> and <code>Wₒᵤₜ</code> are scored by a dot product. Training raises scores for observed pairs
+            and lowers them for sampled non-neighbors; rows of <code>Wᵢₙ</code> become the embeddings described in the{" "}
+            <LinkPreview
+              url="https://research.google/pubs/efficient-estimation-of-word-representations-in-vector-space/"
+              external
+            >
+              2013 Word2Vec paper
+            </LinkPreview>
+            . Firth&apos;s original formulation appears in{" "}
+            <LinkPreview url="https://languagelog.ldc.upenn.edu/myl/Firth1957.pdf" external>
+              <em>A Synopsis of Linguistic Theory, 1930–1955</em>
+            </LinkPreview>
+            .
           </p>
           <EmbeddingCompositionExplorer />
           <p>
-            Think of an embedding space as a map whose coordinates are learned from language use. Terms that appear in
-            similar contexts tend to land near one another. Repeated relationships can also form directions: moving one
-            way may correspond roughly to status, age, or another recurring distinction. This picture squeezes that idea
-            into three visible dimensions; real model embeddings use hundreds or thousands. Its points and links are a
-            teaching approximation, not definitions or guaranteed equations.
+            A tokenizer assigns each token an integer ID. For vocabulary <code>V</code> and width <code>d</code>, the
+            learned table <code>E ∈ ℝ^&#123;|V|×d&#125;</code> maps token <code>xᵢ</code> to{" "}
+            <code>eᵢ = E[xᵢ] ∈ ℝᵈ</code>. A phrase may span several tokens and therefore enters as several vectors. The
+            rows begin as arbitrary values and acquire predictive structure during training; a decoder transformer
+            learns them inside its next-token objective rather than in a separate Word2Vec task.
           </p>
           <p>
-            Those lookup vectors are only the starting state. Positional information is added, and transformer layers
-            use attention and feed-forward transformations to produce a{" "}
+            Cosine similarity and distance make neighborhoods visible: nearby points are close under learned usage, not
+            necessarily true in the world. Recurring offsets can also suggest directions such as{" "}
+            <code>man + royal ≈ king</code>. The explorer compresses a much larger space into three hand-authored
+            dimensions. Its equations are geometric intuition, not measured Word2Vec identities or guaranteed semantic
+            arithmetic.
+          </p>
+          <p>
+            An input embedding is only the starting state. Position, attention, and feed-forward layers transform it
+            into a{" "}
             <Term label="contextual hidden state">
-              A vector produced for one token position after the model has combined that token with information from
-              the surrounding prompt.
-            </Term>
-            . The input row for a token is fixed during ordinary inference, but its hidden state changes with the
-            surrounding language. The representation of <em>stable</em> in <em>stable counting sort</em> therefore
-            differs from its representation in <em>stable employment</em>.
+              A vector for one token position after the model combines that token with the surrounding prompt.
+            </Term>{" "}
+            that changes with context. <em>Stable</em> therefore produces different states in <em>stable counting sort</em>{" "}
+            and <em>stable employment</em>.
           </p>
-
-          <EmbeddingMechanicsFigure />
+          <details style={{ margin: "1.5em 0" }}>
+            <summary
+              style={{
+                padding: "13px 16px",
+                border: "1px solid var(--line)",
+                background: "var(--color-card)",
+                color: "var(--color-primary)",
+                cursor: "pointer",
+                fontFamily: "var(--font-mono)",
+                fontSize: 10,
+                letterSpacing: ".13em",
+                textTransform: "uppercase",
+              }}
+            >
+              Engram metaphor
+            </summary>
+            <ClaimCard eyebrow="A helpful engram" title="Three kinds of memory — keep them distinct">
+              <p style={{ margin: 0 }}>
+                Use this card as a small <em>engram about engrams</em>: a compact cue for recalling three mechanisms that
+                are often gathered under the metaphor of memory.
+              </p>
+              <ul style={{ display: "grid", gap: 10, margin: "14px 0 0", paddingLeft: "1.2em" }}>
+                <li>
+                  <strong>Biological engram — trace.</strong> A physical change in living neural tissue associated with
+                  storing and later reactivating an experience.{" "}
+                  <LinkPreview url="https://www.nature.com/articles/nrn4000" external>
+                    Engram research
+                  </LinkPreview>
+                  .
+                </li>
+                <li>
+                  <strong>Token embedding — parameter.</strong> A learned row in a model&apos;s embedding table. Training
+                  makes it predictively useful, but it is neither an episodic memory nor a stored source record.
+                </li>
+                <li>
+                  <strong>Vector-indexed record — record and address.</strong> Durable application content stored beside
+                  an embedding; similarity search uses the vector as an address for retrieving the record.
+                </li>
+              </ul>
+              <p style={{ margin: "14px 0 0", color: "var(--color-foreground-muted)" }}>
+                The useful metaphor is that past structure can guide later activation. The mechanisms remain different.
+                Remember: <strong style={{ color: "var(--color-foreground-strong)" }}>trace · parameter · record</strong>.
+              </p>
+            </ClaimCard>
+          </details>
 
           <p>
-            At the final prompt position, an output projection converts the contextual state into one{" "}
-            <Term label="logit">
-              An unnormalized score for a possible next token. Larger logits become larger probabilities after
-              softmax, but a logit is not itself a probability.
-            </Term>{" "}
-            per vocabulary token. <Term label="Softmax">
-              A normalization that exponentiates the logits and divides by their sum so the resulting probabilities
-              add to one.
-            </Term>{" "}
-            turns those scores into <code>P(next token | prompt)</code>. A decoding rule chooses or samples a token,
-            appends it to the context, and repeats the same computation.
+            <code>Token ID → input embedding → contextual hidden state → output logits → next-token probabilities.</code>
+          </p>
+
+          <p>
+            At the final prompt position, an output projection produces one{" "}
+            <Term label="logit">An unnormalized score for a possible next token.</Term> per vocabulary token.{" "}
+            <Term label="Softmax">A normalization that turns logits into probabilities that add to one.</Term> converts
+            those scores into <code>P(next token | prompt)</code>. A decoder chooses or samples a token, appends it, and
+            repeats.
           </p>
           <ClaimCard eyebrow="Important boundary" title="Embedding geometry is not output probability">
             <p style={{ margin: 0 }}>
-              Distance or cosine similarity between input embeddings can expose useful learned relationships, but it
-              does not determine the next token by itself. The full prompt, every transformer layer, and the output
-              projection intervene before softmax produces a distribution.
+              Similar input embeddings can reveal learned relationships, but they do not determine the next token. The
+              full prompt, transformer layers, and output projection intervene before softmax produces a distribution.
             </p>
           </ClaimCard>
           <p>
-            This is how a valid term of art can steer a response without acting like a magic command or a database
-            key. Its tokens shift the model&apos;s contextual state toward learned patterns associated with that technical
-            usage; the rest of the prompt supplies the assumptions that make those patterns applicable. The following
-            section turns that mechanism into the prompt-and-ambiguity interaction.
-          </p>
-          <p>
-            The embedding table and every downstream weight acquired this predictive role during training. For the
-            cross-entropy, backpropagation, and optimizer loop that updates those parameters, return to the{" "}
+            A valid term of art steers a response by shifting contextual states toward learned technical patterns; the
+            prompt must still supply the assumptions that make those patterns applicable. The next section examines how
+            that shift narrows uncertainty. For the cross-entropy and backpropagation that shaped these weights, see the{" "}
             <LinkPreview url="/writing/goals-solutions-and-value" asChild>
               <Link to="/writing/$slug" params={{ slug: "goals-solutions-and-value" }}>
                 training walkthrough in Goals, Solutions &amp; Value
@@ -1706,10 +1951,9 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             </LinkPreview>
             .
           </p>
-          <Explore toolId="embedding-explorer">Inspect a learned token embedding space</Explore>
         </Section>
 
-        <Section index="04" title="Entropy, Surprise, and Conditional Prediction">
+        <Section index="03" title="Entropy, Surprise, and Conditional Prediction">
           <p>
             Information theory gives us a precise way to talk about the uncertainty a request leaves behind. A{" "}
             <Term label="probability distribution">
@@ -1768,9 +2012,16 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             probability. The model did not become smarter between the two prompts; the second prompt simply selected
             more of the structure the model had learned.
           </p>
+          <p>
+            Compression also runs in the other direction. The four words <code>hash sort in TypeScript</code> do not
+            contain an implementation verbatim; they address a learned network of algorithmic and language
+            conventions. Expanding that address can produce a much denser response while preserving the prompt’s
+            direction and making its inferred choices visible.
+          </p>
+          <PromptExpansionFigure />
         </Section>
 
-        <Section index="05" title="Language Patterns Carry the History of Constraint">
+        <Section index="04" title="Language Patterns Carry the History of Constraint">
           <p>
             Patterns become meaningful when practices repeatedly reward some distinctions and reject others.
             Technical terms survive because they compress a history of use:
@@ -1792,26 +2043,36 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             that a dictionary entry cannot enumerate. But it also explains stale or harmful fluency: language
             faithfully records fashionable habits, institutional blind spots, and repeated mistakes too.
           </p>
-          <PropositionGraphFigure
-            document={constraintGraphDocument}
-            title="How language carries constraints"
-            className="article-outline__figure"
-          />
-          <p className="article-outline__flow">Language = pattern + constraint + feedback. Fluency rides on the constraint.</p>
           <p>
-            This graph is a map of the argument, not a claim about which sentences are true. The relationships it
-            draws — a precise prompt activating named patterns, feedback systems shaping those patterns, and
-            executable checks grounding coherence — are the linguistic constraints this article is about. You can{" "}
-            <Explore toolId="relationship-graph">Explore the relationship graph</Explore>{" "}
-            in the tool drawer, or open the full{" "}
-            <LinkPreview url="/relationship-graph" asChild>
-              <Link to="/relationship-graph">relationship graph editor</Link>
-            </LinkPreview>{" "}
-            on its own route.
+            The figure below states a working hypothesis, not a settled law of language: domains subjected to repeated
+            correspondence and consequence checks tend to preserve the distinctions that make those checks efficient.
+            Their terms of art become compact addresses into a much larger body of inputs, operations, boundaries, and
+            known failures.
+          </p>
+          <ConstraintFeedbackFigure />
+          <p className="article-outline__flow">
+            Label. Operationalize. Formalize. Compute.
+          </p>
+          <p>
+            At the third truth-linked stage, mathematics, logic, type systems, and programming languages make
+            relationships explicit enough to compose and calculate. This makes a fourth step possible: systems can
+            generate synthetic cases, derive consequences, check proofs, type-check programs, and execute tests.
+            These operations can supply strong evidence of coherence — and, when execution is part of the check,
+            operational success — but they do not establish correspondence by themselves. The formal result must
+            still be regrounded in observation, measurement, and consequence.
+          </p>
+          <p>
+            This computational ladder does not absorb the other truth practices introduced earlier. Relational and
+            acquaintance-based truth remains anchored in first-person experience, as does sincerity; trustworthiness
+            depends on judgments about warranted reliance and what ought to count as dependable. Religious and
+            theological traditions have often supplied languages and communities for making those judgments, but the
+            practices are neither exclusively theological nor merely private. Personal values are tested and
+            negotiated through relationships, shared norms, testimony, and consequences. Their constraints can be
+            rigorous without becoming fully reducible to formal proof.
           </p>
         </Section>
 
-        <Section index="06" title="Why Code Is So Pattern-Dense">
+        <Section index="05" title="Why Code Is So Pattern-Dense">
           <p>
             The practical constraints that enforce programming-language patterns form a stack. Each layer rejects
             invalid expressions before the next one ever sees them:
@@ -1852,34 +2113,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="07" title="“Hash Sort” Versus “Put These Numbers in Order”">
-          <p>
-            The two prompts from the opening are a lesson in semantic compression. An algorithm name can activate
-            expectations about input shape, complexity, memory, stability, and implementation. But{" "}
-            <Gloss label="hash sort" title="Hash sort is a family, not one algorithm">
-              Any sorting approach that partitions keys by hash or bucket rather than comparing them pairwise —
-              counting sort, bucket sort, radix passes. Which one is best depends on key range, distribution,
-              stability, and memory budget, so the name alone is not precise.
-            </Gloss>{" "}
-            is not one universally standard optimal algorithm. The article must state the intended variant and
-            assumptions — such as bounded integer keys and hash- or bucket-based partitioning — before treating the
-            name as precise. The reference family is classic material; see, for example, Cormen, Leiserson, Rivest,
-            and Stein,{" "}
-            <LinkPreview url="https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/" external>
-              Introduction to Algorithms
-            </LinkPreview>
-            , for the conditions under which these approaches outperform comparison sorts.
-          </p>
-          <p>
-            “Can you put these numbers in order? Be efficient” predicts a generic response because the prompt contains almost no domain
-            constraints. The model must guess what organization means and will often converge on a familiar default —
-            likely a comparison sort by value, whether or not that is what you wanted. The lesson is not “use
-            jargon.” It is: <strong>use the most specific valid concept available, then state the conditions that
-            make it valid.</strong>
-          </p>
-        </Section>
-
-        <Section index="08" title="A Map of Domain Fluency">
+        <Section index="06" title="A Map of Domain Fluency">
           <p>
             When you need to know whether a model can be trusted in a domain, look for evidence that the domain’s
             language is well grounded:
@@ -1901,7 +2135,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="09" title="Prompting as Constraint Selection">
+        <Section index="07" title="Prompting as Constraint Selection">
           <p>
             While vibe designing a web logo, I realized I needed to eat my own dog food. My early prompts described
             the result I wanted in broad visual language, but they left too many consequential choices ambiguous. The
@@ -1939,60 +2173,63 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="10" title="Coherence Is Evidence About a Pattern, Not the World">
-          <p>Close by separating three judgments that are easy to conflate:</p>
+        <Section index="08" title="From Abstract to Actual">
+          <p>
+            Close by running the three truth practices in reverse — from abstract structure back to actual conditions
+            and effects:
+          </p>
           <Card style={{ margin: "1.5em 0" }}>
             <CardHeader>
-              <CardTitle>Coherence · Correctness · Meaning</CardTitle>
+              <CardTitle>Coherence · Consequence · Correspondence</CardTitle>
             </CardHeader>
             <CardContent>
               <table>
                 <thead>
                   <tr>
-                    <th>Judgment</th>
+                    <th>Truth lens</th>
                     <th>Question</th>
-                    <th>Can AI help?</th>
+                    <th>What the evidence establishes</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td><strong>Coherence</strong></td>
-                    <td>Does the response fit the language patterns of the requested domain?</td>
-                    <td>Yes — this is what predictive generation is good at.</td>
+                    <td>Is it correct within its semantic logic?</td>
+                    <td>The result follows from the system’s definitions, premises, syntax, and inference rules.</td>
                   </tr>
                   <tr>
-                    <td><strong>Correctness</strong></td>
-                    <td>Does it survive that domain’s tests and evidence?</td>
-                    <td>Yes, when the domain has mechanical checks and the checks are run.</td>
+                    <td><strong>Consequence</strong></td>
+                    <td>Does it produce the intended outputs and survive the domain’s tests?</td>
+                    <td>Execution and evaluation show that it works under the stated conditions.</td>
                   </tr>
                   <tr>
-                    <td><strong>Meaning</strong></td>
-                    <td>Does it solve a problem that matters to the people who bear the consequences?</td>
-                    <td>Only with human judgment about stakes, values, and context.</td>
+                    <td><strong>Correspondence</strong></td>
+                    <td>Does it map back to an identifiable problem and its claimed real-world impact?</td>
+                    <td>Observation, measurement, and affected people show whether the model and result track reality.</td>
                   </tr>
                 </tbody>
               </table>
             </CardContent>
           </Card>
           <p>
-            AI can help with all three, but success at the first can simulate success at the other two. A response
-            that sounds exactly like the domain — right vocabulary, right shape, right cadence — is evidence that the
-            model has learned the pattern. It is not evidence that the pattern survived the domain’s tests, and it is
-            not evidence that the answer matters to anyone. Recognizing that gap is the intuition this article is
-            trying to leave you with: distinguish a coherent continuation from a correct answer, and both from a
-            meaningful one.
+            AI can help at all three, but success at an earlier stage can simulate success at the next. A result can be
+            coherent within a semantic system yet fail to produce the intended outputs. It can pass domain tests yet
+            optimize a proxy that does not correspond to the actual problem or impact. The loop closes only when
+            formal claims and operational results are regrounded in observable conditions and consequences for the
+            people affected. Work backward from abstraction: does it fit, does it work, and does it match?
           </p>
         </Section>
 
         <div className="article-outline__closing">
           <blockquote>
-            A model is fluent where language has learned to carry the constraints. Our work is to know when those
-            patterns are evidence — and when they are only the shape of an answer.
+            A model is fluent where language has learned to carry the constraints. Our work is to follow that fluency
+            back through consequence to correspondence: does it fit, does it work, and does it match the world we mean
+            to change?
           </blockquote>
           <p>Closing line</p>
         </div>
 
-        <Section index="11" title="Sources">
+        <Section index="09" title="Sources">
           <ul>
             <li>
               Claude E. Shannon, {" "}
@@ -2016,16 +2253,15 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               (2003). Connects conditional word-sequence probabilities with learned distributed representations.
             </li>
             <li>
-              CJ, {" "}
-              <LinkPreview url="https://www.youtube.com/watch?v=YmLp8qe87A0&t=1297s" external>
-                “I Built an LLM From Scratch”
-              </LinkPreview>
-              , with the {" "}
-              <LinkPreview url="https://github.com/w3cj/how-llms-work" external>
-                <em>How LLMs Work</em> source
-              </LinkPreview>
-              . Demonstrates Word2Vec skip-gram training with target-context pairs, negative sampling, learned
-              neighbors, and vector analogies.
+              Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean,{" "}
+              <LinkPreview
+                url="https://research.google/pubs/efficient-estimation-of-word-representations-in-vector-space/"
+                external
+              >
+                “Efficient Estimation of Word Representations in Vector Space”
+              </LinkPreview>{" "}
+              (2013). Introduces efficient continuous bag-of-words and skip-gram architectures for learning word vectors
+              at scale.
             </li>
             <li>
               Ashish Vaswani et al., {" "}
@@ -2115,12 +2351,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s" external>
                 “Nonpropositional Truth” — Trustworthiness Theory
               </LinkPreview>
-              {" "}and{" "}
-              <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s" external>
-                Teleological Theory
-              </LinkPreview>
-              . Presents trustworthiness as warranted reliance and teleological truth as fulfillment of the governing
-              ideal or purpose of a kind.
+              . Presents trustworthiness as warranted reliance.
             </li>
           </ul>
         </Section>

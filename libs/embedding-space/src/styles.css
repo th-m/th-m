@@ -416,10 +416,9 @@
 .embedding-composition__directions > div:first-child { display: grid; flex: 1; align-content: start; gap: 7px; min-width: 0; }
 .embedding-composition__directions > div > span { color: var(--color-foreground-muted); }
 .embedding-composition__term-groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
-.embedding-composition__term-group { display: grid; min-width: 0; gap: 4px; }
+.embedding-composition__term-group { display: grid; min-width: 0; grid-template-rows: 10px 42px; gap: 4px; }
 .embedding-composition__term-group > span { color: var(--color-foreground-subtle); font: 7px/1.2 var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); letter-spacing: .09em; text-transform: uppercase; }
-.embedding-composition__term-group > div { display: grid; gap: 4px; }
-.embedding-composition__term-group select { width: 100%; min-width: 0; min-height: 36px; padding: 0 27px 0 10px; border: 1px solid var(--color-border-strong); border-radius: 2px; background: var(--color-background); color: var(--color-foreground); font: 9px/1.15 var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); cursor: pointer; }
+.embedding-composition__term-group select { width: 100%; min-width: 0; height: 42px; padding: 0 27px 0 10px; border: 1px solid var(--color-border-strong); border-radius: 2px; background: var(--color-background); color: var(--color-foreground); font: 9px/1.15 var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); cursor: pointer; }
 .embedding-composition__term-group select:hover:not(:disabled) { border-color: var(--color-primary); }
 .embedding-composition__term-group select:disabled { color: var(--color-foreground-subtle); opacity: .55; cursor: not-allowed; }
 .embedding-composition__directions button { display: grid; min-height: 34px; padding: 5px 10px; border: 1px solid var(--color-border-strong); border-radius: 18px; background: var(--color-background); color: var(--color-foreground); font: 10px/1.15 var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); cursor: pointer; }
@@ -439,6 +438,19 @@
 .embedding-composition__scene { width: 100%; height: clamp(360px, 46vw, 510px); background: var(--color-surface); }
 .embedding-composition__scene canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 .embedding-composition__network { background: var(--color-surface); }
+.embedding-composition__algebra { padding: 18px 20px 20px; border-top: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-primary) 3%, var(--color-card)); }
+.embedding-composition__algebra header p, .embedding-composition__algebra-step h5, .embedding-composition__algebra-step-heading span { margin: 0; color: var(--color-primary); font: 8px/1.4 var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); letter-spacing: .1em; text-transform: uppercase; }
+.embedding-composition__algebra h4 { margin: 4px 0 0; color: var(--color-foreground-strong); font: 450 20px/1.1 var(--font-display, Newsreader, Georgia, serif); }
+.embedding-composition__algebra-steps { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: 15px; border: 1px solid var(--color-border); background: var(--color-background); }
+.embedding-composition__algebra-step { display: grid; min-width: 0; align-content: start; gap: 9px; padding: 13px 14px; background: var(--color-background); }
+.embedding-composition__algebra-step + .embedding-composition__algebra-step { border-top: 1px solid var(--color-border); }
+.embedding-composition__algebra-step-heading { display: flex; min-width: 0; align-items: baseline; justify-content: space-between; gap: 12px; }
+.embedding-composition__algebra-step-heading span { color: var(--color-foreground-subtle); text-align: right; }
+.embedding-composition__algebra-lines { display: grid; min-width: 0; gap: 7px; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; }
+.embedding-composition__assignment { display: block; width: max-content; min-width: 100%; white-space: nowrap; color: var(--color-foreground-muted); font: 9px/1.45 var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); font-variant-numeric: tabular-nums; overflow-wrap: normal; word-break: normal; }
+.embedding-composition__assignment--total { padding-top: 8px; border-top: 1px solid var(--color-border); color: var(--color-foreground); }
+.embedding-composition__algebra-step--result .embedding-composition__assignment { color: var(--color-foreground); }
+.embedding-composition__algebra-note, .embedding-composition__algebra-empty { margin: 13px 0 0; color: var(--color-foreground-muted); font-size: 10px; line-height: 1.55; }
 .embedding-composition__scene-status { display: grid; min-height: 360px; place-items: center; margin: 0; color: var(--color-foreground-muted); font: 9px var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); letter-spacing: .08em; text-transform: uppercase; }
 .embedding-composition__loading { display: grid; min-height: 360px; place-items: center; color: var(--color-foreground-muted); font: 9px var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); letter-spacing: .08em; text-transform: uppercase; }
 .embedding-composition__status { margin: 0; padding: 10px 16px; border-bottom: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-primary) 6%, var(--color-card)); color: var(--color-foreground-muted); font: 9px/1.5 var(--font-mono, "IBM Plex Mono", ui-monospace, monospace); }
@@ -497,6 +509,8 @@
   .embedding-composition__history { justify-content: stretch; }
   .embedding-composition__history button { flex: 1; }
   .embedding-composition__scene { height: 350px; }
+  .embedding-composition__algebra { padding: 15px; }
+  .embedding-composition__algebra-step { padding: 12px; }
   .embedding-space { width: calc(100% - 16px); padding-top: 74px; }
   .embedding-space__intro { padding-right: 4px; padding-left: 4px; }
   .embedding-space__intro h1 { font-size: clamp(52px, 16vw, 76px); }
