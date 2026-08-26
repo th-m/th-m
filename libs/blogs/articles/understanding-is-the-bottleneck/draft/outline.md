@@ -1,262 +1,168 @@
-# Understanding Is the Bottleneck
+# The Understanding Bottleneck
 
 ## Editorial Status
 
-The title remains unchanged. This outline is centered on understanding as a
-general human and organizational capability: how people turn abundant output
-into a useful model, evaluate what matters, and keep solutioning connected to
-evidence and customer experience.
+The title remains _The Understanding Bottleneck_. The revision opens directly
+on AI-assisted mathematics and uses Terence Tao's account of proof abundance to
+separate formal correctness from grounding, meaning, and collective absorption.
+It then follows one explicitly hypothetical product team through the same
+problem.
 
-## Overview
+The public argument has four accumulating movements:
 
-AI makes drafts, analyses, prototypes, and implementations abundant. The scarce
-organizational capability is increasingly the ability to interpret that output:
-to understand what a team has learned, connect it to customer experience, frame
-the right problem, and determine which proposed solution deserves a test.
-
-Producing more answers does not resolve this bottleneck. People must listen
-across roles, separate evidence from interpretation, preserve consequential
-disagreement, and build a working model that others can test and revise. The
-useful output is not merely another artifact. It is a greater shared capacity
-to reason and act.
-
-This requires technical and product judgment, but it also requires empathy.
-Customers do not experience a roadmap, architecture, or ticket queue. They
-experience a situation. A team cannot reliably solve for them unless it remains
-close to that situation and can recognize which consequences matter.
+1. output can outrun understanding through verified abundance or compulsive
+   generation;
+2. abundant output must become shared understanding;
+3. a context-stripping authority gate should become an evaluative boundary; and
+4. action tests and revises both the model and its boundaries.
 
 ## Core Thesis
 
-When producing output is expensive, execution limits progress. When plausible
-output becomes abundant, shared understanding limits progress.
+> AI can make plausible work abundant; in formally constrained domains, it can
+> make verified work abundant too. When a community can produce more than it can
+> ground, interpret, and absorb, shared understanding becomes the bottleneck.
 
-People and teams respond by strengthening their ability to:
+## Governing Definitions
 
-- observe customers and systems more accurately;
-- distinguish evidence from interpretation;
-- name the problem before converging on a solution;
-- surface important disagreements and missing context;
-- translate insight into testable action;
-- learn from consequences; and
-- retain that learning so the next decision starts from a stronger model.
+**Understanding** is a provisional, shareable, and revisable model of a
+situation. Coherence, correspondence, and consequence provide three recurring
+tests of that model: does it fit, does it match, and what follows when people act
+on it?
 
-The advantage comes from making solutioning more capable and distributed while
-keeping meaning, evidence, and accountability intact.
+These tests do not determine by themselves what matters, whose purposes count,
+or whether reliance is warranted.
 
-## Relationship to the Series
+**Solutioning** is the shared work of framing a problem, proposing
+interventions, testing them, and revising the model. Define the term once, then
+prefer the concrete verbs _frame_, _propose_, _test_, and _revise_.
 
-This is the third essay:
+**Evaluative closure** means a team understands enough of a particular decision
+to define what is settled, what remains open, who has authority, and what
+evidence will trigger review. Closure is scoped and provisional rather than a
+claim to certainty.
 
-1. **Goals, Solutions, and Value** establishes the human stakes that make an
-   opportunity worth pursuing.
-2. **Truth, Entropy, and Inference** explains why AI can be fluent and coherent
-   in some domains while remaining weakly grounded in others.
-3. **Understanding Is the Bottleneck** defines the human and organizational
-   capability needed to direct and evaluate abundant output.
-4. **The Knowledge Factory** turns that capability into an organizational
-   operating system.
+An **evaluative boundary** turns that closure into an operational delegation: it
+states the situation and purpose, the allowed solution space, protected
+constraints and their rationale, exception signals, a challenge protocol,
+accountable authority, and how consequences will revise the model.
 
-## Intended Reader
+## Recurring Illustration
 
-Developers, designers, researchers, product practitioners, founders, and
-leaders who use AI-generated work or help a group improve its decisions and
-problem-solving capacity.
+Use one explicitly hypothetical combined product team throughout the middle of
+the essay. The team is trying to understand why people abandon an onboarding
+step:
 
-## Key Terms
+- telemetry identifies where abandonment occurs;
+- interviews suggest confusion, mistrust, and competing obligations;
+- engineers identify system constraints;
+- AI produces several polished but incompatible explanations and solutions;
+- leadership initially centralizes interpretation, stripping context at each
+  handoff; and
+- the team rebuilds a shared model, defines an evaluative boundary, runs a small
+  test, and revises the model from the consequences.
 
-- **Understanding:** a provisional working model of the relevant people,
-  entities, relationships, causes, constraints, and consequences that supports
-  better prediction and action.
-- **Solutioning:** the collective capability to frame a problem, generate
-  interventions, test them, and revise the model—not merely the act of proposing
-  features.
-- **Distillation:** compressing many observations into a useful model while
-  preserving uncertainty, dissent, provenance, and consequential detail.
-- **Evaluative closure:** enough relevant understanding, evidence, criteria, and
-  authority to accept, revise, reject, or stop without pretending to have
-  certainty.
-- **Customer empathy:** disciplined contact with how a situation is experienced,
-  including the customer's goals, costs, habits, fears, incentives, and trust.
+Do not present the illustration as a reported case or invent a result. Its job
+is to make the article's existing concepts visible.
 
 ## Editorial Guardrails
 
-- Do not present an expert, leader, or AI system as an oracle that possesses
-  understanding on behalf of everyone else.
-- Do not romanticize empathy as intuition. It must be informed by observation,
-  evidence, participation, and correction.
-- Do not use “solutioning” to mean premature brainstorming before the problem is
-  understood.
-- Do not argue for endless analysis. Action and feedback are part of
-  understanding.
-- AI can contribute to interpretation and discovery; the narrower claim is that
-  people and institutions remain accountable for which model guides action.
-- Attribute claims from Terence Tao's talk to Tao, and distinguish the recorded
-  lecture, the accompanying essay, and the article's application of the example
-  to organizational understanding.
+- Do not present an expert, leader, or AI system as an oracle that understands
+  on behalf of everyone else.
+- Do not treat formal verification as proof that a formalization captures the
+  intended question, carries significance, or has been collectively absorbed.
+- Use the slot-machine image as an analogy about uncertain reward and repeated
+  generation, not as a diagnosis or a claim that prompting is neurologically
+  equivalent to gambling disorder.
+- Do not romanticize empathy as intuition. It is disciplined contact informed
+  by observation, participation, evidence, and correction.
+- Do not use _solutioning_ to mean brainstorming before the problem is framed.
+- Do not argue for endless analysis. Prediction, action, consequence, and
+  revision are part of understanding.
+- Coherence, correspondence, and consequence discipline a model; they do not
+  select its purposes or establish legitimate authority.
+- Distinguish the bad authority gate from the useful evaluative boundary. The
+  first monopolizes interpretation; the second distributes exploration within
+  explicit constraints.
+- An AI may challenge an evaluative boundary when new evidence conflicts with
+  its rationale, but it may not silently cross or redefine that boundary.
+- Every evaluative boundary names an accountable authority. An exception that
+  affects another owned concern escalates to that concern's authority.
+- Attribute claims from Tao's talk to Tao, and distinguish the recorded lecture,
+  the accompanying essay, and this article's organizational interpretation.
 
-## Section Notes
+## Public Structure
 
-### 1. When Verification Outruns Understanding
+### 1. Two Ways Output Outruns Understanding
 
-Open with AI-assisted mathematics because it provides an unusually clean case
-of output becoming abundant while understanding remains scarce. Mathematical
-work can separate three operations that ordinary knowledge work often blends:
+Open immediately on the first pole, **when correctness outruns meaning**:
+AI-assisted mathematics. Separate three operations that ordinary knowledge
+work often blends:
 
-1. **Generation:** produce candidate conjectures, proofs, counterexamples,
+1. **Generation** produces candidate conjectures, proofs, counterexamples,
    programs, and intermediate lemmas.
-2. **Verification:** determine whether an artifact satisfies stated formal
+2. **Verification** tests whether an artifact satisfies stated formal
    constraints through expert review, tests, or a proof assistant.
-3. **Interpretation and adoption:** determine whether the formalization matches
-   the intended question, what the result teaches, why it matters, how it should
-   be explained, and whether it belongs in the field's reusable knowledge.
+3. **Interpretation and adoption** asks whether the formalization captures the
+   intended question, what the result teaches, why it matters, how it should be
+   explained, and whether it belongs in reusable knowledge.
 
-Terence Tao's 2026 ICM talk,
-[“Mathematics in the Age of AI”](https://www.simonsfoundation.org/2026/08/13/fields-medalist-terence-tao-on-artificial-intelligence-and-why-we-do-math/),
-and the accompanying
-[essay](https://arxiv.org/abs/2608.16753) provide the organizing example. Tao
-asks the mathematical community to assume that AI will perform a meaningful
-share of research-level tasks, then examine the harder question this abundance
-exposes: what are the actual goals and values of mathematical work?
+Use Tao's 2026 ICM talk and accompanying essay as the spine. Preserve proof
+indigestion and the escalation: candidate proofs outrun verification, verified
+proofs outrun explanation, and published work outruns collective absorption.
 
-Solving or verifying a proof is only the beginning of the pipeline. The result
-must still be explained, evaluated, attributed, reviewed, connected to other
-work, taught, and eventually incorporated into the field's canonical knowledge.
-If proof generation accelerates faster than those downstream practices, the
-community develops what Tao calls **proof indigestion**: candidate proofs outrun
-verification, verified proofs outrun explanation, and published work outruns
-collective absorption.
+Keep the proof-pipeline figure immediately after that escalation. Follow it with
+the limits of a formal certificate and Tao's expert-talk test.
 
-```mermaid
-flowchart LR
-    G["Generate"] --> V["Verify"]
-    V --> E["Explain and evaluate"]
-    E --> A["Community adoption"]
-    A --> C["Canonical knowledge"]
-```
+Retain the OpenAI unit-distance result and the Leiden Declaration together in
+one compact corroborating paragraph. Tao supplies the argument; these show the
+problem as concrete and institutional.
 
-A formal certificate can establish that a derivation follows from encoded
-definitions and axioms. It cannot by itself establish that the encoding
-faithfully represents the informal question, that the result is significant,
-or that anyone has developed a transferable understanding of why it works. Tao
-proposes a practical test: authors should be able to give a clear, correct, and
-properly attributed expert talk about a result before it is treated as complete,
-even when the proof has been formally verified.
+Then introduce the opposite pole, **when generation outruns evaluation**. A
+developer treats each prompt as a lever pull and each stream of tokens as a new
+chance at a high-value response. The image should expose the absence of a
+stopping rule, quality threshold, or evaluative boundary. State explicitly that
+the analogy is structural rather than clinical.
 
-The recent OpenAI unit-distance result gives the opening a concrete case. Its
-proof was checked by external mathematicians, while OpenAI's own account still
-concludes that people choose important problems and interpret their
-significance: [“An OpenAI model has disproved a central conjecture in discrete
-geometry”](https://openai.com/index/model-disproves-discrete-geometry-conjecture/).
-The [Leiden Declaration on Artificial Intelligence and
-Mathematics](https://leidendeclaration.ai/) adds the institutional requirements:
-correctness must sit alongside understanding, depth, attribution, transparency,
-and human direction of research.
+Use the burnout and cognitive-load research to keep the transition grounded:
+GenAI can move work into verification and stewardship, heighten job demands,
+and create different cognitive burdens depending on the task, output quality,
+team resources, and organizational expectations.
 
-This connects directly to **Truth, Entropy, and Inference**. Mathematics is
-unusually pattern-dense and mechanically constrained, so AI systems can search
-and verify candidate work at extraordinary scale. The case then reveals the
-next bottleneck: even where correctness can be checked, someone must interpret
-what the output means, decide what deserves attention, connect it to existing
-knowledge, and make it usable by other people.
+Most developers occupy neither pole consistently. Depending on the task and
+their team, they oscillate between qualified output outrunning absorption and
+generation outrunning judgment. Tests, domain constraints, shared context,
+autonomy, learning resources, and explicit evaluative boundaries move work
+along that spectrum.
 
-The opening question becomes:
+End the movement with the shared thesis: at one pole evaluation cannot keep up;
+at the other, generation proceeds without enough evaluation. Then define
+understanding and its three recurring tests.
 
-> **What becomes scarce when a system can produce more correct work than a
-> community can understand, evaluate, and absorb?**
+### 2. From Output to Shared Understanding
 
-That is not only a question for mathematicians. Every organization can produce
-more research summaries, analyses, specifications, designs, and code than its
-people can integrate into a responsible model of what to do next. Formal
-verification makes the boundary unusually visible; understanding is the general
-organizational bottleneck.
+Introduce the hypothetical onboarding team. Its problem is not a lack of
+artifacts but an inability to explain what the artifacts mean together.
 
-### 2. What Understanding Adds
+Make distillation the mechanism that moves the team from output to
+understanding:
 
-After the opening, widen to a team producing more than ever: research summaries,
-dashboards, customer transcripts, prototypes, pull requests, and AI-generated
-options. The team's problem is no longer a lack of artifacts. It is an inability
-to determine what all the artifacts mean together.
+> A summary makes material shorter. Distillation identifies which distinctions
+> must survive compression for a decision to remain sound.
 
-Moving from output to understanding requires five operations:
+Distillation preserves whose experience is represented, observation versus
+inference, disagreement, hard and negotiable constraints, accepted tradeoffs,
+and evidence that would overturn the model.
 
-1. listen for evidence and lived stakes;
-2. separate observations from proposed explanations;
-3. name the consequential relationships and disagreements;
-4. return a clearer, testable problem frame to the team; and
-5. expand who can reason from that frame.
+Integrate empathy rather than giving it a standalone section. Preserve:
 
-The result is not merely a decision. It is a provisional model that increases
-the group's capacity to predict, test, and solve.
+> Customers do not experience a roadmap, architecture, or ticket queue. They
+> experience a situation.
 
-### 3. Distillation Is Not Summarization
+Define empathy as disciplined contact with that situation. In the recurring
+case, empathy investigates the confusion, mistrust, interrupted workflow, or
+competing obligation behind the observed abandonment.
 
-A summary makes material shorter. Distillation identifies which distinctions
-must survive compression for a decision to remain sound.
-
-Good distillation preserves:
-
-- whose experience is represented;
-- what was directly observed;
-- what is inferred;
-- what remains disputed;
-- which constraints are hard or negotiable;
-- which tradeoffs are being accepted; and
-- what evidence would overturn the current model.
-
-AI can summarize at scale. People must determine the criteria by which a
-summary becomes meaningful context for the present decision.
-
-### 4. Keep Problem Framing Close to the Work
-
-Extract the solvable structure from noisy organizational experience without
-extracting the right to solve from the people closest to the work.
-
-The failure mode is a gate: teams collect evidence, but only a small authority
-layer may frame problems or authorize solutions. This destroys context,
-increases queueing, and teaches engineers to wait for tasks.
-
-The alternative is shared capability. Teams receive the context, decision
-boundaries, problem-framing tools, and authority needed to propose and test
-solutions inside explicit constraints.
-
-### 5. Build Shared Problem-Solving Capacity
-
-Describe practices that make understanding easier to build and share:
-
-- problem briefs that distinguish symptoms, causes, stakes, and assumptions;
-- shared domain vocabulary;
-- decision records with evidence and rejected alternatives;
-- pre-mortems and adversarial review;
-- customer contact across product, design, and engineering;
-- small experiments with explicit learning goals;
-- retrospectives that update the model, not only the process; and
-- coaching that asks better questions before supplying answers.
-
-The goal is for more people to recognize a poorly framed request, surface a
-missing constraint, and connect technical choices to customer consequences.
-
-### 6. Empathy Is Part of the Evidence System
-
-Customer empathy is how teams remain connected to stakes that do not appear in
-telemetry alone. A metric can show abandonment; empathy helps investigate the
-confusion, fear, broken trust, interrupted workflow, or competing obligation
-behind it.
-
-Empathy should be operationalized through contact:
-
-- interviews and observation;
-- support and sales evidence;
-- usability sessions;
-- participation in the workflow where possible;
-- attention to non-users and excluded users; and
-- follow-up after a solution changes behavior.
-
-The point is not that customers dictate features. It is that solutioning begins
-with an accountable interpretation of their situation.
-
-### 7. Five Dimensions of Product Understanding
-
-Use a compact model:
+Keep the five dimensions as a compact coverage check:
 
 1. **Human:** goals, experience, behavior, trust, and consequences.
 2. **Domain:** entities, relationships, rules, exceptions, and language.
@@ -265,96 +171,95 @@ Use a compact model:
 5. **Epistemic:** evidence quality, uncertainty, assumptions, and disconfirming
    tests.
 
-No one person needs every fact. The group needs enough shared understanding
-across these dimensions to predict what an intervention will change and
-recognize when the prediction fails.
+The five dimensions ask what the model must cover. Coherence, correspondence,
+and consequence ask how the team tests that model.
 
-### 8. AI Can Accelerate Understanding—and Simulate It
+### 3. From an Authority Gate to an Evaluative Boundary
+
+Show the causal failure rather than presenting isolated principles:
+
+> abundant output → conflicting interpretations → centralized sensemaking →
+> context-stripping handoffs → dependent teams
+
+Preserve the gate image. Each handoff strips context, requests pile up, and
+engineers learn to wait for tasks instead of framing problems.
+
+Define solutioning once. Replace the centralized gate with shared evidence,
+vocabulary, constraints, and decision boundaries that let people closest to the
+work frame and test interventions.
+
+Promote evaluative closure from the glossary into the body. Distribution does
+not eliminate gates; it replaces a bottleneck with an evaluative boundary. The
+boundary states:
+
+- the situation, purpose, and decisions already settled;
+- the solution space still open for exploration;
+- non-negotiable constraints and the reasons they exist;
+- evidence or changed conditions that may warrant an exception;
+- how an agent challenges the boundary and pauses;
+- who may authorize the exception and where cross-domain concerns escalate; and
+- how verification and consequences revise the decision record.
+
+Describe this pattern generically. Do not name README, AGENTS, skills, or other
+repository-specific artifacts; the ontology essay will develop that
+implementation.
+
+Group the current practice inventories into one causal operating model:
+
+1. gather evidence;
+2. frame the problem;
+3. authorize a test;
+4. learn from consequences; and
+5. retain the revised model.
+
+Close by making understanding organizational: decisions, evidence, assumptions,
+tests, interfaces, and outcomes must remain retrievable and revisable.
+
+### 4. Test, Act, and Revise
 
 AI can search, cluster observations, generate hypotheses, identify missing
-questions, compare explanations, and propose tests. These are real
-contributions to understanding.
+questions, compare explanations, and propose tests. These tasks can deepen the
+team's model. AI can also produce coherence before the organization has earned
+correspondence or examined consequences.
 
-It can also generate a polished explanation before the organization has earned
-the model. Fluency can conceal missing customer contact, weak evidence, or an
-undefined term. Therefore every important synthesis should expose:
+A trustworthy synthesis should cite evidence, state assumptions, compare
+plausible explanations, mark confidence and limits, and name the next
+discriminating observation.
 
-- its source evidence;
-- its assumptions;
-- plausible competing explanations;
-- its confidence and limits; and
-- the next observation that would discriminate among alternatives.
+Teams demonstrate understanding when they predict an outcome, act at a scale
+that makes learning affordable, observe what follows, and revise the model.
+Keep the understanding-loop figure between that claim and the explicit loop:
 
-### 9. Understanding Is Organizational, Not Merely Individual
+> observe → interpret → frame → propose → test → experience consequences →
+> revise
 
-An insight trapped in one person's head is a throughput constraint. Shared
-understanding becomes visible through language, models, decisions, tests,
-interfaces, and repeated behavior.
+Consequences may revise the model, its evaluative boundary, or both.
 
-The organization needs mechanisms that let teams retrieve why a decision was
-made, trace concepts to evidence, see where contexts differ, and update the
-model after outcomes arrive. This is the bridge to the knowledge factory.
+Finish with **Understanding Is a Skill to Look For—and Develop**. Introduce the
+engineer, designer, researcher, and support specialist earlier as members of the
+recurring team, then show how organizations develop the skill through customer
+contact, problem framing, bounded authority, prediction, and revision.
 
-### 10. Action Completes the Loop
+Preserve the existing closing line and add one sentence bridging shared,
+retrievable learning to _The Knowledge Factory_.
 
-Understanding is demonstrated by better prediction and revision, not by the
-feeling of clarity. Teams must act at a scale that makes learning affordable,
-observe the result, and update their shared model.
+## Figure Contracts
 
-Use the loop:
-
-> Observe → interpret → frame → propose → test → experience consequences →
-> revise.
-
-The discipline is to improve the loop's fidelity and speed without allowing
-speed to erase meaningful context.
-
-### 11. Understanding Is a Skill to Look For
-
-As generated output becomes cheaper, the ability to turn it into a grounded,
-testable model becomes more valuable. Organizations should look for, develop,
-and reward people who can:
-
-- synthesize across customer, product, engineering, and business evidence;
-- teach problem framing and experimental reasoning;
-- distribute decisions with clear constraints;
-- protect contact between builders and customers;
-- make assumptions and disagreement inspectable;
-- build durable context rather than presentation theater; and
-- recognize when AI-generated coherence has outrun comprehension.
-
-This capability is not confined to management. It may appear in an engineer who
-finds the missing constraint, a designer who connects behavior to lived
-experience, a support specialist who recognizes a recurring causal pattern, or
-a researcher who distinguishes evidence from a compelling story. Leadership is
-one place to look for the skill, but the organizational advantage comes from
-making it common across roles.
-
-## Visual Notes
-
-1. **Proof abundance:** generation → verification → explanation and evaluation →
-   community adoption → canonical knowledge, with bottlenecks accumulating at
-   each downstream stage.
-2. **Correctness versus understanding:** a formally verified artifact contrasted
-   with the human work required to interpret, teach, value, and reuse it.
-3. **Understanding as a multiplier:** team signals flow through distillation and
-   return as shared context, clearer boundaries, and greater team autonomy.
-4. **Gated versus distributed solutioning:** a queue through one decision-maker
-   contrasted with multiple teams operating inside shared context.
-5. **The understanding loop:** observe → interpret → frame → test → revise.
-
-## Experiment TODOs
-
-- [ ] Create a test app with tasks that are computationally simple but difficult
-  for a person to complete. Identify the points where the user cannot proceed—the
-  “user can't” experience—then have AI redesign that experience and evaluate
-  whether the intervention helps the user succeed.
+- Preserve `<!-- understanding-pipeline -->` exactly after the paragraph that
+  names proof indigestion. Render it as a deterministic five-stage pipeline,
+  with the three proof-indigestion handoffs labeled explicitly; do not use a
+  force-directed or pannable graph for a linear sequence. Follow it with prose
+  interpreting the limits of formal certificates.
+- Preserve `<!-- understanding-loop -->` exactly after the short claim that
+  action demonstrates understanding. Render all six stages and the return from
+  consequences to observation without requiring interaction. Follow it with the
+  explicit loop sequence.
+- If either unit moves, move its setup, marker, and interpretation together.
 
 ## Research Queue
 
-- Terence Tao's ICM lecture and accompanying essay on the goals and values of
-  mathematical research, the proof pipeline, proof indigestion, and the
-  expert-talk test. Attribute quotations to the correct version.
+- Terence Tao's ICM lecture and accompanying essay on mathematical goals and
+  values, the proof pipeline, proof indigestion, and the expert-talk test.
 - The primary paper and external mathematical review for the OpenAI
   unit-distance result; keep generation, formal verification, independent
   checking, significance, and attribution distinct.
@@ -362,6 +267,18 @@ making it common across roles.
   transparency, attribution, and human direction of mathematical work.
 - Research on how expert communities turn individually correct results into
   shared, teachable, cumulative knowledge.
+- The developer-burnout, cognitive-load, critical-thinking, and reward-
+  uncertainty sources recorded in
+  `research/ai-generation-cognitive-load-and-burnout.md`. Preserve the note's
+  distinction between structural analogy, modeled association, and clinical
+  diagnosis.
+
+## Experiment TODO
+
+- [ ] Create a test app with tasks that are computationally simple but difficult
+      for a person to complete. Identify where the user cannot proceed, have AI
+      redesign that experience, and evaluate whether the intervention helps the user
+      succeed.
 
 ## Candidate Closing Line
 
