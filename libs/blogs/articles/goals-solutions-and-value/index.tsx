@@ -939,12 +939,12 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             objective. That requires:
           </p>
           <ul className="goals-article__bullets">
-            <li>direct observation of customer and employee consequences;</li>
-            <li>protected disagreement and independent feedback;</li>
-            <li>perspectives from people who bear costs without controlling the decision;</li>
-            <li>measurements that include downstream effects;</li>
-            <li>explicit review of tradeoffs and uncertainty; and</li>
-            <li>escalation paths with authority to revise the governing goal.</li>
+            <li>direct observation of customer and employee consequences</li>
+            <li>protected disagreement and independent feedback</li>
+            <li>perspectives from people who bear costs without controlling the decision</li>
+            <li>measurements that include downstream effects</li>
+            <li>explicit review of tradeoffs and uncertainty</li>
+            <li>escalation paths with authority to revise the governing goal</li>
           </ul>
           <p>
             Human governance means retaining responsibility for which values govern, creating the
@@ -958,14 +958,14 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             Human values cannot guide an AI while remaining private. They must be expressed via:
           </p>
           <ul className="goals-article__bullets">
-            <li>named stakeholders and consequences;</li>
-            <li>definitions and domain distinctions;</li>
-            <li>priorities and legitimate tradeoffs;</li>
-            <li>representative examples and counterexamples;</li>
-            <li>constraints, permissions, and escalation boundaries;</li>
-            <li>evidence, provenance, and explicit uncertainty;</li>
-            <li>tests, stopping conditions, and evaluation; and</li>
-            <li>feedback capable of revising the governing model.</li>
+            <li>named stakeholders and consequences</li>
+            <li>definitions and domain distinctions</li>
+            <li>priorities and legitimate tradeoffs</li>
+            <li>representative examples and counterexamples</li>
+            <li>constraints, permissions, and escalation boundaries</li>
+            <li>evidence, provenance, and explicit uncertainty</li>
+            <li>tests, stopping conditions, and evaluation</li>
+            <li>feedback capable of revising the governing model</li>
           </ul>
           <p>
             This translation does not remove the need for judgment. It makes judgment inspectable
