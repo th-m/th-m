@@ -9,45 +9,22 @@ tags: [Artificial Intelligence, Language Models, Information Theory, Software Sy
 
 ## Overview
 
-Language models generate coherent continuations by learning patterns in
-language. Those patterns are not arbitrary. Different truth-seeking practices
-produce different forms of discourse: a proof, an experimental report, a
-program, a legal argument, and a product narrative each carry different
-constraints, conventions, and signals of validity.
+Language models learn recurring patterns, but those patterns inherit the
+discipline of the practices that produced them. Proofs, experiments, programs,
+and product narratives are shaped by different checks. This essay connects
+those checks to embeddings, entropy, and prompting — then asks when fluency
+signals reliable structure and when it only sounds right.
 
-This article connects three ideas. First, communities encode meaningful
-distinctions into recurring language. Second, information theory gives us a
-way to reason about uncertainty, surprise, and prediction — which
-machine-learning systems later operationalize through conditional token
-prediction. Third, some domains, especially code, produce unusually dense and
-reliable patterns because syntax, compilers, types, tests, runtimes, and
-physical consequences continually reject invalid expressions.
+> **Core thesis — Fluency follows constraint.**
+> Language records what a domain rewards and rejects. Models learn those
+> patterns. Strong feedback makes fluent output informative; weak feedback
+> makes it merely plausible.
 
-The practical destination is an intuition for working with AI: recognize when
-a domain has enough linguistic and operational structure for a model to be
-fluent, choose language that activates the relevant structure, and distinguish
-a coherent continuation from a correct or meaningful answer.
-
-> **Core thesis — Fluency follows structure, not the other way around.**
-> Language becomes predictively useful when a domain repeatedly encodes stable
-> distinctions, constraints, relationships, and consequences into its patterns
-> of expression. A language model can learn those patterns and infer plausible
-> continuations, but the reliability of that inference depends on the structure
-> that produced the language. Code is a strong case because incorrect
-> expressions encounter layers of mechanical rejection; loosely specified
-> strategy, taste, or human meaning often lacks comparable enforcement. The
-> difference is not that one domain contains truth and the other does not — it
-> is that their language has been shaped by different feedback systems.
-
-This is the second essay in a coordinated sequence:
-[Goals, Solutions & Value](/writing/goals-solutions-and-value) establishes
-that valuable opportunities are grounded in human stakes; this essay explains
-why learned language patterns are powerful, when they carry constraints, and
-where fluency breaks;
-[The Understanding Bottleneck](/writing/understanding-is-the-bottleneck) asks
-how teams turn abundant output into better problem solving; and
-[The Knowledge Factory](/writing/the-knowledge-factory) introduces the
-organizational system that makes that understanding reusable.
+Building on [Goals, Solutions & Value](/writing/goals-solutions-and-value), this
+essay leads into [The Understanding
+Bottleneck](/writing/understanding-is-the-bottleneck) and [The Knowledge
+Factory](/writing/the-knowledge-factory). Together, the sequence moves from
+human stakes to evaluated, reusable knowledge.
 
 ## 1. The Mystery of the Plausible Continuation
 
@@ -73,44 +50,86 @@ words, syntax, and standards.
 
 ## 2. Forms of Truth and Propositional Formulations
 
-Six overlapping truth practices shape the language around us. Treat them as an
+Seven overlapping truth practices shape the language around us. Treat them as an
 editorial framework, not a universal philosophical taxonomy: the same claim can
 participate in several practices at once. The cards below distinguish the
 practices, the language each favors, and the feedback that constrains it.
 
 A temperature reading can be empirically calibrated and operationally relevant
-to a machine; someone can sincerely report that the same room feels oppressive
-while knowing its heat by acquaintance before converting that experience into a
-claim. The categories describe different constraint and meaning systems, not
-sealed kinds of sentence.
+to a machine; someone can sincerely report that the same room feels oppressive,
+while direct acquaintance makes its heat significant within that person's
+experience and relationships. Trustworthiness adds another question: whether a
+claim, representation, or object warrants reliance even when nobody intends to
+deceive. Teleology asks whether something fulfills the governing purpose or
+norm of its kind. The categories describe different constraint and meaning
+systems, not sealed kinds of sentence.
 
 **Truth practices and their feedback** — each form of truth produces a language,
 and an institution or consequence that rejects what does not survive it:
 
-| Practice | Validity | Language favors | Feedback that constrains it |
-| --- | --- | --- | --- |
-| **Formal** | validity relative to definitions, axioms, and inference rules | explicit premises, symbolic relationships, proof obligations | counterexamples and proof assistants reject invalid derivations |
-| **Empirical** | correspondence with observations | measurement, method, uncertainty, replication, counterevidence | failed predictions and unreplicated results erode the claim |
-| **Operational** | reliability in action | procedures, preconditions, failure modes, tolerances, observed outcomes | systems that crash, stall, or cost too much are corrected or retired |
-| **Relational** | significance within human purposes and relationships | perspective, motive, consequence, interpretation, accountability | people who bear the consequences accept, resist, or repair the claim |
-| **Sincerity / truthfulness** | non-deceptive fit between an expression and the speaker's subjective state | first-person avowal, disclosure, qualification, acknowledged uncertainty | mismatches among avowal, conduct, and context expose deception or self-deception |
-| **Knowledge by acquaintance** | direct familiarity with an experience, person, place, or quality | demonstration, metaphor, example, gesture, phenomenological description | repeated experience and situated witnesses expose descriptions that flatten or distort what is encountered |
+| Practice | Memorable lens | Validity | Language favors | Feedback that constrains it |
+| --- | --- | --- | --- | --- |
+| **Formal** | **Coherence — Does it fit?** | validity relative to definitions, axioms, and inference rules | explicit premises, symbolic relationships, proof obligations | counterexamples and proof assistants reject invalid derivations |
+| **Empirical** | **Correspondence — Does it match?** | agreement with an observable state of affairs—the events, objects, properties, or relations the claim describes | measurement, method, uncertainty, replication, counterevidence | failed predictions and unreplicated results erode the claim |
+| **Operational** | **Consequence — Does it work?** | reliable consequences under stated conditions—the procedure repeatedly produces its intended result within defined tolerances | procedures, preconditions, failure modes, tolerances, observed outcomes | systems that crash, stall, or cost too much are corrected or retired |
+| **Relational / acquaintance** | — | situated significance known through direct familiarity with experiences, people, places, purposes, and relationships | perspective, motive, consequence, interpretation, demonstration, metaphor, phenomenological description | people with direct familiarity test whether a claim remains faithful to experience and its consequences |
+| **Sincerity / truthfulness** | — | non-deceptive fit between an expression and the speaker's subjective state | first-person avowal, disclosure, qualification, acknowledged uncertainty | mismatches among avowal, conduct, and context expose deception or self-deception |
+| **Trustworthiness Theory** | — | `X` is true if and only if `X` is trustworthy; `X` is false if and only if `X` is untrustworthy | warranted reliance, reliability, evidence, risk, dependence, justified trust | failures of warranted reliance expose what ought not be trusted, including failures without deception |
+| **Teleological Theory** | — | `X` is true if and only if `X` is an ideal instance of its kind; `X` is false if and only if `X` is a defective instance | kind, purpose, function, ideal, defect, success conditions, governing norms | failures to fulfill a kind's governing purpose expose defective instances and unsuccessful acts |
+
+Two theological parallels help situate the non-propositional rows without
+claiming that the traditions are equivalent to this essay's taxonomy. In
+classical Confucian thought, [chéng (誠,
+sincerity)](https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126)
+joins freedom from deceit to integrity between inward disposition and outward
+conduct; the *Doctrine of the Mean* calls sincerity the Way of Heaven and
+becoming sincere the human way. In biblical Hebrew, [ʾemet
+(אֱמֶת)](https://www.thetorah.com/article/torat-emet-truth-spoken-through-the-humble-human-experience)
+spans truth, faithfulness, firmness, and reliability. A person, word, promise,
+or God can be “true” in the sense of being dependable enough to warrant trust.
 
 Each practice is also a feedback system. Formal work is checked by
 counterexamples and proof obligations; empirical work by failed predictions and
 unreplicated results; operational work by systems that crash, stall, or cost
-too much; relational work by the people who accept, resist, or repair a claim
-because they bear its consequences; sincerity by whether avowal, conduct, and
-context remain in good-faith alignment; knowledge by acquaintance by whether a
-description or demonstration remains faithful to experience. The language of a
-domain records which of these checks have been running — and how hard they bite.
+too much; relational and acquaintance-based work by whether situated people
+find a claim faithful to their experience and its consequences; sincerity by
+whether avowal, conduct, and context remain in good-faith alignment; and
+trustworthiness by whether relying on a claim, representation, or object is
+warranted; teleology by whether an instance fulfills the purpose and norms of
+its kind. The stage-door example in Kane Baker's
+[“Nonpropositional Truth”](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s)
+makes the distinction concrete: a door that ought not be trusted by either
+Sienna or Pearl counts as false in this normative sense regardless of anyone's
+intent to deceive. The
+[teleological account](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s)
+changes the relevant kind: the same door can be a true prop door when it ideally
+serves its intended theatrical purpose, even if it is untrustworthy as an
+ordinary door. A true heart likewise fulfills its function by efficiently
+pumping blood. The language of a domain records which of these checks have been
+running — and how hard they bite.
 
 ## 3. From Tokens to Embeddings to Probabilities
 
-A tokenizer does not hand the model words or definitions. It hands the model
-token IDs. For a vocabulary `V` and embedding width `d`, a learned table
-`E ∈ ℝ|V|×d` stores one input vector for each token ID. Looking up token `xᵢ`
-selects the row `E[xᵢ]`. A phrase such as *stable
+CJ's [from-scratch Word2Vec
+demonstration](https://www.youtube.com/watch?v=YmLp8qe87A0&t=1297s) offers a
+useful way into embeddings: do not ask a vector to contain a dictionary
+definition. Give every word a small list of initially arbitrary numbers, then
+train those numbers on context. For each target word and nearby context word, a
+dot product scores how compatible their vectors are. Training raises that score
+for observed pairs and lowers it for sampled non-neighbors. Across many
+examples, words used in similar contexts tend to occupy nearby regions or share
+useful directions. No coordinate is handed a label such as *royal*, *age*, or
+*animal*; the useful structure is distributed across relationships among all
+the coordinates.
+
+Technically, CJ's skip-gram example learns two tables, `Wᵢₙ` and `Wₒᵤₜ`, each
+with shape `|V| × d`. After training, the rows of `Wᵢₙ` are used as the word
+embeddings. A decoder transformer is trained differently: its embedding table
+is updated as part of the full next-token objective rather than by a standalone
+Word2Vec task. But the entry operation is the same. A tokenizer hands the model
+token IDs, and each ID is only a row address. For a vocabulary `V` and embedding
+width `d`, the learned table `E ∈ ℝ^{|V|×d}` stores one input vector for each
+token ID; looking up token `xᵢ` selects `E[xᵢ]`. A phrase such as *stable
 counting sort* may occupy several tokens, so it begins as a sequence of vectors
 rather than one indivisible concept.
 
@@ -118,25 +137,32 @@ Distributed representations can also encode useful directions. The familiar
 shorthand `man + royal ≈ king` is best read as a geometric intuition: adding a
 learned feature can move a vector toward a neighborhood of related roles. It is
 not symbolic arithmetic, and no equation is guaranteed across models. On the
-published page, a compact interactive teaching space lets readers combine terms
-such as `man + royal = king`, `king + young = prince`, and
-`man + royal + young + feminine = princess`. Its default x-y projection shows
-status and age, deliberately collapsing masculine- and feminine-coded role
-pairs onto the same points. A lazy-loaded semantic network reveals that third
-coordinate and can be rotated without making WebGL part of the article's
-initial load. It keeps the eight composable words as anchors, then adds category
+published page, one interactive 3D teaching space lets readers combine terms
+such as `man + royal = king`, `man + royal + young = prince`, and
+`man + royal + young + feminine = princess` while seeing the result in the same
+navigable network. Its WebGL scene is requested only when the reader reaches
+the explorer, so the article's initial load remains lightweight. The network
+keeps the eight role words as geometric anchors, then adds category
 terms such as *person*, *child*, *monarch*, *heir*, and *sovereign* with links
-for status, age, category, and conventional counterparts. It also adds animals
-and mythical creatures as a second compositional family:
-`man + horse = centaur`, `woman + fish = mermaid`, and
-`girl + hummingbird = pixie`. Typed blend edges connect the person, animal, and
-mythical clusters without implying that every term shares the role region's
-status, age, and convention axes. The coordinates and creature recipes are
-hand-authored for clarity, not definitions or etymological claims; real
-Word2Vec-style arithmetic operates in the model's original high-dimensional
-space and returns ranked neighbors whose order depends on the model and
-training corpus. This toy axis is not a claim that gender or meaning is
-inherently binary.
+for status, age, category, and conventional counterparts. The same contextual
+**Add** control groups terms into role, status, age, and creature dropdowns and
+only reveals ingredients that can complete the current composition. Derived
+endpoints stay out of the menus: the controls can produce `king`, `catfish`, or
+`phoenix` without then offering every result as another starting branch. The
+authored recipes include status shifts such as `man + noble = lord` and
+`man + sovereign = emperor`, life-stage relations such as
+`young + cat = kitten`, compounds such as `cat + fish = catfish`, and mythical
+blends such as `bear + owl = owlbear`. Typed relation edges connect these local
+families without implying that every term shares the role region's status,
+age, and convention axes.
+
+Think of an embedding space as a map whose coordinates are learned from
+language use. Terms that appear in similar contexts tend to land near one
+another. Repeated relationships can also form directions: moving one way may
+correspond roughly to status, age, or another recurring distinction. This
+picture squeezes that idea into three visible dimensions; real model embeddings
+use hundreds or thousands. Its points and links are a teaching approximation,
+not definitions or guaranteed equations.
 
 Those lookup vectors are only the starting state. Positional information is
 added, and transformer layers use attention and feed-forward transformations to
@@ -384,10 +410,16 @@ continuation from a correct answer, and both from a meaningful one.
 - Claude E. Shannon, [“A Mathematical Theory of Communication”](https://doi.org/10.1002/j.1538-7305.1948.tb01338.x) (1948). Defines information entropy and conditional uncertainty.
 - Claude E. Shannon, [“Prediction and Entropy of Printed English”](https://doi.org/10.1002/j.1538-7305.1951.tb01366.x) (1951). Uses next-character prediction to estimate the redundancy of English.
 - Yoshua Bengio, Réjean Ducharme, Pascal Vincent, and Christian Jauvin, [“A Neural Probabilistic Language Model”](https://www.jmlr.org/papers/v3/bengio03a.html) (2003). Connects conditional word-sequence probabilities with learned distributed representations.
+- CJ, [“I Built an LLM From Scratch”](https://www.youtube.com/watch?v=YmLp8qe87A0&t=1297s), with the [*How LLMs Work* source](https://github.com/w3cj/how-llms-work). Demonstrates Word2Vec skip-gram training with target-context pairs, negative sampling, learned neighbors, and vector analogies.
 - Ashish Vaswani et al., [“Attention Is All You Need”](https://arxiv.org/abs/1706.03762) (2017). Describes learned token embeddings, contextual transformation through attention, and projection plus softmax into output-token probabilities.
 - Eric Evans, [*Domain-Driven Design Reference*](https://www.domainlanguage.com/ddd/reference/). Defines bounded contexts and model-aligned domain language.
 - Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein, [*Introduction to Algorithms*](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). Provides the sorting and algorithmic assumptions referenced in the essay.
 - Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, [*Theorem Proving in Lean 4*](https://docs.lean-lang.org/theorem_proving_in_lean4/). Documents mechanically checked propositions and proof objects.
 - Microsoft, [*The TypeScript Handbook*](https://www.typescriptlang.org/docs/handbook/). Provides an official example of a type checker rejecting invalid program relationships.
+- Stanford Encyclopedia of Philosophy, [“The Correspondence Theory of Truth”](https://plato.stanford.edu/entries/truth-correspondence/). Surveys facts, states of affairs, events, objects, and properties as possible correspondence relata.
+- Stanford Encyclopedia of Philosophy, [“The Pragmatic Theory of Truth”](https://plato.stanford.edu/entries/truth-pragmatic/). Surveys accounts that test truth through practical consequences and the outcomes of inquiry.
 - Stanford Encyclopedia of Philosophy, [“Jürgen Habermas”](https://plato.stanford.edu/entries/habermas/). Distinguishes sincerity or truthfulness from propositional truth and normative rightness as a validity claim of speech.
 - Stanford Encyclopedia of Philosophy, [“Knowledge by Acquaintance vs. Description”](https://plato.stanford.edu/entries/knowledge-acquaindescrip/). Surveys direct, non-propositional acquaintance and its distinction from descriptive knowledge.
+- Key Concepts in Chinese Thought and Culture, [“Chéng (誠): Sincerity”](https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126). Relates freedom from deceit and consistency of conduct to the Way of Heaven and human moral cultivation.
+- TheTorah.com, [“Torat Emet: Truth Spoken through the Humble Human Experience”](https://www.thetorah.com/article/torat-emet-truth-spoken-through-the-humble-human-experience). Explains the biblical Hebrew sense of *ʾemet* as truth and trustworthiness.
+- Kane Baker, [“Nonpropositional Truth” — Trustworthiness Theory](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s) and [Teleological Theory](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s). Presents trustworthiness as warranted reliance and teleological truth as fulfillment of the governing ideal or purpose of a kind.

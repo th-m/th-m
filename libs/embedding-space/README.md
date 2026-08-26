@@ -43,13 +43,19 @@ curated teaching scenario while keeping the offline artifact compact.
   `@th-m/embedding-space/composition`. Advanced training-only exports are
   available from `@th-m/embedding-space/training` so the default Explore entry
   can load checkpoint data only when Train mode is opened.
-- **Composition explorer:** A hand-authored semantic network whose default 2D
-  projection collapses one coordinate. Its optional, lazy-loaded WebGL view
-  reveals and rotates the role region's third teaching axis, then adds contextual
-  categories, animals, and mythical creatures through typed links beyond the
-  eight composable anchors. Authored recipes such as `man + horse = centaur`
-  demonstrate a second local relationship family; they are not measured Word2Vec
-  output, definitions, or etymological claims.
+- **Composition explorer:** A hand-authored, three-dimensional semantic network
+  that combines the equation controls and navigable word space into one
+  experience. Its WebGL scene is requested only when the explorer enters
+  the viewport, then reveals the role region's three teaching axes and adds
+  contextual categories, status terms, animals, and mythical creatures through
+  typed links beyond the eight composable anchors. Compact Role, Status, Age,
+  and Creature dropdowns expose only compatible ingredient terms. Royal role
+  endpoints and authored recipe results remain output-only so the controls do
+  not recursively expand every derived word into a new option family. Recipes
+  such as `man + sovereign = emperor`, `young + cat = kitten`,
+  `cat + fish = catfish`, and `bear + owl = owlbear` demonstrate several local
+  relationship families; they are not measured Word2Vec output, definitions,
+  or etymological claims.
 
 ## Data and License
 

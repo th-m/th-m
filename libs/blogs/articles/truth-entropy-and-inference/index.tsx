@@ -161,45 +161,75 @@ const figureFrame: React.CSSProperties = {
 const TRUTH_PRACTICES = [
   {
     label: "Formal truth",
+    formulation: { lens: "Coherence", question: "Does it fit?" },
     validity: "validity relative to definitions, axioms, and inference rules",
+    parallel: null,
     language: "explicit premises, symbolic relationships, proof obligations",
     feedback: "counterexamples and proof assistants reject invalid derivations",
   },
   {
     label: "Empirical truth",
-    validity: "correspondence with observations",
+    formulation: { lens: "Correspondence", question: "Does it match?" },
+    validity: "agreement with an observable state of affairs—the events, objects, properties, or relations the claim describes",
+    parallel: null,
     language: "measurement, method, uncertainty, replication, counterevidence",
     feedback: "failed predictions and unreplicated results erode the claim",
   },
   {
     label: "Operational truth",
-    validity: "reliability in action",
+    formulation: { lens: "Consequence", question: "Does it work?" },
+    validity: "reliable consequences under stated conditions—the procedure repeatedly produces its intended result within defined tolerances",
+    parallel: null,
     language: "procedures, preconditions, failure modes, tolerances, observed outcomes",
     feedback: "systems that crash, stall, or cost too much are corrected or retired",
   },
   {
-    label: "Relational truth",
-    validity: "significance within human purposes and relationships",
-    language: "perspective, motive, consequence, interpretation, accountability",
-    feedback: "people who bear the consequences accept, resist, or repair the claim",
+    label: "Relational / acquaintance",
+    formulation: null,
+    validity: "situated significance known through direct familiarity with experiences, people, places, purposes, and relationships",
+    parallel: null,
+    language: "perspective, motive, consequence, interpretation, demonstration, metaphor, phenomenological description",
+    feedback: "people with direct familiarity test whether a claim remains faithful to experience and its consequences",
   },
   {
     label: "Sincerity / truthfulness",
+    formulation: null,
     validity: "non-deceptive fit between an expression and the speaker's subjective state",
+    parallel: {
+      label: "Classical Confucian parallel",
+      text: "One East Asian parallel, not an equivalence: chéng (誠) joins freedom from deceit to integrity between inward disposition and outward conduct. The Doctrine of the Mean calls sincerity the Way of Heaven and becoming sincere the human way.",
+      linkLabel: "Chéng in classical Chinese thought",
+      url: "https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126",
+    },
     language: "first-person avowal, disclosure, qualification, acknowledged uncertainty",
     feedback: "mismatches among avowal, conduct, and context expose deception or self-deception",
   },
   {
-    label: "Knowledge by acquaintance",
-    validity: "direct familiarity with an experience, person, place, or quality",
-    language: "demonstration, metaphor, example, gesture, phenomenological description",
-    feedback: "repeated experience and situated witnesses expose descriptions that flatten or distort what is encountered",
+    label: "Trustworthiness Theory",
+    formulation: null,
+    validity: "X is true if and only if X is trustworthy; X is false if and only if X is untrustworthy",
+    parallel: {
+      label: "Biblical Hebrew parallel",
+      text: "A close parallel, not an equivalence: ʾemet (אֱמֶת) can mean truth, faithfulness, firmness, or reliability. Applied to a person, word, promise, or God, being ‘true’ includes being dependable enough to warrant trust.",
+      linkLabel: "ʾEmet in biblical Hebrew",
+      url: "https://www.thetorah.com/article/torat-emet-truth-spoken-through-the-humble-human-experience",
+    },
+    language: "warranted reliance, reliability, evidence, risk, dependence, justified trust",
+    feedback: "failures of warranted reliance expose what ought not be trusted, including failures without deception",
+  },
+  {
+    label: "Teleological Theory",
+    formulation: null,
+    validity: "X is true if and only if X is an ideal instance of its kind; X is false if and only if X is a defective instance",
+    parallel: null,
+    language: "kind, purpose, function, ideal, defect, success conditions, governing norms",
+    feedback: "failures to fulfill a kind's governing purpose expose defective instances and unsuccessful acts",
   },
 ] as const;
 
 function TruthPracticesFigure() {
   return (
-    <figure aria-label="Six truth practices and the feedback that constrains their language">
+    <figure aria-label="Seven truth practices and the feedback that constrains their language">
       <div
         style={{
           ...figureFrame,
@@ -223,9 +253,55 @@ function TruthPracticesFigure() {
             <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".13em", textTransform: "uppercase", color: "var(--color-primary)" }}>
               {practice.label}
             </p>
+            {practice.formulation ? (
+              <p
+                style={{
+                  margin: 0,
+                  padding: "9px 10px",
+                  borderLeft: "2px solid var(--color-primary)",
+                  background: "color-mix(in srgb, var(--color-primary) 8%, transparent)",
+                  fontSize: 13,
+                  lineHeight: 1.45,
+                  color: "var(--color-foreground)",
+                }}
+              >
+                <strong>{practice.formulation.lens}</strong> — {practice.formulation.question}
+              </p>
+            ) : null}
             <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--color-foreground)" }}>
               {practice.validity}
             </p>
+            {practice.parallel ? (
+              <p
+                style={{
+                  margin: 0,
+                  padding: "10px 11px",
+                  borderLeft: "2px solid color-mix(in srgb, var(--color-primary) 65%, transparent)",
+                  background: "color-mix(in srgb, var(--color-primary) 5%, transparent)",
+                  fontSize: 11,
+                  lineHeight: 1.55,
+                  color: "var(--color-foreground-muted)",
+                }}
+              >
+                <span
+                  style={{
+                    display: "block",
+                    marginBottom: 4,
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 9,
+                    letterSpacing: ".1em",
+                    textTransform: "uppercase",
+                    color: "var(--color-primary)",
+                  }}
+                >
+                  {practice.parallel.label}
+                </span>
+                {practice.parallel.text}{" "}
+                <a href={practice.parallel.url} target="_blank" rel="noreferrer">
+                  {practice.parallel.linkLabel} ↗
+                </a>
+              </p>
+            ) : null}
             <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase" }}>Language favors — </span>
               {practice.language}
@@ -1443,49 +1519,31 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
 
           <div className="article-outline__lede">
             <p>
-              Language models generate coherent continuations by learning patterns in language. Those patterns are not
-              arbitrary. Different truth-seeking practices produce different forms of discourse: a proof, an
-              experimental report, a program, a legal argument, and a product narrative each carry different
-              constraints, conventions, and signals of validity.
+              Language models learn recurring patterns, but those patterns inherit the discipline of the practices
+              that produced them. Proofs, experiments, programs, and product narratives are shaped by different
+              checks. This essay connects those checks to embeddings, entropy, and prompting — then asks when fluency
+              signals reliable structure and when it only sounds right.
             </p>
-            <p>
-              This article connects three ideas. First, communities encode meaningful distinctions into recurring
-              language. Second, information theory gives us a way to reason about uncertainty, surprise, and
-              prediction — which machine-learning systems later operationalize through conditional token prediction.
-              Third, some domains, especially code, produce unusually dense and reliable patterns because syntax,
-              compilers, types, tests, runtimes, and physical consequences continually reject invalid expressions.
-            </p>
-            <p>
-              The practical destination is an intuition for working with AI: recognize when a domain has enough
-              linguistic and operational structure for a model to be fluent, choose language that activates the
-              relevant structure, and distinguish a coherent continuation from a correct or meaningful answer.
-            </p>
-            <ClaimCard eyebrow="Core thesis" title="Fluency follows structure — not the other way around">
+            <ClaimCard eyebrow="Core thesis" title="Fluency follows constraint.">
               <p style={{ margin: 0 }}>
-                Language becomes predictively useful when a domain repeatedly encodes stable distinctions,
-                constraints, relationships, and consequences into its patterns of expression. A language model can
-                learn those patterns and infer plausible continuations, but the reliability of that inference depends
-                on the structure that produced the language. Code is a strong case because incorrect expressions
-                encounter layers of mechanical rejection; loosely specified strategy, taste, or human meaning often
-                lacks comparable enforcement. The difference is not that one domain contains truth and the other does
-                not — it is that their language has been shaped by different feedback systems.
+                Language records what a domain rewards and rejects. Models learn those patterns. Strong feedback makes
+                fluent output informative; weak feedback makes it merely plausible.
               </p>
             </ClaimCard>
             <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--color-foreground-muted)" }}>
-              This is the second essay in a coordinated sequence:{" "}
+              Building on{" "}
               <LinkPreview url="/writing/goals-solutions-and-value" asChild>
                 <Link to="/writing/$slug" params={{ slug: "goals-solutions-and-value" }}>Goals, Solutions &amp; Value</Link>
-              </LinkPreview>{" "}
-              establishes that valuable opportunities are grounded in human stakes; this essay explains why learned
-              language patterns are powerful, when they carry constraints, and where fluency breaks;{" "}
+              </LinkPreview>
+              {", this essay leads into "}
               <LinkPreview url="/writing/understanding-is-the-bottleneck" asChild>
                 <Link to="/writing/$slug" params={{ slug: "understanding-is-the-bottleneck" }}>The Understanding Bottleneck</Link>
-              </LinkPreview>{" "}
-              asks how teams turn abundant output into better problem solving; and{" "}
+              </LinkPreview>
+              {" and "}
               <LinkPreview url="/writing/the-knowledge-factory" asChild>
                 <Link to="/writing/$slug" params={{ slug: "the-knowledge-factory" }}>The Knowledge Factory</Link>
-              </LinkPreview>{" "}
-              introduces the organizational system that makes that understanding reusable.
+              </LinkPreview>
+              {". Together, the sequence moves from human stakes to evaluated, reusable knowledge."}
             </p>
           </div>
         </header>
@@ -1515,52 +1573,88 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
 
         <Section index="02" title="Forms of Truth and Propositional Formulations">
           <p>
-            Six overlapping truth practices shape the language around us. Treat them as an editorial framework, not
+            Seven overlapping truth practices shape the language around us. Treat them as an editorial framework, not
             a universal philosophical taxonomy: the same claim can participate in several practices at once.
           </p>
           <p>
             A temperature reading can be empirically calibrated and operationally relevant to a machine; someone can
-            sincerely report that the same room feels oppressive while knowing its heat by acquaintance before
-            converting that experience into a claim. The categories describe different constraint and meaning systems,
-            not sealed kinds of sentence.
+            sincerely report that the same room feels oppressive, while direct acquaintance makes its heat significant
+            within that person&apos;s experience and relationships. Trustworthiness adds another question: whether a
+            claim, representation, or object warrants reliance even when nobody intends to deceive. Teleology asks
+            whether something fulfills the governing purpose or norm of its kind. The categories describe different
+            constraint and meaning systems, not sealed kinds of sentence.
           </p>
           <TruthPracticesFigure />
           <p>
             Each practice is also a feedback system. Formal work is checked by counterexamples and proof obligations;
             empirical work by failed predictions and unreplicated results; operational work by systems that crash,
-            stall, or cost too much; relational work by the people who accept, resist, or repair a claim because they
-            bear its consequences; sincerity by whether avowal, conduct, and context remain in good-faith alignment;
-            knowledge by acquaintance by whether a description or demonstration remains faithful to experience. The
-            language of a domain records which of these checks have been running — and how hard they bite.
+            stall, or cost too much; relational and acquaintance-based work by whether situated people find a claim
+            faithful to their experience and its consequences; sincerity by whether avowal, conduct, and context remain
+            in good-faith alignment; and trustworthiness by whether relying on a claim, representation, or object is
+            warranted; teleology by whether an instance fulfills the purpose and norms of its kind. The stage-door
+            example in Kane Baker&apos;s{" "}
+            <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s" external>
+              “Nonpropositional Truth”
+            </LinkPreview>{" "}
+            makes the distinction concrete: a door that ought not be trusted by either Sienna or Pearl counts as false
+            in this normative sense regardless of anyone&apos;s intent to deceive. The{" "}
+            <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s" external>
+              teleological account
+            </LinkPreview>{" "}
+            changes the relevant kind: the same door can be a true prop door when it ideally serves its intended
+            theatrical purpose, even if it is untrustworthy as an ordinary door. A true heart likewise fulfills its
+            function by efficiently pumping blood. The language of a domain records which of these checks have been
+            running — and how hard they bite.
           </p>
         </Section>
 
         <Section index="03" title="From Tokens to Embeddings to Probabilities">
           <p>
-            A tokenizer does not hand the model words or definitions. It hands the model token IDs. For a vocabulary{" "}
-            <code>V</code> and embedding width <code>d</code>, a learned table <code>E ∈ ℝ|V|×d</code> stores one input
-            vector for each token ID. Looking up token <code>xᵢ</code> selects the row <code>E[xᵢ]</code>. A phrase such
-            as <em>stable counting sort</em> may occupy several tokens, so it begins as a sequence of vectors rather
-            than one indivisible concept.
+            CJ&apos;s{" "}
+            <LinkPreview url="https://www.youtube.com/watch?v=YmLp8qe87A0&t=1297s" external>
+              from-scratch Word2Vec demonstration
+            </LinkPreview>{" "}
+            offers a useful way into embeddings: do not ask a vector to contain a dictionary definition. Give every
+            word a small list of initially arbitrary numbers, then train those numbers on context. For each target word
+            and nearby context word, a dot product scores how compatible their vectors are. Training raises that score
+            for observed pairs and lowers it for sampled non-neighbors. Across many examples, words used in similar
+            contexts tend to occupy nearby regions or share useful directions. No coordinate is handed a label such as{" "}
+            <em>royal</em>, <em>age</em>, or <em>animal</em>; the useful structure is distributed across relationships
+            among all the coordinates.
+          </p>
+          <p>
+            Technically, CJ&apos;s skip-gram example learns two tables, <code>Wᵢₙ</code> and <code>Wₒᵤₜ</code>, each with
+            shape <code>|V| × d</code>. After training, the rows of <code>Wᵢₙ</code> are used as the word embeddings. A
+            decoder transformer is trained differently: its embedding table is updated as part of the full next-token
+            objective rather than by a standalone Word2Vec task. But the entry operation is the same. A tokenizer hands
+            the model token IDs, and each ID is only a row address. For a vocabulary <code>V</code> and embedding width{" "}
+            <code>d</code>, the learned table <code>E ∈ ℝ^&#123;|V|×d&#125;</code> stores one input vector for each token ID;
+            looking up token <code>xᵢ</code> selects <code>E[xᵢ]</code>. A phrase such as <em>stable counting sort</em>{" "}
+            may occupy several tokens, so it begins as a sequence of vectors rather than one indivisible concept.
           </p>
           <p>
             Distributed representations can also encode useful directions. The familiar shorthand{" "}
             <code>man + royal ≈ king</code> is best read as a geometric intuition: adding a learned feature can move a
             vector toward a neighborhood of related roles. It is not symbolic arithmetic, and no equation is guaranteed
-            across models. The compact teaching space below makes that movement visible before we return to the full
-            model path. Its default projection shows status and age while collapsing another coordinate: paired role
-            words can land on the same point even though the larger teaching space keeps them distinct. Switch to the
-            semantic network to reveal that third coordinate and orbit a larger vocabulary of linked terms. The same
-            view adds a second, explicitly authored family: <code>man + horse = centaur</code>,{" "}
-            <code>woman + fish = mermaid</code>, and <code>girl + hummingbird = pixie</code>. These creature blends
-            connect person, animal, and mythical clusters with typed edges; they do not pretend that every term shares
-            the role region's status, age, and convention axes.
+            across models. The 3D teaching space below puts the composition controls and navigable network into one
+            experience before we return to the full model path. Its WebGL scene is requested only when the reader
+            reaches the explorer, keeping the article&apos;s initial load lightweight. The network reveals all three
+            teaching coordinates and a larger vocabulary of linked terms. Role, status, age, and creature dropdowns
+            reveal only ingredients that can complete the current composition. Derived endpoints stay out of the
+            menus: the controls can produce <code>king</code>, <code>catfish</code>, or <code>phoenix</code> without then
+            offering every result as another starting branch. The authored recipes include status shifts such as
+            <code>man + noble = lord</code> and <code>man + sovereign = emperor</code>, life-stage relations such as
+            <code>young + cat = kitten</code>, compounds such as <code>cat + fish = catfish</code>, and mythical blends
+            such as <code>bear + owl = owlbear</code>. Typed relation edges connect these local families without implying
+            that every term shares the role region&apos;s status, age, and convention axes.
           </p>
           <EmbeddingCompositionExplorer />
           <p>
-            These equations are teaching associations rather than measured Word2Vec results, dictionary definitions,
-            or etymological claims. Their purpose is to show how a larger semantic space can contain many points and
-            local relationships at once—and how a projection can hide distinctions that the full network retains.
+            Think of an embedding space as a map whose coordinates are learned from language use. Terms that appear in
+            similar contexts tend to land near one another. Repeated relationships can also form directions: moving one
+            way may correspond roughly to status, age, or another recurring distinction. This picture squeezes that idea
+            into three visible dimensions; real model embeddings use hundreds or thousands. Its points and links are a
+            teaching approximation, not definitions or guaranteed equations.
           </p>
           <p>
             Those lookup vectors are only the starting state. Positional information is added, and transformer layers
@@ -1922,6 +2016,18 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               (2003). Connects conditional word-sequence probabilities with learned distributed representations.
             </li>
             <li>
+              CJ, {" "}
+              <LinkPreview url="https://www.youtube.com/watch?v=YmLp8qe87A0&t=1297s" external>
+                “I Built an LLM From Scratch”
+              </LinkPreview>
+              , with the {" "}
+              <LinkPreview url="https://github.com/w3cj/how-llms-work" external>
+                <em>How LLMs Work</em> source
+              </LinkPreview>
+              . Demonstrates Word2Vec skip-gram training with target-context pairs, negative sampling, learned
+              neighbors, and vector analogies.
+            </li>
+            <li>
               Ashish Vaswani et al., {" "}
               <LinkPreview url="https://arxiv.org/abs/1706.03762" external>
                 “Attention Is All You Need”
@@ -1959,6 +2065,20 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             </li>
             <li>
               Stanford Encyclopedia of Philosophy, {" "}
+              <LinkPreview url="https://plato.stanford.edu/entries/truth-correspondence/" external>
+                “The Correspondence Theory of Truth”
+              </LinkPreview>
+              . Surveys facts, states of affairs, events, objects, and properties as possible correspondence relata.
+            </li>
+            <li>
+              Stanford Encyclopedia of Philosophy, {" "}
+              <LinkPreview url="https://plato.stanford.edu/entries/truth-pragmatic/" external>
+                “The Pragmatic Theory of Truth”
+              </LinkPreview>
+              . Surveys accounts that test truth through practical consequences and the outcomes of inquiry.
+            </li>
+            <li>
+              Stanford Encyclopedia of Philosophy, {" "}
               <LinkPreview url="https://plato.stanford.edu/entries/habermas/" external>
                 “Jürgen Habermas”
               </LinkPreview>
@@ -1971,6 +2091,36 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
                 “Knowledge by Acquaintance vs. Description”
               </LinkPreview>
               . Surveys direct, non-propositional acquaintance and its distinction from descriptive knowledge.
+            </li>
+            <li>
+              Key Concepts in Chinese Thought and Culture, {" "}
+              <LinkPreview url="https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126" external>
+                “Chéng (誠): Sincerity”
+              </LinkPreview>
+              . Relates freedom from deceit and consistency of conduct to the Way of Heaven and human moral
+              cultivation.
+            </li>
+            <li>
+              TheTorah.com, {" "}
+              <LinkPreview
+                url="https://www.thetorah.com/article/torat-emet-truth-spoken-through-the-humble-human-experience"
+                external
+              >
+                “Torat Emet: Truth Spoken through the Humble Human Experience”
+              </LinkPreview>
+              . Explains the biblical Hebrew sense of <em>ʾemet</em> as truth and trustworthiness.
+            </li>
+            <li>
+              Kane Baker, {" "}
+              <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s" external>
+                “Nonpropositional Truth” — Trustworthiness Theory
+              </LinkPreview>
+              {" "}and{" "}
+              <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s" external>
+                Teleological Theory
+              </LinkPreview>
+              . Presents trustworthiness as warranted reliance and teleological truth as fulfillment of the governing
+              ideal or purpose of a kind.
             </li>
           </ul>
         </Section>
