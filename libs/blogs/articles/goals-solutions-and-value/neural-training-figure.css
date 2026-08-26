@@ -2,10 +2,6 @@
   margin-block: 0;
 }
 
-.neural-training-figure .nnl[data-step-id="forward"] .nnl__probs {
-  display: none;
-}
-
 .neural-training-figure__loss-readout {
   color: var(--color-error);
   border-color: color-mix(in srgb, var(--color-error) 48%, transparent);
@@ -22,4 +18,10 @@
 
 .neural-training-figure .neural-training-figure__update-sign--negative .nnl-node__value {
   fill: var(--color-error);
+}
+
+.neural-training-figure .neural-training-figure__update-sign--positive .nnl-node__value,
+.neural-training-figure .neural-training-figure__update-sign--negative .nnl-node__value {
+  font-size: 20px;
+  font-weight: 600;
 }

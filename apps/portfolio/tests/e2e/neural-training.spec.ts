@@ -17,7 +17,7 @@ test("renders every declarative training frame with aligned target styling", asy
   await expect(scene.locator("g.nnl-node.nnl-node-tone-primary")).toHaveCount(3);
   await expect(scene.locator("path.nnl-edge")).toHaveCount(36);
   await expect(scene.locator("path.nnl-edge.nnl-edge-tone-primary")).toHaveCount(2);
-  await expect(scene.locator(".nnl__probs")).toBeHidden();
+  await expect(scene.locator(".nnl__probs")).toBeVisible();
 
   await scene.getByRole("button", { name: /Step 2 of 4: Target \+ loss/ }).click();
   await expect(scene.locator('.nnl__prob[data-node-id="output-story"]')).toBeVisible();
@@ -80,6 +80,7 @@ test("renders every declarative training frame with aligned target styling", asy
           )].map((node) => ({
             id: node.getAttribute("data-node-id"),
             sign: node.querySelector(".nnl-node__value")?.textContent,
+            fontSize: getComputedStyle(node.querySelector(".nnl-node__value")!).fontSize,
             positive: node.classList.contains("neural-training-figure__update-sign--positive"),
           })),
         };
@@ -111,9 +112,9 @@ test("renders every declarative training frame with aligned target styling", asy
         expect(state.primaryNodeIds).toEqual(["input-1", "hidden-1-3", "hidden-2-4"]);
         expect(state.highlightedEdgeCount).toBe(0);
         expect(state.updateSigns).toEqual([
-          { id: "input-1", sign: "+", positive: true },
-          { id: "hidden-1-3", sign: "+", positive: true },
-          { id: "hidden-2-4", sign: "−", positive: false },
+          { id: "input-1", sign: "+", fontSize: "20px", positive: true },
+          { id: "hidden-1-3", sign: "+", fontSize: "20px", positive: true },
+          { id: "hidden-2-4", sign: "−", fontSize: "20px", positive: false },
         ]);
       }
     }
