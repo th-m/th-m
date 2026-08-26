@@ -16,6 +16,11 @@ import {
   TooltipTrigger,
 } from "@th-m/ui";
 import { EmbeddingCompositionExplorer } from "@th-m/embedding-space/composition";
+import {
+  AcquaintanceMapInstrument,
+  SincerityAlignmentInstrument,
+  TrustworthinessBalanceInstrument,
+} from "./situated-truth-instruments";
 import "./truth-instruments.css";
 
 /* ------------------------------------------------------------------ */
@@ -214,28 +219,22 @@ const SITUATED_TRUTH_INSTRUMENTS = [
     index: "01",
     headline: "Situated significance known through direct familiarity.",
     supporting: "Experiences, people, places, purposes, and relationships establish the relevant context.",
-    asset: "assets/acquaintance-map.svg",
-    alt: "A relational map connecting a person with place, experience, and consequence",
   },
   {
     index: "02",
     headline: "Non-deceptive fit between expression and subjective state.",
     supporting: "Sincerity tests whether inward disposition, outward expression, and conduct remain aligned.",
-    asset: "assets/sincerity-alignment.svg",
-    alt: "An alignment instrument balancing inner state with outward expression",
   },
   {
     index: "03",
     headline: "Truth is what warrants reliance.",
     supporting: "X is true if and only if X is trustworthy; X is false if and only if X is untrustworthy.",
-    asset: "assets/trustworthiness-balance.svg",
-    alt: "A balance comparing evidence and reliance while marking the risk of being wrong",
   },
 ] as const;
 
 type TruthPractice = (typeof TRUTH_PRACTICES)[number];
 
-function SituatedTruthPracticesFigure({ assetUrl }: { assetUrl: (value: string) => string }) {
+function SituatedTruthPracticesFigure() {
   return (
     <figure
       className="truth-instruments"
@@ -268,7 +267,13 @@ function SituatedTruthPracticesFigure({ assetUrl }: { assetUrl: (value: string) 
                 </div>
 
                 <div className="truth-instrument__visual">
-                  <img src={assetUrl(instrument.asset)} alt={instrument.alt} loading="lazy" />
+                  {instrument.index === "01" ? (
+                    <AcquaintanceMapInstrument />
+                  ) : instrument.index === "02" ? (
+                    <SincerityAlignmentInstrument />
+                  ) : (
+                    <TrustworthinessBalanceInstrument />
+                  )}
                 </div>
 
                 <div className="truth-instrument__notes">
@@ -1796,7 +1801,6 @@ function ConstraintFeedbackFigure() {
 
 export default function ArticlePage({
   post,
-  assetUrl,
 }: {
   post: PublishedPost;
   assetUrl: (value: string) => string;
@@ -1886,7 +1890,7 @@ export default function ArticlePage({
             {": what matters, what ought to be trusted, and whose purposes count cannot be supplied by formalism alone. "}
             These practices are situated and value-laden, but that does not make them arbitrary.
           </p>
-          <SituatedTruthPracticesFigure assetUrl={assetUrl} />
+          <SituatedTruthPracticesFigure />
           <p>
             Their feedback remains substantive: people with direct acquaintance can challenge an account; conduct can
             contradict an avowal; and reliance can fail. The

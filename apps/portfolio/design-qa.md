@@ -1,3 +1,61 @@
+# Transparent Inline Situated-Truth Instruments — Design QA
+
+final result: passed
+
+## Scope
+
+This pass replaces all three external instrument images on `/writing/truth-entropy-and-inference` with transparent inline SVG DOM. It preserves the accepted source geometry while exposing named instrument roots, parts, and nodes for direct DOM styling and interaction.
+
+## Source visual truth
+
+- Relational acquaintance: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.26 PM.png` (`520 × 386 px`).
+- Sincerity alignment: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.10 PM.png` (`454 × 294 px`).
+- Trustworthiness balance: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.18 PM.png` (`432 × 318 px`).
+- The clipped `ANCE` fragment at the first source's upper-left edge belongs to neighboring content outside the illustration and is intentionally excluded.
+- The source raster backgrounds are intentionally excluded at the user's direction; the inline SVG roots contain no background rectangle and inherit the article surface.
+
+## Implementation evidence
+
+- Relational viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-01-viewport.png` (`698 × 862 px`).
+- Relational focused crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-01-focused.png` (`278 × 206 px`).
+- Relational normalized comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-01-comparison.png` (`556 × 206 px`).
+- Sincerity viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-02-viewport.png` (`698 × 862 px`).
+- Sincerity focused crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-02-focused.png` (`278 × 180 px`).
+- Sincerity normalized comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-02-comparison.png` (`556 × 180 px`).
+- Trustworthiness viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-03-viewport.png` (`698 × 862 px`).
+- Trustworthiness focused crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-03-focused.png` (`278 × 205 px`).
+- Trustworthiness normalized comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-03-comparison.png` (`556 × 205 px`).
+- Combined normalized comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-all-comparison-2x.png` (`1112 × 1246 px`).
+- Viewport/state: `698 × 862` CSS px, device pixel ratio `2`, dark article route, each instrument independently centered for capture.
+- Density normalization: Playwright returned CSS-pixel screenshots. The three rendered SVGs measured `277.89 × 206.27`, `277.89 × 179.95`, and `277.89 × 204.55` CSS px; source rasters were normalized to `278 × 206`, `278 × 180`, and `278 × 205`.
+- DOM verification: all three visuals are direct child `svg` elements; there are zero `img` elements and zero background `rect` elements in the figure. The roots expose `data-instrument`, semantic sections expose `data-instrument-part`, and eleven nodes expose `data-instrument-node`.
+- Browser console: no warnings or errors.
+- Primary interactions: no new behavior was requested. Playwright verified that every semantic root and node is directly queryable in the page DOM, establishing the requested interaction surface.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: the accepted IBM Plex Mono labels and Newsreader italic descriptions retain source text, hierarchy, centering, and baseline placement. Optical sizes were tuned for browser downscaling rather than copied mechanically from the external SVG rasterization.
+- Spacing and layout rhythm: each inline SVG preserves its exact accepted source viewBox and aspect ratio. Coordinates for circles, waves, balance pans, icons, axes, labels, markers, and lower rules remain aligned with the normalized references.
+- Colors and visual tokens: sepia structural strokes and gold labels retain the source foreground balance. Removing the rectangular ground is intentional; the diagrams now inherit the article's dark surface without visible panels.
+- Image quality and asset fidelity: the source-backed vector paths render sharply at the inspected breakpoint. A three-pixel-tolerant foreground-mask comparison measured spatial F1 agreement of `0.9517` for relational acquaintance, `0.9948` for sincerity alignment, and `0.9649` for trustworthiness. The remaining difference is expected raster grain/antialiasing plus the explicitly removed background.
+- Copy and content: all labels and explanatory lines remain exactly as supplied, and each SVG has a title and description for assistive technology.
+- Full-view evidence: the three live captures show that transparent roots blend into the article without seams, overflow, or collisions with notes and parallels.
+- Focused evidence: the normalized source/implementation boards confirm source-matched geometry and placement at equal pixel dimensions.
+
+## Comparison history
+
+1. Starting implementation: each diagram was an external `img` with a solid near-black rectangle and raster-like paper overlay. Its internal paths and semantic regions were inaccessible to the article DOM. This was a P1 mismatch with the requested interaction model and background treatment.
+2. First inline pass: converted all three traces to transparent inline SVG, split occluded paths so no background fill was needed, and added named semantic roots, parts, and nodes. The first Playwright comparison found P2 optical drift at the actual CSS scale: fine strokes and several small labels were lighter than the supplied rasters.
+3. Final pass: tuned structural line weights, dashed connectors, mono labels, and italic captions while preserving every accepted coordinate. The second Playwright capture, full-view inspection, normalized side-by-side comparisons, and foreground-mask scores show no remaining actionable P0–P2 issue.
+
+## Follow-up polish
+
+- No P3 follow-up is required. The sharper edge character and absence of raster grain are intentional consequences of transparent, DOM-addressable vector rendering.
+
+---
+
 # Trustworthiness Balance — Design QA
 
 final result: passed

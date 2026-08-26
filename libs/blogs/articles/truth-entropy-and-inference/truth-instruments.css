@@ -106,7 +106,7 @@
   min-width: 0;
 }
 
-.truth-instrument__visual img {
+.truth-instrument__visual > :is(img, svg) {
   display: block;
   width: 100%;
   height: auto;
@@ -114,15 +114,15 @@
   object-fit: contain;
 }
 
-.truth-instrument:first-child .truth-instrument__visual img {
+.truth-instrument:first-child .truth-instrument__visual > :is(img, svg) {
   max-height: none;
 }
 
-.truth-instrument:nth-child(2) .truth-instrument__visual img {
+.truth-instrument:nth-child(2) .truth-instrument__visual > :is(img, svg) {
   max-height: none;
 }
 
-.truth-instrument:nth-child(3) .truth-instrument__visual img {
+.truth-instrument:nth-child(3) .truth-instrument__visual > :is(img, svg) {
   max-height: none;
 }
 
