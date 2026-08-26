@@ -39,15 +39,15 @@ human stakes to evaluated, reusable knowledge.
 
 ## 1. Truth and Propositional Formulations
 
-Seven overlapping truth practices shape the language around us. Treat them as an
+Six overlapping truth practices shape the language around us. Treat them as an
 editorial framework, not a universal philosophical taxonomy: the same claim can
 participate in several practices at once.
 
-Begin with four practices most visibly entangled with subjective experience,
+Begin with three practices most visibly entangled with subjective experience,
 belief, and personal or communal value: relational acquaintance, sincerity,
-trustworthiness, and teleology. They ask whether an account remains faithful to
+and trustworthiness. They ask whether an account remains faithful to
 lived experience, whether expression aligns with inward state, whether reliance
-is warranted, and whether something fulfills a purpose worth recognizing. This
+is warranted, and how those judgments reflect what people value. This
 is the territory of [Goals, Solutions &
 Value](/writing/goals-solutions-and-value): what matters, what ought to be
 trusted, and whose purposes count cannot be supplied by formalism alone. These
@@ -60,7 +60,6 @@ practices are situated and value-laden, but that does not make them arbitrary.
 | **Relational / acquaintance** | situated significance known through direct familiarity with experiences, people, places, purposes, and relationships | perspective, motive, consequence, interpretation, demonstration, metaphor, phenomenological description | people with direct familiarity test whether a claim remains faithful to experience and its consequences |
 | **Sincerity / truthfulness** | non-deceptive fit between an expression and the speaker's subjective state | first-person avowal, disclosure, qualification, acknowledged uncertainty | mismatches among avowal, conduct, and context expose deception or self-deception |
 | **Trustworthiness Theory** | `X` is true if and only if `X` is trustworthy; `X` is false if and only if `X` is untrustworthy | warranted reliance, reliability, evidence, risk, dependence, justified trust | failures of warranted reliance expose what ought not be trusted, including failures without deception |
-| **Teleological Theory** | `X` is true if and only if `X` is an ideal instance of its kind; `X` is false if and only if `X` is a defective instance | kind, purpose, function, ideal, defect, success conditions, governing norms | failures to fulfill a kind's governing purpose expose defective instances and unsuccessful acts |
 
 Two theological parallels help situate the non-propositional rows without
 claiming that the traditions are equivalent to this essay's taxonomy. In
@@ -74,19 +73,13 @@ spans truth, faithfulness, firmness, and reliability. A person, word, promise,
 or God can be “true” in the sense of being dependable enough to warrant trust.
 
 Their feedback remains substantive: people with direct acquaintance can
-challenge an account; conduct can contradict an avowal; reliance can fail; and
-an instance can betray the purpose or norm of its kind. The stage-door example
-in Kane Baker's
+challenge an account; conduct can contradict an avowal; and reliance can fail.
+The stage-door example in Kane Baker's
 [“Nonpropositional Truth”](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s)
 makes the distinction concrete: a door that ought not be trusted by either
 Sienna or Pearl counts as false in this normative sense regardless of anyone's
-intent to deceive. The
-[teleological account](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s)
-changes the relevant kind: the same door can be a true prop door when it ideally
-serves its intended theatrical purpose, even if it is untrustworthy as an
-ordinary door. A true heart likewise fulfills its function by efficiently
-pumping blood. The language of a domain records which of these checks have been
-running — and how hard they bite.
+intent to deceive. The language of a domain records which of these checks have
+been running — and how hard they bite.
 
 ### Coherence, correspondence, and consequence
 
@@ -295,14 +288,13 @@ consequence.
 
 This computational ladder does not absorb the other truth practices introduced
 earlier. Relational and acquaintance-based truth remains anchored in
-first-person experience, as does sincerity; trustworthiness and teleological
-truth depend on judgments about warranted reliance, governing purposes, and
-what ought to count as a good instance. Religious and theological traditions
-have often supplied languages and communities for making those judgments, but
-the practices are neither exclusively theological nor merely private. Personal
-values are tested and negotiated through relationships, shared norms,
-testimony, and consequences. Their constraints can be rigorous without
-becoming fully reducible to formal proof.
+first-person experience, as does sincerity; trustworthiness depends on judgments
+about warranted reliance and what ought to count as dependable. Religious and
+theological traditions have often supplied languages and communities for making
+those judgments, but the practices are neither exclusively theological nor
+merely private. Personal values are tested and negotiated through relationships,
+shared norms, testimony, and consequences. Their constraints can be rigorous
+without becoming fully reducible to formal proof.
 
 ## 5. Why Code Is So Pattern-Dense
 
@@ -441,4 +433,4 @@ abstraction: does it fit, does it work, and does it match?
 - Stanford Encyclopedia of Philosophy, [“Knowledge by Acquaintance vs. Description”](https://plato.stanford.edu/entries/knowledge-acquaindescrip/). Surveys direct, non-propositional acquaintance and its distinction from descriptive knowledge.
 - Key Concepts in Chinese Thought and Culture, [“Chéng (誠): Sincerity”](https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126). Relates freedom from deceit and consistency of conduct to the Way of Heaven and human moral cultivation.
 - TheTorah.com, [“Torat Emet: Truth Spoken through the Humble Human Experience”](https://www.thetorah.com/article/torat-emet-truth-spoken-through-the-humble-human-experience). Explains the biblical Hebrew sense of *ʾemet* as truth and trustworthiness.
-- Kane Baker, [“Nonpropositional Truth” — Trustworthiness Theory](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s) and [Teleological Theory](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s). Presents trustworthiness as warranted reliance and teleological truth as fulfillment of the governing ideal or purpose of a kind.
+- Kane Baker, [“Nonpropositional Truth” — Trustworthiness Theory](https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s). Presents trustworthiness as warranted reliance.

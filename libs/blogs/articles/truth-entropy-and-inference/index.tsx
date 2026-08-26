@@ -203,14 +203,6 @@ const TRUTH_PRACTICES = [
     language: "warranted reliance, reliability, evidence, risk, dependence, justified trust",
     feedback: "failures of warranted reliance expose what ought not be trusted, including failures without deception",
   },
-  {
-    label: "Teleological Theory",
-    formulation: null,
-    validity: "X is true if and only if X is an ideal instance of its kind; X is false if and only if X is a defective instance",
-    parallel: null,
-    language: "kind, purpose, function, ideal, defect, success conditions, governing norms",
-    feedback: "failures to fulfill a kind's governing purpose expose defective instances and unsuccessful acts",
-  },
 ] as const;
 
 const RECURRING_TRUTH_PRACTICES = TRUTH_PRACTICES.slice(0, 3);
@@ -1777,15 +1769,14 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
 
         <Section index="01" title="Truth and Propositional Formulations">
           <p>
-            Seven overlapping truth practices shape the language around us. Treat them as an editorial framework, not
+            Six overlapping truth practices shape the language around us. Treat them as an editorial framework, not
             a universal philosophical taxonomy: the same claim can participate in several practices at once.
           </p>
           <p>
-            Begin with four practices most visibly entangled with subjective experience, belief, and personal or
-            communal value: relational acquaintance, sincerity, trustworthiness, and teleology. They ask whether an
+            Begin with three practices most visibly entangled with subjective experience, belief, and personal or
+            communal value: relational acquaintance, sincerity, and trustworthiness. They ask whether an
             account remains faithful to lived experience, whether expression aligns with inward state, whether
-            reliance is warranted, and whether something fulfills a purpose worth recognizing. This is the territory
-            of{" "}
+            reliance is warranted, and how those judgments reflect what people value. This is the territory of{" "}
             <LinkPreview url="/writing/goals-solutions-and-value" asChild>
               <Link to="/writing/$slug" params={{ slug: "goals-solutions-and-value" }}>
                 Goals, Solutions &amp; Value
@@ -1796,27 +1787,21 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
           <TruthPracticesFigure
             practices={SITUATED_TRUTH_PRACTICES}
-            ariaLabel="Four situated and normative truth practices shaped by experience, belief, and value"
+            ariaLabel="Three situated truth practices shaped by experience, belief, and value"
             eyebrow="Situated and normative practices"
             title="Experience, belief, and value"
-            caption="Situated and normative truth — constrained through faithful experience, good-faith expression, warranted reliance, and purposes worth serving."
+            caption="Situated truth — constrained through faithful experience, good-faith expression, and warranted reliance."
           />
           <p>
             Their feedback remains substantive: people with direct acquaintance can challenge an account; conduct can
-            contradict an avowal; reliance can fail; and an instance can betray the purpose or norm of its kind. The
+            contradict an avowal; and reliance can fail. The
             stage-door example in Kane Baker&apos;s{" "}
             <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s" external>
               “Nonpropositional Truth”
             </LinkPreview>{" "}
             makes the distinction concrete: a door that ought not be trusted by either Sienna or Pearl counts as false
-            in this normative sense regardless of anyone&apos;s intent to deceive. The{" "}
-            <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s" external>
-              teleological account
-            </LinkPreview>{" "}
-            changes the relevant kind: the same door can be a true prop door when it ideally serves its intended
-            theatrical purpose, even if it is untrustworthy as an ordinary door. A true heart likewise fulfills its
-            function by efficiently pumping blood. The language of a domain records which of these checks have been
-            running — and how hard they bite.
+            in this normative sense regardless of anyone&apos;s intent to deceive. The language of a domain records which
+            of these checks have been running — and how hard they bite.
           </p>
           <p>
             Three other practices become the recurring thread of this article: formal truth as coherence, empirical
@@ -2079,11 +2064,11 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <p>
             This computational ladder does not absorb the other truth practices introduced earlier. Relational and
             acquaintance-based truth remains anchored in first-person experience, as does sincerity; trustworthiness
-            and teleological truth depend on judgments about warranted reliance, governing purposes, and what ought
-            to count as a good instance. Religious and theological traditions have often supplied languages and
-            communities for making those judgments, but the practices are neither exclusively theological nor merely
-            private. Personal values are tested and negotiated through relationships, shared norms, testimony, and
-            consequences. Their constraints can be rigorous without becoming fully reducible to formal proof.
+            depends on judgments about warranted reliance and what ought to count as dependable. Religious and
+            theological traditions have often supplied languages and communities for making those judgments, but the
+            practices are neither exclusively theological nor merely private. Personal values are tested and
+            negotiated through relationships, shared norms, testimony, and consequences. Their constraints can be
+            rigorous without becoming fully reducible to formal proof.
           </p>
         </Section>
 
@@ -2366,12 +2351,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s" external>
                 “Nonpropositional Truth” — Trustworthiness Theory
               </LinkPreview>
-              {" "}and{" "}
-              <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s" external>
-                Teleological Theory
-              </LinkPreview>
-              . Presents trustworthiness as warranted reliance and teleological truth as fulfillment of the governing
-              ideal or purpose of a kind.
+              . Presents trustworthiness as warranted reliance.
             </li>
           </ul>
         </Section>

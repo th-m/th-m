@@ -79,7 +79,7 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(section).not.toBeNull();
     expect(section?.querySelector("ul")).toBeNull();
     const situatedFigure = screen.getByRole("figure", {
-      name: "Four situated and normative truth practices shaped by experience, belief, and value",
+      name: "Three situated truth practices shaped by experience, belief, and value",
     });
     const recurringFigure = screen.getByRole("figure", {
       name: "Three recurring truth practices that compose reusable problem-solving formulations",
@@ -90,7 +90,7 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(situatedFigure).toHaveTextContent("Relational / acquaintance");
     expect(situatedFigure).toHaveTextContent("Sincerity / truthfulness");
     expect(situatedFigure).toHaveTextContent("Trustworthiness Theory");
-    expect(situatedFigure).toHaveTextContent("Teleological Theory");
+    expect(situatedFigure).not.toHaveTextContent("Teleological Theory");
     expect(situatedFigure).not.toHaveTextContent("Formal truth");
     expect(recurringFigure).toHaveTextContent("Coherence · Correspondence · Consequence");
     expect(recurringFigure).toHaveTextContent("Formal truth");
@@ -106,7 +106,6 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(section).toHaveTextContent(/chéng \(誠\)/i);
     expect(section).toHaveTextContent(/Biblical Hebrew parallel/i);
     expect(section).toHaveTextContent(/ʾemet \(אֱמֶת\)/i);
-    expect(section).toHaveTextContent(/ideal instance of its kind/i);
     expect(screen.getByRole("link", { name: /Chéng in classical Chinese thought/i })).toHaveAttribute(
       "href",
       "https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126",
@@ -123,15 +122,12 @@ describe("Truth, Entropy & Inference language visualization", () => {
         .some((link) => link.getAttribute("href") === "/writing/goals-solutions-and-value"),
     ).toBe(true);
     expect(section).toHaveTextContent(/ought not be trusted by either Sienna or Pearl/i);
-    expect(section).toHaveTextContent(/true prop door/i);
+    expect(section).not.toHaveTextContent(/true prop door/i);
     expect(screen.getAllByRole("link", { name: /Nonpropositional Truth/i })[0]).toHaveAttribute(
       "href",
       "https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s",
     );
-    expect(screen.getAllByRole("link", { name: /teleological/i })[0]).toHaveAttribute(
-      "href",
-      "https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s",
-    );
+    expect(screen.queryByRole("link", { name: /teleological/i })).not.toBeInTheDocument();
   });
 
   it("connects context, embedding coordinates, and output probabilities", async () => {
