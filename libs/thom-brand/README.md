@@ -29,3 +29,6 @@ generated brand data is the deterministic bridge between geometry and motion.
 - `ThomGlyphStage` renders one isolated glyph construction.
 
 Import `@th-m/thom-brand/styles.css` once in the consuming application.
+
+Agents creating THOM visual assets should follow the
+[THOM Design Instructions for Agents](agent-design-instruction-guidelines.md).
