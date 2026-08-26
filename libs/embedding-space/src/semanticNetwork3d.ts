@@ -40,14 +40,14 @@ export type SemanticNetworkEdge = {
 const ANCHOR_PRESENTATION_OFFSETS: Readonly<
   Record<SemanticWord, readonly [number, number, number]>
 > = {
-  man: [-0.16, -0.08, 0.12],
-  woman: [0.11, 0.14, 0.08],
-  boy: [-0.2, 0.11, -0.09],
-  girl: [0.14, -0.15, -0.13],
-  king: [-0.12, 0.16, -0.11],
-  queen: [0.17, -0.1, -0.07],
-  prince: [-0.03, -0.14, 0.1],
-  princess: [0.2, 0.13, 0.12],
+  man: [-0.25, -0.15, 0.25],
+  woman: [0.28, 0.2, 0.18],
+  boy: [-0.32, 0.25, -0.22],
+  girl: [0.3, -0.3, -0.24],
+  king: [-0.28, 0.3, -0.28],
+  queen: [0.32, -0.25, -0.2],
+  prince: [-0.12, -0.32, 0.26],
+  princess: [0.38, 0.27, 0.3],
 };
 
 function anchorPresentationPosition(word: SemanticWord): readonly [number, number, number] {
