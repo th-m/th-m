@@ -159,34 +159,46 @@ const figureFrame: React.CSSProperties = {
 
 const TRUTH_PRACTICES = [
   {
-    name: "Formal",
+    label: "Formal truth",
     validity: "validity relative to definitions, axioms, and inference rules",
     language: "explicit premises, symbolic relationships, proof obligations",
     feedback: "counterexamples and proof assistants reject invalid derivations",
   },
   {
-    name: "Empirical",
+    label: "Empirical truth",
     validity: "correspondence with observations",
     language: "measurement, method, uncertainty, replication, counterevidence",
     feedback: "failed predictions and unreplicated results erode the claim",
   },
   {
-    name: "Operational",
+    label: "Operational truth",
     validity: "reliability in action",
     language: "procedures, preconditions, failure modes, tolerances, observed outcomes",
     feedback: "systems that crash, stall, or cost too much are corrected or retired",
   },
   {
-    name: "Relational",
+    label: "Relational truth",
     validity: "significance within human purposes and relationships",
     language: "perspective, motive, consequence, interpretation, accountability",
     feedback: "people who bear the consequences accept, resist, or repair the claim",
+  },
+  {
+    label: "Sincerity / truthfulness",
+    validity: "non-deceptive fit between an expression and the speaker's subjective state",
+    language: "first-person avowal, disclosure, qualification, acknowledged uncertainty",
+    feedback: "mismatches among avowal, conduct, and context expose deception or self-deception",
+  },
+  {
+    label: "Knowledge by acquaintance",
+    validity: "direct familiarity with an experience, person, place, or quality",
+    language: "demonstration, metaphor, example, gesture, phenomenological description",
+    feedback: "repeated experience and situated witnesses expose descriptions that flatten or distort what is encountered",
   },
 ] as const;
 
 function TruthPracticesFigure() {
   return (
-    <figure aria-label="Four truth practices and the feedback that constrains their language">
+    <figure aria-label="Six truth practices and the feedback that constrains their language">
       <div
         style={{
           ...figureFrame,
@@ -197,7 +209,7 @@ function TruthPracticesFigure() {
       >
         {TRUTH_PRACTICES.map((practice) => (
           <div
-            key={practice.name}
+            key={practice.label}
             style={{
               padding: "16px 18px",
               border: "1px solid var(--line)",
@@ -208,7 +220,7 @@ function TruthPracticesFigure() {
             }}
           >
             <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".13em", textTransform: "uppercase", color: "var(--color-primary)" }}>
-              {practice.name} truth
+              {practice.label}
             </p>
             <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--color-foreground)" }}>
               {practice.validity}
@@ -232,26 +244,43 @@ function TruthPracticesFigure() {
 }
 
 /* ------------------------------------------------------------------ */
-/* F2 — Prediction under constraint (interactive distribution)         */
+/* F2 — Prompt direction and remaining ambiguity                       */
 /* ------------------------------------------------------------------ */
 
 type ScenarioConstraint = {
   label: string;
   technicalLabel: string;
   metaDescription: string;
-  favored: number[];
   multiplier: number;
 };
 
+type LanguageOption = {
+  register: "Plain language" | "Slang" | "Colloquial" | "Adjacent domain" | "Term of art";
+  term: string;
+};
+
 type Scenario = {
-  id: "sorting" | "design" | "business";
+  id:
+    | "sorting"
+    | "design"
+    | "business"
+    | "cybersecurity"
+    | "manufacturing"
+    | "inventory"
+    | "error-recovery"
+    | "information-scent"
+    | "visual-hierarchy"
+    | "readable-measure"
+    | "branding";
   label: string;
   requestBase: string;
-  continuations: string[];
-  baseWeights: number[];
+  targetResponse: string;
+  languageOptions: LanguageOption[];
   constraints: ScenarioConstraint[];
-  /** Index of the continuation a model would reflexively pick with no constraints. */
+  /** Index of the language option a model would reflexively pick with no constraints. */
   naiveGuess: number;
+  /** Index of the domain-correct term of art. */
+  termOfArt: number;
 };
 
 const SCENARIOS: Scenario[] = [
@@ -259,61 +288,52 @@ const SCENARIOS: Scenario[] = [
     id: "sorting",
     label: "Sorting",
     requestBase: "Organize this list",
-    continuations: [
-      "generic reordering",
-      "sort by value",
-      "sort alphabetically",
-      "sort by priority",
-      "sort by size",
-      "bucket by range",
-      "hash partition",
-      "stable merge",
-      "counting sort",
-      "radix pass",
+    targetResponse:
+      "Use a stable counting sort for bounded integer keys: count values, accumulate positions, and place items into an output array from right to left so equal keys retain their input order.",
+    languageOptions: [
+      { register: "Plain language", term: "put the numbers in order" },
+      { register: "Slang", term: "clean this list up" },
+      { register: "Colloquial", term: "sort it out" },
+      { register: "Adjacent domain", term: "rank the entries" },
+      { register: "Term of art", term: "stable counting sort" },
     ],
-    baseWeights: [6, 8, 7, 9, 8, 10, 8, 7, 6, 5],
-    naiveGuess: 1,
+    naiveGuess: 0,
+    termOfArt: 4,
     constraints: [
       {
         label: "The domain is bounded integer keys",
         technicalLabel: "domain",
         metaDescription: "The universe of values the request is allowed to touch.",
-        favored: [5, 6, 7, 8, 9],
+        multiplier: 6,
+      },
+      {
+        label: "The family is stable counting sort",
+        technicalLabel: "family",
+        metaDescription: "The established algorithm family that matches bounded integer keys and stable output.",
+        multiplier: 5,
+      },
+      {
+        label: "The key range is known and compact",
+        technicalLabel: "precondition",
+        metaDescription: "The condition that makes counting sort efficient instead of wasteful.",
         multiplier: 3,
-      },
-      {
-        label: "The family is hash-based partitioning",
-        technicalLabel: "family",
-        metaDescription: "The class of algorithms the request selects — hashing each key into a fixed bucket.",
-        favored: [6],
-        multiplier: 5,
-      },
-      {
-        label: "The family is bucket-based partitioning",
-        technicalLabel: "family",
-        metaDescription: "The class of algorithms the request selects — partitioning keys into value ranges.",
-        favored: [5],
-        multiplier: 5,
       },
       {
         label: "Memory safety and stability are required",
         technicalLabel: "invariant",
         metaDescription: "Properties the result must preserve — and the failure modes when it does not.",
-        favored: [6, 7, 8],
         multiplier: 3,
       },
       {
         label: "Examples and counterexamples are included",
         technicalLabel: "example",
         metaDescription: "Concrete cases that must work, and cases that must not.",
-        favored: [5, 6, 7, 8, 9],
         multiplier: 2,
       },
       {
         label: "Tests define what counts as success",
         technicalLabel: "test",
         metaDescription: "The observable condition the result is judged against.",
-        favored: [6, 7, 8],
         multiplier: 2,
       },
     ],
@@ -322,54 +342,46 @@ const SCENARIOS: Scenario[] = [
     id: "design",
     label: "Design",
     requestBase: "Make this page look better",
-    continuations: [
-      "bump the type scale",
-      "recolor the buttons",
-      "add whitespace",
-      "rework the layout grid",
-      "rewrite the copy",
-      "add a hero illustration",
-      "introduce dark mode",
-      "add motion and transitions",
-      "redesign the whole flow",
-      "tune the palette tokens",
+    targetResponse:
+      "Redesign the checkout flow around keyboard operation, visible focus, labeled controls, accessible errors, WCAG AA contrast, and a mobile task-flow test.",
+    languageOptions: [
+      { register: "Plain language", term: "make the checkout easier to use" },
+      { register: "Slang", term: "give it some polish" },
+      { register: "Colloquial", term: "clean up the checkout" },
+      { register: "Adjacent domain", term: "optimize the conversion funnel" },
+      { register: "Term of art", term: "accessible checkout-flow redesign" },
     ],
-    baseWeights: [6, 10, 8, 7, 6, 5, 7, 6, 5, 9],
-    naiveGuess: 1,
+    naiveGuess: 0,
+    termOfArt: 4,
     constraints: [
       {
         label: "The domain is the checkout screen",
         technicalLabel: "domain",
         metaDescription: "The universe of values the request is allowed to touch.",
-        favored: [0, 3, 4, 8],
-        multiplier: 3,
+        multiplier: 6,
       },
       {
         label: "The family is a tokenized design system",
         technicalLabel: "family",
         metaDescription: "The class of solutions the request selects — shared tokens instead of one-off styling.",
-        favored: [0, 1, 9],
         multiplier: 5,
       },
       {
         label: "Contrast passes WCAG AA and focus states stay visible",
         technicalLabel: "invariant",
         metaDescription: "Properties the result must preserve — and the failure modes when it does not.",
-        favored: [1, 9],
         multiplier: 3,
       },
       {
         label: "Show the mobile viewport before and after",
         technicalLabel: "example",
         metaDescription: "Concrete cases that must work, and cases that must not.",
-        favored: [2, 3],
         multiplier: 3,
       },
       {
         label: "Success is a usability test: task time and error rate",
         technicalLabel: "test",
         metaDescription: "The observable condition the result is judged against.",
-        favored: [3, 4, 8],
         multiplier: 5,
       },
     ],
@@ -378,71 +390,449 @@ const SCENARIOS: Scenario[] = [
     id: "business",
     label: "Business strategy",
     requestBase: "Grow the business",
-    continuations: [
-      "lower prices",
-      "raise prices",
-      "add a free tier",
-      "expand into a new market",
-      "hire more salespeople",
-      "improve retention",
-      "cut marketing spend",
-      "switch to usage-based pricing",
-      "launch an annual-plan discount",
-      "reduce operating costs",
+    targetResponse:
+      "Calculate net revenue retention by cohort as starting recurring revenue plus expansion, minus contraction and churn, divided by starting recurring revenue; diagnose each component before proposing pricing or retention changes.",
+    languageOptions: [
+      { register: "Plain language", term: "make more money" },
+      { register: "Slang", term: "pour gas on growth" },
+      { register: "Colloquial", term: "grow the customer base" },
+      { register: "Adjacent domain", term: "increase throughput" },
+      { register: "Term of art", term: "net revenue retention" },
     ],
-    baseWeights: [10, 6, 7, 6, 5, 8, 6, 7, 7, 5],
     naiveGuess: 0,
+    termOfArt: 4,
     constraints: [
       {
         label: "The domain is the B2B SaaS segment",
         technicalLabel: "domain",
         metaDescription: "The universe of values the request is allowed to touch.",
-        favored: [3, 4, 5],
-        multiplier: 2,
+        multiplier: 6,
       },
       {
         label: "The family is pricing and packaging strategy",
         technicalLabel: "family",
         metaDescription: "The class of strategies the request selects — how the offer is priced and packaged.",
-        favored: [0, 1, 2, 7, 8],
         multiplier: 5,
       },
       {
         label: "Gross margin stays above 75% and monthly churn below 3%",
         technicalLabel: "invariant",
         metaDescription: "Properties the result must preserve — and the failure modes when it does not.",
-        favored: [5, 7, 8],
         multiplier: 3,
       },
       {
         label: "Counterexample: last year's blanket discount did not lift volume",
         technicalLabel: "example",
         metaDescription: "Concrete cases that must work, and cases that must not.",
-        favored: [5, 7, 8],
         multiplier: 3,
       },
       {
         label: "Success is NRR ≥ 110% measured over two quarters",
         technicalLabel: "test",
         metaDescription: "The observable condition the result is judged against.",
-        favored: [5, 8],
+        multiplier: 3,
+      },
+    ],
+  },
+  {
+    id: "cybersecurity",
+    label: "Cybersecurity",
+    requestBase: "A stolen password should not be enough to get in",
+    targetResponse:
+      "Require phishing-resistant MFA for administrative access with WebAuthn or hardware-backed passkeys, and ensure account recovery cannot fall back to phishable factors.",
+    languageOptions: [
+      { register: "Plain language", term: "require another proof of identity" },
+      { register: "Slang", term: "lock down admin login" },
+      { register: "Colloquial", term: "add a security key at sign-in" },
+      { register: "Adjacent domain", term: "put a second gate in front of access" },
+      { register: "Term of art", term: "phishing-resistant MFA" },
+    ],
+    naiveGuess: 0,
+    termOfArt: 4,
+    constraints: [
+      {
+        label: "The domain is administrative access",
+        technicalLabel: "scope",
+        metaDescription: "The accounts and privileges to which the authentication requirement applies.",
+        multiplier: 6,
+      },
+      {
+        label: "The control is phishing-resistant MFA",
+        technicalLabel: "control",
+        metaDescription: "The security family selected to prevent a captured password from being sufficient.",
+        multiplier: 5,
+      },
+      {
+        label: "Hardware-backed authentication is required",
+        technicalLabel: "mechanism",
+        metaDescription: "The concrete mechanism that binds authentication to the legitimate service.",
+        multiplier: 3,
+      },
+      {
+        label: "Weaker fallback methods cannot bypass the control",
+        technicalLabel: "invariant",
+        metaDescription: "The guarantee that recovery or fallback does not silently reopen the protected path.",
+        multiplier: 3,
+      },
+      {
+        label: "Lost-device and account-recovery cases are tested",
+        technicalLabel: "test",
+        metaDescription: "The exceptional paths that must preserve both access and the security guarantee.",
+        multiplier: 3,
+      },
+    ],
+  },
+  {
+    id: "manufacturing",
+    label: "Manufacturing",
+    requestBase: "Make it impossible to install this part backward",
+    targetResponse:
+      "Poka-yoke the assembly step with a keyed fixture or interlock that permits only the correct orientation, stops incomplete insertion, and rejects reversed or missing components.",
+    languageOptions: [
+      { register: "Plain language", term: "make the part fit only one way" },
+      { register: "Slang", term: "make the station foolproof" },
+      { register: "Colloquial", term: "stop backward assembly" },
+      { register: "Adjacent domain", term: "constrain the affordance" },
+      { register: "Term of art", term: "poka-yoke the assembly step" },
+    ],
+    naiveGuess: 0,
+    termOfArt: 4,
+    constraints: [
+      {
+        label: "The domain is the connector assembly station",
+        technicalLabel: "scope",
+        metaDescription: "The exact operation in which orientation errors must be prevented.",
+        multiplier: 6,
+      },
+      {
+        label: "The method is a keyed physical fixture",
+        technicalLabel: "method",
+        metaDescription: "The error-proofing mechanism that permits only the correct orientation.",
+        multiplier: 5,
+      },
+      {
+        label: "Incomplete insertion stops the cycle",
+        technicalLabel: "invariant",
+        metaDescription: "The behavioral guarantee that a second assembly error cannot pass unnoticed.",
+        multiplier: 3,
+      },
+      {
+        label: "Reversed and missing components are counterexamples",
+        technicalLabel: "counterexample",
+        metaDescription: "Known incorrect states the fixture must reject rather than merely discourage.",
+        multiplier: 3,
+      },
+      {
+        label: "Every known assembly error is validated",
+        technicalLabel: "test",
+        metaDescription: "The acceptance criterion that turns error-proofing into an inspectable result.",
+        multiplier: 3,
+      },
+    ],
+  },
+  {
+    id: "inventory",
+    label: "Inventory",
+    requestBase: "Do not run out, but do not fill the warehouse",
+    targetResponse:
+      "Set the reorder point to expected lead-time demand plus safety stock, using measured demand and lead-time variability while preserving case-quantity, shelf-life, and service-level constraints.",
+    languageOptions: [
+      { register: "Plain language", term: "order before stock gets too low" },
+      { register: "Slang", term: "keep some cushion on the shelf" },
+      { register: "Colloquial", term: "carry enough for a busy week" },
+      { register: "Adjacent domain", term: "maintain a reserve margin" },
+      { register: "Term of art", term: "reorder point with safety stock" },
+    ],
+    naiveGuess: 0,
+    termOfArt: 4,
+    constraints: [
+      {
+        label: "The domain is a perishable SKU with variable demand",
+        technicalLabel: "scope",
+        metaDescription: "The item and demand pattern to which the stocking policy applies.",
+        multiplier: 6,
+      },
+      {
+        label: "The method is a reorder point with safety stock",
+        technicalLabel: "method",
+        metaDescription: "The inventory model that combines expected lead-time demand with a variability buffer.",
+        multiplier: 5,
+      },
+      {
+        label: "Lead-time demand and variability are measured",
+        technicalLabel: "precondition",
+        metaDescription: "The observations needed to calculate the policy instead of guessing a buffer.",
+        multiplier: 3,
+      },
+      {
+        label: "Case quantities and shelf life remain constraints",
+        technicalLabel: "invariant",
+        metaDescription: "The operational limits the replenishment policy must not optimize away.",
+        multiplier: 3,
+      },
+      {
+        label: "The target service level is explicit and reviewed monthly",
+        technicalLabel: "test",
+        metaDescription: "The measurable availability goal and cadence for checking whether the policy still fits.",
+        multiplier: 3,
+      },
+    ],
+  },
+  {
+    id: "error-recovery",
+    label: "Error recovery",
+    requestBase: "Do not punish people for making a mistake",
+    targetResponse:
+      "Design for error recovery: preserve entered data, offer undo for reversible actions, explain how to repair validation failures, and confirm only destructive actions that cannot be reversed.",
+    languageOptions: [
+      { register: "Plain language", term: "let people fix mistakes without starting over" },
+      { register: "Slang", term: "give people a way back" },
+      { register: "Colloquial", term: "make mistakes easy to undo" },
+      { register: "Adjacent domain", term: "build in a safety net" },
+      { register: "Term of art", term: "design for error recovery" },
+    ],
+    naiveGuess: 0,
+    termOfArt: 4,
+    constraints: [
+      {
+        label: "The domain is a content-publishing workflow",
+        technicalLabel: "scope",
+        metaDescription: "The sequence of editing, validating, publishing, and deleting content where recovery matters.",
+        multiplier: 6,
+      },
+      {
+        label: "Reversible actions provide undo",
+        technicalLabel: "reversibility",
+        metaDescription: "The recovery mechanism that restores the prior state without forcing users to reconstruct it.",
+        multiplier: 5,
+      },
+      {
+        label: "Validation failures preserve entered data",
+        technicalLabel: "invariant",
+        metaDescription: "The guarantee that an error does not destroy valid work completed elsewhere in the flow.",
+        multiplier: 3,
+      },
+      {
+        label: "Every error explains how to repair it",
+        technicalLabel: "guidance",
+        metaDescription: "The information users need to recognize the problem and take a successful next action.",
+        multiplier: 3,
+      },
+      {
+        label: "Irreversible destructive actions require confirmation",
+        technicalLabel: "guardrail",
+        metaDescription: "The prevention reserved for consequential actions that the recovery system cannot undo.",
+        multiplier: 3,
+      },
+    ],
+  },
+  {
+    id: "information-scent",
+    label: "Information scent",
+    requestBase: "Help people understand what will happen before they click",
+    targetResponse:
+      "Strengthen information scent with destination-specific link labels and previews that expose content type and scope, then test whether people can predict each destination before clicking.",
+    languageOptions: [
+      { register: "Plain language", term: "make link destinations easier to understand" },
+      { register: "Slang", term: "make the links less mysterious" },
+      { register: "Colloquial", term: "show people where each link goes" },
+      { register: "Adjacent domain", term: "improve the wayfinding cues" },
+      { register: "Term of art", term: "strengthen information scent" },
+    ],
+    naiveGuess: 0,
+    termOfArt: 4,
+    constraints: [
+      {
+        label: "The domain is resource-library navigation",
+        technicalLabel: "scope",
+        metaDescription: "The collection in which users must choose among similar-looking destinations.",
+        multiplier: 6,
+      },
+      {
+        label: "Links use destination-specific labels",
+        technicalLabel: "cue",
+        metaDescription: "The language that predicts the destination instead of relying on generic calls to action.",
+        multiplier: 5,
+      },
+      {
+        label: "Previews expose content type and scope",
+        technicalLabel: "preview",
+        metaDescription: "The additional evidence users can inspect before committing to navigation.",
+        multiplier: 3,
+      },
+      {
+        label: "Generic Learn more links are counterexamples",
+        technicalLabel: "counterexample",
+        metaDescription: "A common label that provides too little evidence when several destinations are plausible.",
+        multiplier: 3,
+      },
+      {
+        label: "Participants can predict each destination before clicking",
+        technicalLabel: "test",
+        metaDescription: "The observable condition that distinguishes a strong cue from a merely descriptive label.",
+        multiplier: 3,
+      },
+    ],
+  },
+  {
+    id: "visual-hierarchy",
+    label: "Visual hierarchy",
+    requestBase: "Make it obvious what people should notice first",
+    targetResponse:
+      "Establish a clear visual hierarchy with one dominant action, discoverable secondary actions, and a reading order that survives mobile layouts; verify the intended priority with a first-click test.",
+    languageOptions: [
+      { register: "Plain language", term: "make the main action stand out" },
+      { register: "Slang", term: "make the CTA pop" },
+      { register: "Colloquial", term: "draw the eye to the next step" },
+      { register: "Adjacent domain", term: "establish a focal point" },
+      { register: "Term of art", term: "establish a clear visual hierarchy" },
+    ],
+    naiveGuess: 0,
+    termOfArt: 4,
+    constraints: [
+      {
+        label: "The domain is a pricing-selection screen",
+        technicalLabel: "scope",
+        metaDescription: "The decision surface whose plans, details, and actions require an intentional reading order.",
+        multiplier: 6,
+      },
+      {
+        label: "One action is visually dominant",
+        technicalLabel: "priority",
+        metaDescription: "The single next action that receives the strongest position, scale, contrast, and spacing cues.",
+        multiplier: 5,
+      },
+      {
+        label: "Secondary actions remain discoverable without competing",
+        technicalLabel: "invariant",
+        metaDescription: "The balance between emphasizing the primary path and preserving legitimate alternatives.",
+        multiplier: 3,
+      },
+      {
+        label: "The reading order survives mobile widths",
+        technicalLabel: "responsive behavior",
+        metaDescription: "The guarantee that hierarchy follows meaning when the spatial composition changes.",
+        multiplier: 3,
+      },
+      {
+        label: "A first-click test confirms the intended next action",
+        technicalLabel: "test",
+        metaDescription: "The behavioral evidence that visual emphasis directs attention toward the intended choice.",
+        multiplier: 3,
+      },
+    ],
+  },
+  {
+    id: "readable-measure",
+    label: "Readable measure",
+    requestBase: "Make the text easier and more comfortable to read",
+    targetResponse:
+      "Set a readable measure of roughly 55–75 characters per body line, with line height, contrast, and responsive type settings that support sustained reading at every supported width.",
+    languageOptions: [
+      { register: "Plain language", term: "keep the lines from getting too long" },
+      { register: "Slang", term: "give the copy room to breathe" },
+      { register: "Colloquial", term: "make the article easier on the eyes" },
+      { register: "Adjacent domain", term: "control the reading rhythm" },
+      { register: "Term of art", term: "set a readable measure" },
+    ],
+    naiveGuess: 0,
+    termOfArt: 4,
+    constraints: [
+      {
+        label: "The domain is long-form article text",
+        technicalLabel: "scope",
+        metaDescription: "The sustained reading context in which line length and rhythm have compounding effects.",
+        multiplier: 6,
+      },
+      {
+        label: "Body lines stay between 55 and 75 characters",
+        technicalLabel: "measure",
+        metaDescription: "The target line length that constrains the text column rather than the entire page shell.",
+        multiplier: 5,
+      },
+      {
+        label: "Line height and contrast support sustained reading",
+        technicalLabel: "legibility",
+        metaDescription: "The related typographic conditions that line length alone cannot guarantee.",
+        multiplier: 3,
+      },
+      {
+        label: "Type and measure adapt across supported widths",
+        technicalLabel: "responsive behavior",
+        metaDescription: "The guarantee that the reading experience survives changes in viewport and font size.",
+        multiplier: 3,
+      },
+      {
+        label: "Every supported viewport is checked for overflow and measure",
+        technicalLabel: "test",
+        metaDescription: "The acceptance check for layout failures and lines that fall outside the intended range.",
+        multiplier: 3,
+      },
+    ],
+  },
+  {
+    id: "branding",
+    label: "Branding",
+    requestBase: "Make this feel more like our brand",
+    targetResponse:
+      "Activate a coordinated system of distinctive color, typography, shape, imagery, motion, and voice cues that remains recognizable without the logo and survives different formats.",
+    languageOptions: [
+      { register: "Plain language", term: "make everything feel consistent" },
+      { register: "Slang", term: "make it feel more us" },
+      { register: "Colloquial", term: "bring it on-brand" },
+      { register: "Adjacent domain", term: "use a recognizable signature" },
+      { register: "Term of art", term: "activate distinctive brand assets" },
+    ],
+    naiveGuess: 0,
+    termOfArt: 4,
+    constraints: [
+      {
+        label: "Recognition works without the logo",
+        technicalLabel: "scope",
+        metaDescription: "The recognition problem includes executions where the primary identifying mark is absent.",
+        multiplier: 6,
+      },
+      {
+        label: "Color, typography, shape, imagery, motion, and voice work together",
+        technicalLabel: "system",
+        metaDescription: "The coordinated asset system that creates recognition instead of relying on a single cue.",
+        multiplier: 5,
+      },
+      {
+        label: "Assets differ from category conventions",
+        technicalLabel: "distinction",
+        metaDescription: "The requirement that brand cues identify this brand rather than merely signaling its market category.",
+        multiplier: 3,
+      },
+      {
+        label: "Recognition survives different formats and campaigns",
+        technicalLabel: "invariant",
+        metaDescription: "The guarantee that the system remains attributable while individual executions change.",
+        multiplier: 3,
+      },
+      {
+        label: "Branded and unbranded examples are included",
+        technicalLabel: "evidence",
+        metaDescription: "The comparison set used to separate genuine recognition from recognition supplied by the logo.",
+        multiplier: 3,
+      },
+      {
+        label: "Success is unaided recognition and correct brand attribution",
+        technicalLabel: "test",
+        metaDescription: "The observable result that determines whether the assets form a distinctive, recognizable system.",
         multiplier: 3,
       },
     ],
   },
 ];
 
-function entropyBits(weights: number[]): number {
-  const total = weights.reduce((sum, weight) => sum + weight, 0);
-  if (total <= 0) return 0;
-  let entropy = 0;
-  for (const weight of weights) {
-    if (weight <= 0) continue;
-    const p = weight / total;
-    entropy -= p * Math.log2(p);
-  }
-  return entropy;
-}
+const REGISTER_INTERPRETATIONS: Record<LanguageOption["register"], number> = {
+  "Plain language": 4.8,
+  Slang: 5.2,
+  Colloquial: 4.4,
+  "Adjacent domain": 3.6,
+  "Term of art": 1.8,
+};
 
 /** Join clause strings with commas and an Oxford "and" so they read as one sentence. */
 function joinClauses(clauses: string[]): string {
@@ -454,23 +844,31 @@ function joinClauses(clauses: string[]): string {
 
 function PredictionFigure() {
   const [scenarioId, setScenarioId] = useState<Scenario["id"]>("sorting");
+  const [languageIndex, setLanguageIndex] = useState(SCENARIOS[0].naiveGuess);
   const [active, setActive] = useState<Set<number>>(new Set());
   const [infoIndex, setInfoIndex] = useState<number | null>(null);
 
   const scenario = SCENARIOS.find((entry) => entry.id === scenarioId) ?? SCENARIOS[0];
+  const selectedOption = scenario.languageOptions[languageIndex] ?? scenario.languageOptions[scenario.naiveGuess];
+  const termOfArt = scenario.languageOptions[scenario.termOfArt];
 
-  const { weights, entropy } = useMemo(() => {
-    const computed = scenario.baseWeights.map((base, index) => {
-      let weight = base;
-      for (const constraint of scenario.constraints) {
-        if (active.has(scenario.constraints.indexOf(constraint))) {
-          weight *= constraint.favored.includes(index) ? constraint.multiplier : 1;
-        }
-      }
-      return weight;
-    });
-    return { weights: computed, entropy: entropyBits(computed) };
-  }, [active, scenario]);
+  const { possibleInterpretations, entropy, ambiguityPercent } = useMemo(() => {
+    const totalConstraintWeight = scenario.constraints.reduce((sum, constraint) => sum + constraint.multiplier, 0);
+    const activeConstraintWeight = scenario.constraints.reduce(
+      (sum, constraint, index) => sum + (active.has(index) ? constraint.multiplier : 0),
+      0,
+    );
+    const constraintCoverage = totalConstraintWeight === 0 ? 0 : activeConstraintWeight / totalConstraintWeight;
+    const baseInterpretations = REGISTER_INTERPRETATIONS[selectedOption.register];
+    const interpretations = 1 + (baseInterpretations - 1) * (1 - constraintCoverage);
+    const percent = ((interpretations - 1) / (REGISTER_INTERPRETATIONS.Slang - 1)) * 100;
+
+    return {
+      possibleInterpretations: interpretations,
+      entropy: Math.log2(interpretations),
+      ambiguityPercent: Math.max(2, percent),
+    };
+  }, [active, scenario, selectedOption.register]);
 
   const toggle = (index: number) => {
     setActive((previous) => {
@@ -482,59 +880,69 @@ function PredictionFigure() {
   };
 
   const selectScenario = (id: Scenario["id"]) => {
+    const nextScenario = SCENARIOS.find((entry) => entry.id === id) ?? SCENARIOS[0];
     setScenarioId(id);
+    setLanguageIndex(nextScenario.naiveGuess);
     setActive(new Set());
     setInfoIndex(null);
   };
 
-  const maxWeight = Math.max(...weights);
-  const constrained = active.size >= 3;
-  const equallyLikely = 2 ** entropy;
-  const naiveLabel = scenario.continuations[scenario.naiveGuess];
+  const termSelected = languageIndex === scenario.termOfArt;
+  const strongDomainCueSelected = [...active].some((index) => scenario.constraints[index]?.multiplier >= 5);
+  const targetActivated = termSelected || strongDomainCueSelected;
 
-  // The checked clauses compose one request sentence; unchecked clauses stay out.
   const checkedLabels = scenario.constraints
     .filter((_, index) => active.has(index))
     .map((constraint) => constraint.label.charAt(0).toLowerCase() + constraint.label.slice(1));
-  const sentence =
-    checkedLabels.length === 0
-      ? `${scenario.requestBase}.`
-      : `${scenario.requestBase}: ${joinClauses(checkedLabels)}.`;
+
+  const responseText = targetActivated
+    ? termSelected
+      ? scenario.targetResponse
+      : `The supporting concepts point to “${termOfArt.term}.” ${scenario.targetResponse}`
+    : `“${selectedOption.term}” changes the phrasing, but it does not yet select the governing domain method. Several response families remain plausible.`;
 
   return (
-    <figure aria-label="How constraints narrow the distribution of plausible continuations">
+    <figure aria-label="How a term of art directs a response and valid assumptions narrow it">
       <div style={figureFrame}>
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 14 }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
-            Scenario
-          </span>
-          {SCENARIOS.map((entry) => (
-            <button
-              key={entry.id}
-              type="button"
-              aria-pressed={scenarioId === entry.id}
-              onClick={() => selectScenario(entry.id)}
-              style={{
-                padding: "6px 12px",
-                border: `1px solid ${scenarioId === entry.id ? "var(--color-primary)" : "var(--line)"}`,
-                borderRadius: 999,
-                background: scenarioId === entry.id ? "var(--color-card)" : "var(--color-surface)",
-                color: scenarioId === entry.id ? "var(--color-primary)" : "var(--color-foreground)",
-                cursor: "pointer",
-                fontFamily: "inherit",
-                fontSize: 12,
-                lineHeight: 1.45,
-              }}
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(180px, .6fr)", gap: 14, alignItems: "end", marginBottom: 14 }}>
+          <div>
+            <label
+              htmlFor="prediction-example-domain"
+              style={{ display: "block", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}
             >
-              {entry.label}
-            </button>
-          ))}
+              Example domain
+            </label>
+            <p style={{ margin: "5px 0 0", fontSize: 12, lineHeight: 1.45, color: "var(--color-foreground-muted)" }}>
+              Sets the problem context only; it does not choose the interpretation.
+            </p>
+          </div>
+          <select
+            id="prediction-example-domain"
+            value={scenarioId}
+            onChange={(event) => selectScenario(event.currentTarget.value as Scenario["id"])}
+            style={{
+              width: "100%",
+              padding: "8px 10px",
+              border: "1px solid var(--line)",
+              borderRadius: 4,
+              background: "var(--color-surface)",
+              color: "var(--color-foreground)",
+              fontFamily: "inherit",
+              fontSize: 12,
+            }}
+          >
+            {SCENARIOS.map((entry) => (
+              <option key={entry.id} value={entry.id}>
+                {entry.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div
           style={{
             padding: "12px 14px",
-            border: `1px solid ${active.size > 0 ? "var(--color-primary)" : "var(--line)"}`,
+            border: "1px solid var(--line)",
             background: "var(--color-card)",
           }}
         >
@@ -545,13 +953,13 @@ function PredictionFigure() {
               fontSize: 9,
               letterSpacing: ".1em",
               textTransform: "uppercase",
-              color: active.size > 0 ? "var(--color-primary)" : "var(--color-foreground-muted)",
+              color: "var(--color-foreground-muted)",
             }}
           >
-            {active.size > 0 ? "Composed request" : "Ambiguous request"}
+            Starting request
           </p>
           <p style={{ margin: "6px 0 0", fontSize: 14, lineHeight: 1.5, color: "var(--color-foreground)" }}>
-            “{sentence}”
+            “{scenario.requestBase}.”
           </p>
         </div>
 
@@ -566,76 +974,148 @@ function PredictionFigure() {
             color: "var(--color-foreground-strong)",
           }}
         >
-          Distribution over plausible continuations
+          Choose the language that directs the response
         </h4>
         <div
-          role="img"
-          aria-label={`Probability distribution across ${scenario.continuations.length} possible continuations with entropy ${entropy.toFixed(2)} bits`}
-          style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 160, margin: "12px 0 4px" }}
+          role="radiogroup"
+          aria-label="Prompt language"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+            gap: 8,
+            margin: "12px 0 0",
+          }}
         >
-          {weights.map((weight, index) => {
-            const isNaive = index === scenario.naiveGuess;
+          {scenario.languageOptions.map((option, index) => {
+            const isSelected = index === languageIndex;
+            const isTermOfArt = index === scenario.termOfArt;
             return (
-              <div key={scenario.continuations[index]} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, minWidth: 0 }}>
-                <div
-                  aria-hidden="true"
-                  title={isNaive ? (constrained ? "The reflexive guess — now outranked by the constrained request" : "The reflexive guess with no constraints") : undefined}
-                  style={{
-                    width: "100%",
-                    height: `${Math.max(4, Math.round((weight / maxWeight) * 128))}px`,
-                    background: constrained || isNaive ? "var(--color-primary)" : "var(--color-foreground-muted)",
-                    opacity: constrained && isNaive ? 0.45 : 0.85,
-                    border: isNaive ? `1px dashed ${constrained ? "var(--line)" : "var(--color-primary)"}` : "none",
-                    transition: "height 180ms var(--ease-draw), background 180ms var(--ease-draw), opacity 180ms var(--ease-draw)",
-                  }}
-                />
+              <button
+                key={`${option.register}-${option.term}`}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                aria-label={`${option.register}: ${option.term}`}
+                onClick={() => setLanguageIndex(index)}
+                style={{
+                  minWidth: 0,
+                  padding: "11px 12px",
+                  border: `1px solid ${isSelected ? "var(--color-primary)" : "var(--line)"}`,
+                  borderRadius: 4,
+                  background: isSelected ? "var(--color-card)" : "var(--color-surface)",
+                  color: "var(--color-foreground)",
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  textAlign: "left",
+                }}
+              >
                 <span
-                  aria-hidden="true"
                   style={{
+                    display: "block",
                     fontFamily: "var(--font-mono)",
                     fontSize: 8,
-                    letterSpacing: ".02em",
-                    color: "var(--color-foreground-muted)",
-                    textAlign: "center",
-                    lineHeight: 1.3,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    maxWidth: "100%",
+                    letterSpacing: ".08em",
+                    textTransform: "uppercase",
+                    color: isTermOfArt ? "var(--color-primary)" : "var(--color-foreground-muted)",
+                    lineHeight: 1.35,
                   }}
                 >
-                  {scenario.continuations[index]}
+                  {option.register}
                 </span>
-              </div>
+                <span
+                  style={{
+                    display: "block",
+                    marginTop: 5,
+                    fontSize: 12,
+                    lineHeight: 1.4,
+                    color: "var(--color-foreground)",
+                  }}
+                >
+                  {option.term}
+                </span>
+                {isTermOfArt ? (
+                  <span style={{ display: "block", marginTop: 6, fontSize: 9, lineHeight: 1.35, color: "var(--color-primary)" }}>
+                    Domain-specific direction
+                  </span>
+                ) : null}
+              </button>
             );
           })}
         </div>
 
-        <div style={{ margin: "14px 0 0" }}>
-          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".06em", color: "var(--color-primary)" }}>
-            Entropy H ≈ {entropy.toFixed(2)} bits
+        <div style={{ marginTop: 14, padding: "12px 14px", border: "1px solid var(--line)", background: "var(--color-card)" }}>
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+            Composed prompt
           </p>
-          <p style={{ margin: "6px 0 0", fontSize: 13, lineHeight: 1.55, color: "var(--color-foreground-muted)" }}>
-            Entropy measures how much the request pins down: H bits is the same uncertainty as choosing from{" "}
-            2<sup style={{ fontSize: "0.8em" }}>{entropy.toFixed(2)}</sup> ≈ {equallyLikely.toFixed(1)} equally likely
-            continuations.{" "}
-            {constrained ? (
+          <dl style={{ display: "grid", gridTemplateColumns: "auto minmax(0, 1fr)", columnGap: 12, rowGap: 6, margin: "9px 0 0" }}>
+            <dt style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+              Task
+            </dt>
+            <dd style={{ margin: 0, fontSize: 12, lineHeight: 1.45, color: "var(--color-foreground)" }}>{scenario.requestBase}</dd>
+            <dt style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+              Direction
+            </dt>
+            <dd style={{ margin: 0, fontSize: 12, lineHeight: 1.45, color: "var(--color-foreground)" }}>{selectedOption.term}</dd>
+            {checkedLabels.length > 0 ? (
               <>
-                The selected constraints settle the structure — the reflexive guess, “{naiveLabel}”, stops being the
-                obvious pick, only a few continuations stay plausible, and the model's choice is nearly determined.
+                <dt style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+                  Assumptions
+                </dt>
+                <dd style={{ margin: 0, fontSize: 12, lineHeight: 1.45, color: "var(--color-foreground)" }}>{joinClauses(checkedLabels)}</dd>
               </>
-            ) : (
-              <>
-                The request pins down almost nothing — nearly any continuation is plausible, so the model must guess
-                what you mean. The reflexive guess is “{naiveLabel}”.
-              </>
-            )}
+            ) : null}
+          </dl>
+        </div>
+
+        <div style={{ margin: "14px 0 0" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12 }}>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
+              Possible response directions
+            </p>
+            <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--color-primary)" }}>
+              ≈ {possibleInterpretations.toFixed(1)}
+            </p>
+          </div>
+          <div
+            role="meter"
+            aria-label="Possible response directions"
+            aria-valuemin={1}
+            aria-valuemax={REGISTER_INTERPRETATIONS.Slang}
+            aria-valuenow={Number(possibleInterpretations.toFixed(1))}
+            aria-valuetext={`Approximately ${possibleInterpretations.toFixed(1)} plausible response directions; relative ambiguity ${entropy.toFixed(2)} bits`}
+            style={{ height: 8, marginTop: 8, border: "1px solid var(--line)", background: "var(--color-surface)" }}
+          >
+            <div
+              aria-hidden="true"
+              style={{
+                width: `${ambiguityPercent}%`,
+                height: "100%",
+                background: "var(--color-primary)",
+                transition: "width 180ms var(--ease-draw)",
+              }}
+            />
+          </div>
+          <p style={{ margin: "7px 0 0", fontSize: 11, lineHeight: 1.45, color: "var(--color-foreground-muted)" }}>
+            Relative ambiguity H ≈ {entropy.toFixed(2)} bits. This is an illustrative proxy, not a measured model
+            probability.
+          </p>
+        </div>
+
+        <div aria-live="polite" style={{ marginTop: 14, padding: "14px", border: `1px solid ${targetActivated ? "var(--color-primary)" : "var(--line)"}`, background: "var(--color-surface)" }}>
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: targetActivated ? "var(--color-primary)" : "var(--color-foreground-muted)" }}>
+            {targetActivated ? `Domain response activated — ${termOfArt.term}` : "Broad response"}
+          </p>
+          <p style={{ margin: "7px 0 0", fontSize: 13, lineHeight: 1.55, color: "var(--color-foreground)" }}>
+            {responseText}
+          </p>
+          <p style={{ margin: "9px 0 0", fontSize: 11, lineHeight: 1.45, color: "var(--color-foreground-muted)" }}>
+            Specific valid terms activate structure; jargon without valid assumptions does not.
           </p>
         </div>
 
         <div style={{ borderTop: "1px solid var(--line)", paddingTop: 14, marginTop: 14 }}>
           <p style={{ margin: "0 0 10px", fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--color-foreground-muted)" }}>
-            Sentence structure — check clauses to compose the request
+            Add supporting concepts — assumptions make the direction valid
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {scenario.constraints.map((constraint, index) => {
@@ -646,6 +1126,7 @@ function PredictionFigure() {
                   key={constraint.label}
                   type="button"
                   aria-pressed={isActive}
+                  aria-label={constraint.label}
                   onClick={() => {
                     toggle(index);
                     setInfoIndex(index);
@@ -665,7 +1146,6 @@ function PredictionFigure() {
                     lineHeight: 1.45,
                   }}
                 >
-                  {constraint.label}
                   <span
                     aria-hidden="true"
                     style={{
@@ -673,11 +1153,12 @@ function PredictionFigure() {
                       fontSize: 8,
                       letterSpacing: ".1em",
                       textTransform: "uppercase",
-                      color: isInfo ? "var(--color-primary)" : "var(--color-foreground-muted)",
+                      color: isActive || isInfo ? "var(--color-primary)" : "var(--color-foreground-muted)",
                     }}
                   >
-                    meta
+                    {constraint.technicalLabel}
                   </span>
+                  <span aria-hidden="true">{constraint.label}</span>
                 </button>
               );
             })}
@@ -704,13 +1185,14 @@ function PredictionFigure() {
                 <span style={{ marginLeft: 8 }}>{scenario.constraints[infoIndex].metaDescription}</span>
               </>
             ) : (
-              <>Click a constraint chip to reveal its meta info — the technical label it contributes.</>
+              <>Choose a supporting concept to see the structure it contributes.</>
             )}
           </div>
         </div>
       </div>
       <FigureCaption>
-        Prediction under constraint — in every scenario, technical language narrows the distribution of plausible continuations and lowers the entropy the model must resolve.
+        Prompt direction and ambiguity — the scenario sets context, the selected phrase directs the response, and
+        valid assumptions narrow it further.
       </FigureCaption>
     </figure>
   );
@@ -986,7 +1468,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
 
         <Section index="02" title="Forms of Truth Produce Forms of Language">
           <p>
-            Four overlapping truth practices shape the language around us. Treat them as an editorial framework, not
+            Six overlapping truth practices shape the language around us. Treat them as an editorial framework, not
             a universal philosophical taxonomy: the same claim can participate in several practices at once.
           </p>
           <ul>
@@ -1007,19 +1489,32 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               relationships. Its language favors perspective, motive, consequence, interpretation, and
               accountability.
             </li>
+            <li>
+              <strong>Sincerity, or truthfulness,</strong> is the good-faith, non-deceptive fit between what someone
+              expresses and their subjective state. Its language favors first-person avowal, disclosure,
+              qualification, and acknowledged uncertainty because inner landscapes are laden with self-deception,
+              ambiguity, and interpretive booby traps.
+            </li>
+            <li>
+              <strong>Knowledge by acquaintance</strong> is direct familiarity with an experience, person, place, or
+              quality before that familiarity is reduced to a claim. Its language favors demonstration, metaphor,
+              example, gesture, and careful phenomenological description.
+            </li>
           </ul>
           <p>
-            A temperature reading can be empirically calibrated, operationally relevant to a machine, and relationally
-            experienced as uncomfortable. The categories describe different constraint and meaning systems, not sealed
-            kinds of sentence.
+            A temperature reading can be empirically calibrated and operationally relevant to a machine; someone can
+            sincerely report that the same room feels oppressive while knowing its heat by acquaintance before
+            converting that experience into a claim. The categories describe different constraint and meaning systems,
+            not sealed kinds of sentence.
           </p>
           <TruthPracticesFigure />
           <p>
             Each practice is also a feedback system. Formal work is checked by counterexamples and proof obligations;
             empirical work by failed predictions and unreplicated results; operational work by systems that crash,
             stall, or cost too much; relational work by the people who accept, resist, or repair a claim because they
-            bear its consequences. The language of a domain records which of these checks have been running — and how
-            hard they bite.
+            bear its consequences; sincerity by whether avowal, conduct, and context remain in good-faith alignment;
+            knowledge by acquaintance by whether a description or demonstration remains faithful to experience. The
+            language of a domain records which of these checks have been running — and how hard they bite.
           </p>
         </Section>
 
@@ -1076,10 +1571,11 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <PredictionFigure />
           <p>
             The figure above is the article’s core move in miniature. An ambiguous request leaves a broad
-            distribution — high entropy, many plausible continuations. A request that names a domain and states its
-            assumptions leaves a narrow, peaked distribution — low entropy, a handful of testable continuations. The
-            model did not become smarter between the two prompts; the second prompt simply selected more of the
-            structure the model had learned.
+            distribution — high entropy, many plausible continuations. A fitting term of art selects a response
+            family, and valid assumptions narrow it into a handful of testable continuations. The scenario, selected
+            phrase, and ambiguity meter have separate roles; the meter is an illustrative proxy, not a measured model
+            probability. The model did not become smarter between the two prompts; the second prompt simply selected
+            more of the structure the model had learned.
           </p>
         </Section>
 
@@ -1355,6 +1851,21 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
                 <em>The TypeScript Handbook</em>
               </LinkPreview>
               . Provides an official example of a type checker rejecting invalid program relationships.
+            </li>
+            <li>
+              Stanford Encyclopedia of Philosophy, {" "}
+              <LinkPreview url="https://plato.stanford.edu/entries/habermas/" external>
+                “Jürgen Habermas”
+              </LinkPreview>
+              . Distinguishes sincerity or truthfulness from propositional truth and normative rightness as a validity
+              claim of speech.
+            </li>
+            <li>
+              Stanford Encyclopedia of Philosophy, {" "}
+              <LinkPreview url="https://plato.stanford.edu/entries/knowledge-acquaindescrip/" external>
+                “Knowledge by Acquaintance vs. Description”
+              </LinkPreview>
+              . Surveys direct, non-propositional acquaintance and its distinction from descriptive knowledge.
             </li>
           </ul>
         </Section>

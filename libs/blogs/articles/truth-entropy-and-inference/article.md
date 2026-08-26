@@ -2,6 +2,7 @@
 title: Truth, Entropy & Inference
 description: Why some language reliably predicts useful answers — and some only predicts what a useful answer sounds like.
 publishedAt: 2026-08-22
+updatedAt: 2026-08-26
 tags: [Artificial Intelligence, Language Models, Information Theory, Software Systems]
 ---
 # Truth, Entropy & Inference
@@ -71,7 +72,7 @@ words, syntax, and standards.
 
 ## 2. Forms of Truth Produce Forms of Language
 
-Four overlapping truth practices shape the language around us. Treat them as an
+Six overlapping truth practices shape the language around us. Treat them as an
 editorial framework, not a universal philosophical taxonomy: the same claim can
 participate in several practices at once.
 
@@ -85,10 +86,21 @@ participate in several practices at once.
 4. **Relational truth** is significance within human purposes, identities,
    histories, and relationships. Its language favors perspective, motive,
    consequence, interpretation, and accountability.
+5. **Sincerity, or truthfulness,** is the good-faith, non-deceptive fit between
+   what someone expresses and their subjective state. Its language favors
+   first-person avowal, disclosure, qualification, and acknowledged uncertainty
+   because inner landscapes are laden with self-deception, ambiguity, and
+   interpretive booby traps.
+6. **Knowledge by acquaintance** is direct familiarity with an experience,
+   person, place, or quality before that familiarity is reduced to a claim. Its
+   language favors demonstration, metaphor, example, gesture, and careful
+   phenomenological description.
 
-A temperature reading can be empirically calibrated, operationally relevant to
-a machine, and relationally experienced as uncomfortable. The categories
-describe different constraint and meaning systems, not sealed kinds of sentence.
+A temperature reading can be empirically calibrated and operationally relevant
+to a machine; someone can sincerely report that the same room feels oppressive
+while knowing its heat by acquaintance before converting that experience into a
+claim. The categories describe different constraint and meaning systems, not
+sealed kinds of sentence.
 
 **Truth practices and their feedback** — each form of truth produces a language,
 and an institution or consequence that rejects what does not survive it:
@@ -99,13 +111,17 @@ and an institution or consequence that rejects what does not survive it:
 | **Empirical** | correspondence with observations | measurement, method, uncertainty, replication, counterevidence | failed predictions and unreplicated results erode the claim |
 | **Operational** | reliability in action | procedures, preconditions, failure modes, tolerances, observed outcomes | systems that crash, stall, or cost too much are corrected or retired |
 | **Relational** | significance within human purposes and relationships | perspective, motive, consequence, interpretation, accountability | people who bear the consequences accept, resist, or repair the claim |
+| **Sincerity / truthfulness** | non-deceptive fit between an expression and the speaker's subjective state | first-person avowal, disclosure, qualification, acknowledged uncertainty | mismatches among avowal, conduct, and context expose deception or self-deception |
+| **Knowledge by acquaintance** | direct familiarity with an experience, person, place, or quality | demonstration, metaphor, example, gesture, phenomenological description | repeated experience and situated witnesses expose descriptions that flatten or distort what is encountered |
 
 Each practice is also a feedback system. Formal work is checked by
 counterexamples and proof obligations; empirical work by failed predictions and
 unreplicated results; operational work by systems that crash, stall, or cost
 too much; relational work by the people who accept, resist, or repair a claim
-because they bear its consequences. The language of a domain records which of
-these checks have been running — and how hard they bite.
+because they bear its consequences; sincerity by whether avowal, conduct, and
+context remain in good-faith alignment; knowledge by acquaintance by whether a
+description or demonstration remains faithful to experience. The language of a
+domain records which of these checks have been running — and how hard they bite.
 
 ## 3. Entropy, Surprise, and Conditional Prediction
 
@@ -136,11 +152,13 @@ it is historical intuition, not proof that human language or thought is only
 next-token prediction.
 
 **Prediction under constraint** — an ambiguous request leaves a broad
-distribution (high entropy, many plausible continuations); a request that names
-a domain and states its assumptions leaves a narrow, peaked distribution (low
-entropy, a handful of testable continuations). On the published page this is an
-interactive figure: each selected assumption compresses the distribution and
-lowers the entropy the model must resolve.
+distribution (high entropy, many plausible continuations); a fitting term of art
+selects a response family, and valid assumptions narrow it into a handful of
+testable continuations. On the published page, an interactive figure keeps those
+roles distinct: the scenario sets context, the chosen phrase directs the
+response, and a small ambiguity meter shows the remaining uncertainty as
+supporting concepts are added. Its number is an illustrative proxy, not a
+measured model probability.
 
 The model did not become smarter between the two prompts; the second prompt
 simply selected more of the structure the model had learned.
@@ -315,3 +333,5 @@ continuation from a correct answer, and both from a meaningful one.
 - Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein, [*Introduction to Algorithms*](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). Provides the sorting and algorithmic assumptions referenced in the essay.
 - Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, [*Theorem Proving in Lean 4*](https://docs.lean-lang.org/theorem_proving_in_lean4/). Documents mechanically checked propositions and proof objects.
 - Microsoft, [*The TypeScript Handbook*](https://www.typescriptlang.org/docs/handbook/). Provides an official example of a type checker rejecting invalid program relationships.
+- Stanford Encyclopedia of Philosophy, [“Jürgen Habermas”](https://plato.stanford.edu/entries/habermas/). Distinguishes sincerity or truthfulness from propositional truth and normative rightness as a validity claim of speech.
+- Stanford Encyclopedia of Philosophy, [“Knowledge by Acquaintance vs. Description”](https://plato.stanford.edu/entries/knowledge-acquaindescrip/). Surveys direct, non-propositional acquaintance and its distinction from descriptive knowledge.
