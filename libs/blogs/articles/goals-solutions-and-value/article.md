@@ -17,9 +17,9 @@ I once gave an agent an existing plan and asked:
 Nine hours later, it returned an impractically large plan: pages of phases,
 dependencies, validation gates, and Markdown checkboxes—too much for a person
 to reasonably read and review as a whole. Buried in that volume were
-contradictions that made the plan completely unusable.
+contradictions that made the plan incoherent and unusable.
 
-At first I blamed the agent. Then I looked again at the prompt.
+Of course I blame the agent.
 
 `Optimize` did not specify what the plan should become better at. `Find all the
 gaps` treated every imaginable omission as equally important. `Ensure validation
