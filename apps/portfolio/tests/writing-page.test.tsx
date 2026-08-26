@@ -117,6 +117,9 @@ describe("ArticleContent dispatch", () => {
     expect(screen.getByText(/you have likely already prioritized your goals/)).toBeInTheDocument();
     expect(screen.getByText(/Human values cannot guide an AI while remaining private\. They must be expressed via:/)).toBeInTheDocument();
     expect(screen.getByText(/Human governance means retaining responsibility for which values govern/)).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /Illustrative population of 100 people/ })).toBeInTheDocument();
+    expect(screen.getByText(/This example exaggerates the idea, but expresses it nonetheless/)).toBeInTheDocument();
+    expect(screen.queryByText(/Visualization placeholder/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Human governance does not mean manually choosing every action/)).not.toBeInTheDocument();
     expect(screen.getByText("optimal", { selector: "code" }).closest("p")).toHaveTextContent(
       "The agent failed because optimal omitted the judgment that would make one plan preferable to another.",

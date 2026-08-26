@@ -46,6 +46,65 @@ function Flow({ children }: { children: ReactNode }) {
   return <p className="article-outline__flow">{children}</p>;
 }
 
+function PopulationMeanFigure() {
+  return (
+    <figure
+      className="article-figure population-mean-figure"
+      data-figure="population-mean-versus-typical-individual"
+    >
+      <div
+        className="population-mean"
+        role="img"
+        aria-label="Illustrative population of 100 people: 99 have two legs and one has one leg. The population mean is 1.99 legs, while the typical individual has two legs."
+      >
+        <div className="population-mean__header" aria-hidden="true">
+          <span>Illustrative population</span>
+          <strong>100 people</strong>
+        </div>
+
+        <div className="population-mean__plot" aria-hidden="true">
+          <div className="population-mean__row">
+            <span className="population-mean__label">1 leg</span>
+            <span className="population-mean__track">
+              <span className="population-mean__bar population-mean__bar--one" />
+            </span>
+            <strong>1</strong>
+          </div>
+          <div className="population-mean__row">
+            <span className="population-mean__label">2 legs</span>
+            <span className="population-mean__track">
+              <span className="population-mean__bar population-mean__bar--two" />
+            </span>
+            <strong>99</strong>
+          </div>
+        </div>
+
+        <div className="population-mean__calculation" aria-hidden="true">
+          (99 × 2 + 1 × 1) ÷ 100 = 1.99
+        </div>
+
+        <div className="population-mean__comparison" aria-hidden="true">
+          <div>
+            <span>Population mean</span>
+            <strong>1.99</strong>
+            <small>legs</small>
+          </div>
+          <span className="population-mean__inequality">≠</span>
+          <div>
+            <span>Typical individual</span>
+            <strong>2</strong>
+            <small>legs</small>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        This example exaggerates the idea, but expresses it nonetheless: a population mean can be
+        accurate in aggregate without describing the typical individual.
+      </figcaption>
+    </figure>
+  );
+}
+
 function Table({ head, rows }: { head: string[]; rows: Array<Array<ReactNode>> }) {
   return (
     <table tabIndex={0}>
@@ -648,56 +707,44 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               across learned patterns. There is no evidence to suggest anything beyond that.
             </p>
           </Sub>
+        </Section>
 
-          <Sub title="What Language Leaves Out">
-            <p>
-              So where is the theoretical limit of this language-compression and prediction
-              process? Could a sufficiently capable LLM become a god-like oracle? Ask one, “What is
-              my purpose?” There is some nonzero chance it returns the right answer. Even if it
-              did, it could not intend for you to live a purposeful life.
-            </p>
-            <p>The first compression happens before the model ever sees the text:</p>
-            <Flow>experience → judgement → language</Flow>
-            <p>
-              Language is already a compression mechanism. In many cases, it is meant to express
-              one&apos;s subjective experience to another empathetic, self-aware, feeling human. It
-              captures only a narrow sample of what we experience, leaving the interpreter to
-              infer the gaps. This is especially true in subjective domains such as value
-              hierarchies.
-            </p>
-            <figure
-              className="article-figure"
-              data-figure="subjective-general-mean-placeholder"
-              aria-label="Visualization placeholder showing subjective values diverging from the general linguistic mean"
-            >
-              <Flow>subjective value hierarchy ≠ general linguistic mean</Flow>
-              <figcaption>
-                Visualization placeholder — an individual&apos;s values can diverge from the patterns
-                language makes statistically typical.
-              </figcaption>
-            </figure>
-            <p>
-              <EssayLink slug="consciousness-is-incoherent">A model is not conscious</EssayLink>.
-              It cannot directly observe motivations or a private judgment or know that its
-              inference is correct.
-            </p>
-            <p>This is not only an AI problem. It is a language problem.</p>
-            <p>
-              Two coworkers may use <code>quality</code>, <code>safe</code>, or <code>done</code>{" "}
-              for weeks while carrying different definitions. Each hears a familiar word and
-              assumes shared meaning. They talk past one another until a failure, an example, or
-              a direct question exposes the difference.
-            </p>
-            <p>
-              AI inherits that problem at scale. When a term underdetermines the speaker&apos;s
-              intent, the system fills the gap with patterns from training, post-training,
-              runtime instructions, and the surrounding context. Its answer can be coherent under
-              the inferred meaning and completely wrong for the person who asked.
-            </p>
-          </Sub>
-
+        <Section index="03" title="What Language Leaves Out">
+          <p>
+            So where is the theoretical limit of this language-compression and prediction
+            process? Could a sufficiently capable LLM become a god-like oracle? Ask one, “What is
+            my purpose?” There is some nonzero chance it returns the right answer. Even if it
+            did, it could not intend for you to live a purposeful life.
+          </p>
+          <p>
+            <EssayLink slug="consciousness-is-incoherent">A model is not conscious</EssayLink>.
+            It cannot directly observe motivations or a private judgment or know that its
+            inference is correct.
+          </p>
+          <Flow>experience → judgement → language</Flow>
+          <p>
+            Language is a lossy form of compression before the model ever sees it. In many cases,
+            it is meant to express
+            one&apos;s subjective experience to another empathetic, self-aware, feeling human. It
+            captures only a narrow sample of what we experience, leaving the interpreter to
+            infer the gaps. This is especially true in subjective domains such as value
+            hierarchies.
+          </p>
+          <PopulationMeanFigure />
+          <p>This is not only an AI problem. It is a language problem.</p>
+          <p>
+            Two coworkers may use <code>quality</code>, <code>safe</code>, or <code>done</code>{" "}
+            for weeks while carrying different definitions. Each hears a familiar word and
+            assumes shared meaning. They talk past one another until a failure, an example, or
+            a direct question exposes the difference.
+          </p>
+          <p>
+            AI inherits that problem at scale. When a term underdetermines the speaker&apos;s
+            intent, the system fills the gap with patterns from training, post-training,
+            runtime instructions, and the surrounding context. Its answer can be coherent under
+            the inferred meaning and completely wrong for the person who asked.
+          </p>
           <Sub title="Judgments hidden in ordinary language">
-            <p>Common language often smuggles in unintended value judgements.</p>
             <Table
               head={["Kind", "Examples", "Implied judgment"]}
               rows={[
