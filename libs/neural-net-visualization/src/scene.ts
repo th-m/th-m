@@ -1,5 +1,5 @@
 export interface NeuralNetAnimationCopy {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   summary: string;
   disclaimer: string;
@@ -35,6 +35,7 @@ export interface NeuralNetEdgeDefinition {
 export interface NeuralNetValueBarGroupDefinition {
   id: string;
   nodeIds: readonly string[];
+  label?: string;
   ariaLabel?: string;
   className?: string;
 }
@@ -123,7 +124,9 @@ function addUnique(ids: Set<string>, id: string, label: string): void {
 export function assertValidNeuralNetScene(scene: NeuralNetScene): void {
   assertNonEmpty(scene.id, "Scene id");
   assertOptionalClassName(scene.className, `Scene ${scene.id} className`);
-  assertNonEmpty(scene.copy.eyebrow, `Scene ${scene.id} eyebrow`);
+  if (scene.copy.eyebrow !== undefined) {
+    assertNonEmpty(scene.copy.eyebrow, `Scene ${scene.id} eyebrow`);
+  }
   assertNonEmpty(scene.copy.title, `Scene ${scene.id} title`);
   assertNonEmpty(scene.copy.summary, `Scene ${scene.id} summary`);
   assertNonEmpty(scene.copy.disclaimer, `Scene ${scene.id} disclaimer`);
@@ -166,6 +169,7 @@ export function assertValidNeuralNetScene(scene: NeuralNetScene): void {
       if (!nodeIds.has(nodeId)) throw new Error(`Value-bar group ${group.id} references unknown node: ${nodeId}`);
       addUnique(groupNodeIds, nodeId, `node in value-bar group ${group.id}`);
     }
+    if (group.label !== undefined) assertNonEmpty(group.label, `Value-bar group ${group.id} label`);
     if (group.ariaLabel !== undefined) assertNonEmpty(group.ariaLabel, `Value-bar group ${group.id} ariaLabel`);
     assertOptionalClassName(group.className, `Value-bar group ${group.id} className`);
   }

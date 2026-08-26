@@ -2,6 +2,11 @@
   margin-block: 0;
 }
 
+.neural-training-figure .nnl__summary {
+  font-weight: 600;
+  color: var(--color-foreground-strong);
+}
+
 .neural-training-figure__loss-readout {
   color: var(--color-error);
   border-color: color-mix(in srgb, var(--color-error) 48%, transparent);

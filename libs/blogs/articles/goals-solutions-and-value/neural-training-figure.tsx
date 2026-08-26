@@ -13,7 +13,7 @@ import "./neural-training-figure.css";
 const inputNodeIds = ["input-1", "input-2", "input-3"] as const;
 const hidden1NodeIds = ["hidden-1-1", "hidden-1-2", "hidden-1-3", "hidden-1-4"] as const;
 const hidden2NodeIds = ["hidden-2-1", "hidden-2-2", "hidden-2-3", "hidden-2-4"] as const;
-const outputNodeIds = ["output-the", "output-story"] as const;
+const outputNodeIds = ["output-mat", "output-floor"] as const;
 const allNodeIds = [...inputNodeIds, ...hidden1NodeIds, ...hidden2NodeIds, ...outputNodeIds] as const;
 const activationPathNodeIds = ["input-1", "hidden-1-3", "hidden-2-4"] as const;
 
@@ -29,8 +29,8 @@ const nodeLabels: Record<(typeof allNodeIds)[number], string> = {
   "hidden-2-2": "Hidden 2.2",
   "hidden-2-3": "Hidden 2.3",
   "hidden-2-4": "Hidden 2.4",
-  "output-the": "the",
-  "output-story": "story",
+  "output-mat": "“mat”",
+  "output-floor": "“floor”",
 };
 
 const trainingStyles = {
@@ -121,31 +121,31 @@ const snapshots = [
     0.52, 0.31, -0.44,
     0.06002774379392694, -0.18678127366538738, 0.4057390813069377, -0.4191001970859926,
     0.07753354726473805, -0.31823185388965375, 0.11524126081475193, 0.1595514812368235,
-    0.767719058503394, 0.2322809414966061,
+    0.2322809414966061, 0.767719058503394,
   ]),
   snapshot("epoch-2", [
     0.52, 0.31, -0.44,
     -0.03055218356054491, -0.25589517990661476, 0.42010393692451553, -0.4251616277795976,
     -0.24613465385683017, -0.5191608194186683, -0.17398451700748915, -0.05933491709902184,
-    0.44964698345278453, 0.5503530165472155,
+    0.5503530165472155, 0.44964698345278453,
   ]),
   snapshot("epoch-3", [
     0.52, 0.31, -0.44,
     -0.0622430400686577, -0.29743105408514986, 0.446749312689328, -0.45006073113701656,
     -0.3728823053740739, -0.5969392259109045, -0.2924869941861949, -0.15590822419752642,
-    0.3044019714708666, 0.6955980285291334,
+    0.6955980285291334, 0.3044019714708666,
   ]),
   snapshot("epoch-4", [
     0.52, 0.31, -0.44,
     -0.07258390958847608, -0.31510758306747827, 0.4586291394602005, -0.4613711782307941,
     -0.4160508999479216, -0.6250672475471816, -0.33401641564342704, -0.1945208435135514,
-    0.2735567344229505, 0.7264432655770496,
+    0.7264432655770496, 0.2735567344229505,
   ]),
   snapshot("epoch-5", [
     0.52, 0.31, -0.44,
     -0.07784456809643338, -0.3258157029328527, 0.4658154706077745, -0.46823984355145415,
     -0.4396299878695676, -0.6414052890747743, -0.3566790030959781, -0.2177012659900268,
-    0.26341916857373826, 0.7365808314262619,
+    0.7365808314262619, 0.26341916857373826,
   ]),
 ] as const;
 
@@ -284,7 +284,7 @@ function lossNodeStates(): NeuralNetNodeState[] {
     { id: "hidden-1-3", className: trainingStyles.activationNode },
     { id: "hidden-2-4", className: trainingStyles.activationNode },
     {
-      id: "output-story",
+      id: "output-mat",
       className: trainingStyles.targetNode,
       valueBarClassName: trainingStyles.targetLossBar,
     },
@@ -326,7 +326,7 @@ function backpropagationEdges(
   const hidden2ToHidden1Label = hidden1Labels?.[3]?.[2];
   return [
     {
-      id: connectionId("hidden-2-4", "output-story"),
+      id: connectionId("hidden-2-4", "output-mat"),
       className: trainingStyles.backwardEdge,
       ...(targetToHidden2Label ? { label: targetToHidden2Label } : {}),
     },
@@ -340,7 +340,7 @@ function backpropagationEdges(
       className: trainingStyles.backwardEdge,
     },
     ...hidden2NodeIds.map((from) => ({
-      id: connectionId(from, "output-the"),
+      id: connectionId(from, "output-floor"),
       visible: false,
     })),
   ];
@@ -349,9 +349,8 @@ function backpropagationEdges(
 const trainingScene = defineNeuralNetScene({
   id: "next-token-training",
   copy: {
-    eyebrow: "Neural net · 3 → 4 → 4 → 2",
-    title: "A bad guess, then training",
-    summary: "A forward pass scores the target token too low. Backpropagation carries the error backward and the numbers inside the nodes adjust.",
+    title: "LLM Training",
+    summary: "Next-token probabilities for “The cat sat on the …”",
     disclaimer: "Training-only illustration · deterministic teaching frames · not a live training run",
   },
   layers: [
@@ -369,7 +368,7 @@ const trainingScene = defineNeuralNetScene({
     {
       id: "output-probabilities",
       nodeIds: outputNodeIds,
-      ariaLabel: "Candidate token probabilities",
+      ariaLabel: "Model’s next-token probabilities after The cat sat on the",
     },
   ],
   steps: [
@@ -387,7 +386,7 @@ const trainingScene = defineNeuralNetScene({
     {
       id: "update",
       label: "Update",
-      detail: "Only the prediction path remains highlighted; green + and red − show the sign of each resulting value.",
+      detail: "The optimizer uses the gradients to adjust the weights, making the observed token more likely in future predictions.",
     },
   ],
   snapshots,
@@ -409,9 +408,9 @@ const trainingScene = defineNeuralNetScene({
           edges: [
             ...activationPathEdges(),
             {
-              id: connectionId("hidden-2-4", "output-story"),
+              id: connectionId("hidden-2-4", "output-mat"),
               className: trainingStyles.lossEdge,
-              ariaLabel: "Highlighted contribution from the final hidden activation to the target token story",
+              ariaLabel: "Highlighted contribution from the final hidden activation to the target token mat",
             },
           ],
           readouts: [{
@@ -428,7 +427,7 @@ const trainingScene = defineNeuralNetScene({
             { id: "hidden-1-3", className: trainingStyles.activationNode },
             { id: "hidden-2-4", className: trainingStyles.activationNode },
             {
-              id: "output-story",
+              id: "output-mat",
               className: trainingStyles.targetNode,
               valueBarClassName: trainingStyles.targetBar,
             },

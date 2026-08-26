@@ -30,7 +30,7 @@ those strings meaningful local names such as `predictionNode` or `lossEdge`.
 - **Iteration:** one ordered set of frames, such as an article-defined epoch.
 - **Edge route:** geometry only: `between-nodes` or `outside-right`.
 - **Value-bar group:** an ordered set of nodes whose current values are also
-  rendered as bars.
+  rendered as bars, with an optional visible label.
 - **Style builder:** a deterministic node, edge, or value-bar class composer.
 
 ## Public API
@@ -66,7 +66,7 @@ const scene = defineNeuralNetScene({
     { id: "right", label: "Right", nodes: [{ id: "b", label: "B" }] },
   ],
   edges: [{ id: "a-b", from: "a", to: "b", label: "A to B" }],
-  valueBarGroups: [{ id: "readout", nodeIds: ["b"] }],
+  valueBarGroups: [{ id: "readout", nodeIds: ["b"], label: "Candidate values" }],
   steps: [
     { id: "before", label: "Before", detail: "Initial state" },
     { id: "after", label: "After", detail: "Changed state" },
@@ -103,6 +103,9 @@ export function Example() {
 `NeuralNetAnimation` also accepts `loop`, `className`, and `reducedMotion`.
 Import `@th-m/neural-net-visualization/styles.css` once in the web consumer
 after the THOM design-theme CSS.
+
+Scene copy always defines a title, summary, and disclaimer; the compact
+eyebrow above the title is optional.
 
 Node styles control tone, emphasis, ring, displayed-value tone, and motion.
 Edge styles control tone, emphasis, pattern, motion, and flow direction.

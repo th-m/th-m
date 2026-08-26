@@ -18,9 +18,15 @@ test("renders every declarative training frame with aligned target styling", asy
   await expect(scene.locator("path.nnl-edge")).toHaveCount(36);
   await expect(scene.locator("path.nnl-edge.nnl-edge-tone-primary")).toHaveCount(2);
   await expect(scene.locator(".nnl__probs")).toBeVisible();
+  await expect(scene.getByRole("heading", { name: "LLM Training" })).toBeVisible();
+  await expect(scene.locator(".nnl__summary")).toHaveText("Next-token probabilities for “The cat sat on the …”");
+  await expect(scene.locator(".nnl__eyebrow")).toHaveCount(0);
+  await expect(scene.locator(".nnl__prob-heading")).toHaveCount(0);
+  await expect(scene.locator('.nnl__prob[data-node-id="output-mat"] .nnl__prob-token')).toHaveText("“mat”");
+  await expect(scene.locator('.nnl__prob[data-node-id="output-floor"] .nnl__prob-token')).toHaveText("“floor”");
 
   await scene.getByRole("button", { name: /Step 2 of 4: Target \+ loss/ }).click();
-  await expect(scene.locator('.nnl__prob[data-node-id="output-story"]')).toBeVisible();
+  await expect(scene.locator('.nnl__prob[data-node-id="output-mat"]')).toBeVisible();
   await expect(scene.getByRole("status").getByText(
     "The target is the actual next token in the training data; loss is higher when the model assigns that token less probability.",
   )).toBeVisible();
@@ -48,10 +54,10 @@ test("renders every declarative training frame with aligned target styling", asy
           await new Promise((resolve) => setTimeout(resolve, 10));
         }
         const incomingTargetEdge = sceneElement.querySelector<SVGPathElement>(
-          'path[data-edge-id="hidden-2-4--output-story"]',
+          'path[data-edge-id="hidden-2-4--output-mat"]',
         );
-        const targetNode = sceneElement.querySelector<SVGGElement>('g[data-node-id="output-story"]');
-        const targetBar = sceneElement.querySelector<HTMLElement>('.nnl__prob[data-node-id="output-story"]');
+        const targetNode = sceneElement.querySelector<SVGGElement>('g[data-node-id="output-mat"]');
+        const targetBar = sceneElement.querySelector<HTMLElement>('.nnl__prob[data-node-id="output-mat"]');
         return {
           iteration: sceneElement.dataset.iterationId,
           step: sceneElement.dataset.stepId,
@@ -59,16 +65,16 @@ test("renders every declarative training frame with aligned target styling", asy
           incomingTargetDanger: incomingTargetEdge?.classList.contains("nnl-edge-tone-danger") ?? false,
           targetNodeDanger: targetNode?.classList.contains("nnl-node-tone-danger") ?? false,
           targetBarDanger: targetBar?.classList.contains("nnl-value-tone-danger") ?? false,
-          outputPredictionPrimary: sceneElement.querySelector('g[data-node-id="output-the"]')
+          outputPredictionPrimary: sceneElement.querySelector('g[data-node-id="output-floor"]')
             ?.classList.contains("nnl-node-tone-primary") ?? false,
-          outputPredictionEdgePrimary: sceneElement.querySelector('path[data-edge-id="hidden-2-4--output-the"]')
+          outputPredictionEdgePrimary: sceneElement.querySelector('path[data-edge-id="hidden-2-4--output-floor"]')
             ?.classList.contains("nnl-edge-tone-primary") ?? false,
           targetGradientEdges: sceneElement.querySelectorAll(
-            'path.nnl-edge-tone-accent[data-to="output-story"]',
+            'path.nnl-edge-tone-accent[data-to="output-mat"]',
           ).length,
           backpropagationEdgeIds: [...sceneElement.querySelectorAll('path.nnl-edge-tone-accent')]
             .map((edge) => edge.getAttribute("data-edge-id")),
-          competingOutputEdges: sceneElement.querySelectorAll('path[data-to="output-the"]').length,
+          competingOutputEdges: sceneElement.querySelectorAll('path[data-to="output-floor"]').length,
           outsideCount: sceneElement.querySelectorAll('path[data-edge-id="prediction--target"]').length,
           primaryNodeIds: [...sceneElement.querySelectorAll('g.nnl-node-tone-primary')]
             .map((node) => node.getAttribute("data-node-id")),
@@ -83,12 +89,33 @@ test("renders every declarative training frame with aligned target styling", asy
             fontSize: getComputedStyle(node.querySelector(".nnl-node__value")!).fontSize,
             positive: node.classList.contains("neural-training-figure__update-sign--positive"),
           })),
+          iterationInControls: sceneElement.querySelector(
+            ".nnl__controls > .nnl__chip--iteration",
+          )?.textContent,
+          iterationInReadout: sceneElement.querySelector(
+            ".nnl__readout .nnl__chip--iteration",
+          )?.textContent ?? null,
+          telemetryAlignmentDelta: (() => {
+            const copy = sceneElement.querySelector<HTMLElement>(".nnl__readout-copy");
+            const chips = sceneElement.querySelector<HTMLElement>(".nnl__chips");
+            if (!copy || !chips) return null;
+            const copyRect = copy.getBoundingClientRect();
+            const chipsRect = chips.getBoundingClientRect();
+            if (window.matchMedia("(max-width: 640px)").matches) {
+              return Math.abs(copyRect.left - chipsRect.left);
+            }
+            return Math.abs(
+              (copyRect.top + copyRect.bottom) / 2 - (chipsRect.top + chipsRect.bottom) / 2,
+            );
+          })(),
         };
       }, { index: stepIndex, expectedStep: expected.step, expectedIteration: snapshotId });
 
       expect(state.iteration).toBe(snapshotId);
       expect(state.step).toBe(expected.step);
       expect(state.snapshot).toBe(expected.snapshot);
+      expect(state.iterationInControls).toBe(`epoch ${epoch} / 5`);
+      expect(state.iterationInReadout).toBeNull();
 
       if (expected.step === "loss") {
         expect(state.incomingTargetDanger).toBe(true);
@@ -97,6 +124,7 @@ test("renders every declarative training frame with aligned target styling", asy
         expect(state.outputPredictionPrimary).toBe(false);
         expect(state.outputPredictionEdgePrimary).toBe(false);
         expect(state.outsideCount).toBe(0);
+        expect(state.telemetryAlignmentDelta).toBeLessThanOrEqual(1);
       }
       if (expected.step === "backward") {
         expect(state.outputPredictionPrimary).toBe(false);
@@ -104,9 +132,10 @@ test("renders every declarative training frame with aligned target styling", asy
         expect(state.backpropagationEdgeIds).toEqual([
           "input-1--hidden-1-3",
           "hidden-1-3--hidden-2-4",
-          "hidden-2-4--output-story",
+          "hidden-2-4--output-mat",
         ]);
         expect(state.competingOutputEdges).toBe(0);
+        expect(state.telemetryAlignmentDelta).toBeLessThanOrEqual(1);
       }
       if (expected.step === "update") {
         expect(state.primaryNodeIds).toEqual(["input-1", "hidden-1-3", "hidden-2-4"]);
@@ -116,6 +145,7 @@ test("renders every declarative training frame with aligned target styling", asy
           { id: "hidden-1-3", sign: "+", fontSize: "20px", positive: true },
           { id: "hidden-2-4", sign: "−", fontSize: "20px", positive: false },
         ]);
+        expect(state.telemetryAlignmentDelta).toBeLessThanOrEqual(1);
       }
     }
 

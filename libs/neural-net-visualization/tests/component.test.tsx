@@ -9,6 +9,13 @@ afterEach(() => {
 });
 
 describe("NeuralNetAnimation", () => {
+  it("omits the eyebrow when the scene does not define one", () => {
+    const scene = sceneFixture();
+    delete scene.copy.eyebrow;
+    const { container } = render(<NeuralNetAnimation scene={scene} reducedMotion="never" />);
+    expect(container.querySelector(".nnl__eyebrow")).toBeNull();
+  });
+
   it("renders declarative nodes, edges, layers, and inspection attributes", () => {
     const { container } = render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="never" />);
     const scene = screen.getByLabelText(/Animated neural network: Declarative scene/);
@@ -17,6 +24,10 @@ describe("NeuralNetAnimation", () => {
     expect(scene).toHaveAttribute("data-iteration-id", "first");
     expect(container.querySelectorAll("[data-node-id]")).toHaveLength(6);
     expect(container.querySelector('[data-layer-id="left"]')).toHaveClass("fixture-layer");
+    expect(container.querySelector(".nnl__prob-heading")).toHaveTextContent("Candidate values");
+    expect(container.querySelector(".nnl__controls .nnl__chip--iteration"))
+      .toHaveTextContent("first iteration");
+    expect(container.querySelector(".nnl__readout .nnl__chip--iteration")).toBeNull();
     const edge = container.querySelector('path[data-edge-id="a--c"]');
     expect(edge).toHaveAttribute("data-from", "a");
     expect(edge).toHaveAttribute("data-to", "c");
@@ -59,7 +70,7 @@ describe("NeuralNetAnimation", () => {
     const scene = screen.getByLabelText(/Animated neural network: Declarative scene/);
     expect(scene).toHaveAttribute("data-iteration-id", "second");
     expect(scene).toHaveAttribute("data-step-id", "observe");
-    expect(screen.getByRole("status")).toHaveTextContent("second iteration");
+    expect(screen.getByLabelText("Step through the animation")).toHaveTextContent("second iteration");
   });
 
   it("autoplays once when looping is disabled and stops on the final frame", () => {

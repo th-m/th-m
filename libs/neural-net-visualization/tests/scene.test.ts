@@ -14,6 +14,13 @@ describe("defineNeuralNetScene", () => {
     expect(defineNeuralNetScene(scene)).toBe(scene);
   });
 
+  it("allows a scene header without an eyebrow", () => {
+    const scene = altered((value) => {
+      delete value.copy.eyebrow;
+    });
+    expect(defineNeuralNetScene(scene)).toBe(scene);
+  });
+
   it("rejects duplicate IDs", () => {
     const scene = altered((value) => {
       (value.layers[0].nodes as Array<{ id: string; label: string }>)[1].id = "a";
@@ -54,5 +61,14 @@ describe("defineNeuralNetScene", () => {
       node.displayValue = " ";
     });
     expect(() => defineNeuralNetScene(scene)).toThrow("displayValue must not be empty");
+  });
+
+  it("rejects an empty value-bar group label", () => {
+    const scene = altered((value) => {
+      const group = value.valueBarGroups?.[0];
+      if (!group) throw new Error("Fixture value-bar group is missing.");
+      group.label = " ";
+    });
+    expect(() => defineNeuralNetScene(scene)).toThrow("label must not be empty");
   });
 });

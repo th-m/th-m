@@ -285,7 +285,9 @@ export function NeuralNetAnimation({
       aria-label={`Animated neural network: ${scene.copy.title}. ${scene.copy.summary}`}
     >
       <header className="nnl__header">
-        <p className="nnl__eyebrow">{scene.copy.eyebrow}</p>
+        {scene.copy.eyebrow ? (
+          <p className="nnl__eyebrow">{scene.copy.eyebrow}</p>
+        ) : null}
         <h3>{scene.copy.title}</h3>
         <p className="nnl__summary">{scene.copy.summary}</p>
       </header>
@@ -332,8 +334,11 @@ export function NeuralNetAnimation({
             className={classes("nnl__probs", group.className)}
             data-value-bar-group={group.id}
             role="group"
-            aria-label={group.ariaLabel ?? group.id}
+            aria-label={group.ariaLabel ?? group.label ?? group.id}
           >
+            {group.label ? (
+              <p className="nnl__prob-heading" aria-hidden="true">{group.label}</p>
+            ) : null}
             {group.nodeIds.map((nodeId) => {
               const layout = resolved.layoutByNodeId.get(nodeId);
               if (!layout) return null;
@@ -380,6 +385,11 @@ export function NeuralNetAnimation({
           <span className="nnl__ctrl-label">Next</span>
           <span aria-hidden="true">›</span>
         </button>
+        {iteration.label ? (
+          <span className="nnl__chip nnl__chip--iteration nnl__control-iteration">
+            {iteration.label}
+          </span>
+        ) : null}
         <button
           type="button"
           className="nnl__ctrl nnl__ctrl--play"
@@ -391,15 +401,21 @@ export function NeuralNetAnimation({
         </button>
       </div>
 
-      <div className="nnl__readout" role="status" aria-live="polite">
+      <div
+        className={classes(
+          "nnl__readout",
+          (frame.readouts?.length ?? 0) > 0 && "nnl__readout--with-telemetry",
+        )}
+        role="status"
+        aria-live="polite"
+      >
         <div className="nnl__readout-copy">
           <p className="nnl__readout-step">Step {displayPosition.step + 1} of {scene.steps.length}</p>
           <strong className="nnl__readout-op">{step.label}</strong>
           <span>{step.detail}</span>
         </div>
-        {iteration.label || (frame.readouts?.length ?? 0) > 0 ? (
+        {(frame.readouts?.length ?? 0) > 0 ? (
           <div className="nnl__chips" aria-label="Animation telemetry">
-            {iteration.label ? <span className="nnl__chip nnl__chip--iteration">{iteration.label}</span> : null}
             {(frame.readouts ?? []).map((readout) => (
               <span key={readout.id} className={classes("nnl__chip", readout.className)}>{readout.text}</span>
             ))}

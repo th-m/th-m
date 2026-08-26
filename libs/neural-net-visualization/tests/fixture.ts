@@ -40,7 +40,13 @@ export function sceneFixture(): NeuralNetScene {
       },
     ],
     valueBarGroups: [
-      { id: "outputs", nodeIds: ["c", "d"], ariaLabel: "Output values", className: "fixture-bars" },
+      {
+        id: "outputs",
+        nodeIds: ["c", "d"],
+        label: "Candidate values",
+        ariaLabel: "Output values",
+        className: "fixture-bars",
+      },
     ],
     steps: [
       { id: "observe", label: "Observe", detail: "Read the first snapshot." },

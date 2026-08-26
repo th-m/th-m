@@ -47,7 +47,7 @@ describe("ArticleContent dispatch", () => {
     // The React page renders the full essay instead of the markdown fallback.
     expect(screen.getByRole("heading", { name: "The Priorities Hidden Inside the Prompt" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Training through cross-entropy" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "A bad guess, then training" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "LLM Training" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Goals Create Problem Spaces" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Authority, Accountability, and Corrigibility" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Sources" })).toBeInTheDocument();
