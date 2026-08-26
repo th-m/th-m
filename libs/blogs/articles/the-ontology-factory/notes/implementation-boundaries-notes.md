@@ -65,6 +65,35 @@ the build or CI can verify, not only in prose.
   is one mechanism for expressing or enforcing a boundary; the article's point
   is that the map comes first and the mechanism follows.
 
+## Editorial follow-up: evaluative boundaries for AI delegation
+
+*The Understanding Bottleneck* will describe this pattern generically: a
+delegated system needs descriptive context, operational rules, an allowed
+solution space, reasons for its boundaries, signals that may warrant an
+exception, a challenge-and-escalation protocol, explicit authority, and a
+revision record.
+
+*The Ontology Factory* should later show how the repository contract system
+instantiates that pattern:
+
+- the nearest README supplies purpose, boundaries, vocabulary, stable
+  relationships, and the rationale an agent needs to interpret the boundary;
+- the nearest AGENTS file supplies workflows, invariants, verification, skills,
+  and downlinks that govern safe action and escalation;
+- an applicable skill supplies a specialized procedure;
+- the current task states what is settled, what remains open to solutioning,
+  and which evidence may justify an exception; and
+- issues, changes, verification, review, and evidence preserve consequences and
+  revise the contract when its model no longer fits.
+
+Flesh out the authority model rather than treating ownership and authority as
+synonyms. Distinguish ownership of a scope, authority over the current decision,
+authority to approve an exception, and authority to revise the underlying
+contract. An agent may identify evidence that challenges a boundary and propose
+the narrowest reasonable exception, but it may not silently cross or redefine
+the boundary. Higher-level vision and strategy should be linked from their
+authoritative owner when they change more quickly than the local contract.
+
 ## Caveats
 
 - The Ousterhout PDF is an extract, not the full book; cite it as an extract or

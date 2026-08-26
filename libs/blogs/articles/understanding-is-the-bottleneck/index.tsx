@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import type { PublishedPost } from "@th-m/blogs/publish";
@@ -7,25 +6,55 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
   LinkPreview,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@th-m/ui";
-import {
-  createUnderstandingLoopGraph,
-  createUnderstandingPipelineGraph,
-  PropositionGraphFigure,
-} from "@th-m/graph-visualization";
+import "./understanding-figures.css";
 
-// Stable module-scope documents so the figures lay out once and never re-run
-// ELK on incidental re-renders.
-const pipelineGraph = createUnderstandingPipelineGraph("2026-08-22T00:00:00.000Z");
-const loopGraph = createUnderstandingLoopGraph("2026-08-22T00:00:00.000Z");
+const proofPipeline = [
+  {
+    label: "Generate candidate proofs",
+    detail: "Conjectures, programs, counterexamples, and derivations",
+    transition: "Candidate proofs can outrun verification",
+    bottleneck: true,
+  },
+  {
+    label: "Verify formal correctness",
+    detail: "Expert review, tests, or a proof assistant",
+    transition: "Verified proofs can outrun explanation",
+    bottleneck: true,
+  },
+  {
+    label: "Explain and evaluate meaning",
+    detail: "What the result teaches, why it matters, and where it belongs",
+    transition: "Published work can outrun collective absorption",
+    bottleneck: true,
+  },
+  {
+    label: "Community adoption",
+    detail: "Review, teaching, attribution, and connection to other work",
+    transition: "Absorbed understanding becomes reusable",
+    bottleneck: false,
+  },
+  {
+    label: "Canonical knowledge",
+    detail: "A result the field can retrieve, explain, and build upon",
+    transition: null,
+    bottleneck: false,
+  },
+] as const;
+
+const understandingLoop = [
+  ["Observe", "Evidence and lived stakes"],
+  ["Interpret", "What the output means"],
+  ["Frame", "A testable problem"],
+  ["Propose", "An intervention"],
+  ["Test", "An explicit learning goal"],
+  ["Revise", "The shared model and its boundaries"],
+] as const;
 
 function formatDate(value: string): string {
   return new Date(`${value}T00:00:00.000Z`).toLocaleDateString("en-US", {
@@ -36,7 +65,15 @@ function formatDate(value: string): string {
   });
 }
 
-function Section({ index, title, children }: { index: string; title: string; children: ReactNode }) {
+function Section({
+  index,
+  title,
+  children,
+}: {
+  index: string;
+  title: string;
+  children: ReactNode;
+}) {
   return (
     <section className="article-outline__section">
       <p className="article-outline__index">{index}</p>
@@ -61,57 +98,141 @@ function Claim({ title, children }: { title?: string; children: ReactNode }) {
   );
 }
 
-function Gloss({ term, title, children }: { term: ReactNode; title: string; children: ReactNode }) {
-  return (
-    <HoverCard>
-      <HoverCardTrigger asChild>
-        <span className="thom-tooltip-trigger article-gloss-trigger" tabIndex={0}>{term}</span>
-      </HoverCardTrigger>
-      <HoverCardContent className="article-gloss">
-        <h4>{title}</h4>
-        {children}
-      </HoverCardContent>
-    </HoverCard>
-  );
-}
-
 function Note({ term, children }: { term: ReactNode; children: ReactNode }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <span className="thom-tooltip-trigger" tabIndex={0}>{term}</span>
+        <span className="thom-tooltip-trigger" tabIndex={0}>
+          {term}
+        </span>
       </TooltipTrigger>
       <TooltipContent>{children}</TooltipContent>
     </Tooltip>
   );
 }
 
-function Terms({ items }: { items: Array<[string, string]> }) {
-  return (
-    <dl>
-      {items.map(([term, definition]) => (
-        <Fragment key={term}>
-          <dt>{term}</dt>
-          <dd>{definition}</dd>
-        </Fragment>
-      ))}
-    </dl>
-  );
-}
-
 function EssayLink({ slug, children }: { slug: string; children: ReactNode }) {
   return (
     <LinkPreview url={`/writing/${slug}`} asChild>
-      <Link to="/writing/$slug" params={{ slug }}>{children}</Link>
+      <Link to="/writing/$slug" params={{ slug }}>
+        {children}
+      </Link>
     </LinkPreview>
   );
 }
 
-function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
+function ExternalLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
   return (
     <LinkPreview url={href} external>
       {children}
     </LinkPreview>
+  );
+}
+
+function ProofPipelineFigure() {
+  return (
+    <figure
+      className="understanding-figure understanding-pipeline"
+      aria-labelledby="proof-pipeline-title"
+    >
+      <header className="understanding-figure__header">
+        <span className="understanding-figure__kicker">Proof indigestion</span>
+        <strong id="proof-pipeline-title">
+          Where abundance becomes a bottleneck
+        </strong>
+      </header>
+      <ol className="understanding-pipeline__stages">
+        {proofPipeline.map((stage, index) => (
+          <li key={stage.label}>
+            <div className="understanding-pipeline__stage">
+              <span
+                className="understanding-pipeline__number"
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <strong>{stage.label}</strong>
+                <span>{stage.detail}</span>
+              </div>
+            </div>
+            {stage.transition ? (
+              <div
+                className={`understanding-pipeline__transition${
+                  stage.bottleneck
+                    ? " understanding-pipeline__transition--bottleneck"
+                    : ""
+                }`}
+              >
+                <span
+                  className="understanding-pipeline__arrow"
+                  aria-hidden="true"
+                >
+                  ↓
+                </span>
+                <p>
+                  <span>{stage.bottleneck ? "Bottleneck" : "Transition"}</span>
+                  {stage.transition}
+                </p>
+              </div>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      <figcaption>
+        Formal correctness is one handoff in the pipeline. A result becomes
+        shared knowledge only after people can explain, evaluate, teach, and
+        reuse it.
+      </figcaption>
+    </figure>
+  );
+}
+
+function UnderstandingLoopFigure() {
+  return (
+    <figure
+      className="understanding-figure understanding-loop"
+      aria-labelledby="understanding-loop-title"
+    >
+      <header className="understanding-figure__header">
+        <span className="understanding-figure__kicker">
+          Corrigible practice
+        </span>
+        <strong id="understanding-loop-title">The understanding loop</strong>
+      </header>
+      <ol className="understanding-loop__steps">
+        {understandingLoop.map(([label, detail], index) => (
+          <li key={label}>
+            <span className="understanding-loop__number" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div>
+              <strong>{label}</strong>
+              <span>{detail}</span>
+            </div>
+            {index < understandingLoop.length - 1 ? (
+              <span className="understanding-loop__arrow" aria-hidden="true">
+                ↓
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      <div className="understanding-loop__return">
+        <span aria-hidden="true">↺</span>
+        Consequences change what the team observes next.
+      </div>
+      <figcaption>
+        Understanding is demonstrated through prediction, bounded action, and
+        revision—not by producing a persuasive explanation once.
+      </figcaption>
+    </figure>
   );
 }
 
@@ -124,229 +245,634 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <h1>{post.title}</h1>
           <p className="article-description">{post.description}</p>
           <div className="article-meta">
-            <time dateTime={post.publishedAt}>Published {formatDate(post.publishedAt)}</time>
+            <time dateTime={post.publishedAt}>
+              Published {formatDate(post.publishedAt)}
+            </time>
             {post.updatedAt ? (
-              <span>Updated <time dateTime={post.updatedAt}>{formatDate(post.updatedAt)}</time></span>
+              <span>
+                Updated{" "}
+                <time dateTime={post.updatedAt}>
+                  {formatDate(post.updatedAt)}
+                </time>
+              </span>
             ) : null}
           </div>
           {post.tags.length > 0 ? (
             <ul className="article-tags" aria-label="Topics">
-              {post.tags.map((tag) => <li key={tag}>{tag}</li>)}
+              {post.tags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
             </ul>
           ) : null}
         </header>
 
-        <Section index="01" title="Overview">
-          <p>AI makes drafts, analyses, prototypes, and implementations abundant. The scarce organizational capability is increasingly the ability to interpret that output: to understand what a team has learned, connect it to customer experience, frame the right problem, and determine which proposed solution deserves a test.</p>
-          <p>Producing more answers does not resolve this bottleneck. People must listen across roles, separate evidence from interpretation, preserve consequential disagreement, and build a working model that others can test and revise. The useful output is not merely another artifact. It is a greater shared capacity to reason and act.</p>
-          <p>This requires technical and product judgment, but it also requires empathy. Customers do not experience a roadmap, architecture, or ticket queue. They experience a situation. A team cannot reliably solve for them unless it remains close to that situation and can recognize which consequences matter.</p>
-        </Section>
-
-        <Section index="02" title="Core Thesis">
-          <p>When producing output is expensive, execution limits progress. When plausible output becomes abundant, shared understanding limits progress. People and teams respond by strengthening their ability to:</p>
-          <ul>
-            <li>observe customers and systems more accurately;</li>
-            <li>distinguish evidence from interpretation;</li>
-            <li>name the problem before converging on a solution;</li>
-            <li>surface important disagreements and missing context;</li>
-            <li>translate insight into testable action;</li>
-            <li>learn from consequences; and</li>
-            <li>retain that learning so the next decision starts from a stronger model.</li>
-          </ul>
-          <p>The advantage comes from making <Note term="solutioning">the collective capability to frame a problem, generate interventions, test them, and revise the model — not merely the act of proposing features.</Note> more capable and distributed while keeping meaning, evidence, and accountability intact.</p>
-        </Section>
-
-        <Section index="03" title="Relationship to the Series">
-          <p>This is the third essay in a coordinated sequence:</p>
+        <Section index="01" title="Two Ways Output Outruns Understanding">
+          <h3>When Correctness Outruns Meaning</h3>
+          <p>
+            AI-assisted mathematics exposes the understanding bottleneck in
+            unusually clean form. Mathematical work can separate three
+            operations that ordinary knowledge work often blends:
+          </p>
           <ol>
-            <li><EssayLink slug="goals-solutions-and-value">Goals, Solutions &amp; Value</EssayLink> establishes the human stakes that make an opportunity worth pursuing.</li>
-            <li><EssayLink slug="truth-entropy-and-inference">Truth, Entropy &amp; Inference</EssayLink> explains why AI can be fluent and coherent in some domains while remaining weakly grounded in others.</li>
-            <li><strong>The Understanding Bottleneck</strong> defines the human and organizational capability needed to direct and evaluate abundant output.</li>
-            <li><EssayLink slug="the-knowledge-factory">The Knowledge Factory</EssayLink> turns that capability into an organizational operating system.</li>
+            <li>
+              <strong>Generation</strong> produces candidate conjectures,
+              proofs, counterexamples, programs, and intermediate lemmas.
+            </li>
+            <li>
+              <strong>Verification</strong> determines whether an artifact
+              satisfies stated formal constraints through expert review, tests,
+              or a proof assistant.
+            </li>
+            <li>
+              <strong>Interpretation and adoption</strong> determines whether
+              the formalization captures the intended question, what the result
+              teaches, why it matters, how it should be explained, and whether
+              it belongs in the field&apos;s reusable knowledge.
+            </li>
           </ol>
-        </Section>
+          <p>
+            These three stages organize Terence Tao&apos;s 2026 ICM talk,{" "}
+            <ExternalLink href="https://www.simonsfoundation.org/2026/08/13/fields-medalist-terence-tao-on-artificial-intelligence-and-why-we-do-math/">
+              Mathematics in the Age of AI
+            </ExternalLink>
+            , and the accompanying{" "}
+            <ExternalLink href="https://arxiv.org/abs/2608.16753">
+              essay
+            </ExternalLink>
+            . Tao asks the mathematical community to assume that AI will perform
+            a meaningful share of research-level tasks, then return to a
+            foundational question: what are the goals and values of mathematical
+            work?
+          </p>
+          <p>
+            Generating and verifying a proof begin the pipeline; explanation,
+            evaluation, attribution, review, teaching, and adoption complete it.
+            If generation accelerates faster than those downstream practices,
+            the community develops what Tao calls{" "}
+            <Note term="proof indigestion">
+              the failure mode when downstream practices cannot keep pace with
+              upstream proof generation.
+            </Note>
+            : candidate proofs outrun verification, verified proofs outrun
+            explanation, and published work outruns collective absorption.
+          </p>
+          <ProofPipelineFigure />
+          <p>
+            A formal certificate can establish that a derivation follows from
+            encoded definitions and axioms. It cannot establish by itself that
+            the encoding faithfully represents the informal question, that the
+            result matters, or that anyone has developed a transferable
+            understanding of why it works. Tao proposes a practical test:
+            authors should be able to give a clear, correct, and properly
+            attributed{" "}
+            <Note term="expert talk">
+              a short lecture explaining the result, its significance, and its
+              place in the field.
+            </Note>{" "}
+            about a result before it is treated as complete, even when the proof
+            has been formally verified.
+          </p>
+          <p>
+            The recent{" "}
+            <ExternalLink href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">
+              OpenAI unit-distance result
+            </ExternalLink>{" "}
+            makes the distinction concrete: external mathematicians checked the
+            proof, while people still chose the problem and interpreted its
+            significance. The{" "}
+            <ExternalLink href="https://leidendeclaration.ai/">
+              Leiden Declaration on Artificial Intelligence and Mathematics
+            </ExternalLink>{" "}
+            gives that distinction an institutional form by placing correctness
+            alongside understanding, depth, attribution, transparency, and human
+            direction.
+          </p>
+          <p>
+            Mathematics makes the bottleneck unusually visible because its
+            patterns and constraints support large-scale search and
+            verification. Every organization, however, can now produce more
+            analyses, specifications, designs, and code than its people can
+            responsibly interpret and absorb.
+          </p>
 
-        <Section index="04" title="Intended Reader">
-          <p>Developers, designers, researchers, product practitioners, founders, and leaders who use AI-generated work or help a group improve its decisions and problem-solving capacity.</p>
-        </Section>
-
-        <Section index="05" title="Key Terms">
-          <Terms items={[
-            ["Understanding", "a provisional working model of the relevant people, entities, relationships, causes, constraints, and consequences that supports better prediction and action."],
-            ["Solutioning", "the collective capability to frame a problem, generate interventions, test them, and revise the model — not merely the act of proposing features."],
-            ["Distillation", "compressing many observations into a useful model while preserving uncertainty, dissent, provenance, and consequential detail."],
-            ["Evaluative closure", "enough relevant understanding, evidence, criteria, and authority to accept, revise, reject, or stop without pretending to have certainty."],
-            ["Customer empathy", "disciplined contact with how a situation is experienced, including the customer's goals, costs, habits, fears, incentives, and trust."],
-          ]} />
-        </Section>
-
-        <Section index="06" title="When Verification Outruns Understanding">
-          <p>AI-assisted mathematics provides an unusually clean case of output becoming abundant while understanding remains scarce. Mathematical work separates three operations that ordinary knowledge work often blends:</p>
-          <ol>
-            <li><strong>Generation</strong> produces candidate conjectures, proofs, counterexamples, programs, and intermediate lemmas.</li>
-            <li><strong>Verification</strong> determines whether an artifact satisfies stated formal constraints through expert review, tests, or a proof assistant.</li>
-            <li><strong>Interpretation and adoption</strong> determines whether the formalization matches the intended question, what the result teaches, why it matters, how it should be explained, and whether it belongs in the field's reusable knowledge.</li>
-          </ol>
-          <p>Terence Tao's 2026 ICM talk, <ExternalLink href="https://www.simonsfoundation.org/2026/08/13/fields-medalist-terence-tao-on-artificial-intelligence-and-why-we-do-math/">"Mathematics in the Age of AI"</ExternalLink>, and the accompanying <ExternalLink href="https://arxiv.org/abs/2608.16753">essay</ExternalLink> provide the organizing example. Tao asks the mathematical community to assume that AI will perform a meaningful share of research-level tasks, then examine the harder question this abundance exposes: what are the actual goals and values of mathematical work?</p>
-          <p>Solving or verifying a proof is only the beginning of the pipeline. The result must still be explained, evaluated, attributed, reviewed, connected to other work, taught, and eventually incorporated into the field's canonical knowledge. If proof generation accelerates faster than those downstream practices, the community develops what Tao calls <Note term="proof indigestion">the failure mode when downstream practices — verification, explanation, absorption — cannot keep pace with upstream proof generation.</Note>: candidate proofs outrun verification, verified proofs outrun explanation, and published work outruns collective absorption.</p>
-          <PropositionGraphFigure document={pipelineGraph} title="Proof abundance pipeline" />
-          <p>A formal certificate can establish that a derivation follows from encoded definitions and axioms. It cannot by itself establish that the encoding faithfully represents the informal question, that the result is significant, or that anyone has developed a transferable understanding of why it works. Tao proposes a practical test: authors should be able to give a clear, correct, and properly attributed <Note term="expert talk">a short lecture explaining the result, its significance, and its place in the field — even when a proof assistant has already verified the derivation.</Note> about a result before it is treated as complete, even when the proof has been formally verified.</p>
-          <p>The recent OpenAI unit-distance result gives the opening a concrete case. Its proof was checked by external mathematicians, while OpenAI's own account still concludes that people choose important problems and interpret their significance: <ExternalLink href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">"An OpenAI model has disproved a central conjecture in discrete geometry"</ExternalLink>. The <ExternalLink href="https://leidendeclaration.ai/">Leiden Declaration on Artificial Intelligence and Mathematics</ExternalLink> adds the institutional requirements: correctness must sit alongside understanding, depth, attribution, transparency, and human direction of research.</p>
-          <p>This connects directly to <EssayLink slug="truth-entropy-and-inference">Truth, Entropy &amp; Inference</EssayLink>. Mathematics is unusually pattern-dense and mechanically constrained, so AI systems can search and verify candidate work at extraordinary scale. The case then reveals the next bottleneck: even where correctness can be checked, someone must interpret what the output means, decide what deserves attention, connect it to existing knowledge, and make it usable by other people.</p>
-          <Claim title="The opening question">
-            <p>What becomes scarce when a system can produce more correct work than a community can understand, evaluate, and absorb?</p>
+          <h3>When Generation Outruns Evaluation</h3>
+          <p>
+            At the opposite pole, a developer is not struggling to absorb
+            verified work. The work has not been qualified yet. Each prompt
+            becomes a lever pull, each stream of tokens the spinning reels, and
+            the next response might be the big score. A strong answer rewards
+            another pull; a weak answer invites a retry. The activity can drift
+            from pursuing an explicit learning goal into continuing the
+            generation loop.
+          </p>
+          <p>
+            The slot-machine image is a structural analogy, not a clinical
+            diagnosis.{" "}
+            <ExternalLink href="https://pubmed.ncbi.nlm.nih.gov/31870708/">
+              Research on gambling and reward uncertainty
+            </ExternalLink>{" "}
+            explains how uncertain rewards can intensify attention and repeated
+            behavior; it does not establish that prompting is gambling disorder.
+            The analogy identifies a design risk: low-friction repetition,
+            uncertain quality, occasional high-value output, and no clear
+            stopping rule.
+          </p>
+          <p>
+            Developer well-being research places that risk inside an
+            organizational system. A{" "}
+            <ExternalLink href="https://arxiv.org/abs/2510.07435">
+              mixed-methods study of 442 developers
+            </ExternalLink>{" "}
+            associated GenAI adoption with higher job demands and burnout, while
+            autonomy and learning resources mitigated those relationships. A{" "}
+            <ExternalLink href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/">
+              survey of 319 knowledge workers
+            </ExternalLink>{" "}
+            found that AI shifted reported critical-thinking work toward
+            verification, response integration, and task stewardship. AI can
+            reduce one kind of effort while creating another kind of load.
+          </p>
+          <p>
+            Developers rarely remain at either pole. Depending on the task and
+            the team, the same person can oscillate between qualified output
+            outrunning absorption and generation outrunning judgment. Tests,
+            domain constraints, shared context, autonomy, learning resources,
+            and explicit stopping rules move the work along that spectrum.
+          </p>
+          <p>
+            At one pole, evaluation cannot keep pace with qualified output. At
+            the other, generation proceeds without enough evaluation. Both
+            expose the same scarcity: a grounded model for deciding what the
+            output means and what should happen next.
+          </p>
+          <Claim>
+            <p>
+              <strong>
+                AI can make plausible work abundant; in formally constrained
+                domains, it can make verified work abundant too. When a
+                community can produce more than it can ground, interpret, and
+                absorb, shared understanding becomes the bottleneck.
+              </strong>
+            </p>
           </Claim>
-          <p>That is not only a question for mathematicians. Every organization can produce more research summaries, analyses, specifications, designs, and code than its people can integrate into a responsible model of what to do next. Formal verification makes the boundary unusually visible; understanding is the general organizational bottleneck.</p>
-        </Section>
-
-        <Section index="07" title="What Understanding Adds">
-          <p>Step away from mathematics and look at an ordinary team producing more than ever: research summaries, dashboards, customer transcripts, prototypes, pull requests, and AI-generated options. The team's problem is no longer a lack of artifacts. It is an inability to determine what all the artifacts mean together.</p>
-          <p>Moving from output to understanding requires five operations:</p>
+          <p>
+            <strong>Understanding</strong> is a provisional, shareable, and
+            revisable model of a situation. Three recurring tests discipline
+            that model:
+          </p>
           <ol>
-            <li>listen for evidence and lived stakes;</li>
-            <li>separate observations from proposed explanations;</li>
-            <li>name the consequential relationships and disagreements;</li>
-            <li>return a clearer, testable problem frame to the team; and</li>
-            <li>expand who can reason from that frame.</li>
+            <li>
+              <strong>Coherence — does it fit?</strong> Do its explanations and
+              commitments hold together without hiding consequential
+              contradictions?
+            </li>
+            <li>
+              <strong>Correspondence — does it match?</strong> Does it remain
+              answerable to the intended question, the available evidence, and
+              the world it claims to represent?
+            </li>
+            <li>
+              <strong>Consequence — what follows when people act on it?</strong>{" "}
+              What does the model help people predict, what does action change,
+              and what must they revise afterward?
+            </li>
           </ol>
-          <p>The result is not merely a decision. It is a provisional model that increases the group's capacity to predict, test, and solve.</p>
+          <p>
+            These tests do not determine by themselves what matters, whose
+            purposes count, or whether reliance is warranted. They discipline a
+            model; people and institutions remain accountable for its purposes
+            and authority.
+          </p>
         </Section>
 
-        <Section index="08" title="Distillation Is Not Summarization">
-          <p>A summary makes material shorter. <Gloss term="Distillation" title="Distillation">compressing many observations into a useful model while preserving uncertainty, dissent, provenance, and consequential detail. A summary is shorter; a distillation is sound under pressure.</Gloss> identifies which distinctions must survive compression for a decision to remain sound.</p>
-          <Claim title="Good distillation preserves">
+        <Section index="02" title="From Output to Shared Understanding">
+          <p>
+            Consider a hypothetical product team trying to understand why people
+            abandon an onboarding step. A researcher brings interviews. A
+            product practitioner brings the abandonment metric. A designer
+            brings observations of the workflow. An engineer brings system
+            constraints. A support specialist brings recurring questions. AI
+            produces several polished but incompatible explanations and
+            interventions.
+          </p>
+          <p>
+            The team has plenty of artifacts but cannot yet explain what they
+            mean together. Moving from output to understanding requires the team
+            to distinguish observation from interpretation, preserve
+            consequential disagreement, connect technical choices to human
+            stakes, and return a clearer problem frame that others can test.
+          </p>
+
+          <h3>Distillation Preserves What a Decision Needs</h3>
+          <p>
+            A summary makes material shorter. <strong>Distillation</strong>{" "}
+            identifies which distinctions must survive compression for a
+            decision to remain sound.
+          </p>
+          <Claim title="Distillation preserves">
             <ul>
               <li>whose experience is represented;</li>
-              <li>what was directly observed;</li>
-              <li>what is inferred;</li>
-              <li>what remains disputed;</li>
+              <li>what the team observed and what it inferred;</li>
+              <li>which explanations remain disputed;</li>
               <li>which constraints are hard or negotiable;</li>
-              <li>which tradeoffs are being accepted; and</li>
-              <li>what evidence would overturn the current model.</li>
+              <li>which tradeoffs a test would accept; and</li>
+              <li>what evidence would overturn the model.</li>
             </ul>
           </Claim>
-          <p>AI can summarize at scale. People must determine the criteria by which a summary becomes meaningful context for the present decision.</p>
-        </Section>
+          <p>
+            AI can summarize the interviews, metric, constraints, and proposals
+            at scale. The team must decide which distinctions carry meaning for
+            the present decision. The work should increase the group&apos;s
+            shared capacity to reason and act, not merely produce another
+            artifact.
+          </p>
+          <p>
+            Customers do not experience a roadmap, architecture, or ticket
+            queue. They experience a situation. Empathy is disciplined contact
+            with that situation, informed by observation, participation,
+            evidence, and correction. A metric can show abandonment; empathy
+            investigates the confusion, mistrust, interrupted workflow, or
+            competing obligation behind that abandonment.
+          </p>
 
-        <Section index="09" title="Keep Problem Framing Close to the Work">
-          <p>The goal of organizational understanding is to extract the solvable structure from noisy experience without extracting the right to solve from the people closest to the work.</p>
-          <p>The failure mode is a gate. Teams collect evidence, but only a small authority layer may frame problems or authorize solutions. Context is destroyed at every handoff, queueing grows as requests pile up at the gate, and engineers learn to wait for tasks instead of understanding them. A gate may look like control; it usually produces dependency.</p>
-          <Claim title="Gated versus distributed solutioning">
-            <table>
-              <thead>
-                <tr><th></th><th>Gated</th><th>Distributed</th></tr>
-              </thead>
-              <tbody>
-                <tr><th>Who frames the problem</th><td>A small authority layer</td><td>Teams close to the evidence</td></tr>
-                <tr><th>Context</th><td>Summarized across handoffs</td><td>Shared context, boundaries, and tools</td></tr>
-                <tr><th>Teams</th><td>Wait for tasks</td><td>Propose and test inside explicit constraints</td></tr>
-                <tr><th>Outcome</th><td>Queueing and dependency</td><td>More exploration without lower standards</td></tr>
-              </tbody>
-            </table>
-          </Claim>
-          <p>The alternative is shared capability. Teams receive the context, decision boundaries, problem-framing tools, and authority needed to propose and test solutions inside explicit constraints. The frame stays close to the evidence, and the people who will live with the consequences get to shape the plan.</p>
-        </Section>
-
-        <Section index="10" title="Build Shared Problem-Solving Capacity">
-          <p>Understanding becomes easier to build and share when the organization adopts practices that make reasoning visible:</p>
-          <ul>
-            <li>problem briefs that distinguish symptoms, causes, stakes, and assumptions;</li>
-            <li>shared domain vocabulary;</li>
-            <li>decision records with evidence and rejected alternatives;</li>
-            <li>pre-mortems and adversarial review;</li>
-            <li>customer contact across product, design, and engineering;</li>
-            <li>small experiments with explicit learning goals;</li>
-            <li>retrospectives that update the model, not only the process; and</li>
-            <li>coaching that asks better questions before supplying answers.</li>
-          </ul>
-          <p>The goal is for more people to recognize a poorly framed request, surface a missing constraint, and connect technical choices to customer consequences.</p>
-        </Section>
-
-        <Section index="11" title="Empathy Is Part of the Evidence System">
-          <p>Customer empathy is how teams remain connected to stakes that do not appear in telemetry alone. A metric can show abandonment; empathy helps investigate the confusion, fear, broken trust, interrupted workflow, or competing obligation behind it. Empathy is not intuition — it is disciplined contact, informed by observation, evidence, participation, and correction.</p>
-          <p>Operationalize empathy through contact:</p>
-          <ul>
-            <li>interviews and observation;</li>
-            <li>support and sales evidence;</li>
-            <li>usability sessions;</li>
-            <li>participation in the workflow where possible;</li>
-            <li>attention to non-users and excluded users; and</li>
-            <li>follow-up after a solution changes behavior.</li>
-          </ul>
-          <p>The point is not that customers dictate features. It is that solutioning begins with an accountable interpretation of their situation.</p>
-        </Section>
-
-        <Section index="12" title="Five Dimensions of Product Understanding">
-          <p>A compact model keeps the group honest about what "understanding the product situation" includes:</p>
+          <h3>Five Dimensions Check the Model&apos;s Coverage</h3>
+          <p>
+            A compact coverage check keeps the team honest about what its model
+            includes:
+          </p>
           <Claim title="Five dimensions of product understanding">
             <table>
               <thead>
-                <tr><th>Dimension</th><th>What it covers</th></tr>
+                <tr>
+                  <th>Dimension</th>
+                  <th>What it covers</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><th>Human</th><td>goals, experience, behavior, trust, and consequences</td></tr>
-                <tr><th>Domain</th><td>entities, relationships, rules, exceptions, and language</td></tr>
-                <tr><th>System</th><td>architecture, dependencies, state, failure modes, and operations</td></tr>
-                <tr><th>Economic</th><td>incentives, opportunity cost, distribution, and sustainability</td></tr>
-                <tr><th>Epistemic</th><td>evidence quality, uncertainty, assumptions, and disconfirming tests</td></tr>
+                <tr>
+                  <th>Human</th>
+                  <td>goals, experience, behavior, trust, and consequences</td>
+                </tr>
+                <tr>
+                  <th>Domain</th>
+                  <td>
+                    entities, relationships, rules, exceptions, and language
+                  </td>
+                </tr>
+                <tr>
+                  <th>System</th>
+                  <td>
+                    architecture, dependencies, state, failure modes, and
+                    operations
+                  </td>
+                </tr>
+                <tr>
+                  <th>Economic</th>
+                  <td>
+                    incentives, opportunity cost, distribution, and
+                    sustainability
+                  </td>
+                </tr>
+                <tr>
+                  <th>Epistemic</th>
+                  <td>
+                    evidence quality, uncertainty, assumptions, and
+                    disconfirming tests
+                  </td>
+                </tr>
               </tbody>
             </table>
           </Claim>
-          <p>No one person needs every fact. The group needs enough shared understanding across these dimensions to predict what an intervention will change and recognize when the prediction fails.</p>
+          <p>
+            The five dimensions ask what parts of the situation the model must
+            cover. Coherence, correspondence, and consequence ask how the team
+            tests that model. No one person needs every fact, but the model must
+            be shareable enough for the group to predict what an intervention
+            will change and recognize when that prediction fails.
+          </p>
         </Section>
 
-        <Section index="13" title="AI Can Accelerate Understanding and Simulate It">
-          <p>AI can search, cluster observations, generate hypotheses, identify missing questions, compare explanations, and propose tests. These are real contributions to understanding.</p>
-          <p>It can also generate a polished explanation before the organization has earned the model. Fluency can conceal missing customer contact, weak evidence, or an undefined term. Every important synthesis should therefore expose:</p>
+        <Section
+          index="03"
+          title="From an Authority Gate to an Evaluative Boundary"
+        >
+          <p>
+            Abundant output often creates conflicting interpretations. An
+            organization may respond by centralizing sensemaking: teams collect
+            evidence, but only a small authority layer may frame the problem or
+            authorize a solution. Each handoff strips context. Requests pile up
+            at the gate, and builders learn to wait for tasks instead of framing
+            problems.
+          </p>
+          <p>
+            The alternative is shared capability. Teams gain an advantage when
+            more people can propose and test solutions without losing meaning,
+            evidence, or accountability. <strong>Solutioning</strong> is the
+            shared work of framing a problem, proposing interventions, testing
+            them, and revising the model. Teams can distribute that work when
+            they share evidence, vocabulary, constraints, and decision
+            boundaries.
+          </p>
+          <Claim title="Centralized gate versus evaluative boundaries">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Centralized authority gate</th>
+                  <th>Distributed evaluative boundaries</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Who frames the problem</th>
+                  <td>A small authority layer</td>
+                  <td>People close to the evidence</td>
+                </tr>
+                <tr>
+                  <th>Context</th>
+                  <td>Compressed across handoffs</td>
+                  <td>Shared with its rationale and limits</td>
+                </tr>
+                <tr>
+                  <th>Action</th>
+                  <td>Teams wait for approved tasks</td>
+                  <td>Teams frame and test within explicit bounds</td>
+                </tr>
+                <tr>
+                  <th>Outcome</th>
+                  <td>Queueing and dependency</td>
+                  <td>More exploration with visible accountability</td>
+                </tr>
+              </tbody>
+            </table>
+          </Claim>
+
+          <h3>Evaluative Closure Makes Delegation Responsible</h3>
+          <p>
+            Distributed solutioning does not eliminate judgment or control. It
+            replaces a centralized interpretation gate with explicit evaluative
+            boundaries. <strong>Evaluative closure</strong> means a team
+            understands enough of a particular decision to define what is
+            settled, what remains open, who has authority, and what evidence
+            will trigger review. Closure is scoped and provisional, not a claim
+            to certainty.
+          </p>
+          <p>
+            Before delegating solutioning to a person or an AI, the team
+            establishes an <strong>evaluative boundary</strong>:
+          </p>
           <ul>
-            <li>its source evidence;</li>
-            <li>its assumptions;</li>
-            <li>plausible competing explanations;</li>
-            <li>its confidence and limits; and</li>
-            <li>the next observation that would discriminate among alternatives.</li>
+            <li>the situation, purpose, and decisions already settled;</li>
+            <li>the solution space still open for exploration;</li>
+            <li>non-negotiable constraints and the reasons they exist;</li>
+            <li>
+              evidence or changed conditions that may warrant an exception;
+            </li>
+            <li>
+              a challenge protocol that identifies the conflict, cites evidence,
+              proposes the narrowest exception, and pauses;
+            </li>
+            <li>
+              the accountable authority who may approve the exception, including
+              where a concern owned elsewhere must escalate; and
+            </li>
+            <li>
+              the verification and revision record that will preserve what
+              happened.
+            </li>
           </ul>
-          <p>The test of a synthesis is not how confident it sounds. It is whether the underlying model can be examined, challenged, and updated.</p>
+          <Claim>
+            <p>
+              An AI may challenge an evaluative boundary when new evidence
+              conflicts with its rationale, but it may not silently cross or
+              redefine that boundary.
+            </p>
+          </Claim>
+          <p>
+            Every evaluative boundary names an accountable authority. If an
+            exception affects another owned concern—customer trust, security,
+            architecture, legal obligations, or product purpose—the decision
+            escalates to that concern&apos;s authority.
+          </p>
+
+          <h3>Make the Reasoning Visible</h3>
+          <p>
+            Teams can build and distribute understanding through one causal
+            operating model:
+          </p>
+          <ol>
+            <li>
+              <strong>Gather evidence</strong> through customer contact,
+              observation, support, sales, telemetry, and system behavior.
+            </li>
+            <li>
+              <strong>Frame the problem</strong> with briefs and shared
+              vocabulary that distinguish symptoms, causes, stakes, assumptions,
+              and disagreement.
+            </li>
+            <li>
+              <strong>Authorize a test</strong> with decision records, rejected
+              alternatives, pre-mortems, explicit boundaries, and learning
+              goals.
+            </li>
+            <li>
+              <strong>Learn from consequences</strong> through small experiments
+              and follow-up with the people affected.
+            </li>
+            <li>
+              <strong>Retain the revised model</strong> through retrospectives,
+              records, interfaces, and coaching that make the next decision
+              start from stronger context.
+            </li>
+          </ol>
+          <p>
+            Once one person forms a useful model, the organization must make it
+            retrievable and revisable. Shared understanding becomes visible
+            through language, models, decisions, tests, interfaces, and repeated
+            behavior. Teams should be able to recover why a decision was made,
+            trace a claim to evidence, see where contexts differ, and update the
+            model after outcomes arrive.
+          </p>
         </Section>
 
-        <Section index="14" title="Understanding Is Organizational, Not Merely Individual">
-          <p>An insight trapped in one person's head is a throughput constraint. Shared understanding becomes visible through language, models, decisions, tests, interfaces, and repeated behavior.</p>
-          <p>The organization needs mechanisms that let teams retrieve why a decision was made, trace concepts to evidence, see where contexts differ, and update the model after outcomes arrive. That is the bridge to <EssayLink slug="the-knowledge-factory">the knowledge factory</EssayLink>: an operating system that turns learning into reusable capability instead of leaving it in conversations, pull requests, and individuals.</p>
-        </Section>
-
-        <Section index="15" title="Action Completes the Loop">
-          <p>Understanding is demonstrated by better prediction and revision, not by the feeling of clarity. Teams must act at a scale that makes learning affordable, observe the result, and update their shared model.</p>
-          <PropositionGraphFigure document={loopGraph} title="The understanding loop" />
-          <p>The discipline is to improve the loop's fidelity and speed without allowing speed to erase meaningful context: observe → interpret → frame → propose → test → experience consequences → revise.</p>
-        </Section>
-
-        <Section index="16" title="Understanding Is a Skill to Look For">
-          <p>As generated output becomes cheaper, the ability to turn it into a grounded, testable model becomes more valuable. Organizations should look for, develop, and reward people who can:</p>
+        <Section index="04" title="Test, Act, and Revise">
+          <p>
+            AI can search, cluster observations, generate hypotheses, identify
+            missing questions, compare explanations, and propose tests. These
+            tasks can deepen a team&apos;s model. AI can also produce coherence
+            before the organization has earned correspondence or examined
+            consequences.
+          </p>
+          <p>A trustworthy synthesis should:</p>
           <ul>
-            <li>synthesize across customer, product, engineering, and business evidence;</li>
-            <li>teach problem framing and experimental reasoning;</li>
-            <li>distribute decisions with clear constraints;</li>
-            <li>protect contact between builders and customers;</li>
-            <li>make assumptions and disagreement inspectable;</li>
-            <li>build durable context rather than presentation theater; and</li>
-            <li>recognize when AI-generated coherence has outrun comprehension.</li>
+            <li>cite its evidence;</li>
+            <li>state its assumptions;</li>
+            <li>compare plausible explanations;</li>
+            <li>mark its confidence and limits; and</li>
+            <li>
+              name the next observation that would discriminate among
+              alternatives.
+            </li>
           </ul>
-          <p>This capability is not confined to management. It may appear in an engineer who finds the missing constraint, a designer who connects behavior to lived experience, a support specialist who recognizes a recurring causal pattern, or a researcher who distinguishes evidence from a compelling story. Leadership is one place to look for the skill, but the organizational advantage comes from making it common across roles.</p>
+          <p>
+            Teams demonstrate understanding when they predict an outcome, act at
+            a scale that makes learning affordable, observe what follows, and
+            revise their model.
+          </p>
+          <UnderstandingLoopFigure />
+          <p>
+            The discipline is to improve the loop&apos;s fidelity and speed
+            without allowing speed to erase meaningful context:
+          </p>
+          <blockquote>
+            observe → interpret → frame → propose → test → experience
+            consequences → revise
+          </blockquote>
+          <p>
+            Consequences may revise the team&apos;s explanation, its evaluative
+            boundary, or both. A boundary that cannot change when its rationale
+            no longer corresponds to the situation becomes another gate.
+          </p>
+
+          <h3>Understanding Is a Skill to Look For—and Develop</h3>
+          <p>
+            This capability is not confined to management. It appears when an
+            engineer finds the missing constraint, a designer connects behavior
+            to lived experience, a support specialist recognizes a recurring
+            causal pattern, or a researcher separates evidence from a compelling
+            story.
+          </p>
+          <p>
+            Organizations should look for people who can build shareable models,
+            distribute bounded authority, and revise both after action. They
+            develop the same skill by giving people repeated customer contact,
+            asking them to separate observation from interpretation, letting
+            them frame problems inside clear boundaries, and requiring
+            predictions and revisions after consequences arrive.
+          </p>
         </Section>
 
         <div className="article-outline__closing">
-          <blockquote>In an age of abundant answers, the scarce skill is building enough shared understanding to know what deserves to be solved — and whether an answer survives contact with the world.</blockquote>
-          <p>Next in the series — <EssayLink slug="the-knowledge-factory">The Knowledge Factory</EssayLink>, then <EssayLink slug="the-ontology-factory">Ontology Factory</EssayLink> and <EssayLink slug="the-cognitive-factory">Cognitive Factory</EssayLink>.</p>
+          <blockquote>
+            In an age of abundant answers, the scarce skill is building enough
+            shared understanding to know what deserves to be solved—and whether
+            an answer survives contact with the world.
+          </blockquote>
+          <p>
+            Shared, retrievable learning is the bridge to{" "}
+            <EssayLink slug="the-knowledge-factory">
+              The Knowledge Factory
+            </EssayLink>
+            , where understanding becomes reusable organizational capability.
+          </p>
         </div>
 
-        <Section index="17" title="Sources">
+        <Section index="05" title="Sources">
           <ul>
-            <li>Terence Tao, <ExternalLink href="https://arxiv.org/abs/2608.16753">“Mathematics in the Age of AI”</ExternalLink> (2026). Develops the essay&apos;s organizing example of proof abundance, verification, explanation, and mathematical value.</li>
-            <li>OpenAI, <ExternalLink href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">“An OpenAI Model Has Disproved a Central Conjecture in Discrete Geometry”</ExternalLink> (2026). Documents the unit-distance result and the continuing human role in choosing and interpreting problems.</li>
-            <li><ExternalLink href="https://leidendeclaration.ai/">Leiden Declaration on Artificial Intelligence and Mathematics</ExternalLink>. States principles for correctness, understanding, attribution, transparency, and human direction in AI-assisted mathematics.</li>
-            <li>Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, <ExternalLink href="https://docs.lean-lang.org/theorem_proving_in_lean4/"><em>Theorem Proving in Lean 4</em></ExternalLink>. Supports the distinction between kernel-checkable proof objects and the human task of choosing and interpreting a formalization.</li>
-            <li>Karl E. Weick, Kathleen M. Sutcliffe, and David Obstfeld, <ExternalLink href="https://doi.org/10.1287/orsc.1050.0133">“Organizing and the Process of Sensemaking”</ExternalLink> (2005). Examines how people turn circumstances into articulated situations that can guide action.</li>
-            <li>Amy C. Edmondson, <ExternalLink href="https://doi.org/10.2307/2666999">“Psychological Safety and Learning Behavior in Work Teams”</ExternalLink> (1999). Connects psychological safety with learning behavior in the studied teams.</li>
-            <li>ISO, <ExternalLink href="https://www.iso.org/standard/77520.html"><em>ISO 9241-210:2019 — Human-centred design for interactive systems</em></ExternalLink>. Grounds sustained attention to users, needs, and human-system consequences throughout design.</li>
+            <li>
+              Terence Tao,{" "}
+              <ExternalLink href="https://arxiv.org/abs/2608.16753">
+                Mathematics in the Age of AI
+              </ExternalLink>{" "}
+              (2026). Develops the essay&apos;s organizing example of proof
+              abundance, verification, explanation, and mathematical value.
+            </li>
+            <li>
+              OpenAI,{" "}
+              <ExternalLink href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">
+                An OpenAI Model Has Disproved a Central Conjecture in Discrete
+                Geometry
+              </ExternalLink>{" "}
+              (2026). Documents the unit-distance result and the continuing
+              human role in choosing and interpreting problems.
+            </li>
+            <li>
+              <ExternalLink href="https://leidendeclaration.ai/">
+                Leiden Declaration on Artificial Intelligence and Mathematics
+              </ExternalLink>
+              . States principles for correctness, understanding, attribution,
+              transparency, and human direction in AI-assisted mathematics.
+            </li>
+            <li>
+              Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian
+              Ullrich,{" "}
+              <ExternalLink href="https://docs.lean-lang.org/theorem_proving_in_lean4/">
+                <em>Theorem Proving in Lean 4</em>
+              </ExternalLink>
+              . Supports the distinction between kernel-checkable proof objects
+              and the human task of choosing and interpreting a formalization.
+            </li>
+            <li>
+              Karl E. Weick, Kathleen M. Sutcliffe, and David Obstfeld,{" "}
+              <ExternalLink href="https://doi.org/10.1287/orsc.1050.0133">
+                Organizing and the Process of Sensemaking
+              </ExternalLink>{" "}
+              (2005). Examines how people turn circumstances into articulated
+              situations that can guide action.
+            </li>
+            <li>
+              Amy C. Edmondson,{" "}
+              <ExternalLink href="https://doi.org/10.2307/2666999">
+                Psychological Safety and Learning Behavior in Work Teams
+              </ExternalLink>{" "}
+              (1999). Connects psychological safety with learning behavior in
+              the studied teams.
+            </li>
+            <li>
+              ISO,{" "}
+              <ExternalLink href="https://www.iso.org/standard/77520.html">
+                <em>
+                  ISO 9241-210:2019 — Human-centred design for interactive
+                  systems
+                </em>
+              </ExternalLink>
+              . Grounds sustained attention to users, needs, and human-system
+              consequences throughout design.
+            </li>
+            <li>
+              Zixuan Feng, Sadia Afroz, and Anita Sarma,{" "}
+              <ExternalLink href="https://arxiv.org/abs/2510.07435">
+                <em>
+                  From Gains to Strains: Modeling Developer Burnout with GenAI
+                  Adoption
+                </em>
+              </ExternalLink>{" "}
+              (ICSE-SEIS 2026). Connects GenAI adoption, job demands, job
+              resources, and developer burnout in a mixed-methods study.
+            </li>
+            <li>
+              Hao-Ping Lee, Advait Sarkar, Lev Tankelevitch, Ian Drosos, Sean
+              Rintel, Richard Banks, and Nicholas Wilson,{" "}
+              <ExternalLink href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/">
+                <em>The Impact of Generative AI on Critical Thinking</em>
+              </ExternalLink>{" "}
+              (CHI 2025). Examines how knowledge workers describe goal
+              formation, verification, response integration, and stewardship in
+              GenAI-assisted work.
+            </li>
+            <li>
+              Charlotte Brandebusemeyer, Kerim Zunic, Thomas Zimmermann, Tobias
+              Schimmer, and Bert Arnrich,{" "}
+              <ExternalLink href="https://arxiv.org/abs/2607.02337">
+                <em>
+                  Developers&apos; Experience with Generative AI Beyond
+                  Productivity Assessment
+                </em>
+              </ExternalLink>{" "}
+              (2026 preprint). Reports task- and interaction-dependent changes
+              in perceived workload, cognitive load, and productivity.
+            </li>
+            <li>
+              Martin Zack, Ross St. George, and Luke Clark,{" "}
+              <ExternalLink href="https://pubmed.ncbi.nlm.nih.gov/31870708/">
+                <em>
+                  Dopaminergic Signaling of Uncertainty and the Aetiology of
+                  Gambling Addiction
+                </em>
+              </ExternalLink>{" "}
+              (2020). Reviews reward uncertainty in gambling; used only to bound
+              the slot-machine analogy, not to diagnose AI use.
+            </li>
           </ul>
         </Section>
       </div>
