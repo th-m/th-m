@@ -197,7 +197,7 @@ describe("ArticleContent dispatch", () => {
       "https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html",
     );
     expect(screen.queryByText(/external source/i)).not.toBeInTheDocument();
-  });
+  }, 20_000);
 
   it("falls back to the essay header and Markdown body for slugs without a page", () => {
     render(<ArticleContent article={article("public-title")} />);

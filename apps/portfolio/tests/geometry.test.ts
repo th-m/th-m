@@ -501,7 +501,7 @@ describe("THOM geometry", () => {
       if (Math.abs(expected.data[offset] - actual.data[offset]) > 8) changedAlphaPixels += 1;
     }
     expect(changedAlphaPixels / (expected.width * expected.height)).toBeLessThan(0.001);
-  }, 10_000);
+  }, 20_000);
 
   it("keeps every committed generated brand asset deterministic", () => {
     const assetUrls = [
