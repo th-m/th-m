@@ -45,7 +45,10 @@ function publishedPages() {
 }
 
 export default defineConfig(({ mode }) => ({
-  resolve: { tsconfigPaths: true },
+  resolve: {
+    tsconfigPaths: true,
+    dedupe: ["react", "react-dom", "three"],
+  },
   plugins: mode === "test" ? [tailwindcss(), react()] : [
     tailwindcss(),
     tanstackStart({

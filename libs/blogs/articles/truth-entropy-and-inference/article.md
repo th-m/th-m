@@ -56,12 +56,13 @@ different:
 
 > Implement hash-based sorting for these bounded integer keys.
 
-> Organize this list really fast.
+> Can you put these numbers in order? Be efficient.
 
-Both ask for organization and speed. The first activates a technical region of
+Both ask for an efficient ordering. The first activates a technical region of
 language containing named assumptions, known implementation patterns, and
-recognizable tradeoffs. The second leaves the ordering rule, data type, size,
-stability, memory budget, and meaning of “fast” unspecified. A model can answer
+recognizable tradeoffs. The second communicates the visible goal but leaves the
+ordering direction, integer representation, input size, duplicate handling,
+stability, memory budget, and meaning of “efficient” unspecified. A model can answer
 both fluently; only one prompt gives it much of a correctness surface.
 
 The governing question is: **what happened in the world that made one pattern
@@ -70,31 +71,12 @@ longer or cleverer. The informativity came from outside the sentence — from a
 community of practice that had spent decades encoding its distinctions into
 words, syntax, and standards.
 
-## 2. Forms of Truth Produce Forms of Language
+## 2. Forms of Truth and Propositional Formulations
 
 Six overlapping truth practices shape the language around us. Treat them as an
 editorial framework, not a universal philosophical taxonomy: the same claim can
-participate in several practices at once.
-
-1. **Formal truth** is validity relative to definitions, axioms, and inference
-   rules. Its language favors explicit premises, symbolic relationships, and
-   proof obligations.
-2. **Empirical truth** is correspondence with observations. Its language favors
-   measurement, method, uncertainty, replication, and counterevidence.
-3. **Operational truth** is reliability in action. Its language favors
-   procedures, preconditions, failure modes, tolerances, and observed outcomes.
-4. **Relational truth** is significance within human purposes, identities,
-   histories, and relationships. Its language favors perspective, motive,
-   consequence, interpretation, and accountability.
-5. **Sincerity, or truthfulness,** is the good-faith, non-deceptive fit between
-   what someone expresses and their subjective state. Its language favors
-   first-person avowal, disclosure, qualification, and acknowledged uncertainty
-   because inner landscapes are laden with self-deception, ambiguity, and
-   interpretive booby traps.
-6. **Knowledge by acquaintance** is direct familiarity with an experience,
-   person, place, or quality before that familiarity is reduced to a claim. Its
-   language favors demonstration, metaphor, example, gesture, and careful
-   phenomenological description.
+participate in several practices at once. The cards below distinguish the
+practices, the language each favors, and the feedback that constrains it.
 
 A temperature reading can be empirically calibrated and operationally relevant
 to a machine; someone can sincerely report that the same room feels oppressive
@@ -136,12 +118,25 @@ Distributed representations can also encode useful directions. The familiar
 shorthand `man + royal ≈ king` is best read as a geometric intuition: adding a
 learned feature can move a vector toward a neighborhood of related roles. It is
 not symbolic arithmetic, and no equation is guaranteed across models. On the
-published page, a compact interactive teaching projection lets readers combine
-terms such as `man + royal = king` and `king + young = prince`, then see the
-starting word, direction, and illustrative result on an x-y plane. Its points
-are hand-authored for clarity; real Word2Vec-style arithmetic operates in the
-model's original high-dimensional space and returns ranked neighbors whose
-order depends on the model and training corpus.
+published page, a compact interactive teaching space lets readers combine terms
+such as `man + royal = king`, `king + young = prince`, and
+`man + royal + young + feminine = princess`. Its default x-y projection shows
+status and age, deliberately collapsing masculine- and feminine-coded role
+pairs onto the same points. A lazy-loaded semantic network reveals that third
+coordinate and can be rotated without making WebGL part of the article's
+initial load. It keeps the eight composable words as anchors, then adds category
+terms such as *person*, *child*, *monarch*, *heir*, and *sovereign* with links
+for status, age, category, and conventional counterparts. It also adds animals
+and mythical creatures as a second compositional family:
+`man + horse = centaur`, `woman + fish = mermaid`, and
+`girl + hummingbird = pixie`. Typed blend edges connect the person, animal, and
+mythical clusters without implying that every term shares the role region's
+status, age, and convention axes. The coordinates and creature recipes are
+hand-authored for clarity, not definitions or etymological claims; real
+Word2Vec-style arithmetic operates in the model's original high-dimensional
+space and returns ranked neighbors whose order depends on the model and
+training corpus. This toy axis is not a claim that gender or meaning is
+inherently binary.
 
 Those lookup vectors are only the starting state. Positional information is
 added, and transformer layers use attention and feed-forward transformations to
@@ -286,7 +281,7 @@ values, and the acceptable tradeoffs. The repository contains much of the
 relevant state for one; the decisive facts for the other may be tacit, private,
 or still being discovered.
 
-## 7. “Hash Sort” Versus “Organize This List Really Fast”
+## 7. “Hash Sort” Versus “Put These Numbers in Order”
 
 The two prompts from the opening are a lesson in semantic compression. An
 algorithm name can activate expectations about input shape, complexity, memory,
@@ -298,7 +293,7 @@ example, Cormen, Leiserson, Rivest, and Stein,
 [Introduction to Algorithms](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/),
 for the conditions under which these approaches outperform comparison sorts.
 
-“Organize this list really fast” predicts a generic response because the prompt
+“Can you put these numbers in order? Be efficient” predicts a generic response because the prompt
 contains almost no domain constraints. The model must guess what organization
 means and will often converge on a familiar default — likely a comparison sort
 by value, whether or not that is what you wanted. The lesson is not “use

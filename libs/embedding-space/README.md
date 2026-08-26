@@ -43,9 +43,13 @@ curated teaching scenario while keeping the offline artifact compact.
   `@th-m/embedding-space/composition`. Advanced training-only exports are
   available from `@th-m/embedding-space/training` so the default Explore entry
   can load checkpoint data only when Train mode is opened.
-- **Composition explorer:** A hand-authored two-dimensional teaching projection
-  that demonstrates semantic directions without presenting its exact equations
-  as measured Word2Vec output.
+- **Composition explorer:** A hand-authored semantic network whose default 2D
+  projection collapses one coordinate. Its optional, lazy-loaded WebGL view
+  reveals and rotates the role region's third teaching axis, then adds contextual
+  categories, animals, and mythical creatures through typed links beyond the
+  eight composable anchors. Authored recipes such as `man + horse = centaur`
+  demonstrate a second local relationship family; they are not measured Word2Vec
+  output, definitions, or etymological claims.
 
 ## Data and License
 

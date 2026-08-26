@@ -96,18 +96,19 @@ different:
 
 > Implement hash-based sorting for these bounded integer keys.
 
-> Organize this list really fast.
+> Can you put these numbers in order? Be efficient.
 
-Both ask for organization and speed. The first activates a technical region of
+Both ask for an efficient ordering. The first activates a technical region of
 language containing named assumptions, known implementation patterns, and
-recognizable tradeoffs. The second leaves the ordering rule, data type, size,
-stability, memory budget, and meaning of “fast” unspecified. A model can answer
+recognizable tradeoffs. The second communicates the visible goal but leaves the
+ordering direction, integer representation, input size, duplicate handling,
+stability, memory budget, and meaning of “efficient” unspecified. A model can answer
 both fluently; only one prompt gives it much of a correctness surface.
 
 The governing question is: **what happened in the world that made one pattern
 of language more informative than the other?**
 
-### 2. Forms of Truth Produce Forms of Language
+### 2. Forms of Truth and Propositional Formulations
 
 Use four overlapping truth practices:
 
@@ -189,7 +190,7 @@ a verified derivation does not decide whether the formal statement captures
 the intended problem or whether the result matters. That consequence becomes a
 case study in **Understanding Is the Bottleneck**.
 
-### 6. “Hash Sort” Versus “Organize This List Really Fast”
+### 6. “Hash Sort” Versus “Put These Numbers in Order”
 
 Use the contrast to teach semantic compression.
 
@@ -199,7 +200,7 @@ standard optimal algorithm**, so the article must state the intended variant
 and assumptions—such as bounded integer keys and hash- or bucket-based
 partitioning—before treating the name as precise.
 
-“Organize this list really fast” predicts a generic response because the prompt
+“Can you put these numbers in order? Be efficient” predicts a generic response because the prompt
 contains almost no domain constraints. The model must guess what organization
 means and will often converge on a familiar default. The lesson is not “use
 jargon.” It is: **use the most specific valid concept available, then state the

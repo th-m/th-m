@@ -1319,7 +1319,7 @@ const constraintGraphDocument: GraphDocument = {
     },
     {
       id: "prompt-organize",
-      statement: "Prompt: “Organize this list really fast.”",
+      statement: "Prompt: “Can you put these numbers in order? Be efficient.”",
       emphasis: false,
       pinned: false,
     },
@@ -1496,13 +1496,14 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             <p>Implement hash-based sorting for these bounded integer keys.</p>
           </blockquote>
           <blockquote>
-            <p>Organize this list really fast.</p>
+            <p>Can you put these numbers in order? Be efficient.</p>
           </blockquote>
           <p>
-            Both ask for organization and speed. The first activates a technical region of language containing named
-            assumptions, known implementation patterns, and recognizable tradeoffs. The second leaves the ordering
-            rule, data type, size, stability, memory budget, and meaning of “fast” unspecified. A model can answer
-            both fluently; only one prompt gives it much of a correctness surface.
+            Both ask for an efficient ordering. The first activates a technical region of language containing named
+            assumptions, known implementation patterns, and recognizable tradeoffs. The second communicates the
+            visible goal but leaves the ordering direction, integer representation, input size, duplicate handling,
+            stability, memory budget, and meaning of “efficient” unspecified. A model can answer both fluently; only one
+            prompt gives it much of a correctness surface.
           </p>
           <p>
             The governing question is: <strong>what happened in the world that made one pattern of language more
@@ -1512,41 +1513,11 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="02" title="Forms of Truth Produce Forms of Language">
+        <Section index="02" title="Forms of Truth and Propositional Formulations">
           <p>
             Six overlapping truth practices shape the language around us. Treat them as an editorial framework, not
             a universal philosophical taxonomy: the same claim can participate in several practices at once.
           </p>
-          <ul>
-            <li>
-              <strong>Formal truth</strong> is validity relative to definitions, axioms, and inference rules. Its
-              language favors explicit premises, symbolic relationships, and proof obligations.
-            </li>
-            <li>
-              <strong>Empirical truth</strong> is correspondence with observations. Its language favors measurement,
-              method, uncertainty, replication, and counterevidence.
-            </li>
-            <li>
-              <strong>Operational truth</strong> is reliability in action. Its language favors procedures,
-              preconditions, failure modes, tolerances, and observed outcomes.
-            </li>
-            <li>
-              <strong>Relational truth</strong> is significance within human purposes, identities, histories, and
-              relationships. Its language favors perspective, motive, consequence, interpretation, and
-              accountability.
-            </li>
-            <li>
-              <strong>Sincerity, or truthfulness,</strong> is the good-faith, non-deceptive fit between what someone
-              expresses and their subjective state. Its language favors first-person avowal, disclosure,
-              qualification, and acknowledged uncertainty because inner landscapes are laden with self-deception,
-              ambiguity, and interpretive booby traps.
-            </li>
-            <li>
-              <strong>Knowledge by acquaintance</strong> is direct familiarity with an experience, person, place, or
-              quality before that familiarity is reduced to a claim. Its language favors demonstration, metaphor,
-              example, gesture, and careful phenomenological description.
-            </li>
-          </ul>
           <p>
             A temperature reading can be empirically calibrated and operationally relevant to a machine; someone can
             sincerely report that the same room feels oppressive while knowing its heat by acquaintance before
@@ -1576,10 +1547,21 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             Distributed representations can also encode useful directions. The familiar shorthand{" "}
             <code>man + royal ≈ king</code> is best read as a geometric intuition: adding a learned feature can move a
             vector toward a neighborhood of related roles. It is not symbolic arithmetic, and no equation is guaranteed
-            across models. The compact teaching projection below makes that movement visible before we return to the
-            full model path.
+            across models. The compact teaching space below makes that movement visible before we return to the full
+            model path. Its default projection shows status and age while collapsing another coordinate: paired role
+            words can land on the same point even though the larger teaching space keeps them distinct. Switch to the
+            semantic network to reveal that third coordinate and orbit a larger vocabulary of linked terms. The same
+            view adds a second, explicitly authored family: <code>man + horse = centaur</code>,{" "}
+            <code>woman + fish = mermaid</code>, and <code>girl + hummingbird = pixie</code>. These creature blends
+            connect person, animal, and mythical clusters with typed edges; they do not pretend that every term shares
+            the role region's status, age, and convention axes.
           </p>
           <EmbeddingCompositionExplorer />
+          <p>
+            These equations are teaching associations rather than measured Word2Vec results, dictionary definitions,
+            or etymological claims. Their purpose is to show how a larger semantic space can contain many points and
+            local relationships at once—and how a projection can hide distinctions that the full network retains.
+          </p>
           <p>
             Those lookup vectors are only the starting state. Positional information is added, and transformer layers
             use attention and feed-forward transformations to produce a{" "}
@@ -1776,7 +1758,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
-        <Section index="07" title="“Hash Sort” Versus “Organize This List Really Fast”">
+        <Section index="07" title="“Hash Sort” Versus “Put These Numbers in Order”">
           <p>
             The two prompts from the opening are a lesson in semantic compression. An algorithm name can activate
             expectations about input shape, complexity, memory, stability, and implementation. But{" "}
@@ -1795,7 +1777,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             , for the conditions under which these approaches outperform comparison sorts.
           </p>
           <p>
-            “Organize this list really fast” predicts a generic response because the prompt contains almost no domain
+            “Can you put these numbers in order? Be efficient” predicts a generic response because the prompt contains almost no domain
             constraints. The model must guess what organization means and will often converge on a familiar default —
             likely a comparison sort by value, whether or not that is what you wanted. The lesson is not “use
             jargon.” It is: <strong>use the most specific valid concept available, then state the conditions that

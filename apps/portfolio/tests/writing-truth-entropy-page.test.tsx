@@ -54,6 +54,17 @@ async function renderPage() {
 }
 
 describe("Truth, Entropy & Inference language visualization", () => {
+  it("lets the truth-practice cards carry the taxonomy without a duplicate prose list", async () => {
+    await renderPage();
+    const heading = screen.getByRole("heading", { name: "Forms of Truth and Propositional Formulations" });
+    const section = heading.closest("section");
+    expect(section).not.toBeNull();
+    expect(section?.querySelector("ul")).toBeNull();
+    expect(section).toHaveTextContent("Formal truth");
+    expect(section).toHaveTextContent("Sincerity / truthfulness");
+    expect(section).toHaveTextContent("Knowledge by acquaintance");
+  });
+
   it("bridges token embeddings to output probabilities before the entropy interaction", async () => {
     await renderPage();
 
@@ -69,10 +80,10 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(screen.getByText("eᵢ = E[xᵢ] ∈ ℝᵈ")).toBeInTheDocument();
     expect(screen.getByText("z = Wₒhₙ + b ∈ ℝ|V|")).toBeInTheDocument();
     expect(screen.getByText("P(j | x≤n) = softmax(z)ⱼ")).toBeInTheDocument();
-    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("man+royal=king");
-    fireEvent.change(screen.getByLabelText("Added embedding direction"), { target: { value: "young" } });
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent(/man\s*\+\s*royal\s*=\s*king/);
     fireEvent.change(screen.getByLabelText("Starting embedding term"), { target: { value: "king" } });
-    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("king+young=prince");
+    fireEvent.click(screen.getByRole("button", { name: "Add young age direction" }));
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent(/king\s*\+\s*young\s*=\s*prince/);
     expect(screen.getByRole("link", { name: /training walkthrough in Goals, Solutions & Value/i })).toHaveAttribute(
       "href",
       "/writing/goals-solutions-and-value",

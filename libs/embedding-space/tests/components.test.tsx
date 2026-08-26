@@ -3,8 +3,40 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { EmbeddingSpaceVisualization } from "../src";
 import { EmbeddingCompositionExplorer } from "../src/composition";
 
+const compositionScene = vi.hoisted(() => ({
+  unavailable: false,
+  rotate: vi.fn(),
+  reset: vi.fn(),
+}));
+
+vi.mock("../src/EmbeddingCompositionScene3D", async () => {
+  const React = await import("react");
+  return {
+    EmbeddingCompositionScene3D({ onControlsReady, onUnavailable }: {
+      onControlsReady: (controls: { rotate: typeof compositionScene.rotate; reset: typeof compositionScene.reset } | null) => void;
+      onUnavailable: () => void;
+    }) {
+      React.useEffect(() => {
+        if (compositionScene.unavailable) onUnavailable();
+        else onControlsReady({ rotate: compositionScene.rotate, reset: compositionScene.reset });
+        return () => onControlsReady(null);
+      }, [onControlsReady, onUnavailable]);
+      return <div data-testid="mock-composition-3d-scene" />;
+    },
+  };
+});
+
+function expectComposition(equation: string) {
+  expect(screen.getByLabelText("Combined embedding result").textContent?.replace(/\s/g, "")).toBe(
+    equation.replace(/\s/g, ""),
+  );
+}
+
 afterEach(() => {
   cleanup();
+  compositionScene.unavailable = false;
+  compositionScene.rotate.mockClear();
+  compositionScene.reset.mockClear();
   vi.restoreAllMocks();
   vi.useRealTimers();
 });
@@ -151,35 +183,91 @@ describe("EmbeddingSpaceVisualization", () => {
 });
 
 describe("EmbeddingCompositionExplorer", () => {
-  it("combines a starting term with an illustrative semantic direction", () => {
+  it("starts with a lightweight two-dimensional projection and all eight role terms", () => {
     render(<EmbeddingCompositionExplorer />);
 
-    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("man+royal=king");
+    expectComposition("man+royal=king");
     expect(
       screen.getByRole("img", {
-        name: "man plus royal moves toward king on an illustrative two-dimensional semantic map",
+        name: /man plus royal equals king on an illustrative two-dimensional semantic projection/i,
       }),
     ).toBeInTheDocument();
-
-    fireEvent.change(screen.getByLabelText("Added embedding direction"), { target: { value: "young" } });
-    fireEvent.change(screen.getByLabelText("Starting embedding term"), { target: { value: "king" } });
-
-    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("king+young=prince");
-    expect(
-      screen.getByRole("img", {
-        name: "king plus young moves toward prince on an illustrative two-dimensional semantic map",
-      }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "2D projection" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.queryByTestId("mock-composition-3d-scene")).not.toBeInTheDocument();
+    expect(screen.getAllByRole("option").map((option) => option.textContent)).toEqual([
+      "man", "woman", "boy", "girl", "king", "queen", "prince", "princess",
+    ]);
+    expect(screen.getByRole("img")).toHaveTextContent("man / woman");
+    expect(screen.getByRole("img")).toHaveTextContent("king / queen");
   });
 
-  it("limits the royalty direction to compatible starting terms", () => {
+  it("composes multiple axes, prevents repeated axes, and supports undo and reset", () => {
     render(<EmbeddingCompositionExplorer />);
-    fireEvent.change(screen.getByLabelText("Added embedding direction"), { target: { value: "young" } });
-    fireEvent.change(screen.getByLabelText("Starting embedding term"), { target: { value: "queen" } });
-    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("queen+young=princess");
 
-    fireEvent.change(screen.getByLabelText("Added embedding direction"), { target: { value: "royal" } });
-    expect(screen.getByLabelText("Starting embedding term")).toHaveValue("man");
-    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("man+royal=king");
+    fireEvent.click(screen.getByRole("button", { name: "Add young age direction" }));
+    expectComposition("man+royal+young=prince");
+    expect(screen.queryByRole("button", { name: /Add .* status direction/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Add .* age direction/i })).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+    expectComposition("man+royal=king");
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+    expectComposition("man=man");
+  });
+
+  it("resets the path when the starting term changes and composes king plus young", () => {
+    render(<EmbeddingCompositionExplorer />);
+    fireEvent.change(screen.getByLabelText("Starting embedding term"), { target: { value: "king" } });
+    expectComposition("king=king");
+    fireEvent.click(screen.getByRole("button", { name: "Add young age direction" }));
+    expectComposition("king+young=prince");
+  });
+
+  it("lazy-loads the semantic network, adds the third direction, and exposes keyboard camera controls", async () => {
+    render(<EmbeddingCompositionExplorer />);
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+    fireEvent.click(screen.getByRole("button", { name: "3D semantic network" }));
+    expect(await screen.findByTestId("mock-composition-3d-scene")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "3D semantic network" })).toHaveAttribute("aria-pressed", "true");
+    fireEvent.click(screen.getByRole("button", { name: "Add feminine role convention direction" }));
+    expectComposition("man+feminine=woman");
+
+    fireEvent.click(screen.getByRole("button", { name: "Rotate 3D view left" }));
+    expect(compositionScene.rotate).toHaveBeenCalledWith(-Math.PI / 12, 0);
+    fireEvent.click(screen.getByRole("button", { name: "Reset view" }));
+    expect(compositionScene.reset).toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole("button", { name: "2D projection" }));
+    expectComposition("man+feminine=woman");
+    expect(screen.getByText("+ feminine is hidden in 2D")).toBeInTheDocument();
+  });
+
+  it("composes authored animal blends into mythical creatures and preserves them across projections", async () => {
+    render(<EmbeddingCompositionExplorer />);
+    fireEvent.click(screen.getByRole("button", { name: "3D semantic network" }));
+    expect(await screen.findByTestId("mock-composition-3d-scene")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Compose man plus horse as centaur" }));
+    expectComposition("man+horse=centaur");
+    fireEvent.click(screen.getByRole("button", { name: "Compose woman plus fish as mermaid" }));
+    expectComposition("woman+fish=mermaid");
+    fireEvent.click(screen.getByRole("button", { name: "Compose girl plus hummingbird as pixie" }));
+    expectComposition("girl+hummingbird=pixie");
+
+    fireEvent.click(screen.getByRole("button", { name: "2D projection" }));
+    expectComposition("girl+hummingbird=pixie");
+    expect(screen.getByText("+ hummingbird → pixie is outside the 2D role projection")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+    expectComposition("girl=girl");
+  });
+
+  it("falls back to the active two-dimensional composition when WebGL is unavailable", async () => {
+    compositionScene.unavailable = true;
+    render(<EmbeddingCompositionExplorer />);
+    fireEvent.click(screen.getByRole("button", { name: "3D semantic network" }));
+    expect(await screen.findByText(/3D is unavailable in this browser/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "2D projection" })).toHaveAttribute("aria-pressed", "true");
+    expectComposition("man+royal=king");
   });
 });
