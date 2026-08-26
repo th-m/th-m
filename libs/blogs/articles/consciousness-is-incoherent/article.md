@@ -2,6 +2,7 @@
 title: AI's Consciousness explanation
 description: Machine consciousness claims become coherent only when they name a theory, a discriminating measure, and a validated bridge to phenomenal experience.
 publishedAt: 2026-08-25
+updatedAt: 2026-08-26
 tags: [Artificial Intelligence, Consciousness, Philosophy of Mind, Language]
 ---
 # AI's Consciousness explanation
@@ -224,6 +225,27 @@ no theory-independent test.
 
 The possibility is philosophical. The attribution is hypothetical. The shared
 word is doing more work than the evidence.
+
+## Originating prompt
+
+```text
+"I need to add a new blog page and article with this:\
+Title: **Consciousness is incoherent**\
+Rough Copy:\
+Is an AI conscious?\
+&#x20;Depends on definition...\
+What is consciousness? Inexplicable phenomena, like redness, taste of sourdough, or paralyzing fear, \
+Is human consciousness tied to our biology. Yes. qualia have directly been tied to measures of nueral activity in the brain. \
+Is our ability to reason tied to qualia? ... "Play with fire and get burned" sounds like our lessons growing up assumed some role came from qualia \
+Is there any evidence that conscience can be associated to nueral mechanism of different material substrate. \
+If there is what if anything indicates that it works similar to our consciousness? \
+So comparing AI to humans in kind, i.e. both conscious is incoherent. It tells me nothing meaningful. It's essentially the same as saying humans are deterministic. \
+This is problem fundamentally in language and what it references. Perhaps we need to discover novel ways to probe&#x20;
+\--- \
+The article should show that because there is no objective measure of conciousness, all claims of machine consiosness are dependent on hypotheticals.&#x20;
+Additionally there is a note in one of the earlier blogs showing that two competing theories of mind provide contradictory definitions of consciousness. We should pull in relevant notes.&#x20;
+Similarly we should try to also formulate that overview into a concise logical statement showing the incongruency we should have notes in the exisitng blogs for that too"
+```
 
 ## Sources
 

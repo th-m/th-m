@@ -122,6 +122,11 @@ describe("ArticleContent dispatch", () => {
     expect(screen.getByText("Fewer than 2%:", { selector: "strong" })).toBeInTheDocument();
     expect(screen.getByText("About 11%:", { selector: "strong" })).toBeInTheDocument();
     expect(screen.getByText("About 19%:", { selector: "strong" })).toBeInTheDocument();
+    const corrigibilityList = screen
+      .getByText("direct observation of customer and employee consequences;")
+      .closest("ul");
+    expect(corrigibilityList).toHaveClass("goals-article__bullets");
+    expect(corrigibilityList?.querySelectorAll("li")).toHaveLength(6);
     const expressedValuesList = screen.getByText("named stakeholders and consequences;").closest("ul");
     expect(expressedValuesList).toHaveClass("goals-article__bullets");
     expect(expressedValuesList?.querySelectorAll("li")).toHaveLength(8);

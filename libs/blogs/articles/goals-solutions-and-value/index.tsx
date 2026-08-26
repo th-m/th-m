@@ -883,7 +883,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             : answerable to evidence and revision rather than protected as an untouchable
             objective. That requires:
           </p>
-          <ul>
+          <ul className="goals-article__bullets">
             <li>direct observation of customer and employee consequences;</li>
             <li>protected disagreement and independent feedback;</li>
             <li>perspectives from people who bear costs without controlling the decision;</li>

@@ -9,6 +9,7 @@ function consciousnessArticle(): PublishedArticle {
     title: "AI's Consciousness explanation",
     description: "Machine consciousness claims become coherent only when they name a theory, a discriminating measure, and a validated bridge to phenomenal experience.",
     publishedAt: "2026-08-25",
+    updatedAt: "2026-08-26",
     tags: ["Artificial Intelligence", "Consciousness", "Philosophy of Mind", "Language"],
     articlePath: "posts/consciousness-is-incoherent/article.md",
     markdown: "# AI's Consciousness explanation\n\nBody.\n",
@@ -23,6 +24,7 @@ describe("AI's Consciousness explanation published page", () => {
     expect(screen.getByRole("heading", { level: 1, name: "AI's Consciousness explanation" })).toBeInTheDocument();
     expect(screen.getByText(/Machine consciousness claims become coherent/)).toBeInTheDocument();
     expect(screen.getByText("Published August 25, 2026")).toBeInTheDocument();
+    expect(screen.getByText("August 26, 2026")).toHaveAttribute("datetime", "2026-08-26");
     expect(screen.getByRole("list", { name: "Topics" }).children).toHaveLength(4);
   });
 
@@ -56,6 +58,18 @@ describe("AI's Consciousness explanation published page", () => {
     expect(screen.getByRole("link", { name: "“Absent Qualia, Fading Qualia, Dancing Qualia”" })).toHaveAttribute(
       "href",
       "https://consc.net/papers/qualia.html",
+    );
+  });
+
+  it("ends with the verbatim originating prompt", () => {
+    render(<ArticleContent article={consciousnessArticle()} />);
+
+    expect(screen.getByRole("heading", { name: "Originating prompt" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Originating prompt transcript")).toHaveTextContent(
+      "I need to add a new blog page and article with this:",
+    );
+    expect(screen.getByLabelText("Originating prompt transcript")).toHaveTextContent(
+      "all claims of machine consiosness are dependent on hypotheticals",
     );
   });
 });
