@@ -58,10 +58,23 @@ curated teaching scenario while keeping the offline artifact compact.
   and result as a vertical arithmetic sequence. Each variable assignment stays on
   one non-wrapping line, with horizontal overflow protection at narrow widths. The
   readout distinguishes exact direction moves, authored blend labels, and nearest
-  points in the projected space. Recipes
-  such as `man + sovereign = emperor`, `young + cat = kitten`,
-  `cat + fish = catfish`, `bear + owl = owlbear`, `knowledge + time = wisdom`,
-  and `mystery + cat = sphinx` demonstrate several local relationship families.
+  points in the projected space. Exact and authored results use `=`; un-authored
+  combinations stay permissive but use `≈` for their nearest geometric neighbor.
+  Recipes such as `man + sovereign = emperor`, `young + owl = owlet`,
+  `cat + fish = catfish`, `royal + wolf = alpha wolf`, and
+  `man + royal + wolf = alpha werewolf` demonstrate how an added term preserves
+  the earlier composition while translating it within the active semantic family.
+  `Man + royal + divine = anointed monarch` treats divine right as claimed
+  sanction rather than making the ruler literally divine.
+  The same preservation rule gives `woman + royal + divine = anointed queen`,
+  `man + royal + knowledge = philosopher-king`, and
+  `woman + royal + power = queen regnant`. Recognized creature compounds and
+  archetypes replace unrelated geometric neighbors: `royal + snake = king cobra`,
+  `royal + eagle = imperial eagle`, and `legendary + wolf = Fenrir`.
+  Other families follow the same rule—for example,
+  `centaur + royal = Chiron`, `man + royal + horse = Chiron`,
+  `woman + royal + horse = centaur queen`, and
+  `girl + royal + hummingbird = pixie princess`.
   The abstract terms occupy previously sparse regions of the teaching volume;
   they do not define a literal abstractness axis. These recipes are not measured
   Word2Vec output, definitions, or etymological claims.

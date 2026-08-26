@@ -30,6 +30,7 @@ import {
   hStrokeWorldWidth,
   hSpiralFrame,
   M_ANIMATION,
+  M_COMPACT_SCRIBBLE_LAYERS,
   M_SPATIAL_ADJUSTMENT,
   M_WEBGL_CORE_PARITY_SCALE,
   M_SPLINE_CONTROLS,
@@ -393,6 +394,18 @@ describe("THOM geometry", () => {
     expect(glyph).not.toContain("non-scaling-stroke");
   });
 
+  it("keeps compact M superposition visible while preserving the quiet micro contour", () => {
+    const compact = renderGlyphSvg(brandData, "m", "dark", "compact");
+    const micro = renderGlyphSvg(brandData, "m", "dark", "micro");
+    expect(M_COMPACT_SCRIBBLE_LAYERS.length).toBeGreaterThanOrEqual(8);
+    expect(new Set(M_COMPACT_SCRIBBLE_LAYERS.map((layer) => layer.partialIndex)).size).toBe(M_COMPACT_SCRIBBLE_LAYERS.length);
+    expect(compact.match(/data-m-layer="scribble"/g)).toHaveLength(M_COMPACT_SCRIBBLE_LAYERS.length);
+    expect(compact.match(/data-m-layer="core"/g)).toHaveLength(1);
+    expect(compact).toContain(`stroke="${BRAND_COLORS.gold}"`);
+    expect(micro).not.toContain("data-m-layer");
+    expect(micro.match(/<path/g)).toHaveLength(1);
+  });
+
   it("pins the deterministic committed M asset and Fourier payload", () => {
     const [glyphUrl] = ["../public/brand/glyph-m.svg"].map((path) => new URL(path, import.meta.url));
     const glyphHash = createHash("sha256")
@@ -522,6 +535,6 @@ describe("THOM geometry", () => {
     ].map((path) => new URL(path, import.meta.url));
     const hash = createHash("sha256");
     assetUrls.forEach((url) => hash.update(readFileSync(url)));
-    expect(hash.digest("hex")).toBe("658dd615c3fde096b34113956885d23401e01c99099de1517aea46e9cffd1a86");
+    expect(hash.digest("hex")).toBe("f5826d533e5dd8c1f2d3988ad3246d71e0343a34a0ba44098e268bfc1696cd0e");
   });
 });

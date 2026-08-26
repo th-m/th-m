@@ -356,44 +356,22 @@ right. Fluency is domain- and task-specific, not one global measure of
 intelligence — the same model can be sharp in a strongly constrained domain and
 glib in a weakly constrained one.
 
-## 7. Prompting as Constraint Selection
+### Vibes to a Typographic Specification
 
-While vibe designing a web logo, I realized I needed to eat my own dog food. My
-early prompts described the result I wanted in broad visual language, but they
-left too many consequential choices ambiguous. The model could produce plausible
-variations without reliably producing the typography I had in mind.
+Vibe designing this site's logo exposed the point. Broad prompts produced
+plausible marks, but not controllable typography. Once I operationalized the
+prompt in typography's domain language — optical profiles, stroke hierarchy,
+glyph silhouette, spacing, and construction-line density — I could make specific
+changes: detail the Bézier curves that define the iconic T shape, align stroke
+thickness across the characters at the median line, add irregular traces around
+the compact M used in the header and footer, preserve its legible ivory core, and
+leave the jumbo display mark untouched.
 
-I then pulled in visual references, established guidelines, and principles of
-typography. I also began prompting with the specific language used in bona fide
-typography work. The model performed much more accurately — not because the
-terminology was a magic incantation, but because the prompt now selected a more
-structured domain and supplied distinctions against which the result could be
-judged. The original failure was not a lack of prompt cleverness; I had supplied
-an underspecified problem. References narrowed the visual possibility space,
-typography principles supplied constraints, and professional vocabulary
-activated patterns connected to established relationships and practices. The
-model still required human evaluation, but it no longer had to guess what kind
-of work I meant.
+You can probably tell it was vibe designed. It is still better than I thought I
+could make, because the prompt stopped asking for taste in the abstract and
+started defining a bounded typographic problem with observable constraints.
 
-A practical sequence falls out of that experience:
-
-1. Name the domain and bounded context.
-2. Use established terms of art only when their assumptions apply.
-3. State invariants, inputs, outputs, and unacceptable failure modes.
-4. Provide representative examples and counterexamples.
-5. Define what evidence or test would count as success.
-6. Ask the model to identify missing distinctions before generating the answer.
-7. Route the result to an evaluator capable of checking the relevant truth
-   practice.
-
-Prompt quality is not ornamental phrasing. It is the selection and compression
-of the context that should govern inference. The same move that makes prompts
-work also explains the article’s asymmetry: the cross-entropy objective rewards
-the model for predicting what the training text actually contains, and training
-text from strongly constrained domains contains fewer plausible continuations
-to choose between.
-
-## 8. From Abstract to Actual
+## 7. From Abstract to Actual
 
 Close by running the three truth practices in reverse — from abstract structure
 back to actual conditions and effects:

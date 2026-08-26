@@ -90,6 +90,20 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(situatedFigure).toHaveTextContent("Relational / acquaintance");
     expect(situatedFigure).toHaveTextContent("Sincerity / truthfulness");
     expect(situatedFigure).toHaveTextContent("Trustworthiness Theory");
+    expect(situatedFigure).toHaveTextContent("Situated significance known through direct familiarity.");
+    expect(situatedFigure).toHaveTextContent("Truth is what warrants reliance.");
+    expect(situatedFigure.querySelectorAll("img")).toHaveLength(3);
+    expect(
+      screen.getByAltText(
+        "A relational map connecting a person with physical, internal, and temporal dimensions",
+      ),
+    ).toHaveAttribute("src", expect.stringMatching(/assets\/acquaintance-map\.svg$/));
+    expect(
+      screen.getByAltText("An alignment instrument balancing inner state with outward expression"),
+    ).toHaveAttribute("src", expect.stringMatching(/assets\/sincerity-alignment\.svg$/));
+    expect(
+      screen.getByAltText("A balance comparing evidence and reliance while marking the risk of being wrong"),
+    ).toHaveAttribute("src", expect.stringMatching(/assets\/trustworthiness-balance\.svg$/));
     expect(situatedFigure).not.toHaveTextContent("Teleological Theory");
     expect(situatedFigure).not.toHaveTextContent("Formal truth");
     expect(recurringFigure).toHaveTextContent("Coherence · Correspondence · Consequence");
@@ -318,6 +332,21 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(section).toHaveTextContent(/map back to an identifiable problem and its claimed real-world impact/i);
     expect(section).toHaveTextContent(/does it fit, does it work, and does it match/i);
     expect(screen.queryByText("Coherence · Correctness · Meaning")).not.toBeInTheDocument();
+  });
+
+  it("nests the compact typography case study inside the domain-fluency section", async () => {
+    await renderPage();
+
+    const domainHeading = screen.getByRole("heading", { level: 2, name: "A Map of Domain Fluency" });
+    const domainSection = domainHeading.closest("section");
+    expect(domainSection).not.toBeNull();
+    expect(domainSection?.querySelector("h3")).toHaveTextContent("Vibes to a Typographic Specification");
+    expect(screen.queryByRole("heading", { level: 2, name: "Vibes to a Typographic Specification" })).not.toBeInTheDocument();
+    expect(domainSection).toHaveTextContent(/optical profiles, stroke hierarchy, glyph silhouette, spacing/i);
+    expect(domainSection).toHaveTextContent(/Bézier curves that define the iconic T shape/i);
+    expect(domainSection).toHaveTextContent(/align stroke thickness across the characters at the median line/i);
+    expect(domainSection).toHaveTextContent(/compact M used in the header and footer/i);
+    expect(domainSection).toHaveTextContent(/leave the jumbo display mark untouched/i);
   });
 
   it("supplies domain-specific language choices for design and business strategy", async () => {

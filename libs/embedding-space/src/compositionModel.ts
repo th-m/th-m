@@ -52,6 +52,7 @@ export type AnimalWord =
   | "raven";
 export type MythicalWord =
   | "centaur"
+  | "centauride"
   | "merman"
   | "mermaid"
   | "harpy"
@@ -65,7 +66,15 @@ export type MythicalWord =
   | "unicorn"
   | "phoenix"
   | "hippogriff"
-  | "sphinx";
+  | "sphinx"
+  | "Fenrir"
+  | "Chiron"
+  | "alpha werewolf"
+  | "centaur queen"
+  | "merman king"
+  | "mermaid queen"
+  | "harpy queen"
+  | "pixie princess";
 export type DerivedAnimalWord =
   | "foal"
   | "seahorse"
@@ -80,6 +89,12 @@ export type DerivedAnimalWord =
   | "fawn"
   | "kitten"
   | "puppy"
+  | "owlet"
+  | "alpha wolf"
+  | "king cobra"
+  | "kingfish"
+  | "lion king"
+  | "imperial eagle"
   | "catfish"
   | "dogfish"
   | "wolffish"
@@ -95,7 +110,15 @@ export type StatusResultWord =
   | "prodigy"
   | "god"
   | "goddess"
-  | "demigod";
+  | "demigod"
+  | "demigoddess"
+  | "anointed monarch"
+  | "anointed queen"
+  | "philosopher-monarch"
+  | "philosopher-king"
+  | "philosopher-queen"
+  | "absolute monarch"
+  | "queen regnant";
 export type AbstractResultWord =
   | "wisdom"
   | "lionheart"
@@ -115,9 +138,11 @@ export type AbstractResultWord =
   | "enchantment"
   | "legitimacy"
   | "devotion"
-  | "integrity";
+  | "integrity"
+  | "divine right";
 export type SemanticDirection = SemanticStatus | SemanticAge | SemanticRole;
-export type CompositionTerm = SemanticWord | SemanticDirection | StatusWord | AnimalWord | AbstractWord;
+export type CuratedDerivedInputWord = "centaur";
+export type CompositionTerm = SemanticWord | SemanticDirection | StatusWord | AnimalWord | AbstractWord | CuratedDerivedInputWord;
 export type CompositionResultWord = SemanticWord | MythicalWord | DerivedAnimalWord | StatusResultWord | AbstractResultWord;
 export type PairResultWord = MythicalWord | DerivedAnimalWord | StatusResultWord | AbstractResultWord;
 export type PairInputTerm =
@@ -136,13 +161,18 @@ export type PairRecipe = {
   result: PairResultWord;
 };
 
+export type CompositionRecipe = {
+  terms: readonly [CompositionTerm, CompositionTerm, ...CompositionTerm[]];
+  result: PairResultWord;
+};
+
 export type ResolvedTermComposition = {
   valid: boolean;
   result: CompositionResultWord | CompositionTerm | null;
   semanticStart: SemanticWord | null;
   moves: CompositionMove[];
   path: SemanticWord[];
-  recipe: PairRecipe | null;
+  recipe: CompositionRecipe | null;
 };
 
 export type SemanticCoordinate = {
@@ -210,6 +240,7 @@ export const COMPOSITION_TERM_GROUPS = [
       "shark",
       "tiger",
       "raven",
+      "centaur",
     ],
   },
   {
@@ -228,7 +259,7 @@ export const COMPOSITION_TERM_GROUPS = [
 
 export const PAIR_RECIPES: readonly PairRecipe[] = [
   { terms: ["man", "horse"], result: "centaur" },
-  { terms: ["woman", "horse"], result: "centaur" },
+  { terms: ["woman", "horse"], result: "centauride" },
   { terms: ["man", "fish"], result: "merman" },
   { terms: ["woman", "fish"], result: "mermaid" },
   { terms: ["woman", "bird"], result: "harpy" },
@@ -244,7 +275,7 @@ export const PAIR_RECIPES: readonly PairRecipe[] = [
   { terms: ["young", "hummingbird"], result: "chick" },
   { terms: ["young", "wolf"], result: "pup" },
   { terms: ["young", "bear"], result: "cub" },
-  { terms: ["young", "owl"], result: "chick" },
+  { terms: ["young", "owl"], result: "owlet" },
   { terms: ["young", "snake"], result: "hatchling" },
   { terms: ["young", "deer"], result: "fawn" },
   { terms: ["young", "cat"], result: "kitten" },
@@ -276,14 +307,13 @@ export const PAIR_RECIPES: readonly PairRecipe[] = [
   { terms: ["man", "divine"], result: "god" },
   { terms: ["woman", "divine"], result: "goddess" },
   { terms: ["boy", "divine"], result: "demigod" },
-  { terms: ["girl", "divine"], result: "demigod" },
+  { terms: ["girl", "divine"], result: "demigoddess" },
   { terms: ["legendary", "horse"], result: "unicorn" },
   { terms: ["legendary", "bird"], result: "phoenix" },
   { terms: ["knowledge", "time"], result: "wisdom" },
   { terms: ["courage", "lion"], result: "lionheart" },
   { terms: ["freedom", "bird"], result: "liberty" },
   { terms: ["order", "time"], result: "chronology" },
-  { terms: ["chaos", "goat"], result: "chimera" },
   { terms: ["memory", "time"], result: "nostalgia" },
   { terms: ["mystery", "cat"], result: "sphinx" },
   { terms: ["man", "knowledge"], result: "scholar" },
@@ -304,21 +334,59 @@ export const PAIR_RECIPES: readonly PairRecipe[] = [
 ];
 
 /**
+ * Higher-order recipes preserve the established pair result while translating
+ * status into language natural to that semantic family.
+ */
+export const CONTEXTUAL_RECIPES: readonly CompositionRecipe[] = [
+  { terms: ["royal", "wolf"], result: "alpha wolf" },
+  { terms: ["royal", "snake"], result: "king cobra" },
+  { terms: ["royal", "fish"], result: "kingfish" },
+  { terms: ["royal", "lion"], result: "lion king" },
+  { terms: ["royal", "eagle"], result: "imperial eagle" },
+  { terms: ["legendary", "wolf"], result: "Fenrir" },
+  { terms: ["centaur", "royal"], result: "Chiron" },
+  { terms: ["royal", "divine"], result: "divine right" },
+  { terms: ["royal", "knowledge"], result: "philosopher-monarch" },
+  { terms: ["royal", "power"], result: "sovereignty" },
+  { terms: ["man", "royal", "divine"], result: "anointed monarch" },
+  { terms: ["woman", "royal", "divine"], result: "anointed queen" },
+  { terms: ["man", "royal", "knowledge"], result: "philosopher-king" },
+  { terms: ["woman", "royal", "knowledge"], result: "philosopher-queen" },
+  { terms: ["man", "royal", "power"], result: "absolute monarch" },
+  { terms: ["woman", "royal", "power"], result: "queen regnant" },
+  { terms: ["man", "royal", "wolf"], result: "alpha werewolf" },
+  { terms: ["woman", "royal", "wolf"], result: "alpha werewolf" },
+  { terms: ["man", "royal", "horse"], result: "Chiron" },
+  { terms: ["woman", "royal", "horse"], result: "centaur queen" },
+  { terms: ["man", "royal", "fish"], result: "merman king" },
+  { terms: ["woman", "royal", "fish"], result: "mermaid queen" },
+  { terms: ["woman", "royal", "bird"], result: "harpy queen" },
+  { terms: ["girl", "royal", "hummingbird"], result: "pixie princess" },
+];
+
+export const AUTHORED_RECIPES: readonly CompositionRecipe[] = [
+  ...PAIR_RECIPES,
+  ...CONTEXTUAL_RECIPES,
+];
+
+/**
  * Curated result vocabulary that is intentionally absent from the controls.
  * These terms can still appear as equation results and highlighted 3D nodes,
  * but withholding them as ingredients keeps the dropdowns from recursively
  * expanding every derived endpoint into another family of recipes.
  */
+export const COMPOSITION_STARTERS: readonly CompositionTerm[] = COMPOSITION_TERM_GROUPS.flatMap(
+  ({ terms }) => terms,
+);
+
 export const COMPOSITION_OUTPUT_ONLY_TERMS: readonly CompositionResultWord[] = Array.from(new Set([
   "king",
   "queen",
   "prince",
   "princess",
-  ...PAIR_RECIPES.map(({ result }) => result),
-] satisfies CompositionResultWord[]));
-
-export const COMPOSITION_STARTERS: readonly CompositionTerm[] = COMPOSITION_TERM_GROUPS.flatMap(
-  ({ terms }) => terms,
+  ...AUTHORED_RECIPES.map(({ result }) => result),
+] satisfies CompositionResultWord[])).filter(
+  (term) => !COMPOSITION_STARTERS.includes(term as CompositionTerm),
 );
 
 export const WORD_COORDINATES: Readonly<Record<SemanticWord, SemanticCoordinate>> = {
@@ -363,10 +431,12 @@ function isSemanticDirection(term: CompositionTerm): term is SemanticDirection {
   return term in AXIS_BY_DIRECTION;
 }
 
-function pairRecipeFor(terms: readonly CompositionTerm[]) {
-  if (terms.length !== 2) return null;
-  return PAIR_RECIPES.find(({ terms: [left, right] }) =>
-    (terms[0] === left && terms[1] === right) || (terms[0] === right && terms[1] === left),
+function recipeFor(terms: readonly CompositionTerm[]) {
+  if (terms.length < 2) return null;
+  const selected = [...terms].sort();
+  return AUTHORED_RECIPES.find((recipe) =>
+    recipe.terms.length === terms.length
+      && [...recipe.terms].sort().every((term, index) => term === selected[index]),
   ) ?? null;
 }
 
@@ -408,7 +478,7 @@ export function resolveTermComposition(terms: readonly CompositionTerm[]): Resol
     return { valid: true, result: null, semanticStart: null, moves: [], path: [], recipe: null };
   }
 
-  const recipe = pairRecipeFor(terms);
+  const recipe = recipeFor(terms);
   if (recipe) {
     const semanticStart = terms.find(isSemanticWord) ?? null;
     return {

@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
 } from "@th-m/ui";
 import { EmbeddingCompositionExplorer } from "@th-m/embedding-space/composition";
+import "./truth-instruments.css";
 
 /* ------------------------------------------------------------------ */
 /* Small prose primitives                                              */
@@ -208,7 +209,101 @@ const TRUTH_PRACTICES = [
 const RECURRING_TRUTH_PRACTICES = TRUTH_PRACTICES.slice(0, 3);
 const SITUATED_TRUTH_PRACTICES = TRUTH_PRACTICES.slice(3);
 
+const SITUATED_TRUTH_INSTRUMENTS = [
+  {
+    index: "01",
+    headline: "Situated significance known through direct familiarity.",
+    supporting: "Experiences, people, places, purposes, and relationships establish the relevant context.",
+    asset: "assets/acquaintance-map.svg",
+    alt: "A relational map connecting a person with physical, internal, and temporal dimensions",
+  },
+  {
+    index: "02",
+    headline: "Non-deceptive fit between expression and subjective state.",
+    supporting: "Sincerity tests whether inward disposition, outward expression, and conduct remain aligned.",
+    asset: "assets/sincerity-alignment.svg",
+    alt: "An alignment instrument balancing inner state with outward expression",
+  },
+  {
+    index: "03",
+    headline: "Truth is what warrants reliance.",
+    supporting: "X is true if and only if X is trustworthy; X is false if and only if X is untrustworthy.",
+    asset: "assets/trustworthiness-balance.svg",
+    alt: "A balance comparing evidence and reliance while marking the risk of being wrong",
+  },
+] as const;
+
 type TruthPractice = (typeof TRUTH_PRACTICES)[number];
+
+function SituatedTruthPracticesFigure({ assetUrl }: { assetUrl: (value: string) => string }) {
+  return (
+    <figure
+      className="truth-instruments"
+      aria-label="Three situated truth practices shaped by experience, belief, and value"
+    >
+      <div className="truth-instruments__frame">
+        <header className="truth-instruments__header">
+          <p className="truth-instruments__eyebrow">Semantic instruments</p>
+          <h3>Experience, belief, and value</h3>
+          <p>
+            Three situated truth practices for navigating meaning, action, and evaluation. Each instrument names a
+            core proposition and the linguistic habits that sustain it.
+          </p>
+        </header>
+
+        <div className="truth-instruments__list">
+          {SITUATED_TRUTH_PRACTICES.map((practice, practiceIndex) => {
+            const instrument = SITUATED_TRUTH_INSTRUMENTS[practiceIndex];
+            if (!instrument) return null;
+            const headingId = `truth-instrument-${instrument.index}`;
+            return (
+              <section className="truth-instrument" aria-labelledby={headingId} key={practice.label}>
+                <div className="truth-instrument__intro">
+                  <p className="truth-instrument__label">
+                    <span>{instrument.index}</span>
+                    {practice.label}
+                  </p>
+                  <h4 id={headingId}>{instrument.headline}</h4>
+                  <p className="truth-instrument__supporting">{instrument.supporting}</p>
+                </div>
+
+                <div className="truth-instrument__visual">
+                  <img src={assetUrl(instrument.asset)} alt={instrument.alt} loading="lazy" />
+                </div>
+
+                <div className="truth-instrument__notes">
+                  <div className="truth-instrument__note">
+                    <p>Language favors</p>
+                    <span>{practice.language}</span>
+                  </div>
+                  <div className="truth-instrument__note">
+                    <p>Feedback</p>
+                    <span>{practice.feedback}</span>
+                  </div>
+                </div>
+
+                {practice.parallel ? (
+                  <aside className="truth-instrument__parallel">
+                    <p>{practice.parallel.label}</p>
+                    <div>
+                      <span>{practice.parallel.text}</span>{" "}
+                      <a href={practice.parallel.url} target="_blank" rel="noreferrer">
+                        {practice.parallel.linkLabel} ↗
+                      </a>
+                    </div>
+                  </aside>
+                ) : null}
+              </section>
+            );
+          })}
+        </div>
+      </div>
+      <FigureCaption>
+        Situated truth — constrained through faithful experience, good-faith expression, and warranted reliance.
+      </FigureCaption>
+    </figure>
+  );
+}
 
 function TruthPracticesFigure({
   practices,
@@ -1699,7 +1794,13 @@ function ConstraintFeedbackFigure() {
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
 
-export default function ArticlePage({ post }: { post: PublishedPost }) {
+export default function ArticlePage({
+  post,
+  assetUrl,
+}: {
+  post: PublishedPost;
+  assetUrl: (value: string) => string;
+}) {
   const publishedLabel = new Date(`${post.publishedAt}T00:00:00.000Z`).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -1785,13 +1886,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             {": what matters, what ought to be trusted, and whose purposes count cannot be supplied by formalism alone. "}
             These practices are situated and value-laden, but that does not make them arbitrary.
           </p>
-          <TruthPracticesFigure
-            practices={SITUATED_TRUTH_PRACTICES}
-            ariaLabel="Three situated truth practices shaped by experience, belief, and value"
-            eyebrow="Situated and normative practices"
-            title="Experience, belief, and value"
-            caption="Situated truth — constrained through faithful experience, good-faith expression, and warranted reliance."
-          />
+          <SituatedTruthPracticesFigure assetUrl={assetUrl} />
           <p>
             Their feedback remains substantive: people with direct acquaintance can challenge an account; conduct can
             contradict an avowal; and reliance can fail. The
@@ -2133,47 +2228,23 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             an answer sounds right. Fluency is domain- and task-specific, not one global measure of intelligence —
             the same model can be sharp in a strongly constrained domain and glib in a weakly constrained one.
           </p>
-        </Section>
-
-        <Section index="07" title="Prompting as Constraint Selection">
+          <h3>Vibes to a Typographic Specification</h3>
           <p>
-            While vibe designing a web logo, I realized I needed to eat my own dog food. My early prompts described
-            the result I wanted in broad visual language, but they left too many consequential choices ambiguous. The
-            model could produce plausible variations without reliably producing the typography I had in mind.
+            Vibe designing this site’s logo exposed the point. Broad prompts produced plausible marks, but not
+            controllable typography. Once I operationalized the prompt in typography’s domain language — optical
+            profiles, stroke hierarchy, glyph silhouette, spacing, and construction-line density — I could make
+            specific changes: detail the Bézier curves that define the iconic T shape, align stroke thickness across
+            the characters at the median line, add irregular traces around the compact M used in the header and
+            footer, preserve its legible ivory core, and leave the jumbo display mark untouched.
           </p>
           <p>
-            I then pulled in visual references, established guidelines, and principles of typography. I also began
-            prompting with the specific language used in bona fide typography work. The model performed much more
-            accurately — not because the terminology was a magic incantation, but because the prompt now selected a
-            more structured domain and supplied distinctions against which the result could be judged. The original
-            failure was not a lack of prompt cleverness; I had supplied an underspecified problem. References
-            narrowed the visual possibility space, typography principles supplied constraints, and professional
-            vocabulary activated patterns connected to established relationships and practices. The model still
-            required human evaluation, but it no longer had to guess what kind of work I meant.
-          </p>
-          <p>A practical sequence falls out of that experience:</p>
-          <ol>
-            <li>Name the domain and bounded context.</li>
-            <li>Use established terms of art only when their assumptions apply.</li>
-            <li>State invariants, inputs, outputs, and unacceptable failure modes.</li>
-            <li>Provide representative examples and counterexamples.</li>
-            <li>Define what evidence or test would count as success.</li>
-            <li>Ask the model to identify missing distinctions before generating the answer.</li>
-            <li>Route the result to an evaluator capable of checking the relevant truth practice.</li>
-          </ol>
-          <p>
-            Prompt quality is not ornamental phrasing. It is the selection and compression of the context that should
-            govern inference. The same move that makes prompts work also explains the article’s asymmetry: the{" "}
-            <Term label="cross-entropy">
-              A loss that scores how well the model's predicted distribution matches the observed next token; lower
-              values mean the model assigned the observed token more probability.
-            </Term>{" "}
-            objective rewards the model for predicting what the training text actually contains, and training text
-            from strongly constrained domains contains fewer plausible continuations to choose between.
+            You can probably tell it was vibe designed. It is still better than I thought I could make, because the
+            prompt stopped asking for taste in the abstract and started defining a bounded typographic problem with
+            observable constraints.
           </p>
         </Section>
 
-        <Section index="08" title="From Abstract to Actual">
+        <Section index="07" title="From Abstract to Actual">
           <p>
             Close by running the three truth practices in reverse — from abstract structure back to actual conditions
             and effects:
@@ -2229,7 +2300,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <p>Closing line</p>
         </div>
 
-        <Section index="09" title="Sources">
+        <Section index="08" title="Sources">
           <ul>
             <li>
               Claude E. Shannon, {" "}
