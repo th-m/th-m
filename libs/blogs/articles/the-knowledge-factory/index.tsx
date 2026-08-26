@@ -1150,6 +1150,18 @@ export default function ArticlePage({
         </ul>
       </Section>
 
+      <div className="essay-closing">
+        <blockquote>
+          The factory can remember more, simulate more, and learn faster. Strategy still begins when a person
+          decides which future is worth making real.
+        </blockquote>
+        <blockquote>
+          The companies that win will not be the ones that turn the most engineers into faster workers. They
+          will be the ones that give engineers the context, authority, and tools to redesign the factory
+          itself.
+        </blockquote>
+      </div>
+
       <Section index="23" title="Sources">
         <ul>
           <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. Supports the premise that AI adoption is a systems problem that can amplify existing organizational strengths and weaknesses.</li>
@@ -1162,18 +1174,6 @@ export default function ArticlePage({
           <li>National Institute of Standards and Technology, <ExternalLink href="https://doi.org/10.6028/NIST.AI.100-1"><em>Artificial Intelligence Risk Management Framework (AI RMF 1.0)</em></ExternalLink> (2023). Provides continuous governance, context mapping, measurement, evaluation, and accountability practices for deployed AI systems.</li>
         </ul>
       </Section>
-
-      <div className="essay-closing">
-        <blockquote>
-          The factory can remember more, simulate more, and learn faster. Strategy still begins when a person
-          decides which future is worth making real.
-        </blockquote>
-        <blockquote>
-          The companies that win will not be the ones that turn the most engineers into faster workers. They
-          will be the ones that give engineers the context, authority, and tools to redesign the factory
-          itself.
-        </blockquote>
-      </div>
     </TooltipProvider>
   );
 }

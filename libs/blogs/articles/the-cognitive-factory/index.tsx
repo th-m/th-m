@@ -537,18 +537,6 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
         <p>Ontology makes the factory coherent. Strategy makes it purposeful.</p>
       </Section>
 
-      <Section index="10" title="Sources">
-        <ul>
-          <li>Michael Levin, <ExternalLink href="https://doi.org/10.3389/fnsys.2022.768201">“Technological Approach to Mind Everywhere: An Experimentally-Grounded Framework for Understanding Diverse Bodies and Minds”</ExternalLink> (2022). Introduces the cognitive-light-cone framework adapted as an organizational diagnostic in this essay.</li>
-          <li>Patrick Lewis and colleagues, <ExternalLink href="https://proceedings.neurips.cc/paper/2020/hash/6b493230-Abstract.html">“Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks”</ExternalLink> (2020). Establishes retrieval from explicit non-parametric memory and identifies provenance and knowledge updating as design problems.</li>
-          <li>Shunyu Yao and colleagues, <ExternalLink href="https://arxiv.org/abs/2210.03629">“ReAct: Synergizing Reasoning and Acting in Language Models”</ExternalLink> (2023). Demonstrates an agent pattern that interleaves model reasoning, tool actions, environmental observations, and plan updates.</li>
-          <li>Noah Shinn and colleagues, <ExternalLink href="https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html">“Reflexion: Language Agents with Verbal Reinforcement Learning”</ExternalLink> (2023). Tests the use of retained task feedback in episodic text memory to improve subsequent agent trials.</li>
-          <li>W3C, <ExternalLink href="https://www.w3.org/TR/prov-o/">“PROV-O: The PROV Ontology”</ExternalLink> (2013). Defines a standard model for representing provenance among entities, activities, and agents.</li>
-          <li>National Institute of Standards and Technology, <ExternalLink href="https://doi.org/10.6028/NIST.AI.600-1"><em>Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile</em></ExternalLink> (2024). Supports lifecycle governance, context mapping, measurement, documentation, and human accountability for generative-AI systems.</li>
-          <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. Supports the claim that effective AI adoption depends on the surrounding organizational system and capabilities rather than model access alone.</li>
-        </ul>
-      </Section>
-
       <div className="article-outline__closing">
         <div className="article-outline__content" style={{ marginTop: 48 }}>
           <p className="eyebrow">Part of the six-essay series</p>
@@ -565,6 +553,18 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </ol>
         </div>
       </div>
+
+      <Section index="10" title="Sources">
+        <ul>
+          <li>Michael Levin, <ExternalLink href="https://doi.org/10.3389/fnsys.2022.768201">“Technological Approach to Mind Everywhere: An Experimentally-Grounded Framework for Understanding Diverse Bodies and Minds”</ExternalLink> (2022). Introduces the cognitive-light-cone framework adapted as an organizational diagnostic in this essay.</li>
+          <li>Patrick Lewis and colleagues, <ExternalLink href="https://proceedings.neurips.cc/paper/2020/hash/6b493230-Abstract.html">“Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks”</ExternalLink> (2020). Establishes retrieval from explicit non-parametric memory and identifies provenance and knowledge updating as design problems.</li>
+          <li>Shunyu Yao and colleagues, <ExternalLink href="https://arxiv.org/abs/2210.03629">“ReAct: Synergizing Reasoning and Acting in Language Models”</ExternalLink> (2023). Demonstrates an agent pattern that interleaves model reasoning, tool actions, environmental observations, and plan updates.</li>
+          <li>Noah Shinn and colleagues, <ExternalLink href="https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html">“Reflexion: Language Agents with Verbal Reinforcement Learning”</ExternalLink> (2023). Tests the use of retained task feedback in episodic text memory to improve subsequent agent trials.</li>
+          <li>W3C, <ExternalLink href="https://www.w3.org/TR/prov-o/">“PROV-O: The PROV Ontology”</ExternalLink> (2013). Defines a standard model for representing provenance among entities, activities, and agents.</li>
+          <li>National Institute of Standards and Technology, <ExternalLink href="https://doi.org/10.6028/NIST.AI.600-1"><em>Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile</em></ExternalLink> (2024). Supports lifecycle governance, context mapping, measurement, documentation, and human accountability for generative-AI systems.</li>
+          <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. Supports the claim that effective AI adoption depends on the surrounding organizational system and capabilities rather than model access alone.</li>
+        </ul>
+      </Section>
     </TooltipProvider>
   );
 }
