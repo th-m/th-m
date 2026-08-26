@@ -2,7 +2,7 @@
 title: Goals, Solutions & Value
 description: Why human experience, values, and wisdom must govern the goals that predictive systems pursue.
 publishedAt: 2026-08-22
-updatedAt: 2026-08-25
+updatedAt: 2026-08-26
 tags: [Artificial Intelligence, Language Models, Strategy, Values]
 ---
 # Goals, Solutions & Value
@@ -405,6 +405,19 @@ The agent did not fail because it was incapable of producing a plan. It failed
 because `optimal` omitted the judgment that would make one plan preferable to
 another. The model supplied a "plausible" interpretation from its training and
 runtime context.
+
+The strategic-advice study did not test this claim directly. Our hypothesis is
+that, had the researchers held the factual scenarios constant while explicitly
+authorizing different value hierarchies, the models would have returned
+different strategies. A company that ranks workforce continuity above
+near-term efficiency should not receive the same advice as one that ranks rapid
+transformation above continuity, even when the market facts are identical.
+
+Therein lies the crux: an AI may infer an operative value hierarchy, but it
+cannot know that the inferred hierarchy is the one you intended—and it should
+not be empowered to decide what you ought to value. When values remain
+unstated, they do not disappear. The model imports latent priorities from its
+training, post-training, and the language of the prompt.
 
 Human experience reveals what can matter. Values determine what should matter.
 Strategy is balancing values and making trade-offs, deciding when it's "worth the risk". An AI cannot experience what matters, and it cannot decide for you aught to value.
