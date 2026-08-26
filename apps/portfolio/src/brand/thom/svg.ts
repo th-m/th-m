@@ -8,6 +8,7 @@ import {
   H_RATIO_POINT_SHAPE,
   H_RATIO_POINT_MATERIAL,
   hStrokeWorldWidth,
+  M_COMPACT_SCRIBBLE_LAYERS,
   M_FINAL_MATERIAL,
   M_FINE_STRAND_OFFSETS,
   O_DISPLAY_MATERIAL,
@@ -168,6 +169,15 @@ function mDisplayMarkup(data: BrandData, colors: ReturnType<typeof palette>, lum
   return `${partials}${final}${texture}`;
 }
 
+function mCompactMarkup(data: BrandData, colors: ReturnType<typeof palette>): string {
+  const scribbles = M_COMPACT_SCRIBBLE_LAYERS.map((layer) => {
+    const chain = fourierPartialBezier(data.m, layer.partialIndex, 64, layer.amplitudeScale);
+    return `<path d="${bezierPathData(chain)}" transform="translate(0 ${layer.offsetY})" fill="none" stroke="${colors.gold}" stroke-width="${layer.width}" stroke-linecap="round" stroke-linejoin="round" opacity="${layer.opacity}" data-m-layer="scribble"/>`;
+  }).join("");
+  const core = `<path d="${bezierPathData(fourierCompactBezier(data.m))}" fill="none" stroke="${colors.ivory}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1" data-m-layer="core"/>`;
+  return `${scribbles}${core}`;
+}
+
 function chordMarkup(network: ChordNetwork, color: string, luminous: boolean, profile: OpticalProfile): string {
   const simplified = profile !== "display";
   const chords = profile === "micro" ? network.chords.slice(0, 7) : network.chords;
@@ -233,7 +243,8 @@ export function renderGlyphContent(data: BrandData, glyph: "t" | "h" | "o" | "m"
     const circle = luminous ? oCircleMarkup(data.o.circle) : polyline(data.o.circle, colors.ivory, profile === "micro" ? 3.4 : profile === "compact" ? 2.8 : O_DISPLAY_MATERIAL.circle.coreWidth, 1, "", true);
     return `${circle}${chordMarkup(network, colors.gold, luminous, profile)}`;
   }
-  if (profile !== "display") return `<path d="${bezierPathData(fourierCompactBezier(data.m))}" fill="none" stroke="${colors.ivory}" stroke-width="${profile === "micro" ? 3.4 : 3}" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>`;
+  if (profile === "compact") return mCompactMarkup(data, colors);
+  if (profile === "micro") return `<path d="${bezierPathData(fourierCompactBezier(data.m))}" fill="none" stroke="${colors.ivory}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>`;
   return mDisplayMarkup(data, colors, luminous);
 }
 

@@ -37,6 +37,7 @@ export function EmbeddingCompositionExplorer() {
   const terms = useMemo(() => slots.filter((term): term is CompositionTerm => term !== null), [slots]);
   const composition = useMemo(() => resolveTermComposition(terms), [terms]);
   const displayResult = composition.result ?? projectedResult ?? (terms.length > 1 ? "projected point" : null);
+  const isApproximate = !composition.result && terms.length > 1;
 
   useEffect(() => {
     if (!sceneRequested || composition.result || terms.length < 2) return;
@@ -106,7 +107,9 @@ export function EmbeddingCompositionExplorer() {
               </button>
             </span>
           ))}
-          {terms.length > 0 ? <i>=</i> : null}
+          {terms.length > 0 ? (
+            <i aria-label={isApproximate ? "approximately" : "equals"}>{isApproximate ? "≈" : "="}</i>
+          ) : null}
           {terms.length > 0 ? <strong>{displayResult ?? "—"}</strong> : null}
         </output>
       </div>

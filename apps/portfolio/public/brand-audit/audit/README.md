@@ -36,7 +36,7 @@ The report retains the strict raw changed-pixel ratio for continuity. M uses tha
 
 ## Verdict
 
-The refined identity now carries the reference’s classical, dimensional, luminous, and ornamental material language while preserving deterministic generation and the four mathematical concepts. Display applications retain the construction richness; compact, light, and monochrome applications simplify it deliberately.
+The refined identity now carries the reference’s classical, dimensional, luminous, and ornamental material language while preserving deterministic generation and the four mathematical concepts. Display applications retain the full construction richness; the compact mark now preserves M’s superposition through nine irregular surrounding Fourier traces, while micro, light, and monochrome applications simplify deliberately.
 
 ## Evidence
 

@@ -327,13 +327,17 @@ describe("EmbeddingCompositionExplorer", () => {
     const creatureOptions = screen.getByRole("combobox", { name: "Composition term 3" });
     for (const ingredient of [
       "wolf", "bear", "owl", "snake", "deer", "cat", "dog", "fox", "shark", "tiger", "raven",
+      "centaur",
       "knowledge", "courage", "freedom", "order", "chaos", "memory", "time", "mystery",
       "justice", "truth", "beauty", "power", "hope", "fear", "love", "reason",
     ]) {
       expect(within(creatureOptions).getByRole("option", { name: ingredient })).toBeInTheDocument();
     }
     for (const endpoint of [
-      "werewolf", "owlbear", "catfish", "puppy", "wisdom", "sphinx", "omniscience", "understanding", "legitimacy",
+      "werewolf", "alpha wolf", "alpha werewolf", "centauride", "Chiron", "pixie princess",
+      "anointed monarch", "anointed queen", "philosopher-monarch", "philosopher-king", "philosopher-queen",
+      "absolute monarch", "queen regnant", "divine right", "king cobra", "kingfish", "lion king", "imperial eagle", "Fenrir",
+      "owlbear", "catfish", "puppy", "owlet", "wisdom", "sphinx", "omniscience", "understanding", "legitimacy",
     ]) {
       expect(within(creatureOptions).queryByRole("option", { name: endpoint })).not.toBeInTheDocument();
     }
@@ -368,14 +372,55 @@ describe("EmbeddingCompositionExplorer", () => {
     expectComposition("man+feminine=woman");
   });
 
-  it("names the nearest projected point after the lazy network data becomes available", async () => {
+  it("marks the nearest projected point as an approximation after the lazy network data becomes available", async () => {
     render(<EmbeddingCompositionExplorer />);
     setCompositionTerm(3, "tiger");
-    expectComposition("man+royal+tiger=projectedpoint");
+    expectComposition("man+royal+tiger≈projectedpoint");
 
     revealCompositionScene();
-    await waitFor(() => expectComposition("man+royal+tiger=owlbear"));
+    await waitFor(() => expect(screen.getByLabelText("Combined embedding result")).not.toHaveTextContent("projected point"));
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent("≈");
     expect(screen.getAllByRole("combobox")).toHaveLength(4);
+  });
+
+  it("translates royal status within each authored creature family", () => {
+    render(<EmbeddingCompositionExplorer />);
+
+    setCompositionTerm(3, "wolf");
+    expectComposition("man+royal+wolf=alpha werewolf");
+    setCompositionTerm(1, "");
+    expectComposition("royal+wolf=alpha wolf");
+
+    setCompositionTerm(1, "man");
+    setCompositionTerm(3, "horse");
+    expectComposition("man+royal+horse=Chiron");
+    setCompositionTerm(1, "centaur");
+    setCompositionTerm(3, "");
+    expectComposition("centaur+royal=Chiron");
+    setCompositionTerm(1, "woman");
+    setCompositionTerm(3, "horse");
+    expectComposition("woman+royal+horse=centaur queen");
+
+    setCompositionTerm(1, "girl");
+    setCompositionTerm(3, "hummingbird");
+    expectComposition("girl+royal+hummingbird=pixie princess");
+  });
+
+  it("uses recognized titles and compounds for status compositions", () => {
+    render(<EmbeddingCompositionExplorer />);
+
+    setCompositionTerm(3, "divine");
+    expectComposition("man+royal+divine=anointed monarch");
+    setCompositionTerm(1, "woman");
+    expectComposition("woman+royal+divine=anointed queen");
+
+    setCompositionTerm(1, "man");
+    setCompositionTerm(3, "knowledge");
+    expectComposition("man+royal+knowledge=philosopher-king");
+
+    setCompositionTerm(1, "");
+    setCompositionTerm(3, "snake");
+    expectComposition("royal+snake=king cobra");
   });
 
   it("builds mythical and animal pair recipes from the same Add section", async () => {

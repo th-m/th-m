@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 300" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">Trustworthiness balance</title>
+  <desc id="description">Evidence and reliance balance above the risk or cost of being wrong.</desc>
+  <g stroke="#a48756" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M220 18v18M214 24l6-6 6 6-6 6-6-6ZM220 68v164M106 52h228" opacity=".86"/>
+    <circle cx="220" cy="52" r="16" fill="#0d0e0f"/>
+    <circle cx="220" cy="52" r="16" opacity=".9"/>
+    <circle cx="220" cy="52" r="3.5"/>
+    <circle cx="106" cy="52" r="4.5" fill="#0d0e0f"/>
+    <circle cx="334" cy="52" r="4.5" fill="#0d0e0f"/>
+
+    <path d="M106 56 66 158M106 56l40 102M334 56l-40 102M334 56l40 102" opacity=".8"/>
+    <path d="M58 158h96M66 158c11 16 69 16 80 0M286 158h96M294 158c11 16 69 16 80 0" opacity=".84"/>
+
+    <path d="M90 108v27l16 9 16-9v-27l-16-7-16 7Z"/>
+    <path d="m98 124 6 6 11-13"/>
+    <circle cx="334" cy="116" r="11"/>
+    <path d="M314 144c0-16 8-23 20-23s20 7 20 23"/>
+
+    <path d="M214 218h12v14h-12zM206 232h28l8 10h-44l8-10ZM190 242h60v8h-60M182 258h76" opacity=".8"/>
+  </g>
+
+  <g fill="#a48756" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="9" letter-spacing="1.7" text-anchor="middle">
+    <text x="106" y="194">EVIDENCE</text>
+    <text x="334" y="194">RELIANCE</text>
+    <text x="220" y="279">RISK</text>
+  </g>
+  <text x="220" y="295" fill="#948b7b" font-family="Newsreader, Georgia, serif" font-size="10" font-style="italic" text-anchor="middle">cost of being wrong</text>
+</svg>

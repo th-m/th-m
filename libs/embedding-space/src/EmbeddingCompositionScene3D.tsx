@@ -16,9 +16,9 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import {
   COMPOSITION_OUTPUT_ONLY_TERMS,
   resolveTermComposition,
+  type CompositionRecipe,
   type CompositionResultWord,
   type CompositionTerm,
-  type PairRecipe,
   type SemanticWord,
 } from "./compositionModel";
 import {
@@ -315,9 +315,9 @@ export function EmbeddingCompositionScene3D({
   onUnavailable,
 }: {
   path: readonly SemanticWord[];
-  source: SemanticNetworkWord | null;
+  source: CompositionTerm | null;
   result: CompositionResultWord | CompositionTerm | null;
-  recipe: PairRecipe | null;
+  recipe: CompositionRecipe | null;
   terms: readonly CompositionTerm[];
   onUnavailable: () => void;
 }) {
@@ -332,7 +332,12 @@ export function EmbeddingCompositionScene3D({
       ...terms.flatMap((term) => NETWORK_POSITIONS.has(term as SemanticNetworkWord)
         ? [term as SemanticNetworkWord]
         : []),
-      ...(recipe ? [...recipe.terms, recipe.result] : []),
+      ...(recipe ? [
+        ...recipe.terms.flatMap((term) => NETWORK_POSITIONS.has(term as SemanticNetworkWord)
+          ? [term as SemanticNetworkWord]
+          : []),
+        recipe.result,
+      ] : []),
       ...(effectiveResult && NETWORK_POSITIONS.has(effectiveResult as SemanticNetworkWord)
         ? [effectiveResult as SemanticNetworkWord]
         : []),
@@ -383,11 +388,16 @@ export function EmbeddingCompositionScene3D({
           {path.slice(1).map((word, index) => (
             <MovementSegment key={`${path[index]}-${word}`} from={path[index] as SemanticWord} to={word} />
           ))}
-          {recipe ? (
-            <>
-              <MovementSegment from={recipe.terms[0]} to={recipe.result} />
-              <MovementSegment from={recipe.terms[1]} to={recipe.result} />
-            </>
+          {recipe ? recipe.terms.flatMap((term, index) =>
+            NETWORK_POSITIONS.has(term as SemanticNetworkWord)
+              ? [(
+                <MovementSegment
+                  key={`${term}-${index}-${recipe.result}`}
+                  from={term as SemanticNetworkWord}
+                  to={recipe.result}
+                />
+              )]
+              : [],
           ) : null}
           <SceneControls onUnavailable={onUnavailable} />
         </Canvas>

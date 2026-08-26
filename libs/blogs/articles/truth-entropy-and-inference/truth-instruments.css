@@ -1,0 +1,244 @@
+.truth-instruments {
+  margin: 2.35em 0;
+}
+
+.truth-instruments__frame {
+  border-block: 1px solid var(--line);
+}
+
+.truth-instruments__header {
+  position: relative;
+  padding: 24px 0 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.truth-instruments__eyebrow {
+  position: absolute;
+  top: 27px;
+  right: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.truth-instruments__header h3 {
+  max-width: 72%;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.4vw, 44px);
+  font-weight: 430;
+  letter-spacing: -.025em;
+  line-height: 1.02;
+  color: var(--color-foreground-strong);
+}
+
+.truth-instruments__header > p:last-child {
+  max-width: 590px;
+  margin: 16px 0 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-foreground-muted);
+}
+
+.truth-instrument {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(250px, 1.15fr) minmax(165px, .72fr);
+  grid-template-areas:
+    "intro visual notes"
+    "parallel parallel notes";
+  column-gap: clamp(20px, 3vw, 34px);
+  padding: clamp(28px, 4vw, 42px) 0;
+}
+
+.truth-instrument + .truth-instrument {
+  border-top: 1px solid var(--line);
+}
+
+.truth-instrument__intro {
+  grid-area: intro;
+  min-width: 0;
+}
+
+.truth-instrument__label,
+.article-outline__content .truth-instrument__label {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  line-height: 1.55;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.truth-instrument__label span {
+  color: var(--color-foreground-strong);
+}
+
+.truth-instrument__intro h4 {
+  margin: 16px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 31px);
+  font-weight: 420;
+  letter-spacing: -.02em;
+  line-height: 1.15;
+  color: var(--color-foreground-strong);
+}
+
+.truth-instrument__supporting,
+.article-outline__content .truth-instrument__supporting {
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-foreground-muted);
+}
+
+.truth-instrument__visual {
+  grid-area: visual;
+  align-self: center;
+  min-width: 0;
+}
+
+.truth-instrument__visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: contain;
+}
+
+.truth-instrument__notes {
+  grid-area: notes;
+  align-self: stretch;
+  padding-left: clamp(16px, 2.4vw, 26px);
+  border-left: 1px solid var(--line);
+}
+
+.truth-instrument__note + .truth-instrument__note {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.truth-instrument__note p,
+.article-outline__content .truth-instrument__note p,
+.truth-instrument__parallel > p,
+.article-outline__content .truth-instrument__parallel > p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.truth-instrument__note span {
+  display: block;
+  margin-top: 9px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-foreground-muted);
+}
+
+.truth-instrument__parallel {
+  grid-area: parallel;
+  display: grid;
+  grid-template-columns: minmax(150px, .58fr) minmax(0, 1.42fr);
+  gap: 16px;
+  align-items: start;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.truth-instrument__parallel div {
+  font-family: var(--font-display);
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--color-foreground-muted);
+}
+
+.truth-instrument__parallel a {
+  white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+  .truth-instrument {
+    grid-template-columns: minmax(0, .9fr) minmax(220px, 1.1fr);
+    grid-template-areas:
+      "intro visual"
+      "notes notes"
+      "parallel parallel";
+  }
+
+  .truth-instrument__notes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 24px;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .truth-instrument__note + .truth-instrument__note {
+    margin: 0;
+    padding: 0 0 0 22px;
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 560px) {
+  .truth-instruments__header {
+    padding-top: 48px;
+  }
+
+  .truth-instruments__eyebrow {
+    top: 20px;
+    left: 0;
+    right: auto;
+  }
+
+  .truth-instruments__header h3 {
+    max-width: none;
+  }
+
+  .truth-instrument {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "visual"
+      "notes"
+      "parallel";
+    gap: 0;
+  }
+
+  .truth-instrument__visual {
+    margin-top: 22px;
+  }
+
+  .truth-instrument__notes {
+    grid-template-columns: 1fr;
+  }
+
+  .truth-instrument__note + .truth-instrument__note {
+    margin-top: 18px;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .truth-instrument__parallel {
+    grid-template-columns: 1fr;
+  }
+}

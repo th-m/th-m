@@ -1,7 +1,7 @@
 import {
+  AUTHORED_RECIPES,
   COMPOSITION_OUTPUT_ONLY_TERMS,
   COMPOSITION_STARTERS,
-  PAIR_RECIPES,
   SEMANTIC_WORDS,
   type AbstractResultWord,
   type AbstractWord,
@@ -88,6 +88,14 @@ const STATUS_RESULT_NODES: readonly SemanticNetworkNode[] = [
   { word: "god", kind: "context", position: [2.7, 1.48, -1.26], labelOffset: [0, 0.22, 0] },
   { word: "goddess", kind: "context", position: [2.64, 1.44, 1.3], labelOffset: [0, 0.22, 0] },
   { word: "demigod", kind: "context", position: [1.72, -1.52, 0.16], labelOffset: [0, -0.22, 0] },
+  { word: "demigoddess", kind: "context", position: [1.72, -1.5, 1.12], labelOffset: [0, -0.22, 0] },
+  { word: "anointed monarch", kind: "context", position: [2.18, 1.38, -0.72], labelOffset: [0, 0.22, 0] },
+  { word: "anointed queen", kind: "context", position: [2.12, 1.38, 0.92], labelOffset: [0, 0.22, 0] },
+  { word: "philosopher-monarch", kind: "context", position: [1.45, 1.42, 0.1], labelOffset: [0, 0.22, 0] },
+  { word: "philosopher-king", kind: "context", position: [1.7, 1.28, -0.92], labelOffset: [0, 0.22, 0] },
+  { word: "philosopher-queen", kind: "context", position: [1.66, 1.3, 0.98], labelOffset: [0, 0.22, 0] },
+  { word: "absolute monarch", kind: "context", position: [2.28, 1.05, -0.45], labelOffset: [0, 0.22, 0] },
+  { word: "queen regnant", kind: "context", position: [2.1, 1.12, 1.1], labelOffset: [0, 0.22, 0] },
 ];
 
 const CREATURE_NODES: readonly SemanticNetworkNode[] = [
@@ -128,8 +136,15 @@ const CREATURE_NODES: readonly SemanticNetworkNode[] = [
   { word: "wolffish", kind: "animal", position: [-2.7, -0.08, -0.62], labelOffset: [0, -0.22, 0] },
   { word: "kit", kind: "animal", position: [-2.46, -0.82, 1.3], labelOffset: [0, -0.22, 0] },
   { word: "tigerfish", kind: "animal", position: [-2.68, -0.12, -0.44], labelOffset: [0, -0.22, 0] },
+  { word: "owlet", kind: "animal", position: [-1.5, -0.56, 0.14], labelOffset: [0, -0.22, 0] },
+  { word: "alpha wolf", kind: "animal", position: [-1.22, 0.9, -0.8], labelOffset: [0, 0.22, 0] },
+  { word: "king cobra", kind: "animal", position: [-1.08, 0.18, 0.98], labelOffset: [0, 0.22, 0] },
+  { word: "kingfish", kind: "animal", position: [-1.16, -0.34, 0.58], labelOffset: [0, -0.22, 0] },
+  { word: "lion king", kind: "animal", position: [0.02, 0.94, -1.18], labelOffset: [0, 0.22, 0] },
+  { word: "imperial eagle", kind: "animal", position: [-0.02, 1.38, -0.76], labelOffset: [0, 0.22, 0] },
   { word: "mythic", kind: "category", position: [-0.56, -1.28, 0], labelOffset: [0, -0.22, 0] },
   { word: "centaur", kind: "mythic", position: [-0.62, 0.16, -1.72], labelOffset: [0, 0.24, 0] },
+  { word: "centauride", kind: "mythic", position: [-0.58, 0.2, 1.68], labelOffset: [0, 0.24, 0] },
   { word: "merman", kind: "mythic", position: [-0.7, -0.28, -1.58], labelOffset: [0, -0.24, 0] },
   { word: "mermaid", kind: "mythic", position: [-0.55, -0.34, 1.78], labelOffset: [0, 0.24, 0] },
   { word: "harpy", kind: "mythic", position: [-0.32, 0.46, 1.48], labelOffset: [0, 0.24, 0] },
@@ -144,6 +159,14 @@ const CREATURE_NODES: readonly SemanticNetworkNode[] = [
   { word: "phoenix", kind: "mythic", position: [-0.14, 1.7, 0.62], labelOffset: [0, 0.24, 0] },
   { word: "hippogriff", kind: "mythic", position: [-0.68, 1.28, -1.88], labelOffset: [0, 0.24, 0] },
   { word: "sphinx", kind: "mythic", position: [-0.35, 0.55, 1.65], labelOffset: [0, 0.24, 0] },
+  { word: "Fenrir", kind: "mythic", position: [-0.16, 1.22, -1.18], labelOffset: [0, 0.24, 0] },
+  { word: "alpha werewolf", kind: "mythic", position: [0.22, 0.82, -0.1], labelOffset: [0, 0.24, 0] },
+  { word: "Chiron", kind: "mythic", position: [0.18, 0.78, -1.48], labelOffset: [0, 0.24, 0] },
+  { word: "centaur queen", kind: "mythic", position: [0.08, 0.52, 1.58], labelOffset: [0, 0.24, 0] },
+  { word: "merman king", kind: "mythic", position: [0.05, -0.02, -1.48], labelOffset: [0, -0.24, 0] },
+  { word: "mermaid queen", kind: "mythic", position: [0.08, 0.02, 1.7], labelOffset: [0, 0.24, 0] },
+  { word: "harpy queen", kind: "mythic", position: [0.15, 0.66, 1.48], labelOffset: [0, 0.24, 0] },
+  { word: "pixie princess", kind: "mythic", position: [0.15, -1.28, 0.92], labelOffset: [0, -0.24, 0] },
 ];
 
 // Abstract terms occupy the sparse center and positive sides of the teaching
@@ -186,6 +209,7 @@ const ABSTRACT_NODES: readonly SemanticNetworkNode[] = [
   { word: "legitimacy", kind: "abstract", position: [1.7, 0.65, 0.05], labelOffset: [0, 0.22, 0] },
   { word: "devotion", kind: "abstract", position: [0.95, -0.78, 0.63], labelOffset: [0, -0.22, 0] },
   { word: "integrity", kind: "abstract", position: [1.15, 0.88, -1.08], labelOffset: [0, 0.22, 0] },
+  { word: "divine right", kind: "abstract", position: [1.95, 1.45, 0.18], labelOffset: [0, 0.22, 0] },
 ];
 
 export const SEMANTIC_NETWORK_NODES: readonly SemanticNetworkNode[] = [
@@ -243,6 +267,14 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
   { from: "divine", to: "god", relation: "status" },
   { from: "divine", to: "goddess", relation: "status" },
   { from: "divine", to: "demigod", relation: "status" },
+  { from: "divine", to: "demigoddess", relation: "status" },
+  { from: "monarch", to: "anointed monarch", relation: "status" },
+  { from: "monarch", to: "anointed queen", relation: "status" },
+  { from: "monarch", to: "philosopher-monarch", relation: "status" },
+  { from: "monarch", to: "philosopher-king", relation: "status" },
+  { from: "monarch", to: "philosopher-queen", relation: "status" },
+  { from: "sovereign", to: "absolute monarch", relation: "status" },
+  { from: "monarch", to: "queen regnant", relation: "status" },
 
   { from: "animal", to: "horse", relation: "category" },
   { from: "animal", to: "fish", relation: "category" },
@@ -280,7 +312,14 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
   { from: "animal", to: "wolffish", relation: "category" },
   { from: "animal", to: "kit", relation: "category" },
   { from: "animal", to: "tigerfish", relation: "category" },
+  { from: "animal", to: "owlet", relation: "category" },
+  { from: "animal", to: "alpha wolf", relation: "category" },
+  { from: "animal", to: "king cobra", relation: "category" },
+  { from: "animal", to: "kingfish", relation: "category" },
+  { from: "animal", to: "lion king", relation: "category" },
+  { from: "animal", to: "imperial eagle", relation: "category" },
   { from: "mythic", to: "centaur", relation: "category" },
+  { from: "mythic", to: "centauride", relation: "category" },
   { from: "mythic", to: "merman", relation: "category" },
   { from: "mythic", to: "mermaid", relation: "category" },
   { from: "mythic", to: "harpy", relation: "category" },
@@ -295,6 +334,14 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
   { from: "mythic", to: "phoenix", relation: "category" },
   { from: "mythic", to: "hippogriff", relation: "category" },
   { from: "mythic", to: "sphinx", relation: "category" },
+  { from: "mythic", to: "Fenrir", relation: "category" },
+  { from: "mythic", to: "alpha werewolf", relation: "category" },
+  { from: "mythic", to: "Chiron", relation: "category" },
+  { from: "mythic", to: "centaur queen", relation: "category" },
+  { from: "mythic", to: "merman king", relation: "category" },
+  { from: "mythic", to: "mermaid queen", relation: "category" },
+  { from: "mythic", to: "harpy queen", relation: "category" },
+  { from: "mythic", to: "pixie princess", relation: "category" },
 
   { from: "concept", to: "knowledge", relation: "category" },
   { from: "concept", to: "courage", relation: "category" },
@@ -331,23 +378,27 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
   { from: "concept", to: "legitimacy", relation: "category" },
   { from: "concept", to: "devotion", relation: "category" },
   { from: "concept", to: "integrity", relation: "category" },
+  { from: "concept", to: "divine right", relation: "category" },
 
-  ...PAIR_RECIPES.flatMap(({ terms: [left, right], result }) => [
-    { from: left, to: result, relation: "blend" as const },
-    { from: right, to: result, relation: "blend" as const },
-  ]),
+  ...AUTHORED_RECIPES.flatMap(({ terms, result }) => terms.flatMap((term) =>
+    SEMANTIC_NETWORK_NODES.some(({ word }) => word === term)
+      ? [{ from: term as SemanticNetworkWord, to: result, relation: "blend" as const }]
+      : [],
+  )),
 ];
 
 export const SEMANTIC_NETWORK_CONTEXT_WORDS = CONTEXT_NODES.map(({ word }) => word);
 export const SEMANTIC_NETWORK_ANIMAL_WORDS = [
   "horse", "fish", "hummingbird", "lion", "eagle", "bird", "goat",
   "wolf", "bear", "owl", "snake", "deer", "cat", "dog", "fox", "shark", "tiger", "raven",
-  "foal", "seahorse", "fry", "cub", "chick", "kid", "eaglet", "lionfish",
+  "foal", "seahorse", "fry", "cub", "chick", "kid", "eaglet", "lionfish", "owlet", "alpha wolf",
+  "king cobra", "kingfish", "lion king", "imperial eagle",
   "pup", "hatchling", "fawn", "kitten", "puppy", "catfish", "dogfish", "wolffish", "kit", "tigerfish",
 ] as const;
 export const SEMANTIC_NETWORK_MYTHICAL_WORDS = [
-  "centaur", "merman", "mermaid", "harpy", "pixie", "werewolf",
-  "griffin", "pegasus", "capricorn", "owlbear", "chimera", "unicorn", "phoenix", "hippogriff", "sphinx",
+  "centaur", "centauride", "merman", "mermaid", "harpy", "pixie", "werewolf",
+  "griffin", "pegasus", "capricorn", "owlbear", "chimera", "unicorn", "phoenix", "hippogriff", "sphinx", "Fenrir",
+  "Chiron", "alpha werewolf", "centaur queen", "merman king", "mermaid queen", "harpy queen", "pixie princess",
 ] as const;
 export const SEMANTIC_NETWORK_ABSTRACT_WORDS = ABSTRACT_NODES
   .filter(({ kind }) => kind === "abstract")

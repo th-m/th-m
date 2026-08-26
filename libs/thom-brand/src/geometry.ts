@@ -161,6 +161,18 @@ export const M_FINAL_MATERIAL = {
 
 export const M_FINE_STRAND_OFFSETS = [-2.4, -1.2, 1.2, 2.4] as const;
 
+export const M_COMPACT_SCRIBBLE_LAYERS = [
+  { partialIndex: 2, amplitudeScale: 0.78, offsetY: -3.2, width: 1.25, opacity: 0.62 },
+  { partialIndex: 3, amplitudeScale: 0.86, offsetY: 2.7, width: 1.15, opacity: 0.56 },
+  { partialIndex: 4, amplitudeScale: 0.91, offsetY: -1.8, width: 1.08, opacity: 0.52 },
+  { partialIndex: 5, amplitudeScale: 0.97, offsetY: 3.4, width: 1, opacity: 0.48 },
+  { partialIndex: 6, amplitudeScale: 1.03, offsetY: -2.7, width: 0.94, opacity: 0.46 },
+  { partialIndex: 7, amplitudeScale: 1.08, offsetY: 1.55, width: 0.88, opacity: 0.43 },
+  { partialIndex: 8, amplitudeScale: 1.13, offsetY: -0.9, width: 0.82, opacity: 0.4 },
+  { partialIndex: 9, amplitudeScale: 1.18, offsetY: 2.25, width: 0.76, opacity: 0.37 },
+  { partialIndex: 10, amplitudeScale: 1.23, offsetY: -1.45, width: 0.7, opacity: 0.34 },
+] as const;
+
 export const M_WEBGL_CORE_PARITY_SCALE = 1.12;
 
 export const DISPLAY_STROKE_WORLD_PER_PIXEL = 0.35;

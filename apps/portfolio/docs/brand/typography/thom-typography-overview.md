@@ -203,7 +203,7 @@ Profile selection uses the **rendered wordmark width**, not a device category or
 | Profile | Rendered width | Treatment |
 |---|---:|---|
 | Display | > 300px | Full luminous construction, golden-ratio annotations, canonical O network, and layered M. |
-| Compact | 121–300px | Stronger H stems, quiet continuous a/b crossbar, compact O network, and single compact M contour. |
+| Compact | 121–300px | Stronger H stems, quiet continuous a/b crossbar, compact O network, and a compact M surrounded by dense irregular Fourier scribbles. |
 | Micro | ≤ 120px | Continuous H crossbar without φ ticks/brace/point, seven O chords without nodes, and a strengthened M contour. |
 
 Compact and micro assets apply small X-only spacing corrections recorded in the metrics contract. They never distort glyph geometry. The golden-ratio construction remains available in the display mark and procedural spiral animation, but it does not compete with letter recognition in utility sizes.

@@ -363,7 +363,7 @@ const metrics = {
       minimumExclusivePx: OPTICAL_PROFILE_WIDTHS.microMax,
       maximumInclusivePx: OPTICAL_PROFILE_WIDTHS.compactMax,
       asset: "public/brand/thom-compact.svg",
-      detail: "Strengthened H pillars, simplified H construction, compact O network, and four-harmonic M.",
+      detail: "Strengthened H pillars, simplified H construction, compact O network, and a four-harmonic M surrounded by a dense irregular field of Fourier partials.",
       placementOffsetX: OPTICAL_PLACEMENT_X.compact,
     },
     micro: {
@@ -753,7 +753,7 @@ Profile selection uses the **rendered wordmark width**, not a device category or
 | Profile | Rendered width | Treatment |
 |---|---:|---|
 | Display | > ${OPTICAL_PROFILE_WIDTHS.compactMax}px | Full luminous construction, golden-ratio annotations, canonical O network, and layered M. |
-| Compact | ${OPTICAL_PROFILE_WIDTHS.microMax + 1}–${OPTICAL_PROFILE_WIDTHS.compactMax}px | Stronger H stems, quiet continuous a/b crossbar, compact O network, and single compact M contour. |
+| Compact | ${OPTICAL_PROFILE_WIDTHS.microMax + 1}–${OPTICAL_PROFILE_WIDTHS.compactMax}px | Stronger H stems, quiet continuous a/b crossbar, compact O network, and a compact M surrounded by dense irregular Fourier scribbles. |
 | Micro | ≤ ${OPTICAL_PROFILE_WIDTHS.microMax}px | Continuous H crossbar without φ ticks/brace/point, seven O chords without nodes, and a strengthened M contour. |
 
 Compact and micro assets apply small X-only spacing corrections recorded in the metrics contract. They never distort glyph geometry. The golden-ratio construction remains available in the display mark and procedural spiral animation, but it does not compete with letter recognition in utility sizes.
