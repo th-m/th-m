@@ -83,9 +83,11 @@ describe("ArticleContent dispatch", () => {
     expect(screen.getByText(/A model never "experiences" anything/)).toHaveTextContent(
       "The value of its predictive capabilities comes from the relationships between words.",
     );
-    expect(screen.getByText(/Training changes the weights\. Inference uses them/)).toHaveTextContent(
-      "the underlying process remains probabilistic prediction across learned patterns",
-    );
+    expect(
+      screen.getByText(
+        "There is no evidence to suggest anything beyond a pattern with incredible predictive power.",
+      ),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/The model never encounters a cat/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Tokens, Training and Information" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Input and tokens" })).not.toBeInTheDocument();
@@ -115,10 +117,31 @@ describe("ArticleContent dispatch", () => {
     expect(strategyMap.compareDocumentPosition(strategyField) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.getByText(/Accounting for relational impacts, temporal impacts, and value tradeoffs/)).toBeInTheDocument();
     expect(screen.getByText(/you have likely already prioritized your goals/)).toBeInTheDocument();
+    expect(screen.getByText(/Optimize this plan, find all the gaps/).closest("blockquote")).toHaveClass("article-quote--plain");
     expect(screen.getByText(/Human values cannot guide an AI while remaining private\. They must be expressed via:/)).toBeInTheDocument();
     expect(screen.getByText(/Human governance means retaining responsibility for which values govern/)).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: /Illustrative population of 100 people/ })).toBeInTheDocument();
-    expect(screen.getByText(/This example exaggerates the idea, but expresses it nonetheless/)).toBeInTheDocument();
+    const coreThesis = screen.getByText(/Human experience reveals what can matter/);
+    const strategicStudy = screen.getByText(/Research on AI-generated strategic advice demonstrates/);
+    const governingPoint = screen.getByText(/Meaningful decisions must begin with human experience/);
+    expect(coreThesis.compareDocumentPosition(strategicStudy) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(strategicStudy.compareDocumentPosition(governingPoint) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(coreThesis.closest(".article-claim")).toHaveClass("article-claim--emphasis");
+    const externalEvidence = screen.getByRole("complementary", { name: "External research" });
+    expect(externalEvidence).toContainElement(screen.getByRole("link", { name: "study of seven strategic tradeoffs" }));
+    expect(externalEvidence.querySelector("ul")).toHaveClass("goals-article__research-list");
+    expect(screen.queryByText("External evidence")).not.toBeInTheDocument();
+    expect(screen.getByText("Which outcome should be optimized?").closest("ul")).toHaveClass("goals-article__bullets");
+    const salaryFigure = screen.getByRole("img", { name: /Illustrative company of 100 people/ });
+    expect(salaryFigure).toBeInTheDocument();
+    expect(salaryFigure).toHaveTextContent(/No one earns the \$95k average/);
+    const salaryFigureText = salaryFigure.textContent ?? "";
+    expect(salaryFigureText.indexOf("Typical employee")).toBeLessThan(
+      salaryFigureText.indexOf("Company average"),
+    );
+    expect(screen.queryByText(/80 × \$60k/)).not.toBeInTheDocument();
+    expect(screen.getByText(/Subjective terms and value-laden language inherit personal definitions/)).toHaveTextContent(
+      "An average can describe a population while obscuring the person we are trying to understand. This is not only an AI problem. It is a language problem.",
+    );
     expect(screen.queryByText(/Visualization placeholder/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Human governance does not mean manually choosing every action/)).not.toBeInTheDocument();
     expect(screen.getByText("optimal", { selector: "code" }).closest("p")).toHaveTextContent(

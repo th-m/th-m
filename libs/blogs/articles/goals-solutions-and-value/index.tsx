@@ -34,9 +34,9 @@ function Sub({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function Quote({ children }: { children: ReactNode }) {
+function Quote({ children, plain = false }: { children: ReactNode; plain?: boolean }) {
   return (
-    <blockquote>
+    <blockquote className={plain ? "article-quote--plain" : undefined}>
       <p>{children}</p>
     </blockquote>
   );
@@ -50,57 +50,68 @@ function PopulationMeanFigure() {
   return (
     <figure
       className="article-figure population-mean-figure"
-      data-figure="population-mean-versus-typical-individual"
+      data-figure="company-mean-versus-typical-employee"
     >
       <div
         className="population-mean"
         role="img"
-        aria-label="Illustrative population of 100 people: 99 have two legs and one has one leg. The population mean is 1.99 legs, while the typical individual has two legs."
+        aria-label="Illustrative company of 100 people: 80 employees earn $60,000, 15 managers earn $100,000, four directors earn $175,000, and one CEO earns $2.5 million. The typical employee earns $60,000, while the company average is $95,000."
       >
         <div className="population-mean__header" aria-hidden="true">
-          <span>Illustrative population</span>
+          <span>Illustrative company</span>
           <strong>100 people</strong>
         </div>
 
         <div className="population-mean__plot" aria-hidden="true">
           <div className="population-mean__row">
-            <span className="population-mean__label">1 leg</span>
+            <span className="population-mean__label">Employees</span>
             <span className="population-mean__track">
-              <span className="population-mean__bar population-mean__bar--one" />
+              <span className="population-mean__bar population-mean__bar--employee" />
+            </span>
+            <strong>80</strong>
+          </div>
+          <div className="population-mean__row">
+            <span className="population-mean__label">Managers</span>
+            <span className="population-mean__track">
+              <span className="population-mean__bar population-mean__bar--manager" />
+            </span>
+            <strong>15</strong>
+          </div>
+          <div className="population-mean__row">
+            <span className="population-mean__label">Directors</span>
+            <span className="population-mean__track">
+              <span className="population-mean__bar population-mean__bar--director" />
+            </span>
+            <strong>4</strong>
+          </div>
+          <div className="population-mean__row">
+            <span className="population-mean__label">CEO</span>
+            <span className="population-mean__track">
+              <span className="population-mean__bar population-mean__bar--executive" />
             </span>
             <strong>1</strong>
           </div>
-          <div className="population-mean__row">
-            <span className="population-mean__label">2 legs</span>
-            <span className="population-mean__track">
-              <span className="population-mean__bar population-mean__bar--two" />
-            </span>
-            <strong>99</strong>
-          </div>
-        </div>
-
-        <div className="population-mean__calculation" aria-hidden="true">
-          (99 × 2 + 1 × 1) ÷ 100 = 1.99
         </div>
 
         <div className="population-mean__comparison" aria-hidden="true">
           <div>
-            <span>Population mean</span>
-            <strong>1.99</strong>
-            <small>legs</small>
+            <span>Typical employee</span>
+            <strong>$60k</strong>
+            <small>annual</small>
           </div>
           <span className="population-mean__inequality">≠</span>
           <div>
-            <span>Typical individual</span>
-            <strong>2</strong>
-            <small>legs</small>
+            <span>Company average</span>
+            <strong>$95k</strong>
+            <small>annual</small>
           </div>
         </div>
+
+        <p className="population-mean__note" aria-hidden="true">
+          No one earns the $95k average. It is accurate, but it does not describe the typical
+          employee.
+        </p>
       </div>
-      <figcaption>
-        This example exaggerates the idea, but expresses it nonetheless: a population mean can be
-        accurate in aggregate without describing the typical individual.
-      </figcaption>
     </figure>
   );
 }
@@ -267,9 +278,17 @@ function Term({ children, gloss }: { children: ReactNode; gloss: string }) {
   );
 }
 
-function Claim({ label, children }: { label: string; children: ReactNode }) {
+function Claim({
+  label,
+  children,
+  emphasis = false,
+}: {
+  label: string;
+  children: ReactNode;
+  emphasis?: boolean;
+}) {
   return (
-    <Card className="article-claim">
+    <Card className={`article-claim${emphasis ? " article-claim--emphasis" : ""}`}>
       <CardHeader><p className="eyebrow">{label}</p></CardHeader>
       <CardContent>{children}</CardContent>
     </Card>
@@ -544,7 +563,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <p>
             I once gave an agent an existing plan and asked:
           </p>
-          <Quote>
+          <Quote plain>
             <strong>
               “Optimize this plan, find all the gaps and ensure validation checks are in place.”
             </strong>
@@ -568,37 +587,42 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             team&apos;s ability to execute, and stop when additional process created more burden
             than confidence.
           </p>
-          <p>
-            But even if I had written that, would the model have returned something meaningfully
-            aligned with my goals, my tolerance for risk, my team&apos;s capabilities, and our
-            values?
-          </p>
-          <p>
-            Research on AI-generated strategic advice demonstrates a related instability. In one{" "}
-            <Ext href="https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return">
-              study of seven strategic tradeoffs
-            </Ext>
-            :
-          </p>
-          <ul style={{ listStyleType: "disc" }}>
-            <li>
-              <strong>Fewer than 2%:</strong> Changing the wording or asking a model to reason harder
-              changed the answers.
-            </li>
-            <li>
-              <strong>About 11%:</strong> Adding relevant company information changed the answers.
-            </li>
-            <li>
-              <strong>About 19%:</strong> Merely reversing the order of the choices changed the
-              answers—more than the company evidence did.
-            </li>
-          </ul>
+          <p>Would the model have returned anything better?</p>
+          <Claim label="Core thesis" emphasis>
+            <p>
+              Human experience reveals what can matter. Values determine what should matter.
+              Strategy translates those values into choices among competing risks, resources,
+              and time horizons.
+            </p>
+          </Claim>
+          <aside className="goals-article__research" aria-label="External research">
+            <p className="goals-article__research-intro">
+              Research on AI-generated strategic advice demonstrates a related instability. In one{" "}
+              <Ext href="https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return">
+                study of seven strategic tradeoffs
+              </Ext>
+              :
+            </p>
+            <ul className="goals-article__research-list">
+              <li>
+                <strong>Fewer than 2%:</strong> Changing the wording or asking a model to reason harder
+                changed the answers.
+              </li>
+              <li>
+                <strong>About 11%:</strong> Adding relevant company information changed the answers.
+              </li>
+              <li>
+                <strong>About 19%:</strong> Merely reversing the order of the choices changed the
+                answers—more than the company evidence did.
+              </li>
+            </ul>
+          </aside>
           <p>
             The study did not test whether explicitly authorizing different values would produce
             different strategies. But it does show how easily a polished recommendation can
             conceal the priorities a model supplied for itself:
           </p>
-          <ul>
+          <ul className="goals-article__bullets">
             <li>Which outcome should be optimized?</li>
             <li>Which gaps are material?</li>
             <li>What degree of uncertainty is acceptable?</li>
@@ -606,29 +630,19 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             <li>When does another check reduce risk, and when does it merely add process?</li>
             <li>Who has authority to accept the remaining risk?</li>
           </ul>
-          <Claim label="Core thesis">
-            <p>
-              Human experience reveals what can matter. Values determine what should matter.
-              Strategy negotiates trade-offs between competing values, risks, resources, and time
-              horizons. It decides what to pursue, what to protect, what to sacrifice, and when to
-              change course. AI cannot recover judgment that language never contained, nor can it
-              meaningfully author values that govern the strategy.
-            </p>
-          </Claim>
           <p>
-            That limitation does not begin with the predictive power of the model. It begins
-            earlier. Language is already an incomplete and subjective compression of lived
-            experience. A model can infer from the words we provide, but it cannot directly
-            observe everything those words leave behind.
+            Language is incomplete, and models are limited by the input we provide. Meaningful
+            decisions must begin with human experience and be judged by how they affect human
+            experience.
           </p>
         </Section>
 
         <Section index="02" title="What's Inside a Language Model">
           <p>
             Technically, an LLM is just a large file with a bunch of weights. Those weights
-            represent a compressed statistical model of patterns in human language. It doesn&apos;t
-            &quot;think&quot; and it doesn&apos;t &quot;reason&quot; not like people. It simply
-            operates on patterns. This is of course amazing and mind-boggling. And also why AI
+            represent a compressed statistical model of patterns in human language. This pattern
+            doesn&apos;t &quot;think&quot; and it cannot &quot;reason&quot;, not like people do; it is
+            simply a pattern. This is of course amazing and mind-boggling. And also why AI
             researches say with such profundity &quot;map is the territory&quot;
           </p>
           <p>
@@ -702,9 +716,8 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
               .
             </p>
             <p>
-              Training changes the weights. Inference uses them. However remarkable the
-              capabilities that emerge, the underlying process remains probabilistic prediction
-              across learned patterns. There is no evidence to suggest anything beyond that.
+              There is no evidence to suggest anything beyond a pattern with incredible predictive
+              power.
             </p>
           </Sub>
         </Section>
@@ -731,7 +744,12 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             hierarchies.
           </p>
           <PopulationMeanFigure />
-          <p>This is not only an AI problem. It is a language problem.</p>
+          <p>
+            Subjective terms and value-laden language inherit personal definitions, just as{" "}
+            <code>income</code> translates to a unique value for each individual. An average can
+            describe a population while obscuring the person we are trying to understand. This is
+            not only an AI problem. It is a language problem.
+          </p>
           <p>
             Two coworkers may use <code>quality</code>, <code>safe</code>, or <code>done</code>{" "}
             for weeks while carrying different definitions. Each hears a familiar word and
