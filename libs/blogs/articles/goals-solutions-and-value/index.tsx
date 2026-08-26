@@ -668,31 +668,17 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             <Flow>text -&gt; tokens -&gt; inference -&gt; tokens -&gt; text</Flow>
             <p>
               During pretraining, almost every token becomes the answer to a prediction made from
-              the preceding context. Given <em>The cat sat on the …</em>, the model might assign:
+              the preceding context. Given <em>The cat sat on the …</em>, the model assigns
+              probabilities to possible continuations.
             </p>
-            <Table
-              head={["Possible next token", "Probability"]}
-              rows={[
-                [<code key="mat">mat</code>, "70%"],
-                [<code key="floor">floor</code>, "15%"],
-                [<code key="chair">chair</code>, "5%"],
-                ["Everything else", "10%"],
-              ]}
-            />
             <p>
               If the observed token is <code>mat</code>,{" "}
               <Term gloss="A loss that scores the predicted distribution against the observed next token.">
                 cross-entropy loss
               </Term>{" "}
-              evaluates <code>loss = -ln P(observed token)</code>.
-            </p>
-            <Table
-              head={["Probability assigned to mat", "Loss"]}
-              rows={[["90%", "0.11"], ["70%", "0.36"], ["10%", "2.30"]]}
-            />
-            <p>
-              A high probability for the observed token produces a small loss. A low probability
-              produces a large one.
+              measures how much probability the model assigned to it:{" "}
+              <code>loss = -ln P(observed token)</code>. A high probability produces a small loss;
+              a low probability produces a large one.
             </p>
             <NeuralTrainingFigure />
             <ul style={{ listStyleType: "disc" }}>
