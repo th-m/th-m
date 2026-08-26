@@ -1297,6 +1297,14 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           </p>
         </Section>
 
+        <div className="article-outline__closing">
+          <blockquote>
+            A model is fluent where language has learned to carry the constraints. Our work is to know when those
+            patterns are evidence — and when they are only the shape of an answer.
+          </blockquote>
+          <p>Closing line</p>
+        </div>
+
         <Section index="10" title="Sources">
           <ul>
             <li>
@@ -1350,14 +1358,6 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             </li>
           </ul>
         </Section>
-
-        <div className="article-outline__closing">
-          <blockquote>
-            A model is fluent where language has learned to carry the constraints. Our work is to know when those
-            patterns are evidence — and when they are only the shape of an answer.
-          </blockquote>
-          <p>Closing line</p>
-        </div>
       </div>
     </TooltipProvider>
   );
