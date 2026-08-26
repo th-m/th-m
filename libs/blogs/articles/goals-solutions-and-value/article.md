@@ -21,8 +21,8 @@ contradictions that made the plan incoherent and unusable.
 
 Of course I blame the agent.
 
-`Optimize` did not specify what the plan should become better at. `Find all the
-gaps` treated every imaginable omission as equally important. `Ensure validation
+Why doesn't the AI know what `Optimize` means? Furthermore, what kind of fool takes
+`Find all the gaps` to mean every imaginable omission is equally important? `Ensure validation
 checks are in place` rewarded adding another gate wherever uncertainty
 remained.
 
