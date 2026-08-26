@@ -54,7 +54,7 @@ unnumbered so editorial order can change without destabilizing paths.
 
 | Workspace | Subject | Status |
 | --- | --- | --- |
-| [consciousness-is-incoherent](./consciousness-is-incoherent/) | **Consciousness is incoherent:** why an unqualified machine-consciousness claim lacks a stable cross-substrate predicate, and what evidence a coherent attribution would require | Published essay page; draws its logical and evidentiary spine from the consciousness notes developed for *Goals, Solutions & Value* |
+| [consciousness-is-incoherent](./consciousness-is-incoherent/) | **AI's Consciousness explanation:** why an unqualified machine-consciousness claim lacks a stable cross-substrate predicate, and what evidence a coherent attribution would require | Published essay page; draws its logical and evidentiary spine from the consciousness notes developed for *Goals, Solutions & Value* |
 
 ### Series Architecture
 

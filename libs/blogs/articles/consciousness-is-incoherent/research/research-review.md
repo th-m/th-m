@@ -1,4 +1,4 @@
-# Research Review: “Consciousness Is Incoherent”
+# Research Review: “AI's Consciousness explanation”
 
 ## Executive conclusion
 

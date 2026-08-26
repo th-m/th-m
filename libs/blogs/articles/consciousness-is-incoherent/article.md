@@ -1,10 +1,10 @@
 ---
-title: Consciousness is incoherent
+title: AI's Consciousness explanation
 description: Machine consciousness claims become coherent only when they name a theory, a discriminating measure, and a validated bridge to phenomenal experience.
 publishedAt: 2026-08-25
 tags: [Artificial Intelligence, Consciousness, Philosophy of Mind, Language]
 ---
-# Consciousness is incoherent
+# AI's Consciousness explanation
 
 Is an AI conscious?
 

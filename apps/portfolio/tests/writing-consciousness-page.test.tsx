@@ -6,21 +6,21 @@ import { ArticleContent } from "../src/writing/ArticleContent";
 function consciousnessArticle(): PublishedArticle {
   return {
     slug: "consciousness-is-incoherent",
-    title: "Consciousness is incoherent",
+    title: "AI's Consciousness explanation",
     description: "Machine consciousness claims become coherent only when they name a theory, a discriminating measure, and a validated bridge to phenomenal experience.",
     publishedAt: "2026-08-25",
     tags: ["Artificial Intelligence", "Consciousness", "Philosophy of Mind", "Language"],
     articlePath: "posts/consciousness-is-incoherent/article.md",
-    markdown: "# Consciousness is incoherent\n\nBody.\n",
+    markdown: "# AI's Consciousness explanation\n\nBody.\n",
   };
 }
 
-describe("Consciousness is incoherent published page", () => {
+describe("AI's Consciousness explanation published page", () => {
   it("renders the dedicated essay page and publication metadata", () => {
     render(<ArticleContent article={consciousnessArticle()} />);
 
     expect(screen.getByText("Essay")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1, name: "Consciousness is incoherent" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "AI's Consciousness explanation" })).toBeInTheDocument();
     expect(screen.getByText(/Machine consciousness claims become coherent/)).toBeInTheDocument();
     expect(screen.getByText("Published August 25, 2026")).toBeInTheDocument();
     expect(screen.getByRole("list", { name: "Topics" }).children).toHaveLength(4);

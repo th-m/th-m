@@ -1,4 +1,4 @@
-# Consciousness is incoherent
+# AI's Consciousness explanation
 
 ## Thesis
 
