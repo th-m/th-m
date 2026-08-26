@@ -8,25 +8,21 @@ import {
   Float32BufferAttribute,
   LineBasicMaterial,
   LineSegments,
-  MathUtils,
   Quaternion,
   SRGBColorSpace,
-  Spherical,
   Vector3,
 } from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import {
-  type CompositionSceneControls,
-  type HybridRecipe,
-  type MythicalWord,
+  COMPOSITION_OUTPUT_ONLY_TERMS,
+  type CompositionResultWord,
+  type CompositionTerm,
+  type PairRecipe,
   type SemanticWord,
 } from "./compositionModel";
 import {
-  SEMANTIC_NETWORK_ANIMAL_WORDS,
-  SEMANTIC_NETWORK_CONTEXT_WORDS,
-  SEMANTIC_NETWORK_EDGES,
-  SEMANTIC_NETWORK_MYTHICAL_WORDS,
   SEMANTIC_NETWORK_NODES,
+  semanticEdgesForHighlights,
   type SemanticNetworkEdge,
   type SemanticNetworkNode,
   type SemanticNetworkRelation,
@@ -42,14 +38,19 @@ const COLORS = {
   background: thomDesignTokens.color.surface,
 };
 
-const AXIS_LABELS = [
-  { label: "ordinary", position: [-2.05, -1.48, -1.15] },
-  { label: "royal", position: [2.02, -1.48, -1.15] },
-  { label: "young", position: [-1.88, -1.48, 1.15] },
-  { label: "adult", position: [-1.88, 1.5, 1.15] },
-  { label: "masculine-coded", position: [1.5, -1.48, -1.62] },
-  { label: "role-neutral", position: [1.5, -1.48, 0] },
-  { label: "feminine-coded", position: [1.5, -1.48, 1.62] },
+const COORDINATE_AXES = [
+  { axis: "x", start: [-3, 0, 0], end: [2.75, 0, 0], labelPosition: [2.88, 0.18, 0] },
+  { axis: "y", start: [0, -2.1, 0], end: [0, 2, 0], labelPosition: [0.16, 2.1, 0] },
+  { axis: "z", start: [0, 0, -2], end: [0, 0, 2], labelPosition: [0, 0.17, 2.1] },
+] as const;
+
+const SEMANTIC_AXIS_LABELS = [
+  { label: "ordinary", position: [-2.75, -0.17, 0] },
+  { label: "royal", position: [2.5, -0.17, 0] },
+  { label: "young", position: [-0.23, -1.98, 0] },
+  { label: "adult", position: [-0.23, 1.88, 0] },
+  { label: "masculine-coded", position: [0, -0.17, -1.8] },
+  { label: "feminine-coded", position: [0, -0.17, 1.8] },
 ] as const;
 
 function labelTexture(label: string, color: string) {
@@ -86,9 +87,58 @@ function LabelSprite({ label, position, color = COLORS.muted, scale = 1 }: {
   );
 }
 
+function CoordinateAxis({
+  start,
+  end,
+}: {
+  start: readonly [number, number, number];
+  end: readonly [number, number, number];
+}) {
+  const startVector = useMemo(() => new Vector3(...start), [start]);
+  const endVector = useMemo(() => new Vector3(...end), [end]);
+  const direction = useMemo(() => endVector.clone().sub(startVector).normalize(), [endVector, startVector]);
+  const midpoint = useMemo(() => startVector.clone().add(endVector).multiplyScalar(0.5), [endVector, startVector]);
+  const quaternion = useMemo(
+    () => new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), direction),
+    [direction],
+  );
+  const arrowPosition = useMemo(() => endVector.clone().addScaledVector(direction, -0.06), [direction, endVector]);
+
+  return (
+    <group>
+      <mesh position={midpoint} quaternion={quaternion}>
+        <cylinderGeometry args={[0.012, 0.012, startVector.distanceTo(endVector), 8]} />
+        <meshBasicMaterial color={COLORS.muted} transparent opacity={0.55} depthWrite={false} />
+      </mesh>
+      <mesh position={arrowPosition} quaternion={quaternion}>
+        <coneGeometry args={[0.06, 0.16, 10]} />
+        <meshBasicMaterial color={COLORS.accent} transparent opacity={0.9} depthWrite={false} />
+      </mesh>
+    </group>
+  );
+}
+
+function CoordinateAxes() {
+  return (
+    <group>
+      {COORDINATE_AXES.map(({ axis, start, end, labelPosition }) => (
+        <group key={axis}>
+          <CoordinateAxis start={start} end={end} />
+          <LabelSprite label={axis} position={labelPosition} color={COLORS.accent} scale={0.72} />
+        </group>
+      ))}
+      <mesh>
+        <sphereGeometry args={[0.045, 12, 12]} />
+        <meshBasicMaterial color={COLORS.line} />
+      </mesh>
+    </group>
+  );
+}
+
 const NETWORK_POSITIONS = new Map(
   SEMANTIC_NETWORK_NODES.map(({ word, position }) => [word, position]),
 );
+const OUTPUT_ONLY_WORDS = new Set<SemanticNetworkWord>(COMPOSITION_OUTPUT_ONLY_TERMS);
 
 const NETWORK_EDGE_STYLES: Record<SemanticNetworkRelation, { color: string; opacity: number }> = {
   status: { color: COLORS.accent, opacity: 0.44 },
@@ -203,10 +253,7 @@ function MovementSegment({ from, to }: { from: SemanticNetworkWord; to: Semantic
   );
 }
 
-function SceneControls({ onReady, onUnavailable }: {
-  onReady: (controls: CompositionSceneControls | null) => void;
-  onUnavailable: () => void;
-}) {
+function SceneControls({ onUnavailable }: { onUnavailable: () => void }) {
   const { camera, gl, invalidate, size } = useThree();
 
   useEffect(() => {
@@ -219,38 +266,23 @@ function SceneControls({ onReady, onUnavailable }: {
     const changed = () => invalidate();
     controls.addEventListener("change", changed);
 
-    const reset = () => {
-      if (size.width / size.height < 1.25) camera.position.set(7, 4.7, 8);
-      else camera.position.set(5.4, 3.5, 6.2);
-      controls.target.set(-0.15, -0.1, 0);
-      controls.update();
-      invalidate();
-    };
-    const rotate = (horizontal: number, vertical: number) => {
-      const offset = camera.position.clone().sub(controls.target);
-      const spherical = new Spherical().setFromVector3(offset);
-      spherical.theta += horizontal;
-      spherical.phi = MathUtils.clamp(spherical.phi + vertical, 0.22, Math.PI - 0.22);
-      camera.position.setFromSpherical(spherical).add(controls.target);
-      camera.lookAt(controls.target);
-      controls.update();
-      invalidate();
-    };
     const contextLost = (event: Event) => {
       event.preventDefault();
       onUnavailable();
     };
 
     gl.domElement.addEventListener("webglcontextlost", contextLost);
-    onReady({ rotate, reset });
-    reset();
+    if (size.width / size.height < 1.25) camera.position.set(7, 4.7, 8);
+    else camera.position.set(5.4, 3.5, 6.2);
+    controls.target.set(-0.15, -0.1, 0);
+    controls.update();
+    invalidate();
     return () => {
-      onReady(null);
       gl.domElement.removeEventListener("webglcontextlost", contextLost);
       controls.removeEventListener("change", changed);
       controls.dispose();
     };
-  }, [camera, gl, invalidate, onReady, onUnavailable, size.height, size.width]);
+  }, [camera, gl, invalidate, onUnavailable, size.height, size.width]);
 
   return null;
 }
@@ -259,23 +291,31 @@ export function EmbeddingCompositionScene3D({
   path,
   source,
   result,
-  blend,
-  onControlsReady,
+  recipe,
   onUnavailable,
 }: {
   path: readonly SemanticWord[];
-  source: SemanticWord;
-  result: SemanticWord | MythicalWord;
-  blend: HybridRecipe | null;
-  onControlsReady: (controls: CompositionSceneControls | null) => void;
+  source: SemanticNetworkWord | null;
+  result: CompositionResultWord | CompositionTerm | null;
+  recipe: PairRecipe | null;
   onUnavailable: () => void;
 }) {
   const highlightedWords = useMemo(
     () => new Set<SemanticNetworkWord>([
       ...path,
-      ...(blend ? [blend.base, blend.animal, blend.result] : []),
+      ...(recipe ? [...recipe.terms, recipe.result] : []),
     ]),
-    [blend, path],
+    [path, recipe],
+  );
+  const visibleEdges = useMemo(
+    () => semanticEdgesForHighlights([...highlightedWords]),
+    [highlightedWords],
+  );
+  const visibleNodes = useMemo(
+    () => SEMANTIC_NETWORK_NODES.filter(
+      ({ word }) => !OUTPUT_ONLY_WORDS.has(word) || highlightedWords.has(word),
+    ),
+    [highlightedWords],
   );
 
   return (
@@ -289,13 +329,14 @@ export function EmbeddingCompositionScene3D({
           gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         >
           <color attach="background" args={[COLORS.background]} />
+          <CoordinateAxes />
           {(["status", "age", "category", "counterpart", "blend"] as const).map((relation) => (
-            <NetworkEdges key={relation} edges={SEMANTIC_NETWORK_EDGES} relation={relation} />
+            <NetworkEdges key={relation} edges={visibleEdges} relation={relation} />
           ))}
-          {AXIS_LABELS.map(({ label, position }) => (
-            <LabelSprite key={label} label={label} position={position} scale={0.72} />
+          {SEMANTIC_AXIS_LABELS.map(({ label, position }) => (
+            <LabelSprite key={label} label={label} position={position} scale={0.58} />
           ))}
-          {SEMANTIC_NETWORK_NODES.map((node) => (
+          {visibleNodes.map((node) => (
             <WordMarker
               key={node.word}
               node={node}
@@ -307,31 +348,14 @@ export function EmbeddingCompositionScene3D({
           {path.slice(1).map((word, index) => (
             <MovementSegment key={`${path[index]}-${word}`} from={path[index] as SemanticWord} to={word} />
           ))}
-          {blend ? (
+          {recipe ? (
             <>
-              <MovementSegment from={blend.base} to={blend.result} />
-              <MovementSegment from={blend.animal} to={blend.result} />
+              <MovementSegment from={recipe.terms[0]} to={recipe.result} />
+              <MovementSegment from={recipe.terms[1]} to={recipe.result} />
             </>
           ) : null}
-          <SceneControls onReady={onControlsReady} onUnavailable={onUnavailable} />
+          <SceneControls onUnavailable={onUnavailable} />
         </Canvas>
-      </div>
-      <div
-        className="embedding-composition__network-key"
-        role="group"
-        aria-label={`${SEMANTIC_NETWORK_NODES.length} terms and ${SEMANTIC_NETWORK_EDGES.length} semantic links`}
-      >
-        <p><strong>{SEMANTIC_NETWORK_NODES.length}</strong> terms · <strong>{SEMANTIC_NETWORK_EDGES.length}</strong> semantic links</p>
-        <ul aria-label="Semantic link types">
-          <li data-relation="status">status</li>
-          <li data-relation="age">age</li>
-          <li data-relation="category">category</li>
-          <li data-relation="counterpart">counterpart</li>
-          <li data-relation="blend">authored blend</li>
-        </ul>
-        <p className="embedding-composition__network-axes">Role-region axes: x status · y age · z role convention. Other clusters use proximity and typed links, not those axes.</p>
-        <p className="embedding-composition__network-vocabulary">Context terms: {SEMANTIC_NETWORK_CONTEXT_WORDS.join(", ")}</p>
-        <p className="embedding-composition__network-vocabulary">Animals: {SEMANTIC_NETWORK_ANIMAL_WORDS.join(", ")} · Mythical creatures: {SEMANTIC_NETWORK_MYTHICAL_WORDS.join(", ")}</p>
       </div>
     </div>
   );

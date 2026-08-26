@@ -54,6 +54,19 @@ async function renderPage() {
 }
 
 describe("Truth, Entropy & Inference language visualization", () => {
+  it("opens with a concise statement of the argument", async () => {
+    await renderPage();
+
+    expect(screen.getByRole("heading", { name: "Fluency follows constraint." })).toBeInTheDocument();
+    expect(screen.getByText(/Language records what a domain rewards and rejects/i)).toHaveTextContent(
+      /Strong feedback makes fluent output informative; weak feedback makes it merely plausible/i,
+    );
+    expect(screen.getByText(/those patterns inherit the discipline of the practices that produced them/i)).toHaveTextContent(
+      /connects those checks to embeddings, entropy, and prompting/i,
+    );
+    expect(screen.queryByText(/The practical destination is an intuition for working with AI/i)).not.toBeInTheDocument();
+  });
+
   it("lets the truth-practice cards carry the taxonomy without a duplicate prose list", async () => {
     await renderPage();
     const heading = screen.getByRole("heading", { name: "Forms of Truth and Propositional Formulations" });
@@ -61,8 +74,43 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(section).not.toBeNull();
     expect(section?.querySelector("ul")).toBeNull();
     expect(section).toHaveTextContent("Formal truth");
+    expect(section).toHaveTextContent("Relational / acquaintance");
     expect(section).toHaveTextContent("Sincerity / truthfulness");
-    expect(section).toHaveTextContent("Knowledge by acquaintance");
+    expect(section).toHaveTextContent("Trustworthiness Theory");
+    expect(section).toHaveTextContent("Teleological Theory");
+    expect(section).toHaveTextContent(/Coherence\s*—\s*Does it fit\?/i);
+    expect(section).toHaveTextContent(/Correspondence\s*—\s*Does it match\?/i);
+    expect(section).toHaveTextContent(/Consequence\s*—\s*Does it work\?/i);
+    expect(section).toHaveTextContent(/observable state of affairs/i);
+    expect(section).toHaveTextContent(/reliable consequences under stated conditions/i);
+    expect(section).toHaveTextContent(/Classical Confucian parallel/i);
+    expect(section).toHaveTextContent(/chéng \(誠\)/i);
+    expect(section).toHaveTextContent(/Biblical Hebrew parallel/i);
+    expect(section).toHaveTextContent(/ʾemet \(אֱמֶת\)/i);
+    expect(section).toHaveTextContent(/ideal instance of its kind/i);
+    expect(screen.getByRole("link", { name: /Chéng in classical Chinese thought/i })).toHaveAttribute(
+      "href",
+      "https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126",
+    );
+    expect(screen.getByRole("link", { name: /ʾEmet in biblical Hebrew/i })).toHaveAttribute(
+      "href",
+      "https://www.thetorah.com/article/torat-emet-truth-spoken-through-the-humble-human-experience",
+    );
+    expect(
+      screen.getByRole("figure", {
+        name: "Seven truth practices and the feedback that constrains their language",
+      }),
+    ).toBeInTheDocument();
+    expect(section).toHaveTextContent(/ought not be trusted by either Sienna or Pearl/i);
+    expect(section).toHaveTextContent(/true prop door/i);
+    expect(screen.getAllByRole("link", { name: /Nonpropositional Truth/i })[0]).toHaveAttribute(
+      "href",
+      "https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s",
+    );
+    expect(screen.getAllByRole("link", { name: /teleological/i })[0]).toHaveAttribute(
+      "href",
+      "https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=2200s",
+    );
   });
 
   it("bridges token embeddings to output probabilities before the entropy interaction", async () => {
@@ -80,10 +128,30 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(screen.getByText("eᵢ = E[xᵢ] ∈ ℝᵈ")).toBeInTheDocument();
     expect(screen.getByText("z = Wₒhₙ + b ∈ ℝ|V|")).toBeInTheDocument();
     expect(screen.getByText("P(j | x≤n) = softmax(z)ⱼ")).toBeInTheDocument();
+    expect(screen.getByText(/each ID is only a row address/i)).toBeInTheDocument();
+    expect(screen.getByText(/lowers it for sampled non-neighbors/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /from-scratch Word2Vec demonstration/i })).toHaveAttribute(
+      "href",
+      "https://www.youtube.com/watch?v=YmLp8qe87A0&t=1297s",
+    );
+    expect(screen.getByText("3D semantic network")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "2D projection" })).not.toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Role term 1" })).toHaveValue("man");
+    expect(screen.getByRole("combobox", { name: "Status term 1" })).toHaveValue("royal");
+    expect(screen.getByRole("combobox", { name: "Add Age term" })).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Add Creature term" })).toBeInTheDocument();
     expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent(/man\s*\+\s*royal\s*=\s*king/);
-    fireEvent.change(screen.getByLabelText("Starting embedding term"), { target: { value: "king" } });
-    fireEvent.click(screen.getByRole("button", { name: "Add young age direction" }));
-    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent(/king\s*\+\s*young\s*=\s*prince/);
+    expect(screen.getByText(/Think of an embedding space as a map whose coordinates are learned from language use/i)).toBeInTheDocument();
+    expect(screen.queryByRole("group", { name: "3D camera controls" })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Geometric intuition, not a guaranteed equation/i)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Remove royal term" }));
+    fireEvent.click(screen.getByRole("button", { name: "Remove man term" }));
+    const roleTerms = screen.getByRole("combobox", { name: "Add Role term" });
+    expect(roleTerms).not.toHaveTextContent("king");
+    expect(roleTerms).not.toHaveTextContent("princess");
+    fireEvent.change(roleTerms, { target: { value: "boy" } });
+    fireEvent.change(screen.getByRole("combobox", { name: "Add Status term" }), { target: { value: "royal" } });
+    expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent(/boy\s*\+\s*royal\s*=\s*prince/);
     expect(screen.getByRole("link", { name: /training walkthrough in Goals, Solutions & Value/i })).toHaveAttribute(
       "href",
       "/writing/goals-solutions-and-value",
