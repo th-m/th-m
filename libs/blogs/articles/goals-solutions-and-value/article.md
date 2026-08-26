@@ -133,11 +133,11 @@ context → token probabilities → observed token → cross-entropy loss
 The trained model combines an architecture with billions of learned
 parameters, or **weights**:
 
-- embeddings map token IDs into learned numerical representations;
-- attention combines information from different positions in the context;
-- feed-forward layers transform each contextualized representation; and
+- embeddings map token IDs into learned numerical representations
+- attention combines information from different positions in the context
+- feed-forward layers transform each contextualized representation
 - output weights turn the final representation into scores for possible next
-  tokens.
+  tokens
 
 At inference time, the current tokens pass through the network,
 the model produces a probability distribution, a decoding strategy selects a
@@ -150,13 +150,13 @@ prompt → tokens → learned representations → token probabilities
 
 Training changes the weights. Inference uses those weights. Runtime context
 then steers which learned patterns matter:
-- system prompt;
-- an agent charter;
+- system prompt
+- an agent charter
 - the user's prompt
-- prompt composition;
-- tool permissions;
-- retrieved evidence;
-- conversation history;
+- prompt composition
+- tool permissions
+- retrieved evidence
+- conversation history
 
 
 ### Two compressions
@@ -364,12 +364,12 @@ system unless people have given it permission to challenge, escalate, or stop.
 A resilient hierarchy must therefore be **corrigible**: answerable to evidence
 and revision rather than protected as an untouchable objective. That requires:
 
-- direct observation of customer and employee consequences;
-- protected disagreement and independent feedback;
-- perspectives from people who bear costs without controlling the decision;
-- measurements that include downstream effects;
-- explicit review of tradeoffs and uncertainty; and
-- escalation paths with authority to revise the governing goal.
+- direct observation of customer and employee consequences
+- protected disagreement and independent feedback
+- perspectives from people who bear costs without controlling the decision
+- measurements that include downstream effects
+- explicit review of tradeoffs and uncertainty
+- escalation paths with authority to revise the governing goal
 
 Human governance does not mean manually choosing every action. It means
 retaining responsibility for which values govern, creating the conditions
@@ -381,14 +381,14 @@ consequences reveal they were wrong.
 Human values cannot guide an AI while remaining private. They have to become
 available through some combination of:
 
-- named stakeholders and consequences;
-- definitions and domain distinctions;
-- priorities and legitimate tradeoffs;
-- representative examples and counterexamples;
-- constraints, permissions, and escalation boundaries;
-- evidence, provenance, and explicit uncertainty;
-- tests, stopping conditions, and evaluation; and
-- feedback capable of revising the governing model.
+- named stakeholders and consequences
+- definitions and domain distinctions
+- priorities and legitimate tradeoffs
+- representative examples and counterexamples
+- constraints, permissions, and escalation boundaries
+- evidence, provenance, and explicit uncertainty
+- tests, stopping conditions, and evaluation
+- feedback capable of revising the governing model
 
 This translation does not remove the need for judgment. It makes judgment
 inspectable and gives both people and AI a better chance of recognizing when
