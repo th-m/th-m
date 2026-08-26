@@ -56,6 +56,7 @@ function article(slug: string): PublishedArticle {
 }
 
 const dedicatedPageSlugs = [
+  "ai-consciousness-is-incoherent",
   "consciousness-is-incoherent",
   "goals-solutions-and-value",
   "the-cognitive-factory",
@@ -154,13 +155,15 @@ describe("ArticleContent dispatch", () => {
     expect(screen.getByText("About 11%:", { selector: "strong" })).toBeInTheDocument();
     expect(screen.getByText("About 19%:", { selector: "strong" })).toBeInTheDocument();
     const corrigibilityList = screen
-      .getByText("direct observation of customer and employee consequences;")
+      .getByText("direct observation of customer and employee consequences")
       .closest("ul");
     expect(corrigibilityList).toHaveClass("goals-article__bullets");
     expect(corrigibilityList?.querySelectorAll("li")).toHaveLength(6);
-    const expressedValuesList = screen.getByText("named stakeholders and consequences;").closest("ul");
+    const expressedValuesList = screen.getByText("named stakeholders and consequences").closest("ul");
     expect(expressedValuesList).toHaveClass("goals-article__bullets");
     expect(expressedValuesList?.querySelectorAll("li")).toHaveLength(8);
+    const bulletItems = Array.from(document.querySelectorAll(".goals-article ul li"));
+    expect(bulletItems.every((item) => !item.textContent?.includes(";"))).toBe(true);
     expect(screen.getByText("Governing goal 1", { exact: true })).toBeInTheDocument();
     expect(screen.getByText("Governing goal 2", { exact: true })).toBeInTheDocument();
     expect(screen.getByText("direct", { exact: true })).toBeInTheDocument();
