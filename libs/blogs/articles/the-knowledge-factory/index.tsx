@@ -71,6 +71,10 @@ function EssayLink({ to, children }: { to: string; children: ReactNode }) {
   return <LinkPreview url={to}>{children}</LinkPreview>;
 }
 
+function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
+  return <LinkPreview url={href} external>{children}</LinkPreview>;
+}
+
 /** Inline jargon gloss — a ≤3-line floating tooltip. Attention stays in the sentence. */
 function Gloss({ tip, children }: { tip: string; children: ReactNode }) {
   return (
@@ -1143,6 +1147,19 @@ export default function ArticlePage({
           <li>Customer empathy and longitudinal discovery practices.</li>
           <li>Decision journals, forecasting, after-action review, and organizational memory.</li>
           <li>Evidence on AI-supported strategic work, sycophancy, order effects, and scenario generation.</li>
+        </ul>
+      </Section>
+
+      <Section index="23" title="Sources">
+        <ul>
+          <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. Supports the premise that AI adoption is a systems problem that can amplify existing organizational strengths and weaknesses.</li>
+          <li>Ikujiro Nonaka, <ExternalLink href="https://doi.org/10.1287/orsc.5.1.14">“A Dynamic Theory of Organizational Knowledge Creation”</ExternalLink> (1994). Develops the account of organizational knowledge as a continuously created and shared capability.</li>
+          <li>James G. March, <ExternalLink href="https://doi.org/10.1287/orsc.2.1.71">“Exploration and Exploitation in Organizational Learning”</ExternalLink> (1991). Establishes the tension between searching for new possibilities and refining established capabilities.</li>
+          <li>Karl E. Weick, Kathleen M. Sutcliffe, and David Obstfeld, <ExternalLink href="https://doi.org/10.1287/orsc.1050.0133">“Organizing and the Process of Sensemaking”</ExternalLink> (2005). Grounds the treatment of organizations as systems that interpret equivocal evidence and act from provisional models.</li>
+          <li>James P. Walsh and Gerardo Rivera Ungson, <ExternalLink href="https://doi.org/10.5465/AMR.1991.4278992">“Organizational Memory”</ExternalLink> (1991). Supports the acquisition, retention, retrieval, use, and possible misuse of organizational memory.</li>
+          <li>Michael E. Porter, <ExternalLink href="https://hbr.org/1996/11/what-is-strategy">“What Is Strategy?”</ExternalLink> (1996). Frames strategy as a coherent system of choices and activities rather than a list of operational improvements.</li>
+          <li>ISO, <ExternalLink href="https://www.iso.org/standard/77520.html"><em>ISO 9241-210:2019 — Human-centred design for interactive systems</em></ExternalLink>. Grounds sustained attention to users, their needs, and human-system consequences throughout design.</li>
+          <li>National Institute of Standards and Technology, <ExternalLink href="https://doi.org/10.6028/NIST.AI.100-1"><em>Artificial Intelligence Risk Management Framework (AI RMF 1.0)</em></ExternalLink> (2023). Provides continuous governance, context mapping, measurement, evaluation, and accountability practices for deployed AI systems.</li>
         </ul>
       </Section>
 

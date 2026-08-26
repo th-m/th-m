@@ -98,8 +98,12 @@ describe("The Understanding Bottleneck published page", () => {
       ["Leiden Declaration on Artificial Intelligence and Mathematics", "https://leidendeclaration.ai/"],
     ];
     for (const [name, href] of external) {
-      expect(screen.getByRole("link", { name })).toHaveAttribute("href", href);
-      expect(screen.getByRole("link", { name })).toHaveAttribute("target", "_blank");
+      const matchingLink = screen
+        .getAllByRole("link", { name })
+        .find((link) => link.getAttribute("href") === href);
+
+      expect(matchingLink).toBeDefined();
+      expect(matchingLink).toHaveAttribute("target", "_blank");
     }
     const series: Array<[string, string]> = [
       ["Goals, Solutions & Value", "/writing/goals-solutions-and-value"],

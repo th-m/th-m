@@ -326,3 +326,13 @@ making it common across roles.
 > In an age of abundant answers, the scarce skill is building enough shared
 > understanding to know what deserves to be solved — and whether an answer
 > survives contact with the world.
+
+## Sources
+
+- Terence Tao, [“Mathematics in the Age of AI”](https://arxiv.org/abs/2608.16753) (2026). Develops the essay's organizing example of proof abundance, verification, explanation, and mathematical value.
+- OpenAI, [“An OpenAI Model Has Disproved a Central Conjecture in Discrete Geometry”](https://openai.com/index/model-disproves-discrete-geometry-conjecture/) (2026). Documents the unit-distance result and the continuing human role in choosing and interpreting problems.
+- [Leiden Declaration on Artificial Intelligence and Mathematics](https://leidendeclaration.ai/). States principles for correctness, understanding, attribution, transparency, and human direction in AI-assisted mathematics.
+- Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, [*Theorem Proving in Lean 4*](https://docs.lean-lang.org/theorem_proving_in_lean4/). Supports the distinction between kernel-checkable proof objects and the human task of choosing and interpreting a formalization.
+- Karl E. Weick, Kathleen M. Sutcliffe, and David Obstfeld, [“Organizing and the Process of Sensemaking”](https://doi.org/10.1287/orsc.1050.0133) (2005). Examines how people turn circumstances into articulated situations that can guide action.
+- Amy C. Edmondson, [“Psychological Safety and Learning Behavior in Work Teams”](https://doi.org/10.2307/2666999) (1999). Connects psychological safety with learning behavior in the studied teams.
+- ISO, [*ISO 9241-210:2019 — Human-centred design for interactive systems*](https://www.iso.org/standard/77520.html). Grounds sustained attention to users, needs, and human-system consequences throughout design.

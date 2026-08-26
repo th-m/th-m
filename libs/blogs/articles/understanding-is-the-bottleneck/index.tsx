@@ -333,6 +333,18 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
           <p>This capability is not confined to management. It may appear in an engineer who finds the missing constraint, a designer who connects behavior to lived experience, a support specialist who recognizes a recurring causal pattern, or a researcher who distinguishes evidence from a compelling story. Leadership is one place to look for the skill, but the organizational advantage comes from making it common across roles.</p>
         </Section>
 
+        <Section index="17" title="Sources">
+          <ul>
+            <li>Terence Tao, <ExternalLink href="https://arxiv.org/abs/2608.16753">“Mathematics in the Age of AI”</ExternalLink> (2026). Develops the essay&apos;s organizing example of proof abundance, verification, explanation, and mathematical value.</li>
+            <li>OpenAI, <ExternalLink href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">“An OpenAI Model Has Disproved a Central Conjecture in Discrete Geometry”</ExternalLink> (2026). Documents the unit-distance result and the continuing human role in choosing and interpreting problems.</li>
+            <li><ExternalLink href="https://leidendeclaration.ai/">Leiden Declaration on Artificial Intelligence and Mathematics</ExternalLink>. States principles for correctness, understanding, attribution, transparency, and human direction in AI-assisted mathematics.</li>
+            <li>Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, <ExternalLink href="https://docs.lean-lang.org/theorem_proving_in_lean4/"><em>Theorem Proving in Lean 4</em></ExternalLink>. Supports the distinction between kernel-checkable proof objects and the human task of choosing and interpreting a formalization.</li>
+            <li>Karl E. Weick, Kathleen M. Sutcliffe, and David Obstfeld, <ExternalLink href="https://doi.org/10.1287/orsc.1050.0133">“Organizing and the Process of Sensemaking”</ExternalLink> (2005). Examines how people turn circumstances into articulated situations that can guide action.</li>
+            <li>Amy C. Edmondson, <ExternalLink href="https://doi.org/10.2307/2666999">“Psychological Safety and Learning Behavior in Work Teams”</ExternalLink> (1999). Connects psychological safety with learning behavior in the studied teams.</li>
+            <li>ISO, <ExternalLink href="https://www.iso.org/standard/77520.html"><em>ISO 9241-210:2019 — Human-centred design for interactive systems</em></ExternalLink>. Grounds sustained attention to users, needs, and human-system consequences throughout design.</li>
+          </ul>
+        </Section>
+
         <div className="article-outline__closing">
           <blockquote>In an age of abundant answers, the scarce skill is building enough shared understanding to know what deserves to be solved — and whether an answer survives contact with the world.</blockquote>
           <p>Next in the series — <EssayLink slug="the-knowledge-factory">The Knowledge Factory</EssayLink>, then <EssayLink slug="the-ontology-factory">Ontology Factory</EssayLink> and <EssayLink slug="the-cognitive-factory">Cognitive Factory</EssayLink>.</p>

@@ -425,3 +425,14 @@ humans.
 > The companies that win will not be the ones that turn the most engineers into
 > faster workers. They will be the ones that give engineers the context,
 > authority, and tools to redesign the factory itself.
+
+## Sources
+
+- DORA, Google, [*2025 State of AI-assisted Software Development Report*](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/). Supports the premise that AI adoption is a systems problem that can amplify existing organizational strengths and weaknesses.
+- Ikujiro Nonaka, [“A Dynamic Theory of Organizational Knowledge Creation”](https://doi.org/10.1287/orsc.5.1.14) (1994). Develops the account of organizational knowledge as a continuously created and shared capability.
+- James G. March, [“Exploration and Exploitation in Organizational Learning”](https://doi.org/10.1287/orsc.2.1.71) (1991). Establishes the tension between searching for new possibilities and refining established capabilities.
+- Karl E. Weick, Kathleen M. Sutcliffe, and David Obstfeld, [“Organizing and the Process of Sensemaking”](https://doi.org/10.1287/orsc.1050.0133) (2005). Grounds the treatment of organizations as systems that interpret equivocal evidence and act from provisional models.
+- James P. Walsh and Gerardo Rivera Ungson, [“Organizational Memory”](https://doi.org/10.5465/AMR.1991.4278992) (1991). Supports the acquisition, retention, retrieval, use, and possible misuse of organizational memory.
+- Michael E. Porter, [“What Is Strategy?”](https://hbr.org/1996/11/what-is-strategy) (1996). Frames strategy as a coherent system of choices and activities rather than a list of operational improvements.
+- ISO, [*ISO 9241-210:2019 — Human-centred design for interactive systems*](https://www.iso.org/standard/77520.html). Grounds sustained attention to users, their needs, and human-system consequences throughout design.
+- National Institute of Standards and Technology, [*Artificial Intelligence Risk Management Framework (AI RMF 1.0)*](https://doi.org/10.6028/NIST.AI.100-1) (2023). Provides continuous governance, context mapping, measurement, evaluation, and accountability practices for deployed AI systems.

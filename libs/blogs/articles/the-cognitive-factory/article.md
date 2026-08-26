@@ -114,9 +114,10 @@ output without retained learning is throughput, not a knowledge factory.
 ## 4. The Cognitive Light Cone Scorecard
 
 The cognitive factory is where an organization implements the machinery that
-advances it down the light cone. Use the **cognitive light cone** as a
-diagnostic for how much of the relevant domain a system can observe,
-interpret, affect, and learn from. Three systems in increasing reach:
+advances it down the light cone. This essay makes an **organizational
+adaptation** of Michael Levin's cognitive-light-cone framework: it uses the
+metaphor as a diagnostic for how much of the relevant domain a system can
+observe, interpret, affect, and learn from. Three systems in increasing reach:
 
 - **LLM:** works from supplied context without its own harness. Humans select
   the evidence, state the goal, and evaluate the response.
@@ -174,3 +175,13 @@ Ontology makes the factory coherent. Strategy makes it purposeful.
 - [The Knowledge Factory](/writing/the-knowledge-factory)
 - [Ontology Factory](/writing/the-ontology-factory)
 - Cognitive Factory (this essay)
+
+## Sources
+
+- Michael Levin, [“Technological Approach to Mind Everywhere: An Experimentally-Grounded Framework for Understanding Diverse Bodies and Minds”](https://doi.org/10.3389/fnsys.2022.768201) (2022). Introduces the cognitive-light-cone framework adapted as an organizational diagnostic in this essay.
+- Patrick Lewis and colleagues, [“Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks”](https://proceedings.neurips.cc/paper/2020/hash/6b493230-Abstract.html) (2020). Establishes retrieval from explicit non-parametric memory and identifies provenance and knowledge updating as design problems.
+- Shunyu Yao and colleagues, [“ReAct: Synergizing Reasoning and Acting in Language Models”](https://arxiv.org/abs/2210.03629) (2023). Demonstrates an agent pattern that interleaves model reasoning, tool actions, environmental observations, and plan updates.
+- Noah Shinn and colleagues, [“Reflexion: Language Agents with Verbal Reinforcement Learning”](https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html) (2023). Tests the use of retained task feedback in episodic text memory to improve subsequent agent trials.
+- W3C, [“PROV-O: The PROV Ontology”](https://www.w3.org/TR/prov-o/) (2013). Defines a standard model for representing provenance among entities, activities, and agents.
+- National Institute of Standards and Technology, [*Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile*](https://doi.org/10.6028/NIST.AI.600-1) (2024). Supports lifecycle governance, context mapping, measurement, documentation, and human accountability for generative-AI systems.
+- DORA, Google, [*2025 State of AI-assisted Software Development Report*](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/). Supports the claim that effective AI adoption depends on the surrounding organizational system and capabilities rather than model access alone.
