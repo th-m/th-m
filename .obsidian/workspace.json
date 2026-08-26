@@ -186,7 +186,6 @@
   },
   "active": "4c25806f804a368f",
   "lastOpenFiles": [
-    "apps/portfolio/test-results",
     "apps/portfolio/dist/client/_shell.html",
     "apps/portfolio/dist/client/writing/understanding-is-the-bottleneck/index.html",
     "apps/portfolio/dist/client/writing/understanding-is-the-bottleneck",
@@ -197,11 +196,14 @@
     "apps/portfolio/dist/client/writing/the-knowledge-factory/index.html",
     "apps/portfolio/dist/client/writing/the-knowledge-factory",
     "apps/portfolio/dist/client/writing/the-cognitive-factory/index.html",
+    "apps/portfolio/dist/client/writing/the-cognitive-factory",
     "apps/portfolio/dist/client/assets/thom-typography-overview-BMHu6mje.md",
     "apps/portfolio/dist/client/assets/thom-canonical-RvZxVx17.svg",
     "apps/portfolio/dist/client/assets/01-vertical-metrics-BGGoK4ah.svg",
-    "libs/blogs/dist/posts/understanding-is-the-bottleneck/article.md",
+    "libs/blogs/dist/posts/the-ontology-factory/article.md",
+    "libs/blogs/dist/posts/truth-entropy-and-inference/article.md",
     "libs/blogs/dist/posts/the-knowledge-factory/article.md",
+    "libs/blogs/dist/posts/understanding-is-the-bottleneck/article.md",
     "libs/blogs/dist/posts/goals-solutions-and-value/article.md",
     "apps/portfolio/dist/client/_content/posts/consciousness-is-incoherent/article.md",
     "libs/blogs/dist/posts/the-cognitive-factory/article.md",
@@ -214,7 +216,6 @@
     "libs/blogs/articles/consciousness-is-incoherent/research/research-review.md",
     "libs/blogs/articles/consciousness-is-incoherent/draft/outline.md",
     "libs/blogs/articles/consciousness-is-incoherent/article.md",
-    "libs/blogs/dist/posts/truth-entropy-and-inference/article.md",
     "apps/portfolio/dist/client/brand-logo-idea.png",
     "apps/portfolio/dist/client/brand-audit/responsive-o-source-small.png",
     "apps/portfolio/dist/client/brand-audit/responsive-o-source-large.png",
@@ -230,7 +231,6 @@
     "libs/thom-brand/agent-design-instruction-guidelines.md",
     "apps/portfolio/test-results/e2e-site-no-JavaScript-ser-f3134--navigable-prerendered-HTML-desktop/error-context.md",
     "apps/portfolio/test-results/e2e-site-no-JavaScript-ser-f3134--navigable-prerendered-HTML-mobile/error-context.md",
-    "apps/portfolio/test-results/e2e-set-atlas-explores-a-c-bc8f2--atlas-from-the-tool-drawer-mobile/error-context.md",
-    "apps/portfolio/test-results/e2e-site-optically-centers-fed10--at-the-reference-viewports-mobile/error-context.md"
+    "apps/portfolio/test-results/e2e-set-atlas-explores-a-c-bc8f2--atlas-from-the-tool-drawer-mobile/error-context.md"
   ]
 }
