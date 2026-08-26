@@ -14,7 +14,7 @@ An immediate child directory is one article workspace. Its `draft/`, `notes/`,
 and `research/` directories are private authoring material. A workspace becomes
 publishable only when it contains a valid `article.md`; that public Markdown,
 its metadata, a sibling `assets/` directory, and an optional sibling `index.tsx`
-page can enter the library's `dist/` artifact.
+page with immediate TSX/CSS modules can enter the library's `dist/` artifact.
 
 ## Key Terms
 
@@ -31,6 +31,8 @@ page can enter the library's `dist/` artifact.
 - **Page:** an optional explicit public React component stored as `index.tsx`;
   its default export receives `{ post, assetUrl }` and renders the article page
   instead of the generic Markdown fallback.
+- **Page module:** a non-empty, kebab-case `*.tsx` or `*.css` file next to
+  `index.tsx`, used for article-owned figures and styling.
 - **Frontmatter:** YAML metadata containing `title`, `description`,
   `publishedAt`, and optional `updatedAt` and `tags`.
 
@@ -66,6 +68,8 @@ articles/
 └── post-slug/
     ├── article.md  (only when intentionally public)
     ├── index.tsx   (optional public React page)
+    ├── figure-name.tsx  (optional public page module)
+    ├── figure-name.css  (optional public page style)
     ├── assets/     (optional public article assets)
     ├── draft/
     │   ├── outline.md       (optional working structure)
@@ -106,16 +110,16 @@ figure would sit by inserting an HTML comment marker in the body:
 ```md
 The animation below shows a bad guess, then backpropagation adjusting the network.
 
-<!-- neural-net-lab -->
+<!-- understanding-loop -->
 ```
 
 The portfolio's generic Markdown fallback splits on registered markers and
 renders the matching interactive component (`ArticleContent` owns the
-marker-to-component map; the components live in reusable visualization
-libraries). Markers without a registration — and any renderer that ignores
-HTML comments — simply drop the marker, so the article stays readable as pure
-Markdown. This is the blog-owned placement contract; the interactive component
-itself is shared library code, not an asset stored in `assets/`.
+marker-to-component map). Markers without a registration — and any renderer
+that ignores HTML comments — simply drop the marker, so the article stays
+readable as pure Markdown. Dedicated article pages should instead colocate
+semantic scene declarations and figure wrappers beside `index.tsx`, while
+reusing domain-neutral renderers from visualization libraries.
 
 ### `index.tsx`
 
@@ -143,12 +147,18 @@ or `<SetAtlasVisualization analysis={...} />` in place of checked-in assets.
 drawer-context hook, so a page can open an auxiliary interactive beside the
 prose — for example
 `useToolDrawer().openTool("relationship-graph", { graphId })` after seeding the
-graph into the drawer's library. The publisher stages the file into `dist/` and
-marks the manifest post with `page: true`; the portfolio compiles it and
+graph into the drawer's library. The publisher stages the file and its immediate
+sibling `*.tsx` and `*.css` modules into `dist/` and marks the manifest post with
+`page: true`; the portfolio compiles them and
 dispatches `/writing/:slug` to it. Without a page, the portfolio renders the
 published Markdown through its generic fallback. See the [writing component
 conventions](../../../apps/portfolio/docs/writing-component-conventions.md) for
 when a custom page is worth building and which contextual components to use.
+
+Auxiliary module names use kebab-case, must not be empty, and require a valid
+`index.tsx`. Publication does not recurse into private directories. Semantic
+animation data belongs here when it explains this article; the reusable library
+should expose only rendering, interaction, and visual primitives.
 
 ### `draft/`
 

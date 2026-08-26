@@ -1,35 +1,20 @@
-import { Fragment, useEffect, useMemo, useState, type CSSProperties } from "react";
+import { Fragment, useEffect, useMemo, useState, type ReactElement } from "react";
 import { useMediaQuery } from "./media";
 import {
-  buildTrace,
-  effectLabel,
-  illustrativeScenario,
-  neuralNetPhases,
-  outputTargetIndex,
-  outputTokenLabels,
-  type LayerActivations,
-  type NeuralNetEffect,
-  type NeuralNetPhase,
-  type NeuralNetScenario,
-  type NeuralNetTrace,
-} from "./model";
-
-export interface NeuralNetAnimationCopy {
-  eyebrow: string;
-  title: string;
-  summary: string;
-  disclaimer: string;
-}
+  assertValidNeuralNetScene,
+  type NeuralNetEdgeDefinition,
+  type NeuralNetEdgeState,
+  type NeuralNetFrameDefinition,
+  type NeuralNetNodeDefinition,
+  type NeuralNetNodeState,
+  type NeuralNetScene,
+} from "./scene";
 
 export interface NeuralNetAnimationProps {
-  /** Which self-playing scene to show. Defaults to "inference". */
-  effect?: NeuralNetEffect;
-  /** Repeat the scene forever. Defaults to true; false freezes on the final frame. */
+  scene: NeuralNetScene;
+  /** Repeat the complete step and iteration timeline. Defaults to true. */
   loop?: boolean;
   reducedMotion?: "system" | "always" | "never";
-  /** Override the illustrative network and its teaching trace. */
-  scenario?: NeuralNetScenario;
-  copy?: Partial<NeuralNetAnimationCopy>;
   className?: string;
 }
 
@@ -42,66 +27,22 @@ const LAYER_SPAN = 660;
 const NODE_TOP = 100;
 const NODE_SPAN = 180;
 
-const defaultCopy: Record<NeuralNetEffect, NeuralNetAnimationCopy> = {
-  inference: {
-    eyebrow: "Neural net · 3 → 4 → 4 → 2",
-    title: "One forward pass",
-    summary: "Input values move left to right through two hidden layers and score two candidate tokens.",
-    disclaimer: "Simplified explanatory animation · deterministic illustrative values · not a live trace",
-  },
-  "feed-forward": {
-    eyebrow: "Neural net · 3 → 4 → 4 → 2",
-    title: "Activations, layer by layer",
-    summary: "Each node computes a weighted sum of the previous layer, then applies an activation before passing the signal on.",
-    disclaimer: "Simplified explanatory animation · deterministic illustrative values · not a live trace",
-  },
-  backprop: {
-    eyebrow: "Neural net · 3 → 4 → 4 → 2",
-    title: "A bad guess, then training",
-    summary: "A forward pass scores the target token too low. Backpropagation carries the error backward and the numbers inside the nodes adjust.",
-    disclaimer: "Training-only illustration · deterministic teaching trace · not a live training run",
-  },
-};
-
-interface PhaseVisual {
-  lit: readonly number[];
-  backEdgeGroup?: number;
-  lossBad?: boolean;
-  updating?: boolean;
-  selecting?: boolean;
-  cascade?: boolean;
+interface TimelinePosition {
+  iteration: number;
+  step: number;
 }
 
-function visualFor(effect: NeuralNetEffect, phaseId: string): PhaseVisual {
-  switch (effect) {
-    case "inference":
-      switch (phaseId) {
-        case "input": return { lit: [0] };
-        case "h1": return { lit: [0, 1] };
-        case "h2": return { lit: [0, 1, 2] };
-        case "output": return { lit: [0, 1, 2, 3] };
-        case "select": return { lit: [0, 1, 2, 3], selecting: true };
-      }
-      break;
-    case "feed-forward":
-      switch (phaseId) {
-        case "input": return { lit: [0], cascade: true };
-        case "h1": return { lit: [0, 1], cascade: true };
-        case "h2": return { lit: [0, 1, 2], cascade: true };
-        case "output": return { lit: [0, 1, 2, 3], cascade: true };
-      }
-      break;
-    case "backprop":
-      switch (phaseId) {
-        case "forward": return { lit: [0, 1, 2, 3] };
-        case "loss": return { lit: [0, 1, 2, 3], lossBad: true };
-        case "backward-h2": return { lit: [2, 3], backEdgeGroup: 2 };
-        case "backward-h1": return { lit: [1, 2], backEdgeGroup: 1 };
-        case "update": return { lit: [0, 1, 2, 3], updating: true };
-      }
-      break;
-  }
-  return { lit: [] };
+interface NodeLayout {
+  node: NeuralNetNodeDefinition;
+  layerId: string;
+  layerLabel: string;
+  nodeIndex: number;
+  x: number;
+  y: number;
+}
+
+function classes(...values: Array<string | undefined | false>): string {
+  return values.filter(Boolean).join(" ");
 }
 
 function layerX(layer: number, layerCount: number): number {
@@ -117,294 +58,236 @@ function formatValue(value: number): string {
   return value.toFixed(2);
 }
 
-/** Signed gradient value for an edge label, e.g. "+0.57" or "-0.99". */
-function formatGradient(value: number): string {
-  return `${value >= 0 ? "+" : ""}${value.toFixed(2)}`;
+function frameFor(scene: NeuralNetScene, position: TimelinePosition): NeuralNetFrameDefinition {
+  const iteration = scene.iterations[position.iteration];
+  const step = scene.steps[position.step];
+  const frame = iteration.frames.find((candidate) => candidate.stepId === step.id);
+  if (!frame) throw new Error(`Missing frame ${iteration.id}/${step.id}.`);
+  return frame;
 }
 
-function EdgeGroup({
-  fromLayer,
-  toLayer,
-  layerCount,
-  fromCount,
-  toCount,
-  forward,
-  backward,
-  cascade,
-  pathFrom,
-  pathTo,
-  gradients,
+function advancePosition(
+  position: TimelinePosition,
+  scene: NeuralNetScene,
+  loop: boolean,
+): TimelinePosition {
+  if (position.step < scene.steps.length - 1) {
+    return { ...position, step: position.step + 1 };
+  }
+  if (position.iteration < scene.iterations.length - 1) {
+    return { iteration: position.iteration + 1, step: 0 };
+  }
+  return loop ? { iteration: 0, step: 0 } : position;
+}
+
+function retreatPosition(position: TimelinePosition, scene: NeuralNetScene): TimelinePosition {
+  if (position.step > 0) return { ...position, step: position.step - 1 };
+  if (position.iteration > 0) {
+    return { iteration: position.iteration - 1, step: scene.steps.length - 1 };
+  }
+  return position;
+}
+
+function Edge({
+  edge,
+  state,
+  from,
+  to,
 }: {
-  fromLayer: number;
-  toLayer: number;
-  layerCount: number;
-  fromCount: number;
-  toCount: number;
-  /** The forward wave has reached the target layer of this group. */
-  forward: boolean;
-  /** This group carries the backward (gradient) signal. */
-  backward: boolean;
-  cascade: boolean;
-  /** Dominant-path source node; when set, only that edge glows forward. */
-  pathFrom?: number;
-  /** Dominant-path target node; when set, only that edge glows forward. */
-  pathTo?: number;
-  /** ∂L/∂w matrix for this group [target][source]; labels each rose edge. */
-  gradients?: readonly (readonly number[])[];
+  edge: NeuralNetEdgeDefinition;
+  state?: NeuralNetEdgeState;
+  from: NodeLayout;
+  to: NodeLayout;
 }) {
-  const x1 = layerX(fromLayer, layerCount);
-  const x2 = layerX(toLayer, layerCount);
+  const route = edge.route ?? "between-nodes";
+  const visible = state?.visible ?? edge.visible ?? true;
+  if (!visible) return null;
+
+  const midY = (from.y + to.y) / 2;
+  const controlX = route === "outside-right"
+    ? Math.max(from.x, to.x) + 64
+    : (from.x + to.x) / 2;
+  const label = state?.label;
+  const accessibleLabel = state?.ariaLabel ?? edge.ariaLabel ?? label ?? edge.label;
+
   return (
-    <g className={`nnl-edges ${forward ? "is-forward" : ""} ${backward ? "is-backward" : ""} ${cascade ? "is-cascade" : ""}`}>
-      {Array.from({ length: fromCount * toCount }, (_, pair) => {
-        const i = Math.floor(pair / toCount);
-        const j = pair % toCount;
-        const y1 = nodeY(i, fromCount);
-        const y2 = nodeY(j, toCount);
-        const midX = (x1 + x2) / 2;
-        const midY = (y1 + y2) / 2;
-        const onPath = forward && pathFrom !== undefined && pathTo !== undefined && i === pathFrom && j === pathTo;
-        const edgeActive = backward || onPath;
-        const gradient = backward && gradients ? gradients[j]?.[i] : undefined;
-        return (
-          <Fragment key={`${i}-${j}`}>
-            <path
-              className={`nnl-edge ${edgeActive ? "is-active" : ""}`}
-              style={{ "--nnl-i": pair } as CSSProperties}
-              d={`M ${x1} ${y1} Q ${midX} ${midY} ${x2} ${y2}`}
-            />
-            {gradient !== undefined ? (
-              <text
-                className="nnl-edge__gradient"
-                x={midX + (i - j) * 11}
-                y={midY + 3}
-                textAnchor="middle"
-                aria-hidden="true"
-              >
-                {formatGradient(gradient)}
-              </text>
-            ) : null}
-          </Fragment>
-        );
-      })}
-    </g>
+    <Fragment>
+      <path
+        className={classes("nnl-edge", edge.className, state?.className)}
+        d={`M ${from.x} ${from.y} Q ${controlX} ${midY} ${to.x} ${to.y}`}
+        data-edge-id={edge.id}
+        data-from={edge.from}
+        data-to={edge.to}
+        data-route={route}
+        aria-label={accessibleLabel}
+      >
+        <title>{accessibleLabel}</title>
+      </path>
+      {label ? (
+        <text
+          className={classes("nnl-edge__label", edge.className, state?.className)}
+          x={route === "outside-right" ? controlX + 16 : controlX + (from.nodeIndex - to.nodeIndex) * 11}
+          y={midY + 3}
+          textAnchor="middle"
+          aria-hidden="true"
+        >
+          {label}
+        </text>
+      ) : null}
+    </Fragment>
   );
 }
 
 function Node({
-  layer,
-  layerCount,
-  index,
-  count,
+  layout,
+  state,
   value,
-  label,
-  lit,
-  adjusting,
-  selecting,
-  target,
-  cascade,
+  showLabel,
 }: {
-  layer: number;
-  layerCount: number;
-  index: number;
-  count: number;
+  layout: NodeLayout;
+  state?: NeuralNetNodeState;
   value: number;
-  label?: string;
-  lit: boolean;
-  adjusting: boolean;
-  selecting: boolean;
-  target: boolean;
-  cascade: boolean;
+  showLabel: boolean;
 }) {
-  const x = layerX(layer, layerCount);
-  const y = nodeY(index, count);
+  const { node, x, y } = layout;
+  const accessibleLabel = state?.ariaLabel
+    ?? node.ariaLabel
+    ?? `${layout.layerLabel}, ${node.label}: ${formatValue(value)}`;
   return (
     <g
-      className={`nnl-node ${lit ? "is-lit" : ""} ${adjusting ? "is-adjusting" : ""} ${selecting ? "is-selected" : ""} ${target ? "is-target" : ""} ${cascade ? "is-cascade" : ""}`}
-      style={{ "--nnl-i": index } as CSSProperties}
-      aria-label={`${layer === 0 ? "Input" : layer === layerCount - 1 ? "Output" : "Hidden"} node ${index + 1}: ${formatValue(value)}`}
+      className={classes("nnl-node", node.className, state?.className)}
+      data-node-id={node.id}
+      aria-label={accessibleLabel}
     >
       <circle className="nnl-node__ring" cx={x} cy={y} r={NODE_RADIUS + 6} />
       <circle className="nnl-node__disc" cx={x} cy={y} r={NODE_RADIUS} />
-      <text className="nnl-node__value" x={x} y={y + 4} textAnchor="middle">{formatValue(value)}</text>
-      {label ? (
-        <text className="nnl-node__label" x={x} y={y + NODE_RADIUS + 20} textAnchor="middle">{label}</text>
+      <text className="nnl-node__value" x={x} y={y + 4} textAnchor="middle">
+        {state?.displayValue ?? formatValue(value)}
+      </text>
+      {showLabel ? (
+        <text className="nnl-node__label" x={x} y={y + NODE_RADIUS + 20} textAnchor="middle">
+          {node.label}
+        </text>
       ) : null}
     </g>
   );
 }
 
-/** The loss gap: the forward pass ended at one output node, but the target
- *  token is another — the curve between them is the error the loss measures. */
-function LossLine({
-  layerCount,
-  outputCount,
-  fromIndex,
-  toIndex,
-}: {
-  layerCount: number;
-  outputCount: number;
-  fromIndex: number;
-  toIndex: number;
-}) {
-  const x = layerX(layerCount - 1, layerCount);
-  const yFrom = nodeY(fromIndex, outputCount);
-  const yTo = nodeY(toIndex, outputCount);
-  const midY = (yFrom + yTo) / 2;
-  const bulge = 64;
-  return (
-    <g className="nnl-loss">
-      <path className="nnl-loss__line" d={`M ${x} ${yFrom} Q ${x + bulge} ${midY} ${x} ${yTo}`} />
-      <text className="nnl-loss__label" x={x + bulge / 2 + 16} y={midY + 3} textAnchor="middle">
-        loss
-      </text>
-    </g>
-  );
-}
-
 export function NeuralNetAnimation({
-  effect = "inference",
+  scene,
   loop = true,
   reducedMotion = "system",
-  scenario = illustrativeScenario,
-  copy,
   className = "",
-}: NeuralNetAnimationProps) {
+}: NeuralNetAnimationProps): ReactElement {
   const systemReduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const reduced = reducedMotion === "always" || (reducedMotion === "system" && systemReduced);
+  const resolved = useMemo(() => {
+    assertValidNeuralNetScene(scene);
+    const layouts = scene.layers.flatMap((layer, layerIndex) =>
+      layer.nodes.map((node, nodeIndex): NodeLayout => ({
+        node,
+        layerId: layer.id,
+        layerLabel: layer.label,
+        nodeIndex,
+        x: layerX(layerIndex, scene.layers.length),
+        y: nodeY(nodeIndex, layer.nodes.length),
+      })),
+    );
+    return {
+      layouts,
+      layoutByNodeId: new Map(layouts.map((layout) => [layout.node.id, layout])),
+      snapshotById: new Map(scene.snapshots.map((snapshot) => [snapshot.id, snapshot])),
+      valueBarNodeIds: new Set((scene.valueBarGroups ?? []).flatMap((group) => group.nodeIds)),
+    };
+  }, [scene]);
 
-  const trace: NeuralNetTrace = useMemo(() => buildTrace(scenario), [scenario]);
-  const phases = neuralNetPhases[effect];
-  const mergedCopy = { ...defaultCopy[effect], ...copy };
-
-  const [phaseIndex, setPhaseIndex] = useState(0);
-  const [epochIndex, setEpochIndex] = useState(0);
-  const [playing, setPlaying] = useState(loop);
+  const [position, setPosition] = useState<TimelinePosition>({ iteration: 0, step: 0 });
+  const [playing, setPlaying] = useState(true);
   const [interacted, setInteracted] = useState(false);
 
   useEffect(() => {
-    setPhaseIndex(0);
-    setEpochIndex(0);
-    setPlaying(loop);
+    setPosition({ iteration: 0, step: 0 });
+    setPlaying(true);
     setInteracted(false);
-  }, [effect, loop]);
+  }, [scene, loop]);
 
   useEffect(() => {
     if (reduced || !playing) return;
     const timer = window.setInterval(() => {
-      setPhaseIndex((current) => {
-        const last = phases.length - 1;
-        if (current >= last) {
-          if (effect === "backprop" && loop) {
-            setEpochIndex((epoch) => (epoch + 1) % trace.epochs.length);
-          }
-          return loop ? 0 : current;
-        }
-        return current + 1;
-      });
+      setPosition((current) => advancePosition(current, scene, loop));
     }, PHASE_MS);
     return () => window.clearInterval(timer);
-  }, [reduced, playing, effect, loop, phases.length, trace.epochs.length]);
+  }, [loop, playing, reduced, scene]);
 
   useEffect(() => {
     if (loop || reduced) return;
-    if (phaseIndex >= phases.length - 1) setPlaying(false);
-  }, [phaseIndex, loop, reduced, phases.length]);
+    if (
+      position.iteration === scene.iterations.length - 1
+      && position.step === scene.steps.length - 1
+    ) {
+      setPlaying(false);
+    }
+  }, [loop, position, reduced, scene.iterations.length, scene.steps.length]);
 
-  // Manual stepping pauses autoplay so the reader can inspect one state.
-  const lastPhase = phases.length - 1;
+  const finalPosition: TimelinePosition = {
+    iteration: scene.iterations.length - 1,
+    step: scene.steps.length - 1,
+  };
+  const displayPosition = reduced && !interacted ? finalPosition : position;
+  const iteration = scene.iterations[displayPosition.iteration];
+  const step = scene.steps[displayPosition.step];
+  const frame = frameFor(scene, displayPosition);
+  const snapshot = resolved.snapshotById.get(frame.snapshotId);
+  if (!snapshot) throw new Error(`Missing snapshot ${frame.snapshotId}.`);
+
+  const values = new Map(snapshot.nodeValues.map((nodeValue) => [nodeValue.id, nodeValue.value]));
+  const nodeStates = new Map((frame.nodes ?? []).map((state) => [state.id, state]));
+  const edgeStates = new Map((frame.edges ?? []).map((state) => [state.id, state]));
+
   const pauseForInspection = () => {
     setInteracted(true);
     setPlaying(false);
   };
-  const goToStep = (index: number) => {
+  const goToStep = (stepIndex: number) => {
     pauseForInspection();
-    setPhaseIndex(Math.min(Math.max(index, 0), lastPhase));
+    setPosition({ iteration: displayPosition.iteration, step: stepIndex });
   };
   const stepForward = () => {
     pauseForInspection();
-    setPhaseIndex((current) => {
-      if (current >= lastPhase) {
-        if (effect === "backprop" && loop) {
-          setEpochIndex((epoch) => (epoch + 1) % trace.epochs.length);
-        }
-        return loop ? 0 : current;
-      }
-      return current + 1;
-    });
+    setPosition(advancePosition(displayPosition, scene, loop));
   };
   const stepBack = () => {
     pauseForInspection();
-    setPhaseIndex((current) => {
-      if (current <= 0) {
-        if (effect === "backprop" && epochIndex > 0) {
-          setEpochIndex((epoch) => epoch - 1);
-          return lastPhase;
-        }
-        return 0;
-      }
-      return current - 1;
-    });
+    setPosition(retreatPosition(displayPosition, scene));
   };
   const togglePlay = () => {
     setInteracted(true);
+    if (!playing && !loop && position.iteration === finalPosition.iteration && position.step === finalPosition.step) {
+      setPosition({ iteration: 0, step: 0 });
+    }
     setPlaying((current) => !current);
   };
 
-  // Under reduced motion the figure stays on the final labeled frame until
-  // the reader steps through it manually.
-  const displayPhaseIndex = reduced && !interacted ? lastPhase : phaseIndex;
-  const phase = phases[Math.min(displayPhaseIndex, phases.length - 1)];
-  const visual = visualFor(effect, phase.id);
-  const layerCount = scenario.layerSizes.length;
-
-  const epochForDisplay = (phaseVisual: PhaseVisual): number => {
-    if (effect !== "backprop") return 0;
-    // Under reduced motion the untouched figure stays on the final trained
-    // epoch; once the reader steps through it, show the real timeline.
-    const displayEpoch = reduced && !interacted ? trace.epochs.length - 1 : epochIndex;
-    if (phaseVisual.updating) return Math.min(displayEpoch + 1, trace.epochs.length - 1);
-    return displayEpoch;
-  };
-  const epoch = epochForDisplay(visual);
-  const epochData = trace.epochs[epoch];
-  const nextEpochData = trace.epochs[Math.min(epoch + 1, trace.epochs.length - 1)];
-  const probabilities = effect === "backprop" && visual.updating ? nextEpochData.probabilities : epochData.probabilities;
-  const winnerIndex = probabilities.indexOf(Math.max(...probabilities));
-  const targetProbability = probabilities[scenario.targetIndex] ?? 0;
-  const currentLoss = epochData.loss;
-  const nextLoss = nextEpochData.loss;
-
-  const activationsForNode = (layer: number): readonly number[] => {
-    const activations: LayerActivations = effect === "backprop" && visual.updating ? nextEpochData.activations : epochData.activations;
-    return activations[layer] ?? [];
-  };
-
-  // The dominant path: the strongest node per layer. A forward pass lights
-  // only this route through the dense network; the rest of the fan stays dim.
-  const pathByLayer = scenario.layerSizes.map((count, layer) => {
-    if (layer === layerCount - 1) {
-      const scores = probabilities;
-      return scores.indexOf(Math.max(...scores));
-    }
-    const values = activationsForNode(layer);
-    return values.indexOf(Math.max(...values));
-  });
-
-  const backEdgeGroup = visual.backEdgeGroup;
-  const edgeGroups = layerCount - 1;
+  const description = [
+    step.detail,
+    ...(frame.nodes ?? []).map((state) => state.ariaLabel).filter((value): value is string => Boolean(value)),
+    ...(frame.edges ?? []).map((state) => state.ariaLabel ?? state.label).filter((value): value is string => Boolean(value)),
+  ].join(" ");
 
   return (
     <section
-      className={`nnl nnl--${effect} ${className}`}
-      data-effect={effect}
+      className={classes("nnl", scene.className, className)}
+      data-scene-id={scene.id}
+      data-step-id={step.id}
+      data-snapshot-id={snapshot.id}
+      data-iteration-id={iteration.id}
       data-motion={reduced ? "reduced" : "full"}
-      aria-label={`Animated ${effectLabel(effect)} on a small neural network. ${mergedCopy.summary}`}
+      aria-label={`Animated neural network: ${scene.copy.title}. ${scene.copy.summary}`}
     >
       <header className="nnl__header">
-        <p className="nnl__eyebrow">{mergedCopy.eyebrow}</p>
-        <h3>{mergedCopy.title}</h3>
-        <p className="nnl__summary">{mergedCopy.summary}</p>
+        <p className="nnl__eyebrow">{scene.copy.eyebrow}</p>
+        <h3>{scene.copy.title}</h3>
+        <p className="nnl__summary">{scene.copy.summary}</p>
       </header>
 
       <div className="nnl__stage">
@@ -412,93 +295,62 @@ export function NeuralNetAnimation({
           className="nnl__canvas"
           viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
           role="img"
-          aria-label="Neural network layers with animated activation values"
+          aria-label={`${scene.copy.title}: ${step.label}`}
         >
-          <title>{`${mergedCopy.title} — ${phase.label}. ${phase.detail}`}</title>
-          <defs>
-            <radialGradient id="nnl-node-fill" cx="42%" cy="34%" r="75%">
-              <stop offset="0" style={{ stopColor: "var(--color-surface-raised)" }} />
-              <stop offset="1" style={{ stopColor: "var(--color-background)" }} />
-            </radialGradient>
-            <linearGradient id="nnl-edge-gold" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" style={{ stopColor: "var(--nnl-gold-soft)" }} />
-              <stop offset="0.5" style={{ stopColor: "var(--color-foreground-strong)" }} />
-              <stop offset="1" style={{ stopColor: "var(--color-primary)" }} />
-            </linearGradient>
-          </defs>
+          <title>{`${scene.copy.title} — ${step.label}`}</title>
+          <desc>{description}</desc>
 
-          {Array.from({ length: edgeGroups }, (_, group) => {
-            const backward = backEdgeGroup === group;
-            const forward = !backward && visual.lit.includes(group + 1);
-            return (
-              <EdgeGroup
-                key={group}
-                fromLayer={group}
-                toLayer={group + 1}
-                layerCount={layerCount}
-                fromCount={scenario.layerSizes[group]}
-                toCount={scenario.layerSizes[group + 1]}
-                forward={forward}
-                backward={backward}
-                cascade={visual.cascade === true}
-                pathFrom={forward ? pathByLayer[group] : undefined}
-                pathTo={forward ? pathByLayer[group + 1] : undefined}
-                gradients={backward ? epochData.gradients?.[group] : undefined}
-              />
-            );
-          })}
+          <g className="nnl-edges">
+            {scene.edges.map((edge) => {
+              const from = resolved.layoutByNodeId.get(edge.from);
+              const to = resolved.layoutByNodeId.get(edge.to);
+              if (!from || !to) return null;
+              return <Edge key={edge.id} edge={edge} state={edgeStates.get(edge.id)} from={from} to={to} />;
+            })}
+          </g>
 
-          {scenario.layerSizes.map((count, layer) => {
-            const values = activationsForNode(layer);
-            const pathNode = pathByLayer[layer];
-            return Array.from({ length: count }, (_, index) => {
-              const isOutput = layer === layerCount - 1;
-              const value = isOutput ? probabilities[index] : (values[index] ?? 0);
-              return (
-                <Node
-                  key={`${layer}-${index}`}
-                  layer={layer}
-                  layerCount={layerCount}
-                  index={index}
-                  count={count}
-                  value={value}
-                  label={isOutput ? outputTokenLabels[index] : undefined}
-                  lit={visual.lit.includes(layer) && index === pathNode}
-                  adjusting={visual.updating === true}
-                  selecting={visual.selecting === true && index === winnerIndex}
-                  target={effect === "backprop" && isOutput && index === scenario.targetIndex}
-                  cascade={visual.cascade === true}
-                />
-              );
-            });
-          })}
-
-          {visual.lossBad && winnerIndex !== scenario.targetIndex ? (
-            <LossLine
-              layerCount={layerCount}
-              outputCount={scenario.layerSizes[layerCount - 1]}
-              fromIndex={winnerIndex}
-              toIndex={scenario.targetIndex}
-            />
-          ) : null}
+          {scene.layers.map((layer) => (
+            <g key={layer.id} className={classes("nnl-layer", layer.className)} data-layer-id={layer.id}>
+              {resolved.layouts
+                .filter((layout) => layout.layerId === layer.id)
+                .map((layout) => (
+                  <Node
+                    key={layout.node.id}
+                    layout={layout}
+                    state={nodeStates.get(layout.node.id)}
+                    value={values.get(layout.node.id) ?? 0}
+                    showLabel={resolved.valueBarNodeIds.has(layout.node.id)}
+                  />
+                ))}
+            </g>
+          ))}
         </svg>
 
-        <div className="nnl__probs" aria-hidden="true">
-          {outputTokenLabels.map((token, index) => (
-            <div
-              key={token}
-              className={`nnl__prob ${index === scenario.targetIndex ? "is-target" : ""} ${
-                visual.selecting === true && index === winnerIndex ? "is-winner" : ""
-              } ${visual.lossBad === true && index === scenario.targetIndex ? "is-bad-guess" : ""}`}
-            >
-              <span className="nnl__prob-token">{token}</span>
-              <span className="nnl__prob-track">
-                <span style={{ width: `${Math.round((probabilities[index] ?? 0) * 100)}%` }} />
-              </span>
-              <span className="nnl__prob-value">{(probabilities[index] ?? 0).toFixed(2)}</span>
-            </div>
-          ))}
-        </div>
+        {(scene.valueBarGroups ?? []).map((group) => (
+          <div
+            key={group.id}
+            className={classes("nnl__probs", group.className)}
+            data-value-bar-group={group.id}
+            role="group"
+            aria-label={group.ariaLabel ?? group.id}
+          >
+            {group.nodeIds.map((nodeId) => {
+              const layout = resolved.layoutByNodeId.get(nodeId);
+              if (!layout) return null;
+              const value = values.get(nodeId) ?? 0;
+              const state = nodeStates.get(nodeId);
+              return (
+                <div key={nodeId} className={classes("nnl__prob", state?.valueBarClassName)} data-node-id={nodeId}>
+                  <span className="nnl__prob-token">{layout.node.label}</span>
+                  <span className="nnl__prob-track" aria-hidden="true">
+                    <span style={{ width: `${Math.round(Math.min(Math.max(value, 0), 1) * 100)}%` }} />
+                  </span>
+                  <span className="nnl__prob-value">{formatValue(value)}</span>
+                </div>
+              );
+            })}
+          </div>
+        ))}
       </div>
 
       <div className="nnl__controls" aria-label="Step through the animation">
@@ -507,15 +359,15 @@ export function NeuralNetAnimation({
           <span className="nnl__ctrl-label">Prev</span>
         </button>
         <ol className="nnl__steps">
-          {phases.map((phase, index) => {
-            const active = displayPhaseIndex === index;
+          {scene.steps.map((candidate, index) => {
+            const active = displayPosition.step === index;
             return (
-              <li key={phase.id}>
+              <li key={candidate.id}>
                 <button
                   type="button"
                   className="nnl__step"
                   aria-current={active ? "step" : undefined}
-                  aria-label={`Step ${index + 1} of ${phases.length}: ${phase.label} — ${phase.detail}`}
+                  aria-label={`Step ${index + 1} of ${scene.steps.length}: ${candidate.label} — ${candidate.detail}`}
                   onClick={() => goToStep(index)}
                 >
                   {index + 1}
@@ -541,30 +393,23 @@ export function NeuralNetAnimation({
 
       <div className="nnl__readout" role="status" aria-live="polite">
         <div className="nnl__readout-copy">
-          <p className="nnl__readout-step">Step {displayPhaseIndex + 1} of {phases.length}</p>
-          <strong className="nnl__readout-op">{phase.label}</strong>
-          <span>{phase.detail}</span>
+          <p className="nnl__readout-step">Step {displayPosition.step + 1} of {scene.steps.length}</p>
+          <strong className="nnl__readout-op">{step.label}</strong>
+          <span>{step.detail}</span>
         </div>
-        {effect === "backprop" ? (
-          <div className="nnl__chips" aria-label="Training telemetry">
-            <span className="nnl__chip nnl__chip--epoch">epoch {epoch + 1} / {trace.epochs.length}</span>
-            {visual.lossBad ? <span className="nnl__chip nnl__chip--loss">loss −ln {targetProbability.toFixed(2)} = {currentLoss.toFixed(2)}</span> : null}
-            {visual.updating
-              ? <span className="nnl__chip nnl__chip--loss">{epoch + 1 < trace.epochs.length ? `loss ${currentLoss.toFixed(2)} → ${nextLoss.toFixed(2)}` : `loss ${currentLoss.toFixed(2)} · final`}</span>
-              : null}
-            {backEdgeGroup !== undefined ? <span className="nnl__chip nnl__chip--gradient">gradient ∂L/∂θ</span> : null}
+        {iteration.label || (frame.readouts?.length ?? 0) > 0 ? (
+          <div className="nnl__chips" aria-label="Animation telemetry">
+            {iteration.label ? <span className="nnl__chip nnl__chip--iteration">{iteration.label}</span> : null}
+            {(frame.readouts ?? []).map((readout) => (
+              <span key={readout.id} className={classes("nnl__chip", readout.className)}>{readout.text}</span>
+            ))}
           </div>
         ) : null}
       </div>
 
-      <div className="nnl__legend" aria-hidden="true">
-        <span><i className="nnl__dot" /> activation value</span>
-        <span className="nnl__legend-edge"><i /> edge = learned weight</span>
-        {effect === "backprop" ? <span className="nnl__legend-target">target token ▸</span> : null}
-        {effect === "backprop" ? <span className="nnl__legend-loss"><i /> loss gap</span> : null}
-      </div>
-
-      <footer className="nnl__disclaimer"><span aria-hidden="true">◇</span>{mergedCopy.disclaimer}</footer>
+      <footer className="nnl__disclaimer">
+        <span aria-hidden="true">◇</span>{scene.copy.disclaimer}
+      </footer>
     </section>
   );
 }

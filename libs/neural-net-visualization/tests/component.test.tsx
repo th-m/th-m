@@ -1,163 +1,91 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { NeuralNetAnimation } from "../src/NeuralNetAnimation";
-import { illustrativeScenario, neuralNetPhases } from "../src/model";
-
-// All tests render with reduced motion so no animation timers run.
+import { sceneFixture } from "./fixture";
 
 afterEach(() => {
   cleanup();
+  vi.useRealTimers();
 });
 
 describe("NeuralNetAnimation", () => {
-  it("renders a left-to-right network with every node", () => {
-    const { container } = render(<NeuralNetAnimation reducedMotion="always" />);
-    expect(screen.getByRole("img")).toBeInTheDocument();
-    const nodeCount = illustrativeScenario.layerSizes.reduce((sum, count) => sum + count, 0);
-    expect(container.querySelectorAll(".nnl-node")).toHaveLength(nodeCount);
+  it("renders declarative nodes, edges, layers, and inspection attributes", () => {
+    const { container } = render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="never" />);
+    const scene = screen.getByLabelText(/Animated neural network: Declarative scene/);
+    expect(scene).toHaveAttribute("data-step-id", "observe");
+    expect(scene).toHaveAttribute("data-snapshot-id", "before");
+    expect(scene).toHaveAttribute("data-iteration-id", "first");
+    expect(container.querySelectorAll("[data-node-id]")).toHaveLength(6);
+    expect(container.querySelector('[data-layer-id="left"]')).toHaveClass("fixture-layer");
+    const edge = container.querySelector('path[data-edge-id="a--c"]');
+    expect(edge).toHaveAttribute("data-from", "a");
+    expect(edge).toHaveAttribute("data-to", "c");
+    expect(edge).toHaveAttribute("data-route", "between-nodes");
   });
 
-  it("renders output token labels and probability rows", () => {
-    const { container } = render(<NeuralNetAnimation reducedMotion="always" />);
-    expect(container.querySelector(".nnl-node__label")?.textContent).toBe("the");
-    expect(container.querySelectorAll(".nnl__prob")).toHaveLength(2);
-    expect(screen.getAllByText("story").length).toBeGreaterThan(0);
+  it("resolves each frame from its named snapshot without carrying prior classes", () => {
+    const { container } = render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="never" />);
+    expect(container.querySelector('[data-node-id="c"].nnl-node')).toHaveClass("frame-node");
+    expect(screen.getByLabelText("Right layer, C: 0.30")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /Step 2 of 2: Change/ }));
+    expect(container.querySelector('[data-node-id="c"].nnl-node')).not.toHaveClass("frame-node");
+    expect(screen.getByLabelText("C has a positive value")).toBeInTheDocument();
+    expect(container.querySelector('[data-node-id="c"] .nnl-node__value')).toHaveTextContent("+");
   });
 
-  it("shows a static final frame under reduced motion", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
-    expect(screen.getByRole("status")).toHaveTextContent("Selection");
+  it("composes static and frame-specific node, edge, and value-bar classes", () => {
+    const { container } = render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="never" />);
+    expect(container.querySelector('[data-node-id="a"].nnl-node')).toHaveClass("fixture-node");
+    expect(container.querySelector('path[data-edge-id="a--c"]')).toHaveClass("fixture-edge", "frame-edge");
+    expect(container.querySelector('.nnl__prob[data-node-id="c"]')).toHaveClass("frame-bar");
+    expect(container.querySelector('[data-value-bar-group="outputs"]')).toHaveClass("fixture-bars");
   });
 
-  it("labels training-only behavior in backprop copy and telemetry", () => {
-    render(<NeuralNetAnimation effect="backprop" reducedMotion="always" />);
-    const status = screen.getByRole("status");
-    expect(status).toHaveTextContent("Update");
-    expect(status).toHaveTextContent("epoch 5 / 5");
-    expect(status).toHaveTextContent("loss 0.31 · final");
-    expect(screen.getByLabelText(/Training · backpropagation/)).toBeInTheDocument();
+  it("uses outside routes and frame visibility for annotations", () => {
+    const { container } = render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="never" />);
+    expect(container.querySelector('path[data-edge-id="c--d"]')).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: /Step 2 of 2: Change/ }));
+    const annotation = container.querySelector('path[data-edge-id="c--d"]');
+    expect(annotation).toHaveAttribute("data-route", "outside-right");
+    expect(annotation).toHaveClass("annotation-edge");
+    expect(container.querySelector(".nnl-edge__label")).toHaveTextContent("changed");
   });
 
-  it("keeps inference free of training telemetry", () => {
-    render(<NeuralNetAnimation effect="inference" reducedMotion="always" />);
-    expect(screen.queryByText(/epoch \d/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/gradient ∂L\/∂θ/)).not.toBeInTheDocument();
-  });
-
-  it("respects the reduced-motion data attribute", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
-    expect(screen.getByLabelText(/Animated Inference/)).toHaveAttribute("data-motion", "reduced");
-  });
-
-  it("defaults to the inference effect", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
-    expect(screen.getByLabelText(/Animated Inference/)).toHaveAttribute("data-effect", "inference");
-  });
-
-  it("renders one numbered step button per phase for every effect", () => {
-    const { rerender } = render(<NeuralNetAnimation effect="inference" reducedMotion="always" />);
-    expect(screen.getAllByRole("button", { name: /^Step \d of \d:/ })).toHaveLength(neuralNetPhases.inference.length);
-    rerender(<NeuralNetAnimation effect="feed-forward" reducedMotion="always" />);
-    expect(screen.getAllByRole("button", { name: /^Step \d of \d:/ })).toHaveLength(neuralNetPhases["feed-forward"].length);
-    rerender(<NeuralNetAnimation effect="backprop" reducedMotion="always" />);
-    expect(screen.getAllByRole("button", { name: /^Step \d of \d:/ })).toHaveLength(neuralNetPhases.backprop.length);
-  });
-
-  it("names every step's operation in its button label", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
-    expect(screen.getByRole("button", { name: /Step 2 of 5: Forward pass · Hidden 1/ })).toBeInTheDocument();
-  });
-
-  it("shows the step count and operation explicitly in the readout", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
-    const status = screen.getByRole("status");
-    expect(status).toHaveTextContent("Step 5 of 5");
-    expect(status).toHaveTextContent("Selection · highest score");
-  });
-
-  it("jumps to a step on click, pauses autoplay, and marks it current", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
-    fireEvent.click(screen.getByRole("button", { name: /Step 2 of 5: Forward pass · Hidden 1/ }));
-    const status = screen.getByRole("status");
-    expect(status).toHaveTextContent("Step 2 of 5");
-    expect(status).toHaveTextContent("Forward pass · Hidden 1");
-    expect(screen.getByRole("button", { name: /Step 2 of 5/ })).toHaveAttribute("aria-current", "step");
-    expect(screen.getByRole("button", { name: "Play the animation" })).toHaveAttribute("aria-pressed", "false");
-  });
-
-  it("steps forward and backward with the control buttons", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
+  it("advances across iteration boundaries while keeping numbered steps reusable", () => {
+    render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="never" />);
+    fireEvent.click(screen.getByRole("button", { name: /Step 2 of 2: Change/ }));
     fireEvent.click(screen.getByRole("button", { name: "Next step" }));
-    expect(screen.getByRole("status")).toHaveTextContent("Step 2 of 5");
-    fireEvent.click(screen.getByRole("button", { name: "Previous step" }));
-    expect(screen.getByRole("status")).toHaveTextContent("Step 1 of 5");
-    fireEvent.click(screen.getByRole("button", { name: "Previous step" }));
-    expect(screen.getByRole("status")).toHaveTextContent("Step 1 of 5");
+    const scene = screen.getByLabelText(/Animated neural network: Declarative scene/);
+    expect(scene).toHaveAttribute("data-iteration-id", "second");
+    expect(scene).toHaveAttribute("data-step-id", "observe");
+    expect(screen.getByRole("status")).toHaveTextContent("second iteration");
   });
 
-  it("wraps Next from the last step back to the first", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
-    fireEvent.click(screen.getByRole("button", { name: /Step 5 of 5/ }));
-    fireEvent.click(screen.getByRole("button", { name: "Next step" }));
-    expect(screen.getByRole("status")).toHaveTextContent("Step 1 of 5");
-    expect(screen.getByRole("status")).toHaveTextContent("Forward pass · Input");
+  it("autoplays once when looping is disabled and stops on the final frame", () => {
+    vi.useFakeTimers();
+    render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="never" loop={false} />);
+    const scene = screen.getByLabelText(/Animated neural network: Declarative scene/);
+
+    expect(screen.getByRole("button", { name: "Pause the animation" })).toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(1_150 * 3));
+    expect(scene).toHaveAttribute("data-iteration-id", "second");
+    expect(scene).toHaveAttribute("data-step-id", "change");
+    expect(screen.getByRole("button", { name: "Play the animation" })).toBeInTheDocument();
   });
 
-  it("toggles the play state through the pause control", () => {
-    render(<NeuralNetAnimation reducedMotion="always" />);
-    const play = screen.getByRole("button", { name: "Pause the animation" });
-    expect(play).toHaveAttribute("aria-pressed", "true");
-    fireEvent.click(play);
+  it("starts on the final frame of the final iteration under reduced motion", () => {
+    render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="always" />);
+    const scene = screen.getByLabelText(/Animated neural network: Declarative scene/);
+    expect(scene).toHaveAttribute("data-iteration-id", "second");
+    expect(scene).toHaveAttribute("data-step-id", "change");
+    expect(scene).toHaveAttribute("data-snapshot-id", "after");
+  });
+
+  it("pauses autoplay after direct navigation and exposes accessible step labels", () => {
+    render(<NeuralNetAnimation scene={sceneFixture()} reducedMotion="always" />);
+    fireEvent.click(screen.getByRole("button", { name: /Step 1 of 2: Observe/ }));
     expect(screen.getByRole("button", { name: "Play the animation" })).toHaveAttribute("aria-pressed", "false");
-    fireEvent.click(screen.getByRole("button", { name: "Play the animation" }));
-    expect(screen.getByRole("button", { name: "Pause the animation" })).toHaveAttribute("aria-pressed", "true");
-  });
-
-  it("highlights only the strongest node per reached layer on a forward pass", () => {
-    const { container } = render(<NeuralNetAnimation reducedMotion="always" />);
-    fireEvent.click(screen.getByRole("button", { name: /Step 2 of 5: Forward pass · Hidden 1/ }));
-    const litNodes = Array.from(container.querySelectorAll<HTMLElement>(".nnl-node.is-lit"));
-    expect(litNodes).toHaveLength(2);
-    expect(litNodes.filter((node) => node.getAttribute("aria-label")?.startsWith("Input")).length).toBe(1);
-    expect(litNodes.filter((node) => node.getAttribute("aria-label")?.startsWith("Hidden")).length).toBe(1);
-  });
-
-  it("glows a single path edge between reached layers", () => {
-    const { container } = render(<NeuralNetAnimation reducedMotion="always" />);
-    fireEvent.click(screen.getByRole("button", { name: /Step 2 of 5: Forward pass · Hidden 1/ }));
-    expect(container.querySelectorAll(".nnl-edges.is-forward .nnl-edge.is-active")).toHaveLength(1);
-  });
-
-  it("glows the full backward edge fan in rose during the backward pass", () => {
-    const { container } = render(<NeuralNetAnimation effect="backprop" reducedMotion="always" />);
-    fireEvent.click(screen.getByRole("button", { name: /Step 3 of 5: Backward · hidden 2/ }));
-    expect(container.querySelectorAll(".nnl-edges.is-backward .nnl-edge.is-active")).toHaveLength(8);
-  });
-
-  it("draws the loss line from the winning node to the target on the loss step", () => {
-    const { container } = render(<NeuralNetAnimation effect="backprop" reducedMotion="always" />);
-    // Default reduced frame is "update" — no loss line.
-    expect(container.querySelector(".nnl-loss__line")).toBeNull();
-    fireEvent.click(screen.getByRole("button", { name: /Step 2 of 5: Loss/ }));
-    expect(container.querySelector(".nnl-loss__line")).not.toBeNull();
-    expect(container.querySelector(".nnl-loss__label")?.textContent).toBe("loss");
-    // Other steps show no loss line.
-    fireEvent.click(screen.getByRole("button", { name: /Step 1 of 5: Forward pass/ }));
-    expect(container.querySelector(".nnl-loss__line")).toBeNull();
-  });
-
-  it("labels every rose edge with its gradient value during the backward steps", () => {
-    const { container } = render(<NeuralNetAnimation effect="backprop" reducedMotion="always" />);
-    fireEvent.click(screen.getByRole("button", { name: /Step 3 of 5: Backward · hidden 2/ }));
-    const hidden2Labels = container.querySelectorAll(".nnl-edge__gradient");
-    expect(hidden2Labels).toHaveLength(8); // hidden 2 (4) → output (2) fan
-    hidden2Labels.forEach((label) => expect(label.textContent).toMatch(/^[+-]\d\.\d\d$/));
-    fireEvent.click(screen.getByRole("button", { name: /Step 4 of 5: Backward · hidden 1/ }));
-    const hidden1Labels = container.querySelectorAll(".nnl-edge__gradient");
-    expect(hidden1Labels).toHaveLength(16); // hidden 1 (4) → hidden 2 (4) fan
-    hidden1Labels.forEach((label) => expect(label.textContent).toMatch(/^[+-]\d\.\d\d$/));
-    // The update step shows no gradient labels.
-    fireEvent.click(screen.getByRole("button", { name: /Step 5 of 5: Update/ }));
-    expect(container.querySelectorAll(".nnl-edge__gradient")).toHaveLength(0);
+    expect(screen.getByRole("status")).toHaveTextContent("Observe");
   });
 });

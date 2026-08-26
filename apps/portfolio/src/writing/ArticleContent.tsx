@@ -2,7 +2,6 @@ import { articleAssetUrl, type PublishedArticle } from "../content/blog-content"
 import { blogPages } from "../generated/blog-pages/registry";
 import { ArticleMarkdown, type InlineFigures } from "./ArticleMarkdown";
 import { PublicationDate } from "./PublicationDate";
-import { NeuralNetAnimation } from "@th-m/neural-net-visualization";
 import {
   createLayerDependencyGraph,
   createUnderstandingLoopGraph,
@@ -20,7 +19,6 @@ const layerGraph = createLayerDependencyGraph("2026-08-22T00:00:00.000Z");
  * themselves live in reusable visualization libraries.
  */
 const articleInlineFigures: InlineFigures = {
-  "neural-net-lab": () => <NeuralNetAnimation effect="backprop" />,
   "understanding-pipeline": () => <PropositionGraphFigure document={pipelineGraph} title="Proof abundance pipeline" />,
   "understanding-loop": () => <PropositionGraphFigure document={loopGraph} title="The understanding loop" />,
   "ontology-layer-graph": () => <PropositionGraphFigure document={layerGraph} title="Factory layer dependencies" />,

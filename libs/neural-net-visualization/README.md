@@ -2,70 +2,123 @@
 
 ## Purpose
 
-`@th-m/neural-net-visualization` provides a reusable React component that plays
-preset animated scenes on a small left-to-right neural network: a forward
-inference pass with glowing nodes, a focused feed-forward computation wave, and
-a training scene in which a bad guess produces a loss and backpropagation
-visibly adjusts the numbers inside the nodes. The figure is self-playing by
-default, and the reader can pause it and step through the timeline — jumping to
-any numbered step, or moving one step forward or backward — to inspect the
-exact network state at each operation. It uses local illustrative values, makes
-no live model calls, and displays only deterministic seeded teaching traces.
+`@th-m/neural-net-visualization` renders declarative layered graph scenes. It
+owns layout, animation controls, accessible state, and visual utilities for
+nodes, edges, and value bars. A consumer owns the scene's meaning, labels,
+numerical snapshots, and timeline; the library does not define training,
+inference, targets, loss, or other neural-network concepts.
 
 ## Ontology
 
-The component separates the deterministic illustrative scenario, the pure
-forward and training math, the per-effect operation timeline, and the SVG
-rendering. A **neural-net figure** is one scene selected by an `effect` prop;
-each scene exposes one **step** per operation (for example, a forward pass
-through hidden layer 1), shown as a numbered control the reader can activate.
-Learned parameters and temporary activations remain explicit semantic kinds,
-and all values are seeded teaching traces rather than measurements of a real
-model.
+A **scene** contains ordered layers and nodes, static edges, optional value-bar
+groups, named numerical snapshots, ordered steps, and one or more iterations.
+Each iteration supplies one independent frame per step. A frame selects a
+complete snapshot and can append node, edge, and value-bar classes, override a
+node's displayed value text, change edge visibility, and provide accessible
+labels and readouts. Nothing carries over from the previous frame.
+
+Style builders convert domain-neutral visual options into deterministic atomic
+class strings implemented by the package stylesheet. Article code can give
+those strings meaningful local names such as `predictionNode` or `lossEdge`.
 
 ## Key Terms
 
-- **Effect:** one animation scene — `inference`, `feed-forward`, or `backprop`
-  — selected through the component props.
-- **Step:** one operation within a scene (input, a hidden-layer pass, output,
-  loss, backward pass, update), reachable by number so the reader can inspect
-  the network state at that exact point.
-- **Scenario:** the deterministic layer sizes, weights, biases, input, and
-  target that define the illustrative network and its traces.
-- **Teaching trace:** the fixed per-phase activation, probability, loss, and
-  weight values the animation displays; no randomness or live computation is
-  claimed.
-- **Forward pass:** activation signal traveling left to right through the
-  layers, ending at output probabilities.
-- **Backward pass:** gradient signal traveling right to left during the
-  `backprop` effect, followed by visible parameter adjustments. During the
-  backward steps each rose edge carries its own `∂L/∂w` gradient value, so
-  the direction and magnitude of the error per weight are visible on the
-  edge itself.
+- **Layer:** an ordered group of nodes; layer and node order determine layout.
+- **Snapshot:** exactly one numeric value for every node in a scene.
+- **Step:** a labeled position in an iteration's timeline.
+- **Frame:** the complete snapshot reference and visual overrides for one step.
+- **Iteration:** one ordered set of frames, such as an article-defined epoch.
+- **Edge route:** geometry only: `between-nodes` or `outside-right`.
+- **Value-bar group:** an ordered set of nodes whose current values are also
+  rendered as bars.
+- **Style builder:** a deterministic node, edge, or value-bar class composer.
 
 ## Public API
 
-Import `NeuralNetAnimation` and the `neuralNetEffects` list from
-`@th-m/neural-net-visualization`, plus the `NeuralNetEffect` and
-`NeuralNetAnimationProps` types. Import `@th-m/neural-net-visualization/styles.css`
-once in the web consumer after the THOM design-theme CSS.
+Define a scene close to the content that gives it meaning, then pass it to the
+renderer:
 
 ```tsx
-import { NeuralNetAnimation } from "@th-m/neural-net-visualization";
+import {
+  NeuralNetAnimation,
+  defineNeuralNetScene,
+  neuralNetEdgeStyle,
+  neuralNetNodeStyle,
+  neuralNetValueBarStyle,
+} from "@th-m/neural-net-visualization";
 
-<NeuralNetAnimation effect="backprop" />
+const styles = {
+  activeNode: neuralNetNodeStyle({ tone: "primary", motion: "pulse" }),
+  activeEdge: neuralNetEdgeStyle({ tone: "primary", motion: "flow" }),
+  importantBar: neuralNetValueBarStyle({ tone: "danger", emphasis: "strong" }),
+};
+
+const scene = defineNeuralNetScene({
+  id: "small-example",
+  copy: {
+    eyebrow: "Layered graph",
+    title: "Two complete frames",
+    summary: "The consumer supplies the meaning.",
+    disclaimer: "Illustrative values",
+  },
+  layers: [
+    { id: "left", label: "Left", nodes: [{ id: "a", label: "A" }] },
+    { id: "right", label: "Right", nodes: [{ id: "b", label: "B" }] },
+  ],
+  edges: [{ id: "a-b", from: "a", to: "b", label: "A to B" }],
+  valueBarGroups: [{ id: "readout", nodeIds: ["b"] }],
+  steps: [
+    { id: "before", label: "Before", detail: "Initial state" },
+    { id: "after", label: "After", detail: "Changed state" },
+  ],
+  snapshots: [
+    { id: "initial", nodeValues: [{ id: "a", value: 0.2 }, { id: "b", value: 0.4 }] },
+    { id: "changed", nodeValues: [{ id: "a", value: 0.7 }, { id: "b", value: 0.9 }] },
+  ],
+  iterations: [{
+    id: "example",
+    frames: [
+      { stepId: "before", snapshotId: "initial" },
+      {
+        stepId: "after",
+        snapshotId: "changed",
+        nodes: [{
+          id: "b",
+          className: styles.activeNode,
+          valueBarClassName: styles.importantBar,
+          displayValue: "+",
+          ariaLabel: "B has a positive value",
+        }],
+        edges: [{ id: "a-b", className: styles.activeEdge }],
+      },
+    ],
+  }],
+});
+
+export function Example() {
+  return <NeuralNetAnimation scene={scene} />;
+}
 ```
 
-The figure plays automatically by default. Selecting a numbered step, pressing
-Prev/Next, or toggling Play/Pause pauses autoplay so the reader can inspect a
-single state; Play resumes the loop.
+`NeuralNetAnimation` also accepts `loop`, `className`, and `reducedMotion`.
+Import `@th-m/neural-net-visualization/styles.css` once in the web consumer
+after the THOM design-theme CSS.
 
-## Accessibility
+Node styles control tone, emphasis, ring, displayed-value tone, and motion.
+Edge styles control tone, emphasis, pattern, motion, and flow direction.
+Value-bar styles control tone, emphasis, outline, and motion. Consumers may
+append their own classes to every returned string.
 
-The figure carries an `aria-label` naming the effect and a step bar of real
-buttons, each labeled `Step N of M: <operation> — <detail>`, with the active
-step marked via `aria-current`. The current operation is announced through an
-`aria-live` region, and the Play/Pause control uses `aria-pressed`.
-`prefers-reduced-motion` collapses every scene to a static labeled frame (the
-system preference can be overridden through the `reducedMotion` prop); under
-reduced motion the reader can still step through the static frames manually.
+## Resolution and Accessibility
+
+Every frame begins from static definitions, loads all numerical values from its
+snapshot, appends frame classes, and then applies displayed-value, visibility,
+and accessible-label overrides. The renderer exposes stable `data-*` identifiers for the
+scene, iteration, step, snapshot, layers, nodes, edges, routes, and value-bar
+groups.
+
+Autoplay advances through steps and then iterations. Prev and Next cross
+iteration boundaries; direct step selection stays in the current iteration and
+pauses autoplay. Controls are real buttons with current-state attributes and a
+live status region. Reduced motion initially shows the final frame of the final
+iteration while retaining manual navigation.

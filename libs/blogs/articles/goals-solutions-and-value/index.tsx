@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
   useToolDrawer,
 } from "@th-m/ui";
-import { NeuralNetAnimation } from "@th-m/neural-net-visualization";
+import { NeuralTrainingFigure } from "./neural-training-figure";
 import {
   PropositionGraphFigure,
   type GraphDocument,
@@ -166,18 +166,6 @@ function Explore({ toolId, children }: { toolId: string; children: ReactNode }) 
 /* ------------------------------------------------------------------ */
 /* Figures                                                             */
 /* ------------------------------------------------------------------ */
-
-function TrainingFigure() {
-  return (
-    <figure className="article-figure">
-      <NeuralNetAnimation effect="backprop" />
-      <figcaption>
-        A bad guess, then backpropagation adjusting the network. Training changes the model's
-        weights; inference later uses those weights.
-      </figcaption>
-    </figure>
-  );
-}
 
 const valueLadder = [
   { kind: "Value", text: "Privacy matters" },
@@ -503,7 +491,7 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
                 scores that prediction; assigning the observed next token a high probability
                 produces a small loss, while assigning it a low probability produces a large one.
               </p>
-              <TrainingFigure />
+              <NeuralTrainingFigure />
               <ul>
                 <li>Loss function: measure the model’s error,</li>
                 <li>Backpropagation: determines which parameters contributed to it</li>

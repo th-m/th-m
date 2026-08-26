@@ -51,8 +51,6 @@ from the preceding context.
 
 Cross-entropy loss scores that prediction; assigning the observed next token a high probability produces a small loss, while assigning it a low probability produces a large one.
 
-<!-- neural-net-lab -->
-
 - Loss function: measure the model’s error,
 - Backpropagation: determines which parameters contributed to it
 - Optimizer: updates them to improve future predictions

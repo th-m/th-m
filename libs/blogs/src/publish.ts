@@ -115,27 +115,51 @@ export function parseArticleDocument(markdown: string, slug: string): ParsedArti
   };
 }
 
+const auxiliaryPageModulePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*\.(?:tsx|css)$/;
+
 /**
- * Stages an article's optional React page into its published directory.
- * Returns true when `index.tsx` exists and was copied. The page is validated
- * structurally here; the portfolio build performs full type checking.
+ * Stages an article's optional React page and its immediate sibling modules.
+ * The portfolio build performs full type checking after these structural
+ * publication checks.
  */
-async function stageArticlePage(articlesRoot: string, slug: string, postOutput: string): Promise<boolean> {
-  const source = join(articlesRoot, slug, "index.tsx");
-  let contents: string;
-  try {
-    contents = await readFile(source, "utf8");
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return false;
-    throw error;
+async function stageArticlePageModules(
+  articlesRoot: string,
+  slug: string,
+  postOutput: string,
+): Promise<boolean> {
+  const articleDirectory = join(articlesRoot, slug);
+  const entries = await readdir(articleDirectory, { withFileTypes: true });
+  const pageModules = entries
+    .filter((entry) => entry.isFile() && (entry.name.endsWith(".tsx") || entry.name.endsWith(".css")))
+    .map((entry) => entry.name)
+    .sort((left, right) => left.localeCompare(right, "en"));
+  const hasPage = pageModules.includes("index.tsx");
+  const auxiliaryModules = pageModules.filter((name) => name !== "index.tsx");
+
+  if (!hasPage) {
+    if (auxiliaryModules.length > 0) {
+      throw new Error(`${slug} auxiliary page modules require index.tsx.`);
+    }
+    return false;
   }
-  if (contents.trim().length === 0) {
-    throw new Error(`${slug}/index.tsx must not be empty.`);
+
+  for (const name of auxiliaryModules) {
+    if (!auxiliaryPageModulePattern.test(name)) {
+      throw new Error(`${slug}/${name} must use a kebab-case TSX or CSS filename.`);
+    }
   }
-  if (!/\bexport\s+default\b/.test(contents)) {
-    throw new Error(`${slug}/index.tsx must export a default React component.`);
+
+  for (const name of pageModules) {
+    const contents = await readFile(join(articleDirectory, name), "utf8");
+    if (contents.trim().length === 0) {
+      throw new Error(`${slug}/${name} must not be empty.`);
+    }
+    if (name === "index.tsx" && !/\bexport\s+default\b/.test(contents)) {
+      throw new Error(`${slug}/index.tsx must export a default React component.`);
+    }
+    await writeFile(join(postOutput, name), contents);
   }
-  await writeFile(join(postOutput, "index.tsx"), contents);
+
   return true;
 }
 
@@ -185,7 +209,7 @@ export async function buildBlogArtifact(projectDirectory = resolve(dirname(fileU
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
     }
 
-    const hasPage = await stageArticlePage(articlesRoot, slug, postOutput);
+    const hasPage = await stageArticlePageModules(articlesRoot, slug, postOutput);
 
     posts.push({
       slug: basename(slug),

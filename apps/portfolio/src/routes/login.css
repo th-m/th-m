@@ -1,0 +1,87 @@
+.owner-login {
+  display: grid;
+  min-height: calc(100vh - 160px);
+  place-items: center;
+  padding: clamp(112px, 14vw, 180px) 24px 80px;
+}
+
+.owner-login__panel {
+  width: min(100%, 520px);
+  padding: clamp(28px, 5vw, 52px);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--color-background) 92%, var(--brand-gold));
+}
+
+.owner-login__panel h1 {
+  margin: 14px 0 22px;
+  font-family: "Newsreader Variable", Georgia, serif;
+  font-size: clamp(48px, 8vw, 76px);
+  font-weight: 410;
+  letter-spacing: -.045em;
+  line-height: .9;
+}
+
+.owner-login__panel > p:not(.eyebrow) {
+  color: var(--color-foreground-muted);
+  line-height: 1.6;
+}
+
+.owner-login__form {
+  display: grid;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.owner-login__form label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.owner-login__form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+  color: var(--color-foreground);
+  font: inherit;
+}
+
+.owner-login__form button,
+.owner-login__sign-out {
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid var(--brand-gold);
+  background: var(--brand-gold);
+  color: var(--color-accent-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.owner-login__form button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+.owner-login__form input:focus-visible,
+.owner-login__form button:focus-visible,
+.owner-login__sign-out:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 3px;
+}
+
+.owner-login__sign-out {
+  margin-top: 28px;
+  background: transparent;
+  color: var(--color-foreground);
+}
+
+.owner-login__notice {
+  padding-left: 14px;
+  border-left: 2px solid var(--brand-gold);
+}

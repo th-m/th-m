@@ -1,4 +1,5 @@
-import { cp, mkdir, readdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, rm, stat, writeFile } from "node:fs/promises";
+import type { Dirent } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
 import { buildBlogArtifact, type PublishedPost } from "@th-m/blogs/publish";
 
@@ -7,6 +8,7 @@ const blogsRoot = resolve(projectRoot, "../../libs/blogs");
 const sourceRoot = resolve(blogsRoot, "dist");
 const targetRoot = resolve(projectRoot, "public/_content");
 const generatedRoot = resolve(projectRoot, "src/generated/blog-pages");
+const prepareLock = resolve(projectRoot, ".prepare-content.lock");
 
 function assertInsideProject(root: string, candidate: string, label: string): void {
   const path = relative(root, candidate);
@@ -15,12 +17,40 @@ function assertInsideProject(root: string, candidate: string, label: string): vo
   }
 }
 
-async function removeTypeScriptFiles(directory: string): Promise<void> {
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    const path = join(directory, entry.name);
-    if (entry.isDirectory()) await removeTypeScriptFiles(path);
-    else if (entry.name.endsWith(".tsx")) await rm(path);
+async function removePublicPageSources(posts: PublishedPost[]): Promise<void> {
+  for (const post of posts.filter((candidate) => candidate.page === true)) {
+    const publicPostDirectory = join(targetRoot, "posts", post.slug);
+    let entries: Dirent[];
+    try {
+      entries = await readdir(publicPostDirectory, { withFileTypes: true });
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") continue;
+      throw error;
+    }
+    for (const entry of entries) {
+      if (entry.isFile() && (entry.name.endsWith(".tsx") || entry.name.endsWith(".css"))) {
+        await rm(join(publicPostDirectory, entry.name), { force: true });
+      }
+    }
   }
+}
+
+async function acquirePrepareLock(): Promise<void> {
+  for (let attempt = 0; attempt < 600; attempt += 1) {
+    try {
+      await mkdir(prepareLock);
+      return;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+      const lock = await stat(prepareLock).catch(() => undefined);
+      if (lock && Date.now() - lock.mtimeMs > 60_000) {
+        await rm(prepareLock, { recursive: true, force: true });
+        continue;
+      }
+      await Bun.sleep(50);
+    }
+  }
+  throw new Error("Timed out waiting for the portfolio content preparation lock.");
 }
 
 function pageImportName(slug: string): string {
@@ -41,9 +71,15 @@ async function stageBlogPages(posts: PublishedPost[]): Promise<void> {
 
   for (const post of pagePosts) {
     const pageDirectory = join(generatedRoot, post.slug);
-    const sourcePage = join(sourceRoot, "posts", post.slug, "index.tsx");
+    const sourcePageDirectory = join(sourceRoot, "posts", post.slug);
     await mkdir(pageDirectory, { recursive: true });
-    await cp(sourcePage, join(pageDirectory, "index.tsx"));
+    const pageModules = (await readdir(sourcePageDirectory, { withFileTypes: true }))
+      .filter((entry) => entry.isFile() && (entry.name.endsWith(".tsx") || entry.name.endsWith(".css")))
+      .map((entry) => entry.name)
+      .sort((left, right) => left.localeCompare(right, "en"));
+    for (const name of pageModules) {
+      await cp(join(sourcePageDirectory, name), join(pageDirectory, name));
+    }
     const identifier = pageImportName(post.slug);
     imports.push(`import ${identifier} from "./${post.slug}";`);
     entries.push(`  "${post.slug}": ${identifier},`);
@@ -65,15 +101,21 @@ async function stageBlogPages(posts: PublishedPost[]): Promise<void> {
 }
 
 assertInsideProject(projectRoot, targetRoot, "published content");
+assertInsideProject(projectRoot, prepareLock, "preparation lock");
 
-const manifest = await buildBlogArtifact(blogsRoot);
-await rm(targetRoot, { recursive: true, force: true });
-await mkdir(targetRoot, { recursive: true });
-await cp(sourceRoot, targetRoot, { recursive: true });
-await removeTypeScriptFiles(targetRoot);
-await stageBlogPages(manifest.posts);
+await acquirePrepareLock();
+try {
+  const manifest = await buildBlogArtifact(blogsRoot);
+  await rm(targetRoot, { recursive: true, force: true });
+  await mkdir(targetRoot, { recursive: true });
+  await cp(sourceRoot, targetRoot, { recursive: true });
+  await removePublicPageSources(manifest.posts);
+  await stageBlogPages(manifest.posts);
 
-console.log(
-  `Prepared ${manifest.posts.length} published article${manifest.posts.length === 1 ? "" : "s"} ` +
-    `(${manifest.posts.filter((post) => post.page).length} with React pages) for the portfolio.`,
-);
+  console.log(
+    `Prepared ${manifest.posts.length} published article${manifest.posts.length === 1 ? "" : "s"} ` +
+      `(${manifest.posts.filter((post) => post.page).length} with React pages) for the portfolio.`,
+  );
+} finally {
+  await rm(prepareLock, { recursive: true, force: true });
+}

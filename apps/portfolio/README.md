@@ -69,9 +69,10 @@ vs. card vs. modal vs. drawer — live in
 `portfolio:publish` generates brand assets, stages the public blog artifact,
 typechecks the route tree, builds `dist/client`, and verifies every manifest
 entry has corresponding static HTML and Markdown. Outlines, notes, and research
-are never staged into this app. React article pages are compiled from the
-generated `src/generated/blog-pages/` tree that `prepare:content` rebuilds from
-`libs/blogs/dist`.
+are never staged into this app. React article pages and their immediate TSX/CSS
+modules are compiled from the generated `src/generated/blog-pages/` tree that
+`prepare:content` rebuilds from `libs/blogs/dist`; those page sources are
+excluded from public `_content`.
 
 I am interested in how software systems become understandable enough to change.
 
