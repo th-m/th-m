@@ -587,7 +587,10 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             team&apos;s ability to execute, and stop when additional process created more burden
             than confidence.
           </p>
-          <p>Would the model have returned anything better?</p>
+          <p>
+            Even with the updated prompt, I am not convinced the model would have output anything
+            better.
+          </p>
           <Claim label="Core thesis" emphasis>
             <p>
               Human experience reveals what can matter. Values determine what should matter.
