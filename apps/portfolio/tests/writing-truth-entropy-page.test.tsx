@@ -115,6 +115,10 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(recurringFigure).toHaveTextContent(/Coherence\s*—\s*Does it fit\?/i);
     expect(recurringFigure).toHaveTextContent(/Correspondence\s*—\s*Does it match\?/i);
     expect(recurringFigure).toHaveTextContent(/Consequence\s*—\s*Does it work\?/i);
+    expect(recurringFigure.querySelector('[data-truth-practice-icon="coherence-closure"]')).toBeInTheDocument();
+    expect(recurringFigure.querySelector('[data-truth-practice-icon="correspondence-target"]')).toBeInTheDocument();
+    expect(recurringFigure.querySelector('[data-truth-practice-icon="consequence-cradle"]')).toBeInTheDocument();
+    expect(recurringFigure.querySelectorAll("img[alt='']")).toHaveLength(3);
     expect(recurringFigure).toHaveTextContent(/observable state of affairs/i);
     expect(recurringFigure).toHaveTextContent(/reliable consequences under stated conditions/i);
     expect(section).toHaveTextContent(/Classical Confucian parallel/i);

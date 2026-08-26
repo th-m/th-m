@@ -2,6 +2,40 @@
   margin: 2.35em 0;
 }
 
+.truth-practice-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.truth-practice-card__header {
+  display: flex;
+  min-height: 58px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.truth-practice-card__header > p {
+  padding-top: 4px;
+}
+
+.truth-practice-card__icon {
+  display: block;
+  width: 72px;
+  height: 58px;
+  flex: 0 0 72px;
+  margin: -3px -2px 0 0;
+  object-fit: contain;
+  object-position: 50% 0;
+  opacity: .86;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .truth-practice-card__icon {
+    opacity: 1;
+  }
+}
+
 .truth-instruments__frame {
   border-block: 1px solid var(--line);
 }

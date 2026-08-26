@@ -1,3 +1,55 @@
+# Recurring Truth Instrument Glyphs — Design QA
+
+final result: passed
+
+## Scope
+
+This pass implements the three selected Paper glyphs inside the recurring-truth cards on `/writing/truth-entropy-and-inference`: a closed triangular system for coherence, a registered concentric target for correspondence, and an abstract three-pendulum cradle for consequence. The surrounding article copy, card structure, and responsive grid remain unchanged.
+
+## Source visual truth
+
+- Paper page: `Recurring Truth — Refined Instrument Glyphs` in `Truth, Entropy & Inference — Semantic Zoom`.
+- Clean Paper capture: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-paper-source.jpeg` (`1126 × 768 px`).
+- Focused source crop: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-paper-focused.png` (`560 × 310 px`).
+- The implementation uses the three exported Paper vectors as its base. Their opaque Paper grounds were removed, their linework was normalized to the article's warm brass `#b4976c`, and the final correspondence/consequence geometry incorporates the user's post-handoff refinements.
+
+## Implementation evidence
+
+- Live top-card viewport: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-top-viewport.png` (`698 × 862 px`).
+- Live consequence-card viewport: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-consequence-viewport.png` (`698 × 862 px`).
+- Focused implementation composite: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-implementation-focused.png` (`526 × 840 px`).
+- Paper/implementation comparison: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-comparison.png` (`1052 × 840 px`).
+- Viewport/state: `698 × 862` CSS px, dark article route, recurring-truth figure centered in two captures so every card is visible at its natural responsive size.
+- Browser console: no warnings or errors after the final clean reload.
+- Primary interactions: none apply; the glyphs are static explanatory marks and are correctly hidden from the accessibility tree because the adjacent labels state their meaning.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Shape fidelity: coherence retains the Paper study's irregular inscribed closure and three terminals. Correspondence now uses three evenly distributed registration ticks instead of four. Consequence holds the left and center pendulums vertically on an identical baseline; their nodes are exact matched circles centered under their suspension lines, while only the right pendulum is displaced.
+- Stroke weight: correspondence and consequence use the same `0.9 px` non-scaling vector stroke with round caps and joins. A restrained `0.25` morphology erosion thins the source-filled coherence trace without flattening its organic contour, bringing all three to the same optical weight at card size.
+- Scale and hierarchy: the Paper board presents each glyph as an isolated study. The live cards intentionally place the vectors in a common `72 × 58 px` optical slot so they read as quiet instruments beside the mono category label, not as competing illustrations.
+- Spacing and layout rhythm: the glyphs sit in the existing card header, leaving the formulation strip and prose rhythm intact. The two-column narrow layout and the single third card retain their previous dimensions without overflow or collision.
+- Colors and material: transparent SVG roots let the article surface show through. A single muted brass tone and `0.86` opacity bring the family into the same subdued THOM palette as the situated-truth instruments above.
+- Accessibility and copy: the adjacent `Formal truth`, `Empirical truth`, and `Operational truth` labels remain the accessible names. Empty `alt` text prevents redundant announcements, while stable data hooks make each asset verifiable in tests.
+- Runtime delivery: the article's `assetUrl` contract serves the SVGs from the published content tree, so the source assets remain article-owned and no page-module staging rule was widened.
+
+## Comparison history
+
+1. Starting implementation: the recurring-truth cards contained only text, leaving their hierarchy and visual language notably flatter than the situated-truth instruments immediately above.
+2. Paper handoff: the selected family established three related ideas—closed fit, registered match, and causal transfer—in a shared fine-line brass vocabulary.
+3. Initial implementation: imported the Paper vectors, removed their opaque grounds, normalized color and optical scale, and integrated them without adding icon boxes or decorative chrome.
+4. User-directed refinement: reduced correspondence from four registration ticks to three and returned the left consequence pendulum to the same perpendicular resting angle as the center. The final live comparison confirms that only the right pendulum remains angled.
+5. Optical normalization: replaced the differently scaled source stroke widths with one non-scaling stroke token for correspondence and consequence, then rechecked all three together at the actual `72 × 58 px` card size.
+6. Final balance correction: converted the two resting cradle nodes into identical circles on one baseline and lightly eroded the heavier filled coherence trace. The live comparison now shows equal resting-node geometry and a consistent three-icon line weight.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this icon family.
+
+---
+
 # Transparent Inline Situated-Truth Instruments — Design QA
 
 final result: passed

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 97" width="140" height="97">
+  <title>Consequence cradle</title>
+  <desc>Three pendulums hang from a shared beam; two rest vertically while the right weight is displaced.</desc>
+  <g fill="none" stroke="#b4976c" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" vector-effect="non-scaling-stroke">
+    <polyline points="10.3 10.6 54.4 10.6 130.6 10.6" />
+    <line x1="70.4" x2="70.4" y1="10.9" y2="76.3" />
+    <circle cx="70.4" cy="81" r="4.9" />
+    <line x1="49.6" x2="49.6" y1="10.9" y2="76.3" />
+    <circle cx="49.6" cy="81" r="4.9" />
+    <path d="m108.9 79.1c0-2.5 2.2-5.4 5.4-5.3 2.7 0.1 4.8 2.4 4.7 4.9 0 2.5-2 5.4-5.2 5.2-3-0.1-4.9-2.3-4.9-4.8z" />
+    <line x1="91.3" x2="112.3" y1="10.7" y2="73.9" />
+  </g>
+</svg>

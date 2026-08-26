@@ -153,6 +153,7 @@ const figureFrame: React.CSSProperties = {
 const TRUTH_PRACTICES = [
   {
     label: "Formal truth",
+    icon: { asset: "assets/coherence-closure.svg", name: "coherence-closure" },
     formulation: { lens: "Coherence", question: "Does it fit?" },
     validity: "validity relative to definitions, axioms, and inference rules",
     parallel: null,
@@ -161,6 +162,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Empirical truth",
+    icon: { asset: "assets/correspondence-target.svg", name: "correspondence-target" },
     formulation: { lens: "Correspondence", question: "Does it match?" },
     validity: "agreement with an observable state of affairs—the events, objects, properties, or relations the claim describes",
     parallel: null,
@@ -169,6 +171,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Operational truth",
+    icon: { asset: "assets/consequence-cradle.svg", name: "consequence-cradle" },
     formulation: { lens: "Consequence", question: "Does it work?" },
     validity: "reliable consequences under stated conditions—the procedure repeatedly produces its intended result within defined tolerances",
     parallel: null,
@@ -177,6 +180,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Relational / acquaintance",
+    icon: null,
     formulation: null,
     validity: "situated significance known through direct familiarity with experiences, people, places, purposes, and relationships",
     parallel: null,
@@ -185,6 +189,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Sincerity / truthfulness",
+    icon: null,
     formulation: null,
     validity: "non-deceptive fit between an expression and the speaker's subjective state",
     parallel: {
@@ -198,6 +203,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Trustworthiness Theory",
+    icon: null,
     formulation: null,
     validity: "X is true if and only if X is trustworthy; X is false if and only if X is untrustworthy",
     parallel: {
@@ -312,12 +318,14 @@ function SituatedTruthPracticesFigure() {
 
 function TruthPracticesFigure({
   practices,
+  assetUrl,
   ariaLabel,
   eyebrow,
   title,
   caption,
 }: {
   practices: readonly TruthPractice[];
+  assetUrl: (value: string) => string;
   ariaLabel: string;
   eyebrow: string;
   title: string;
@@ -343,6 +351,7 @@ function TruthPracticesFigure({
           {practices.map((practice) => (
             <div
               key={practice.label}
+              className="truth-practice-card"
               style={{
                 padding: "16px 18px",
                 border: "1px solid var(--line)",
@@ -352,9 +361,20 @@ function TruthPracticesFigure({
                 gap: 10,
               }}
             >
-              <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".13em", textTransform: "uppercase", color: "var(--color-primary)" }}>
-                {practice.label}
-              </p>
+              <div className="truth-practice-card__header">
+                <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".13em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+                  {practice.label}
+                </p>
+                {practice.icon ? (
+                  <img
+                    className="truth-practice-card__icon"
+                    src={assetUrl(practice.icon.asset)}
+                    alt=""
+                    aria-hidden="true"
+                    data-truth-practice-icon={practice.icon.name}
+                  />
+                ) : null}
+              </div>
               {practice.formulation ? (
                 <p
                   style={{
@@ -1801,6 +1821,7 @@ function ConstraintFeedbackFigure() {
 
 export default function ArticlePage({
   post,
+  assetUrl,
 }: {
   post: PublishedPost;
   assetUrl: (value: string) => string;
@@ -1910,6 +1931,7 @@ export default function ArticlePage({
           </p>
           <TruthPracticesFigure
             practices={RECURRING_TRUTH_PRACTICES}
+            assetUrl={assetUrl}
             ariaLabel="Three recurring truth practices that compose reusable problem-solving formulations"
             eyebrow="Recurring thread"
             title="Coherence · Correspondence · Consequence"
