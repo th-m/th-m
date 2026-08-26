@@ -28,15 +28,17 @@ shell.
 
 ## Live Deployment
 
-The static production artifact is live at
-[th-m.netlify.app](https://th-m.netlify.app). The `/`, `/writing`, content
-manifest, and SPA fallback responses are verified on the CDN. The deploy has no
-Functions or Edge Functions.
+The static production artifact is live at [th-m.dev](https://th-m.dev), with
+`www.th-m.dev` redirecting to the apex domain. The generated
+[th-m.netlify.app](https://th-m.netlify.app) URL remains available as the
+Netlify project subdomain. The `/`, `/writing`, content manifest, and SPA
+fallback responses are verified on the CDN. The deploy has no Functions or
+Edge Functions.
 
-The generated Netlify URL is the intentional production URL for now. A custom
-domain is deferred. If `th-m.codes` is attached later, its Netlify DNS zone must
-be transferred intact from the legacy, cancelled team because it also contains
-Google Workspace MX records and the `shop.th-m.codes` Shopify record.
+DNS remains managed by Porkbun on its authoritative nameservers. The apex uses
+an `ALIAS` record to `apex-loadbalancer.netlify.com`, and `www` uses a `CNAME`
+record to `th-m.netlify.app`. Netlify provisions and renews the Let's Encrypt
+certificate for both production domains.
 
 ## Continuous Deployment
 

@@ -14,11 +14,13 @@ complete.
   previews.
 - [x] Push the checked-in monorepo and Netlify configuration, then verify one
   deploy preview before relying on continuous deployment.
+- [x] Attach `th-m.dev` as the primary production domain, redirect
+  `www.th-m.dev` to the apex, point the Porkbun-managed DNS records at Netlify,
+  and provision the Let's Encrypt certificate.
 
-Custom-domain setup is intentionally deferred. Continue using
-`https://th-m.netlify.app`. If `th-m.codes` is requested later, transfer its DNS
-zone intact from the cancelled legacy team before attaching the apex and `www`
-domains so the existing Google Workspace and Shopify records are preserved.
+The production site uses `https://th-m.dev`. Keep the Porkbun authoritative
+nameservers in place unless DNS ownership is deliberately migrated; the Netlify
+project uses external DNS rather than a Netlify DNS zone.
 
 Keep credentials and generated Netlify project identifiers out of the
 repository.
