@@ -48,6 +48,11 @@ describe("AI Consciousness Is Incoherent published page", () => {
     expect(screen.getByRole("heading", { name: "Similar Operations Do Not Rescue the Claim" })).toBeInTheDocument();
     expect(screen.getByText("shared felt experience")).toBeInTheDocument();
     expect(screen.getByText("E(AI) ⇏ P(AI)")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Addendum" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "AI's Consciousness explanation" })).toHaveAttribute(
+      "href",
+      "/writing/consciousness-is-incoherent",
+    );
     expect(screen.getByRole("heading", { name: "Sources" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "“Facing Up to the Problem of Consciousness.”" })).toHaveAttribute(
       "href",

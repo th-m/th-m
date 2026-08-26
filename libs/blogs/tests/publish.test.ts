@@ -23,6 +23,7 @@ describe("buildBlogArtifact", () => {
     description = "A concise public description.",
     publishedAt = "2026-08-16",
     updatedAt,
+    addendumTo,
     tags = ["Ontology", "software"],
     h1 = title,
   }: {
@@ -30,9 +31,10 @@ describe("buildBlogArtifact", () => {
     description?: string;
     publishedAt?: string;
     updatedAt?: string;
+    addendumTo?: string;
     tags?: string[];
     h1?: string;
-  } = {}) => `---\ntitle: ${title}\ndescription: ${description}\npublishedAt: ${publishedAt}\n${updatedAt ? `updatedAt: ${updatedAt}\n` : ""}tags: [${tags.join(", ")}]\n---\n# ${h1}\n\nBody.\n`;
+  } = {}) => `---\ntitle: ${title}\ndescription: ${description}\npublishedAt: ${publishedAt}\n${updatedAt ? `updatedAt: ${updatedAt}\n` : ""}${addendumTo ? `addendumTo: ${addendumTo}\n` : ""}tags: [${tags.join(", ")}]\n---\n# ${h1}\n\nBody.\n`;
 
   it("publishes only explicit articles and their assets", async () => {
     const root = await temporaryProject();
@@ -195,5 +197,29 @@ describe("buildBlogArtifact", () => {
     const manifest = await buildBlogArtifact(root);
     expect(manifest.posts.map((post) => post.slug)).toEqual(["newer", "older"]);
     expect(manifest.posts[0]).toMatchObject({ updatedAt: "2026-08-17", tags: ["AI", "Product Design"] });
+  });
+
+  it("publishes an addendum relationship only when its parent article exists", async () => {
+    const root = await temporaryProject();
+    await mkdir(join(root, "articles", "parent"));
+    await mkdir(join(root, "articles", "addendum"));
+    await writeFile(join(root, "articles", "parent", "article.md"), article({ title: "Parent", h1: "Parent" }));
+    await writeFile(join(root, "articles", "addendum", "article.md"), article({
+      title: "Addendum",
+      h1: "Addendum",
+      addendumTo: "parent",
+    }));
+
+    const manifest = await buildBlogArtifact(root);
+    expect(manifest.posts.find((post) => post.slug === "addendum")).toMatchObject({ addendumTo: "parent" });
+
+    const invalidRoot = await temporaryProject();
+    await mkdir(join(invalidRoot, "articles", "orphan"));
+    await writeFile(join(invalidRoot, "articles", "orphan", "article.md"), article({
+      title: "Orphan",
+      h1: "Orphan",
+      addendumTo: "missing-parent",
+    }));
+    await expect(buildBlogArtifact(invalidRoot)).rejects.toThrow("references unpublished article missing-parent");
   });
 });

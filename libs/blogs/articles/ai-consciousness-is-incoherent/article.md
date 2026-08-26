@@ -378,6 +378,11 @@ were true, but it cannot serve as proof of its own premise.
 Calling humans and AI conscious in the same phenomenal sense is therefore not
 a supported comparison. It is an empirically incoherent use of a shared word.
 
+## Addendum
+
+- [*AI's Consciousness explanation*](/writing/consciousness-is-incoherent) —
+  the earlier essay and its restored original prompt.
+
 ## Sources
 
 The argument above is my synthesis. These primary sources support its

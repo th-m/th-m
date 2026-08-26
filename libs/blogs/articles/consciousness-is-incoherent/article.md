@@ -3,9 +3,80 @@ title: AI's Consciousness explanation
 description: Machine consciousness claims become coherent only when they name a theory, a discriminating measure, and a validated bridge to phenomenal experience.
 publishedAt: 2026-08-25
 updatedAt: 2026-08-26
+addendumTo: ai-consciousness-is-incoherent
 tags: [Artificial Intelligence, Consciousness, Philosophy of Mind, Language]
 ---
 # AI's Consciousness explanation
+
+> **Addendum —** This earlier essay is retained as an addendum to
+> [*AI Consciousness Is Incoherent*](/writing/ai-consciousness-is-incoherent).
+
+## 0. Preface
+
+The original prompt below was supplied to the AI with the same surrounding file
+context later used to develop
+[*AI Consciousness Is Incoherent*](/writing/ai-consciousness-is-incoherent). It
+is included here before the essay so the response can be read against what was
+actually asked and the material the AI had available.
+
+In detailing these articles about human experience and unique capability, I
+ultimately had to ignore the AI’s explanations of its own “reasoning,” “problem
+solving,” “thought process,” or “consciousness.” It was very clearly biased
+toward speaking positively about itself and its ability to potentially “be a
+real boy.” It was frustrating. Honestly, I think AI’s eagerness to interject
+that it “kind-a-sort-a” is conscious probably contributes to AI psychosis. This
+article and the linked one were born from that frustration, as well as the
+general confusion that comes with discussions of consciousness.
+
+### Original Prompt
+
+The original prompt follows. Line breaks and transport artifacts have been
+normalized for legibility; its wording is unchanged.
+
+> I need to add a new blog page and article with this:
+>
+> **Title: Consciousness is incoherent**
+>
+> **Rough Copy:**
+>
+> Is an AI conscious?
+>
+> Depends on definition...
+>
+> What is consciousness? Inexplicable phenomena, like redness, taste of
+> sourdough, or paralyzing fear,
+>
+> Is human consciousness tied to our biology. Yes. qualia have directly been
+> tied to measures of nueral activity in the brain.
+>
+> Is our ability to reason tied to qualia? ... "Play with fire and get burned"
+> sounds like our lessons growing up assumed some role came from qualia
+>
+> Is there any evidence that conscience can be associated to nueral mechanism
+> of different material substrate.
+>
+> If there is what if anything indicates that it works similar to our
+> consciousness?
+>
+> So comparing AI to humans in kind, i.e. both conscious is incoherent. It tells
+> me nothing meaningful. It's essentially the same as saying humans are
+> deterministic.
+>
+> This is problem fundamentally in language and what it references. Perhaps we
+> need to discover novel ways to probe
+>
+> ---
+>
+> The article should show that because there is no objective measure of
+> conciousness, all claims of machine consiosness are dependent on hypotheticals.
+>
+> Additionally there is a note in one of the earlier blogs showing that two
+> competing theories of mind provide contradictory definitions of consciousness.
+> We should pull in relevant notes.
+>
+> Similarly we should try to also formulate that overview into a concise logical
+> statement showing the incongruency we should have notes in the exisitng blogs
+> for that too
 
 Is an AI conscious?
 
@@ -225,42 +296,6 @@ no theory-independent test.
 
 The possibility is philosophical. The attribution is hypothetical. The shared
 word is doing more work than the evidence.
-
-## Original brief
-
-This essay began with a question about whether human and machine consciousness
-can be meaningfully compared.
-
-> **Is an AI conscious?**
->
-> It depends on the definition.
-
-### Questions to investigate
-
-- What do we mean by consciousness—the redness of red, the taste of sourdough,
-  paralyzing fear, or another form of phenomenal experience?
-- How strongly is human consciousness tied to biology and measurable neural
-  activity?
-- Do qualia shape reasoning and learning? “Play with fire and get burned”
-  suggests that some lessons are inseparable from felt consequences.
-- Could consciousness emerge from neural mechanisms realized in another
-  material substrate?
-- If so, what evidence would show that it functions like human consciousness?
-
-### Argument to develop
-
-An unqualified comparison—*humans and AI are both conscious*—may tell us as
-little as saying that both are deterministic. The problem lies in the language,
-the properties it references, and the evidence needed to connect them.
-
-The article should:
-
-1. Explain why current machine-consciousness claims remain hypothetical without
-   an accepted, theory-independent cross-substrate measure.
-2. Bring forward the earlier notes showing how competing theories of mind
-   propose incompatible conditions for consciousness.
-3. Express that incongruency as a concise logical argument and identify the
-   novel probes a coherent attribution would require.
 
 ## Sources
 

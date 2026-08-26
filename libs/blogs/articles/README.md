@@ -34,7 +34,7 @@ page with immediate TSX/CSS modules can enter the library's `dist/` artifact.
 - **Page module:** a non-empty, kebab-case `*.tsx` or `*.css` file next to
   `index.tsx`, used for article-owned figures and styling.
 - **Frontmatter:** YAML metadata containing `title`, `description`,
-  `publishedAt`, and optional `updatedAt` and `tags`.
+  `publishedAt`, and optional `updatedAt`, `addendumTo`, and `tags`.
 
 ## Articles
 
@@ -54,7 +54,7 @@ unnumbered so editorial order can change without destabilizing paths.
 
 | Workspace | Subject | Status |
 | --- | --- | --- |
-| [consciousness-is-incoherent](./consciousness-is-incoherent/) | **AI's Consciousness explanation:** why an unqualified machine-consciousness claim lacks a stable cross-substrate predicate, and what evidence a coherent attribution would require | Published essay page; draws its logical and evidentiary spine from the consciousness notes developed for *Goals, Solutions & Value* |
+| [consciousness-is-incoherent](./consciousness-is-incoherent/) | **AI's Consciousness explanation:** why an unqualified machine-consciousness claim lacks a stable cross-substrate predicate, and what evidence a coherent attribution would require | Published addendum to *AI Consciousness Is Incoherent*; omitted as a standalone Writings item |
 | [ai-consciousness-is-incoherent](./ai-consciousness-is-incoherent/) | **AI Consciousness Is Incoherent:** why access-like function, theory-derived indicators, and substrate-independence postulates do not establish phenomenal experience in AI | Published evidence-led essay page; developed as a separate, stronger argument from the earlier consciousness workspace |
 
 ### Series Architecture
@@ -89,8 +89,9 @@ articles/
 ### `article.md`
 
 Publication requires YAML frontmatter followed by an H1 that exactly matches
-the title. Dates use `YYYY-MM-DD`, `updatedAt` cannot precede `publishedAt`, and
-tags are an optional array of non-empty strings:
+the title. Dates use `YYYY-MM-DD`, `updatedAt` cannot precede `publishedAt`,
+`addendumTo` optionally names another published article slug, and tags are an
+optional array of non-empty strings:
 
 ```md
 ---
@@ -98,6 +99,7 @@ title: A Public Title
 description: A concise summary for listings and metadata.
 publishedAt: 2026-08-16
 updatedAt: 2026-08-17
+addendumTo: a-parent-article
 tags: [Ontology, Software]
 ---
 # A Public Title
