@@ -1,9 +1,8 @@
 import { Component, Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   COMPOSITION_TERM_GROUPS,
-  availableCompositionTerms,
-  replaceableCompositionTerms,
   resolveTermComposition,
+  type CompositionResultWord,
   type CompositionTerm,
 } from "./compositionModel";
 
@@ -13,7 +12,10 @@ const LazyEmbeddingCompositionScene3D = lazy(() =>
   })),
 );
 
-const DEFAULT_TERMS: readonly CompositionTerm[] = ["man", "royal"];
+type CompositionSlot = CompositionTerm | null;
+type CompositionSlots = readonly [CompositionSlot, CompositionSlot, CompositionSlot, CompositionSlot];
+
+const DEFAULT_SLOTS: CompositionSlots = ["man", "royal", null, null];
 
 class SceneErrorBoundary extends Component<
   { onError: () => void; children: ReactNode },
@@ -27,20 +29,21 @@ class SceneErrorBoundary extends Component<
 
 export function EmbeddingCompositionExplorer() {
   const figureRef = useRef<HTMLElement | null>(null);
-  const [terms, setTerms] = useState<CompositionTerm[]>([...DEFAULT_TERMS]);
+  const [slots, setSlots] = useState<CompositionSlots>(DEFAULT_SLOTS);
+  const [history, setHistory] = useState<CompositionSlots[]>([]);
   const [sceneRequested, setSceneRequested] = useState(false);
   const [webglMessage, setWebglMessage] = useState<string | null>(null);
+  const [projectedResult, setProjectedResult] = useState<CompositionResultWord | CompositionTerm | null>(null);
+  const terms = useMemo(() => slots.filter((term): term is CompositionTerm => term !== null), [slots]);
   const composition = useMemo(() => resolveTermComposition(terms), [terms]);
-  const availableTerms = useMemo(() => availableCompositionTerms(terms), [terms]);
-  const availableTermGroups = useMemo(() => COMPOSITION_TERM_GROUPS.map((group) => {
-    const groupTerms = group.terms as readonly CompositionTerm[];
-    return {
-      ...group,
-      availableTerms: groupTerms.filter((term) => availableTerms.includes(term)),
-      selectedTerms: terms.flatMap((term, index) => groupTerms.includes(term) ? [{ index, term }] : []),
-    };
-  }), [availableTerms, terms]);
-  const displayResult = composition.result;
+  const displayResult = composition.result ?? projectedResult ?? (terms.length > 1 ? "projected point" : null);
+
+  useEffect(() => {
+    if (!sceneRequested || composition.result || terms.length < 2) return;
+    void import("./semanticNetwork3d").then(({ projectComposition3d }) => {
+      setProjectedResult(projectComposition3d(terms, composition).result);
+    });
+  }, [composition, sceneRequested, terms]);
 
   useEffect(() => {
     const figure = figureRef.current;
@@ -59,12 +62,25 @@ export function EmbeddingCompositionExplorer() {
     return () => observer.disconnect();
   }, []);
 
-  const removeTerm = (index: number) => setTerms((current) => current.filter((_, termIndex) => termIndex !== index));
-  const replaceTerm = (index: number, term: CompositionTerm) => setTerms((current) =>
-    current.map((currentTerm, termIndex) => termIndex === index ? term : currentTerm),
-  );
-  const undo = () => setTerms((current) => current.slice(0, -1));
-  const reset = () => setTerms(["man"]);
+  const commitSlots = (next: CompositionSlots) => {
+    if (next.every((term, index) => term === slots[index])) return;
+    setProjectedResult(null);
+    setHistory((current) => [...current, slots]);
+    setSlots(next);
+  };
+  const replaceTerm = (index: number, term: CompositionSlot) => {
+    const next = [...slots] as unknown as [CompositionSlot, CompositionSlot, CompositionSlot, CompositionSlot];
+    next[index] = term;
+    commitSlots(next);
+  };
+  const removeTerm = (index: number) => replaceTerm(index, null);
+  const undo = () => {
+    const previous = history.at(-1);
+    if (!previous) return;
+    setSlots(previous);
+    setHistory((current) => current.slice(0, -1));
+  };
+  const reset = () => commitSlots(DEFAULT_SLOTS);
   const handleWebglFailure = useCallback(() => {
     setWebglMessage("The 3D semantic network is unavailable in this browser. The composition controls remain active.");
   }, []);
@@ -82,10 +98,10 @@ export function EmbeddingCompositionExplorer() {
       <div className="embedding-composition__controls">
         <output className="embedding-composition__equation" aria-label="Combined embedding result" aria-live="polite">
           {terms.length === 0 ? <span className="embedding-composition__empty">Choose a starting term</span> : null}
-          {terms.map((term, index) => (
-            <span key={`${term}-${index}`} className="embedding-composition__equation-term">
+          {slots.flatMap((term, slotIndex) => term ? [{ term, slotIndex }] : []).map(({ term, slotIndex }, index) => (
+            <span key={`${term}-${slotIndex}`} className="embedding-composition__equation-term">
               {index > 0 ? <i aria-hidden="true">+</i> : null}
-              <button type="button" aria-label={`Remove ${term} term`} onClick={() => removeTerm(index)}>
+              <button type="button" aria-label={`Remove ${term} term`} onClick={() => removeTerm(slotIndex)}>
                 {term}
               </button>
             </span>
@@ -97,56 +113,34 @@ export function EmbeddingCompositionExplorer() {
 
       <div className="embedding-composition__directions">
         <div>
-          <span>Add a compatible term</span>
-          <div className="embedding-composition__term-groups" role="group" aria-label="Available composition terms by type">
-            {availableTermGroups.map((group) => (
-              <div key={group.id} className="embedding-composition__term-group">
-                <span>{group.label}</span>
-                <div>
-                  {group.selectedTerms.map(({ index, term }, slotIndex) => (
-                    <select
-                      key={`${term}-${index}`}
-                      aria-label={`${group.label} term ${slotIndex + 1}`}
-                      value={term}
-                      onChange={(event) => {
-                        const nextTerm = event.currentTarget.value as CompositionTerm;
-                        if (nextTerm) replaceTerm(index, nextTerm);
-                        else removeTerm(index);
-                      }}
-                    >
-                      <option value="">Remove {term}</option>
-                      {replaceableCompositionTerms(terms, index).map((candidate) => (
+          <span>Compose up to four terms</span>
+          <div className="embedding-composition__term-groups" role="group" aria-label="Composition term slots">
+            {slots.map((term, index) => (
+              <label key={index} className="embedding-composition__term-group">
+                <span>Term {index + 1}</span>
+                <select
+                  aria-label={`Composition term ${index + 1}`}
+                  value={term ?? ""}
+                  onChange={(event) => replaceTerm(index, event.currentTarget.value
+                    ? event.currentTarget.value as CompositionTerm
+                    : null)}
+                >
+                  <option value="">Empty slot</option>
+                  {COMPOSITION_TERM_GROUPS.map((group) => (
+                    <optgroup key={group.id} label={group.label}>
+                      {group.terms.map((candidate) => (
                         <option key={candidate} value={candidate}>{candidate}</option>
                       ))}
-                    </select>
+                    </optgroup>
                   ))}
-                  {group.availableTerms.length > 0 || group.selectedTerms.length === 0 ? (
-                    <select
-                      aria-label={`Add ${group.label} term`}
-                      value=""
-                      disabled={group.availableTerms.length === 0}
-                      onChange={(event) => {
-                        const term = event.currentTarget.value as CompositionTerm;
-                        if (term) setTerms((current) => [...current, term]);
-                      }}
-                    >
-                      <option value="">
-                        {group.availableTerms.length > 0 ? `Add ${group.label.toLowerCase()}` : `No compatible ${group.label.toLowerCase()}`}
-                      </option>
-                      {group.availableTerms.map((term) => <option key={term} value={term}>{term}</option>)}
-                    </select>
-                  ) : null}
-                </div>
-              </div>
+                </select>
+              </label>
             ))}
           </div>
-          {availableTerms.length === 0 ? (
-            <span className="embedding-composition__complete">Remove a pill to explore another valid combination.</span>
-          ) : null}
         </div>
         <div className="embedding-composition__history" role="group" aria-label="Composition history controls">
-          <button type="button" disabled={terms.length === 0} onClick={undo}>Undo</button>
-          <button type="button" disabled={terms.length === 1 && terms[0] === "man"} onClick={reset}>Reset</button>
+          <button type="button" disabled={history.length === 0} onClick={undo}>Undo</button>
+          <button type="button" disabled={slots.every((term, index) => term === DEFAULT_SLOTS[index])} onClick={reset}>Reset</button>
         </div>
       </div>
 
@@ -162,8 +156,9 @@ export function EmbeddingCompositionExplorer() {
             <LazyEmbeddingCompositionScene3D
               source={composition.recipe?.terms[0] ?? composition.semanticStart}
               path={composition.path}
-              result={displayResult}
+              result={composition.result}
               recipe={composition.recipe}
+              terms={terms}
               onUnavailable={handleWebglFailure}
             />
           </Suspense>

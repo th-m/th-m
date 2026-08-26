@@ -8,10 +8,8 @@ import {
   SEMANTIC_WORDS,
   WORD_COORDINATES,
   applyMove,
-  availableCompositionTerms,
   availableMove,
   compose,
-  replaceableCompositionTerms,
   resolveTermComposition,
   semanticPosition3d,
   type SemanticWord,
@@ -97,37 +95,27 @@ describe("semantic composition model", () => {
     expect(resolveTermComposition(["legendary", "horse"]).result).toBe("unicorn");
     expect(resolveTermComposition(["horse", "bird"]).result).toBe("pegasus");
     expect(resolveTermComposition(["goat", "fish"]).result).toBe("capricorn");
+    expect(resolveTermComposition(["knowledge", "time"]).result).toBe("wisdom");
+    expect(resolveTermComposition(["courage", "lion"]).result).toBe("lionheart");
+    expect(resolveTermComposition(["mystery", "cat"]).result).toBe("sphinx");
+    expect(resolveTermComposition(["divine", "knowledge"]).result).toBe("omniscience");
   });
 
-  it("only offers next terms that resolve to a defined result", () => {
-    expect(availableCompositionTerms(["man"])).toEqual([
-      "feminine", "royal", "noble", "sovereign", "legendary", "young", "horse", "fish", "wolf",
-    ]);
-    expect(availableCompositionTerms(["horse"])).toEqual([
-      "man", "woman", "legendary", "young", "fish", "eagle", "bird",
-    ]);
-    expect(availableCompositionTerms(["man", "royal"])).toEqual(["feminine", "young"]);
-    expect(availableCompositionTerms(["young", "horse"])).toEqual([]);
-    for (const first of COMPOSITION_STARTERS) {
-      for (const second of availableCompositionTerms([first])) {
-        const composition = resolveTermComposition([first, second]);
-        expect(composition.valid, `${first} + ${second} should be valid`).toBe(true);
-        expect(composition.result, `${first} + ${second} should have a result`).not.toBeNull();
-      }
-    }
-  });
-
-  it("groups the complete starter vocabulary into role, status, age, and creature controls", () => {
-    expect(COMPOSITION_TERM_GROUPS.map(({ id }) => id)).toEqual(["role", "status", "age", "creature"]);
+  it("groups the complete starter vocabulary into five stable controls", () => {
+    expect(COMPOSITION_TERM_GROUPS.map(({ id }) => id)).toEqual(["role", "status", "age", "creature", "abstract"]);
     expect(COMPOSITION_TERM_GROUPS.find(({ id }) => id === "role")?.terms).toEqual([
       "man", "woman", "boy", "girl", "masculine", "feminine",
     ]);
     expect(COMPOSITION_TERM_GROUPS.find(({ id }) => id === "status")?.terms).toEqual([
-      "royal", "noble", "sovereign", "legendary",
+      "royal", "noble", "sovereign", "legendary", "divine",
     ]);
     expect(COMPOSITION_TERM_GROUPS.find(({ id }) => id === "creature")?.terms).toEqual([
       "horse", "fish", "hummingbird", "lion", "eagle", "bird", "goat",
-      "wolf", "bear", "owl", "snake", "deer", "cat", "dog",
+      "wolf", "bear", "owl", "snake", "deer", "cat", "dog", "fox", "shark", "tiger", "raven",
+    ]);
+    expect(COMPOSITION_TERM_GROUPS.find(({ id }) => id === "abstract")?.terms).toEqual([
+      "knowledge", "courage", "freedom", "order", "chaos", "memory", "time", "mystery",
+      "justice", "truth", "beauty", "power", "hope", "fear", "love", "reason",
     ]);
     expect(COMPOSITION_TERM_GROUPS.flatMap(({ terms }) => terms)).toEqual(COMPOSITION_STARTERS);
     expect(new Set(COMPOSITION_STARTERS).size).toBe(COMPOSITION_STARTERS.length);
@@ -139,17 +127,8 @@ describe("semantic composition model", () => {
     expect(COMPOSITION_OUTPUT_ONLY_TERMS.every((term) => !starterTerms.has(term))).toBe(true);
   });
 
-  it("keeps each selected term available while offering only valid in-place replacements", () => {
-    expect(replaceableCompositionTerms(["man", "royal"], 0)).toEqual(["man", "woman", "boy", "girl"]);
-    expect(replaceableCompositionTerms(["man", "royal"], 1)).toEqual([
-      "royal", "noble", "sovereign", "legendary",
-    ]);
-    expect(replaceableCompositionTerms(["lion", "eagle"], 0)).toEqual(["horse", "lion"]);
-    expect(replaceableCompositionTerms(["lion", "eagle"], 1)).toEqual(["fish", "eagle", "goat"]);
-  });
-
   it("enumerates a broad authored vocabulary while keeping derived endpoints out of the controls", () => {
-    expect(PAIR_RECIPES).toHaveLength(43);
+    expect(PAIR_RECIPES).toHaveLength(74);
     expect(PAIR_RECIPES).toEqual(expect.arrayContaining([
       { terms: ["young", "dog"], result: "puppy" },
       { terms: ["cat", "fish"], result: "catfish" },
@@ -157,6 +136,19 @@ describe("semantic composition model", () => {
       { terms: ["man", "sovereign"], result: "emperor" },
       { terms: ["girl", "legendary"], result: "prodigy" },
       { terms: ["legendary", "bird"], result: "phoenix" },
+      { terms: ["young", "fox"], result: "kit" },
+      { terms: ["tiger", "fish"], result: "tigerfish" },
+      { terms: ["woman", "divine"], result: "goddess" },
+      { terms: ["horse", "eagle"], result: "hippogriff" },
+      { terms: ["knowledge", "time"], result: "wisdom" },
+      { terms: ["courage", "lion"], result: "lionheart" },
+      { terms: ["freedom", "bird"], result: "liberty" },
+      { terms: ["mystery", "cat"], result: "sphinx" },
+      { terms: ["divine", "knowledge"], result: "omniscience" },
+      { terms: ["truth", "knowledge"], result: "understanding" },
+      { terms: ["reason", "order"], result: "logic" },
+      { terms: ["justice", "power"], result: "legitimacy" },
+      { terms: ["truth", "courage"], result: "integrity" },
     ]));
     const pairKeys = PAIR_RECIPES.map(({ terms }) => [...terms].sort().join("+"));
     expect(new Set(pairKeys).size).toBe(PAIR_RECIPES.length);
@@ -167,6 +159,6 @@ describe("semantic composition model", () => {
       expect(resolveTermComposition(recipe.terms)).toMatchObject({ valid: true, result: recipe.result });
       expect(resolveTermComposition([...recipe.terms].reverse())).toMatchObject({ valid: true, result: recipe.result });
     }
-    expect(resolveTermComposition(["boy", "fish"]).valid).toBe(false);
+    expect(resolveTermComposition(["boy", "fish"])).toMatchObject({ valid: true, result: null });
   });
 });

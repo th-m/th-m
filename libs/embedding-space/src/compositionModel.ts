@@ -13,7 +13,24 @@ export type SemanticWord =
 export type SemanticStatus = "ordinary" | "royal";
 export type SemanticAge = "young" | "adult";
 export type SemanticRole = "masculine" | "feminine";
-export type StatusWord = SemanticStatus | "noble" | "sovereign" | "legendary";
+export type StatusWord = SemanticStatus | "noble" | "sovereign" | "legendary" | "divine";
+export type AbstractWord =
+  | "knowledge"
+  | "courage"
+  | "freedom"
+  | "order"
+  | "chaos"
+  | "memory"
+  | "time"
+  | "mystery"
+  | "justice"
+  | "truth"
+  | "beauty"
+  | "power"
+  | "hope"
+  | "fear"
+  | "love"
+  | "reason";
 export type AnimalWord =
   | "horse"
   | "fish"
@@ -28,7 +45,11 @@ export type AnimalWord =
   | "snake"
   | "deer"
   | "cat"
-  | "dog";
+  | "dog"
+  | "fox"
+  | "shark"
+  | "tiger"
+  | "raven";
 export type MythicalWord =
   | "centaur"
   | "merman"
@@ -42,7 +63,9 @@ export type MythicalWord =
   | "owlbear"
   | "chimera"
   | "unicorn"
-  | "phoenix";
+  | "phoenix"
+  | "hippogriff"
+  | "sphinx";
 export type DerivedAnimalWord =
   | "foal"
   | "seahorse"
@@ -59,7 +82,9 @@ export type DerivedAnimalWord =
   | "puppy"
   | "catfish"
   | "dogfish"
-  | "wolffish";
+  | "wolffish"
+  | "kit"
+  | "tigerfish";
 export type StatusResultWord =
   | "lord"
   | "lady"
@@ -67,19 +92,44 @@ export type StatusResultWord =
   | "empress"
   | "hero"
   | "heroine"
-  | "prodigy";
+  | "prodigy"
+  | "god"
+  | "goddess"
+  | "demigod";
+export type AbstractResultWord =
+  | "wisdom"
+  | "lionheart"
+  | "liberty"
+  | "chronology"
+  | "nostalgia"
+  | "scholar"
+  | "student"
+  | "oracle"
+  | "omniscience"
+  | "understanding"
+  | "compassion"
+  | "optimism"
+  | "logic"
+  | "sovereignty"
+  | "anxiety"
+  | "enchantment"
+  | "legitimacy"
+  | "devotion"
+  | "integrity";
 export type SemanticDirection = SemanticStatus | SemanticAge | SemanticRole;
-export type CompositionTerm = SemanticWord | SemanticDirection | StatusWord | AnimalWord;
-export type CompositionResultWord = SemanticWord | MythicalWord | DerivedAnimalWord | StatusResultWord;
-export type PairResultWord = MythicalWord | DerivedAnimalWord | StatusResultWord;
+export type CompositionTerm = SemanticWord | SemanticDirection | StatusWord | AnimalWord | AbstractWord;
+export type CompositionResultWord = SemanticWord | MythicalWord | DerivedAnimalWord | StatusResultWord | AbstractResultWord;
+export type PairResultWord = MythicalWord | DerivedAnimalWord | StatusResultWord | AbstractResultWord;
 export type PairInputTerm =
   | SemanticWord
   | AnimalWord
+  | AbstractWord
   | "young"
   | "noble"
   | "sovereign"
-  | "legendary";
-export type CompositionTermGroupId = "role" | "status" | "age" | "creature";
+  | "legendary"
+  | "divine";
+export type CompositionTermGroupId = "role" | "status" | "age" | "creature" | "abstract";
 
 export type PairRecipe = {
   terms: readonly [PairInputTerm, PairInputTerm];
@@ -131,7 +181,7 @@ export const COMPOSITION_TERM_GROUPS = [
   {
     id: "status",
     label: "Status",
-    terms: ["royal", "noble", "sovereign", "legendary"],
+    terms: ["royal", "noble", "sovereign", "legendary", "divine"],
   },
   {
     id: "age",
@@ -156,6 +206,18 @@ export const COMPOSITION_TERM_GROUPS = [
       "deer",
       "cat",
       "dog",
+      "fox",
+      "shark",
+      "tiger",
+      "raven",
+    ],
+  },
+  {
+    id: "abstract",
+    label: "Abstract",
+    terms: [
+      "knowledge", "courage", "freedom", "order", "chaos", "memory", "time", "mystery",
+      "justice", "truth", "beauty", "power", "hope", "fear", "love", "reason",
     ],
   },
 ] as const satisfies readonly {
@@ -187,15 +249,20 @@ export const PAIR_RECIPES: readonly PairRecipe[] = [
   { terms: ["young", "deer"], result: "fawn" },
   { terms: ["young", "cat"], result: "kitten" },
   { terms: ["young", "dog"], result: "puppy" },
+  { terms: ["young", "fox"], result: "kit" },
+  { terms: ["young", "shark"], result: "pup" },
+  { terms: ["young", "tiger"], result: "cub" },
+  { terms: ["young", "raven"], result: "chick" },
   { terms: ["horse", "fish"], result: "seahorse" },
   { terms: ["lion", "fish"], result: "lionfish" },
   { terms: ["lion", "eagle"], result: "griffin" },
   { terms: ["horse", "bird"], result: "pegasus" },
-  { terms: ["horse", "eagle"], result: "pegasus" },
+  { terms: ["horse", "eagle"], result: "hippogriff" },
   { terms: ["goat", "fish"], result: "capricorn" },
   { terms: ["cat", "fish"], result: "catfish" },
   { terms: ["dog", "fish"], result: "dogfish" },
   { terms: ["wolf", "fish"], result: "wolffish" },
+  { terms: ["tiger", "fish"], result: "tigerfish" },
   { terms: ["bear", "owl"], result: "owlbear" },
   { terms: ["lion", "goat"], result: "chimera" },
   { terms: ["man", "noble"], result: "lord" },
@@ -206,8 +273,34 @@ export const PAIR_RECIPES: readonly PairRecipe[] = [
   { terms: ["woman", "legendary"], result: "heroine" },
   { terms: ["boy", "legendary"], result: "prodigy" },
   { terms: ["girl", "legendary"], result: "prodigy" },
+  { terms: ["man", "divine"], result: "god" },
+  { terms: ["woman", "divine"], result: "goddess" },
+  { terms: ["boy", "divine"], result: "demigod" },
+  { terms: ["girl", "divine"], result: "demigod" },
   { terms: ["legendary", "horse"], result: "unicorn" },
   { terms: ["legendary", "bird"], result: "phoenix" },
+  { terms: ["knowledge", "time"], result: "wisdom" },
+  { terms: ["courage", "lion"], result: "lionheart" },
+  { terms: ["freedom", "bird"], result: "liberty" },
+  { terms: ["order", "time"], result: "chronology" },
+  { terms: ["chaos", "goat"], result: "chimera" },
+  { terms: ["memory", "time"], result: "nostalgia" },
+  { terms: ["mystery", "cat"], result: "sphinx" },
+  { terms: ["man", "knowledge"], result: "scholar" },
+  { terms: ["woman", "knowledge"], result: "scholar" },
+  { terms: ["young", "knowledge"], result: "student" },
+  { terms: ["legendary", "knowledge"], result: "oracle" },
+  { terms: ["divine", "knowledge"], result: "omniscience" },
+  { terms: ["truth", "knowledge"], result: "understanding" },
+  { terms: ["love", "courage"], result: "compassion" },
+  { terms: ["hope", "freedom"], result: "optimism" },
+  { terms: ["reason", "order"], result: "logic" },
+  { terms: ["power", "sovereign"], result: "sovereignty" },
+  { terms: ["fear", "time"], result: "anxiety" },
+  { terms: ["beauty", "mystery"], result: "enchantment" },
+  { terms: ["justice", "power"], result: "legitimacy" },
+  { terms: ["love", "time"], result: "devotion" },
+  { terms: ["truth", "courage"], result: "integrity" },
 ];
 
 /**
@@ -358,33 +451,10 @@ export function resolveTermComposition(terms: readonly CompositionTerm[]): Resol
     return { valid: true, result: terms[0], semanticStart: null, moves: [], path: [], recipe: null };
   }
 
-  return { valid: false, result: null, semanticStart: null, moves: [], path: [], recipe: null };
-}
-
-export function availableCompositionTerms(terms: readonly CompositionTerm[]): readonly CompositionTerm[] {
-  if (terms.length === 0) return COMPOSITION_STARTERS;
-  return COMPOSITION_STARTERS.filter((candidate) =>
-    !terms.includes(candidate) && resolveTermComposition([...terms, candidate]).valid,
-  );
-}
-
-export function replaceableCompositionTerms(
-  terms: readonly CompositionTerm[],
-  index: number,
-): readonly CompositionTerm[] {
-  const current = terms[index];
-  if (!current) return [];
-  const group = COMPOSITION_TERM_GROUPS.find(({ terms: groupTerms }) =>
-    (groupTerms as readonly CompositionTerm[]).includes(current),
-  );
-  if (!group) return [current];
-  const groupTerms = group.terms as readonly CompositionTerm[];
-
-  return groupTerms.filter((candidate) => {
-    if (candidate === current) return true;
-    if (terms.includes(candidate)) return false;
-    return resolveTermComposition(terms.map((term, termIndex) => termIndex === index ? candidate : term)).valid;
-  });
+  // The fixed-slot explorer deliberately permits un-authored combinations.
+  // They still compose into a projected location; they simply do not receive
+  // a hand-authored lexical result from this small teaching vocabulary.
+  return { valid: true, result: null, semanticStart: null, moves: [], path: [], recipe: null };
 }
 
 export function semanticPosition3d(word: SemanticWord): readonly [number, number, number] {

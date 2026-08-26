@@ -1,16 +1,20 @@
 import { describe, expect, it } from "vitest";
 import sourceDataset from "../src/data/gpt2-embedding-space.json";
 import {
+  COMPOSITION_STARTERS,
   PAIR_RECIPES,
   SEMANTIC_WORDS,
   WORD_COORDINATES,
+  resolveTermComposition,
 } from "../src/compositionModel";
 import {
   SEMANTIC_NETWORK_ANIMAL_WORDS,
+  SEMANTIC_NETWORK_ABSTRACT_WORDS,
   SEMANTIC_NETWORK_CONTEXT_WORDS,
   SEMANTIC_NETWORK_EDGES,
   SEMANTIC_NETWORK_MYTHICAL_WORDS,
   SEMANTIC_NETWORK_NODES,
+  projectComposition3d,
   semanticEdgesForHighlights,
 } from "../src/semanticNetwork3d";
 
@@ -28,8 +32,8 @@ function pearsonCorrelation(left: readonly number[], right: readonly number[]) {
 }
 
 describe("three-dimensional semantic teaching network", () => {
-  it("expands the eight composable anchors into a seventy-term point network", () => {
-    expect(SEMANTIC_NETWORK_NODES).toHaveLength(70);
+  it("expands the eight composable anchors into a one-hundred-eighteen-term point network", () => {
+    expect(SEMANTIC_NETWORK_NODES).toHaveLength(118);
     expect(SEMANTIC_NETWORK_CONTEXT_WORDS).toEqual([
       "person",
       "child",
@@ -40,23 +44,32 @@ describe("three-dimensional semantic teaching network", () => {
       "heir",
       "sovereign",
       "legendary",
+      "divine",
       "young",
     ]);
     expect(SEMANTIC_WORDS.every((word) => SEMANTIC_NETWORK_NODES.some((node) => node.word === word))).toBe(true);
-    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "context")).toHaveLength(17);
+    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "context")).toHaveLength(21);
     expect(SEMANTIC_NETWORK_ANIMAL_WORDS).toEqual([
       "horse", "fish", "hummingbird", "lion", "eagle", "bird", "goat",
-      "wolf", "bear", "owl", "snake", "deer", "cat", "dog",
+      "wolf", "bear", "owl", "snake", "deer", "cat", "dog", "fox", "shark", "tiger", "raven",
       "foal", "seahorse", "fry", "cub", "chick", "kid", "eaglet", "lionfish",
-      "pup", "hatchling", "fawn", "kitten", "puppy", "catfish", "dogfish", "wolffish",
+      "pup", "hatchling", "fawn", "kitten", "puppy", "catfish", "dogfish", "wolffish", "kit", "tigerfish",
     ]);
     expect(SEMANTIC_NETWORK_MYTHICAL_WORDS).toEqual([
       "centaur", "merman", "mermaid", "harpy", "pixie", "werewolf",
-      "griffin", "pegasus", "capricorn", "owlbear", "chimera", "unicorn", "phoenix",
+      "griffin", "pegasus", "capricorn", "owlbear", "chimera", "unicorn", "phoenix", "hippogriff", "sphinx",
     ]);
-    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "animal")).toHaveLength(30);
-    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "mythic")).toHaveLength(13);
-    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "category")).toHaveLength(2);
+    expect(SEMANTIC_NETWORK_ABSTRACT_WORDS).toEqual([
+      "knowledge", "courage", "freedom", "order", "chaos", "memory", "time", "mystery",
+      "justice", "truth", "beauty", "power", "hope", "fear", "love", "reason",
+      "wisdom", "lionheart", "liberty", "chronology", "nostalgia", "scholar", "student", "oracle", "omniscience",
+      "understanding", "compassion", "optimism", "logic", "sovereignty", "anxiety", "enchantment", "legitimacy",
+      "devotion", "integrity",
+    ]);
+    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "animal")).toHaveLength(36);
+    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "mythic")).toHaveLength(15);
+    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "abstract")).toHaveLength(35);
+    expect(SEMANTIC_NETWORK_NODES.filter((node) => node.kind === "category")).toHaveLength(3);
   });
 
   it("places every term at a unique x-y-z coordinate, including interior points", () => {
@@ -64,6 +77,22 @@ describe("three-dimensional semantic teaching network", () => {
     expect(new Set(positions).size).toBe(SEMANTIC_NETWORK_NODES.length);
     expect(SEMANTIC_NETWORK_NODES.some(({ position }) => position[2] === 0)).toBe(true);
     expect(SEMANTIC_NETWORK_NODES.some(({ position }) => Math.abs(position[0]) < 1.5)).toBe(true);
+  });
+
+  it("rounds out the visible teaching volume on both sides of every coordinate axis", () => {
+    const visibleWords = new Set<string>([
+      ...COMPOSITION_STARTERS,
+      ...SEMANTIC_NETWORK_CONTEXT_WORDS,
+      "animal",
+      "mythic",
+      "concept",
+    ]);
+    const visibleNodes = SEMANTIC_NETWORK_NODES.filter(({ word }) => visibleWords.has(word));
+
+    for (const axis of [0, 1, 2] as const) {
+      expect(visibleNodes.filter(({ position }) => position[axis] < -0.25).length).toBeGreaterThan(5);
+      expect(visibleNodes.filter(({ position }) => position[axis] > 0.25).length).toBeGreaterThan(5);
+    }
   });
 
   it("fits source-vector distances without moving a term out of its semantic octant", () => {
@@ -119,7 +148,7 @@ describe("three-dimensional semantic teaching network", () => {
 
   it("connects valid terms through role, category, counterpart, and authored blend links", () => {
     const words = new Set(SEMANTIC_NETWORK_NODES.map(({ word }) => word));
-    expect(SEMANTIC_NETWORK_EDGES).toHaveLength(165);
+    expect(SEMANTIC_NETWORK_EDGES).toHaveLength(273);
     expect(new Set(SEMANTIC_NETWORK_EDGES.map(({ relation }) => relation))).toEqual(
       new Set(["status", "age", "category", "counterpart", "blend"]),
     );
@@ -140,6 +169,26 @@ describe("three-dimensional semantic teaching network", () => {
         relation: "blend",
       });
     }
+  });
+
+  it("projects exact directions, authored blends, and un-authored combinations with explicit vector math", () => {
+    const exact = projectComposition3d(["man", "royal"], resolveTermComposition(["man", "royal"]));
+    expect(exact).toMatchObject({ method: "direction", result: "king", resultKind: "exact" });
+    expect(exact.components).toHaveLength(2);
+    expect(exact.location).toEqual(
+      SEMANTIC_NETWORK_NODES.find(({ word }) => word === "king")?.position,
+    );
+
+    const authored = projectComposition3d(["horse", "eagle"], resolveTermComposition(["horse", "eagle"]));
+    expect(authored).toMatchObject({ method: "mean", result: "hippogriff", resultKind: "authored" });
+
+    const abstract = projectComposition3d(["knowledge", "time"], resolveTermComposition(["knowledge", "time"]));
+    expect(abstract).toMatchObject({ method: "mean", result: "wisdom", resultKind: "authored" });
+
+    const nearest = projectComposition3d(["boy", "fish"], resolveTermComposition(["boy", "fish"]));
+    expect(nearest.method).toBe("mean");
+    expect(nearest.resultKind).toBe("nearest");
+    expect(nearest.result).not.toBeNull();
   });
 
   it("keeps only links that touch a highlighted composition term", () => {

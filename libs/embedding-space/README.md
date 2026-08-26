@@ -47,15 +47,24 @@ curated teaching scenario while keeping the offline artifact compact.
   that combines the equation controls and navigable word space into one
   experience. Its WebGL scene is requested only when the explorer enters
   the viewport, then reveals the role region's three teaching axes and adds
-  contextual categories, status terms, animals, and mythical creatures through
-  typed links beyond the eight composable anchors. Compact Role, Status, Age,
-  and Creature dropdowns expose only compatible ingredient terms. Royal role
-  endpoints and authored recipe results remain output-only so the controls do
-  not recursively expand every derived word into a new option family. Recipes
+  contextual categories, status terms, animals, mythical creatures, and abstract
+  concepts through typed links beyond the eight composable anchors. Four equal-size
+  term slots always expose the same vocabulary, grouped as Role, Status, Age,
+  Creature, and Abstract;
+  sibling choices never add, remove, disable, or resize another input. Royal
+  role endpoints and authored recipe results remain output-only so the controls
+  do not recursively expand every derived word into a new option family. A
+  live linear-algebra readout beneath the graph stacks input vectors, composition,
+  and result as a vertical arithmetic sequence. Each variable assignment stays on
+  one non-wrapping line, with horizontal overflow protection at narrow widths. The
+  readout distinguishes exact direction moves, authored blend labels, and nearest
+  points in the projected space. Recipes
   such as `man + sovereign = emperor`, `young + cat = kitten`,
-  `cat + fish = catfish`, and `bear + owl = owlbear` demonstrate several local
-  relationship families; they are not measured Word2Vec output, definitions,
-  or etymological claims.
+  `cat + fish = catfish`, `bear + owl = owlbear`, `knowledge + time = wisdom`,
+  and `mystery + cat = sphinx` demonstrate several local relationship families.
+  The abstract terms occupy previously sparse regions of the teaching volume;
+  they do not define a literal abstractness axis. These recipes are not measured
+  Word2Vec output, definitions, or etymological claims.
 
 ## Data and License
 

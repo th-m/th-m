@@ -1,9 +1,16 @@
 import {
+  COMPOSITION_OUTPUT_ONLY_TERMS,
+  COMPOSITION_STARTERS,
   PAIR_RECIPES,
   SEMANTIC_WORDS,
+  type AbstractResultWord,
+  type AbstractWord,
   type AnimalWord,
+  type CompositionResultWord,
+  type CompositionTerm,
   type DerivedAnimalWord,
   type MythicalWord,
+  type ResolvedTermComposition,
   type SemanticWord,
   type StatusResultWord,
 } from "./compositionModel";
@@ -18,15 +25,16 @@ export type SemanticContextWord =
   | "heir"
   | "sovereign"
   | "legendary"
+  | "divine"
   | "young";
 
-export type SemanticCategoryWord = "animal" | "mythic";
-export type SemanticNetworkWord = SemanticWord | SemanticContextWord | AnimalWord | MythicalWord | DerivedAnimalWord | StatusResultWord | SemanticCategoryWord;
+export type SemanticCategoryWord = "animal" | "mythic" | "concept";
+export type SemanticNetworkWord = SemanticWord | SemanticContextWord | AnimalWord | MythicalWord | DerivedAnimalWord | StatusResultWord | AbstractWord | AbstractResultWord | SemanticCategoryWord;
 export type SemanticNetworkRelation = "status" | "age" | "category" | "counterpart" | "blend";
 
 export type SemanticNetworkNode = {
   word: SemanticNetworkWord;
-  kind: "anchor" | "context" | "animal" | "mythic" | "category";
+  kind: "anchor" | "context" | "animal" | "mythic" | "abstract" | "category";
   position: readonly [number, number, number];
   labelOffset?: readonly [number, number, number];
 };
@@ -65,6 +73,7 @@ const CONTEXT_NODES: readonly SemanticNetworkNode[] = [
   { word: "heir", kind: "context", position: [1.5, -1.15, 0], labelOffset: [0, -0.2, 0] },
   { word: "sovereign", kind: "context", position: [2.38, 1.72, 0], labelOffset: [0, 0.22, 0] },
   { word: "legendary", kind: "context", position: [1.78, 1.64, 0.58], labelOffset: [0, 0.22, 0] },
+  { word: "divine", kind: "context", position: [2.18, 1.82, -0.1], labelOffset: [0, 0.22, 0] },
   { word: "young", kind: "context", position: [-2.82, -1.62, -0.14], labelOffset: [0, -0.2, 0] },
 ];
 
@@ -76,6 +85,9 @@ const STATUS_RESULT_NODES: readonly SemanticNetworkNode[] = [
   { word: "hero", kind: "context", position: [0.38, 1.52, -1.38], labelOffset: [0, 0.22, 0] },
   { word: "heroine", kind: "context", position: [0.34, 1.48, 1.42], labelOffset: [0, 0.22, 0] },
   { word: "prodigy", kind: "context", position: [0.16, -1.42, 0.46], labelOffset: [0, -0.22, 0] },
+  { word: "god", kind: "context", position: [2.7, 1.48, -1.26], labelOffset: [0, 0.22, 0] },
+  { word: "goddess", kind: "context", position: [2.64, 1.44, 1.3], labelOffset: [0, 0.22, 0] },
+  { word: "demigod", kind: "context", position: [1.72, -1.52, 0.16], labelOffset: [0, -0.22, 0] },
 ];
 
 const CREATURE_NODES: readonly SemanticNetworkNode[] = [
@@ -94,6 +106,10 @@ const CREATURE_NODES: readonly SemanticNetworkNode[] = [
   { word: "deer", kind: "animal", position: [-2.86, 0.38, 0.72], labelOffset: [0, 0.22, 0] },
   { word: "cat", kind: "animal", position: [-2.34, 0.78, 1.02], labelOffset: [0, 0.22, 0] },
   { word: "dog", kind: "animal", position: [-2.54, 0.7, 0.24], labelOffset: [0, 0.22, 0] },
+  { word: "fox", kind: "animal", position: [-2.42, 0.46, 1.36], labelOffset: [0, 0.22, 0] },
+  { word: "shark", kind: "animal", position: [-2.64, -0.38, 0.42], labelOffset: [0, -0.22, 0] },
+  { word: "tiger", kind: "animal", position: [-2.58, 0.84, -1.5], labelOffset: [0, 0.22, 0] },
+  { word: "raven", kind: "animal", position: [-1.66, 1.18, 0.42], labelOffset: [0, 0.22, 0] },
   { word: "foal", kind: "animal", position: [-2.36, -1.18, -0.3], labelOffset: [0, -0.22, 0] },
   { word: "seahorse", kind: "animal", position: [-2.52, -0.34, 0.16], labelOffset: [0, 0.22, 0] },
   { word: "fry", kind: "animal", position: [-2.38, -1.28, 0.72], labelOffset: [0, -0.22, 0] },
@@ -110,6 +126,8 @@ const CREATURE_NODES: readonly SemanticNetworkNode[] = [
   { word: "catfish", kind: "animal", position: [-2.4, -0.18, 0.88], labelOffset: [0, -0.22, 0] },
   { word: "dogfish", kind: "animal", position: [-2.56, -0.12, 0.38], labelOffset: [0, -0.22, 0] },
   { word: "wolffish", kind: "animal", position: [-2.7, -0.08, -0.62], labelOffset: [0, -0.22, 0] },
+  { word: "kit", kind: "animal", position: [-2.46, -0.82, 1.3], labelOffset: [0, -0.22, 0] },
+  { word: "tigerfish", kind: "animal", position: [-2.68, -0.12, -0.44], labelOffset: [0, -0.22, 0] },
   { word: "mythic", kind: "category", position: [-0.56, -1.28, 0], labelOffset: [0, -0.22, 0] },
   { word: "centaur", kind: "mythic", position: [-0.62, 0.16, -1.72], labelOffset: [0, 0.24, 0] },
   { word: "merman", kind: "mythic", position: [-0.7, -0.28, -1.58], labelOffset: [0, -0.24, 0] },
@@ -124,6 +142,50 @@ const CREATURE_NODES: readonly SemanticNetworkNode[] = [
   { word: "chimera", kind: "mythic", position: [-0.58, 0.76, 0.22], labelOffset: [0, 0.24, 0] },
   { word: "unicorn", kind: "mythic", position: [-0.82, 1.16, 0.5], labelOffset: [0, 0.24, 0] },
   { word: "phoenix", kind: "mythic", position: [-0.14, 1.7, 0.62], labelOffset: [0, 0.24, 0] },
+  { word: "hippogriff", kind: "mythic", position: [-0.68, 1.28, -1.88], labelOffset: [0, 0.24, 0] },
+  { word: "sphinx", kind: "mythic", position: [-0.35, 0.55, 1.65], labelOffset: [0, 0.24, 0] },
+];
+
+// Abstract terms occupy the sparse center and positive sides of the teaching
+// volume. They make the projection visibly three-dimensional without implying
+// that any one axis is a literal "abstractness" coordinate.
+const ABSTRACT_NODES: readonly SemanticNetworkNode[] = [
+  { word: "concept", kind: "category", position: [0.15, 0.2, 0.2], labelOffset: [0, 0.2, 0] },
+  { word: "knowledge", kind: "abstract", position: [0.25, 1.6, 0.75], labelOffset: [0, 0.22, 0] },
+  { word: "courage", kind: "abstract", position: [0.9, 0.45, -1.55], labelOffset: [0, 0.22, 0] },
+  { word: "freedom", kind: "abstract", position: [0.7, -0.55, 1.65], labelOffset: [0, -0.22, 0] },
+  { word: "order", kind: "abstract", position: [1.05, 1.1, 0.7], labelOffset: [0, 0.22, 0] },
+  { word: "chaos", kind: "abstract", position: [0.45, -1.4, -1.45], labelOffset: [0, -0.22, 0] },
+  { word: "memory", kind: "abstract", position: [-0.15, 0.65, 1.55], labelOffset: [0, 0.22, 0] },
+  { word: "time", kind: "abstract", position: [0.35, -1.75, 0.25], labelOffset: [0, -0.22, 0] },
+  { word: "mystery", kind: "abstract", position: [-0.05, 0.1, 1.95], labelOffset: [0, 0.22, 0] },
+  { word: "justice", kind: "abstract", position: [1.6, 0.4, 0.9], labelOffset: [0, 0.22, 0] },
+  { word: "truth", kind: "abstract", position: [1.4, 1.3, -0.6], labelOffset: [0, 0.22, 0] },
+  { word: "beauty", kind: "abstract", position: [1.15, 0.05, 1.5], labelOffset: [0, 0.22, 0] },
+  { word: "power", kind: "abstract", position: [1.85, 0.9, -0.8], labelOffset: [0, 0.22, 0] },
+  { word: "hope", kind: "abstract", position: [1.3, -1.1, 0.9], labelOffset: [0, -0.22, 0] },
+  { word: "fear", kind: "abstract", position: [1, -0.8, -1.4], labelOffset: [0, -0.22, 0] },
+  { word: "love", kind: "abstract", position: [1.55, 0.2, 1], labelOffset: [0, -0.22, 0] },
+  { word: "reason", kind: "abstract", position: [1.2, 1.4, -1], labelOffset: [0, 0.22, 0] },
+  { word: "wisdom", kind: "abstract", position: [0.5, 1.45, 1.15], labelOffset: [0, 0.22, 0] },
+  { word: "lionheart", kind: "abstract", position: [0.9, 0.65, -1.25], labelOffset: [0, 0.22, 0] },
+  { word: "liberty", kind: "abstract", position: [0.85, -0.45, 1.4], labelOffset: [0, -0.22, 0] },
+  { word: "chronology", kind: "abstract", position: [0.75, -0.3, 0.45], labelOffset: [0, -0.22, 0] },
+  { word: "nostalgia", kind: "abstract", position: [-0.05, -0.75, 1.2], labelOffset: [0, -0.22, 0] },
+  { word: "scholar", kind: "abstract", position: [-0.25, 1.35, 0.45], labelOffset: [0, 0.22, 0] },
+  { word: "student", kind: "abstract", position: [-0.55, -0.95, 0.5], labelOffset: [0, -0.22, 0] },
+  { word: "oracle", kind: "abstract", position: [0.65, 1.75, 0.95], labelOffset: [0, 0.22, 0] },
+  { word: "omniscience", kind: "abstract", position: [1.5, 1.7, 0.55], labelOffset: [0, 0.22, 0] },
+  { word: "understanding", kind: "abstract", position: [0.8, 1.45, 0.1], labelOffset: [0, 0.22, 0] },
+  { word: "compassion", kind: "abstract", position: [1.2, 0.3, -0.2], labelOffset: [0, 0.22, 0] },
+  { word: "optimism", kind: "abstract", position: [1, -0.8, 1.2], labelOffset: [0, -0.22, 0] },
+  { word: "logic", kind: "abstract", position: [1.1, 1.25, -0.15], labelOffset: [0, 0.22, 0] },
+  { word: "sovereignty", kind: "abstract", position: [1.7, 0.45, -0.4], labelOffset: [0, 0.22, 0] },
+  { word: "anxiety", kind: "abstract", position: [0.68, -1.28, -0.58], labelOffset: [0, -0.22, 0] },
+  { word: "enchantment", kind: "abstract", position: [0.55, 0.08, 1.73], labelOffset: [0, 0.22, 0] },
+  { word: "legitimacy", kind: "abstract", position: [1.7, 0.65, 0.05], labelOffset: [0, 0.22, 0] },
+  { word: "devotion", kind: "abstract", position: [0.95, -0.78, 0.63], labelOffset: [0, -0.22, 0] },
+  { word: "integrity", kind: "abstract", position: [1.15, 0.88, -1.08], labelOffset: [0, 0.22, 0] },
 ];
 
 export const SEMANTIC_NETWORK_NODES: readonly SemanticNetworkNode[] = [
@@ -135,6 +197,7 @@ export const SEMANTIC_NETWORK_NODES: readonly SemanticNetworkNode[] = [
   ...CONTEXT_NODES,
   ...STATUS_RESULT_NODES,
   ...CREATURE_NODES,
+  ...ABSTRACT_NODES,
 ];
 
 export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
@@ -177,6 +240,9 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
   { from: "legendary", to: "hero", relation: "status" },
   { from: "legendary", to: "heroine", relation: "status" },
   { from: "legendary", to: "prodigy", relation: "status" },
+  { from: "divine", to: "god", relation: "status" },
+  { from: "divine", to: "goddess", relation: "status" },
+  { from: "divine", to: "demigod", relation: "status" },
 
   { from: "animal", to: "horse", relation: "category" },
   { from: "animal", to: "fish", relation: "category" },
@@ -192,6 +258,10 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
   { from: "animal", to: "deer", relation: "category" },
   { from: "animal", to: "cat", relation: "category" },
   { from: "animal", to: "dog", relation: "category" },
+  { from: "animal", to: "fox", relation: "category" },
+  { from: "animal", to: "shark", relation: "category" },
+  { from: "animal", to: "tiger", relation: "category" },
+  { from: "animal", to: "raven", relation: "category" },
   { from: "animal", to: "foal", relation: "category" },
   { from: "animal", to: "seahorse", relation: "category" },
   { from: "animal", to: "fry", relation: "category" },
@@ -208,6 +278,8 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
   { from: "animal", to: "catfish", relation: "category" },
   { from: "animal", to: "dogfish", relation: "category" },
   { from: "animal", to: "wolffish", relation: "category" },
+  { from: "animal", to: "kit", relation: "category" },
+  { from: "animal", to: "tigerfish", relation: "category" },
   { from: "mythic", to: "centaur", relation: "category" },
   { from: "mythic", to: "merman", relation: "category" },
   { from: "mythic", to: "mermaid", relation: "category" },
@@ -221,6 +293,44 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
   { from: "mythic", to: "chimera", relation: "category" },
   { from: "mythic", to: "unicorn", relation: "category" },
   { from: "mythic", to: "phoenix", relation: "category" },
+  { from: "mythic", to: "hippogriff", relation: "category" },
+  { from: "mythic", to: "sphinx", relation: "category" },
+
+  { from: "concept", to: "knowledge", relation: "category" },
+  { from: "concept", to: "courage", relation: "category" },
+  { from: "concept", to: "freedom", relation: "category" },
+  { from: "concept", to: "order", relation: "category" },
+  { from: "concept", to: "chaos", relation: "category" },
+  { from: "concept", to: "memory", relation: "category" },
+  { from: "concept", to: "time", relation: "category" },
+  { from: "concept", to: "mystery", relation: "category" },
+  { from: "concept", to: "justice", relation: "category" },
+  { from: "concept", to: "truth", relation: "category" },
+  { from: "concept", to: "beauty", relation: "category" },
+  { from: "concept", to: "power", relation: "category" },
+  { from: "concept", to: "hope", relation: "category" },
+  { from: "concept", to: "fear", relation: "category" },
+  { from: "concept", to: "love", relation: "category" },
+  { from: "concept", to: "reason", relation: "category" },
+  { from: "concept", to: "wisdom", relation: "category" },
+  { from: "concept", to: "lionheart", relation: "category" },
+  { from: "concept", to: "liberty", relation: "category" },
+  { from: "concept", to: "chronology", relation: "category" },
+  { from: "concept", to: "nostalgia", relation: "category" },
+  { from: "concept", to: "scholar", relation: "category" },
+  { from: "concept", to: "student", relation: "category" },
+  { from: "concept", to: "oracle", relation: "category" },
+  { from: "concept", to: "omniscience", relation: "category" },
+  { from: "concept", to: "understanding", relation: "category" },
+  { from: "concept", to: "compassion", relation: "category" },
+  { from: "concept", to: "optimism", relation: "category" },
+  { from: "concept", to: "logic", relation: "category" },
+  { from: "concept", to: "sovereignty", relation: "category" },
+  { from: "concept", to: "anxiety", relation: "category" },
+  { from: "concept", to: "enchantment", relation: "category" },
+  { from: "concept", to: "legitimacy", relation: "category" },
+  { from: "concept", to: "devotion", relation: "category" },
+  { from: "concept", to: "integrity", relation: "category" },
 
   ...PAIR_RECIPES.flatMap(({ terms: [left, right], result }) => [
     { from: left, to: result, relation: "blend" as const },
@@ -231,14 +341,118 @@ export const SEMANTIC_NETWORK_EDGES: readonly SemanticNetworkEdge[] = [
 export const SEMANTIC_NETWORK_CONTEXT_WORDS = CONTEXT_NODES.map(({ word }) => word);
 export const SEMANTIC_NETWORK_ANIMAL_WORDS = [
   "horse", "fish", "hummingbird", "lion", "eagle", "bird", "goat",
-  "wolf", "bear", "owl", "snake", "deer", "cat", "dog",
+  "wolf", "bear", "owl", "snake", "deer", "cat", "dog", "fox", "shark", "tiger", "raven",
   "foal", "seahorse", "fry", "cub", "chick", "kid", "eaglet", "lionfish",
-  "pup", "hatchling", "fawn", "kitten", "puppy", "catfish", "dogfish", "wolffish",
+  "pup", "hatchling", "fawn", "kitten", "puppy", "catfish", "dogfish", "wolffish", "kit", "tigerfish",
 ] as const;
 export const SEMANTIC_NETWORK_MYTHICAL_WORDS = [
   "centaur", "merman", "mermaid", "harpy", "pixie", "werewolf",
-  "griffin", "pegasus", "capricorn", "owlbear", "chimera", "unicorn", "phoenix",
+  "griffin", "pegasus", "capricorn", "owlbear", "chimera", "unicorn", "phoenix", "hippogriff", "sphinx",
 ] as const;
+export const SEMANTIC_NETWORK_ABSTRACT_WORDS = ABSTRACT_NODES
+  .filter(({ kind }) => kind === "abstract")
+  .map(({ word }) => word);
+
+export type SemanticVector3 = readonly [number, number, number];
+
+export type CompositionProjection = {
+  components: readonly { label: CompositionTerm; vector: SemanticVector3 }[];
+  location: SemanticVector3;
+  result: CompositionResultWord | CompositionTerm | null;
+  method: "direction" | "mean" | "single";
+  resultKind: "exact" | "authored" | "nearest" | "none";
+};
+
+const NETWORK_POSITION_BY_WORD = new Map<SemanticNetworkWord, SemanticVector3>(
+  SEMANTIC_NETWORK_NODES.map(({ word, position }) => [word, position]),
+);
+
+const DIRECTION_VECTORS: Readonly<Partial<Record<CompositionTerm, SemanticVector3>>> = {
+  ordinary: [-1.5, 0, 0],
+  royal: [1.5, 0, 0],
+  young: [0, -1.15, 0],
+  adult: [0, 1.15, 0],
+  masculine: [0, 0, -1.15],
+  feminine: [0, 0, 1.15],
+};
+
+function vectorForTerm(term: CompositionTerm): SemanticVector3 {
+  return NETWORK_POSITION_BY_WORD.get(term as SemanticNetworkWord) ?? DIRECTION_VECTORS[term] ?? [0, 0, 0];
+}
+
+function meanVector(vectors: readonly SemanticVector3[]): SemanticVector3 {
+  if (vectors.length === 0) return [0, 0, 0];
+  const sum = vectors.reduce<[number, number, number]>(
+    (total, vector) => [total[0] + vector[0], total[1] + vector[1], total[2] + vector[2]],
+    [0, 0, 0],
+  );
+  return [sum[0] / vectors.length, sum[1] / vectors.length, sum[2] / vectors.length];
+}
+
+function nearestProjectedWord(
+  location: SemanticVector3,
+  excluded: readonly CompositionTerm[],
+): CompositionResultWord | CompositionTerm | null {
+  const excludedWords = new Set(excluded);
+  const candidates = [...COMPOSITION_OUTPUT_ONLY_TERMS, ...COMPOSITION_STARTERS]
+    .filter((word, index, words) => words.indexOf(word) === index)
+    .filter((word) => !excludedWords.has(word as CompositionTerm))
+    .flatMap((word) => {
+      const position = NETWORK_POSITION_BY_WORD.get(word as SemanticNetworkWord);
+      return position ? [{ word, position }] : [];
+    });
+  return candidates.reduce<{ word: CompositionResultWord | CompositionTerm; distance: number } | null>(
+    (nearest, candidate) => {
+      const distance = Math.hypot(
+        candidate.position[0] - location[0],
+        candidate.position[1] - location[1],
+        candidate.position[2] - location[2],
+      );
+      return !nearest || distance < nearest.distance ? { word: candidate.word, distance } : nearest;
+    },
+    null,
+  )?.word ?? null;
+}
+
+export function projectComposition3d(
+  terms: readonly CompositionTerm[],
+  composition: ResolvedTermComposition,
+): CompositionProjection {
+  if (terms.length === 0) {
+    return { components: [], location: [0, 0, 0], result: null, method: "mean", resultKind: "none" };
+  }
+
+  if (!composition.recipe && composition.path.length > 1 && composition.semanticStart) {
+    const components = terms.map((term, index) => {
+      if (index === 0) return { label: term, vector: vectorForTerm(term) };
+      const from = NETWORK_POSITION_BY_WORD.get(composition.path[index - 1] as SemanticNetworkWord);
+      const to = NETWORK_POSITION_BY_WORD.get(composition.path[index] as SemanticNetworkWord);
+      const vector: SemanticVector3 = from && to
+        ? [to[0] - from[0], to[1] - from[1], to[2] - from[2]]
+        : vectorForTerm(term);
+      return { label: term, vector };
+    });
+    const result = composition.result;
+    return {
+      components,
+      location: result ? vectorForTerm(result as CompositionTerm) : [0, 0, 0],
+      result,
+      method: "direction",
+      resultKind: "exact",
+    };
+  }
+
+  const components = terms.map((term) => ({ label: term, vector: vectorForTerm(term) }));
+  const location = meanVector(components.map(({ vector }) => vector));
+  if (composition.recipe && composition.result) {
+    return { components, location, result: composition.result, method: "mean", resultKind: "authored" };
+  }
+  if (terms.length === 1) {
+    return { components, location, result: composition.result ?? terms[0], method: "single", resultKind: "exact" };
+  }
+  const result = nearestProjectedWord(location, terms);
+  return { components, location, result, method: "mean", resultKind: result ? "nearest" : "none" };
+}
 
 export function semanticEdgesForHighlights(
   highlightedWords: readonly SemanticNetworkWord[],
