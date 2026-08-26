@@ -56,6 +56,7 @@ function article(slug: string): PublishedArticle {
 }
 
 const dedicatedPageSlugs = [
+  "ai-consciousness-is-incoherent",
   "consciousness-is-incoherent",
   "goals-solutions-and-value",
   "the-cognitive-factory",

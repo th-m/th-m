@@ -1,0 +1,400 @@
+.ai-consciousness-article {
+  --consciousness-accent: var(--color-primary);
+}
+
+.ai-consciousness-article .article-outline__content :not(pre) > code {
+  padding: 0.08em 0.3em;
+  border: 1px solid color-mix(in srgb, var(--consciousness-accent) 30%, transparent);
+  background: color-mix(in srgb, var(--consciousness-accent) 8%, transparent);
+  color: var(--consciousness-accent);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.ai-consciousness-article .article-claim--emphasis {
+  border-left: 3px solid var(--consciousness-accent);
+}
+
+.ai-consciousness-article .article-claim p {
+  margin-block: 0;
+}
+
+.ai-consciousness-article__bullets,
+.ai-consciousness-article__evidence,
+.ai-consciousness-article__sources {
+  padding-left: 1.5em;
+}
+
+.ai-consciousness-article__bullets {
+  list-style: disc outside;
+}
+
+.ai-consciousness-article__evidence {
+  display: grid;
+  gap: 12px;
+  list-style: disc outside;
+}
+
+.ai-consciousness-article__bullets > li::marker,
+.ai-consciousness-article__evidence > li::marker,
+.ai-consciousness-article__sources > li::marker {
+  color: var(--consciousness-accent);
+}
+
+.ai-consciousness-article__sources {
+  display: grid;
+  gap: 14px;
+}
+
+.ai-consciousness-figure {
+  margin: clamp(28px, 5vw, 52px) 0;
+}
+
+.ai-consciousness-figure figcaption {
+  margin-top: 12px;
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  line-height: 1.55;
+  text-transform: uppercase;
+}
+
+.access-maneuver {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 10px;
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--consciousness-accent) 7%, transparent),
+      transparent 48%
+    ),
+    var(--color-background);
+}
+
+.access-maneuver__node {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  min-height: 128px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 96%, var(--color-foreground) 4%);
+}
+
+.access-maneuver__node--target {
+  border-color: color-mix(in srgb, var(--consciousness-accent) 58%, var(--color-border));
+}
+
+.access-maneuver__node--warning {
+  border-style: dashed;
+  background: color-mix(in srgb, var(--consciousness-accent) 5%, var(--color-background));
+}
+
+.access-maneuver__node > span,
+.access-maneuver__node > small,
+.theory-dilemma span,
+.evidence-bridge header > span,
+.ai-consciousness-inference section > span,
+.ai-consciousness-logic span {
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.access-maneuver__node > strong {
+  color: var(--color-foreground);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.access-maneuver__arrow {
+  align-self: center;
+  color: var(--consciousness-accent);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.evidence-bridge {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+}
+
+.evidence-bridge__lane {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 18px;
+  padding: clamp(20px, 4vw, 34px);
+}
+
+.evidence-bridge__lane + .evidence-bridge__lane {
+  border-left: 1px solid var(--color-border);
+}
+
+.evidence-bridge__lane--human {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--consciousness-accent) 8%, transparent),
+    transparent 48%
+  );
+}
+
+.evidence-bridge__lane > header {
+  display: grid;
+  gap: 6px;
+}
+
+.evidence-bridge__lane > header > strong {
+  color: var(--color-foreground);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(23px, 3vw, 32px);
+  font-weight: 500;
+}
+
+.evidence-bridge__chain {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  gap: 8px;
+  color: var(--consciousness-accent);
+}
+
+.evidence-bridge__chain > span:not([aria-hidden="true"]) {
+  display: grid;
+  place-items: center;
+  min-height: 70px;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, var(--consciousness-accent) 30%, var(--color-border));
+  color: var(--color-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.evidence-bridge__chain > span:nth-child(5) {
+  grid-column: 1 / -1;
+}
+
+.evidence-bridge__chain > .evidence-bridge__missing {
+  border-style: dashed;
+  color: var(--color-muted-foreground);
+}
+
+.evidence-bridge__lane > p {
+  margin: 0;
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.theory-dilemma {
+  display: grid;
+  gap: 22px;
+  padding: clamp(20px, 4vw, 34px);
+  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--consciousness-accent) 6%, transparent),
+      transparent 54%
+    ),
+    var(--color-background);
+}
+
+.theory-dilemma__root {
+  display: grid;
+  gap: 8px;
+  justify-self: center;
+  width: min(100%, 620px);
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--consciousness-accent) 48%, var(--color-border));
+  text-align: center;
+}
+
+.theory-dilemma__root > strong {
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 500;
+}
+
+.theory-dilemma__branches {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  padding-top: 24px;
+}
+
+.theory-dilemma__branches::before {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  width: 50%;
+  height: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--consciousness-accent) 52%, var(--color-border));
+  border-left: 1px solid color-mix(in srgb, var(--consciousness-accent) 52%, var(--color-border));
+  border-right: 1px solid color-mix(in srgb, var(--consciousness-accent) 52%, var(--color-border));
+  content: "";
+}
+
+.theory-dilemma__branches > section {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-height: 124px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 96%, var(--color-foreground) 4%);
+}
+
+.theory-dilemma__branches > section > strong {
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(17px, 2vw, 21px);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.ai-consciousness-inference {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: clamp(26px, 4vw, 44px) 0;
+  border: 1px solid var(--color-border);
+}
+
+.ai-consciousness-inference > section {
+  display: grid;
+  gap: 10px;
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.ai-consciousness-inference > section + section {
+  border-left: 1px solid var(--color-border);
+}
+
+.ai-consciousness-inference code {
+  display: block;
+  padding: 11px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 94%, var(--color-foreground) 6%);
+  font-size: 11px;
+  text-align: center;
+}
+
+.ai-consciousness-inference strong {
+  color: var(--consciousness-accent);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ai-consciousness-logic {
+  display: grid;
+  margin: clamp(26px, 4vw, 44px) 0;
+  border: 1px solid var(--color-border);
+}
+
+.ai-consciousness-logic > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.35fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  padding: 16px 18px;
+}
+
+.ai-consciousness-logic > div + div {
+  border-top: 1px solid var(--color-border);
+}
+
+.ai-consciousness-logic code {
+  padding: 10px;
+  background: color-mix(in srgb, var(--color-background) 94%, var(--color-foreground) 6%);
+  font-size: 11px;
+}
+
+.ai-consciousness-logic__blocked {
+  border-left: 3px solid var(--consciousness-accent);
+}
+
+.ai-consciousness-conditionals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.ai-consciousness-conditionals code {
+  display: block;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--consciousness-accent) 6%, var(--color-background));
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 820px) {
+  .access-maneuver {
+    grid-template-columns: 1fr;
+  }
+
+  .access-maneuver__arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+
+  .access-maneuver__node {
+    min-height: 0;
+  }
+
+  .evidence-bridge,
+  .ai-consciousness-inference {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence-bridge__lane + .evidence-bridge__lane,
+  .ai-consciousness-inference > section + section {
+    border-top: 1px solid var(--color-border);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .ai-consciousness-article .article-outline__header h1 {
+    font-size: clamp(46px, 15.5vw, 62px);
+  }
+
+  .theory-dilemma__branches,
+  .ai-consciousness-conditionals {
+    grid-template-columns: 1fr;
+  }
+
+  .theory-dilemma__branches::before {
+    display: none;
+  }
+
+  .ai-consciousness-logic > div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
