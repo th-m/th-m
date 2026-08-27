@@ -18,3 +18,5 @@ apps/portfolio/.tanstack/
 .bun-install-cache/
 *.tsbuildinfo
 .DS_Store
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json

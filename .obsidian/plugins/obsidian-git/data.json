@@ -1,0 +1,19 @@
+{
+  "commitMessage": "obsidian: sync vault changes ({{date}})",
+  "autoCommitMessage": "obsidian: sync vault changes ({{date}})",
+  "commitDateFormat": "YYYY-MM-DD HH:mm:ss",
+  "autoSaveInterval": 0,
+  "autoPushInterval": 0,
+  "autoPullInterval": 0,
+  "autoPullOnBoot": false,
+  "autoCommitOnlyStaged": false,
+  "disablePush": false,
+  "pullBeforePush": true,
+  "squashCommitsBeforePush": false,
+  "syncMethod": "rebase",
+  "mergeStrategy": "none",
+  "showErrorNotices": true,
+  "showStatusBar": true,
+  "showBranchStatusBar": true,
+  "showFileMenu": true
+}
