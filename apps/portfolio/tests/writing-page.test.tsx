@@ -70,7 +70,7 @@ describe("ArticleContent MDX rendering", () => {
     );
     expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();
     // The MDX module renders the complete canonical essay.
-    expect(screen.getByRole("heading", { name: "The Priorities Hidden Inside the Prompt" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "AI has Hidden Priorities" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "What a Language Model Carries" })).toBeInTheDocument();
     expect(screen.getByText(/An LLM is a compressed statistical model of patterns in human language/)).toBeInTheDocument();
     expect(screen.getByText(/A model never experiences anything/)).toHaveTextContent(
