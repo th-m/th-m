@@ -138,6 +138,22 @@ End the movement with the shared thesis: at one pole evaluation cannot keep up;
 at the other, generation proceeds without enough evaluation. Then define
 understanding and its three recurring tests.
 
+Add **Inference Produces an Answer; Understanding Maintains a Model** as the
+bridge into the organizational argument. Define autoregressive inference
+technically: learned parameters and context enter a transformer pass; the final
+hidden state is projected into vocabulary logits; softmax produces a next-token
+distribution; selection, append, and repetition accumulate an answer. Animate
+that cycle with the same visual system used by the training figure in _Goals,
+Solutions & Value_, but keep the mechanics explicitly inference-only: the
+context changes while the learned weights remain fixed, and no target, loss,
+backpropagation, or optimizer appears.
+
+Keep the analogy bounded. A hidden state is a transient computational
+representation, not a human-readable situation model, and next-token
+probability is not truth. Use the distinction as the bridge: inference produces
+an answer; understanding maintains the model through which an answer becomes
+intelligible and correctable.
+
 ### 2. From Output to Shared Understanding
 
 Introduce the hypothetical onboarding team. Its problem is not a lack of
@@ -250,11 +266,17 @@ retrievable learning to _The Knowledge Factory_.
   with the three proof-indigestion handoffs labeled explicitly; do not use a
   force-directed or pannable graph for a linear sequence. Follow it with prose
   interpreting the limits of formal certificates.
+- Preserve `<!-- neural-inference -->` after the technical definition of
+  inference. Render an animated autoregressive next-token cycle: encode the
+  current context, run a transformer forward pass, project the final hidden
+  state into a vocabulary distribution, select a token, append it, and repeat.
+  State visibly that the learned weights remain fixed during inference and that
+  the illustrated candidates are only a small subset of the vocabulary.
 - Preserve `<!-- understanding-loop -->` exactly after the short claim that
   action demonstrates understanding. Render all six stages and the return from
   consequences to observation without requiring interaction. Follow it with the
   explicit loop sequence.
-- If either unit moves, move its setup, marker, and interpretation together.
+- If any unit moves, move its setup, marker, and interpretation together.
 
 ## Research Queue
 

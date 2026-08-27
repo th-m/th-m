@@ -97,6 +97,11 @@ describe("The Understanding Bottleneck published page", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
+        name: "Inference Produces an Answer; Understanding Maintains a Model",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
         name: "From Output to Shared Understanding",
       }),
     ).toBeInTheDocument();
@@ -149,6 +154,19 @@ describe("The Understanding Bottleneck published page", () => {
       ),
     ).toBeInTheDocument();
 
+    const inference = screen.getByLabelText(
+      /Animated neural network: LLM Inference/,
+    );
+    expect(
+      within(inference).getByRole("heading", { name: "LLM Inference" }),
+    ).toBeInTheDocument();
+    expect(
+      within(inference).getByText(/fixed trained weights/i),
+    ).toBeInTheDocument();
+    expect(
+      within(inference).getByText("Illustrative next-token probabilities"),
+    ).toBeInTheDocument();
+
     const loop = screen.getByRole("figure", {
       name: "The understanding loop",
     });
@@ -192,6 +210,9 @@ describe("The Understanding Bottleneck published page", () => {
       expect(matchingLink).toBeDefined();
       expect(matchingLink).toHaveAttribute("target", "_blank");
     }
+    expect(
+      screen.getByRole("link", { name: "Truth, Entropy & Inference" }),
+    ).toHaveAttribute("href", "/writing/truth-entropy-and-inference");
     expect(
       screen.getByRole("link", { name: "The Knowledge Factory" }),
     ).toHaveAttribute("href", "/writing/the-knowledge-factory");

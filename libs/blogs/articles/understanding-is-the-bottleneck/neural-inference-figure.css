@@ -1,0 +1,36 @@
+.neural-inference-figure .nnl {
+  margin-block: 0;
+}
+
+.neural-inference-figure .nnl__summary {
+  font-weight: 600;
+  color: var(--color-foreground-strong);
+}
+
+.neural-inference-figure .nnl__readout {
+  min-block-size: 85px;
+  align-content: start;
+  align-items: start;
+}
+
+.neural-inference-figure__context-readout,
+.neural-inference-figure__forward-readout,
+.neural-inference-figure__distribution-readout {
+  color: var(--color-primary);
+  border-color: color-mix(in srgb, var(--color-primary) 48%, transparent);
+}
+
+.neural-inference-figure__append-readout {
+  color: var(--color-accent-rose);
+  border-color: color-mix(in srgb, var(--color-accent-rose) 48%, transparent);
+}
+
+.neural-inference-figure path[data-edge-id="append-selected-token"].nnl-edge {
+  stroke-dasharray: 10 7;
+}
+
+@media (max-width: 640px) {
+  .neural-inference-figure .nnl__readout {
+    min-block-size: 160px;
+  }
+}

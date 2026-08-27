@@ -5,6 +5,7 @@ publishedAt: 2026-08-22
 updatedAt: 2026-08-26
 tags: [Artificial Intelligence, Leadership, Knowledge Work, Software Systems]
 ---
+
 # The Understanding Bottleneck
 
 ## 1. Two Ways Output Outruns Understanding
@@ -116,6 +117,41 @@ These tests do not determine by themselves what matters, whose purposes count,
 or whether reliance is warranted. They discipline a model; people and
 institutions remain accountable for its purposes and authority.
 
+### Inference Produces an Answer; Understanding Maintains a Model
+
+In machine learning, **inference** is the execution of a trained model. For an
+autoregressive language model, learned parameters and the available context
+tokens enter a transformer pass. The model computes a hidden state for the
+final position, projects it into logits over the vocabulary, converts those
+logits into a probability distribution, selects a next token, appends it to the
+context, and repeats. The visible answer is the accumulated output of that
+loop.
+
+<!-- neural-inference -->
+
+The hidden state is not a human-readable account of the situation, and
+next-token probability is not a measure of truth. Both are transient quantities
+used to continue a sequence under the model's learned distribution. Retrieval,
+tools, and additional context can make more evidence available to the pass, but
+the resulting answer must still be interpreted and evaluated.
+
+Understanding begins when the output becomes an object of inquiry rather than
+the end of the process. People relate it to situated evidence, use a provisional
+model to explain and predict, act within an evaluative boundary, observe what
+follows, and retain the revision.
+
+> **Understanding is not the answer produced by inference. It is the
+> provisional model that makes an answer intelligible, supports prediction and
+> action, and remains available for correction after contact with the world.**
+
+The analogy is limited but useful. Both processes condition prior structure on
+present context. LLM inference asks which continuation is probable under a
+trained model. Understanding asks which working model best explains the
+situation, what action it warrants, and what evidence or consequence should
+change it. [Truth, Entropy & Inference](/writing/truth-entropy-and-inference)
+examines the first loop in detail; this essay is concerned with what must remain
+after the continuation has been produced.
+
 ## 2. From Output to Shared Understanding
 
 Consider a hypothetical product team trying to understand why people abandon an
@@ -187,12 +223,12 @@ proposing interventions, testing them, and revising the model. Teams can
 distribute that work when they share evidence, vocabulary, constraints, and
 decision boundaries.
 
-| | Centralized authority gate | Distributed evaluative boundaries |
-| --- | --- | --- |
-| **Who frames the problem** | A small authority layer | People close to the evidence |
-| **Context** | Compressed across handoffs | Shared with its rationale and limits |
-| **Action** | Teams wait for approved tasks | Teams frame and test within explicit bounds |
-| **Outcome** | Queueing and dependency | More exploration with visible accountability |
+|                            | Centralized authority gate    | Distributed evaluative boundaries            |
+| -------------------------- | ----------------------------- | -------------------------------------------- |
+| **Who frames the problem** | A small authority layer       | People close to the evidence                 |
+| **Context**                | Compressed across handoffs    | Shared with its rationale and limits         |
+| **Action**                 | Teams wait for approved tasks | Teams frame and test within explicit bounds  |
+| **Outcome**                | Queueing and dependency       | More exploration with visible accountability |
 
 ### Evaluative Closure Makes Delegation Responsible
 
@@ -302,11 +338,11 @@ becomes reusable organizational capability.
 - Terence Tao, ["Mathematics in the Age of AI"](https://arxiv.org/abs/2608.16753) (2026). Develops the essay's organizing example of proof abundance, verification, explanation, and mathematical value.
 - OpenAI, ["An OpenAI Model Has Disproved a Central Conjecture in Discrete Geometry"](https://openai.com/index/model-disproves-discrete-geometry-conjecture/) (2026). Documents the unit-distance result and the continuing human role in choosing and interpreting problems.
 - [Leiden Declaration on Artificial Intelligence and Mathematics](https://leidendeclaration.ai/). States principles for correctness, understanding, attribution, transparency, and human direction in AI-assisted mathematics.
-- Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, [*Theorem Proving in Lean 4*](https://docs.lean-lang.org/theorem_proving_in_lean4/). Supports the distinction between kernel-checkable proof objects and the human task of choosing and interpreting a formalization.
+- Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, [_Theorem Proving in Lean 4_](https://docs.lean-lang.org/theorem_proving_in_lean4/). Supports the distinction between kernel-checkable proof objects and the human task of choosing and interpreting a formalization.
 - Karl E. Weick, Kathleen M. Sutcliffe, and David Obstfeld, ["Organizing and the Process of Sensemaking"](https://doi.org/10.1287/orsc.1050.0133) (2005). Examines how people turn circumstances into articulated situations that can guide action.
 - Amy C. Edmondson, ["Psychological Safety and Learning Behavior in Work Teams"](https://doi.org/10.2307/2666999) (1999). Connects psychological safety with learning behavior in the studied teams.
-- ISO, [*ISO 9241-210:2019 — Human-centred design for interactive systems*](https://www.iso.org/standard/77520.html). Grounds sustained attention to users, needs, and human-system consequences throughout design.
-- Zixuan Feng, Sadia Afroz, and Anita Sarma, [*From Gains to Strains: Modeling Developer Burnout with GenAI Adoption*](https://arxiv.org/abs/2510.07435) (ICSE-SEIS 2026). Connects GenAI adoption, job demands, job resources, and developer burnout in a mixed-methods study.
-- Hao-Ping Lee, Advait Sarkar, Lev Tankelevitch, Ian Drosos, Sean Rintel, Richard Banks, and Nicholas Wilson, [*The Impact of Generative AI on Critical Thinking*](https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/) (CHI 2025). Examines how knowledge workers describe goal formation, verification, response integration, and stewardship in GenAI-assisted work.
-- Charlotte Brandebusemeyer, Kerim Zunic, Thomas Zimmermann, Tobias Schimmer, and Bert Arnrich, [*Developers' Experience with Generative AI Beyond Productivity Assessment*](https://arxiv.org/abs/2607.02337) (2026 preprint). Reports task- and interaction-dependent changes in perceived workload, cognitive load, and productivity.
-- Martin Zack, Ross St. George, and Luke Clark, [*Dopaminergic Signaling of Uncertainty and the Aetiology of Gambling Addiction*](https://pubmed.ncbi.nlm.nih.gov/31870708/) (2020). Reviews reward uncertainty in gambling; used only to bound the slot-machine analogy, not to diagnose AI use.
+- ISO, [_ISO 9241-210:2019 — Human-centred design for interactive systems_](https://www.iso.org/standard/77520.html). Grounds sustained attention to users, needs, and human-system consequences throughout design.
+- Zixuan Feng, Sadia Afroz, and Anita Sarma, [_From Gains to Strains: Modeling Developer Burnout with GenAI Adoption_](https://arxiv.org/abs/2510.07435) (ICSE-SEIS 2026). Connects GenAI adoption, job demands, job resources, and developer burnout in a mixed-methods study.
+- Hao-Ping Lee, Advait Sarkar, Lev Tankelevitch, Ian Drosos, Sean Rintel, Richard Banks, and Nicholas Wilson, [_The Impact of Generative AI on Critical Thinking_](https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/) (CHI 2025). Examines how knowledge workers describe goal formation, verification, response integration, and stewardship in GenAI-assisted work.
+- Charlotte Brandebusemeyer, Kerim Zunic, Thomas Zimmermann, Tobias Schimmer, and Bert Arnrich, [_Developers' Experience with Generative AI Beyond Productivity Assessment_](https://arxiv.org/abs/2607.02337) (2026 preprint). Reports task- and interaction-dependent changes in perceived workload, cognitive load, and productivity.
+- Martin Zack, Ross St. George, and Luke Clark, [_Dopaminergic Signaling of Uncertainty and the Aetiology of Gambling Addiction_](https://pubmed.ncbi.nlm.nih.gov/31870708/) (2020). Reviews reward uncertainty in gambling; used only to bound the slot-machine analogy, not to diagnose AI use.

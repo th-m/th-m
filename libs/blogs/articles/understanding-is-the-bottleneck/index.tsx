@@ -12,6 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@th-m/ui";
+import { NeuralInferenceFigure } from "./neural-inference-figure";
 import "./understanding-figures.css";
 
 const proofPipeline = [
@@ -442,6 +443,56 @@ export default function ArticlePage({ post }: { post: PublishedPost }) {
             purposes count, or whether reliance is warranted. They discipline a
             model; people and institutions remain accountable for its purposes
             and authority.
+          </p>
+
+          <h3>Inference Produces an Answer; Understanding Maintains a Model</h3>
+          <p>
+            In machine learning, <strong>inference</strong> is the execution of
+            a trained model. For an autoregressive language model, learned
+            parameters and the available context tokens enter a transformer
+            pass. The model computes a hidden state for the final position,
+            projects it into logits over the vocabulary, converts those logits
+            into a probability distribution, selects a next token, appends it to
+            the context, and repeats. The visible answer is the accumulated
+            output of that loop.
+          </p>
+          <NeuralInferenceFigure />
+          <p>
+            The hidden state is not a human-readable account of the situation,
+            and next-token probability is not a measure of truth. Both are
+            transient quantities used to continue a sequence under the
+            model&apos;s learned distribution. Retrieval, tools, and additional
+            context can make more evidence available to the pass, but the
+            resulting answer must still be interpreted and evaluated.
+          </p>
+          <p>
+            Understanding begins when the output becomes an object of inquiry
+            rather than the end of the process. People relate it to situated
+            evidence, use a provisional model to explain and predict, act within
+            an evaluative boundary, observe what follows, and retain the
+            revision.
+          </p>
+          <Claim>
+            <p>
+              <strong>
+                Understanding is not the answer produced by inference. It is the
+                provisional model that makes an answer intelligible, supports
+                prediction and action, and remains available for correction
+                after contact with the world.
+              </strong>
+            </p>
+          </Claim>
+          <p>
+            The analogy is limited but useful. Both processes condition prior
+            structure on present context. LLM inference asks which continuation
+            is probable under a trained model. Understanding asks which working
+            model best explains the situation, what action it warrants, and what
+            evidence or consequence should change it.{" "}
+            <EssayLink slug="truth-entropy-and-inference">
+              Truth, Entropy &amp; Inference
+            </EssayLink>{" "}
+            examines the first loop in detail; this essay is concerned with what
+            must remain after the continuation has been produced.
           </p>
         </Section>
 
