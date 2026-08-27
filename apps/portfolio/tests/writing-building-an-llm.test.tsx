@@ -40,8 +40,8 @@ function buildingAnLlmArticle(): PublishedArticle {
       "Machine Learning",
       "Software Systems",
     ],
-    articlePath: "posts/building-an-llm/article.md",
-    markdown: "# Building an LLM\n\nBody.\n",
+    articlePath: "posts/building-an-llm/article.mdx",
+    assetRegistryPath: "posts/building-an-llm/assets.json",
   };
 }
 

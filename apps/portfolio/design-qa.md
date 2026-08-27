@@ -27,8 +27,8 @@ This pass implements the three selected Paper glyphs inside the recurring-truth 
 
 No actionable P0, P1, or P2 differences remain.
 
-- Shape fidelity: coherence retains the Paper study's irregular inscribed closure and three terminals. Correspondence now uses three evenly distributed registration ticks instead of four. Consequence holds the left and center pendulums vertically on an identical baseline; their nodes are exact matched circles centered under their suspension lines, while only the right pendulum is displaced.
-- Stroke weight: correspondence and consequence use the same `0.9 px` non-scaling vector stroke with round caps and joins. A restrained `0.25` morphology erosion thins the source-filled coherence trace without flattening its organic contour, bringing all three to the same optical weight at card size.
+- Shape fidelity: coherence uses a closed circular boundary and inscribed triangle that meet at three matched terminals. Correspondence uses one uninterrupted outer ring with three identical registration points spaced exactly `120°` apart on its circumference. Consequence offsets the complete left resting pendulum farther from center to optically counterbalance the displaced right weight; both resting nodes remain exact matched circles on one baseline and centered under their suspension lines, while the top beam carries equal restrained overhangs beyond the outer anchors.
+- Stroke weight: coherence, correspondence, and consequence all use the same explicit `0.9 px` non-scaling vector stroke with round caps and joins. No filled-path erosion or segment-specific thickness remains, so every edge preserves one consistent weight at card size.
 - Scale and hierarchy: the Paper board presents each glyph as an isolated study. The live cards intentionally place the vectors in a common `72 × 58 px` optical slot so they read as quiet instruments beside the mono category label, not as competing illustrations.
 - Spacing and layout rhythm: the glyphs sit in the existing card header, leaving the formulation strip and prose rhythm intact. The two-column narrow layout and the single third card retain their previous dimensions without overflow or collision.
 - Colors and material: transparent SVG roots let the article surface show through. A single muted brass tone and `0.86` opacity bring the family into the same subdued THOM palette as the situated-truth instruments above.
@@ -43,6 +43,11 @@ No actionable P0, P1, or P2 differences remain.
 4. User-directed refinement: reduced correspondence from four registration ticks to three and returned the left consequence pendulum to the same perpendicular resting angle as the center. The final live comparison confirms that only the right pendulum remains angled.
 5. Optical normalization: replaced the differently scaled source stroke widths with one non-scaling stroke token for correspondence and consequence, then rechecked all three together at the actual `72 × 58 px` card size.
 6. Final balance correction: converted the two resting cradle nodes into identical circles on one baseline and lightly eroded the heavier filled coherence trace. The live comparison now shows equal resting-node geometry and a consistent three-icon line weight.
+7. Reference-based thickness correction: compared the isolated correspondence and coherence captures directly, then increased coherence erosion to the highest stable value (`0.35`). The resulting trace remains continuous and now matches the target rings at the rendered card scale.
+8. Optical counterbalance: shifted the complete left resting pendulum `5.2` source units (about `2.7 px` at card size) left, preserving its vertical alignment and baseline while balancing the displaced right weight.
+9. Target geometry correction: replaced the fragmented outer correspondence contour with a true SVG circle and replaced the former ticks with three matched circumference points at exact `120°` intervals.
+10. Coherence weight correction: rebuilt the filled compound glyph as explicit circle, triangle, and terminal strokes sharing the family's `0.9 px` token, removing the thin outer-right edge and the morphology filter entirely.
+11. Cradle beam correction: shortened the top bar to equal `14.9`-unit overhangs beyond the outer suspension anchors, removing its excessive left and right extensions without changing any pendulum geometry.
 
 ## Follow-up polish
 

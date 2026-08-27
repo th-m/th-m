@@ -79,6 +79,22 @@ curated teaching scenario while keeping the offline artifact compact.
   they do not define a literal abstractness axis. These recipes are not measured
   Word2Vec output, definitions, or etymological claims.
 
+### Composition Review CSV
+
+Generate the reviewer-facing composition inventory to its explicit
+library-owned path:
+
+```sh
+bun run nx run embedding-space:gen-composition-review -- \
+  --output /absolute/path/to/libs/embedding-space/generated/embedding-composition-review.csv
+```
+
+The generator enumerates canonical multisets of one to four control terms,
+including repeated terms. Because vector addition is order-independent, each
+row represents all equivalent slot orders and records their count in
+`ordered_permutation_count`. Blank review columns sit beside the current
+authored, exact, projected-neighbor, or invalid classification.
+
 ## Data and License
 
 The generated dataset uses the `wte.weight` tensor and GPT-2 byte-pair

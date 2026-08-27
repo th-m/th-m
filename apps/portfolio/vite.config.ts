@@ -1,10 +1,13 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import mdx from "@mdx-js/rollup";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
+import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 
 function publishedPages() {
   const manifestPath = resolve(dirname(fileURLToPath(import.meta.url)), "public/_content/manifest.json");
@@ -14,8 +17,8 @@ function publishedPages() {
       schemaVersion?: number;
       posts?: Array<{ slug?: string }>;
     };
-    if (manifest.schemaVersion !== 2 || !Array.isArray(manifest.posts)) {
-      throw new Error("Expected blog manifest schema version 2.");
+    if (manifest.schemaVersion !== 3 || !Array.isArray(manifest.posts)) {
+      throw new Error("Expected blog manifest schema version 3.");
     }
     slugs = manifest.posts.map((post) => {
       if (typeof post.slug !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug)) {
@@ -44,49 +47,54 @@ function publishedPages() {
   ];
 }
 
-export default defineConfig(({ mode }) => ({
-  resolve: {
-    tsconfigPaths: true,
-    dedupe: ["react", "react-dom", "three"],
-  },
-  plugins: mode === "test" ? [tailwindcss(), react()] : [
-    tailwindcss(),
-    tanstackStart({
-      spa: {
-        enabled: true,
-        maskPath: "/spa-shell",
+export default defineConfig(({ mode }) => {
+  const mdxPlugin = { enforce: "pre" as const, ...mdx({ remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug] }) };
+  const reactPlugin = react({ include: /\.(?:js|jsx|mdx|ts|tsx)$/ });
+  return {
+    resolve: {
+      tsconfigPaths: true,
+      dedupe: ["react", "react-dom", "three"],
+    },
+    plugins: mode === "test" ? [tailwindcss(), mdxPlugin, reactPlugin] : [
+      tailwindcss(),
+      mdxPlugin,
+      tanstackStart({
+        spa: {
+          enabled: true,
+          maskPath: "/spa-shell",
+          prerender: {
+            outputPath: "/_shell.html",
+            crawlLinks: false,
+            retryCount: 2,
+          },
+        },
         prerender: {
-          outputPath: "/_shell.html",
+          enabled: true,
+          autoSubfolderIndex: true,
+          autoStaticPathsDiscovery: false,
           crawlLinks: false,
           retryCount: 2,
+          retryDelay: 250,
+          // Low concurrency keeps the local preview-server fetches from racing
+          // (transient failures would silently drop a page, since this
+          // tanstack-start version's prerender retry is a no-op).
+          concurrency: 1,
+          failOnError: true,
         },
-      },
-      prerender: {
-        enabled: true,
-        autoSubfolderIndex: true,
-        autoStaticPathsDiscovery: false,
-        crawlLinks: false,
-        retryCount: 2,
-        retryDelay: 250,
-        // Low concurrency keeps the local preview-server fetches from racing
-        // (transient failures would silently drop a page, since this
-        // tanstack-start version's prerender retry is a no-op).
-        concurrency: 1,
-        failOnError: true,
-      },
-      pages: publishedPages(),
-    }),
-    react(),
-  ],
-  build: {
-    target: "es2022",
-    sourcemap: true,
-  },
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: "@th-m/testing/vitest-setup",
-    css: true,
-    include: ["tests/**/*.test.{ts,tsx}"],
-  },
-}));
+        pages: publishedPages(),
+      }),
+      reactPlugin,
+    ],
+    build: {
+      target: "es2022",
+      sourcemap: true,
+    },
+    test: {
+      environment: "jsdom",
+      globals: true,
+      setupFiles: "@th-m/testing/vitest-setup",
+      css: true,
+      include: ["tests/**/*.test.{ts,tsx}"],
+    },
+  };
+});

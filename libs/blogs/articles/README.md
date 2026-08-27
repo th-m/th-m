@@ -4,212 +4,190 @@
 
 `articles/` is the canonical editorial home for the AI, ontology,
 software-development, software-economics, and knowledge-work essays. Each
-article has an independent workspace so its thesis, voice, informal notes,
-evidence, and public article can evolve without mixing with app tooling or
-another post.
+article has an independent workspace so its thesis, evidence, private working
+material, public prose, figures, and interactives can evolve without mixing
+with app tooling or another post.
 
 ## Ontology
 
 An immediate child directory is one article workspace. Its `draft/`, `notes/`,
-and `research/` directories are private authoring material. A workspace becomes
-publishable only when it contains a valid `article.md`; that public Markdown,
-its metadata, a sibling `assets/` directory, and an optional sibling `index.tsx`
-page with immediate TSX/CSS modules can enter the library's `dist/` artifact.
+and `research/` directories are private. A workspace becomes publishable only
+when it contains both `article.mdx` and `article-assets.ts`. The MDX file owns
+the article's prose and render order; the registry owns stable tagged asset IDs;
+optional immediate TS/TSX/CSS modules implement article-specific components.
 
 ## Key Terms
 
-- **Draft workspace:** the `draft/` directory where outlines, prose versions,
-  voice experiments, and attempts to clarify the article's ideas can evolve
-  freely.
-- **Notes:** durable observations, interview material, feedback, and retired
-  directions worth preserving outside the active draft workspace.
+- **Draft workspace:** `draft/`, where outlines, prose experiments, and voice
+  work can evolve freely.
+- **Notes:** durable observations, feedback, preserved pre-migration copy, and
+  retired directions outside the active draft.
 - **Research:** source analysis, fact-checking, limitations, and competing
-  evidence used to test the article's claims.
-- **Draft:** any private experimental material beneath `draft/`; it is never
-  selected by the publisher.
-- **Article:** explicit public Markdown stored as `article.md`.
-- **Page:** an optional explicit public React component stored as `index.tsx`;
-  its default export receives `{ post, assetUrl }` and renders the article page
-  instead of the generic Markdown fallback.
-- **Page module:** a non-empty, kebab-case `*.tsx` or `*.css` file next to
-  `index.tsx`, used for article-owned figures and styling.
+  evidence used to test an article's claims.
+- **Canonical article:** the public `article.mdx` document containing metadata,
+  prose, GFM, and component composition.
+- **Asset:** a stable ID in `article-assets.ts` with a kind and non-empty tags.
+- **Component asset:** a figure, interactive, or preview implemented in React
+  and wired by `article-components.tsx`.
+- **Article module:** a non-empty immediate kebab-case `.ts`, `.tsx`, or `.css`
+  sibling imported by the MDX or component factory.
 - **Frontmatter:** YAML metadata containing `title`, `description`,
   `publishedAt`, and optional `updatedAt`, `addendumTo`, and `tags`.
 
 ## Articles
 
-The articles now form a coordinated sequence. Their directory names remain
-unnumbered so editorial order can change without destabilizing paths.
+Directory names remain unnumbered so editorial order can change without
+destabilizing URLs.
 
 | Order | Workspace | Subject | Status |
 | --- | --- | --- | --- |
-| 1 | [goals-solutions-and-value](./goals-solutions-and-value/) | **Goals, Solutions & Value:** AI problem fit, functional cognition, agency, goals, and theories of value | Draft 3 outline in progress; Draft 2 retained as source material and prior product-opportunity outline preserved in notes |
-| 2 | [truth-entropy-and-inference](./truth-entropy-and-inference/) | **Truth, Entropy, and Inference:** truth practices, predictive language, code constraints, and domain fluency | Draft outline in progress; inherited research and visuals need expansion |
-| 3 | [understanding-is-the-bottleneck](./understanding-is-the-bottleneck/) | **The Understanding Bottleneck:** developers and teams turning abundant output into shareable models and bounded action | Published essay page; proof pipeline and understanding-loop figures rendered from `@th-m/graph-visualization` seeds |
-| 4 | [the-knowledge-factory](./the-knowledge-factory/) | **The Knowledge Factory:** distributed solutioning, factory engineers, the knowledge-factory stack, and the strategy discipline that chooses direction | Draft outline in progress |
-| 5 | [the-ontology-factory](./the-ontology-factory/) | **The Ontology Factory:** the SoundSculpt repository ontology as the factory's semantic infrastructure — ownership visible from the path, layered dependency rules, and executable README/AGENTS/skill contracts | Published; a domain-ontology plan for product domains is retained in the draft workspace |
-| 6 | [the-cognitive-factory](./the-cognitive-factory/) | **Cognitive Factory:** loop and graph engineering extended with ontology and cognition — graph context, executable context, the compounding loop, the cognitive light cone, and a diagnostic build order | Draft outline in progress; research queue established |
+| 1 | [goals-solutions-and-value](./goals-solutions-and-value/) | AI problem fit, functional cognition, goals, agency, and theories of value | Published canonical MDX with tagged figures and an interactive training asset |
+| 2 | [truth-entropy-and-inference](./truth-entropy-and-inference/) | Truth practices, predictive language, code constraints, and domain fluency | Published canonical MDX with tagged static assets, figures, and interactives |
+| 3 | [understanding-is-the-bottleneck](./understanding-is-the-bottleneck/) | Turning abundant output into shared models and bounded action | Published canonical MDX with tagged explanatory figures |
+| 4 | [the-knowledge-factory](./the-knowledge-factory/) | Distributed solutioning, factory engineers, and the knowledge-factory stack | Published canonical MDX with tagged factory figures |
+| 5 | [the-ontology-factory](./the-ontology-factory/) | Repository ontology as the factory's semantic infrastructure | Published canonical MDX with registered images and graph composition |
+| 6 | [the-cognitive-factory](./the-cognitive-factory/) | Graph context, executable context, compounding learning, and cognitive light cones | Published canonical MDX with tagged diagnostic assets |
 
 ### Related Essays
 
 | Workspace | Subject | Status |
 | --- | --- | --- |
-| [building-an-llm](./building-an-llm/) | **Building an LLM:** a visual primer tracing text through tokenization, next-token training, learned embeddings and transformer weights, decoding, and autoregressive inference | Published interactive technical companion to the AI Factory series |
-| [consciousness-is-incoherent](./consciousness-is-incoherent/) | **AI's Consciousness explanation:** why an unqualified machine-consciousness claim lacks a stable cross-substrate predicate, and what evidence a coherent attribution would require | Published addendum to *AI Consciousness Is Incoherent*; omitted as a standalone Writings item |
-| [ai-consciousness-is-incoherent](./ai-consciousness-is-incoherent/) | **AI Consciousness Is Incoherent:** why access-like function, theory-derived indicators, and substrate-independence postulates do not establish phenomenal experience in AI | Published evidence-led essay page; developed as a separate, stronger argument from the earlier consciousness workspace |
-
-### Series Architecture
-
-- Articles 1–3 establish the landscape: human value, the strengths and limits
-  of predictive language, and understanding-centered leadership.
-- Article 4 introduces the organizational response: an explicit knowledge
-  factory that turns learning into reusable capability — including the strategy
-  discipline that chooses and revises direction.
-- Articles 5–6 develop the factory's cognition: ontology maps the domain, while
-  the cognitive factory examines graph context, executable context, and the
-  compounding loop.
+| [building-an-llm](./building-an-llm/) | A visual primer from tokenization through training and inference | Published canonical MDX with four tagged interactives |
+| [consciousness-is-incoherent](./consciousness-is-incoherent/) | A coherent evidentiary standard for machine-consciousness claims | Published MDX addendum |
+| [ai-consciousness-is-incoherent](./ai-consciousness-is-incoherent/) | Why access-like function and theory-derived indicators do not establish phenomenal experience | Published canonical MDX with tagged argument figures |
 
 ## Workspace Structure
 
 ```text
 articles/
 └── post-slug/
-    ├── article.md  (only when intentionally public)
-    ├── index.tsx   (optional public React page)
-    ├── figure-name.tsx  (optional public page module)
-    ├── figure-name.css  (optional public page style)
-    ├── assets/     (optional public article assets)
+    ├── article.mdx             (canonical public prose and composition)
+    ├── article-assets.ts       (required typed tagged registry)
+    ├── article-components.tsx  (optional component-asset factory)
+    ├── figure-name.tsx         (optional immediate article module)
+    ├── figure-name.css         (optional immediate article style)
+    ├── assets/                 (optional registered static assets)
     ├── draft/
-    │   ├── outline.md       (optional working structure)
-    │   ├── draft-1.md       (optional prose experiment)
-    │   └── voice-notes.md   (optional voice experiment)
     ├── notes/
     └── research/
 ```
 
-### `article.md`
+`index.tsx` is not part of this structure. Keeping prose in a second React page
+would recreate the divergence this MDX contract is designed to remove.
+
+## Canonical `article.mdx`
 
 Publication requires YAML frontmatter followed by an H1 that exactly matches
 the title. Dates use `YYYY-MM-DD`, `updatedAt` cannot precede `publishedAt`,
-`addendumTo` optionally names another published article slug, and tags are an
-optional array of non-empty strings:
+`addendumTo` names another published slug, and tags are optional non-empty
+strings:
 
-```md
+```mdx
 ---
 title: A Public Title
 description: A concise summary for listings and metadata.
 publishedAt: 2026-08-16
 updatedAt: 2026-08-17
-addendumTo: a-parent-article
 tags: [Ontology, Software]
 ---
 # A Public Title
 
-Article body.
+<Lede>
+  Opening context.
+</Lede>
+
+<Section index="01" title="The First Claim">
+  Prose can use **GFM**, tables, links, and the shared component vocabulary.
+</Section>
 ```
 
-Run `bun run nx run blogs:publish` from the workspace root to validate public
-articles and recreate `libs/blogs/dist/`. Frontmatter itself is omitted from
-the published Markdown body.
+The portfolio supplies `Section`, `Lede`, `P`, `Callout`, `Term`, `Gloss`,
+`Quote`, `Flow`, `Asset`, `PreviewLink`, and `ToolLink`. Standard Markdown links
+receive link previews automatically, and GFM tables receive the shared
+responsive wrapper. `P` is available when authored JSX needs paragraph props or
+contains JSX components; ordinary prose should remain Markdown.
 
-#### Inline interactive figures
+MDX may use named imports from immediate kebab-case modules for article-local
+layout helpers. Reusable behavior belongs in a library. Figures, interactives,
+static images, and custom previews should be composed through stable registry
+IDs rather than unnamed comment markers or a second page source.
 
-A published article can place an interactive figure exactly where a static
-figure would sit by inserting an HTML comment marker in the body:
+## Tagged Assets and Components
 
-```md
-The animation below shows a bad guess, then backpropagation adjusting the network.
+Every workspace has an asset registry, even when it is empty:
 
-<!-- understanding-loop -->
+```ts
+import { defineArticleAssets } from "@th-m/blogs/mdx";
+
+export default defineArticleAssets({
+  "system-map": {
+    kind: "image",
+    source: "assets/system-map.svg",
+    alt: "A system map",
+    tags: ["article-figure", "architecture"],
+  },
+  "training-lab": {
+    kind: "interactive",
+    label: "Training lab",
+    tags: ["article-interactive", "machine-learning"],
+  },
+  "source-preview": {
+    kind: "preview",
+    label: "Source preview",
+    tags: ["link-preview", "research"],
+  },
+});
 ```
 
-The portfolio's generic Markdown fallback splits on registered markers and
-renders the matching interactive component (`ArticleContent` owns the
-marker-to-component map). Markers without a registration — and any renderer
-that ignores HTML comments — simply drop the marker, so the article stays
-readable as pure Markdown. Dedicated article pages should instead colocate
-semantic scene declarations and figure wrappers beside `index.tsx`, while
-reusing domain-neutral renderers from visualization libraries.
-
-### `index.tsx`
-
-An article becomes a dedicated React page when its workspace contains an
-`index.tsx` next to `article.md`. The file must default-export a component:
+Static images render with `<Asset id="system-map" />`. Component assets are
+wired by a typed factory:
 
 ```tsx
-import type { PublishedPost } from "@th-m/blogs/publish";
+import { defineArticleComponents } from "@th-m/blogs/mdx";
+import articleAssets from "./article-assets";
+import { TrainingLab } from "./training-lab";
+import { SourcePreview } from "./source-preview";
 
-export default function ArticlePage({ post, assetUrl }: {
-  post: PublishedPost;
-  assetUrl: (value: string) => string; // resolves "assets/x.png" → /_content/posts/<slug>/assets/x.png
-}) {
-  return <h1>{post.title}</h1>;
-}
+export default defineArticleComponents(articleAssets, () => ({
+  "training-lab": TrainingLab,
+  "source-preview": SourcePreview,
+}));
 ```
 
-Pages import only from `@th-m/blogs/publish`, `react`, `@th-m/ui`,
-`@tanstack/react-router` (for internal SPA links), and THOM visualization
-libraries (`@th-m/graph-visualization`, `@th-m/set-theory-visualization`, and
-peers) — never from application or tool source. Visualization imports let a
-page embed dynamic figures such as `<PropositionGraphFigure document={...} />`
-or `<SetAtlasVisualization analysis={...} />` in place of checked-in assets.
-`@th-m/ui` also exports `useToolDrawer` (and `ToolDrawerOptions`), the shared
-drawer-context hook, so a page can open an auxiliary interactive beside the
-prose — for example
-`useToolDrawer().openTool("relationship-graph", { graphId })` after seeding the
-graph into the drawer's library. The publisher stages the file and its immediate
-sibling `*.tsx` and `*.css` modules into `dist/` and marks the manifest post with
-`page: true`; the portfolio compiles them and
-dispatches `/writing/:slug` to it. Without a page, the portfolio renders the
-published Markdown through its generic fallback. See the [writing component
-conventions](../../../apps/portfolio/docs/writing-component-conventions.md) for
-when a custom page is worth building and which contextual components to use.
+Then compose them in the prose with `<Asset id="training-lab" />` or
+`<PreviewLink href="https://example.com" previewId="source-preview">Source</PreviewLink>`.
+Asset IDs and tags use kebab-case. Every file under `assets/` must be registered,
+every registered image must exist, and the publisher rejects unknown IDs.
 
-Auxiliary module names use kebab-case, must not be empty, and require a valid
-`index.tsx`. Publication does not recurse into private directories. Semantic
-animation data belongs here when it explains this article; the reusable library
-should expose only rendering, interaction, and visual primitives.
+## Publication Artifact
 
-### `draft/`
+Run from the workspace root:
 
-Use the singular `draft/` directory as the article's active workshop. Experiment
-there with outlines, prose versions, structure, voice, examples, counterclaims,
-and attempts to clarify the central ideas. Nothing inside it is canonical or
-public, and its filenames and organization may change as the article develops.
+```sh
+bun run nx run blogs:publish
+```
 
-### `notes/`
-
-Use notes for supporting material that should remain stable while the active
-draft changes: author observations, anecdotes, interview material, feedback,
-and retired directions worth preserving. Prefer descriptive kebab-case names
-such as `customer-interview-notes.md` or `retired-opening.md`.
-
-### `research/`
-
-Use research for evidence reviews, source summaries, fact-checking, study
-limitations, citations, quotations, and counterarguments. Clearly distinguish
-a source's findings from the author's interpretation, and verify primary
-sources before promoting a claim into `article.md`.
+The schema-v3 artifact includes frontmatter-free raw `article.mdx`, serialized
+`assets.json`, optional static files, and compile modules. The portfolio compiles
+the same MDX to React and publishes the raw MDX beside the HTML. Private
+workspaces never enter the artifact.
 
 ## Working Conventions
 
 - Keep one singular `draft/` workspace in every article directory.
-- Develop outlines, prose, voice, and idea clarification inside `draft/` without
-  treating any one working file as canonical.
 - Keep durable supporting material and retired directions in `notes/`; keep
   evidentiary work in `research/`.
 - Preserve uncertainty, counterevidence, and source limitations.
-- Treat videos and secondary summaries as research leads; prefer primary
-  sources for publication claims.
-- Keep all experimental authoring material in `draft/` until publication is
-  intentional.
-- Use stable, unnumbered kebab-case directory names for articles.
-- Introduce `index.tsx` only when the article's presentation genuinely needs
-  React; otherwise let the generic Markdown fallback render the prose.
+- Prefer primary sources for publication claims.
+- Use stable, unnumbered kebab-case directory, module, asset, and tag names.
+- Keep the `Sources` section last.
+- Treat `article.mdx` as the only canonical public prose and render order.
+- Move reusable components into `libs/`; keep article-specific semantic scenes
+  and wrappers with their article.
 
 ## Adding an Article
 
-Create a stable kebab-case directory with the standard private artifacts:
+Create a stable kebab-case directory with private workspaces first:
 
 ```text
 new-article-slug/
@@ -218,6 +196,6 @@ new-article-slug/
 └── research/
 ```
 
-Add `article.md` and optional `assets/` and `index.tsx` only when the content is
-intentionally public, then add the workspace to the inventory above. Ordering
-belongs in editorial planning rather than the filesystem name.
+Add `article.mdx` and `article-assets.ts` when publication is intentional. Add
+registered `assets/` and an `article-components.tsx` factory only as needed,
+then add the workspace to the inventory above.

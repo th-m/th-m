@@ -51,8 +51,8 @@ function cognitiveFactoryArticle(): PublishedArticle {
     description: "The factory's cognition is not a model subscription.",
     publishedAt: "2026-08-22",
     tags: ["Artificial Intelligence", "Knowledge Work"],
-    articlePath: "posts/the-cognitive-factory/article.md",
-    markdown: "# Cognitive Factory\n\nBody.\n",
+    articlePath: "posts/the-cognitive-factory/article.mdx",
+    assetRegistryPath: "posts/the-cognitive-factory/assets.json",
   };
 }
 
@@ -84,7 +84,7 @@ describe("Cognitive Factory published page", () => {
     expect(screen.getByText("Essay")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Cognitive Factory" })).toBeInTheDocument();
     expect(screen.getByText("The factory's cognition is not a model subscription.")).toBeInTheDocument();
-    expect(screen.getByText("August 22, 2026")).toBeInTheDocument();
+    expect(screen.getByText("Published August 22, 2026")).toBeInTheDocument();
     expect(screen.queryByText("Essay outline")).not.toBeInTheDocument();
   });
 

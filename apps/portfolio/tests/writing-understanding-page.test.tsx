@@ -27,8 +27,8 @@ function understandingArticle(): PublishedArticle {
       "Knowledge Work",
       "Software Systems",
     ],
-    articlePath: "posts/understanding-is-the-bottleneck/article.md",
-    markdown: "# The Understanding Bottleneck\n\nBody.\n",
+    articlePath: "posts/understanding-is-the-bottleneck/article.mdx",
+    assetRegistryPath: "posts/understanding-is-the-bottleneck/assets.json",
   };
 }
 

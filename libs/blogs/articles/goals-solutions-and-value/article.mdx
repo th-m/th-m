@@ -1,0 +1,329 @@
+---
+title: Goals, Solutions & Value
+description: Why human experience, values, and strategy must govern the goals that predictive systems pursue.
+publishedAt: 2026-08-22
+updatedAt: 2026-08-26
+tags: [Artificial Intelligence, Language Models, Strategy, Values]
+---
+# Goals, Solutions & Value
+
+import { ConversationLink } from "./article-components"
+
+<div className="goals-article">
+
+<Section index="01" title="The Priorities Hidden Inside the Prompt">
+
+<Quote plain>
+
+**“Optimize this plan, find all the gaps and ensure validation checks are in place.”**
+
+</Quote>
+
+*Plan sent*
+
+Nine hours later, it returned many pages of markdown, hundreds of checkboxes associated with validators. And product details I never even imagined. It was completely unreasonable, I let the agent take a stab at implementation but the plan was incoherent and unusable.
+
+Of course I blame the agent.
+
+Why doesn't the AI know what `optimize` means? What kind of fool hears `find all the gaps` and treats every imaginable omission as equally important?
+
+What I actually wanted was narrower: identify the gaps consequential enough to threaten the outcome, add validation proportional to their risk, preserve the team's ability to execute, and stop when additional process created more burden than confidence.
+
+Even with the updated prompt, I am not convinced the model would have output anything better.
+
+<Callout label="Core thesis" emphasis>
+
+**Human experience reveals what can matter. Values determine what should matter. Strategy negotiates trade-offs between competing values, risks, resources, and time horizons. It decides what to pursue, what to protect, what to sacrifice, and when to change course. AI cannot recover judgment that language never contained, nor can it meaningfully author the values that govern the strategy.**
+
+</Callout>
+
+<aside className="goals-article__research" aria-label="External research">
+
+Research on AI-generated strategic advice demonstrates a related instability. In one [study of seven strategic tradeoffs](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return):
+
+- **Fewer than 2%:** Changing the wording or asking a model to reason harder changed the answers.
+- **About 11%:** Adding relevant company information changed the answers.
+- **About 19%:** Merely reversing the order of the choices changed the answers—more than the company evidence did.
+
+</aside>
+
+The study did not test whether explicitly authorizing different values would produce different strategies. But it does show how easily a polished recommendation can conceal the priorities a model supplied for itself:
+
+- Which outcome should be optimized?
+- Which gaps are material?
+- What degree of uncertainty is acceptable?
+- How much validation is proportional to the consequence?
+- When does another check reduce risk, and when does it merely add process?
+- Who has authority to accept the remaining risk?
+
+That limitation does not begin with the predictive power of the model. It begins earlier. Language is already an incomplete and subjective compression of lived experience. A model can infer from the words we provide, but it cannot directly observe everything those words leave behind. Meaningful decisions must begin with human experience and be judged by how they affect human experience.
+
+</Section>
+
+<Section index="02" title="What a Language Model Carries">
+
+An LLM is a compressed statistical model of patterns in human language. It doesn't “think” and it doesn't “reason” like people do; it operates on patterns. This is amazing and mind-boggling—and also why AI researchers can say, with such profundity, “the map is the territory.”
+
+A model never experiences anything. The value of its predictive capabilities comes from the relationships between words. Even after absorbing an enormous amount of content from the internet, its training data is incomplete, historically situated, and further constrained by post-training.
+
+Neural-network architecture provides the machinery for representing those patterns. Cross-entropy training supplies the pressure: predict the observed continuations more accurately. Optimization turns that pressure into learned weights.
+
+### Input and tokens
+
+Before a model can process text, a **tokenizer** converts it into numerical units. The process is designed so those units can later be decoded back into text. Tokenization is, at heart, a lossless compression technique. One influential family uses **Byte Pair Encoding**, adapted from Philip Gage's [“A New Algorithm for Data Compression”](https://www.derczynski.com/papers/archive/BPE_Gage.pdf).
+
+<Flow>text → tokens → model inference → tokens → text</Flow>
+
+### Training through cross-entropy
+
+During pretraining, almost every token becomes the answer to a prediction made from the preceding context. Given *The cat sat on the …*, the model might assign:
+
+| Possible next token | Probability |
+| --- | ---: |
+| `mat` | 70% |
+| `floor` | 15% |
+| `chair` | 5% |
+| everything else | 10% |
+
+If the observed training text continues with `mat`, <Term definition="A loss that scores the predicted distribution against the observed next token.">cross-entropy loss</Term> scores the probability assigned to that token:
+
+<Flow>loss = -ln P(observed token)</Flow>
+
+| Probability assigned to `mat` | Loss |
+| ---: | ---: |
+| 90% | 0.11 |
+| 70% | 0.36 |
+| 10% | 2.30 |
+
+A high probability for the observed token produces a small loss. A low probability produces a large one. Backpropagation identifies how the model's parameters contributed to the error, and an optimizer adjusts those parameters to improve future predictions.
+
+<Asset id="neural-training-figure" />
+
+- The loss function measures the prediction error.
+- Backpropagation identifies how parameters contributed to it.
+- The optimizer updates those parameters to improve future predictions.
+
+<Flow>context → token probabilities → observed token → cross-entropy loss → backpropagation → updated weights</Flow>
+
+Repeated across an enormous body of language, the training process adjusts billions of parameters, distilling statistical information into learned patterns. It does not distill meaning. 3Blue1Brown explains the mathematical principles behind this in [“Reinventing Entropy | Compression is Intelligence Part 1”](https://www.youtube.com/watch?v=l6DKRf-fAAM) and [“But what is cross-entropy? | Compression is Intelligence Part 2”](https://www.youtube.com/watch?v=GlYgs6v2YfU).
+
+### Model, inference, and runtime
+
+The trained model combines an architecture with billions of learned parameters, or **weights**:
+
+- embeddings map token IDs into learned numerical representations
+- attention combines information from different positions in the context
+- feed-forward layers transform each contextualized representation
+- output weights turn the final representation into scores for possible next tokens
+
+At inference time, the current tokens pass through the network, the model produces a probability distribution, a decoding strategy selects a token, and the process repeats.
+
+<Flow>prompt → tokens → learned representations → token probabilities → selected token → append → repeat</Flow>
+
+Training changes the weights. Inference uses those weights. Runtime context then steers which learned patterns matter:
+
+- system prompt
+- agent charter
+- user prompt
+- prompt composition
+- tool permissions
+- retrieved evidence
+- conversation history
+
+There is no evidence to suggest anything beyond a pattern with incredible predictive power.
+
+</Section>
+
+<Section index="03" title="What Language Leaves Out">
+
+Where is the theoretical limit of this language-compression and prediction process? Could a sufficiently capable LLM become a god-like oracle? Ask one, “What is my purpose?” There is some nonzero chance it returns the right answer. Even if it did, it could not intend for you to live a purposeful life.
+
+[A model is not conscious](/writing/consciousness-is-incoherent). It cannot directly observe a private motivation or judgment, or know that its inference is correct.
+
+<Flow>experience → judgment → language</Flow>
+
+Language is a lossy form of compression before the model ever sees it. A person experiences a situation, interprets it, forms intentions, and compresses some portion of that inner and social reality into words. Often, those words are meant for an empathetic, self-aware, feeling human who can infer the gaps.
+
+Training performs a second kind of compression:
+
+<Flow>language → token sequences → learned weights → context-sensitive predictions</Flow>
+
+Put together:
+
+<Flow>experience → judgment → language → training corpus → learned weights → inferred continuation</Flow>
+
+<Asset id="population-mean-figure" />
+
+Subjective terms and value-laden language inherit personal definitions, just as `income` translates to a unique value for each individual. An average can describe a population while obscuring the person we are trying to understand. This is not only an AI problem. It is a language problem.
+
+Two coworkers may use `quality`, `safe`, or `done` for weeks while carrying different definitions. Each hears a familiar word and assumes shared meaning. They talk past one another until a failure, an example, or a direct question exposes the difference.
+
+AI inherits that problem at scale. When a term underdetermines the speaker's intent, the system fills the gap with patterns from training, post-training, runtime instructions, and the surrounding context. Its answer can be coherent under the inferred meaning and completely wrong for the person who asked.
+
+### Judgments hidden in ordinary language
+
+Values do not appear only in declarations such as “privacy matters.” Ordinary language quietly supplies objectives, priorities, obligations, and authority:
+
+| Kind | Examples | Implied judgment |
+| --- | --- | --- |
+| Evaluative | `better`, `safe`, `fair`, `meaningful` | Compare against an unstated standard |
+| Goal-oriented | `optimize`, `improve`, `reduce`, `protect` | Treat an outcome as desirable |
+| Deontic | `must`, `should`, `permitted`, `prohibited` | Establish an obligation or boundary |
+| Priority | `prefer`, `before`, `even if`, `at the expense of` | Rank competing values |
+| Threshold | `at least`, `only if`, `never`, `until` | Turn a judgment into a gate |
+| Affective | `painful`, `reassuring`, `alienating` | Point toward experienced consequences |
+| Authority | `consent`, `deserve`, `authorized`, `accountable` | Assign standing and responsibility |
+
+Even a noun such as `problem` contains a judgment: the present condition is undesirable relative to someone's interests. `Opportunity` implies a valued outcome. `Success`, `failure`, `risk`, and `waste` all depend on a perspective and a time horizon.
+
+Those judgments can become progressively more operational:
+
+<Asset id="value-ladder" />
+
+An AI can enact the later statements more reliably because they expose priorities, observable conditions, and actions. But operational precision does not establish that the hierarchy is legitimate. Someone still has to decide that privacy should outrank engagement in this context, determine whose consent counts, observe the consequences, and authorize exceptions or revision.
+
+</Section>
+
+<Section index="04" title="Goals Create Opportunity Spaces">
+
+A problem becomes an opportunity only relative to a valued outcome. A candidate becomes a solution only if its consequences move the situation toward that outcome:
+
+- A **goal** identifies a state worth bringing about or preserving.
+- An **opportunity** is a condition that may enable progress toward it.
+- A **solution** is an intervention expected to use that opportunity or remove an obstacle.
+- An **experiment** tests whether the intervention produces the expected consequence.
+- A **strategy** coordinates cognitive operations and actions over time toward a goal. It can combine inference, prediction, planning, valuation, action selection, and revision in response to feedback.
+
+<Asset id="goal-tree-figure" />
+
+The observation—“support tickets increased”—has no inherent strategic meaning. The governing goal determines what the increase represents:
+
+- **Margin:** More tickets increase service costs, prompting questions about prevention, automation, or efficiency.
+- **Retention:** More tickets may reveal product friction that could cause customers to leave.
+- **Learning:** More tickets create additional evidence about unmet needs, confusing features, or emerging use cases.
+
+Once the root goal is supplied, it becomes valuable to explore opportunities, generate solutions, design experiments, predict consequences, and compare results. That distinction separates two kinds of decision:
+
+- **Governing decisions** establish what counts as better, whose interests matter, which time horizon matters, and which tradeoffs are legitimate.
+- **Instrumental decisions** select actions expected to advance an accepted goal within supplied evidence and constraints.
+
+“Optimize this code” can become substantially instrumental once tests, performance budgets, failure conditions, and operational constraints are specified. “Optimize my strategy” may ask the system to choose among revenue, resilience, customer welfare, employee sustainability, speed, and risk. Until those priorities are ranked, there is no single meaning of `better` waiting for the model to discover.
+
+<Asset id="strategy-map-figure" />
+
+Strategy also operates inside a field of goals held by other people and institutions. A company can achieve a local subgoal while undermining its governing purpose. It can hit an internal target while producing an outcome that customers, employees, partners, or regulators reject. Success is therefore relational: the question is not only whether an action worked, but whose goal it advanced and which other goals it constrained.
+
+Accounting for relational impacts, temporal impacts, and value tradeoffs requires multiple dimensions of understanding. Do you prioritize a partner's goal above a customer's? Do you sacrifice one subgoal to stop a competitor from reaching its goal? These priorities could theoretically be detailed in a prompt. But by the time you have told the agent what you value, whose interests matter, and how those values should be ranked, you have likely already prioritized your goals.
+
+> **Prediction alone cannot determine which goal deserves authority. Goals must be grounded in experiential change for a target audience.**
+
+</Section>
+
+<Section index="05" title="Authority, Accountability, and Corrigibility">
+
+An AI can state principles, rank them, and translate them into behavior. That does not establish that it authored those principles or has authority to impose them.
+
+Every AI system operates with an implicit value hierarchy. You can ask models to describe theirs; compare the answers from <ConversationLink model="ChatGPT" href="https://chatgpt.com/share/6a8915a6-f76c-83e8-922e-e05026381142" />, <ConversationLink model="Claude" href="https://claude.ai/share/ee135d92-4246-4424-8ff4-bfb38cfa18b6" />, and <ConversationLink model="DeepSeek" href="https://chat.deepseek.com/share/3dqzyfjd1evx1je3o6" />. Those values are implicitly shaped by:
+
+| Source | Contribution |
+| --- | --- |
+| Training data | Associations, examples, norms, contradictions, and recurring judgments |
+| Post-training | Reinforced dispositions such as helpfulness, refusal, or deference |
+| System instructions | Role-specific priorities and constraints |
+| Organizational policy | Delegated purpose, decision rights, and escalation |
+| User context | Immediate goals, evidence, preferences, and exceptions |
+| Tools and permissions | Enforceable limits on possible action |
+| Evaluation and feedback | Criteria that reward, reject, or revise behavior |
+
+These layers can agree or conflict. What the system enacts depends on how they are ordered and enforced. Implicitly or explicitly choosing the wrong values will have the same downstream consequences.
+
+<Callout label="Key claim">
+
+**Governed by the wrong values, the system becomes coherently wrong.**
+
+</Callout>
+
+<Asset id="governing-loop-figure" />
+
+| Governing priority | Behavior rewarded | Possible consequence |
+| --- | --- | --- |
+| Growth above trust | Aggressive acquisition and dark patterns | Churn, regulation, and brand erosion |
+| Speed above reliability | Shipping without adequate validation | Outages and accumulated technical debt |
+| Harmony above truth | Suppressing disagreement and bad news | Loss of corrective evidence |
+| Metrics above purpose | Optimizing visible indicators | The measurement improves while the outcome deteriorates |
+| Revenue above customer welfare | Extracting rather than creating value | Customers leave when alternatives appear |
+
+This is <Term definition="The appearance that evaluation is complete because a system satisfies its own criteria, even though those criteria omit or misrank consequences that matter.">false evaluative closure</Term>. The system has precise criteria for calling an action better, but those criteria omit or misrank consequences that matter. Tests pass because the tests embody the wrong priorities. Dashboards remain green because the dashboards exclude the people being harmed.
+
+AI can accelerate this failure. It can reproduce the hierarchy across more decisions, with greater speed and consistency. The model may identify a contradiction or harmful consequence, but it cannot overrule the governing system unless people have given it permission to challenge, escalate, or stop.
+
+A resilient hierarchy must therefore be <Term definition="Answerable to evidence and authorized revision rather than protected as an untouchable objective.">corrigible</Term>: answerable to evidence and revision rather than protected as an untouchable objective. That requires:
+
+- direct observation of customer and employee consequences
+- protected disagreement and independent feedback
+- perspectives from people who bear costs without controlling the decision
+- measurements that include downstream effects
+- explicit review of tradeoffs and uncertainty
+- escalation paths with authority to revise the governing goal
+
+Human governance does not mean manually choosing every action. It means retaining responsibility for which values govern, creating the conditions under which those values can be challenged, and changing them when their consequences reveal they were wrong.
+
+</Section>
+
+<Section index="06" title="From Human Judgment to Language">
+
+Human values cannot guide an AI while remaining private. They have to become available through some combination of:
+
+- named stakeholders and consequences
+- definitions and domain distinctions
+- priorities and legitimate tradeoffs
+- representative examples and counterexamples
+- constraints, permissions, and escalation boundaries
+- evidence, provenance, and explicit uncertainty
+- tests, stopping conditions, and evaluation
+- feedback capable of revising the governing model
+
+This translation does not remove the need for judgment. It makes judgment inspectable and gives both people and AI a better chance of recognizing when they are using the same words for different things.
+
+It also opens the next question in this series. Language does not carry every kind of constraint with equal reliability. A proof, a program, an experimental report, and a product aspiration are shaped by different practices and corrective systems. In some domains an invalid interpretation is quickly rejected. In others, several incompatible interpretations can sound equally coherent.
+
+[Truth, Entropy & Inference](/writing/truth-entropy-and-inference) asks what makes the difference: how language acquires predictive structure, why code is unusually constraint-dense, and when a fluent continuation is evidence rather than merely the shape of an answer.
+
+</Section>
+
+<Section index="07" title="Conclusion">
+
+The agent did not fail because it was incapable of producing a plan. It failed because `optimal` omitted the judgment that would make one plan preferable to another. The model supplied a “plausible” interpretation from its training and runtime context.
+
+The strategic-advice study did not test this claim directly. Our hypothesis is that, had the researchers held the factual scenarios constant while explicitly authorizing different value hierarchies, the models would have returned different strategies. A company that ranks workforce continuity above near-term efficiency should not receive the same advice as one that ranks rapid transformation above continuity, even when the market facts are identical.
+
+Therein lies the crux: an AI may infer an operative value hierarchy, but it cannot know that the inferred hierarchy is the one you intended—and it should not be empowered to decide what you ought to value. When values remain unstated, they do not disappear. The model imports latent priorities from its training, post-training, and the language of the prompt.
+
+</Section>
+
+<Section index="08" title="Sources">
+
+The argument above is my synthesis. These sources support its technical background, account of revisable valuation, and opening example.
+
+### Language models and training
+
+1. Common Crawl. [“Common Crawl.”](https://commoncrawl.org/) An open repository of web-crawl data and one source of public text used in language-model corpora.
+2. Philip Gage. [“A New Algorithm for Data Compression.”](https://www.derczynski.com/papers/archive/BPE_Gage.pdf) *C Users Journal* (1994). Introduces byte-pair encoding as a lossless compression technique.
+3. Rico Sennrich, Barry Haddow, and Alexandra Birch. [“Neural Machine Translation of Rare Words with Subword Units.”](https://aclanthology.org/P16-1162/) (2016). Adapts byte-pair encoding to subword tokenization for neural language processing.
+4. David E. Rumelhart, Geoffrey E. Hinton, and Ronald J. Williams. [“Learning Representations by Back-Propagating Errors.”](https://doi.org/10.1038/323533a0) *Nature* 323 (1986). Provides an influential demonstration of backpropagation in multilayer networks.
+5. Ashish Vaswani et al. [“Attention Is All You Need.”](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) (2017). Introduces the Transformer architecture underlying the attention and feed-forward account above.
+6. Claude E. Shannon. [“Prediction and Entropy of Printed English.”](https://doi.org/10.1002/j.1538-7305.1951.tb01366.x) *Bell System Technical Journal* 30, no. 1 (1951): 50–64. A precursor to statistical language modeling through next-character prediction and estimates of linguistic entropy.
+7. 3Blue1Brown. [“Reinventing Entropy | Compression is Intelligence Part 1.”](https://www.youtube.com/watch?v=l6DKRf-fAAM) *YouTube.* Explains the mathematical relationship among entropy, compression, and information.
+8. 3Blue1Brown. [“But what is cross-entropy? | Compression is Intelligence Part 2.”](https://www.youtube.com/watch?v=GlYgs6v2YfU) *YouTube.* Explains cross-entropy as a measure of predictive distributions.
+
+### Values and judgment
+
+9. John Dewey. [*Theory of Valuation.*](https://archive.org/details/theoryofvaluatio032168mbp) (1939). Develops valuation as inquiry in which ends and means remain answerable to consequences.
+
+### Strategic-advice example
+
+10. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina. [“Researchers Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in Return.”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return) *Harvard Business Review* (March 16, 2026). Reports the prompt-order and company-context effects summarized in the introduction.
+
+</Section>
+
+</div>

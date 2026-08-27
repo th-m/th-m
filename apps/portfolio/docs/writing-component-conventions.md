@@ -4,12 +4,12 @@
 
 Dense articles need context placed where the reader's attention already is —
 not dumped in their way. This document is the canonical decision rule for the
-contextual components available to React article pages (`@th-m/ui` primitives
-and the portfolio tool drawer): when to use a tooltip, a hover card, a card, a
-modal, or the global right-side drawer, and how each one must look so the
-writing stays unmistakably THOM.
+contextual components available to canonical MDX articles (`@th-m/ui`
+primitives and the portfolio tool drawer): when to use a tooltip, a hover card,
+a card, a modal, or the global right-side drawer, and how each one must look so
+the writing stays unmistakably THOM.
 
-The React article page contract itself is documented in
+The MDX article and tagged-asset contract is documented in
 [`libs/blogs/articles/README.md`](../../../libs/blogs/articles/README.md); this
 document governs the presentation layer.
 
@@ -68,20 +68,19 @@ document governs the presentation layer.
    the drawer anywhere; a switcher row inside the drawer header moves between
    tools without closing it.
 
-### Inline animated figures (exception to the drawer rule)
+### Inline figures and interactives (exception to the drawer rule)
 
 A self-playing animation that *is* the figure — an animated neural net
 replacing a static diagram, a looping constraint stack, a pulsing feedback
 loop — belongs in the prose flow, not the drawer. The reader should see it
 where the prose discusses it, and it must not require interaction to be
-understood. Author it in a reusable visualization library
-(`libs/neural-net-visualization` is the first), then register it in
-`ArticleContent`'s `inlineFigures` map under a marker id, and place
-`<!-- <marker-id> -->` in the article body at the exact point the figure
-belongs. Every such component must collapse to a static labeled frame under
-reduced motion. It may offer optional step controls (as
-`libs/neural-net-visualization` does — numbered steps, Prev/Next, Play/Pause)
-as long as it stays self-playing and understandable without any interaction.
+understood. Author reusable behavior in a visualization library, register the
+article instance as a tagged `figure` or `interactive` in
+`article-assets.ts`, wire its stable ID in `article-components.tsx`, and place
+`<Asset id="the-figure" />` at the exact point it belongs in `article.mdx`.
+Every animated asset must collapse to a static labeled frame under reduced
+motion. It may offer optional step controls as long as it stays understandable
+without interaction.
 
 ### Escalation ladder
 
@@ -125,26 +124,21 @@ palette values, no rounded corners, no generic shadows.
   site).
 - Never style a non-interactive word like a trigger.
 
-## Page authoring contract (summary)
+## MDX authoring contract (summary)
 
-An article ships a React page as `libs/blogs/articles/<slug>/index.tsx` when
-its presentation genuinely needs React. The default export receives
-`{ post, assetUrl }`; it may import `@th-m/ui` components (including the
-`useToolDrawer` hook for opening a drawer tool alongside the prose),
-`@th-m/blogs/publish` types, `@tanstack/react-router` (`Link` for internal SPA
-links), and THOM visualization libraries
-(`@th-m/graph-visualization`, `@th-m/set-theory-visualization`, and peers) to
-embed **dynamic figures** — for example
-`<PropositionGraphFigure document={graph} />` or
-`<SetAtlasVisualization analysis={curated.analysis} />`. Dynamic figures
-render at runtime from data and replace the old checked-in SVG/PNG blog
-assets; `assetUrl` remains for genuinely static content. Until a page exists,
-the portfolio renders the published Markdown through the generic fallback — so
-a page is an enhancement, never a requirement, and an article must remain
-readable as pure Markdown. **The Knowledge Factory** page
-(`libs/blogs/articles/the-knowledge-factory/index.tsx`) is the reference
-implementation: it embeds a `PropositionGraphFigure` fed by an authored
-`GraphDocument`, seeds that graph into the relationship-graph explorer's
-library and opens it through `useToolDrawer().openTool("relationship-graph",
-{ graphId })`, and ships its remaining illustrations as inline SVG components
-styled by the `essay-*` classes in `apps/portfolio/src/styles.css`.
+Every published article is
+`libs/blogs/articles/<slug>/article.mdx`; there is no separate React page or
+Markdown fallback. The portfolio injects semantic prose components, automatic
+link previews, responsive GFM tables, asset resolution, and tool-launching
+behavior. Article-owned modules may import `@th-m/ui`, `@th-m/blogs` types,
+`@tanstack/react-router`, and THOM visualization libraries to implement dynamic
+figures. Reusable behavior belongs in the library; the article keeps its
+semantic scene and registry wiring.
+
+Use `article-assets.ts` for stable image, figure, interactive, and preview IDs.
+Use `article-components.tsx` to map component IDs to React implementations with
+the typed render context. Compose figure and interactive IDs with `<Asset>`,
+custom link-preview IDs with `<PreviewLink>`, and drawer tools with `<ToolLink>`.
+The raw frontmatter-free MDX and `assets.json` publish beside the prerendered
+HTML, so authored content, component order, and the public source cannot drift
+from the rendered article.

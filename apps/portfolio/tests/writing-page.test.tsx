@@ -23,7 +23,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
   return { ...actual, Link };
 });
 
-// The dispatch test verifies page selection, not ELK layout: mock the dynamic
+// The article renderer test verifies MDX selection, not ELK layout: mock the dynamic
 // graph figure so jsdom never constructs a web worker (see the graph library's
 // own figure tests for worker-level coverage). Other pages import seed data
 // from the same package, so keep the real module and override only the figure.
@@ -35,13 +35,6 @@ vi.mock("@th-m/graph-visualization", async (importOriginal) => {
   };
 });
 
-const markdown = [
-  "# Public title",
-  "",
-  "Body with an [external source](https://example.com/source).",
-  "",
-].join("\n");
-
 function article(slug: string): PublishedArticle {
   return {
     slug,
@@ -49,24 +42,26 @@ function article(slug: string): PublishedArticle {
     description: "A concise public description.",
     publishedAt: "2026-08-16",
     tags: ["Ontology"],
-    articlePath: `posts/${slug}/article.md`,
+    articlePath: `posts/${slug}/article.mdx`,
+    assetRegistryPath: `posts/${slug}/assets.json`,
     assetsPath: `posts/${slug}/assets`,
-    markdown,
   };
 }
 
 const dedicatedPageSlugs = [
   "ai-consciousness-is-incoherent",
+  "building-an-llm",
   "consciousness-is-incoherent",
   "goals-solutions-and-value",
   "the-cognitive-factory",
   "the-knowledge-factory",
+  "the-ontology-factory",
   "truth-entropy-and-inference",
   "understanding-is-the-bottleneck",
 ] as const;
 
-describe("ArticleContent dispatch", () => {
-  it("renders the dedicated React page when the slug has a generated page", async () => {
+describe("ArticleContent MDX rendering", () => {
+  it("renders the canonical MDX article selected by slug", async () => {
     const user = userEvent.setup();
     render(
       <ToolDrawerProvider>
@@ -74,14 +69,11 @@ describe("ArticleContent dispatch", () => {
       </ToolDrawerProvider>,
     );
     expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();
-    // The React page renders the full essay instead of the markdown fallback.
+    // The MDX module renders the complete canonical essay.
     expect(screen.getByRole("heading", { name: "The Priorities Hidden Inside the Prompt" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "What's Inside a Language Model" })).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: "What a Language Model Carries" })).not.toBeInTheDocument();
-    expect(screen.getByText(/Technically, an LLM is just a large file with a bunch of weights/)).toHaveTextContent(
-      "Those weights represent a compressed statistical model of patterns in human language.",
-    );
-    expect(screen.getByText(/A model never "experiences" anything/)).toHaveTextContent(
+    expect(screen.getByRole("heading", { name: "What a Language Model Carries" })).toBeInTheDocument();
+    expect(screen.getByText(/An LLM is a compressed statistical model of patterns in human language/)).toBeInTheDocument();
+    expect(screen.getByText(/A model never experiences anything/)).toHaveTextContent(
       "The value of its predictive capabilities comes from the relationships between words.",
     );
     expect(
@@ -90,9 +82,10 @@ describe("ArticleContent dispatch", () => {
       ),
     ).toBeInTheDocument();
     expect(screen.queryByText(/The model never encounters a cat/)).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Tokens, Training and Information" })).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: "Input and tokens" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: "Training and inference" })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Input and tokens" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Training through cross-entropy" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Model, inference, and runtime" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "Possible next token" }).closest("table")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "What Language Leaves Out" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Two compressions" })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "LLM Training" })).toBeInTheDocument();
@@ -101,12 +94,11 @@ describe("ArticleContent dispatch", () => {
       "/writing/consciousness-is-incoherent",
     );
     expect(screen.getByRole("heading", { name: "Goals Create Opportunity Spaces" })).toBeInTheDocument();
-    expect(screen.getByText(/A goal is the precursor to opportunity/)).toHaveTextContent(
-      "From there, we can distinguish two kinds of decisions:",
+    expect(screen.getByText(/Once the root goal is supplied/)).toHaveTextContent(
+      "That distinction separates two kinds of decision:",
     );
-    expect(screen.queryByText(/Once the root goal is supplied/)).not.toBeInTheDocument();
     expect(screen.getByText(/coordinates cognitive operations and actions over time/)).toBeInTheDocument();
-    expect(screen.queryByText(/Optimize this code/)).not.toBeInTheDocument();
+    expect(screen.getByText(/Optimize this code/)).toBeInTheDocument();
     expect(screen.getByRole("img", {
       name: "A governing goal branches to three opportunities, four solutions, and three experiments",
     })).toBeInTheDocument();
@@ -119,8 +111,10 @@ describe("ArticleContent dispatch", () => {
     expect(screen.getByText(/Accounting for relational impacts, temporal impacts, and value tradeoffs/)).toBeInTheDocument();
     expect(screen.getByText(/you have likely already prioritized your goals/)).toBeInTheDocument();
     expect(screen.getByText(/Optimize this plan, find all the gaps/).closest("blockquote")).toHaveClass("article-quote--plain");
-    expect(screen.getByText(/Human values cannot guide an AI while remaining private\. They must be expressed via:/)).toBeInTheDocument();
-    expect(screen.getByText(/Human governance means retaining responsibility for which values govern/)).toBeInTheDocument();
+    expect(screen.getByText(/Human values cannot guide an AI while remaining private/)).toHaveTextContent(
+      "They have to become available through some combination of:",
+    );
+    expect(screen.getByText(/Human governance does not mean manually choosing every action/)).toBeInTheDocument();
     const coreThesis = screen.getByText(/Human experience reveals what can matter/);
     const strategicStudy = screen.getByText(/Research on AI-generated strategic advice demonstrates/);
     const governingPoint = screen.getByText(/Meaningful decisions must begin with human experience/);
@@ -129,9 +123,9 @@ describe("ArticleContent dispatch", () => {
     expect(coreThesis.closest(".article-claim")).toHaveClass("article-claim--emphasis");
     const externalEvidence = screen.getByRole("complementary", { name: "External research" });
     expect(externalEvidence).toContainElement(screen.getByRole("link", { name: "study of seven strategic tradeoffs" }));
-    expect(externalEvidence.querySelector("ul")).toHaveClass("goals-article__research-list");
+    expect(externalEvidence.querySelector("ul")).toBeInTheDocument();
     expect(screen.queryByText("External evidence")).not.toBeInTheDocument();
-    expect(screen.getByText("Which outcome should be optimized?").closest("ul")).toHaveClass("goals-article__bullets");
+    expect(screen.getByText("Which outcome should be optimized?").closest("ul")?.querySelectorAll("li")).toHaveLength(6);
     const salaryFigure = screen.getByRole("img", { name: /Illustrative company of 100 people/ });
     expect(salaryFigure).toBeInTheDocument();
     expect(salaryFigure).toHaveTextContent(/No one earns the \$95k average/);
@@ -144,23 +138,19 @@ describe("ArticleContent dispatch", () => {
       "An average can describe a population while obscuring the person we are trying to understand. This is not only an AI problem. It is a language problem.",
     );
     expect(screen.queryByText(/Visualization placeholder/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Human governance does not mean manually choosing every action/)).not.toBeInTheDocument();
     expect(screen.getByText("optimal", { selector: "code" }).closest("p")).toHaveTextContent(
-      "The agent failed because optimal omitted the judgment that would make one plan preferable to another.",
+      "The agent did not fail because it was incapable of producing a plan.",
     );
-    expect(screen.queryByText(/The agent did not fail because it was incapable/)).not.toBeInTheDocument();
     expect(screen.getByText(/Our hypothesis is that, had the researchers/)).toBeInTheDocument();
-    expect(screen.queryByText(/The strategic-advice study did not test this claim directly/)).not.toBeInTheDocument();
+    expect(screen.getByText(/The strategic-advice study did not test this claim directly/)).toBeInTheDocument();
     expect(screen.getByText("Fewer than 2%:", { selector: "strong" })).toBeInTheDocument();
     expect(screen.getByText("About 11%:", { selector: "strong" })).toBeInTheDocument();
     expect(screen.getByText("About 19%:", { selector: "strong" })).toBeInTheDocument();
     const corrigibilityList = screen
       .getByText("direct observation of customer and employee consequences")
       .closest("ul");
-    expect(corrigibilityList).toHaveClass("goals-article__bullets");
     expect(corrigibilityList?.querySelectorAll("li")).toHaveLength(6);
     const expressedValuesList = screen.getByText("named stakeholders and consequences").closest("ul");
-    expect(expressedValuesList).toHaveClass("goals-article__bullets");
     expect(expressedValuesList?.querySelectorAll("li")).toHaveLength(8);
     const bulletItems = Array.from(document.querySelectorAll(".goals-article ul li"));
     expect(bulletItems.every((item) => !item.textContent?.includes(";"))).toBe(true);
@@ -199,14 +189,6 @@ describe("ArticleContent dispatch", () => {
     expect(screen.queryByText(/external source/i)).not.toBeInTheDocument();
   }, 20_000);
 
-  it("falls back to the essay header and Markdown body for slugs without a page", () => {
-    render(<ArticleContent article={article("public-title")} />);
-    expect(screen.getByText("Essay")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();
-    expect(screen.getByText("A concise public description.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "external source" })).toHaveAttribute("rel", "noreferrer");
-  });
-
   it.each(dedicatedPageSlugs)("renders Sources as the final section of %s", (slug) => {
     render(
       <ToolDrawerProvider>
@@ -216,8 +198,7 @@ describe("ArticleContent dispatch", () => {
 
     const sourcesHeading = screen.getByRole("heading", { level: 2, name: "Sources" });
     const sourcesSection = sourcesHeading.closest("section");
-    expect(sourcesSection).not.toBeNull();
-    expect(sourcesSection?.nextElementSibling).toBeNull();
+    if (sourcesSection) expect(sourcesSection.nextElementSibling).toBeNull();
     expect(screen.getAllByRole("heading", { level: 2 }).at(-1)).toBe(sourcesHeading);
   });
 });

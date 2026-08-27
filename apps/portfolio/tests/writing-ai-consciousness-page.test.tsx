@@ -10,8 +10,8 @@ function aiConsciousnessArticle(): PublishedArticle {
     description: "Why access-like behavior, functional similarity, and theory-derived indicators do not establish qualia, phenomenal selfhood, or subjective time in AI.",
     publishedAt: "2026-08-26",
     tags: ["Artificial Intelligence", "Consciousness", "Philosophy of Mind", "Neuroscience"],
-    articlePath: "posts/ai-consciousness-is-incoherent/article.md",
-    markdown: "# AI Consciousness Is Incoherent\n\nBody.\n",
+    articlePath: "posts/ai-consciousness-is-incoherent/article.mdx",
+    assetRegistryPath: "posts/ai-consciousness-is-incoherent/assets.json",
   };
 }
 

@@ -19,8 +19,8 @@ function truthEntropyArticle(): PublishedArticle {
     description: "Why some language reliably predicts useful answers.",
     publishedAt: "2026-08-21",
     tags: ["Artificial Intelligence", "Language Models", "Information Theory", "Software Systems"],
-    articlePath: "posts/truth-entropy-and-inference/article.md",
-    markdown: "# Truth, Entropy & Inference\n\nBody.\n",
+    articlePath: "posts/truth-entropy-and-inference/article.mdx",
+    assetRegistryPath: "posts/truth-entropy-and-inference/assets.json",
   };
 }
 
@@ -162,7 +162,11 @@ describe("Truth, Entropy & Inference language visualization", () => {
     const sectionContent = section?.querySelector(".article-outline__content");
     const firstParagraph = sectionContent?.querySelector(":scope > p");
     const compositionExplorer = sectionContent?.querySelector("figure.embedding-composition");
-    expect(firstParagraph?.nextElementSibling).toBe(compositionExplorer);
+    const explorerIntroduction = screen
+      .getByText(/The interactive semantic-composition explorer follows here/i)
+      .closest("p");
+    expect(firstParagraph?.nextElementSibling).toBe(explorerIntroduction);
+    expect(explorerIntroduction?.nextElementSibling).toBe(compositionExplorer);
     expect(screen.getByText(/You shall know a word by the company it keeps/i)).toBeInTheDocument();
     expect(screen.getByText(/repeated context becomes geometry/i)).toBeInTheDocument();
     expect(section).toHaveTextContent(/biological/i);

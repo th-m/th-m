@@ -3,13 +3,11 @@ import { relative, resolve, sep } from "node:path";
 import { createIsomorphicFn } from "@tanstack/react-start";
 import type { BlogManifest, PublishedPost } from "@th-m/blogs/publish";
 
-export interface PublishedArticle extends PublishedPost {
-  markdown: string;
-}
+export type PublishedArticle = PublishedPost;
 
 function assertManifest(value: unknown): asserts value is BlogManifest {
-  if (!value || typeof value !== "object" || (value as { schemaVersion?: unknown }).schemaVersion !== 2) {
-    throw new Error("Published blog manifest must use schema version 2.");
+  if (!value || typeof value !== "object" || (value as { schemaVersion?: unknown }).schemaVersion !== 3) {
+    throw new Error("Published blog manifest must use schema version 3.");
   }
   if (!Array.isArray((value as { posts?: unknown }).posts)) {
     throw new Error("Published blog manifest must contain a posts array.");
@@ -42,7 +40,7 @@ export async function loadPublishedArticle(slug: string): Promise<PublishedArtic
   const manifest = await loadBlogManifest();
   const post = manifest.posts.find((candidate) => candidate.slug === slug);
   if (!post) return null;
-  return { ...post, markdown: await readPublishedText(post.articlePath) };
+  return post;
 }
 
 export function organizeBlogPosts(posts: BlogManifest["posts"]): {

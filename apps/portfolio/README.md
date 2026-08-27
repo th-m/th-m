@@ -23,8 +23,8 @@ audit captures are evidence rather than runtime authority.
 - **Prerendered route:** build-time HTML that hydrates into the shared React
   application.
 - **SPA shell:** the client-rendered fallback for routes without generated HTML.
-- **Writing route:** a React page derived only from an explicitly published
-  `article.md` artifact.
+- **Writing route:** hydrated React compiled from an explicitly published
+  canonical `article.mdx` artifact.
 - **Brand source:** typed geometry, rendering, and calibration inputs.
 - **Generated brand asset:** an SVG, PNG, or data file derived from brand source.
 - **Brand audit:** an explicit visual verification workflow outside the unit
@@ -47,9 +47,8 @@ audit captures are evidence rather than runtime authority.
 - `/laws` hosts the complete filterable principles catalog; the home page
   carries a curated introduction to it.
 - `/writing` lists published articles.
-- `/writing/:slug` dispatches to the article's dedicated React page when the
-  published post ships one, otherwise renders the published Markdown as
-  hydrated React.
+- `/writing/:slug` renders the article's generated MDX module with the shared
+  prose component vocabulary and its typed article-asset registry.
 - The global right-side **tool drawer** (the fixed "TOOLS" tab on every route)
   hosts auxiliary interactives such as the embedding explorer, the compact
   relationship graph explorer, and the set atlas explorer; article pages open a
@@ -68,11 +67,12 @@ vs. card vs. modal vs. drawer — live in
 
 `portfolio:publish` generates brand assets, stages the public blog artifact,
 typechecks the route tree, builds `dist/client`, and verifies every manifest
-entry has corresponding static HTML and Markdown. Outlines, notes, and research
-are never staged into this app. React article pages and their immediate TSX/CSS
-modules are compiled from the generated `src/generated/blog-pages/` tree that
-`prepare:content` rebuilds from `libs/blogs/dist`; those page sources are
-excluded from public `_content`.
+entry has corresponding static HTML, raw MDX, and serialized asset metadata.
+Outlines, notes, and research are never staged into this app. Article MDX and
+its immediate TS/TSX/CSS modules are compiled from the generated
+`src/generated/blog-pages/` tree that `prepare:content` rebuilds from
+`libs/blogs/dist`; compile modules are excluded from public `_content`, while
+the frontmatter-free canonical MDX remains available beside the HTML.
 
 I am interested in how software systems become understandable enough to change.
 

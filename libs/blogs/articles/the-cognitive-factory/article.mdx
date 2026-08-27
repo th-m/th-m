@@ -1,0 +1,240 @@
+---
+title: Cognitive Factory
+description: "The factory's cognition is not a model subscription. It is relational context, executable contracts, and a compounding loop that turns outcomes into capability."
+publishedAt: 2026-08-22
+tags: [Artificial Intelligence, Knowledge Work, Software Systems]
+---
+# Cognitive Factory
+
+import { ArrowMarker, ArticleLink, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, ExecutableContextCard, ExploreGraphButton, ExternalLink, Figure, formatDate, Fragment, KNOWLEDGE_FACTORY_GRAPH_ID, knowledgeFactoryGraph, LIGHT_CONE_ROWS, LightConeScorecard, Link, LinkPreview, loadGraphLibrary, participant, PropositionGraphFigure, saveGraphLibrary, Section, seedKnowledgeFactoryGraph, seriesLinks, Term, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, useToolDrawer } from "./article-components"
+
+<Section index="01" title="Overview">
+        <P>
+          Every company is building a factory, and{" "}
+          <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink> described its operating
+          system: an organization that turns evidence and intent into reusable capability. This essay examines how
+          that factory thinks.
+        </P>
+        <P>
+          Cognition is not a model subscription or a collection of agents. It is how the organization represents
+          context, checks it against action, and learns from outcomes. Concretely, the factory's cognition has
+          four parts:
+        </P>
+        <ul>
+          <li>
+            <strong>Graph context exploration</strong> asks relational questions — which evidence motivated this
+            capability, which decisions depend on this assumption — instead of treating context as documents
+            containing matching words.
+          </li>
+          <li>
+            <strong>Executable context</strong> turns institutional knowledge into contracts: a definition becomes
+            a schema, a customer promise becomes an evaluation, an observed failure becomes a regression case.
+          </li>
+          <li>
+            <strong>The compounding loop</strong> returns every outcome to the system as evidence that updates
+            context and evaluation, so capability grows through use.
+          </li>
+          <li>
+            <strong>A diagnostic build order</strong> says what to build first: expose evidence, name distinctions,
+            build evaluation before scaling generation, instrument outcomes, and give teams authority inside the
+            new boundaries.
+          </li>
+        </ul>
+        <P>
+          The diagnostic for how far this cognition reaches is the{" "}
+          <Term definition="how much of the relevant domain a system can observe, interpret, affect, and learn from.">
+            cognitive light cone
+          </Term>{" "}
+          — how much of the relevant domain the system can observe, interpret, affect, and learn from. This
+          essay is where the organization implements the machinery that advances it down the light cone.
+        </P>
+        <P>
+          The factory also needs two human-governed disciplines to keep this cognition purposeful: ontology maps
+          the domain, and strategy chooses direction. Both are developed in their own essays, and this essay
+          closes by connecting them.
+        </P>
+      </Section>
+<Section index="02" title="Relationship to the Series">
+        <P>
+          This is the sixth essay in the sequence.{" "}
+          <ArticleLink slug="the-knowledge-factory"><strong>The Knowledge Factory</strong></ArticleLink>{" "}
+          introduced the operating system: an organization that turns evidence and intent into reusable
+          capability.{" "}
+          <ArticleLink slug="the-ontology-factory"><strong>The Ontology Factory</strong></ArticleLink>{" "}
+          mapped that system's semantic infrastructure. This essay examines how the factory thinks — the
+          cognition that makes the map useful, the learning compound, and the light cone that measures how far
+          that cognition reaches. The strategy discipline that chooses where the factory should act is covered
+          inside{" "}
+          <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink>.
+        </P>
+      </Section>
+<Section index="03" title="Extending Loop and Graph Engineering">
+        <P>
+          This essay extends two established engineering ideas.{" "}
+          <strong>Loop engineering</strong> builds feedback systems in which outcomes return as evidence that
+          updates context and evaluation; <strong>graph engineering</strong> builds traversable relationships
+          among people, concepts, systems, evidence, decisions, and outcomes. The cognitive factory is both of
+          those — and it extends both with ontology and cognition:
+        </P>
+        <ul>
+          <li>
+            <strong>Ontology</strong> makes a loop or a graph checkable rather than plausible: stable terms,
+            boundaries, invariants, and evidence rules that let the machinery be validated instead of admired.
+            Without ontology, the graph degenerates into named edges and the loop into dashboards.
+          </li>
+          <li>
+            <strong>Cognition</strong> is what the machinery is for. The{" "}
+            <Term definition="how much of the relevant domain a system can observe, interpret, affect, and learn from.">
+              cognitive light cone
+            </Term>{" "}
+            measures how much of the relevant domain the system can observe, interpret, affect, and learn from,
+            and every loop and graph in this essay exists to advance it.
+          </li>
+        </ul>
+        <P>
+          The sections that follow are the implementation of that extension: graph context and executable
+          context (the graph made semantic), the compounding loop (the loop made systemic), and the scorecard
+          and build order that decide how far the cognition reaches.
+        </P>
+      </Section>
+<Section index="04" title="1. Graph Context Exploration">
+        <P>
+          Graph context is a signature concept, not a generic knowledge-graph pitch. Most organizational search
+          treats context as documents containing matching words. Graph context exploration asks relational
+          questions:
+        </P>
+        <ul>
+          <li>Which customer evidence motivated this capability?</li>
+          <li>Which definition of <code>conversation</code> applies in this service?</li>
+          <li>What decisions depend on this assumption?</li>
+          <li>Which failures caused this evaluation to exist?</li>
+          <li>Which teams, systems, and metrics will a change affect?</li>
+          <li>Where does the current model conflict with observed behavior?</li>
+        </ul>
+        <Figure caption="A decision connected to its evidence, concepts, systems, evaluations, owners, and outcomes">
+          <PropositionGraphFigure document={knowledgeFactoryGraph} title="Graph context exploration" />
+        </Figure>
+        <P>
+          The figure above is a live proposition graph: pick a claim in the explorer to follow its
+          relationships. You can open the same graph in the right-side tool drawer.
+        </P>
+        <P className="essay-explore-row">
+          <ExploreGraphButton />
+        </P>
+        <P>
+          The graph may be implemented through links, metadata, schemas, code dependencies, event lineage, or a
+          graph database. The product requirement is traversable relationships with{" "}
+          <Term definition="the record of where evidence came from, so it can be weighed and trusted.">
+            provenance
+          </Term>{" "}
+          — not a particular storage engine.
+        </P>
+      </Section>
+<Section index="05" title="2. From Documents to Executable Context">
+        <P>
+          Documents remain important, but the factory needs context that can guide and check action:
+        </P>
+        <Asset id="executable-context-card" />
+        <P>
+          This is how institutional knowledge becomes productive capital rather than a larger pile of prose.
+        </P>
+      </Section>
+<Section index="06" title="3. The Compounding Loop">
+        <P>The factory's return comes from a loop:</P>
+        <P className="article-outline__flow">
+          Work produces outcomes → outcomes produce evidence → evidence updates context and evaluation → better
+          context improves the next work.
+        </P>
+        <Figure caption="Work produces outcomes; retained learning improves the next work">
+          <Asset id="compounding-loop" />
+        </Figure>
+        <P>
+          The loop compounds only when the organization captures corrections. More AI output without retained
+          learning is throughput, not a knowledge factory.
+        </P>
+      </Section>
+<Section index="07" title="4. The Cognitive Light Cone Scorecard">
+        <P>
+          The cognitive factory is where an organization implements the machinery that advances it down the
+          light cone. This essay makes an <strong>organizational adaptation</strong> of Michael Levin&apos;s{" "}
+          <Term definition="Levin's framework for the spatiotemporal scope and complexity of goals a system can pursue.">
+            cognitive light cone
+          </Term>
+          : it uses the metaphor as a diagnostic for how much of the relevant domain a system can observe,
+          interpret, affect, and learn from. Three systems in increasing reach:
+        </P>
+        <ul>
+          <li>
+            <strong>LLM:</strong> works from supplied context without its own harness. Humans select the
+            evidence, state the goal, and evaluate the response.
+          </li>
+          <li>
+            <strong>Agent:</strong> combines an LLM with tools, memory, and bounded workflows. Humans establish
+            its objective, permissions, evaluation, and escalation boundaries.
+          </li>
+          <li>
+            <strong>Knowledge factory:</strong> connects agents to organizational data, context stores,
+            operational signals, evaluations, and feedback loops. Humans systematize the inputs, govern how
+            evidence is interpreted, and remain accountable for the values and decisions propagated through the
+            system.
+          </li>
+        </ul>
+        <Asset id="light-cone-scorecard" />
+        <P>
+          Expanding a system's cognitive light cone increases what it can coordinate; it does not by itself
+          authorize the governing values it applies.
+        </P>
+      </Section>
+<Section index="08" title="5. What Companies Should Build First">
+        <P>Not everything at once. A diagnostic order:</P>
+        <ol>
+          <li>Identify the decisions or workflows with repeated context loss and review burden.</li>
+          <li>Expose the customer and operational evidence behind them.</li>
+          <li>Name the domain distinctions and invariants required for safe delegation.</li>
+          <li>Build evaluation before scaling generation.</li>
+          <li>Instrument outcomes and connect them back to decisions.</li>
+          <li>Give teams authority inside the new boundaries.</li>
+          <li>
+            Measure whether capability, learning speed, and customer outcomes improve — not only whether token
+            or labor costs fall.
+          </li>
+        </ol>
+      </Section>
+<Section index="09" title="6. The Two Factory Disciplines">
+        <P>
+          The knowledge factory needs two human-governed disciplines.{" "}
+          <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink> asks how humans map the domain
+          so models and teams share the right entities, relationships, constraints, and evidence. The strategy
+          discipline — covered in{" "}
+          <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink> — asks how humans choose
+          direction through narrative, empathy, opportunism, memory, and systematic feedback.
+        </P>
+        <P>Ontology makes the factory coherent. Strategy makes it purposeful.</P>
+      </Section>
+<div className="article-outline__closing">
+        <div className="article-outline__content" style={{ marginTop: 48 }}>
+          <P className="eyebrow">Part of the six-essay series</P>
+          <ol style={{ marginTop: 16 }}>
+            {seriesLinks.map(([label, href]) => (
+              <li key={href}>
+                {href === "/writing/the-cognitive-factory" ? (
+                  <strong>{label}</strong>
+                ) : (
+                  <LinkPreview url={href}>{label}</LinkPreview>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+<Section index="10" title="Sources">
+        <ul>
+          <li>Michael Levin, <ExternalLink href="https://doi.org/10.3389/fnsys.2022.768201">“Technological Approach to Mind Everywhere: An Experimentally-Grounded Framework for Understanding Diverse Bodies and Minds”</ExternalLink> (2022). Introduces the cognitive-light-cone framework adapted as an organizational diagnostic in this essay.</li>
+          <li>Patrick Lewis and colleagues, <ExternalLink href="https://proceedings.neurips.cc/paper/2020/hash/6b493230-Abstract.html">“Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks”</ExternalLink> (2020). Establishes retrieval from explicit non-parametric memory and identifies provenance and knowledge updating as design problems.</li>
+          <li>Shunyu Yao and colleagues, <ExternalLink href="https://arxiv.org/abs/2210.03629">“ReAct: Synergizing Reasoning and Acting in Language Models”</ExternalLink> (2023). Demonstrates an agent pattern that interleaves model reasoning, tool actions, environmental observations, and plan updates.</li>
+          <li>Noah Shinn and colleagues, <ExternalLink href="https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html">“Reflexion: Language Agents with Verbal Reinforcement Learning”</ExternalLink> (2023). Tests the use of retained task feedback in episodic text memory to improve subsequent agent trials.</li>
+          <li>W3C, <ExternalLink href="https://www.w3.org/TR/prov-o/">“PROV-O: The PROV Ontology”</ExternalLink> (2013). Defines a standard model for representing provenance among entities, activities, and agents.</li>
+          <li>National Institute of Standards and Technology, <ExternalLink href="https://doi.org/10.6028/NIST.AI.600-1"><em>Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile</em></ExternalLink> (2024). Supports lifecycle governance, context mapping, measurement, documentation, and human accountability for generative-AI systems.</li>
+          <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. Supports the claim that effective AI adoption depends on the surrounding organizational system and capabilities rather than model access alone.</li>
+        </ul>
+      </Section>

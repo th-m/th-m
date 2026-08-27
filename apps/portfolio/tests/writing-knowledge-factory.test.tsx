@@ -50,8 +50,8 @@ function knowledgeFactoryArticle(): PublishedArticle {
     description: "Every company is building a factory.",
     publishedAt: "2026-08-22",
     tags: ["Artificial Intelligence", "Organizations"],
-    articlePath: "posts/the-knowledge-factory/article.md",
-    markdown: "# The Knowledge Factory\n\nBody.\n",
+    articlePath: "posts/the-knowledge-factory/article.mdx",
+    assetRegistryPath: "posts/the-knowledge-factory/assets.json",
   };
 }
 
@@ -83,7 +83,7 @@ describe("The Knowledge Factory published page", () => {
     expect(screen.getByText("Essay")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "The Knowledge Factory" })).toBeInTheDocument();
     expect(screen.getByText("Every company is building a factory.")).toBeInTheDocument();
-    expect(screen.getByText("August 22, 2026")).toBeInTheDocument();
+    expect(screen.getByText("Published August 22, 2026")).toBeInTheDocument();
     expect(screen.queryByText("Essay outline")).not.toBeInTheDocument();
   });
 

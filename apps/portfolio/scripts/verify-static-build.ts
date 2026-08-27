@@ -34,16 +34,31 @@ await requireHtml("writing/index.html", "Ideas with enough structure to navigate
 await requireHtml("_shell.html", "__TSR");
 
 const manifest = await (await requireFile("_content/manifest.json")).json() as BlogManifest;
-if (manifest.schemaVersion !== 2 || !Array.isArray(manifest.posts)) {
-  throw new Error("Staged blog manifest must use schema version 2.");
+if (manifest.schemaVersion !== 3 || !Array.isArray(manifest.posts)) {
+  throw new Error("Staged blog manifest must use schema version 3.");
 }
 
 for (const post of manifest.posts) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug)) {
     throw new Error(`Static build contains an invalid article slug: ${post.slug}`);
   }
+  if (post.articlePath !== `posts/${post.slug}/article.mdx`) {
+    throw new Error(`${post.slug} does not expose its canonical raw MDX path.`);
+  }
+  if (post.assetRegistryPath !== `posts/${post.slug}/assets.json`) {
+    throw new Error(`${post.slug} does not expose its serialized asset registry.`);
+  }
   await requireHtml(`writing/${post.slug}/index.html`, "article-page");
-  await requireFile(`_content/${post.articlePath}`);
+  const article = await (await requireFile(`_content/${post.articlePath}`)).text();
+  if (article.startsWith("---")) throw new Error(`${post.articlePath} must omit private publication frontmatter.`);
+  if (!article.startsWith(`# ${post.title}\n`)) throw new Error(`${post.articlePath} must begin with its canonical H1.`);
+  const assets = await (await requireFile(`_content/${post.assetRegistryPath}`)).json() as unknown;
+  if (!assets || typeof assets !== "object" || Array.isArray(assets)) {
+    throw new Error(`${post.assetRegistryPath} must contain a serialized asset registry.`);
+  }
+  if (await Bun.file(publicFile(`_content/posts/${post.slug}/index.tsx`)).exists()) {
+    throw new Error(`${post.slug} exposes obsolete React page source.`);
+  }
 }
 
 console.log(`Verified static portfolio shell and ${manifest.posts.length} published article route${manifest.posts.length === 1 ? "" : "s"}.`);

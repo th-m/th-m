@@ -7,10 +7,9 @@ automation in `scripts/`, route files in `src/routes/`, writing-UI conventions
 in `docs/writing-component-conventions.md`, and portfolio evidence in `docs/`
 or the audit asset tree. Generate brand data and stage published blog content
 before starting, typechecking, testing, or publishing the app: `prepare:content`
-rebuilds `public/_content` from `libs/blogs/dist` (excluding React and page-style
-sources) and regenerates `src/generated/blog-pages/` with each page's immediate
-TSX/CSS modules plus its slug registry from every manifest post with
-`page: true`.
+rebuilds `public/_content` from `libs/blogs/dist` (excluding TS, TSX, and CSS
+compile sources) and regenerates `src/generated/blog-pages/` with every post's
+MDX, asset registry, immediate compile modules, and slug registry.
 
 ## Required Verification Parameters Within Nested Context
 
@@ -26,11 +25,12 @@ in the publish command.
 
 The portfolio does not own blog drafts, article workspaces, or tool runtimes.
 Only the blogs publish artifact may enter `public/_content`, and it never
-includes raw page TSX or CSS source. React article pages are compiled with
-their sibling modules from the generated `src/generated/blog-pages/` tree
-(gitignored, rebuilt by `prepare:content`);
-the `/writing/:slug` route dispatches to a page by slug and falls back to
-Markdown. The global tool drawer and its tool registry are portfolio
+includes raw TS, TSX, or CSS compile source. Raw frontmatter-free article MDX
+and serialized asset metadata remain public. React article modules are compiled
+from the same canonical MDX and sibling modules in the generated
+`src/generated/blog-pages/` tree (gitignored and rebuilt by `prepare:content`);
+the `/writing/:slug` route requires a generated MDX entry for every published
+slug. The global tool drawer and its tool registry are portfolio
 composition; the `@th-m/ui` primitives they compose live in the library.
 Generated brand and content files must remain reproducible, every public route
 must hydrate, and Netlify publication must use `dist/client` without a server

@@ -12,6 +12,7 @@
   "scripts": {
     "gen": "bun run scripts/generate-gpt2-dataset.ts",
     "gen-training": "bun run scripts/generate-training-checkpoints.ts",
+    "gen-composition-review": "bun run scripts/generate-composition-review-csv.ts",
     "typecheck": "tsc -p tsconfig.json --pretty false",
     "test": "vitest run"
   },
@@ -43,6 +44,7 @@
     "targets": {
       "gen": { "outputs": ["{projectRoot}/src/data/gpt2-embedding-space.json"] },
       "gen-training": { "outputs": ["{projectRoot}/src/data/skip-gram-training.json"] },
+      "gen-composition-review": { "outputs": ["{projectRoot}/generated/embedding-composition-review.csv"] },
       "typecheck": { "outputs": [] },
       "test": { "outputs": [] }
     }

@@ -1,4 +1,12 @@
 import { render, screen } from "@testing-library/react";
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Outlet,
+  RouterProvider,
+} from "@tanstack/react-router";
 import { describe, expect, it } from "vitest";
 import type { PublishedArticle } from "../src/content/blog-content";
 import { ArticleContent } from "../src/writing/ArticleContent";
@@ -12,30 +20,45 @@ function consciousnessArticle(): PublishedArticle {
     updatedAt: "2026-08-26",
     addendumTo: "ai-consciousness-is-incoherent",
     tags: ["Artificial Intelligence", "Consciousness", "Philosophy of Mind", "Language"],
-    articlePath: "posts/consciousness-is-incoherent/article.md",
-    markdown: "# AI's Consciousness explanation\n\nBody.\n",
+    articlePath: "posts/consciousness-is-incoherent/article.mdx",
+    assetRegistryPath: "posts/consciousness-is-incoherent/assets.json",
   };
 }
 
-describe("AI's Consciousness explanation published page", () => {
-  it("renders the dedicated essay page and publication metadata", () => {
-    render(<ArticleContent article={consciousnessArticle()} />);
+async function renderPage() {
+  const rootRoute = createRootRoute({ component: Outlet });
+  const writingRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/writing/$slug",
+    component: () => <ArticleContent article={consciousnessArticle()} />,
+  });
+  const router = createRouter({
+    routeTree: rootRoute.addChildren([writingRoute]),
+    history: createMemoryHistory({ initialEntries: ["/writing/consciousness-is-incoherent"] }),
+  });
+  await router.load();
+  return render(<RouterProvider router={router} />);
+}
 
-    expect(screen.getByText("Addendum", { selector: ".eyebrow" })).toBeInTheDocument();
+describe("AI's Consciousness explanation published page", () => {
+  it("renders the dedicated essay page and publication metadata", async () => {
+    const { container } = await renderPage();
+
+    expect(container.querySelector(".article-outline__header > .eyebrow")).toHaveTextContent("Addendum");
     expect(screen.getByRole("heading", { level: 1, name: "AI's Consciousness explanation" })).toBeInTheDocument();
     expect(screen.getByText(/Machine consciousness claims become coherent/)).toBeInTheDocument();
     expect(screen.getByText("Published August 25, 2026")).toBeInTheDocument();
     expect(screen.getByText("August 26, 2026")).toHaveAttribute("datetime", "2026-08-26");
     expect(screen.getByRole("list", { name: "Topics" }).children).toHaveLength(4);
     const parentArticleLinks = screen.getAllByRole("link", { name: "AI Consciousness Is Incoherent" });
-    expect(parentArticleLinks).toHaveLength(2);
+    expect(parentArticleLinks).toHaveLength(3);
     for (const parentArticleLink of parentArticleLinks) {
       expect(parentArticleLink).toHaveAttribute("href", "/writing/ai-consciousness-is-incoherent");
     }
   });
 
-  it("renders the competing theories, logical form, and evidentiary standard", () => {
-    render(<ArticleContent article={consciousnessArticle()} />);
+  it("renders the competing theories, logical form, and evidentiary standard", async () => {
+    await renderPage();
 
     expect(screen.getByRole("heading", { name: "Two theories, two predicates" })).toBeInTheDocument();
     expect(screen.getByText("Biological naturalism")).toBeInTheDocument();
@@ -50,8 +73,8 @@ describe("AI's Consciousness explanation published page", () => {
     expect(screen.getByText("Causal instantiation.")).toBeInTheDocument();
   });
 
-  it("links the primary sources through article link previews", () => {
-    render(<ArticleContent article={consciousnessArticle()} />);
+  it("links the primary sources through article link previews", async () => {
+    await renderPage();
 
     expect(screen.getByRole("link", { name: "“On a Confusion about a Function of Consciousness”" })).toHaveAttribute(
       "href",
@@ -67,8 +90,8 @@ describe("AI's Consciousness explanation published page", () => {
     );
   });
 
-  it("opens with a preface and the restored original prompt without rewriting its wording", () => {
-    render(<ArticleContent article={consciousnessArticle()} />);
+  it("opens with a preface and the restored original prompt without rewriting its wording", async () => {
+    await renderPage();
 
     const preface = screen.getByRole("heading", { name: "Preface" });
     const firstSection = screen.getByRole("heading", { name: "The question collapses too soon" });

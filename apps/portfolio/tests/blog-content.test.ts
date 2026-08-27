@@ -10,7 +10,8 @@ const post: PublishedPost = {
   description: "A concise public description.",
   publishedAt: "2026-08-16",
   tags: [],
-  articlePath: "posts/public-title/article.md",
+  articlePath: "posts/public-title/article.mdx",
+  assetRegistryPath: "posts/public-title/assets.json",
   assetsPath: "posts/public-title/assets",
 };
 
@@ -36,7 +37,8 @@ describe("organizeBlogPosts", () => {
       slug: "public-title-addendum",
       title: "Public title addendum",
       addendumTo: post.slug,
-      articlePath: "posts/public-title-addendum/article.md",
+      articlePath: "posts/public-title-addendum/article.mdx",
+      assetRegistryPath: "posts/public-title-addendum/assets.json",
     };
 
     const organized = organizeBlogPosts([addendum, post]);
@@ -46,13 +48,16 @@ describe("organizeBlogPosts", () => {
   });
 });
 
-describe("article page module staging", () => {
+describe("article MDX module staging", () => {
   const projectRoot = process.cwd();
   const slug = "goals-solutions-and-value";
 
-  it("compiles sibling TSX and CSS modules without exposing their sources as public content", async () => {
+  it("compiles canonical MDX with sibling TSX and CSS modules without exposing compile sources", async () => {
     const generatedPage = resolve(projectRoot, "src/generated/blog-pages", slug);
-    await expect(readFile(resolve(generatedPage, "index.tsx"), "utf8")).resolves.toContain(
+    await expect(readFile(resolve(generatedPage, "article.mdx"), "utf8")).resolves.toContain(
+      'from "./article-components"',
+    );
+    await expect(readFile(resolve(generatedPage, "article-components.tsx"), "utf8")).resolves.toContain(
       'from "./neural-training-figure"',
     );
     await expect(readFile(resolve(generatedPage, "neural-training-figure.tsx"), "utf8")).resolves.toContain(
@@ -61,7 +66,9 @@ describe("article page module staging", () => {
     await expect(access(resolve(generatedPage, "neural-training-figure.css"))).resolves.toBeUndefined();
 
     const publicEntries = await readdir(resolve(projectRoot, "public/_content/posts", slug));
-    expect(publicEntries).not.toContain("index.tsx");
+    expect(publicEntries).toContain("article.mdx");
+    expect(publicEntries).toContain("assets.json");
+    expect(publicEntries).not.toContain("article-components.tsx");
     expect(publicEntries).not.toContain("neural-training-figure.tsx");
     expect(publicEntries).not.toContain("neural-training-figure.css");
   });

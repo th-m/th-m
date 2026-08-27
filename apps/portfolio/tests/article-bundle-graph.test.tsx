@@ -17,9 +17,9 @@ const post = (slug: string, title: string, description: string): BlogManifest["p
   description,
   publishedAt: "2026-08-22",
   tags: [],
-  articlePath: `posts/${slug}/article.md`,
+  articlePath: `posts/${slug}/article.mdx`,
+  assetRegistryPath: `posts/${slug}/assets.json`,
   assetsPath: `posts/${slug}/assets`,
-  page: true,
 });
 
 const posts: BlogManifest["posts"] = [
