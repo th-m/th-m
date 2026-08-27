@@ -46,14 +46,15 @@ describe("LawGraphic", () => {
 
 describe("LawCard", () => {
   it("renders index, category, title, definition, and labels", () => {
-    render(<LawCard law={fitts} index={7} />);
+    const { container } = render(<LawCard law={fitts} index={7} />);
     expect(screen.getByText("07")).toBeInTheDocument();
     expect(screen.getByText("theory")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 3, name: "Fitts’s Law" })).toBeInTheDocument();
     expect(screen.getByText("The time to acquire a target is a function of the distance to and size of the target.")).toBeInTheDocument();
-    expect(screen.getByText("ui")).toBeInTheDocument();
-    expect(screen.getByText("design")).toBeInTheDocument();
-    expect(screen.getByText("cs")).toBeInTheDocument();
+    const labels = Array.from(container.querySelectorAll<HTMLElement>(".thom-law-label"));
+    expect(labels.map((label) => label.textContent)).toEqual(["UI", "DES", "CS"]);
+    expect(labels.map((label) => label.getAttribute("aria-label"))).toEqual(["ui", "design", "cs"]);
+    expect(labels.map((label) => label.title)).toEqual(["ui", "design", "cs"]);
   });
 
   it("renders as a link when href is provided", () => {
@@ -72,8 +73,8 @@ describe("LawDetail", () => {
     expect(screen.getByText("Touch targets should be large enough for users to accurately select them.")).toBeInTheDocument();
     expect(screen.getByText("Origins")).toBeInTheDocument();
     expect(screen.getByText(/In 1954, psychologist Paul Fitts/)).toBeInTheDocument();
-    expect(screen.queryByText("software-engineering", { selector: ".thom-law-label" })).not.toBeInTheDocument();
-    expect(screen.getAllByText("cs").length).toBeGreaterThanOrEqual(1);
+    expect(screen.queryByLabelText("software-engineering")).not.toBeInTheDocument();
+    expect(screen.getAllByText("CS").length).toBeGreaterThanOrEqual(1);
   });
 
   it("links out to the source and further reading entries", () => {
@@ -100,7 +101,7 @@ describe("LawDetail", () => {
     expect(screen.queryByText("Origins")).not.toBeInTheDocument();
     expect(screen.queryByText("Further Reading")).not.toBeInTheDocument();
     expect(screen.queryByText("Related")).not.toBeInTheDocument();
-    expect(screen.getByText("product")).toBeInTheDocument();
+    expect(screen.getByLabelText("product")).toHaveTextContent("PRO");
   });
 
   it("omits the source link when a law has no source", () => {

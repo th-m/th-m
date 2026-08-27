@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import {
+  lawLabelAbbreviations,
   lawLabelAccents,
   lawLabelAccentVariable,
   type Law,
@@ -26,10 +27,12 @@ export function LawCardGrid({ items }: LawCardGridProps) {
               {law.labels.map((label) => (
                 <li
                   key={label}
+                  aria-label={label}
+                  title={label}
                   data-accent={lawLabelAccents[label]}
                   style={{ "--law-label-accent": lawLabelAccentVariable(label) } as CSSProperties}
                 >
-                  {label}
+                  {lawLabelAbbreviations[label]}
                 </li>
               ))}
             </ul>

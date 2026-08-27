@@ -1,6 +1,7 @@
 import { useMemo, useState, type CSSProperties } from "react";
 import {
   laws,
+  lawLabelAbbreviations,
   lawLabelAccents,
   lawLabelAccentVariable,
   lawLabels,
@@ -42,7 +43,9 @@ export function LawsCatalog() {
                 "home-laws__pill",
                 selected ? "home-laws__pill--selected" : "",
               ].filter(Boolean).join(" ")}
+              aria-label={label}
               aria-pressed={selected}
+              title={label}
               data-accent={lawLabelAccents[label]}
               style={{
                 "--law-label-accent": lawLabelAccentVariable(label),
@@ -56,7 +59,7 @@ export function LawsCatalog() {
               } as CSSProperties}
               onClick={() => toggle(label)}
             >
-              {label}
+              {lawLabelAbbreviations[label]}
             </button>
           );
         })}

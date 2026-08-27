@@ -8,7 +8,7 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 import { describe, expect, it } from "vitest";
-import { laws, lawLabelAccents, lawLabels } from "@th-m/laws";
+import { laws, lawLabelAbbreviations, lawLabelAccents, lawLabels } from "@th-m/laws";
 import { LawsBento, featuredLaws } from "../src/home/LawsBento";
 import { LawsCatalog } from "../src/laws/LawsCatalog";
 
@@ -43,6 +43,13 @@ describe("LawsBento", () => {
     expect(container.querySelectorAll(".thom-bento-grid__item")).toHaveLength(12);
     expect(container.querySelectorAll(".home-laws__card")).toHaveLength(featuredLaws.length);
     expect(container.querySelectorAll(".home-laws__pill")).toHaveLength(0);
+    const firstLawLabels = Array.from(
+      container.querySelectorAll<HTMLElement>(".home-laws__card:first-child .home-laws__labels li"),
+    );
+    expect(firstLawLabels.map((label) => label.textContent)).toEqual(
+      featuredLaws[0]!.labels.map((label) => lawLabelAbbreviations[label]),
+    );
+    expect(firstLawLabels.map((label) => label.getAttribute("aria-label"))).toEqual(featuredLaws[0]!.labels);
   });
 
   it("hands off from the curated collection to the complete catalog", async () => {
@@ -66,6 +73,8 @@ describe("LawsCatalog", () => {
     for (const label of lawLabels) {
       const pill = screen.getByRole("button", { name: label });
       expect(pill).toHaveAttribute("aria-pressed", "false");
+      expect(pill).toHaveTextContent(lawLabelAbbreviations[label]);
+      expect(pill).toHaveAttribute("title", label);
       expect(pill.className).not.toContain("home-laws__pill--selected");
     }
   });
