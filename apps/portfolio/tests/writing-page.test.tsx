@@ -115,9 +115,12 @@ describe("ArticleContent MDX rendering", () => {
       "They have to become available through some combination of:",
     );
     expect(screen.getByText(/Human governance does not mean manually choosing every action/)).toBeInTheDocument();
-    const coreThesis = screen.getByText(/Human experience reveals what can matter/);
+    expect(screen.getByText(/What I actually wanted was for the agent to have a bit of common sense/)).toHaveTextContent(
+      "Find the gaps that affect outcomes. Ensure validators between boundaries.",
+    );
+    const coreThesis = screen.getByText(/Strategy negotiates trade-offs between competing values/);
     const strategicStudy = screen.getByText(/Research on AI-generated strategic advice demonstrates/);
-    const governingPoint = screen.getByText(/Meaningful decisions must begin with human experience/);
+    const governingPoint = screen.getByText(/AI is not nefarious, it is biased/);
     expect(coreThesis.compareDocumentPosition(strategicStudy) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(strategicStudy.compareDocumentPosition(governingPoint) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(coreThesis.closest(".article-claim")).toHaveClass("article-claim--emphasis");
@@ -125,7 +128,7 @@ describe("ArticleContent MDX rendering", () => {
     expect(externalEvidence).toContainElement(screen.getByRole("link", { name: "study of seven strategic tradeoffs" }));
     expect(externalEvidence.querySelector("ul")).toBeInTheDocument();
     expect(screen.queryByText("External evidence")).not.toBeInTheDocument();
-    expect(screen.getByText("Which outcome should be optimized?").closest("ul")?.querySelectorAll("li")).toHaveLength(6);
+    expect(screen.queryByText("Which outcome should be optimized?")).not.toBeInTheDocument();
     const salaryFigure = screen.getByRole("img", { name: /Illustrative company of 100 people/ });
     expect(salaryFigure).toBeInTheDocument();
     expect(salaryFigure).toHaveTextContent(/No one earns the \$95k average/);

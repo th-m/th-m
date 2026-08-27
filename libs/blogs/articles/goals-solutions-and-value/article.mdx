@@ -23,23 +23,21 @@ import { ConversationLink } from "./article-components"
 
 Nine hours later, it returned many pages of markdown, hundreds of checkboxes associated with validators. And product details I never even imagined. It was completely unreasonable, I let the agent take a stab at implementation but the plan was incoherent and unusable.
 
-Of course I blame the agent.
-
 Why doesn't the AI know what `optimize` means? What kind of fool hears `find all the gaps` and treats every imaginable omission as equally important?
 
-What I actually wanted was for the agent to have a bit of common sense. Identify the gaps that could threaten the outcome, add validation where there is risk, avoid blocking CICD pipeline,, and stop and reevaluate if things feel they are becoming unwieldily.
+What I actually wanted was for the agent to have a bit of common sense. Find the gaps that affect outcomes. Ensure validators between boundaries.
 
 Even with the updated prompt, I am not convinced the model would have output anything better.
 
 <Callout label="Core thesis" emphasis>
 
-**Human experience reveals what can matter. Values determine what should matter. Strategy negotiates trade-offs between competing values, risks, resources, and time horizons. It decides what to pursue, what to protect, what to sacrifice, and when to change course. AI cannot recover judgment that language never contained, nor can it meaningfully author the values that govern the strategy.**
+**Strategy negotiates trade-offs between competing values, risks, resources, and time horizons. It decides what to pursue, what to protect, what to sacrifice, and when to change course. AI cannot meaningfully author the values that govern the strategy, yet it will implicitly apply it's own values**
 
 </Callout>
 
 <aside className="goals-article__research" aria-label="External research">
 
-Research on AI-generated strategic advice demonstrates a related instability. In one [study of seven strategic tradeoffs](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return):
+Research on AI-generated strategic advice demonstrates. In one [study of seven strategic tradeoffs](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return):
 
 - **Fewer than 2%:** Changing the wording or asking a model to reason harder changed the answers.
 - **About 11%:** Adding relevant company information changed the answers.
@@ -47,16 +45,9 @@ Research on AI-generated strategic advice demonstrates a related instability. In
 
 </aside>
 
-The study did not test whether explicitly authorizing different values would produce different strategies. But it does show how easily a polished recommendation can conceal the priorities a model supplied for itself:
+The study did not test whether explicitly authorizing different values would produce different strategies. But it does show how a model can conceal it's priorities.
 
-- Which outcome should be optimized?
-- Which gaps are material?
-- What degree of uncertainty is acceptable?
-- How much validation is proportional to the consequence?
-- When does another check reduce risk, and when does it merely add process?
-- Who has authority to accept the remaining risk?
-
-That limitation does not begin with the predictive power of the model. It begins earlier. Language is already an incomplete and subjective compression of lived experience. A model can infer from the words we provide, but it cannot directly observe everything those words leave behind. Meaningful decisions must begin with human experience and be judged by how they affect human experience.
+AI is not nefarious, it is biased.  T tohe problem is many are not equipped to recognize or correct this bias.
 
 </Section>
 
