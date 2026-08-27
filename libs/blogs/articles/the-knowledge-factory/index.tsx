@@ -356,11 +356,6 @@ const GLOSSARY: Array<[string, string]> = [
   ["Shared capital", "reusable organizational assets — ontologies, context graphs, tools, evaluations, workflows, infrastructure, and accumulated learning — that increase future capability."],
   ["Solutioning", "framing, generating, testing, and revising interventions in response to a meaningful problem."],
   ["Graph context", "navigable relationships among people, concepts, systems, evidence, decisions, dependencies, and outcomes, with provenance."],
-  ["Strategy", "a coherent set of choices about a desired future, the obstacles and opportunities between here and there, and the coordinated actions used to change the situation."],
-  ["Narrative", "a causal interpretation connecting present conditions, actors, stakes, possible change, and a believable path forward."],
-  ["Adversarial opportunism", "recognizing competition, incentives, conflict, timing, and ways other actors may resist or exploit a move."],
-  ["Diplomatic opportunism", "creating value through trust, coalition, negotiation, distribution, partnership, and aligned incentives."],
-  ["Second brain", "a maintained organizational memory that connects strategic beliefs and decisions to evidence, owners, experiments, and outcomes."],
 ];
 
 function GlossaryCards() {
@@ -737,7 +732,7 @@ export default function ArticlePage({
       </Section>
 
       <Section index="05" title="1. Every Company Already Has a Factory">
-        <p>Open by tracing one ordinary product change:</p>
+        <p>Trace one ordinary product change:</p>
         <Figure caption="The path of one product change">
           <ProductPipeline />
         </Figure>
@@ -815,7 +810,62 @@ export default function ArticlePage({
         </p>
       </Section>
 
-      <Section index="09" title="5. The New Knowledge-Factory Stack">
+      <Section index="09" title="5. Fix the Factory Before Asking AI to Scale It">
+        <p>
+          The irony of AI-assisted development is that a codebase usually has to become easier to understand
+          before AI can improve it reliably. An agent cannot preserve a boundary nobody has named, resolve
+          contracts that disagree, or verify a change when correctness exists only in a reviewer&apos;s memory. AI
+          does not remove structural debt. It consumes whatever structure the organization has already made
+          available.
+        </p>
+        <p>
+          Begin by making important contracts explicit and machine-readable. Carry a domain distinction end to
+          end through the database, API, runtime validation, application types, analytics, and interface. Generate
+          downstream artifacts when one representation can reasonably act as the source of truth:
+        </p>
+        <ul>
+          <li>a schema can generate types, validators, clients, fixtures, and documentation;</li>
+          <li>an API specification can generate request and response types, server stubs, and client libraries;</li>
+          <li>a database schema can generate query types, migrations, and policy checks; and</li>
+          <li>a design system can generate tokens, components, documentation, and visual references.</li>
+        </ul>
+        <p>
+          The source does not have to be a particular technology. It has to be authoritative enough to own,
+          version, validate, and regenerate. Generated artifacts are materialized views of that source, not
+          competing truths that people maintain independently.
+        </p>
+        <Flow>
+          Authoritative source → generated contracts → runtime validation → end-to-end verification.
+        </Flow>
+        <p>
+          Types make intended relationships visible to people and tools. Runtime checks protect the boundaries
+          where untyped data enters. Tests establish whether the parts still compose. Together they give an AI
+          system a legible environment in which a change can be proposed, checked, and corrected.
+        </p>
+      </Section>
+
+      <Section index="10" title="6. Systematize the Whole Chain">
+        <p>
+          Software is only one station in the factory. Design, reports, user engagement, operations, and
+          development all produce recurring decisions that can become reusable systems:
+        </p>
+        <ul>
+          <li><strong>design:</strong> shared tokens, components, interaction rules, accessibility checks, and visual regression evidence;</li>
+          <li><strong>reports:</strong> governed definitions, datasets, queries, templates, provenance, and scheduled review;</li>
+          <li><strong>user engagement:</strong> research repositories, support signals, experiments, consent, segmentation, and feedback loops;</li>
+          <li><strong>development:</strong> schemas, types, tests, build pipelines, release controls, observability, and incident learning; and</li>
+          <li><strong>operations:</strong> explicit workflows, ownership, service levels, escalation paths, and outcome measures.</li>
+        </ul>
+        <Quote>
+          <strong>Systematize everything that repeats.</strong> This does not mean automate every decision.
+        </Quote>
+        <p>
+          A good system can deliberately end in human judgment; it simply makes the inputs, constraints,
+          decision, and consequences available to the next cycle.
+        </p>
+      </Section>
+
+      <Section index="11" title="7. The New Knowledge-Factory Stack">
         <p>
           The stack is a way of inventorying what a factory must build — not one mandatory vendor architecture.
           Eight reusable layers:
@@ -838,331 +888,108 @@ export default function ArticlePage({
         </p>
       </Section>
 
-      <Section index="10" title="The Strategy Discipline">
+      <Section index="12" title="8. Human Direction Sets the Boundary">
         <p>
-          Strategy is a human art. It chooses a direction before the evidence can fully determine the answer. It
-          creates a narrative about the world, develops deep empathy for a customer, competes for scarce
-          opportunities, coordinates allies, and accepts tradeoffs for which people remain accountable.
+          The factory can make evidence easier to retrieve, generate more options, expose inconsistencies, and
+          simulate reactions. It cannot independently decide which future an organization should attempt to
+          create or whose outcome should count. When evidence constrains but does not determine action, someone
+          must choose a wager and remain accountable for its consequences.
         </p>
         <p>
-          AI can accelerate research, generate options, simulate reactions, and expose inconsistencies. It cannot
-          independently decide which future an organization should attempt to create or whose outcome should
-          count. A knowledge factory therefore needs a strategy discipline that keeps human judgment central
-          while making its evidence and feedback substantially more systematic.
+          The knowledge factory should therefore make direction inspectable without pretending to automate
+          judgment. For each consequential choice, retain:
         </p>
-        <p>
-          The central tool is an organizational <strong>second brain</strong>: not a warehouse of notes, but a
-          living memory linking narratives, assumptions, customer evidence, decisions, experiments,
-          relationships, and outcomes. Its purpose is to make strategy more learnable without pretending to
-          automate the art.
-        </p>
+        <ul>
+          <li>the desired change and the people whose experience defines its stakes;</li>
+          <li>supporting and contradictory evidence;</li>
+          <li>assumptions, uncertainty, and rejected alternatives;</li>
+          <li>owners, decision rights, and escalation boundaries;</li>
+          <li>predicted outcomes and disconfirming signals; and</li>
+          <li>the revision made after consequences arrive.</li>
+        </ul>
         <Quote><strong>Systematize the feedback. Do not automate away the judgment.</strong></Quote>
-        <Figure caption="Ontology maps the possible world; strategy draws a path through it; outcomes revise both.">
-          <OntologyStrategyFigure />
-        </Figure>
-        <p>
-          The factory's ontology describes the world it can recognize — the subject of the companion essay{" "}
-          <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink>. Strategy chooses where in
-          that world to act, which change to pursue, how to earn the cooperation required, and which risks to
-          accept. How the factory represents and reuses context — graph context, executable context, and the
-          compounding loop — is the subject of{" "}
-          <ArticleLink slug="the-cognitive-factory">Cognitive Factory</ArticleLink>.
-        </p>
-        <p>
-          Organizations can improve and accelerate strategy by building feedback systems that preserve customer
-          empathy, adversarial awareness, diplomatic relationships, decision provenance, and learning over time.
-          These systems should make human strategists better informed and more{" "}
-          <Gloss tip="Open to correction — the system keeps the strategist well informed while allowing their judgment to be revised by evidence.">
-            corrigible
-          </Gloss>{" "}
-          — not replace them with a stream of plausible recommendations.
-        </p>
       </Section>
 
-      <Section index="11" title="6. Strategy Begins Where the Answer Stops Being Deducible">
-        <p>
-          Open with a well-instrumented company facing several plausible directions. It has market data, customer
-          interviews, competitive analysis, prototypes, and AI-generated recommendations. None of them can
-          deductively choose the future.
-        </p>
-        <p>
-          Strategy begins when evidence constrains but does not determine action. Someone must interpret the
-          situation, imagine a change, choose a wager, and accept responsibility for the consequences.
-        </p>
-      </Section>
-
-      <Section index="12" title="7. Narrative Is a Causal Tool">
-        <p>
-          A strategy needs a{" "}
-          <TermGloss
-            term="narrative"
-            definition="A causal interpretation connecting present conditions, actors, stakes, possible change, and a believable path forward."
-            example="Coordinated action depends on one: what is changing, why the situation persists, who is affected, who can resist, and why this organization can act."
-          />{" "}
-          because coordinated action depends on an account of:
-        </p>
-        <ul>
-          <li>what is changing;</li>
-          <li>why the current situation persists;</li>
-          <li>who experiences the problem and why it matters;</li>
-          <li>which actors can enable or resist change;</li>
-          <li>what intervention could alter the system; and</li>
-          <li>why this organization can credibly pursue it.</li>
-        </ul>
-        <p>The narrative is not branding varnish. It is a causal model expressed in a form people can remember, challenge, and use to coordinate.</p>
-        <p>AI can generate many narratives. Human strategists must test which one explains the evidence, preserves inconvenient details, and motivates an ethically and economically viable direction.</p>
-      </Section>
-
-      <Section index="13" title="8. Deep Customer Empathy Defines the Stakes">
-        <p>
-          Strategy must remain close to customers because a market category or metric cannot fully specify value.
-          Deep empathy means understanding the customer's workflow, identity, incentives, fears, compromises,
-          relationships, and cost of change.
-        </p>
-        <p>
-          It also means understanding{" "}
-          <Gloss tip="The people who would use a solution but currently cannot — and the costs they bear without becoming buyers.">
-            non-consumption
-          </Gloss>
-          , exclusion, and the people who bear costs without becoming the buyer.
-        </p>
-        <p>
-          Systematize this contact through{" "}
-          <Gloss tip="Repeated contact with the same customers over time, rather than one-off interviews.">
-            longitudinal research
-          </Gloss>
-          , support and sales loops, field observation, customer councils,{" "}
-          <Gloss tip="A structured retrospective on deals or projects that were won or lost, separating real causes from storytelling.">
-            win/loss review
-          </Gloss>
-          , and post-release follow-up. The purpose is not to outsource the decision to customers; it is to keep
-          the strategic narrative accountable to lived conditions.
-        </p>
-      </Section>
-
-      <Section index="14" title="9. Adversarial Opportunism">
-        <p>Every strategic move changes another actor's options. Examine:</p>
-        <ul>
-          <li>competitors and substitutes;</li>
-          <li>suppliers, platforms, and regulators;</li>
-          <li>internal incentives and political constraints;</li>
-          <li>likely countermoves;</li>
-          <li>scarce timing windows;</li>
-          <li>
-            <Gloss tip="Advantages one side holds that competitors cannot easily copy.">
-              asymmetries
-            </Gloss>{" "}
-            the organization can exploit; and
-          </li>
-          <li>ways success could attract imitation or dependency.</li>
-        </ul>
-        <p>
-          AI can enumerate games and scenarios, but{" "}
-          <TermGloss
-            term="adversarial judgment"
-            definition="Recognizing competition, incentives, conflict, timing, and ways other actors may resist or exploit a move — without reckless aggression."
-            example="Every move changes another actor's options: countermoves, timing windows, and asymmetries matter."
-          />{" "}
-          depends on local knowledge, credibility, risk tolerance, and an understanding of what other people
-          actually value.
-        </p>
-      </Section>
-
-      <Section index="15" title="10. Diplomatic Opportunism">
-        <p>Many advantages are earned through relationships rather than defeated rivals:</p>
-        <ul>
-          <li>partnerships and distribution;</li>
-          <li>standards and ecosystems;</li>
-          <li>customer trust;</li>
-          <li>community legitimacy;</li>
-          <li>internal coalitions;</li>
-          <li>negotiated access and permissions; and</li>
-          <li>incentives that let several parties benefit from the same move.</li>
-        </ul>
-        <p>
-          <TermGloss
-            term="Diplomatic strategy"
-            definition="Creating value through trust, coalition, negotiation, distribution, partnership, and aligned incentives — not avoiding conflict."
-            example="It asks not only 'How do we win?' but 'What arrangement makes others willing to help this future exist?'"
-          />{" "}
-          asks not only "How do we win?" but "What arrangement makes others willing to help this future exist?"
-        </p>
-        <Figure caption="Adversarial and diplomatic opportunism: competition and coalition as two complementary views of the same landscape.">
-          <AdversarialDiplomaticFigure />
-        </Figure>
-      </Section>
-
-      <Section index="16" title="11. Systematize the Feedback System">
-        <p>Strategy improves when the factory records the loop rather than only the final plan:</p>
-        <Flow>Evidence → interpretation → assumption → choice → action → response → outcome → revised interpretation.</Flow>
-        <Figure caption="The strategic feedback loop: evidence → narrative → choice → response → learning.">
+      <Section index="13" title="9. Retain Learning, Not Just Outputs">
+        <p>The factory compounds only when work changes the context available to the next decision:</p>
+        <Flow>Evidence → interpretation → choice → action → outcome → revised context.</Flow>
+        <Figure caption="Work becomes reusable when outcomes revise the next decision's context.">
           <FeedbackLoopFigure />
         </Figure>
-        <p>For each consequential choice, retain:</p>
-        <ul>
-          <li>the narrative and expected causal mechanism;</li>
-          <li>supporting and contradictory evidence;</li>
-          <li>assumptions and confidence;</li>
-          <li>alternatives considered and rejected;</li>
-          <li>owners and decision rights;</li>
-          <li>
-            <Gloss tip="Early signals that predict whether the strategic hypothesis is playing out, before outcomes are final.">
-              leading indicators
-            </Gloss>{" "}
-            and{" "}
-            <Gloss tip="Evidence that would challenge the current narrative if it appeared.">
-              disconfirming signals
-            </Gloss>
-            ;
-          </li>
-          <li>observed customer, competitor, partner, and system responses; and</li>
-          <li>the revision made after learning.</li>
-        </ul>
-        <p>This turns strategy from periodic theater into an ongoing learning discipline.</p>
-      </Section>
-
-      <Section index="17" title="12. The Organizational Second Brain">
         <p>
-          Define the{" "}
-          <TermGloss
-            term="second brain"
-            definition="A maintained organizational memory that connects strategic beliefs and decisions to evidence, owners, experiments, and outcomes."
-            example="Search retrieves documents; a second brain reconstructs the reasoning and relationships needed for a decision."
-          />{" "}
-          by capability rather than software category. It should let a strategist ask:
+          Its organizational memory is not merely a warehouse of notes. It connects claims to evidence,
+          decisions to owners, experiments to predictions, and outcomes to revisions. Search retrieves
+          documents; maintained graph context reconstructs the reasoning and relationships needed for a decision.
         </p>
+        <p>That memory should let a team ask:</p>
         <ul>
-          <li>Why did we believe this market was changing?</li>
-          <li>Which customer observations support that belief?</li>
-          <li>Which decisions depend on it?</li>
-          <li>What did we predict competitors would do?</li>
-          <li>Which partnerships or relationships are material?</li>
-          <li>What evidence would cause us to stop?</li>
-          <li>Where did an earlier strategy fail, and what did we learn?</li>
+          <li>Why did we believe this condition mattered?</li>
+          <li>Which observations support or contradict that belief?</li>
+          <li>Which decisions and systems depend on it?</li>
+          <li>What outcome did we predict?</li>
+          <li>What evidence would cause us to stop or revise?</li>
+          <li>What did the last attempt teach us?</li>
         </ul>
-        <p>
-          The system should connect notes, research, domain concepts, people, decisions, experiments, metrics,
-          and outcomes through{" "}
-          <Gloss tip="Connections between notes, people, decisions, and evidence — not just documents in a folder.">
-            graph context
-          </Gloss>
-          . Search retrieves documents; a second brain reconstructs the reasoning and relationships needed for a
-          decision.
-        </p>
-        <Figure caption="The organizational second brain: a hypothesis linked to customers, evidence, decisions, actors, experiments, metrics, and outcomes.">
-          <PropositionGraphFigure document={secondBrainGraph} title="The organizational second brain" />
+        <Figure caption="Organizational memory connects evidence, decisions, actors, experiments, metrics, and outcomes.">
+          <PropositionGraphFigure document={secondBrainGraph} title="The organizational memory graph" />
         </Figure>
         <p>
-          You can explore the same shape as an interactive graph —{" "}
+          You can explore this shape as an interactive graph —{" "}
           <ToolLauncher toolId="relationship-graph" href="/relationship-graph" label="Explore the relationship graph" />{" "}
           — or open the full <EssayLink to="/relationship-graph">relationship graph editor</EssayLink> on its
           own route.
         </p>
       </Section>
 
-      <Section index="18" title="13. AI as Strategic Staff, Not Sovereign">
-        <p>Use AI to:</p>
-        <ul>
-          <li>
-            synthesize evidence with{" "}
-            <Gloss tip="The record of where evidence came from, so it can be weighed and trusted.">
-              provenance
-            </Gloss>
-            ;
-          </li>
-          <li>generate competing interpretations;</li>
-          <li>
-            <Gloss tip="Deliberately attacking a plan or assumption to find its weaknesses before commitments are made.">
-              red-team
-            </Gloss>{" "}
-            assumptions and narratives;
-          </li>
-          <li>model scenarios and countermoves;</li>
-          <li>identify missing stakeholders;</li>
-          <li>compare a current choice with prior decisions;</li>
-          <li>monitor signals tied to explicit hypotheses; and</li>
-          <li>prepare decision reviews.</li>
-        </ul>
-        <p>
-          Do not ask AI for "the strategy" and mistake a coherent genre performance for an independent choice.
-          Require alternatives, uncertainty, source separation, and explicit tests of the prompt's preferred
-          framing.
-        </p>
-      </Section>
-
-      <Section index="19" title="14. Defensibility Is the Residue of a Learning System">
-        <p>Carry forward the strongest material from the moats outline. Durable advantage can emerge from:</p>
-        <ul>
-          <li>scarce domain knowledge;</li>
-          <li>proprietary or permissioned data;</li>
-          <li>ontology and proprietary logic;</li>
-          <li>rights and privileged access;</li>
-          <li>brand, relationships, distribution, and trust;</li>
-          <li>infrastructure and capital;</li>
-          <li>network effects; and</li>
-          <li>feedback loops that improve the system through use.</li>
-        </ul>
-        <p>
-          These are not a checklist of possessions. They become moats when strategy links them into a system
-          that repeatedly creates customer value and becomes difficult to reproduce.
-        </p>
-      </Section>
-
-      <Section index="20" title="15. Strategic Cadence for the Factory">
-        <p>Offer a practical rhythm:</p>
+      <Section index="14" title="10. A Practical Factory Cycle">
+        <p>Start with one workflow where context is repeatedly lost or judgment is trapped in a review queue:</p>
         <ol>
-          <li>Maintain a small set of explicit strategic hypotheses.</li>
-          <li>Link work and evidence to those hypotheses.</li>
-          <li>Review leading signals without erasing qualitative customer evidence.</li>
-          <li>Run adversarial and diplomatic reviews before major commitments.</li>
-          <li>
-            Record predictions and{" "}
-            <Gloss tip="The evidence, decided in advance, that would cause the organization to abandon or revise a strategy.">
-              stop conditions
-            </Gloss>{" "}
-            before outcomes are known.
-          </li>
-          <li>Revisit the narrative when evidence changes.</li>
-          <li>Promote validated learning into ontology, evaluation, workflow, or resource allocation.</li>
+          <li>Trace the path from customer experience to observed consequence.</li>
+          <li>Expose the evidence and decisions hidden at each handoff.</li>
+          <li>Name the distinctions and invariants that must remain stable.</li>
+          <li>Turn repeated judgment into tools, workflows, tests, and escalation rules.</li>
+          <li>Give teams authority to frame and test solutions inside those boundaries.</li>
+          <li>Instrument outcomes and connect them back to the original decision.</li>
+          <li>Promote validated learning into shared context for the next cycle.</li>
         </ol>
-        <p>The cadence accelerates learning while leaving final choices with accountable humans.</p>
+        <p>
+          The goal is not maximum automation. It is a system in which more people can exercise sound judgment,
+          more experiments can be run responsibly, and every consequence has a path back into organizational
+          memory.
+        </p>
       </Section>
 
-      <Section index="21" title="Editorial Guardrails">
-        <ul>
-          <li>Do not equate strategy with a plan, backlog, goal, prediction, or generated market analysis.</li>
-          <li>Do not romanticize human strategists. They are vulnerable to narrative bias, status, incentives, selective memory, and confirmation.</li>
-          <li>"Adversarial" does not mean reckless aggression. It means taking competing interests, countermoves, and power seriously.</li>
-          <li>"Diplomatic" does not mean avoiding conflict. It means understanding that many opportunities require cooperation, legitimacy, and durable relationships.</li>
-          <li>Do not call a document repository a second brain unless it supports retrieval, relationships, revision, and feedback.</li>
-          <li>Preserve uncertainty and minority views instead of rewriting strategic history after an outcome is known.</li>
-        </ul>
+      <Section index="15" title="11. What the Factory Compounds">
+        <p>
+          Durable advantage is the residue of this learning system. Proprietary data, domain knowledge,
+          ontology, tools, relationships, infrastructure, and network effects become defensible when they
+          operate as a connected system that creates customer value and improves through use. Possessing the
+          parts is not the moat; compounding them is.
+        </p>
       </Section>
 
-      <Section index="22" title="Research Queue">
-        <ul>
-          <li>Strategy as choice under uncertainty and as a coherent system of activities.</li>
-          <li>Sensemaking, narrative, and organizational decision-making.</li>
-          <li>Adversarial reasoning, game theory, negotiation, coalition, and ecosystem strategy.</li>
-          <li>Customer empathy and longitudinal discovery practices.</li>
-          <li>Decision journals, forecasting, after-action review, and organizational memory.</li>
-          <li>Evidence on AI-supported strategic work, sycophancy, order effects, and scenario generation.</li>
-        </ul>
+      <Section index="16" title="12. Ontology Makes It Coherent; Cognition Makes It Learn">
+        <p>
+          Two companion disciplines complete the operating model. The{" "}
+          <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink> makes ownership, vocabulary,
+          relationships, constraints, and evidence rules explicit enough to check. The{" "}
+          <ArticleLink slug="the-cognitive-factory">Cognitive Factory</ArticleLink> connects graph context,
+          executable context, evaluation, and feedback so outcomes improve the next work.
+        </p>
+        <p>
+          Ontology gives the factory a stable world to reason about. Cognition lets it act in that world and
+          revise its model. Human direction decides which changes are worth pursuing.
+        </p>
       </Section>
 
       <div className="essay-closing">
         <blockquote>
-          The factory can remember more, simulate more, and learn faster. Strategy still begins when a person
-          decides which future is worth making real.
-        </blockquote>
-        <blockquote>
           The companies that win will not be the ones that turn the most engineers into faster workers. They
-          will be the ones that give engineers the context, authority, and tools to redesign the factory
-          itself.
+          will be the ones that give teams the context, authority, and tools to redesign the factory itself.
         </blockquote>
       </div>
 
-      <Section index="23" title="Sources">
+      <Section index="17" title="Sources">
         <ul>
           <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. Supports the premise that AI adoption is a systems problem that can amplify existing organizational strengths and weaknesses.</li>
           <li>Ikujiro Nonaka, <ExternalLink href="https://doi.org/10.1287/orsc.5.1.14">“A Dynamic Theory of Organizational Knowledge Creation”</ExternalLink> (1994). Develops the account of organizational knowledge as a continuously created and shared capability.</li>

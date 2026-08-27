@@ -90,8 +90,19 @@ describe("The Knowledge Factory published page", () => {
   it("renders the essay sections, glossary, and the graph figure", async () => {
     await renderPage();
     expect(screen.getByRole("heading", { name: "Core Thesis" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "The Strategy Discipline" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "12. The Organizational Second Brain" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "5. Fix the Factory Before Asking AI to Scale It" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "6. Systematize the Whole Chain" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "8. Human Direction Sets the Boundary" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "9. Retain Learning, Not Just Outputs" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "12. Ontology Makes It Coherent; Cognition Makes It Learn",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/authoritative enough to own, version, validate, and regenerate/)).toBeInTheDocument();
+    expect(screen.getByText("Systematize everything that repeats.")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Factory engineer" })).toBeInTheDocument();
     expect(screen.getByTestId("proposition-graph-figure")).toBeInTheDocument();
   });

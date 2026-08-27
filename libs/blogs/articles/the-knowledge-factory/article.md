@@ -1,7 +1,8 @@
 ---
 title: The Knowledge Factory
-description: "Every company is building a factory. The decisive choice is whether engineers receive instructions or redesign the system that turns evidence and intent into outcomes — and the strategy discipline that chooses which outcomes to pursue."
+description: "Every company is building a factory. The decisive choice is whether teams receive instructions or improve the system that turns evidence and intent into reliable outcomes."
 publishedAt: 2026-08-22
+updatedAt: 2026-08-26
 tags: [Artificial Intelligence, Organizations, Strategy, Knowledge Work, Software Systems]
 ---
 # The Knowledge Factory
@@ -76,21 +77,10 @@ will pass.
   response to a meaningful problem.
 - **Graph context:** navigable relationships among people, concepts, systems,
   evidence, decisions, dependencies, and outcomes, with provenance.
-- **Strategy:** a coherent set of choices about a desired future, the obstacles
-  and opportunities between here and there, and the coordinated actions used to
-  change the situation.
-- **Narrative:** a causal interpretation connecting present conditions, actors,
-  stakes, possible change, and a believable path forward.
-- **Adversarial opportunism:** recognizing competition, incentives, conflict,
-  timing, and ways other actors may resist or exploit a move.
-- **Diplomatic opportunism:** creating value through trust, coalition,
-  negotiation, distribution, partnership, and aligned incentives.
-- **Second brain:** a maintained organizational memory that connects strategic
-  beliefs and decisions to evidence, owners, experiments, and outcomes.
 
 ## 1. Every Company Already Has a Factory
 
-Open by tracing one ordinary product change:
+Trace one ordinary product change:
 
 > Customer experience → evidence → interpretation → priority → design →
 > implementation → verification → release → observed consequence.
@@ -158,7 +148,64 @@ standards because it invests in the infrastructure that makes judgment
 portable. Distribution is not unbounded autonomy: context, decision rights,
 safety constraints, and evaluation are exactly what make it viable.
 
-## 5. The New Knowledge-Factory Stack
+## 5. Fix the Factory Before Asking AI to Scale It
+
+The irony of AI-assisted development is that a codebase usually has to become
+easier to understand before AI can improve it reliably. An agent cannot preserve
+a boundary nobody has named, resolve contracts that disagree, or verify a
+change when correctness exists only in a reviewer's memory. AI does not remove
+structural debt. It consumes whatever structure the organization has already
+made available.
+
+Begin by making important contracts explicit and machine-readable. Carry a
+domain distinction end to end through the database, API, runtime validation,
+application types, analytics, and interface. Generate downstream artifacts
+when one representation can reasonably act as the source of truth:
+
+- a schema can generate types, validators, clients, fixtures, and
+  documentation;
+- an API specification can generate request and response types, server stubs,
+  and client libraries;
+- a database schema can generate query types, migrations, and policy checks;
+  and
+- a design system can generate tokens, components, documentation, and visual
+  references.
+
+The source does not have to be a particular technology. It has to be
+authoritative enough to own, version, validate, and regenerate. Generated
+artifacts are materialized views of that source, not competing truths that
+people maintain independently.
+
+> Authoritative source → generated contracts → runtime validation → end-to-end
+> verification.
+
+Types make intended relationships visible to people and tools. Runtime checks
+protect the boundaries where untyped data enters. Tests establish whether the
+parts still compose. Together they give an AI system a legible environment in
+which a change can be proposed, checked, and corrected.
+
+## 6. Systematize the Whole Chain
+
+Software is only one station in the factory. Design, reports, user engagement,
+operations, and development all produce recurring decisions that can become
+reusable systems:
+
+- **design:** shared tokens, components, interaction rules, accessibility
+  checks, and visual regression evidence;
+- **reports:** governed definitions, datasets, queries, templates, provenance,
+  and scheduled review;
+- **user engagement:** research repositories, support signals, experiments,
+  consent, segmentation, and feedback loops;
+- **development:** schemas, types, tests, build pipelines, release controls,
+  observability, and incident learning; and
+- **operations:** explicit workflows, ownership, service levels, escalation
+  paths, and outcome measures.
+
+Systematize everything that repeats. This does not mean automate every decision.
+A good system can deliberately end in human judgment; it simply makes the
+inputs, constraints, decision, and consequences available to the next cycle.
+
+## 7. The New Knowledge-Factory Stack
 
 The stack is a way of inventorying what a factory must build — not one
 mandatory vendor architecture. Eight reusable layers:
@@ -193,238 +240,92 @@ by line. That can increase useful search only when mechanical verification is
 trustworthy — and people continue to govern meaning, standards, attribution,
 and direction.
 
-## The Strategy Discipline
+## 8. Human Direction Sets the Boundary
 
-Strategy is a human art. It chooses a direction before the evidence can fully
-determine the answer. It creates a narrative about the world, develops deep
-empathy for a customer, competes for scarce opportunities, coordinates allies,
-and accepts tradeoffs for which people remain accountable.
+The factory can make evidence easier to retrieve, generate more options, expose
+inconsistencies, and simulate reactions. It cannot independently decide which
+future an organization should attempt to create or whose outcome should count.
+When evidence constrains but does not determine action, someone must choose a
+wager and remain accountable for its consequences.
 
-AI can accelerate research, generate options, simulate reactions, and expose
-inconsistencies. It cannot independently decide which future an organization
-should attempt to create or whose outcome should count. A knowledge factory
-therefore needs a strategy discipline that keeps human judgment central while
-making its evidence and feedback substantially more systematic.
+The knowledge factory should therefore make direction inspectable without
+pretending to automate judgment. For each consequential choice, retain:
 
-The central tool is an organizational **second brain**: not a warehouse of
-notes, but a living memory linking narratives, assumptions, customer evidence,
-decisions, experiments, relationships, and outcomes. Its purpose is to make
-strategy more learnable without pretending to automate the art.
+- the desired change and the people whose experience defines its stakes;
+- supporting and contradictory evidence;
+- assumptions, uncertainty, and rejected alternatives;
+- owners, decision rights, and escalation boundaries;
+- predicted outcomes and disconfirming signals; and
+- the revision made after consequences arrive.
 
 > **Systematize the feedback. Do not automate away the judgment.**
 
-The factory's ontology describes the world it can recognize — the subject of
-the companion essay [**Ontology Factory**](/writing/the-ontology-factory).
-Strategy chooses where in that world to act, which change to pursue, how to
-earn the cooperation required, and which risks to accept. How the factory
-represents and reuses context — graph context, executable context, and the
-compounding loop — is the subject of
-[**Cognitive Factory**](/writing/the-cognitive-factory).
+## 9. Retain Learning, Not Just Outputs
 
-Organizations can improve and accelerate strategy by building feedback systems
-that preserve customer empathy, adversarial awareness, diplomatic relationships,
-decision provenance, and learning over time. These systems should make human
-strategists better informed and more corrigible—not replace them with a stream
-of plausible recommendations.
+The factory compounds only when work changes the context available to the next
+decision:
 
-## 6. Strategy Begins Where the Answer Stops Being Deducible
+> Evidence → interpretation → choice → action → outcome → revised context.
 
-Open with a well-instrumented company facing several plausible directions. It
-has market data, customer interviews, competitive analysis, prototypes, and AI-
-generated recommendations. None of them can deductively choose the future.
+Its organizational memory is not merely a warehouse of notes. It connects
+claims to evidence, decisions to owners, experiments to predictions, and
+outcomes to revisions. Search retrieves documents; maintained graph context
+reconstructs the reasoning and relationships needed for a decision.
 
-Strategy begins when evidence constrains but does not determine action. Someone
-must interpret the situation, imagine a change, choose a wager, and accept
-responsibility for the consequences.
+That memory should let a team ask:
 
-## 7. Narrative Is a Causal Tool
+- Why did we believe this condition mattered?
+- Which observations support or contradict that belief?
+- Which decisions and systems depend on it?
+- What outcome did we predict?
+- What evidence would cause us to stop or revise?
+- What did the last attempt teach us?
 
-A strategy needs a narrative because coordinated action depends on an account
-of:
+You can explore this shape as an interactive graph —
+[Explore the relationship graph →](/relationship-graph) — or open the full
+[relationship graph editor](/relationship-graph) on its own route.
 
-- what is changing;
-- why the current situation persists;
-- who experiences the problem and why it matters;
-- which actors can enable or resist change;
-- what intervention could alter the system; and
-- why this organization can credibly pursue it.
+## 10. A Practical Factory Cycle
 
-The narrative is not branding varnish. It is a causal model expressed in a form
-people can remember, challenge, and use to coordinate.
+Start with one workflow where context is repeatedly lost or judgment is trapped
+in a review queue:
 
-AI can generate many narratives. Human strategists must test which one explains
-the evidence, preserves inconvenient details, and motivates an ethically and
-economically viable direction.
+1. Trace the path from customer experience to observed consequence.
+2. Expose the evidence and decisions hidden at each handoff.
+3. Name the distinctions and invariants that must remain stable.
+4. Turn repeated judgment into tools, workflows, tests, and escalation rules.
+5. Give teams authority to frame and test solutions inside those boundaries.
+6. Instrument outcomes and connect them back to the original decision.
+7. Promote validated learning into shared context for the next cycle.
 
-## 8. Deep Customer Empathy Defines the Stakes
+The goal is not maximum automation. It is a system in which more people can
+exercise sound judgment, more experiments can be run responsibly, and every
+consequence has a path back into organizational memory.
 
-Strategy must remain close to customers because a market category or metric
-cannot fully specify value. Deep empathy means understanding the customer's
-workflow, identity, incentives, fears, compromises, relationships, and cost of
-change.
+## 11. What the Factory Compounds
 
-It also means understanding non-consumption, exclusion, and the people who bear
-costs without becoming the buyer.
+Durable advantage is the residue of this learning system. Proprietary data,
+domain knowledge, ontology, tools, relationships, infrastructure, and network
+effects become defensible when they operate as a connected system that creates
+customer value and improves through use. Possessing the parts is not the moat;
+compounding them is.
 
-Systematize this contact through longitudinal research, support and sales loops,
-field observation, customer councils, win/loss review, and post-release follow-
-up. The purpose is not to outsource the decision to customers; it is to keep the
-strategic narrative accountable to lived conditions.
+## 12. Ontology Makes It Coherent; Cognition Makes It Learn
 
-## 9. Adversarial Opportunism
+Two companion disciplines complete the operating model. The
+[**Ontology Factory**](/writing/the-ontology-factory) makes ownership,
+vocabulary, relationships, constraints, and evidence rules explicit enough to
+check. [**Cognitive Factory**](/writing/the-cognitive-factory) connects graph
+context, executable context, evaluation, and feedback so outcomes improve the
+next work.
 
-Every strategic move changes another actor's options. Examine:
-
-- competitors and substitutes;
-- suppliers, platforms, and regulators;
-- internal incentives and political constraints;
-- likely countermoves;
-- scarce timing windows;
-- asymmetries the organization can exploit; and
-- ways success could attract imitation or dependency.
-
-AI can enumerate games and scenarios, but adversarial judgment depends on local
-knowledge, credibility, risk tolerance, and an understanding of what other
-people actually value.
-
-## 10. Diplomatic Opportunism
-
-Many advantages are earned through relationships rather than defeated rivals:
-
-- partnerships and distribution;
-- standards and ecosystems;
-- customer trust;
-- community legitimacy;
-- internal coalitions;
-- negotiated access and permissions; and
-- incentives that let several parties benefit from the same move.
-
-Diplomatic strategy asks not only “How do we win?” but “What arrangement makes
-others willing to help this future exist?”
-
-## 11. Systematize the Feedback System
-
-Strategy improves when the factory records the loop rather than only the final
-plan:
-
-> Evidence → interpretation → assumption → choice → action → response → outcome
-> → revised interpretation.
-
-For each consequential choice, retain:
-
-- the narrative and expected causal mechanism;
-- supporting and contradictory evidence;
-- assumptions and confidence;
-- alternatives considered and rejected;
-- owners and decision rights;
-- leading indicators and disconfirming signals;
-- observed customer, competitor, partner, and system responses; and
-- the revision made after learning.
-
-This turns strategy from periodic theater into an ongoing learning discipline.
-
-## 12. The Organizational Second Brain
-
-Define the second brain by capability rather than software category. It should
-let a strategist ask:
-
-- Why did we believe this market was changing?
-- Which customer observations support that belief?
-- Which decisions depend on it?
-- What did we predict competitors would do?
-- Which partnerships or relationships are material?
-- What evidence would cause us to stop?
-- Where did an earlier strategy fail, and what did we learn?
-
-The system should connect notes, research, domain concepts, people, decisions,
-experiments, metrics, and outcomes through graph context. Search retrieves
-documents; a second brain reconstructs the reasoning and relationships needed
-for a decision.
-
-## 13. AI as Strategic Staff, Not Sovereign
-
-Use AI to:
-
-- synthesize evidence with provenance;
-- generate competing interpretations;
-- red-team assumptions and narratives;
-- model scenarios and countermoves;
-- identify missing stakeholders;
-- compare a current choice with prior decisions;
-- monitor signals tied to explicit hypotheses; and
-- prepare decision reviews.
-
-Do not ask AI for “the strategy” and mistake a coherent genre performance for
-an independent choice. Require alternatives, uncertainty, source separation,
-and explicit tests of the prompt's preferred framing.
-
-## 14. Defensibility Is the Residue of a Learning System
-
-Carry forward the strongest material from the moats outline. Durable advantage
-can emerge from:
-
-- scarce domain knowledge;
-- proprietary or permissioned data;
-- ontology and proprietary logic;
-- rights and privileged access;
-- brand, relationships, distribution, and trust;
-- infrastructure and capital;
-- network effects; and
-- feedback loops that improve the system through use.
-
-These are not a checklist of possessions. They become moats when strategy links
-them into a system that repeatedly creates customer value and becomes difficult
-to reproduce.
-
-## 15. Strategic Cadence for the Factory
-
-Offer a practical rhythm:
-
-1. Maintain a small set of explicit strategic hypotheses.
-2. Link work and evidence to those hypotheses.
-3. Review leading signals without erasing qualitative customer evidence.
-4. Run adversarial and diplomatic reviews before major commitments.
-5. Record predictions and stop conditions before outcomes are known.
-6. Revisit the narrative when evidence changes.
-7. Promote validated learning into ontology, evaluation, workflow, or resource
-   allocation.
-
-The cadence accelerates learning while leaving final choices with accountable
-humans.
-
-## Editorial Guardrails
-
-- Do not equate strategy with a plan, backlog, goal, prediction, or generated
-  market analysis.
-- Do not romanticize human strategists. They are vulnerable to narrative bias,
-  status, incentives, selective memory, and confirmation.
-- “Adversarial” does not mean reckless aggression. It means taking competing
-  interests, countermoves, and power seriously.
-- “Diplomatic” does not mean avoiding conflict. It means understanding that many
-  opportunities require cooperation, legitimacy, and durable relationships.
-- Do not call a document repository a second brain unless it supports retrieval,
-  relationships, revision, and feedback.
-- Preserve uncertainty and minority views instead of rewriting strategic history
-  after an outcome is known.
-
-## Research Queue
-
-- Strategy as choice under uncertainty and as a coherent system of activities.
-- Sensemaking, narrative, and organizational decision-making.
-- Adversarial reasoning, game theory, negotiation, coalition, and ecosystem
-  strategy.
-- Customer empathy and longitudinal discovery practices.
-- Decision journals, forecasting, after-action review, and organizational
-  memory.
-- Evidence on AI-supported strategic work, sycophancy, order effects, and
-  scenario generation.
-
-> The factory can remember more, simulate more, and learn faster. Strategy still
-> begins when a person decides which future is worth making real.
+Ontology gives the factory a stable world to reason about. Cognition lets it
+act in that world and revise its model. Human direction decides which changes
+are worth pursuing.
 
 > The companies that win will not be the ones that turn the most engineers into
-> faster workers. They will be the ones that give engineers the context,
-> authority, and tools to redesign the factory itself.
+> faster workers. They will be the ones that give teams the context, authority,
+> and tools to redesign the factory itself.
 
 ## Sources
 
