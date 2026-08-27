@@ -1,46 +1,84 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 300" fill="none" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="386" viewBox="0 0 520 386" fill="none" role="img" aria-labelledby="title description">
   <title id="title">Relational acquaintance map</title>
-  <desc id="description">A person connected to physical, internal, and temporal dimensions.</desc>
-  <g stroke="#a48756" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M220 51 86 165 220 276 354 165 220 51v225" opacity=".5" stroke-dasharray="2 5"/>
-    <path d="M86 165h268" opacity=".68"/>
+  <desc id="description">A person connected to place, experience, and consequence.</desc>
 
-    <g fill="#0d0e0f">
-      <circle cx="220" cy="51" r="32"/>
-      <circle cx="86" cy="165" r="32"/>
-      <circle cx="220" cy="165" r="46"/>
-      <circle cx="354" cy="165" r="32"/>
+  <defs>
+    <filter id="paper-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".58" numOctaves="3" seed="19" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="
+        .16 0 0 0 0
+        0 .14 0 0 0
+        0 0 .1 0 0
+        0 0 0 .42 0"/>
+    </filter>
+  </defs>
+
+  <rect width="520" height="386" fill="#090a09"/>
+  <rect width="520" height="386" fill="#8f7b5a" filter="url(#paper-grain)" opacity=".36"/>
+
+  <g stroke="#a48c65" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+    <g opacity=".48" stroke-dasharray="2 5">
+      <path d="M213 66 95 161"/>
+      <path d="m289 65 124 96"/>
+      <path d="m109 224 142 124"/>
+      <path d="m393 224-142 124"/>
+      <path d="M251 84v64"/>
+      <path d="M251 250v98"/>
     </g>
+
+    <path d="M121 198h266" opacity=".78"/>
+
+    <g fill="#090b0b" stroke="none">
+      <circle cx="251" cy="47" r="37"/>
+      <circle cx="84" cy="198" r="37"/>
+      <circle cx="251" cy="198" r="52"/>
+      <circle cx="424" cy="198" r="37"/>
+    </g>
+
+    <g>
+      <circle cx="251" cy="47" r="37" opacity=".5"/>
+      <circle cx="84" cy="198" r="37" opacity=".52"/>
+      <circle cx="251" cy="198" r="52" stroke-width="1.5" opacity=".78"/>
+      <circle cx="424" cy="198" r="37" opacity=".5"/>
+    </g>
+
+    <path d="m226 57 15-20 10 10 10-11 18 21h-53Z" opacity=".8"/>
+
+    <path d="M61 198c11-16 35-16 46 0-11 16-35 16-46 0Z" opacity=".82"/>
+    <circle cx="84" cy="198" r="10.5" opacity=".82"/>
+    <circle cx="84" cy="198" r="4" opacity=".72"/>
+    <circle cx="84" cy="198" r="2.4" fill="#aa9067" stroke="none"/>
+
+    <circle cx="251" cy="184" r="13" opacity=".82"/>
+    <path d="M230 221c0-16 8-24 21-24s21 8 21 24" opacity=".82"/>
+
+    <ellipse cx="424" cy="198" rx="22" ry="12" opacity=".8"/>
+    <ellipse cx="424" cy="198" rx="16" ry="8" opacity=".8"/>
+    <ellipse cx="424" cy="198" rx="9" ry="4.5" opacity=".8"/>
+
+    <g fill="#b4966b" stroke="none">
+      <circle cx="289" cy="64" r="3.2"/>
+      <circle cx="95" cy="161" r="3.2"/>
+      <circle cx="413" cy="161" r="3.2"/>
+      <circle cx="251" cy="328" r="2.4"/>
+      <path d="m248 143 3 5 3-5-3 2.2-3-2.2Z"/>
+      <path d="m248 323 3 5 3-5-3 2.2-3-2.2Z"/>
+    </g>
+
     <g opacity=".82">
-      <circle cx="220" cy="51" r="32"/>
-      <circle cx="86" cy="165" r="32"/>
-      <circle cx="220" cy="165" r="46"/>
-      <circle cx="354" cy="165" r="32"/>
+      <path d="M251 337v23"/>
+      <path d="M240 348h22"/>
+      <path d="m243 340 16 16"/>
+      <path d="m259 340-16 16"/>
     </g>
 
-    <path d="m202 61 13-17 11 11 8-11 14 17h-46Z"/>
-    <path d="M65 165c10-14 32-14 42 0-10 14-32 14-42 0Z"/>
-    <circle cx="86" cy="165" r="7"/>
-    <circle cx="86" cy="165" r="2.7" fill="#a48756" stroke="none"/>
-
-    <circle cx="220" cy="147" r="12"/>
-    <path d="M197 190c0-18 10-28 23-28s23 10 23 28"/>
-
-    <ellipse cx="354" cy="165" rx="21" ry="11"/>
-    <ellipse cx="354" cy="165" rx="14" ry="7"/>
-    <ellipse cx="354" cy="165" rx="7" ry="3"/>
-
-    <circle cx="220" cy="51" r="2.6" fill="#a48756" stroke="none"/>
-    <circle cx="86" cy="165" r="2.6" fill="#a48756" stroke="none"/>
-    <circle cx="354" cy="165" r="2.6" fill="#a48756" stroke="none"/>
-    <circle cx="220" cy="276" r="2.6" fill="#a48756" stroke="none"/>
-    <path d="M220 266v20M210 276h20M213 269l14 14M227 269l-14 14" opacity=".72"/>
+    <path d="M0 377h481" opacity=".25"/>
   </g>
 
-  <g fill="#a48756" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="9" letter-spacing="1.55" text-anchor="middle">
-    <text x="220" y="101">PHYSICAL</text>
-    <text x="86" y="215">INTERNAL</text>
-    <text x="220" y="228">PERSON</text>
-    <text x="354" y="215">TEMPORAL</text>
+  <g fill="#b4976c" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="12" font-weight="600" letter-spacing="1.15" text-anchor="middle">
+    <text x="251" y="105">PLACE</text>
+    <text x="84" y="257">EXPERIENCE</text>
+    <text x="251" y="271">PERSON</text>
+    <text x="424" y="257">CONSEQUENCE</text>
   </g>
 </svg>

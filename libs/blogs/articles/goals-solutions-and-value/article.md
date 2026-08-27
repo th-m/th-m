@@ -31,9 +31,8 @@ threaten the outcome, add validation proportional to their risk, preserve the
 team's ability to execute, and stop when additional process created more burden
 than confidence.
 
-But even if I had written that, would the model have returned something
-meaningfully aligned with my goals, my tolerance for risk, my team's
-capabilities, and our values?
+Even with the updated prompt, I am not convinced the model would have output
+anything better.
 
 Research on AI-generated strategic advice demonstrates a related instability.
 In one study of seven strategic tradeoffs, changing the wording or asking a

@@ -1,3 +1,252 @@
+# Recurring Truth Instrument Glyphs — Design QA
+
+final result: passed
+
+## Scope
+
+This pass implements the three selected Paper glyphs inside the recurring-truth cards on `/writing/truth-entropy-and-inference`: a closed triangular system for coherence, a registered concentric target for correspondence, and an abstract three-pendulum cradle for consequence. The surrounding article copy, card structure, and responsive grid remain unchanged.
+
+## Source visual truth
+
+- Paper page: `Recurring Truth — Refined Instrument Glyphs` in `Truth, Entropy & Inference — Semantic Zoom`.
+- Clean Paper capture: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-paper-source.jpeg` (`1126 × 768 px`).
+- Focused source crop: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-paper-focused.png` (`560 × 310 px`).
+- The implementation uses the three exported Paper vectors as its base. Their opaque Paper grounds were removed, their linework was normalized to the article's warm brass `#b4976c`, and the final correspondence/consequence geometry incorporates the user's post-handoff refinements.
+
+## Implementation evidence
+
+- Live top-card viewport: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-top-viewport.png` (`698 × 862 px`).
+- Live consequence-card viewport: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-consequence-viewport.png` (`698 × 862 px`).
+- Focused implementation composite: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-implementation-focused.png` (`526 × 840 px`).
+- Paper/implementation comparison: `/Users/thom/Sites/th-m/th-m/apps/portfolio/design-qa-assets/truth-recurring-icons-comparison.png` (`1052 × 840 px`).
+- Viewport/state: `698 × 862` CSS px, dark article route, recurring-truth figure centered in two captures so every card is visible at its natural responsive size.
+- Browser console: no warnings or errors after the final clean reload.
+- Primary interactions: none apply; the glyphs are static explanatory marks and are correctly hidden from the accessibility tree because the adjacent labels state their meaning.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Shape fidelity: coherence retains the Paper study's irregular inscribed closure and three terminals. Correspondence now uses three evenly distributed registration ticks instead of four. Consequence holds the left and center pendulums vertically on an identical baseline; their nodes are exact matched circles centered under their suspension lines, while only the right pendulum is displaced.
+- Stroke weight: correspondence and consequence use the same `0.9 px` non-scaling vector stroke with round caps and joins. A restrained `0.25` morphology erosion thins the source-filled coherence trace without flattening its organic contour, bringing all three to the same optical weight at card size.
+- Scale and hierarchy: the Paper board presents each glyph as an isolated study. The live cards intentionally place the vectors in a common `72 × 58 px` optical slot so they read as quiet instruments beside the mono category label, not as competing illustrations.
+- Spacing and layout rhythm: the glyphs sit in the existing card header, leaving the formulation strip and prose rhythm intact. The two-column narrow layout and the single third card retain their previous dimensions without overflow or collision.
+- Colors and material: transparent SVG roots let the article surface show through. A single muted brass tone and `0.86` opacity bring the family into the same subdued THOM palette as the situated-truth instruments above.
+- Accessibility and copy: the adjacent `Formal truth`, `Empirical truth`, and `Operational truth` labels remain the accessible names. Empty `alt` text prevents redundant announcements, while stable data hooks make each asset verifiable in tests.
+- Runtime delivery: the article's `assetUrl` contract serves the SVGs from the published content tree, so the source assets remain article-owned and no page-module staging rule was widened.
+
+## Comparison history
+
+1. Starting implementation: the recurring-truth cards contained only text, leaving their hierarchy and visual language notably flatter than the situated-truth instruments immediately above.
+2. Paper handoff: the selected family established three related ideas—closed fit, registered match, and causal transfer—in a shared fine-line brass vocabulary.
+3. Initial implementation: imported the Paper vectors, removed their opaque grounds, normalized color and optical scale, and integrated them without adding icon boxes or decorative chrome.
+4. User-directed refinement: reduced correspondence from four registration ticks to three and returned the left consequence pendulum to the same perpendicular resting angle as the center. The final live comparison confirms that only the right pendulum remains angled.
+5. Optical normalization: replaced the differently scaled source stroke widths with one non-scaling stroke token for correspondence and consequence, then rechecked all three together at the actual `72 × 58 px` card size.
+6. Final balance correction: converted the two resting cradle nodes into identical circles on one baseline and lightly eroded the heavier filled coherence trace. The live comparison now shows equal resting-node geometry and a consistent three-icon line weight.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this icon family.
+
+---
+
+# Transparent Inline Situated-Truth Instruments — Design QA
+
+final result: passed
+
+## Scope
+
+This pass replaces all three external instrument images on `/writing/truth-entropy-and-inference` with transparent inline SVG DOM. It preserves the accepted source geometry while exposing named instrument roots, parts, and nodes for direct DOM styling and interaction.
+
+## Source visual truth
+
+- Relational acquaintance: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.26 PM.png` (`520 × 386 px`).
+- Sincerity alignment: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.10 PM.png` (`454 × 294 px`).
+- Trustworthiness balance: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.18 PM.png` (`432 × 318 px`).
+- The clipped `ANCE` fragment at the first source's upper-left edge belongs to neighboring content outside the illustration and is intentionally excluded.
+- The source raster backgrounds are intentionally excluded at the user's direction; the inline SVG roots contain no background rectangle and inherit the article surface.
+
+## Implementation evidence
+
+- Relational viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-01-viewport.png` (`698 × 862 px`).
+- Relational focused crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-01-focused.png` (`278 × 206 px`).
+- Relational normalized comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-01-comparison.png` (`556 × 206 px`).
+- Sincerity viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-02-viewport.png` (`698 × 862 px`).
+- Sincerity focused crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-02-focused.png` (`278 × 180 px`).
+- Sincerity normalized comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-02-comparison.png` (`556 × 180 px`).
+- Trustworthiness viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-03-viewport.png` (`698 × 862 px`).
+- Trustworthiness focused crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-03-focused.png` (`278 × 205 px`).
+- Trustworthiness normalized comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-03-comparison.png` (`556 × 205 px`).
+- Combined normalized comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/inline-svg-final-all-comparison-2x.png` (`1112 × 1246 px`).
+- Viewport/state: `698 × 862` CSS px, device pixel ratio `2`, dark article route, each instrument independently centered for capture.
+- Density normalization: Playwright returned CSS-pixel screenshots. The three rendered SVGs measured `277.89 × 206.27`, `277.89 × 179.95`, and `277.89 × 204.55` CSS px; source rasters were normalized to `278 × 206`, `278 × 180`, and `278 × 205`.
+- DOM verification: all three visuals are direct child `svg` elements; there are zero `img` elements and zero background `rect` elements in the figure. The roots expose `data-instrument`, semantic sections expose `data-instrument-part`, and eleven nodes expose `data-instrument-node`.
+- Browser console: no warnings or errors.
+- Primary interactions: no new behavior was requested. Playwright verified that every semantic root and node is directly queryable in the page DOM, establishing the requested interaction surface.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: the accepted IBM Plex Mono labels and Newsreader italic descriptions retain source text, hierarchy, centering, and baseline placement. Optical sizes were tuned for browser downscaling rather than copied mechanically from the external SVG rasterization.
+- Spacing and layout rhythm: each inline SVG preserves its exact accepted source viewBox and aspect ratio. Coordinates for circles, waves, balance pans, icons, axes, labels, markers, and lower rules remain aligned with the normalized references.
+- Colors and visual tokens: sepia structural strokes and gold labels retain the source foreground balance. Removing the rectangular ground is intentional; the diagrams now inherit the article's dark surface without visible panels.
+- Image quality and asset fidelity: the source-backed vector paths render sharply at the inspected breakpoint. A three-pixel-tolerant foreground-mask comparison measured spatial F1 agreement of `0.9517` for relational acquaintance, `0.9948` for sincerity alignment, and `0.9649` for trustworthiness. The remaining difference is expected raster grain/antialiasing plus the explicitly removed background.
+- Copy and content: all labels and explanatory lines remain exactly as supplied, and each SVG has a title and description for assistive technology.
+- Full-view evidence: the three live captures show that transparent roots blend into the article without seams, overflow, or collisions with notes and parallels.
+- Focused evidence: the normalized source/implementation boards confirm source-matched geometry and placement at equal pixel dimensions.
+
+## Comparison history
+
+1. Starting implementation: each diagram was an external `img` with a solid near-black rectangle and raster-like paper overlay. Its internal paths and semantic regions were inaccessible to the article DOM. This was a P1 mismatch with the requested interaction model and background treatment.
+2. First inline pass: converted all three traces to transparent inline SVG, split occluded paths so no background fill was needed, and added named semantic roots, parts, and nodes. The first Playwright comparison found P2 optical drift at the actual CSS scale: fine strokes and several small labels were lighter than the supplied rasters.
+3. Final pass: tuned structural line weights, dashed connectors, mono labels, and italic captions while preserving every accepted coordinate. The second Playwright capture, full-view inspection, normalized side-by-side comparisons, and foreground-mask scores show no remaining actionable P0–P2 issue.
+
+## Follow-up polish
+
+- No P3 follow-up is required. The sharper edge character and absence of raster grain are intentional consequences of transparent, DOM-addressable vector rendering.
+
+---
+
+# Trustworthiness Balance — Design QA
+
+final result: passed
+
+## Scope
+
+This pass updates only the third situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied evidence/reliance balance while preserving the surrounding article layout, content, and behavior.
+
+## Source visual truth
+
+- Source: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.18 PM.png` (`432 × 318 px`).
+
+## Implementation evidence
+
+- Live browser viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/trustworthiness-balance-browser-full-pass-2.png` (`698 × 862 px`).
+- Focused implementation crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/trustworthiness-balance-browser-focused.png` (`278 × 205 px`).
+- Normalized side-by-side comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/trustworthiness-balance-final-comparison.png` (`556 × 205 px`).
+- Viewport/state: `698 × 862` CSS px, device pixel ratio `2`, dark article route, third instrument fully loaded and centered.
+- Density normalization: the browser capture API returned a `698 × 862` CSS-pixel image; the rendered diagram measured `277.89 × 204.55` CSS px and was cropped to `278 × 205`. The `432 × 318` source was resized to the same `278 × 205` comparison slot.
+- Browser console: no warnings or errors.
+- Primary interactions: none apply to this static article illustration; the route shell and surrounding article remained hydrated and visible.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: IBM Plex Mono uppercase labels and the Newsreader italic risk caption preserve the reference hierarchy, tracking, optical weight, centering, and vertical placement.
+- Spacing and layout rhythm: the asset now uses the source's exact `432:318` frame. Beam endpoints, pivot, suspension lines, pans, icons, labels, twin center post, stepped pedestal, risk block, and lower rule align with the normalized reference.
+- Colors and visual tokens: a near-black warm ground, deterministic paper grain, muted sepia structure, and warmer gold labels reproduce the reference's restrained tonal balance without changing page-wide tokens.
+- Image quality and asset fidelity: the existing article-owned SVG remains a vector asset with explicit intrinsic dimensions and a source-matched texture. It renders at its natural aspect ratio without compression.
+- Copy and content: `EVIDENCE`, `RELIANCE`, `RISK`, and `cost of being wrong` remain exactly as supplied. The accessible description and surrounding prose retain their meaning.
+- Full-view evidence: the live viewport confirms the corrected plate fits the third-instrument section without overflow or collision with the language, feedback, and parallel notes.
+- Focused evidence: the normalized side-by-side comparison confirms matching crop, balance geometry, icon scale, text placement, contrast, and aged treatment. Expected vector-versus-raster antialiasing is below P3.
+
+## Comparison history
+
+1. Initial implementation: the `440 × 300` viewBox had no explicit intrinsic size, used a taller and wider balance construction, omitted the textured ground and lower rule, and was forced into the shared `250 px` image cap at the supplied narrow breakpoint. These were P1 source-fidelity issues.
+2. First fix: rebuilt the asset at `432 × 318`, restored the source coordinates and vocabulary, added deterministic grain, and removed the third instrument's height cap. The first direct comparison then exposed P2 shape and optical-weight mismatches in the shield, pedestal, and small labels.
+3. Final fix: lifted and reshaped the shield, reconstructed the compact four-tier pedestal and twin post, and tuned sepia stroke and label weights. The post-fix browser capture and normalized comparison contain no actionable P0–P2 issue.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this diagram.
+
+---
+
+# Sincerity Alignment Instrument — Design QA
+
+final result: passed
+
+## Scope
+
+This pass updates only the second situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied inner-state/outward-expression reference while preserving the surrounding article layout, content, and behavior.
+
+## Source visual truth
+
+- Source: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.10 PM.png` (`454 × 294 px`).
+
+## Implementation evidence
+
+- Live browser viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/sincerity-alignment-final-viewport.png` (`553 × 862 px`).
+- Focused implementation crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/sincerity-alignment-final-element.png` (`507 × 328 px`).
+- Normalized side-by-side comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/sincerity-alignment-final-comparison.png` (`1034 × 328 px`).
+- Viewport/state: `553 × 862` CSS px, device pixel ratio `2`, dark article route, second instrument fully loaded and centered.
+- Density normalization: the browser capture API returned a `553 × 862` CSS-pixel image; the rendered diagram measured `506.89 × 328.25` CSS px and was cropped to `507 × 328`. The `454 × 294` source was resized to the same `507 × 328` comparison slot.
+- Browser console: no warnings or errors.
+- Primary interactions: none apply to this static article illustration; the route shell and surrounding article remained hydrated and visible.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: the source hierarchy is preserved with IBM Plex Mono uppercase instrument labels and Newsreader italic explanatory lines. Size, tracking, weight, centering, and vertical placement match the normalized reference.
+- Spacing and layout rhythm: the asset now preserves its `454:294` ratio instead of compressing to a `250 px` maximum height. The offset `x = 210` axis, label baselines, dots, circle, equality mark, waveform extrema, and lower text block align with the source crop.
+- Colors and visual tokens: a dark warm ground, deterministic paper grain, muted gray-sepia linework, and warmer gold labels and nodes match the reference without changing page-wide tokens.
+- Image quality and asset fidelity: the existing article-owned SVG remains a vector asset with explicit intrinsic dimensions. Its wave, axis, equality mark, and text render without stretching at the inspected breakpoint.
+- Copy and content: `INNER STATE`, `OUTWARD EXPRESSION`, and both italic explanations remain exactly as supplied. The accessible description and surrounding prose are unchanged.
+- Full-view evidence: the live viewport confirms the taller corrected image fits the existing second-instrument section without overflow or collision with its notes.
+- Focused evidence: the normalized side-by-side comparison confirms matching crop, waveform phase, axis geometry, text placement, contrast, and aged treatment. Expected SVG-versus-raster antialiasing is below P3.
+
+## Comparison history
+
+1. Initial implementation: the diagram rendered at `506.89 × 250` CSS px from a `440 × 260` viewBox, vertically compressing the circle, wave, labels, and axis relative to the reference. The center axis and waveform geometry also drifted from the supplied crop. These were P1 source-fidelity issues.
+2. First fix: rebuilt the asset at `454 × 294`, restored the reference coordinates and waveform phase, added deterministic grain, and removed the second instrument's height cap. The comparison then exposed a P2 optical mismatch: central strokes were too gold and the field was slightly too bright.
+3. Final fix: shifted structural strokes toward the reference's gray-sepia balance, tuned the equality/circle weights and dot color, and darkened the base field while preserving grain. The final browser comparison contains no actionable P0–P2 issue.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this diagram.
+
+---
+
+# Relational Acquaintance Map — Design QA
+
+final result: passed
+
+## Scope
+
+This pass updates only the first situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied sepia relational diagram while preserving the surrounding article layout, content, and behavior.
+
+## Source visual truth
+
+- Source: `/Users/thom/Desktop/Screenshot 2026-08-26 at 1.11.26 PM.png` (`520 × 386 px`).
+- The clipped `ANCE` fragment at the source's upper-left edge belongs to neighboring content outside the diagram and is intentionally excluded from the article asset.
+
+## Implementation evidence
+
+- Live browser viewport: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/acquaintance-map-final-viewport.png` (`553 × 862 px`).
+- Focused implementation crop: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/acquaintance-map-final-element.png` (`507 × 376 px`).
+- Normalized side-by-side comparison: `/Users/thom/.codex/visualizations/2026/08/26/01a03f86-524a-7a02-a77e-67288d3b1db6/acquaintance-map-final-comparison.png` (`1034 × 376 px`).
+- Viewport/state: `553 × 862` CSS px, device pixel ratio `2`, dark article route, first instrument fully loaded and centered.
+- Density normalization: the browser capture API returned a `553 × 862` CSS-pixel image; the rendered diagram measured `506.89 × 376.27` CSS px and was cropped to `507 × 376`. The `520 × 386` source was resized to the same `507 × 376` comparison slot.
+- Browser console: no warnings or errors.
+- Primary interactions: none apply to this static article illustration; the route shell and surrounding article remained hydrated and visible.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: the diagram uses IBM Plex Mono at `12 px`, weight `600`, uppercase, with the source labels `PLACE`, `EXPERIENCE`, `PERSON`, and `CONSEQUENCE`. Label position and tracking match the normalized reference.
+- Spacing and layout rhythm: the asset now preserves its `520:386` ratio instead of compressing to a `250 px` maximum height. Circle centers, radii, diamond paths, horizontal axis, marker dots, labels, star, and lower rule align with the source composition.
+- Colors and visual tokens: a near-black warm ground, restrained sepia strokes, brighter gold markers and labels, and deterministic paper grain reproduce the reference's foreground/background balance without changing page-wide tokens.
+- Image quality and asset fidelity: the existing article-owned SVG remains a real vector asset, now with explicit intrinsic dimensions and texture. It renders without stretching at the inspected breakpoint.
+- Copy and content: semantic labels and accessible description now describe place, experience, consequence, and person exactly as the source does. Surrounding prose is unchanged.
+- Full-view evidence: the live viewport confirms the corrected image fits the existing first-instrument section without overflow or collision with the notes below.
+- Focused evidence: the normalized comparison confirms matching composition, crop, label vocabulary, scale, and aged visual treatment. Remaining antialiasing differences are expected between the supplied raster and browser-rendered SVG and are below P3.
+
+## Comparison history
+
+1. Initial implementation: the diagram was stretched to `506.89 × 250` CSS px, used `PHYSICAL / INTERNAL / TEMPORAL`, lacked the reference texture and lower rule, and placed markers differently. These were P1 source-fidelity issues.
+2. First fix: rebuilt the asset at `520 × 386`, restored the reference labels and geometry, added deterministic grain, and removed the first instrument's height compression. The first browser comparison then found a P2 optical-weight mismatch: lines and labels were too faint.
+3. Final fix: increased only the diagram's line opacity and label weight while retaining quiet outer circles and paper grain. The post-fix browser capture and normalized side-by-side comparison show no remaining actionable P0–P2 issue.
+
+## Follow-up polish
+
+- No P3 follow-up is required for this diagram.
+
+---
+
 # Logarithmic Golden-Spiral H Motion — Design QA
 
 final result: passed

@@ -16,6 +16,11 @@ import {
   TooltipTrigger,
 } from "@th-m/ui";
 import { EmbeddingCompositionExplorer } from "@th-m/embedding-space/composition";
+import {
+  AcquaintanceMapInstrument,
+  SincerityAlignmentInstrument,
+  TrustworthinessBalanceInstrument,
+} from "./situated-truth-instruments";
 import "./truth-instruments.css";
 
 /* ------------------------------------------------------------------ */
@@ -148,6 +153,7 @@ const figureFrame: React.CSSProperties = {
 const TRUTH_PRACTICES = [
   {
     label: "Formal truth",
+    icon: { asset: "assets/coherence-closure.svg", name: "coherence-closure" },
     formulation: { lens: "Coherence", question: "Does it fit?" },
     validity: "validity relative to definitions, axioms, and inference rules",
     parallel: null,
@@ -156,6 +162,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Empirical truth",
+    icon: { asset: "assets/correspondence-target.svg", name: "correspondence-target" },
     formulation: { lens: "Correspondence", question: "Does it match?" },
     validity: "agreement with an observable state of affairs—the events, objects, properties, or relations the claim describes",
     parallel: null,
@@ -164,6 +171,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Operational truth",
+    icon: { asset: "assets/consequence-cradle.svg", name: "consequence-cradle" },
     formulation: { lens: "Consequence", question: "Does it work?" },
     validity: "reliable consequences under stated conditions—the procedure repeatedly produces its intended result within defined tolerances",
     parallel: null,
@@ -172,6 +180,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Relational / acquaintance",
+    icon: null,
     formulation: null,
     validity: "situated significance known through direct familiarity with experiences, people, places, purposes, and relationships",
     parallel: null,
@@ -180,6 +189,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Sincerity / truthfulness",
+    icon: null,
     formulation: null,
     validity: "non-deceptive fit between an expression and the speaker's subjective state",
     parallel: {
@@ -193,6 +203,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Trustworthiness Theory",
+    icon: null,
     formulation: null,
     validity: "X is true if and only if X is trustworthy; X is false if and only if X is untrustworthy",
     parallel: {
@@ -214,28 +225,22 @@ const SITUATED_TRUTH_INSTRUMENTS = [
     index: "01",
     headline: "Situated significance known through direct familiarity.",
     supporting: "Experiences, people, places, purposes, and relationships establish the relevant context.",
-    asset: "assets/acquaintance-map.svg",
-    alt: "A relational map connecting a person with physical, internal, and temporal dimensions",
   },
   {
     index: "02",
     headline: "Non-deceptive fit between expression and subjective state.",
     supporting: "Sincerity tests whether inward disposition, outward expression, and conduct remain aligned.",
-    asset: "assets/sincerity-alignment.svg",
-    alt: "An alignment instrument balancing inner state with outward expression",
   },
   {
     index: "03",
     headline: "Truth is what warrants reliance.",
     supporting: "X is true if and only if X is trustworthy; X is false if and only if X is untrustworthy.",
-    asset: "assets/trustworthiness-balance.svg",
-    alt: "A balance comparing evidence and reliance while marking the risk of being wrong",
   },
 ] as const;
 
 type TruthPractice = (typeof TRUTH_PRACTICES)[number];
 
-function SituatedTruthPracticesFigure({ assetUrl }: { assetUrl: (value: string) => string }) {
+function SituatedTruthPracticesFigure() {
   return (
     <figure
       className="truth-instruments"
@@ -268,7 +273,13 @@ function SituatedTruthPracticesFigure({ assetUrl }: { assetUrl: (value: string) 
                 </div>
 
                 <div className="truth-instrument__visual">
-                  <img src={assetUrl(instrument.asset)} alt={instrument.alt} loading="lazy" />
+                  {instrument.index === "01" ? (
+                    <AcquaintanceMapInstrument />
+                  ) : instrument.index === "02" ? (
+                    <SincerityAlignmentInstrument />
+                  ) : (
+                    <TrustworthinessBalanceInstrument />
+                  )}
                 </div>
 
                 <div className="truth-instrument__notes">
@@ -307,12 +318,14 @@ function SituatedTruthPracticesFigure({ assetUrl }: { assetUrl: (value: string) 
 
 function TruthPracticesFigure({
   practices,
+  assetUrl,
   ariaLabel,
   eyebrow,
   title,
   caption,
 }: {
   practices: readonly TruthPractice[];
+  assetUrl: (value: string) => string;
   ariaLabel: string;
   eyebrow: string;
   title: string;
@@ -338,6 +351,7 @@ function TruthPracticesFigure({
           {practices.map((practice) => (
             <div
               key={practice.label}
+              className="truth-practice-card"
               style={{
                 padding: "16px 18px",
                 border: "1px solid var(--line)",
@@ -347,9 +361,20 @@ function TruthPracticesFigure({
                 gap: 10,
               }}
             >
-              <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".13em", textTransform: "uppercase", color: "var(--color-primary)" }}>
-                {practice.label}
-              </p>
+              <div className="truth-practice-card__header">
+                <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".13em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+                  {practice.label}
+                </p>
+                {practice.icon ? (
+                  <img
+                    className="truth-practice-card__icon"
+                    src={assetUrl(practice.icon.asset)}
+                    alt=""
+                    aria-hidden="true"
+                    data-truth-practice-icon={practice.icon.name}
+                  />
+                ) : null}
+              </div>
               {practice.formulation ? (
                 <p
                   style={{
@@ -1886,7 +1911,7 @@ export default function ArticlePage({
             {": what matters, what ought to be trusted, and whose purposes count cannot be supplied by formalism alone. "}
             These practices are situated and value-laden, but that does not make them arbitrary.
           </p>
-          <SituatedTruthPracticesFigure assetUrl={assetUrl} />
+          <SituatedTruthPracticesFigure />
           <p>
             Their feedback remains substantive: people with direct acquaintance can challenge an account; conduct can
             contradict an avowal; and reliance can fail. The
@@ -1906,6 +1931,7 @@ export default function ArticlePage({
           </p>
           <TruthPracticesFigure
             practices={RECURRING_TRUTH_PRACTICES}
+            assetUrl={assetUrl}
             ariaLabel="Three recurring truth practices that compose reusable problem-solving formulations"
             eyebrow="Recurring thread"
             title="Coherence · Correspondence · Consequence"

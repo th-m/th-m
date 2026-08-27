@@ -92,18 +92,19 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(situatedFigure).toHaveTextContent("Trustworthiness Theory");
     expect(situatedFigure).toHaveTextContent("Situated significance known through direct familiarity.");
     expect(situatedFigure).toHaveTextContent("Truth is what warrants reliance.");
-    expect(situatedFigure.querySelectorAll("img")).toHaveLength(3);
-    expect(
-      screen.getByAltText(
-        "A relational map connecting a person with physical, internal, and temporal dimensions",
-      ),
-    ).toHaveAttribute("src", expect.stringMatching(/assets\/acquaintance-map\.svg$/));
-    expect(
-      screen.getByAltText("An alignment instrument balancing inner state with outward expression"),
-    ).toHaveAttribute("src", expect.stringMatching(/assets\/sincerity-alignment\.svg$/));
-    expect(
-      screen.getByAltText("A balance comparing evidence and reliance while marking the risk of being wrong"),
-    ).toHaveAttribute("src", expect.stringMatching(/assets\/trustworthiness-balance\.svg$/));
+    expect(situatedFigure.querySelectorAll("img")).toHaveLength(0);
+    const acquaintanceInstrument = screen.getByRole("img", { name: "Relational acquaintance map" });
+    expect(acquaintanceInstrument).toHaveAttribute("data-instrument", "acquaintance-map");
+    expect(acquaintanceInstrument.querySelectorAll("[data-instrument-node]")).toHaveLength(4);
+    expect(acquaintanceInstrument.querySelector("rect")).toBeNull();
+    const sincerityInstrument = screen.getByRole("img", { name: "Sincerity alignment instrument" });
+    expect(sincerityInstrument).toHaveAttribute("data-instrument", "sincerity-alignment");
+    expect(sincerityInstrument.querySelectorAll("[data-instrument-node]")).toHaveLength(3);
+    expect(sincerityInstrument.querySelector("rect")).toBeNull();
+    const trustworthinessInstrument = screen.getByRole("img", { name: "Trustworthiness balance" });
+    expect(trustworthinessInstrument).toHaveAttribute("data-instrument", "trustworthiness-balance");
+    expect(trustworthinessInstrument.querySelectorAll("[data-instrument-node]")).toHaveLength(4);
+    expect(trustworthinessInstrument.querySelector("rect")).toBeNull();
     expect(situatedFigure).not.toHaveTextContent("Teleological Theory");
     expect(situatedFigure).not.toHaveTextContent("Formal truth");
     expect(recurringFigure).toHaveTextContent("Coherence · Correspondence · Consequence");
@@ -114,6 +115,10 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(recurringFigure).toHaveTextContent(/Coherence\s*—\s*Does it fit\?/i);
     expect(recurringFigure).toHaveTextContent(/Correspondence\s*—\s*Does it match\?/i);
     expect(recurringFigure).toHaveTextContent(/Consequence\s*—\s*Does it work\?/i);
+    expect(recurringFigure.querySelector('[data-truth-practice-icon="coherence-closure"]')).toBeInTheDocument();
+    expect(recurringFigure.querySelector('[data-truth-practice-icon="correspondence-target"]')).toBeInTheDocument();
+    expect(recurringFigure.querySelector('[data-truth-practice-icon="consequence-cradle"]')).toBeInTheDocument();
+    expect(recurringFigure.querySelectorAll("img[alt='']")).toHaveLength(3);
     expect(recurringFigure).toHaveTextContent(/observable state of affairs/i);
     expect(recurringFigure).toHaveTextContent(/reliable consequences under stated conditions/i);
     expect(section).toHaveTextContent(/Classical Confucian parallel/i);
