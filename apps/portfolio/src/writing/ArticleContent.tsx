@@ -1,7 +1,8 @@
 import { articleAssetUrl, type PublishedArticle } from "../content/blog-content";
 import { blogArticles } from "../generated/blog-pages/registry";
+import { BlogLinkProvider } from "@th-m/blogs/components";
 import { LinkPreview, TooltipProvider } from "@th-m/ui";
-import { createArticleMdxComponents } from "./ArticleMdx";
+import { createArticleMdxComponents, renderArticleLink } from "./ArticleMdx";
 import { PublicationDate } from "./PublicationDate";
 
 function titleFromSlug(slug: string): string {
@@ -24,31 +25,33 @@ export function ArticleContent({ article }: { article: PublishedArticle }) {
   const components = createArticleMdxComponents(article, entry.assets, articleComponents);
   const Content = entry.Content;
   return (
-    <TooltipProvider delayDuration={200}>
-      <div className="article-outline article-mdx">
-        <header className="article-outline__header">
-          <p className="eyebrow">
-            {article.addendumTo ? "Addendum" : article.slug === "building-an-llm" ? "Technical primer" : "Essay"}
-          </p>
-          <h1>{article.title}</h1>
-          {article.addendumTo ? (
-            <LinkPreview url={`/writing/${article.addendumTo}`} asChild>
-              <a href={`/writing/${article.addendumTo}`}>{titleFromSlug(article.addendumTo)}</a>
-            </LinkPreview>
-          ) : null}
-          <p className="article-description">{article.description}</p>
-          <div className="article-meta">
-            <PublicationDate value={article.publishedAt} prefix="Published " />
-            {article.updatedAt ? <span>Updated <PublicationDate value={article.updatedAt} /></span> : null}
-          </div>
-          {article.tags.length > 0 ? (
-            <ul className="article-tags" aria-label="Topics">
-              {article.tags.map((tag) => <li key={tag}>{tag}</li>)}
-            </ul>
-          ) : null}
-        </header>
-        <Content components={components} post={article} assetUrl={assetUrl} />
-      </div>
-    </TooltipProvider>
+    <BlogLinkProvider renderLink={renderArticleLink}>
+      <TooltipProvider delayDuration={200}>
+        <div className="article-outline article-mdx">
+          <header className="article-outline__header">
+            <p className="eyebrow">
+              {article.addendumTo ? "Addendum" : article.slug === "building-an-llm" ? "Technical primer" : "Essay"}
+            </p>
+            <h1>{article.title}</h1>
+            {article.addendumTo ? (
+              <LinkPreview url={`/writing/${article.addendumTo}`} asChild>
+                <a href={`/writing/${article.addendumTo}`}>{titleFromSlug(article.addendumTo)}</a>
+              </LinkPreview>
+            ) : null}
+            <p className="article-description">{article.description}</p>
+            <div className="article-meta">
+              <PublicationDate value={article.publishedAt} prefix="Published " />
+              {article.updatedAt ? <span>Updated <PublicationDate value={article.updatedAt} /></span> : null}
+            </div>
+            {article.tags.length > 0 ? (
+              <ul className="article-tags" aria-label="Topics">
+                {article.tags.map((tag) => <li key={tag}>{tag}</li>)}
+              </ul>
+            ) : null}
+          </header>
+          <Content components={components} post={article} assetUrl={assetUrl} />
+        </div>
+      </TooltipProvider>
+    </BlogLinkProvider>
   );
 }

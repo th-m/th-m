@@ -11,7 +11,10 @@ the writing stays unmistakably THOM.
 
 The MDX article and tagged-asset contract is documented in
 [`libs/blogs/articles/README.md`](../../../libs/blogs/articles/README.md); this
-document governs the presentation layer.
+document governs the presentation layer. The reusable implementations and
+styles live in [`@th-m/blogs/components`](../../../libs/blogs/components/README.md).
+The portfolio supplies routing through `BlogLinkProvider` and keeps asset and
+tool adapters in `ArticleMdx.tsx`; article modules keep their figures and data.
 
 ## The six contextual surfaces
 

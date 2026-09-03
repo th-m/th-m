@@ -136,8 +136,11 @@ export function parseArticleDocument(markdown: string, slug: string): ParsedArti
 
 const articleModulePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*\.(?:ts|tsx|css)$/;
 const sharedMdxComponents = new Set([
+  "ArticleLink",
   "Asset",
+  "BlogLink",
   "Callout",
+  "ExternalLink",
   "Flow",
   "Gloss",
   "Lede",
@@ -275,8 +278,15 @@ async function stagedArticleModules(
   if (modules.includes("index.tsx")) {
     throw new Error(`${slug}/index.tsx is obsolete; article.mdx owns the rendered prose.`);
   }
+  if (entries.some((entry) => entry.isDirectory() && entry.name === "components")) {
+    const componentEntries = await readdir(join(articleDirectory, "components"), { withFileTypes: true });
+    modules.push(...componentEntries
+      .filter((entry) => entry.isFile() && /\.(ts|tsx|css)$/.test(entry.name))
+      .map((entry) => `components/${entry.name}`)
+      .sort((left, right) => left.localeCompare(right, "en")));
+  }
   for (const name of modules) {
-    if (!articleModulePattern.test(name)) {
+    if (!articleModulePattern.test(basename(name))) {
       throw new Error(`${slug}/${name} must use a kebab-case TSX or CSS filename.`);
     }
   }
@@ -285,6 +295,7 @@ async function stagedArticleModules(
     if (contents.trim().length === 0) {
       throw new Error(`${slug}/${name} must not be empty.`);
     }
+    await mkdir(dirname(join(postOutput, name)), { recursive: true });
     await writeFile(join(postOutput, name), contents);
   }
 }

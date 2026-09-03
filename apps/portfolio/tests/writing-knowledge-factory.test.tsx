@@ -110,9 +110,9 @@ describe("The Knowledge Factory published page", () => {
   it("links every series essay through the writing routes", async () => {
     await renderPage();
     const links: Array<[string, string]> = [
-      ["Goals, Solutions & Value", "/writing/goals-solutions-and-value"],
-      ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
-      ["The Understanding Bottleneck", "/writing/understanding-is-the-bottleneck"],
+      ["Vision and Values", "/writing/vision-and-values"],
+      ["Truth and Inference", "/writing/truth-and-inference"],
+      ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
       ["Ontology Factory", "/writing/the-ontology-factory"],
       ["Cognitive Factory", "/writing/the-cognitive-factory"],
     ];

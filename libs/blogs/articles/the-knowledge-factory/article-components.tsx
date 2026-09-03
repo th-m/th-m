@@ -28,18 +28,6 @@ function formatDate(value: string): string {
   );
 }
 
-function Section({ index, title, children }: { index: string; title: string; children: ReactNode }) {
-  return (
-    <section className="article-outline__section">
-      <p className="article-outline__index">{index}</p>
-      <div className="article-outline__content">
-        <h2>{title}</h2>
-        {children}
-      </div>
-    </section>
-  );
-}
-
 function Figure({ caption, children }: { caption: string; children: ReactNode }) {
   return (
     <figure className="essay-figure">
@@ -47,80 +35,6 @@ function Figure({ caption, children }: { caption: string; children: ReactNode })
       <figcaption className="essay-figure__caption">{caption}</figcaption>
     </figure>
   );
-}
-
-function Term({ definition, children }: { definition: string; children: ReactNode }) {
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="thom-tooltip-trigger" tabIndex={0}>{children}</span>
-      </TooltipTrigger>
-      <TooltipContent>{definition}</TooltipContent>
-    </Tooltip>
-  );
-}
-
-function ArticleLink({ slug, children }: { slug: string; children: ReactNode }) {
-  return (
-    <LinkPreview url={`/writing/${slug}`} asChild>
-      <Link to="/writing/$slug" params={{ slug }}>{children}</Link>
-    </LinkPreview>
-  );
-}
-
-/** Cross-article link with a floating destination preview. */
-function EssayLink({ to, children }: { to: string; children: ReactNode }) {
-  return <LinkPreview url={to}>{children}</LinkPreview>;
-}
-
-function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
-  return <LinkPreview url={href} external>{children}</LinkPreview>;
-}
-
-/** Inline jargon gloss — a ≤3-line floating tooltip. Attention stays in the sentence. */
-function Gloss({ tip, children }: { tip: string; children: ReactNode }) {
-  return (
-    <Tooltip delayDuration={150}>
-      <TooltipTrigger asChild>
-        <span className="thom-tooltip-trigger" tabIndex={0}>{children}</span>
-      </TooltipTrigger>
-      <TooltipContent sideOffset={6}>{tip}</TooltipContent>
-    </Tooltip>
-  );
-}
-
-/** Structured gloss — a floating hover card with definition and worked example. */
-function TermGloss({
-  term,
-  definition,
-  example,
-}: {
-  term: string;
-  definition: string;
-  example?: string;
-}) {
-  return (
-    <HoverCard openDelay={120} closeDelay={80}>
-      <HoverCardTrigger asChild>
-        <span className="thom-tooltip-trigger" tabIndex={0}>{term}</span>
-      </HoverCardTrigger>
-      <HoverCardContent sideOffset={8} align="start">
-        <h4 className="thom-tooltip-card__title">{term}</h4>
-        <p className="thom-tooltip-card__description">{definition}</p>
-        {example ? (
-          <p className="thom-tooltip-card__description" style={{ marginTop: 8 }}>{example}</p>
-        ) : null}
-      </HoverCardContent>
-    </HoverCard>
-  );
-}
-
-function Quote({ children }: { children: ReactNode }) {
-  return <blockquote><p>{children}</p></blockquote>;
-}
-
-function Flow({ children }: { children: ReactNode }) {
-  return <p className="article-outline__flow">{children}</p>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -620,7 +534,7 @@ function AdversarialDiplomaticFigure() {
   );
 }
 
-export { AdversarialDiplomaticFigure, ArrowMarker, ArticleLink, Card, CardContent, EssayLink, EXPLICIT_FACTORY_BOXES, ExternalLink, FeedbackLoopFigure, Figure, Flow, formatDate, Fragment, Gloss, GLOSSARY, GlossaryCards, HoverCard, HoverCardContent, HoverCardTrigger, IMPLICIT_FACTORY_BOXES, ImplicitVsExplicitFactory, KnowledgeFactoryStack, Link, LinkPreview, OntologyStrategyFigure, participant, PIPELINE_STEPS, ProductPipeline, PropositionGraphFigure, Quote, secondBrainGraph, Section, STACK_LAYERS, Term, TermGloss, ToolLauncher, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, WorkerVsFactoryEngineer };
+export { AdversarialDiplomaticFigure, ArrowMarker, Card, CardContent, EXPLICIT_FACTORY_BOXES, FeedbackLoopFigure, Figure, formatDate, Fragment, GLOSSARY, GlossaryCards, HoverCard, HoverCardContent, HoverCardTrigger, IMPLICIT_FACTORY_BOXES, ImplicitVsExplicitFactory, KnowledgeFactoryStack, Link, LinkPreview, OntologyStrategyFigure, participant, PIPELINE_STEPS, ProductPipeline, PropositionGraphFigure, secondBrainGraph, STACK_LAYERS, ToolLauncher, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, WorkerVsFactoryEngineer };
 export default defineArticleComponents(articleAssets, () => ({
   "feedback-loop-figure": FeedbackLoopFigure,
   "glossary-cards": GlossaryCards,

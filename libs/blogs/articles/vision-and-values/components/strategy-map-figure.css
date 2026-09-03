@@ -1,0 +1,196 @@
+.strategy-map-figure {
+  --strategy-map-line: color-mix(in srgb, var(--color-primary) 66%, transparent);
+  --strategy-map-relational: #8f7ac8;
+  --strategy-map-institutional: #c48663;
+}
+
+.strategy-map__viewport {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 24%, transparent);
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 3%, transparent), transparent 32%),
+    var(--color-background);
+  scrollbar-color: color-mix(in srgb, var(--color-primary) 45%, transparent) transparent;
+}
+
+.strategy-map__viewport:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 3px;
+}
+
+.strategy-map {
+  position: relative;
+  min-width: 760px;
+  height: 560px;
+  isolation: isolate;
+}
+
+.strategy-map::before {
+  content: "";
+  position: absolute;
+  top: 54px;
+  bottom: 54px;
+  left: 72.5%;
+  z-index: -2;
+  border-left: 1px dashed color-mix(in srgb, var(--color-foreground) 14%, transparent);
+}
+
+.strategy-map__connections {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.strategy-map__connections path {
+  vector-effect: non-scaling-stroke;
+}
+
+.strategy-map__connections marker path {
+  fill: var(--color-primary);
+  stroke: none;
+}
+
+.strategy-map__connection--governance {
+  stroke: var(--strategy-map-line);
+}
+
+.strategy-map__connection--relational {
+  stroke: var(--strategy-map-relational);
+  stroke-dasharray: 6 5;
+}
+
+.strategy-map__field-label {
+  position: absolute;
+  top: 18px;
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.strategy-map__field-label--hierarchy { left: 30%; }
+.strategy-map__field-label--stakeholders { left: 76%; }
+
+.strategy-map__relation {
+  position: absolute;
+  z-index: 1;
+  padding: 3px 6px;
+  background: var(--color-background);
+  color: var(--strategy-map-relational);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.strategy-map__relation--constraint {
+  top: 181px;
+  left: 23.1%;
+  color: var(--strategy-map-institutional);
+}
+
+.strategy-map__relation--governance {
+  color: var(--color-primary);
+}
+
+.strategy-map__relation--direction { top: 125px; left: 44.2%; }
+.strategy-map__relation--coordination { top: 264px; left: 44.2%; }
+.strategy-map__relation--customer { top: 143px; left: 62%; }
+.strategy-map__relation--partner { top: 224px; left: 60.5%; }
+.strategy-map__relation--competitor { top: 280px; left: 63%; }
+
+.strategy-map__node {
+  position: absolute;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  min-height: 68px;
+  padding: 11px 14px;
+  transform: translateX(-50%);
+  border: 1px solid currentColor;
+  background: color-mix(in srgb, var(--color-background) 92%, currentColor 8%);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-background) 72%, transparent);
+  text-align: left;
+}
+
+.strategy-map__node > span {
+  color: currentColor;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.strategy-map__node > strong {
+  color: var(--color-foreground);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.strategy-map__node--governing {
+  top: 32px;
+  width: 20%;
+  color: var(--color-primary);
+}
+
+.strategy-map__node--governing-1 { left: 31%; }
+.strategy-map__node--governing-2 { left: 55%; }
+
+.strategy-map__node--strategy {
+  top: 160px;
+  left: 43%;
+  width: 24%;
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-background) 84%, var(--color-primary) 16%);
+}
+
+.strategy-map__node--external {
+  top: 160px;
+  left: 13.5%;
+  width: 18%;
+  color: var(--strategy-map-institutional);
+}
+
+.strategy-map__node--subgoal {
+  top: 340px;
+  width: 16%;
+  color: var(--color-foreground);
+}
+
+.strategy-map__node--subgoal-1 { left: 20%; }
+.strategy-map__node--subgoal-2 { left: 43%; }
+.strategy-map__node--subgoal-3 { left: 66%; }
+
+.strategy-map__node--stakeholder {
+  left: 84%;
+  width: 17%;
+  color: var(--strategy-map-relational);
+}
+
+.strategy-map__node--customer { top: 100px; }
+.strategy-map__node--partner { top: 240px; }
+.strategy-map__node--competitor { top: 380px; }
+
+@media (max-width: 760px) {
+  .strategy-map__viewport {
+    background:
+      linear-gradient(to right, transparent calc(100% - 28px), color-mix(in srgb, var(--color-background) 42%, transparent)),
+      var(--color-background);
+  }
+}

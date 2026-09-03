@@ -52,13 +52,13 @@ will pass.
 The opening should explicitly state that the earlier essays describe the
 landscape, the problem, and the opportunity:
 
-1. **Goals, Solutions, and Value:** the factory cannot derive its own
+1. **Vision and Values:** the factory cannot derive its own
    definition of value from output volume; opportunities remain grounded in
    human stakes and accountable choices.
-2. **Truth, Entropy, and Inference:** predictive systems are strongest where
+2. **Truth and Inference:** predictive systems are strongest where
    language carries stable constraints and feedback; coherence alone is not
    evidence of correctness or meaning.
-3. **Understanding Is the Bottleneck:** the scarce leadership capability is
+3. **Understanding and Bottlenecks:** the scarce leadership capability is
    distilling meaningful context and multiplying a team's capacity to solve
    problems.
 

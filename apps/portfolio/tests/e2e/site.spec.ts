@@ -759,7 +759,7 @@ test.describe("no JavaScript", () => {
     await page.goto("/writing");
     await expect(page.getByRole("heading", { name: "Ideas with enough structure to navigate." })).toBeVisible();
     await expect(page.getByRole("heading", { name: "AI Factory series" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Goals, Solutions & Value" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Vision and Values" })).toBeVisible();
     await expect(page.getByRole("link", { name: "AI Consciousness Is Incoherent" })).toBeVisible();
     await expect(page.getByRole("list", { name: "Addenda to AI Consciousness Is Incoherent" }))
       .toContainText("AI's Consciousness explanation");

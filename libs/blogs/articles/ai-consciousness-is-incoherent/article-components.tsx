@@ -23,60 +23,6 @@ function formatDate(value: string): string {
   });
 }
 
-function Section({ index, title, children }: { index: string; title: string; children: ReactNode }) {
-  return (
-    <section className="article-outline__section">
-      <p className="article-outline__index">{index}</p>
-      <div className="article-outline__content">
-        <h2>{title}</h2>
-        {children}
-      </div>
-    </section>
-  );
-}
-
-function Sub({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <>
-      <h3>{title}</h3>
-      {children}
-    </>
-  );
-}
-
-function Claim({
-  label,
-  children,
-  emphasis = false,
-}: {
-  label: string;
-  children: ReactNode;
-  emphasis?: boolean;
-}) {
-  const className = emphasis ? "article-claim article-claim--emphasis" : "article-claim";
-  return (
-    <Card className={className}>
-      <CardHeader><p className="eyebrow">{label}</p></CardHeader>
-      <CardContent>{children}</CardContent>
-    </Card>
-  );
-}
-
-function Ext({ href, children }: { href: string; children: ReactNode }) {
-  return <LinkPreview url={href} external>{children}</LinkPreview>;
-}
-
-function Term({ children, gloss }: { children: ReactNode; gloss: string }) {
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="thom-tooltip-trigger" tabIndex={0}>{children}</span>
-      </TooltipTrigger>
-      <TooltipContent side="top" align="center">{gloss}</TooltipContent>
-    </Tooltip>
-  );
-}
-
 function AccessManeuverFigure() {
   return (
     <figure className="ai-consciousness-figure access-maneuver-figure">
@@ -193,7 +139,7 @@ function LogicPlate() {
   );
 }
 
-export { AccessManeuverFigure, Card, CardContent, CardHeader, Claim, EvidenceBridgeFigure, Ext, formatDate, LinkPreview, LogicPlate, Section, Sub, Term, TheoryDilemmaFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
+export { AccessManeuverFigure, Card, CardContent, CardHeader, EvidenceBridgeFigure, formatDate, LinkPreview, LogicPlate, TheoryDilemmaFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
 export default defineArticleComponents(articleAssets, () => ({
   "access-maneuver-figure": AccessManeuverFigure,
   "evidence-bridge-figure": EvidenceBridgeFigure,

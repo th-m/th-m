@@ -67,7 +67,7 @@ the build or CI can verify, not only in prose.
 
 ## Editorial follow-up: evaluative boundaries for AI delegation
 
-*The Understanding Bottleneck* will describe this pattern generically: a
+*Understanding and Bottlenecks* will describe this pattern generically: a
 delegated system needs descriptive context, operational rules, an allowed
 solution space, reasons for its boundaries, signals that may warrant an
 exception, a challenge-and-escalation protocol, explicit authority, and a

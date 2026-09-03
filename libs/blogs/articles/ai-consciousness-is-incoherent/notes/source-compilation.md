@@ -11,41 +11,41 @@ Line locations reflect the workspace state on 2026-08-26.
 - `libs/blogs/articles/consciousness-is-incoherent/article.md`
 - `libs/blogs/articles/consciousness-is-incoherent/index.tsx`
 - `libs/blogs/articles/consciousness-is-incoherent/draft/outline.md`
-- `libs/blogs/articles/goals-solutions-and-value/draft/draft 1.md`
-- `libs/blogs/articles/goals-solutions-and-value/draft/draft 2.md`
-- `libs/blogs/articles/goals-solutions-and-value/draft/draft 3.md`
-- `libs/blogs/articles/goals-solutions-and-value/draft/draft 4.md`
-- `libs/blogs/articles/goals-solutions-and-value/draft/draft 5.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/phenomenal-consciousness-and-artificial-consciousness.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/qualia-opportunity-spaces-ai-and-humans.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/retired-product-opportunity-outline.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/formal-human-ai-reasoning-comparison.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/research-conclusion-cognitive-loop.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/human-learning.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/memory-and-imagination.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/distributional-meaning-and-generative-grammar.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/ai-goals-and-cognitive-light-cone.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/review 1.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/html-writing-guidelines-review.md`
-- `libs/blogs/articles/truth-entropy-and-inference/notes/evaluative-closure-code-and-strategy.md`
-- `libs/blogs/articles/understanding-is-the-bottleneck/notes/left overs.md`
+- `libs/blogs/articles/vision-and-values/draft/draft 1.md`
+- `libs/blogs/articles/vision-and-values/draft/draft 2.md`
+- `libs/blogs/articles/vision-and-values/draft/draft 3.md`
+- `libs/blogs/articles/vision-and-values/draft/draft 4.md`
+- `libs/blogs/articles/vision-and-values/draft/draft 5.md`
+- `libs/blogs/articles/vision-and-values/notes/phenomenal-consciousness-and-artificial-consciousness.md`
+- `libs/blogs/articles/vision-and-values/notes/qualia-opportunity-spaces-ai-and-humans.md`
+- `libs/blogs/articles/vision-and-values/notes/retired-product-opportunity-outline.md`
+- `libs/blogs/articles/vision-and-values/notes/formal-human-ai-reasoning-comparison.md`
+- `libs/blogs/articles/vision-and-values/notes/research-conclusion-cognitive-loop.md`
+- `libs/blogs/articles/vision-and-values/notes/human-learning.md`
+- `libs/blogs/articles/vision-and-values/notes/memory-and-imagination.md`
+- `libs/blogs/articles/vision-and-values/notes/distributional-meaning-and-generative-grammar.md`
+- `libs/blogs/articles/vision-and-values/notes/ai-goals-and-cognitive-light-cone.md`
+- `libs/blogs/articles/vision-and-values/notes/review 1.md`
+- `libs/blogs/articles/vision-and-values/notes/html-writing-guidelines-review.md`
+- `libs/blogs/articles/truth-and-inference/notes/evaluative-closure-code-and-strategy.md`
+- `libs/blogs/articles/understanding-and-bottlenecks/notes/left overs.md`
 
 ### Additional related files inspected
 
 - `libs/blogs/articles/consciousness-is-incoherent/notes/writing-guidelines-review.md`
 - `libs/blogs/articles/consciousness-is-incoherent/notes/source-map.md`
 - `libs/blogs/articles/consciousness-is-incoherent/research/research-review.md`
-- `libs/blogs/articles/goals-solutions-and-value/outline.md`
-- `libs/blogs/articles/goals-solutions-and-value/research/research-review.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/Human capabilities.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/LLM Aspects.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/ai-innovation-details.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/backup table.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/distributional-meaning-tokens-and-embeddings.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/inference vs reasoning.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/theories-of-value.md`
-- `libs/blogs/articles/goals-solutions-and-value/notes/training vs learning.md`
-- `libs/blogs/articles/truth-entropy-and-inference/research/research-review.md`
+- `libs/blogs/articles/vision-and-values/outline.md`
+- `libs/blogs/articles/vision-and-values/research/research-review.md`
+- `libs/blogs/articles/vision-and-values/notes/Human capabilities.md`
+- `libs/blogs/articles/vision-and-values/notes/LLM Aspects.md`
+- `libs/blogs/articles/vision-and-values/notes/ai-innovation-details.md`
+- `libs/blogs/articles/vision-and-values/notes/backup table.md`
+- `libs/blogs/articles/vision-and-values/notes/distributional-meaning-tokens-and-embeddings.md`
+- `libs/blogs/articles/vision-and-values/notes/inference vs reasoning.md`
+- `libs/blogs/articles/vision-and-values/notes/theories-of-value.md`
+- `libs/blogs/articles/vision-and-values/notes/training vs learning.md`
+- `libs/blogs/articles/truth-and-inference/research/research-review.md`
 - `libs/blogs/articles/the-ontology-factory/research/research-audit.md`
 
 ## Originating rough copy
@@ -80,9 +80,9 @@ Similarly we should try to also formulate that overview into a concise logical s
 
 Source locations:
 
-- `libs/blogs/articles/understanding-is-the-bottleneck/notes/left overs.md`, `# Perceptoin`, lines 6–9.
-- Duplicate: `libs/blogs/articles/goals-solutions-and-value/draft/draft 2.md`, `## The Problem`, lines 17–20.
-- Duplicate: `libs/blogs/articles/goals-solutions-and-value/draft/draft 1.md`, `## The Problem`, lines 19–22.
+- `libs/blogs/articles/understanding-and-bottlenecks/notes/left overs.md`, `# Perceptoin`, lines 6–9.
+- Duplicate: `libs/blogs/articles/vision-and-values/draft/draft 2.md`, `## The Problem`, lines 17–20.
+- Duplicate: `libs/blogs/articles/vision-and-values/draft/draft 1.md`, `## The Problem`, lines 19–22.
 
 ~~~~markdown
 **_Consiousness_:**
@@ -93,7 +93,7 @@ Source locations:
 
 ### Earlier leftover context
 
-Source: `libs/blogs/articles/understanding-is-the-bottleneck/notes/left overs.md`, `# Perceptoin`, lines 1–4 and 11. The intervening lines 6–9 are listed with the shared consciousness bullets above.
+Source: `libs/blogs/articles/understanding-and-bottlenecks/notes/left overs.md`, `# Perceptoin`, lines 1–4 and 11. The intervening lines 6–9 are listed with the shared consciousness bullets above.
 
 ~~~~markdown
 # Perceptoin
@@ -110,9 +110,9 @@ I wonder what effect these competing definitions have within the token predictio
 
 Source locations:
 
-- `libs/blogs/articles/goals-solutions-and-value/draft/draft 2.md`, `## The Problem`, line 15 and lines 22–28.
-- Duplicate first sentence: `libs/blogs/articles/goals-solutions-and-value/draft/draft 1.md`, `## The Problem`, line 15.
-- Duplicate first continuation sentence: `libs/blogs/articles/goals-solutions-and-value/draft/draft 1.md`, `## The Problem`, line 30.
+- `libs/blogs/articles/vision-and-values/draft/draft 2.md`, `## The Problem`, line 15 and lines 22–28.
+- Duplicate first sentence: `libs/blogs/articles/vision-and-values/draft/draft 1.md`, `## The Problem`, line 15.
+- Duplicate first continuation sentence: `libs/blogs/articles/vision-and-values/draft/draft 1.md`, `## The Problem`, line 30.
 - The intervening consciousness bullets are listed once above with all three source locations.
 
 ~~~~markdown
@@ -131,7 +131,7 @@ So how do we evaluate a systems ability to "problem solve", and what aspects of 
 
 ### Goals draft 1 variant
 
-Source: `libs/blogs/articles/goals-solutions-and-value/draft/draft 1.md`, `## The Problem`, lines 17 and 24–28 and 32–34. Exact duplicates at lines 15, 19–22, and 30 are listed with the preceding excerpts.
+Source: `libs/blogs/articles/vision-and-values/draft/draft 1.md`, `## The Problem`, lines 17 and 24–28 and 32–34. Exact duplicates at lines 15, 19–22, and 30 are listed with the preceding excerpts.
 
 ~~~~markdown
 Let's look at a couple words for example:
@@ -153,7 +153,7 @@ Let's not get carried away with speculation now. Here is what we know and can ag
 
 ### Draft 4 framing
 
-Source: `libs/blogs/articles/goals-solutions-and-value/draft/draft 4.md`, opening, lines 15–19.
+Source: `libs/blogs/articles/vision-and-values/draft/draft 4.md`, opening, lines 15–19.
 
 ~~~~markdown
 That was very surprising to me. How could a thinking, reasoning, AI be swayed by such an obvious foible.  You are supposed to pick the correct option, not the first one!
@@ -167,8 +167,8 @@ What kinds of problems is an AI system actually equipped to solve?  Let's compar
 
 Source locations:
 
-- `libs/blogs/articles/goals-solutions-and-value/draft/draft 4.md`, `### Input`, lines 30–57.
-- Duplicate body with a different heading level: `libs/blogs/articles/goals-solutions-and-value/draft/draft 5.md`, `## Input`, lines 25–51.
+- `libs/blogs/articles/vision-and-values/draft/draft 4.md`, `### Input`, lines 30–57.
+- Duplicate body with a different heading level: `libs/blogs/articles/vision-and-values/draft/draft 5.md`, `## Input`, lines 25–51.
 
 ~~~~markdown
 ### Input
@@ -203,7 +203,7 @@ Likewise the unknown qualities of phenomena are not transmitted in the compresse
 
 ### Draft 5 learning claim
 
-Source: `libs/blogs/articles/goals-solutions-and-value/draft/draft 5.md`, `### Training`, lines 60–64.
+Source: `libs/blogs/articles/vision-and-values/draft/draft 5.md`, `### Training`, lines 60–64.
 
 ~~~~markdown
 The literature on human learning is far more complex than LLM training.
@@ -215,7 +215,7 @@ The literature on human learning is far more complex than LLM training.
 
 ## Draft 1 operational-boundary passage
 
-Source: `libs/blogs/articles/goals-solutions-and-value/draft/draft 1.md`, `## Operational Boundaries` and `### Modality`, lines 46–78.
+Source: `libs/blogs/articles/vision-and-values/draft/draft 1.md`, `## Operational Boundaries` and `### Modality`, lines 46–78.
 
 ~~~~markdown
 ## Operational Boundaries
@@ -257,7 +257,7 @@ Use the room-temperature example. An AI can state that a room is 68°F, summariz
 
 ### Functional similarity and consciousness
 
-Source: `libs/blogs/articles/goals-solutions-and-value/draft/draft 3.md`, `### Working thesis`, lines 25–29.
+Source: `libs/blogs/articles/vision-and-values/draft/draft 3.md`, `### Working thesis`, lines 25–29.
 
 ~~~~markdown
 Functional similarity between humans and AI does not establish mechanistic or
@@ -269,7 +269,7 @@ problem demands.
 
 ### Captured data and phenomenal experience
 
-Source: `libs/blogs/articles/goals-solutions-and-value/draft/draft 3.md`, `### 4.1 Captured data versus situated experience`, lines 233–248.
+Source: `libs/blogs/articles/vision-and-values/draft/draft 3.md`, `### 4.1 Captured data versus situated experience`, lines 233–248.
 
 ~~~~markdown
 ### 4.1 Captured data versus situated experience
@@ -292,7 +292,7 @@ phenomenal experience.
 
 ### Qualia, phenomenal meaning, and functional success
 
-Source: `libs/blogs/articles/goals-solutions-and-value/draft/draft 3.md`, `### Section synthesis` and `## 5. Where Meaning and Value Enter the Loop`, lines 303–339.
+Source: `libs/blogs/articles/vision-and-values/draft/draft 3.md`, `### Section synthesis` and `## 5. Where Meaning and Value Enter the Loop`, lines 303–339.
 
 ~~~~markdown
 ### Section synthesis
@@ -338,11 +338,11 @@ the criterion poorly represents the experience or value it was meant to serve.
 
 Source locations:
 
-- `libs/blogs/articles/goals-solutions-and-value/notes/phenomenal-consciousness-and-artificial-consciousness.md`, lines 1–25.
-- Duplicate settled-account passage: `libs/blogs/articles/goals-solutions-and-value/notes/retired-product-opportunity-outline.md`, `### The missing bridge: conditional theories are not proof`, line 202.
-- Duplicate “So we cannot presently prove” passage: `libs/blogs/articles/goals-solutions-and-value/notes/retired-product-opportunity-outline.md`, `### The missing bridge: conditional theories are not proof`, line 204.
+- `libs/blogs/articles/vision-and-values/notes/phenomenal-consciousness-and-artificial-consciousness.md`, lines 1–25.
+- Duplicate settled-account passage: `libs/blogs/articles/vision-and-values/notes/retired-product-opportunity-outline.md`, `### The missing bridge: conditional theories are not proof`, line 202.
+- Duplicate “So we cannot presently prove” passage: `libs/blogs/articles/vision-and-values/notes/retired-product-opportunity-outline.md`, `### The missing bridge: conditional theories are not proof`, line 204.
 - Duplicate conditional-standard wording with different line wrapping: `libs/blogs/articles/consciousness-is-incoherent/notes/source-map.md`, `## Conditional attribution`, lines 20–22.
-- Variant conditional-standard wording with bold emphasis on “under that theory”: `libs/blogs/articles/goals-solutions-and-value/notes/retired-product-opportunity-outline.md`, `### The missing bridge: conditional theories are not proof`, line 206.
+- Variant conditional-standard wording with bold emphasis on “under that theory”: `libs/blogs/articles/vision-and-values/notes/retired-product-opportunity-outline.md`, `### The missing bridge: conditional theories are not proof`, line 206.
 
 ~~~~markdown
 # Phenomenal Consciousness and Artificial Consciousness
@@ -376,7 +376,7 @@ An LLM's facility with the vocabulary of experience is not evidence that it poss
 
 ### Working claim and comparison
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/qualia-opportunity-spaces-ai-and-humans.md`, `## Working claim` and `## Human and AI problem-solving capabilities`, lines 11–34.
+Source: `libs/blogs/articles/vision-and-values/notes/qualia-opportunity-spaces-ai-and-humans.md`, `## Working claim` and `## Human and AI problem-solving capabilities`, lines 11–34.
 
 ~~~~markdown
 ## Working claim
@@ -407,7 +407,7 @@ For this comparison, **AI system** means a current model supplied with context, 
 
 ### LLM/agent boundary and lived stakes
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/qualia-opportunity-spaces-ai-and-humans.md`, `## What an LLM and an agent are doing` through `## Humans: persistent context and lived stakes`, lines 60–73.
+Source: `libs/blogs/articles/vision-and-values/notes/qualia-opportunity-spaces-ai-and-humans.md`, `## What an LLM and an agent are doing` through `## Humans: persistent context and lived stakes`, lines 60–73.
 
 ~~~~markdown
 ## What an LLM and an agent are doing
@@ -428,7 +428,7 @@ Embodiment matters here because action is not only symbol manipulation. It affec
 
 ### Qualia, phenomenology, and the hard problem
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/qualia-opportunity-spaces-ai-and-humans.md`, `## Qualia, phenomenology, and the hard problem`, lines 75–88.
+Source: `libs/blogs/articles/vision-and-values/notes/qualia-opportunity-spaces-ai-and-humans.md`, `## Qualia, phenomenology, and the hard problem`, lines 75–88.
 
 ~~~~markdown
 ## Qualia, phenomenology, and the hard problem
@@ -449,7 +449,7 @@ Careful uncertainty:
 
 ## Retired outline: evidence, theories, and the missing bridge
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/retired-product-opportunity-outline.md`, `### Do not overclaim the science` through `### The missing bridge: conditional theories are not proof`, lines 149–200 and 206–214. Exact duplicate passages at lines 202 and 204 are listed under the dedicated phenomenal-consciousness note above.
+Source: `libs/blogs/articles/vision-and-values/notes/retired-product-opportunity-outline.md`, `### Do not overclaim the science` through `### The missing bridge: conditional theories are not proof`, lines 149–200 and 206–214. Exact duplicate passages at lines 202 and 204 are listed under the dedicated phenomenal-consciousness note above.
 
 ~~~~markdown
 ### Do not overclaim the science
@@ -520,7 +520,7 @@ The editorial posture should be: **these are live philosophical and scientific p
 
 ### Physical non-identity and possible functional overlap
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/formal-human-ai-reasoning-comparison.md`, `## Status and scope` and `## Physical non-identity`, lines 3–14 and 35–78.
+Source: `libs/blogs/articles/vision-and-values/notes/formal-human-ai-reasoning-comparison.md`, `## Status and scope` and `## Physical non-identity`, lines 3–14 and 35–78.
 
 ~~~~markdown
 ## Status and scope
@@ -584,7 +584,7 @@ a biological nervous system algorithmically identical to a transformer.
 
 ### Functional reasoning does not establish equivalent experience
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/formal-human-ai-reasoning-comparison.md`, functional comparison, lines 173–186.
+Source: `libs/blogs/articles/vision-and-values/notes/formal-human-ai-reasoning-comparison.md`, functional comparison, lines 173–186.
 
 ~~~~markdown
 Under this functional definition, humans and suitably configured AI systems
@@ -605,7 +605,7 @@ responsibility are equivalent.
 
 ### Sleep-talker analogy and absence of evidence
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/formal-human-ai-reasoning-comparison.md`, `## Imagination, generation, and learning`, lines 318–332.
+Source: `libs/blogs/articles/vision-and-values/notes/formal-human-ai-reasoning-comparison.md`, `## Imagination, generation, and learning`, lines 318–332.
 
 ~~~~markdown
 The sleep-talker analogy is useful only in a limited rhetorical sense:
@@ -627,7 +627,7 @@ where $Q(x)$ means that $x$ actually has subjective experience.
 
 ### Condensed conclusions
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/formal-human-ai-reasoning-comparison.md`, `## Condensed conclusions`, lines 475–496.
+Source: `libs/blogs/articles/vision-and-values/notes/formal-human-ai-reasoning-comparison.md`, `## Condensed conclusions`, lines 475–496.
 
 ~~~~markdown
 ## Condensed conclusions
@@ -658,7 +658,7 @@ Source: `libs/blogs/articles/goals-solutions-and-value/notes/formal-human-ai-rea
 
 ### Qualia is not another sense or processing layer
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/research-conclusion-cognitive-loop.md`, `### 2. Qualia is not a sense on top of senses`, lines 49–59.
+Source: `libs/blogs/articles/vision-and-values/notes/research-conclusion-cognitive-loop.md`, `### 2. Qualia is not a sense on top of senses`, lines 49–59.
 
 ~~~~markdown
 ### 2. Qualia is not a sense on top of senses
@@ -678,8 +678,8 @@ Some philosophical theories argue that phenomenal experience grounds other forms
 
 Source locations:
 
-- `libs/blogs/articles/goals-solutions-and-value/notes/research-conclusion-cognitive-loop.md`, `## Revised companion table` and `## Governing thesis`, lines 76–89 and 142–146.
-- Duplicate mnemonic: `libs/blogs/articles/goals-solutions-and-value/notes/research-conclusion-cognitive-loop.md`, `## Best compact mnemonic`, line 140; preserved above from `libs/blogs/articles/goals-solutions-and-value/draft/draft 3.md`, `### Section synthesis`, line 307.
+- `libs/blogs/articles/vision-and-values/notes/research-conclusion-cognitive-loop.md`, `## Revised companion table` and `## Governing thesis`, lines 76–89 and 142–146.
+- Duplicate mnemonic: `libs/blogs/articles/vision-and-values/notes/research-conclusion-cognitive-loop.md`, `## Best compact mnemonic`, line 140; preserved above from `libs/blogs/articles/vision-and-values/draft/draft 3.md`, `### Section synthesis`, line 307.
 
 ~~~~markdown
 ## Revised companion table
@@ -706,7 +706,7 @@ Knowledge supports the entire cycle. Goals and affect direct it. Metacognition m
 
 ### Conscious and unconscious learning
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/human-learning.md`, `## Learning Can Be Conscious or Unconscious`, lines 153–174.
+Source: `libs/blogs/articles/vision-and-values/notes/human-learning.md`, `## Learning Can Be Conscious or Unconscious`, lines 153–174.
 
 ~~~~markdown
 ## Learning Can Be Conscious or Unconscious
@@ -735,7 +735,7 @@ claim is:
 
 ### Autonoetic consciousness
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/memory-and-imagination.md`, memory/imagination comparison, lines 150–157.
+Source: `libs/blogs/articles/vision-and-values/notes/memory-and-imagination.md`, memory/imagination comparison, lines 150–157.
 
 ~~~~markdown
 The most distinctly human feature currently supported by evidence is not mere
@@ -750,7 +750,7 @@ is autonoetic consciousness?”](https://pubmed.ncbi.nlm.nih.gov/39216189/).
 
 ### Meaning and subjectivity boundary
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/distributional-meaning-and-generative-grammar.md`, `## Meaning and Subjectivity Boundary`, lines 203–215.
+Source: `libs/blogs/articles/vision-and-values/notes/distributional-meaning-and-generative-grammar.md`, `## Meaning and Subjectivity Boundary`, lines 203–215.
 
 ~~~~markdown
 ## Meaning and Subjectivity Boundary
@@ -772,7 +772,7 @@ the system feels pain or originates the human stakes attached to it.
 
 ### Cross-substrate comparison and meaning levels
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/ai-goals-and-cognitive-light-cone.md`, `## What the cognitive light cone measures` and `## Meaning must be separated into levels`, lines 20–56.
+Source: `libs/blogs/articles/vision-and-values/notes/ai-goals-and-cognitive-light-cone.md`, `## What the cognitive light cone measures` and `## Meaning must be separated into levels`, lines 20–56.
 
 ~~~~markdown
 ## What the cognitive light cone measures
@@ -816,7 +816,7 @@ complexity with consciousness in
 
 ### What the light cone can and cannot support
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/ai-goals-and-cognitive-light-cone.md`, `## What the light cone can and cannot support`, lines 160–186.
+Source: `libs/blogs/articles/vision-and-values/notes/ai-goals-and-cognitive-light-cone.md`, `## What the light cone can and cannot support`, lines 160–186.
 
 ~~~~markdown
 ## What the light cone can and cannot support
@@ -852,7 +852,7 @@ $$
 
 ### Draft 4 review
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/review 1.md`, `### 3. Separate tokenization from phenomenal capture` through `### 6. Keep the creativity evidence within scope`, lines 38–86.
+Source: `libs/blogs/articles/vision-and-values/notes/review 1.md`, `### 3. Separate tokenization from phenomenal capture` through `### 6. Keep the creativity evidence within scope`, lines 38–86.
 
 ~~~~markdown
 ### 3. Separate tokenization from phenomenal capture
@@ -908,7 +908,7 @@ underlying consciousness-based limitation.
 
 ### Later Goals article review
 
-Source: `libs/blogs/articles/goals-solutions-and-value/notes/html-writing-guidelines-review.md`, `### 10. Preserve uncertainty about consciousness`, lines 547–562.
+Source: `libs/blogs/articles/vision-and-values/notes/html-writing-guidelines-review.md`, `### 10. Preserve uncertainty about consciousness`, lines 547–562.
 
 ~~~~markdown
 ### 10. Preserve uncertainty about consciousness
@@ -931,7 +931,7 @@ essay, fixes the faulty parallelism, and keeps the only limit this essay needs.
 
 ## Related Truth article note
 
-Source: `libs/blogs/articles/truth-entropy-and-inference/notes/evaluative-closure-code-and-strategy.md`, `## Where Subjectivity Enters`, lines 122–141.
+Source: `libs/blogs/articles/truth-and-inference/notes/evaluative-closure-code-and-strategy.md`, `## Where Subjectivity Enters`, lines 122–141.
 
 ~~~~markdown
 ## Where Subjectivity Enters

@@ -1,0 +1,154 @@
+.goal-hierarchy-figure {
+  --goal-hierarchy-line: color-mix(in srgb, var(--color-primary) 62%, transparent);
+  --goal-hierarchy-opportunity: #8f7ac8;
+  --goal-hierarchy-solution: var(--color-foreground);
+  --goal-hierarchy-experiment: #c48663;
+}
+
+.goal-hierarchy__viewport {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 24%, transparent);
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 3%, transparent), transparent 32%),
+    var(--color-background);
+  scrollbar-color: color-mix(in srgb, var(--color-primary) 45%, transparent) transparent;
+}
+
+.goal-hierarchy__viewport:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 3px;
+}
+
+.goal-hierarchy {
+  position: relative;
+  min-width: 720px;
+  height: 560px;
+  isolation: isolate;
+}
+
+.goal-hierarchy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(to bottom, transparent 0 25%, color-mix(in srgb, var(--color-foreground) 2.5%, transparent) 25% 50%, transparent 50% 75%, color-mix(in srgb, var(--color-foreground) 2.5%, transparent) 75% 100%);
+}
+
+.goal-hierarchy__connections {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--goal-hierarchy-line);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.goal-hierarchy__connections path {
+  vector-effect: non-scaling-stroke;
+}
+
+.goal-hierarchy__connections marker path {
+  fill: var(--color-primary);
+  stroke: none;
+}
+
+.goal-hierarchy__tier-label {
+  position: absolute;
+  left: 14px;
+  width: 70px;
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.goal-hierarchy__tier-label--goal { top: 57px; }
+.goal-hierarchy__tier-label--opportunities { top: 191px; }
+.goal-hierarchy__tier-label--solutions { top: 341px; }
+.goal-hierarchy__tier-label--experiments { top: 491px; }
+
+.goal-hierarchy__node {
+  position: absolute;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  min-height: 68px;
+  padding: 11px 14px;
+  transform: translateX(-50%);
+  border: 1px solid currentColor;
+  background: color-mix(in srgb, var(--color-background) 92%, currentColor 8%);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-background) 72%, transparent);
+  color: var(--goal-hierarchy-solution);
+  text-align: left;
+}
+
+.goal-hierarchy__node > span {
+  color: currentColor;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.goal-hierarchy__node > strong {
+  color: var(--color-foreground);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.goal-hierarchy__node--goal {
+  top: 32px;
+  left: 59%;
+  width: 28%;
+  color: var(--color-primary);
+}
+
+.goal-hierarchy__node--opportunity {
+  top: 166px;
+  width: 20%;
+  color: var(--goal-hierarchy-opportunity);
+}
+
+.goal-hierarchy__node--solution {
+  top: 316px;
+  width: 15%;
+  color: var(--goal-hierarchy-solution);
+}
+
+.goal-hierarchy__node--experiment {
+  top: 466px;
+  width: 14%;
+  color: var(--goal-hierarchy-experiment);
+}
+
+.goal-hierarchy__node--o1 { left: 33.5%; }
+.goal-hierarchy__node--o2 { left: 59%; }
+.goal-hierarchy__node--o3 { left: 84%; }
+.goal-hierarchy__node--s1 { left: 25%; }
+.goal-hierarchy__node--s2 { left: 42%; }
+.goal-hierarchy__node--s3 { left: 59%; }
+.goal-hierarchy__node--s4 { left: 84%; }
+.goal-hierarchy__node--e1 { left: 19%; }
+.goal-hierarchy__node--e2 { left: 32%; }
+.goal-hierarchy__node--e3 { left: 84%; }
+
+@media (max-width: 760px) {
+  .goal-hierarchy__viewport {
+    background:
+      linear-gradient(to right, transparent calc(100% - 28px), color-mix(in srgb, var(--color-background) 42%, transparent)),
+      var(--color-background);
+  }
+}

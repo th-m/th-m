@@ -33,16 +33,16 @@ indices of conscious state.
 
 The strongest local material is already close to the needed argument:
 
-- The earlier [phenomenal-consciousness note](../../goals-solutions-and-value/notes/phenomenal-consciousness-and-artificial-consciousness.md)
+- The earlier [phenomenal-consciousness note](../../vision-and-values/notes/phenomenal-consciousness-and-artificial-consciousness.md)
   defines the target as “what it is like” to be a system and distinguishes it
   from fluent self-report, information access, and intelligence.
-- The prior [research review](../../goals-solutions-and-value/research/research-review.md)
+- The prior [research review](../../vision-and-values/research/research-review.md)
   treats AI-consciousness theories as conditional standards rather than
   diagnoses of current systems.
-- The retired [four-part evidentiary standard](../../goals-solutions-and-value/notes/retired-product-opportunity-outline.md)
+- The retired [four-part evidentiary standard](../../vision-and-values/notes/retired-product-opportunity-outline.md)
   is worth reusing: **definition + discriminating measurement + validated
   bridge + causal instantiation**.
-- The note in [“Perceptoin”](../../understanding-is-the-bottleneck/notes/left%20overs.md)
+- The note in [“Perceptoin”](../../understanding-and-bottlenecks/notes/left%20overs.md)
   identifies the useful contrast: neural dynamics of subjectivity assigns a
   possible constitutive role to biological nervous-system dynamics, while
   functionalism allows the relevant organization to be realized in a different

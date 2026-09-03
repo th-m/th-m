@@ -4,7 +4,7 @@ final result: passed
 
 ## Scope
 
-This pass implements the three selected Paper glyphs inside the recurring-truth cards on `/writing/truth-entropy-and-inference`: a closed triangular system for coherence, a registered concentric target for correspondence, and an abstract three-pendulum cradle for consequence. The surrounding article copy, card structure, and responsive grid remain unchanged.
+This pass implements the three selected Paper glyphs inside the recurring-truth cards on `/writing/truth-and-inference`: a closed triangular system for coherence, a registered concentric target for correspondence, and an abstract three-pendulum cradle for consequence. The surrounding article copy, card structure, and responsive grid remain unchanged.
 
 ## Source visual truth
 
@@ -61,7 +61,7 @@ final result: passed
 
 ## Scope
 
-This pass replaces all three external instrument images on `/writing/truth-entropy-and-inference` with transparent inline SVG DOM. It preserves the accepted source geometry while exposing named instrument roots, parts, and nodes for direct DOM styling and interaction.
+This pass replaces all three external instrument images on `/writing/truth-and-inference` with transparent inline SVG DOM. It preserves the accepted source geometry while exposing named instrument roots, parts, and nodes for direct DOM styling and interaction.
 
 ## Source visual truth
 
@@ -119,7 +119,7 @@ final result: passed
 
 ## Scope
 
-This pass updates only the third situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied evidence/reliance balance while preserving the surrounding article layout, content, and behavior.
+This pass updates only the third situated-truth instrument on `/writing/truth-and-inference`, matching the supplied evidence/reliance balance while preserving the surrounding article layout, content, and behavior.
 
 ## Source visual truth
 
@@ -165,7 +165,7 @@ final result: passed
 
 ## Scope
 
-This pass updates only the second situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied inner-state/outward-expression reference while preserving the surrounding article layout, content, and behavior.
+This pass updates only the second situated-truth instrument on `/writing/truth-and-inference`, matching the supplied inner-state/outward-expression reference while preserving the surrounding article layout, content, and behavior.
 
 ## Source visual truth
 
@@ -211,7 +211,7 @@ final result: passed
 
 ## Scope
 
-This pass updates only the first situated-truth instrument on `/writing/truth-entropy-and-inference`, matching the supplied sepia relational diagram while preserving the surrounding article layout, content, and behavior.
+This pass updates only the first situated-truth instrument on `/writing/truth-and-inference`, matching the supplied sepia relational diagram while preserving the surrounding article layout, content, and behavior.
 
 ## Source visual truth
 

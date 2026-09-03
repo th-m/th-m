@@ -175,9 +175,9 @@ Ontology makes the factory coherent. Strategy makes it purposeful.
 
 ## Part of the Six-Essay Series
 
-- [Goals, Solutions & Value](/writing/goals-solutions-and-value)
-- [Truth, Entropy & Inference](/writing/truth-entropy-and-inference)
-- [The Understanding Bottleneck](/writing/understanding-is-the-bottleneck)
+- [Vision and Values](/writing/vision-and-values)
+- [Truth and Inference](/writing/truth-and-inference)
+- [Understanding and Bottlenecks](/writing/understanding-and-bottlenecks)
 - [The Knowledge Factory](/writing/the-knowledge-factory)
 - [Ontology Factory](/writing/the-ontology-factory)
 - Cognitive Factory (this essay)

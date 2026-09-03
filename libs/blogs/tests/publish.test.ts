@@ -105,6 +105,49 @@ describe("buildBlogArtifact", () => {
     await expect(access(join(root, "dist", "posts", "published", "private"))).rejects.toThrow();
   });
 
+  it("stages explicit article-local components with their data and styles, excluding private material", async () => {
+    const root = await temporaryProject();
+    const source = join(root, "articles", "published");
+    await mkdir(join(source, "components", "private"), { recursive: true });
+    await writeFile(join(source, "article.mdx"), article({ body: '<Asset id="local-figure" />' }));
+    await writeRegistry(root, "published", '{ "local-figure": { kind: "figure", label: "Local figure", tags: ["diagram"] } }');
+    const modules = {
+      "article-components.tsx": 'export { default } from "./components/registry";\n',
+      "components/registry.ts": 'import { defineArticleComponents } from "@th-m/blogs/mdx";\nimport assets from "../article-assets";\nimport { LocalFigure } from "./local-figure";\nexport default defineArticleComponents(assets, () => ({ "local-figure": LocalFigure }));\n',
+      "components/local-figure.tsx": 'import "./local-figure.css";\nimport { label } from "./figure-data";\nexport function LocalFigure() { return <figure>{label}</figure>; }\n',
+      "components/figure-data.ts": 'export const label = "Local scene";\n',
+      "components/local-figure.css": ".local-figure { display: grid; }\n",
+    };
+    for (const [name, contents] of Object.entries(modules)) {
+      await writeFile(join(source, name), contents);
+    }
+    await writeFile(join(source, "components", "private", "secret.tsx"), "export const secret = true;\n");
+    await writeFile(join(source, "components", "notes.md"), "Private working material");
+
+    await buildBlogArtifact(root);
+
+    const output = join(root, "dist", "posts", "published");
+    for (const [name, contents] of Object.entries(modules)) {
+      await expect(readFile(join(output, name), "utf8")).resolves.toBe(contents);
+    }
+    await expect(access(join(output, "components", "private"))).rejects.toThrow();
+    await expect(access(join(output, "components", "notes.md"))).rejects.toThrow();
+  });
+
+  it.each([
+    { name: "LocalFigure.tsx", contents: "export const Figure = () => null;", error: "must use a kebab-case TSX or CSS filename" },
+    { name: "local-figure.css", contents: "  \n", error: "components/local-figure.css must not be empty" },
+  ])("validates article-local components/$name", async ({ name, contents, error }) => {
+    const root = await temporaryProject();
+    const source = join(root, "articles", "published");
+    await mkdir(join(source, "components"), { recursive: true });
+    await writeFile(join(source, "article.mdx"), article());
+    await writeRegistry(root, "published");
+    await writeFile(join(source, "components", name), contents);
+
+    await expect(buildBlogArtifact(root)).rejects.toThrow(error);
+  });
+
   it("ignores workspaces without article.mdx and rejects the obsolete split-page source", async () => {
     const root = await temporaryProject();
     await mkdir(join(root, "articles", "draft-only"));
@@ -138,6 +181,26 @@ describe("buildBlogArtifact", () => {
     await writeRegistry(emptyModuleRoot, "empty-module");
     await writeFile(join(emptyModuleRoot, "articles", "empty-module", "figure.css"), "  \n");
     await expect(buildBlogArtifact(emptyModuleRoot)).rejects.toThrow("figure.css must not be empty");
+  });
+
+  it("accepts the shared prose and link vocabulary without article-local imports", async () => {
+    const root = await temporaryProject();
+    await mkdir(join(root, "articles", "shared"));
+    await writeRegistry(root, "shared");
+    await writeFile(join(root, "articles", "shared", "article.mdx"), article({ body: `
+<Lede>Introduction.</Lede>
+<Section index="01" title="Shared presentation">
+  <P>A <Term definition="A short definition.">term</Term>.</P>
+  <Gloss definition="A longer definition.">Context</Gloss>
+  <Callout label="Thesis" emphasis>A claim.</Callout>
+  <Quote plain>A quotation.</Quote>
+  <Flow>Frame → test</Flow>
+  <ArticleLink slug="another-essay">Another essay</ArticleLink>
+  <ExternalLink href="https://example.com">Source</ExternalLink>
+  <BlogLink href="/relationship-graph">Graph</BlogLink>
+</Section>
+` }));
+    expect((await buildBlogArtifact(root)).posts).toHaveLength(1);
   });
 
   it("validates component usage and typed asset references", async () => {

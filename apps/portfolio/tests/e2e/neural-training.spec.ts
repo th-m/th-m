@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const route = "/writing/goals-solutions-and-value";
+const route = "/writing/vision-and-values";
 
 test("renders every declarative training frame with aligned target styling", async ({ page }) => {
   test.setTimeout(60_000);

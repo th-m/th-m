@@ -17,7 +17,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@th-m/ui";
-import type { ReactNode } from "react";
 
 function formatDate(value: string): string {
   return new Date(`${value}T00:00:00.000Z`).toLocaleDateString("en-US", {
@@ -28,48 +27,7 @@ function formatDate(value: string): string {
   });
 }
 
-function Section({ index, title, children }: { index: string; title: string; children: ReactNode }) {
-  return (
-    <section className="article-outline__section">
-      <p className="article-outline__index">{index}</p>
-      <div className="article-outline__content">
-        <h2>{title}</h2>
-        {children}
-      </div>
-    </section>
-  );
-}
-
-function Term({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="thom-tooltip-trigger">{label}</span>
-      </TooltipTrigger>
-      <TooltipContent>{children}</TooltipContent>
-    </Tooltip>
-  );
-}
-
-function ArticleLink({ slug, children }: { slug: string; children: ReactNode }) {
-  return (
-    <LinkPreview url={`/writing/${slug}`} asChild>
-      <Link to="/writing/$slug" params={{ slug }}>
-        {children}
-      </Link>
-    </LinkPreview>
-  );
-}
-
-function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
-  return <LinkPreview url={href} external>{children}</LinkPreview>;
-}
-
-function Flow({ children }: { children: ReactNode }) {
-  return <p className="article-outline__flow">{children}</p>;
-}
-
-export { ArticleLink, Card, CardContent, CardHeader, CardTitle, DecodingExplorer, EmbeddingCompositionExplorer, ExternalLink, Flow, formatDate, GenerationPlayback, Link, LinkPreview, Section, Term, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TrainingWalkthrough };
+export { Card, CardContent, CardHeader, CardTitle, DecodingExplorer, EmbeddingCompositionExplorer, formatDate, GenerationPlayback, Link, LinkPreview, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TrainingWalkthrough };
 export default defineArticleComponents(articleAssets, () => ({
   "decoding-explorer": DecodingExplorer,
   "embedding-composition-explorer": EmbeddingCompositionExplorer,

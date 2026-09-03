@@ -29,18 +29,6 @@ function formatDate(value: string): string {
   );
 }
 
-function Section({ index, title, children }: { index: string; title: string; children: ReactNode }) {
-  return (
-    <section className="article-outline__section">
-      <p className="article-outline__index">{index}</p>
-      <div className="article-outline__content">
-        <h2>{title}</h2>
-        {children}
-      </div>
-    </section>
-  );
-}
-
 function Figure({ caption, children }: { caption: string; children: ReactNode }) {
   return (
     <figure className="essay-figure">
@@ -48,29 +36,6 @@ function Figure({ caption, children }: { caption: string; children: ReactNode })
       <figcaption className="essay-figure__caption">{caption}</figcaption>
     </figure>
   );
-}
-
-function Term({ definition, children }: { definition: string; children: ReactNode }) {
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="thom-tooltip-trigger" tabIndex={0}>{children}</span>
-      </TooltipTrigger>
-      <TooltipContent>{definition}</TooltipContent>
-    </Tooltip>
-  );
-}
-
-function ArticleLink({ slug, children }: { slug: string; children: ReactNode }) {
-  return (
-    <LinkPreview url={`/writing/${slug}`} asChild>
-      <Link to="/writing/$slug" params={{ slug }}>{children}</Link>
-    </LinkPreview>
-  );
-}
-
-function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
-  return <LinkPreview url={href} external>{children}</LinkPreview>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -299,15 +264,15 @@ function LightConeScorecard() {
 /* ------------------------------------------------------------------ */
 
 const seriesLinks: Array<[string, string]> = [
-  ["Goals, Solutions & Value", "/writing/goals-solutions-and-value"],
-  ["Truth, Entropy & Inference", "/writing/truth-entropy-and-inference"],
-  ["The Understanding Bottleneck", "/writing/understanding-is-the-bottleneck"],
+  ["Vision and Values", "/writing/vision-and-values"],
+  ["Truth and Inference", "/writing/truth-and-inference"],
+  ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
   ["The Knowledge Factory", "/writing/the-knowledge-factory"],
   ["Ontology Factory", "/writing/the-ontology-factory"],
   ["Cognitive Factory", "/writing/the-cognitive-factory"],
 ];
 
-export { ArrowMarker, ArticleLink, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, ExecutableContextCard, ExploreGraphButton, ExternalLink, Figure, formatDate, Fragment, KNOWLEDGE_FACTORY_GRAPH_ID, knowledgeFactoryGraph, LIGHT_CONE_ROWS, LightConeScorecard, Link, LinkPreview, loadGraphLibrary, participant, PropositionGraphFigure, saveGraphLibrary, Section, seedKnowledgeFactoryGraph, seriesLinks, Term, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, useToolDrawer };
+export { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, ExecutableContextCard, ExploreGraphButton, Figure, formatDate, Fragment, KNOWLEDGE_FACTORY_GRAPH_ID, knowledgeFactoryGraph, LIGHT_CONE_ROWS, LightConeScorecard, Link, LinkPreview, loadGraphLibrary, participant, PropositionGraphFigure, saveGraphLibrary, seedKnowledgeFactoryGraph, seriesLinks, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, useToolDrawer };
 export default defineArticleComponents(articleAssets, () => ({
   "compounding-loop": CompoundingLoop,
   "executable-context-card": ExecutableContextCard,

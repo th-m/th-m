@@ -2,8 +2,8 @@
 
 ## Contradictory membership rules
 
-The seed appears in `understanding-is-the-bottleneck/notes/left overs.md` and
-the early `goals-solutions-and-value` drafts: one family of theories gives
+The seed appears in `understanding-and-bottlenecks/notes/left overs.md` and
+the early `vision-and-values` drafts: one family of theories gives
 biology a constitutive role, while computational functionalism permits the
 relevant organization to be separated from its original biological substrate.
 
@@ -14,7 +14,7 @@ to belong to the category.
 
 ## Conditional attribution
 
-`goals-solutions-and-value/notes/phenomenal-consciousness-and-artificial-consciousness.md`
+`vision-and-values/notes/phenomenal-consciousness-and-artificial-consciousness.md`
 provides the central distinction:
 
 > If phenomenal consciousness is constituted by X causal organization, and an
@@ -33,7 +33,7 @@ E(A) ⇏ P(A)
 
 ## Evidentiary standard
 
-`goals-solutions-and-value/notes/retired-product-opportunity-outline.md`
+`vision-and-values/notes/retired-product-opportunity-outline.md`
 supplies the four-part test retained in the article:
 
 1. definition;
@@ -43,7 +43,7 @@ supplies the four-part test retained in the article:
 
 ## Qualia and behavioral equivalence
 
-`goals-solutions-and-value/notes/qualia-opportunity-spaces-ai-and-humans.md`
+`vision-and-values/notes/qualia-opportunity-spaces-ai-and-humans.md`
 distinguishes felt human consequences from multimodal processing, self-report,
 and functional competence. The fire example applies that boundary to learning:
 avoidance can be implemented without evidence that a penalty hurts.

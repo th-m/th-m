@@ -23,9 +23,9 @@ const post = (slug: string, title: string, description: string): BlogManifest["p
 });
 
 const posts: BlogManifest["posts"] = [
-  post("goals-solutions-and-value", "Goals, Solutions & Value", "Why predictive systems need explicit goals."),
-  post("truth-entropy-and-inference", "Truth, Entropy, and Inference", "How truth and entropy constrain inference."),
-  post("understanding-is-the-bottleneck", "Understanding Is the Bottleneck", "Why understanding limits progress."),
+  post("vision-and-values", "Vision and Values", "Why predictive systems need explicit goals."),
+  post("truth-and-inference", "Truth and Inference", "How truth and entropy constrain inference."),
+  post("understanding-and-bottlenecks", "Understanding and Bottlenecks", "Why understanding limits progress."),
   post("the-knowledge-factory", "The Knowledge Factory", "The factory that turns knowledge into work."),
   post("the-ontology-factory", "The Ontology Factory", "The ontology of the factory."),
   post("the-cognitive-factory", "Cognitive Factory", "The cognition of the factory."),
@@ -60,17 +60,17 @@ describe("ArticleBundleGraph", () => {
     expect(screen.getByText(/Three foundations converge into the Knowledge Factory/)).toBeInTheDocument();
     expect(screen.getAllByRole("link")).toHaveLength(6);
     expect(screen.getAllByText("Read essay")).toHaveLength(6);
-    expect(screen.getByRole("link", { name: /Goals, Solutions & Value/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Vision and Values/ })).toHaveAttribute(
       "href",
-      "/writing/goals-solutions-and-value",
+      "/writing/vision-and-values",
     );
-    expect(screen.getByRole("link", { name: /Truth, Entropy, and Inference/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Truth and Inference/ })).toHaveAttribute(
       "href",
-      "/writing/truth-entropy-and-inference",
+      "/writing/truth-and-inference",
     );
-    expect(screen.getByRole("link", { name: /Understanding Is the Bottleneck/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Understanding and Bottlenecks/ })).toHaveAttribute(
       "href",
-      "/writing/understanding-is-the-bottleneck",
+      "/writing/understanding-and-bottlenecks",
     );
     expect(screen.getByRole("link", { name: /The Knowledge Factory/ })).toHaveAttribute(
       "href",

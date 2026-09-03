@@ -6,7 +6,7 @@ tags: [Artificial Intelligence, Language Models, Machine Learning, Software Syst
 ---
 # Building an LLM
 
-import { ArticleLink, Card, CardContent, CardHeader, CardTitle, DecodingExplorer, EmbeddingCompositionExplorer, ExternalLink, Flow, formatDate, GenerationPlayback, Link, LinkPreview, Section, Term, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TrainingWalkthrough } from "./article-components"
+import { Card, CardContent, CardHeader, CardTitle, DecodingExplorer, EmbeddingCompositionExplorer, formatDate, GenerationPlayback, Link, LinkPreview, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TrainingWalkthrough } from "./article-components"
 
 <Section index="01" title="Overview">
         <P>
@@ -40,13 +40,13 @@ import { ArticleLink, Card, CardContent, CardHeader, CardTitle, DecodingExplorer
 <Section index="02" title="1. Input: Text Becomes Tokens">
         <P>
           The model does not receive words directly. A{" "}
-          <Term label="tokenizer">A reversible mapping between text fragments and integer IDs in a fixed vocabulary.</Term>{" "}
+          <Term definition="A reversible mapping between text fragments and integer IDs in a fixed vocabulary.">tokenizer</Term>{" "}
           divides text into units from a fixed vocabulary and assigns each unit an integer ID. A token may be a
           word, part of a word, punctuation, whitespace, or a byte-level fragment.
         </P>
         <P>
           One influential family uses{" "}
-          <Term label="byte-pair encoding">A vocabulary-building procedure that repeatedly merges frequent adjacent symbol pairs.</Term>.
+          <Term definition="A vocabulary-building procedure that repeatedly merges frequent adjacent symbol pairs.">byte-pair encoding</Term>.
           The tokenizer learns frequently recurring symbol pairs and gives them reusable vocabulary entries. The
           same tokenizer must encode the prompt and decode generated token IDs back into text.
         </P>
@@ -75,7 +75,7 @@ import { ArticleLink, Card, CardContent, CardHeader, CardTitle, DecodingExplorer
         </table>
         <P>
           If the observed token is <code>mat</code>,{" "}
-          <Term label="cross-entropy loss">A score that penalizes probability assigned away from the observed next token.</Term>{" "}
+          <Term definition="A score that penalizes probability assigned away from the observed next token.">cross-entropy loss</Term>{" "}
           measures how much probability the model assigned to it: <code>loss = -ln P(observed token)</code>. A
           high probability produces a small loss; a low probability produces a large one.
         </P>
@@ -164,7 +164,7 @@ import { ArticleLink, Card, CardContent, CardHeader, CardTitle, DecodingExplorer
         </P>
         <P>
           Inference also does not establish that a continuation is correct, meaningful, or worth adopting. As{" "}
-          <ArticleLink slug="understanding-is-the-bottleneck">The Understanding Bottleneck</ArticleLink> argues,
+          <ArticleLink slug="understanding-and-bottlenecks">Understanding and Bottlenecks</ArticleLink> argues,
           generation produces a candidate artifact; people and institutions still have to ground, interpret,
           evaluate, and absorb it.
         </P>

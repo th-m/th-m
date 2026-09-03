@@ -30,7 +30,7 @@ export const MOBILE_BUNDLE_VIEWBOX = { width: 360, height: 560 } as const;
 export const articleBundleNodes: BundleNode[] = [
   // Top row: the three fundamental essays.
   {
-    slug: "goals-solutions-and-value",
+    slug: "vision-and-values",
     kind: "fundamental",
     order: "01",
     summary: "Human values decide which goals deserve pursuit.",
@@ -40,7 +40,7 @@ export const articleBundleNodes: BundleNode[] = [
     height: 125,
   },
   {
-    slug: "truth-entropy-and-inference",
+    slug: "truth-and-inference",
     kind: "fundamental",
     order: "02",
     summary: "Reliable inference begins where language carries constraints.",
@@ -50,7 +50,7 @@ export const articleBundleNodes: BundleNode[] = [
     height: 125,
   },
   {
-    slug: "understanding-is-the-bottleneck",
+    slug: "understanding-and-bottlenecks",
     kind: "fundamental",
     order: "03",
     summary: "Shared understanding—not output—is the limiting resource.",
@@ -104,9 +104,9 @@ export const articleBundleMobileNodes: BundleNode[] = [
 ];
 
 export const articleBundleEdges: BundleEdge[] = [
-  { from: "goals-solutions-and-value", to: "the-knowledge-factory" },
-  { from: "truth-entropy-and-inference", to: "the-knowledge-factory" },
-  { from: "understanding-is-the-bottleneck", to: "the-knowledge-factory" },
+  { from: "vision-and-values", to: "the-knowledge-factory" },
+  { from: "truth-and-inference", to: "the-knowledge-factory" },
+  { from: "understanding-and-bottlenecks", to: "the-knowledge-factory" },
   { from: "the-knowledge-factory", to: "the-ontology-factory" },
   { from: "the-knowledge-factory", to: "the-cognitive-factory" },
 ];

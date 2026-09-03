@@ -52,12 +52,12 @@ const dedicatedPageSlugs = [
   "ai-consciousness-is-incoherent",
   "building-an-llm",
   "consciousness-is-incoherent",
-  "goals-solutions-and-value",
+  "vision-and-values",
   "the-cognitive-factory",
   "the-knowledge-factory",
   "the-ontology-factory",
-  "truth-entropy-and-inference",
-  "understanding-is-the-bottleneck",
+  "truth-and-inference",
+  "understanding-and-bottlenecks",
 ] as const;
 
 describe("ArticleContent MDX rendering", () => {
@@ -65,7 +65,7 @@ describe("ArticleContent MDX rendering", () => {
     const user = userEvent.setup();
     render(
       <ToolDrawerProvider>
-        <ArticleContent article={article("goals-solutions-and-value")} />
+        <ArticleContent article={article("vision-and-values")} />
       </ToolDrawerProvider>,
     );
     expect(screen.getByRole("heading", { level: 1, name: "Public title" })).toBeInTheDocument();
@@ -119,7 +119,7 @@ describe("ArticleContent MDX rendering", () => {
       "Find the gaps that affect outcomes. Ensure validators between boundaries.",
     );
     const coreThesis = screen.getByText(/Strategy negotiates trade-offs between competing values/);
-    const strategicStudy = screen.getByText(/Research on AI-generated strategic advice demonstrates/);
+    const strategicStudy = screen.getByRole("complementary", { name: "External research" });
     const governingPoint = screen.getByText(/AI is not nefarious, it is biased/);
     expect(coreThesis.compareDocumentPosition(strategicStudy) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(strategicStudy.compareDocumentPosition(governingPoint) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();

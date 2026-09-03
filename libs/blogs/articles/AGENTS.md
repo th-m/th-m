@@ -7,8 +7,9 @@ immediate child as one editorial boundary: experiment in `draft/`, preserve
 durable supporting material in `notes/`, keep evidence and limitations in
 `research/`, and introduce `article.mdx` with `article-assets.ts` only when
 publication is intentional. Keep public static files in `assets/`. Keep
-article-specific semantic scenes and component wiring in immediate kebab-case
-modules, while reusable rendering and interaction behavior belongs in the
+article-specific semantic scenes, datasets, styles, and component wiring in
+kebab-case modules beside the MDX or directly inside its local `components/`
+folder, while reusable rendering and interaction behavior belongs in the
 owning library.
 
 ## Required Verification Parameters Within Nested Context
@@ -27,8 +28,10 @@ unnumbered kebab-case slugs and each has one singular `draft/`. Drafts, notes,
 research, nested private modules, and workspace documentation never enter
 `dist/`. Every published workspace contains `article.mdx` and
 `article-assets.ts`; `article.md` cannot coexist as a public source and
-`index.tsx` is obsolete. Public modules are non-empty immediate kebab-case TS,
-TSX, or CSS files. Every static asset is registered, every image registry path
-exists, and figure, interactive, and preview composition uses stable tagged
+root `index.tsx` is obsolete. Compile modules are non-empty kebab-case TS,
+TSX, or CSS files beside the MDX or directly in `components/`; further directories
+remain private. Keep `article-assets.ts` and the optional `article-components.tsx`
+entrypoint beside the MDX. Every static asset is registered, every image registry
+path exists, and figure, interactive, and preview composition uses stable tagged
 IDs. Generated content writes only to explicit paths inside the workspace, and
 every repository-owned README has a sibling `AGENTS.md`.

@@ -235,7 +235,7 @@ export function createUnderstandingPipelineGraph(now = new Date().toISOString())
       },
     ],
     poster: {
-      kicker: "THE UNDERSTANDING BOTTLENECK",
+      kicker: "UNDERSTANDING AND BOTTLENECKS",
       title: "Proof abundance",
       footer: "GENERATE → VERIFY → EXPLAIN → ADOPT → CANONICAL",
       showLegend: false,
@@ -329,7 +329,7 @@ export function createUnderstandingLoopGraph(now = new Date().toISOString()): Gr
       },
     ],
     poster: {
-      kicker: "THE UNDERSTANDING BOTTLENECK",
+      kicker: "UNDERSTANDING AND BOTTLENECKS",
       title: "The understanding loop",
       footer: "OBSERVE → INTERPRET → FRAME → PROPOSE → TEST → REVISE",
       showLegend: false,

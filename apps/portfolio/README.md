@@ -69,9 +69,11 @@ vs. card vs. modal vs. drawer — live in
 typechecks the route tree, builds `dist/client`, and verifies every manifest
 entry has corresponding static HTML, raw MDX, and serialized asset metadata.
 Outlines, notes, and research are never staged into this app. Article MDX and
-its immediate TS/TSX/CSS modules are compiled from the generated
+its root and article-local `components/` TS/TSX/CSS modules are compiled from the
+generated
 `src/generated/blog-pages/` tree that `prepare:content` rebuilds from
-`libs/blogs/dist`; compile modules are excluded from public `_content`, while
+`libs/blogs/dist`, preserving module paths; compile modules (including the entire
+local `components/` folder) are excluded from public `_content`, while
 the frontmatter-free canonical MDX remains available beside the HTML.
 
 I am interested in how software systems become understandable enough to change.

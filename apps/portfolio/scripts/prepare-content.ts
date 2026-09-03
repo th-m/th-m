@@ -28,7 +28,9 @@ async function removePublicCompileSources(posts: PublishedPost[]): Promise<void>
       throw error;
     }
     for (const entry of entries) {
-      if (entry.isFile() && (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx") || entry.name.endsWith(".css"))) {
+      if (entry.isDirectory() && entry.name === "components") {
+        await rm(join(publicPostDirectory, entry.name), { recursive: true, force: true });
+      } else if (entry.isFile() && (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx") || entry.name.endsWith(".css"))) {
         await rm(join(publicPostDirectory, entry.name), { force: true });
       }
     }
@@ -72,7 +74,8 @@ async function stageBlogArticles(posts: PublishedPost[]): Promise<void> {
     const pageDirectory = join(generatedRoot, post.slug);
     const sourcePageDirectory = join(sourceRoot, "posts", post.slug);
     await mkdir(pageDirectory, { recursive: true });
-    const pageModules = (await readdir(sourcePageDirectory, { withFileTypes: true }))
+    const sourceEntries = await readdir(sourcePageDirectory, { withFileTypes: true });
+    const pageModules = sourceEntries
       .filter((entry) => entry.isFile() && (
         entry.name.endsWith(".mdx") || entry.name.endsWith(".ts") || entry.name.endsWith(".tsx") || entry.name.endsWith(".css")
       ))
@@ -80,6 +83,9 @@ async function stageBlogArticles(posts: PublishedPost[]): Promise<void> {
       .sort((left, right) => left.localeCompare(right, "en"));
     for (const name of pageModules) {
       await cp(join(sourcePageDirectory, name), join(pageDirectory, name));
+    }
+    if (sourceEntries.some((entry) => entry.isDirectory() && entry.name === "components")) {
+      await cp(join(sourcePageDirectory, "components"), join(pageDirectory, "components"), { recursive: true });
     }
     const identifier = pageImportName(post.slug);
     const componentModule = pageModules.includes("article-components.tsx");

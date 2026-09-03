@@ -15,8 +15,8 @@ import { ToolDrawer } from "../src/tools/ToolDrawer";
 
 function understandingArticle(): PublishedArticle {
   return {
-    slug: "understanding-is-the-bottleneck",
-    title: "The Understanding Bottleneck",
+    slug: "understanding-and-bottlenecks",
+    title: "Understanding and Bottlenecks",
     description:
       "When plausible output becomes abundant, shared understanding limits progress.",
     publishedAt: "2026-08-22",
@@ -27,8 +27,8 @@ function understandingArticle(): PublishedArticle {
       "Knowledge Work",
       "Software Systems",
     ],
-    articlePath: "posts/understanding-is-the-bottleneck/article.mdx",
-    assetRegistryPath: "posts/understanding-is-the-bottleneck/assets.json",
+    articlePath: "posts/understanding-and-bottlenecks/article.mdx",
+    assetRegistryPath: "posts/understanding-and-bottlenecks/assets.json",
   };
 }
 
@@ -49,21 +49,21 @@ async function renderPage() {
   const router = createRouter({
     routeTree: rootRoute.addChildren([writingRoute]),
     history: createMemoryHistory({
-      initialEntries: ["/writing/understanding-is-the-bottleneck"],
+      initialEntries: ["/writing/understanding-and-bottlenecks"],
     }),
   });
   await router.load();
   return render(<RouterProvider router={router} />);
 }
 
-describe("The Understanding Bottleneck published page", () => {
+describe("Understanding and Bottlenecks published page", () => {
   it("renders the finished essay header instead of an outline", async () => {
     await renderPage();
     expect(screen.getByText("Essay")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "The Understanding Bottleneck",
+        name: "Understanding and Bottlenecks",
       }),
     ).toBeInTheDocument();
     expect(
@@ -211,8 +211,8 @@ describe("The Understanding Bottleneck published page", () => {
       expect(matchingLink).toHaveAttribute("target", "_blank");
     }
     expect(
-      screen.getByRole("link", { name: "Truth, Entropy & Inference" }),
-    ).toHaveAttribute("href", "/writing/truth-entropy-and-inference");
+      screen.getByRole("link", { name: "Truth and Inference" }),
+    ).toHaveAttribute("href", "/writing/truth-and-inference");
     expect(
       screen.getByRole("link", { name: "The Knowledge Factory" }),
     ).toHaveAttribute("href", "/writing/the-knowledge-factory");

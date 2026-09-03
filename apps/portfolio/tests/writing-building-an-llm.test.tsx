@@ -104,7 +104,7 @@ describe("Building an LLM published page", () => {
     await renderPage();
 
     expect(
-      screen.getByRole("link", { name: "The Understanding Bottleneck" }),
-    ).toHaveAttribute("href", "/writing/understanding-is-the-bottleneck");
+      screen.getByRole("link", { name: "Understanding and Bottlenecks" }),
+    ).toHaveAttribute("href", "/writing/understanding-and-bottlenecks");
   });
 });

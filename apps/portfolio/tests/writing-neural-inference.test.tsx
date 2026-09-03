@@ -1,10 +1,10 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { NeuralInferenceFigure } from "../src/generated/blog-pages/understanding-is-the-bottleneck/neural-inference-figure";
+import { NeuralInferenceFigure } from "../src/generated/blog-pages/understanding-and-bottlenecks/neural-inference-figure";
 
 afterEach(() => cleanup());
 
-describe("The Understanding Bottleneck neural inference figure", () => {
+describe("Understanding and Bottlenecks neural inference figure", () => {
   it("begins with fixed weights and the context token states active", () => {
     const { container } = render(<NeuralInferenceFigure />);
 

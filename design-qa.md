@@ -4,7 +4,7 @@
 
 - Reference: `/Users/thom/.codex/generated_images/01a03e2c-5b6f-73b2-8397-b05742bdefeb/exec-0c67e0b5-b9d0-486e-bf4b-f9222650a32a.png`
 - Reference dimensions: 1080 × 1448 px
-- Target: the situated-truth figure in `Truth, Entropy & Inference`
+- Target: the situated-truth figure in `Truth and Inference`
 - Intentional constraint: the three instrument illustrations are handcrafted SVG assets because the selected direction explicitly requires article-colocated SVGs.
 
 ## Implementation evidence

@@ -30,7 +30,7 @@ const consolidationAnchors: Record<string, string[]> = {
     "The problem is not solved by choosing a more confident definition.",
     "Before attributing phenomenal consciousness to an artificial system, require four things:",
   ],
-  "goals-solutions-and-value": [
+  "vision-and-values": [
     "Model, inference, and runtime",
     "Once the root goal is supplied, it becomes valuable to explore opportunities",
   ],
@@ -44,11 +44,11 @@ const consolidationAnchors: Record<string, string[]> = {
   "the-ontology-factory": [
     "The factory's ontology is not a description of what its repository happens to look like.",
   ],
-  "truth-entropy-and-inference": [
+  "truth-and-inference": [
     "Two theological parallels help situate these non-propositional practices",
     "The interactive semantic-composition explorer follows here",
   ],
-  "understanding-is-the-bottleneck": [
+  "understanding-and-bottlenecks": [
     "Inference Produces an Answer; Understanding Maintains a Model",
   ],
 };

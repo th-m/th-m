@@ -9,7 +9,8 @@ or the audit asset tree. Generate brand data and stage published blog content
 before starting, typechecking, testing, or publishing the app: `prepare:content`
 rebuilds `public/_content` from `libs/blogs/dist` (excluding TS, TSX, and CSS
 compile sources) and regenerates `src/generated/blog-pages/` with every post's
-MDX, asset registry, immediate compile modules, and slug registry.
+MDX, asset registry, root and article-local `components/` compile modules, and
+slug registry, preserving module paths.
 
 ## Required Verification Parameters Within Nested Context
 
@@ -25,9 +26,10 @@ in the publish command.
 
 The portfolio does not own blog drafts, article workspaces, or tool runtimes.
 Only the blogs publish artifact may enter `public/_content`, and it never
-includes raw TS, TSX, or CSS compile source. Raw frontmatter-free article MDX
-and serialized asset metadata remain public. React article modules are compiled
-from the same canonical MDX and sibling modules in the generated
+includes raw TS, TSX, CSS compile source, or the article-local `components/` folder.
+Raw frontmatter-free article MDX and serialized asset metadata remain public.
+React article modules are compiled from the same canonical MDX, sibling modules,
+and local `components/` modules in the generated
 `src/generated/blog-pages/` tree (gitignored and rebuilt by `prepare:content`);
 the `/writing/:slug` route requires a generated MDX entry for every published
 slug. The global tool drawer and its tool registry are portfolio

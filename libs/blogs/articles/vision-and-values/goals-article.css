@@ -1,0 +1,202 @@
+.goals-article .article-outline__content :not(pre) > code {
+  padding: 0.08em 0.3em;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  color: var(--color-primary);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.goals-article .article-outline__content > ul {
+  padding-left: 1.5em;
+  list-style: disc outside;
+}
+
+.goals-article .article-outline__content > ul > li::marker {
+  color: var(--color-primary);
+}
+
+
+.goals-article__research {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  margin: 1.5em 0;
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, var(--color-border));
+  background:
+    linear-gradient(
+      115deg,
+      color-mix(in srgb, var(--color-primary) 7%, transparent),
+      transparent 48%
+    ),
+    color-mix(in srgb, var(--color-background) 96%, var(--color-foreground) 4%);
+}
+
+.goals-article__research > p,
+.goals-article__research > ul {
+  margin: 0;
+}
+
+
+.goals-article__research > p {
+  color: var(--color-foreground);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.55;
+}
+
+.goals-article__research > ul {
+  display: grid;
+  gap: 9px;
+  padding-left: 1.35em;
+  list-style: disc outside;
+  color: var(--color-muted-foreground);
+  font-family: "Inter Variable", sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.goals-article__research > ul > li::marker {
+  color: var(--color-primary);
+}
+
+.goals-article__research > ul strong {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+.thom-link-preview__content:has(.goals-conversation-preview) {
+  width: min(620px, calc(100vw - 32px));
+  max-width: min(620px, calc(100vw - 32px));
+  padding: 0;
+  overflow: hidden;
+}
+
+.goals-conversation-preview {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100%;
+  height: min(510px, calc(100vh - 64px));
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 5%, transparent), transparent 30%),
+    var(--color-popover);
+  color: var(--color-popover-foreground);
+}
+
+.goals-conversation-preview__header,
+.goals-conversation-preview__footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.goals-conversation-preview__header {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.goals-conversation-preview__header > span,
+.goals-conversation-preview__footer {
+  color: var(--color-muted-foreground);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.goals-conversation-preview__header > strong {
+  color: var(--color-primary);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.goals-conversation-preview__thread {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  min-height: 0;
+  padding: 20px 18px;
+  overflow-y: auto;
+  scrollbar-color: color-mix(in srgb, var(--color-primary) 48%, transparent) transparent;
+}
+
+.goals-conversation-preview__thread:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: -4px;
+}
+
+.goals-conversation-preview__message {
+  display: grid;
+  gap: 7px;
+  width: 84%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 90%, var(--color-foreground) 10%);
+}
+
+.goals-conversation-preview__message--user {
+  justify-self: end;
+  width: auto;
+  max-width: 76%;
+  border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+  background: color-mix(in srgb, var(--color-background) 88%, var(--color-primary) 12%);
+}
+
+.goals-conversation-preview__message > strong {
+  color: var(--color-primary);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.goals-conversation-preview__message > p {
+  margin: 0;
+  color: var(--color-popover-foreground);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.goals-conversation-preview__footer {
+  border-top: 1px solid var(--color-border);
+}
+
+.goals-conversation-preview__footer > :last-child {
+  color: var(--color-primary);
+}
+
+@media (max-width: 640px) {
+  .goals-conversation-preview {
+    height: min(460px, calc(100vh - 40px));
+  }
+
+  .goals-conversation-preview__header,
+  .goals-conversation-preview__footer {
+    padding-inline: 14px;
+  }
+
+  .goals-conversation-preview__thread {
+    padding: 16px 14px;
+  }
+
+  .goals-conversation-preview__message,
+  .goals-conversation-preview__message--user {
+    width: 92%;
+    max-width: none;
+  }
+
+  .goals-conversation-preview__footer > :first-child {
+    display: none;
+  }
+}

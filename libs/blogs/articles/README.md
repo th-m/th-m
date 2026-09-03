@@ -14,7 +14,8 @@ An immediate child directory is one article workspace. Its `draft/`, `notes/`,
 and `research/` directories are private. A workspace becomes publishable only
 when it contains both `article.mdx` and `article-assets.ts`. The MDX file owns
 the article's prose and render order; the registry owns stable tagged asset IDs;
-optional immediate TS/TSX/CSS modules implement article-specific components.
+optional TS/TSX/CSS modules beside the MDX or directly inside its local
+`components/` folder implement article-specific components.
 
 ## Key Terms
 
@@ -29,8 +30,9 @@ optional immediate TS/TSX/CSS modules implement article-specific components.
 - **Asset:** a stable ID in `article-assets.ts` with a kind and non-empty tags.
 - **Component asset:** a figure, interactive, or preview implemented in React
   and wired by `article-components.tsx`.
-- **Article module:** a non-empty immediate kebab-case `.ts`, `.tsx`, or `.css`
-  sibling imported by the MDX or component factory.
+- **Article module:** a non-empty kebab-case `.ts`, `.tsx`, or `.css` file beside
+  the MDX or directly in its local `components/` folder, imported by the MDX or
+  component factory.
 - **Frontmatter:** YAML metadata containing `title`, `description`,
   `publishedAt`, and optional `updatedAt`, `addendumTo`, and `tags`.
 
@@ -41,9 +43,9 @@ destabilizing URLs.
 
 | Order | Workspace | Subject | Status |
 | --- | --- | --- | --- |
-| 1 | [goals-solutions-and-value](./goals-solutions-and-value/) | AI problem fit, functional cognition, goals, agency, and theories of value | Published canonical MDX with tagged figures and an interactive training asset |
-| 2 | [truth-entropy-and-inference](./truth-entropy-and-inference/) | Truth practices, predictive language, code constraints, and domain fluency | Published canonical MDX with tagged static assets, figures, and interactives |
-| 3 | [understanding-is-the-bottleneck](./understanding-is-the-bottleneck/) | Turning abundant output into shared models and bounded action | Published canonical MDX with tagged explanatory figures |
+| 1 | [vision-and-values](./vision-and-values/) | AI problem fit, functional cognition, goals, agency, and theories of value | Published canonical MDX with tagged figures and an interactive training asset |
+| 2 | [truth-and-inference](./truth-and-inference/) | Truth practices, predictive language, code constraints, and domain fluency | Published canonical MDX with tagged static assets, figures, and interactives |
+| 3 | [understanding-and-bottlenecks](./understanding-and-bottlenecks/) | Turning abundant output into shared models and bounded action | Published canonical MDX with tagged explanatory figures |
 | 4 | [the-knowledge-factory](./the-knowledge-factory/) | Distributed solutioning, factory engineers, and the knowledge-factory stack | Published canonical MDX with tagged factory figures |
 | 5 | [the-ontology-factory](./the-ontology-factory/) | Repository ontology as the factory's semantic infrastructure | Published canonical MDX with registered images and graph composition |
 | 6 | [the-cognitive-factory](./the-cognitive-factory/) | Graph context, executable context, compounding learning, and cognitive light cones | Published canonical MDX with tagged diagnostic assets |
@@ -66,6 +68,10 @@ articles/
     ├── article-components.tsx  (optional component-asset factory)
     ├── figure-name.tsx         (optional immediate article module)
     ├── figure-name.css         (optional immediate article style)
+    ├── components/             (optional article-local modules)
+    │   ├── registry.ts         (component-asset wiring)
+    │   ├── figure-name.tsx     (figure and its article-specific data)
+    │   └── figure-name.css     (colocated styles imported by the figure)
     ├── assets/                 (optional registered static assets)
     ├── draft/
     ├── notes/
@@ -101,16 +107,30 @@ tags: [Ontology, Software]
 </Section>
 ```
 
-The portfolio supplies `Section`, `Lede`, `P`, `Callout`, `Term`, `Gloss`,
-`Quote`, `Flow`, `Asset`, `PreviewLink`, and `ToolLink`. Standard Markdown links
+The portfolio injects `Section`, `Lede`, `P`, `Callout`, `Term`, `Gloss`,
+`Quote`, `Flow`, `ArticleLink`, `ExternalLink`, and `BlogLink` from
+[`@th-m/blogs/components`](../components/README.md), alongside its asset and tool
+adapters `Asset`, `PreviewLink`, and `ToolLink`. Standard Markdown links
 receive link previews automatically, and GFM tables receive the shared
 responsive wrapper. `P` is available when authored JSX needs paragraph props or
 contains JSX components; ordinary prose should remain Markdown.
+
+Use `Term definition="..."` with the visible term as children, `Callout` for
+claims, and ordinary Markdown subheadings rather than article-local wrappers.
+Shared vocabulary needs no MDX import. React article modules may import the
+package directly; relative imports outside an article break publication staging.
 
 MDX may use named imports from immediate kebab-case modules for article-local
 layout helpers. Reusable behavior belongs in a library. Figures, interactives,
 static images, and custom previews should be composed through stable registry
 IDs rather than unnamed comment markers or a second page source.
+
+For larger articles, organize figures, their datasets, and component-asset wiring
+directly in `components/`. Keep `article-assets.ts` beside the MDX, and let
+`article-components.tsx` re-export the local registry. The publisher preserves
+these module paths but does not copy further subdirectories or documentation.
+Keep verification in the owning project's tests. Shared components still come
+from package exports, not copies inside the article.
 
 ## Tagged Assets and Components
 

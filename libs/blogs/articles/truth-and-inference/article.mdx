@@ -1,0 +1,600 @@
+---
+title: Truth and Inference
+description: Why some language reliably predicts useful answers — and some only predicts what a useful answer sounds like.
+publishedAt: 2026-08-22
+updatedAt: 2026-08-26
+tags: [Artificial Intelligence, Language Models, Information Theory, Software Systems]
+---
+# Truth and Inference
+
+{/* TODO: Develop the recurring graphic motif across the first three AI Factory articles:
+Morpheme -> token
+Formalized idea -> targeted token density
+Ontology -> formalized idea -> tokens
+*/}
+
+import { AcquaintanceMapInstrument, Card, CardContent, CardHeader, CardTitle, ClaimCard, compactAssumption, CONSTRAINT_STACK, ConstraintFeedbackFigure, ConstraintStackFigure, EmbeddingCompositionExplorer, FigureCaption, figureFrame, HASH_SORT_EXAMPLE, HASH_SORT_INFERRED_STRUCTURE, HoverCard, HoverCardContent, HoverCardTrigger, Link, LinkPreview, PredictionFigure, PromptExpansionFigure, RECURRING_TRUTH_PRACTICES, REGISTER_INTERPRETATIONS, RESPONSE_EVIDENCE_LABELS, RESPONSE_METHOD_LABELS, SCENARIOS, SincerityAlignmentInstrument, SITUATED_TRUTH_INSTRUMENTS, SITUATED_TRUTH_PRACTICES, SituatedTruthPracticesFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TrustworthinessBalanceInstrument, TRUTH_PRACTICES, TRUTH_TO_COMPUTATION_STAGES, TruthPracticesFigure, useState } from "./article-components"
+
+<Lede>
+            <P>Consider two prompts that ask for the same outcome:</P>
+            <blockquote>
+              <P>Implement hash-based sorting for this array.</P>
+            </blockquote>
+            <blockquote>
+              <P>Efficiently organize these numbers.</P>
+            </blockquote>
+            <P>
+              Both ask for an efficient ordering. Only the first identifies a known problem space. Used correctly,
+              that identification carries a higher and more useful information density: it activates shared
+              assumptions, methods, and tradeoffs, sharply narrowing what a competent response should contain. The
+              terminology is not a guarantee; its assumptions still have to fit the problem.
+            </P>
+            <ClaimCard eyebrow="Core thesis" title="Fluency follows constraint.">
+              <P style={{ margin: 0 }}>
+                Language records what a domain rewards and rejects. Models learn those patterns. Strong feedback makes
+                fluent output informative; weak feedback makes it merely plausible.
+              </P>
+            </ClaimCard>
+            <P>
+              The question driving this essay is: <strong>how do communities compress tested distinctions into
+              language, and how do models use that language to narrow plausible continuations?</strong> The answer
+              connects forms of truth to embeddings, entropy, and prompting.
+            </P>
+            <P style={{ fontSize: 14, lineHeight: 1.7, color: "var(--color-foreground-muted)" }}>
+              Building on{" "}
+              <LinkPreview url="/writing/vision-and-values" asChild>
+                <Link to="/writing/$slug" params={{ slug: "vision-and-values" }}>Vision and Values</Link>
+              </LinkPreview>
+              {", this essay leads into "}
+              <LinkPreview url="/writing/understanding-and-bottlenecks" asChild>
+                <Link to="/writing/$slug" params={{ slug: "understanding-and-bottlenecks" }}>Understanding and Bottlenecks</Link>
+              </LinkPreview>
+              {" and "}
+              <LinkPreview url="/writing/the-knowledge-factory" asChild>
+                <Link to="/writing/$slug" params={{ slug: "the-knowledge-factory" }}>The Knowledge Factory</Link>
+              </LinkPreview>
+              {". Together, the sequence moves from human stakes to evaluated, reusable knowledge."}
+            </P>
+          </Lede>
+<Section index="01" title="Truth and Propositional Formulations">
+          <P>
+            Six overlapping truth practices shape the language around us. Treat them as an editorial framework, not
+            a universal philosophical taxonomy: the same claim can participate in several practices at once.
+          </P>
+          <P>
+            Begin with three practices most visibly entangled with subjective experience, belief, and personal or
+            communal value: relational acquaintance, sincerity, and trustworthiness. They ask whether an
+            account remains faithful to lived experience, whether expression aligns with inward state, whether
+            reliance is warranted, and how those judgments reflect what people value. This is the territory of{" "}
+            <LinkPreview url="/writing/vision-and-values" asChild>
+              <Link to="/writing/$slug" params={{ slug: "vision-and-values" }}>
+                Vision and Values
+              </Link>
+            </LinkPreview>
+            {": what matters, what ought to be trusted, and whose purposes count cannot be supplied by formalism alone. "}
+            These practices are situated and value-laden, but that does not make them arbitrary.
+          </P>
+          <Asset id="situated-truth-practices-figure" />
+          <P>
+            Two theological parallels help situate these non-propositional practices without claiming that the
+            traditions are equivalent to this essay&apos;s taxonomy. In classical Confucian thought, {" "}
+            <LinkPreview url="https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126" external>
+              chéng (誠, sincerity)
+            </LinkPreview>{" "}
+            joins freedom from deceit to integrity between inward disposition and outward conduct; the {" "}
+            <em>Doctrine of the Mean</em> calls sincerity the Way of Heaven and becoming sincere the human way.
+            In biblical Hebrew, {" "}
+            <LinkPreview url="https://www.thetorah.com/article/torat-emet-truth-spoken-through-the-humble-human-experience" external>
+              ʾemet (אֱמֶת)
+            </LinkPreview>{" "}
+            spans truth, faithfulness, firmness, and reliability. A person, word, promise, or God can be “true”
+            in the sense of being dependable enough to warrant trust.
+          </P>
+          <P>
+            Their feedback remains substantive: people with direct acquaintance can challenge an account; conduct can
+            contradict an avowal; and reliance can fail. The
+            stage-door example in Kane Baker&apos;s{" "}
+            <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s" external>
+              “Nonpropositional Truth”
+            </LinkPreview>{" "}
+            makes the distinction concrete: a door that ought not be trusted by either Sienna or Pearl counts as false
+            in this normative sense regardless of anyone&apos;s intent to deceive. The language of a domain records which
+            of these checks have been running — and how hard they bite.
+          </P>
+          <P>
+            Three other practices become the recurring thread of this article: formal truth as coherence, empirical
+            truth as correspondence, and operational truth as consequence. Their memorable questions — does it fit,
+            does it match, and does it work? — separate internal validity, contact with the world, and successful
+            action.
+          </P>
+          <Asset id="truth-practices-figure"
+            practices={RECURRING_TRUTH_PRACTICES}
+            assetUrl={props.assetUrl}
+            ariaLabel="Three recurring truth practices that compose reusable problem-solving formulations"
+            eyebrow="Recurring thread"
+            title="Coherence · Correspondence · Consequence"
+            caption="Recurring truth practices — correspondence grounds labels, consequence tests operations, and coherence makes the surviving relationships compositional." />
+          <P>
+            Together, the three can compose into patterned formulations. Correspondence gives stable labels to
+            recurring observable features; consequence preserves procedures that repeatedly produce useful outputs;
+            coherence abstracts those labels and operations into definitions, algorithms, and proofs. A community can
+            therefore build a reusable problem-solving pattern before the next concrete problem instance is known.
+            When a new situation is recognized as an instance of that pattern, its terminology retrieves candidate
+            operations and exposes assumptions for testing. The pattern does not solve an unknown problem by magic; it
+            gives future problems a tested structure into which they may fit.
+          </P>
+        </Section>
+<Section index="02" title="From Context to Coordinates to Probabilities">
+          <P>
+            J. R. Firth&apos;s maxim, “You shall know a word by the company it keeps,” captured the distributional premise
+            later formalized by Zellig Harris&apos;s{" "}
+            <LinkPreview
+              url="https://www.its.caltech.edu/~matilde/ZelligHarrisDistributionalStructure1954.pdf"
+              external
+            >
+              <em>Distributional Structure</em>
+            </LinkPreview>
+            . Modern embeddings operationalize a limited version of that idea: repeated context becomes geometry, not a
+            complete theory of meaning. In Word2Vec&apos;s skip-gram objective, target and context tables{" "}
+            <code>Wᵢₙ</code> and <code>Wₒᵤₜ</code> are scored by a dot product. Training raises scores for observed pairs
+            and lowers them for sampled non-neighbors; rows of <code>Wᵢₙ</code> become the embeddings described in the{" "}
+            <LinkPreview
+              url="https://research.google/pubs/efficient-estimation-of-word-representations-in-vector-space/"
+              external
+            >
+              2013 Word2Vec paper
+            </LinkPreview>
+            . Firth&apos;s original formulation appears in{" "}
+            <LinkPreview url="https://languagelog.ldc.upenn.edu/myl/Firth1957.pdf" external>
+              <em>A Synopsis of Linguistic Theory, 1930–1955</em>
+            </LinkPreview>
+            .
+          </P>
+          <P>
+            The interactive semantic-composition explorer follows here, pairing its three-dimensional word map
+            with the live vector calculation from selected inputs to a result location.
+          </P>
+          <Asset id="embedding-composition-explorer" />
+          <P>
+            A tokenizer assigns each token an integer ID. For vocabulary <code>V</code> and width <code>d</code>, the
+            learned table <code>E ∈ ℝ^&#123;|V|×d&#125;</code> maps token <code>xᵢ</code> to{" "}
+            <code>eᵢ = E[xᵢ] ∈ ℝᵈ</code>. A phrase may span several tokens and therefore enters as several vectors. The
+            rows begin as arbitrary values and acquire predictive structure during training; a decoder transformer
+            learns them inside its next-token objective rather than in a separate Word2Vec task.
+          </P>
+          <P>
+            Cosine similarity and distance make neighborhoods visible: nearby points are close under learned usage, not
+            necessarily true in the world. Recurring offsets can also suggest directions such as{" "}
+            <code>man + royal ≈ king</code>. The explorer compresses a much larger space into three hand-authored
+            dimensions. Its equations are geometric intuition, not measured Word2Vec identities or guaranteed semantic
+            arithmetic.
+          </P>
+          <P>
+            An input embedding is only the starting state. Position, attention, and feed-forward layers transform it
+            into a{" "}
+            <Term definition="A vector for one token position after the model combines that token with the surrounding prompt.">contextual hidden state</Term>{" "}
+            that changes with context. <em>Stable</em> therefore produces different states in <em>stable counting sort</em>{" "}
+            and <em>stable employment</em>.
+          </P>
+          <details style={{ margin: "1.5em 0" }}>
+            <summary
+              style={{
+                padding: "13px 16px",
+                border: "1px solid var(--line)",
+                background: "var(--color-card)",
+                color: "var(--color-primary)",
+                cursor: "pointer",
+                fontFamily: "var(--font-mono)",
+                fontSize: 10,
+                letterSpacing: ".13em",
+                textTransform: "uppercase",
+              }}
+            >
+              Engram metaphor
+            </summary>
+            <ClaimCard eyebrow="A helpful engram" title="Three kinds of memory — keep them distinct">
+              <P style={{ margin: 0 }}>
+                Use this card as a small <em>engram about engrams</em>: a compact cue for recalling three mechanisms that
+                are often gathered under the metaphor of memory.
+              </P>
+              <ul style={{ display: "grid", gap: 10, margin: "14px 0 0", paddingLeft: "1.2em" }}>
+                <li>
+                  <strong>Biological engram — trace.</strong> A physical change in living neural tissue associated with
+                  storing and later reactivating an experience.{" "}
+                  <LinkPreview url="https://www.nature.com/articles/nrn4000" external>
+                    Engram research
+                  </LinkPreview>
+                  .
+                </li>
+                <li>
+                  <strong>Token embedding — parameter.</strong> A learned row in a model&apos;s embedding table. Training
+                  makes it predictively useful, but it is neither an episodic memory nor a stored source record.
+                </li>
+                <li>
+                  <strong>Vector-indexed record — record and address.</strong> Durable application content stored beside
+                  an embedding; similarity search uses the vector as an address for retrieving the record.
+                </li>
+              </ul>
+              <P style={{ margin: "14px 0 0", color: "var(--color-foreground-muted)" }}>
+                The useful metaphor is that past structure can guide later activation. The mechanisms remain different.
+                Remember: <strong style={{ color: "var(--color-foreground-strong)" }}>trace · parameter · record</strong>.
+              </P>
+            </ClaimCard>
+          </details>
+
+          <P>
+            <code>Token ID → input embedding → contextual hidden state → output logits → next-token probabilities.</code>
+          </P>
+
+          <P>
+            At the final prompt position, an output projection produces one{" "}
+            <Term definition="An unnormalized score for a possible next token.">logit</Term> per vocabulary token.{" "}
+            <Term definition="A normalization that turns logits into probabilities that add to one.">Softmax</Term> converts
+            those scores into <code>P(next token | prompt)</code>. A decoder chooses or samples a token, appends it, and
+            repeats.
+          </P>
+          <ClaimCard eyebrow="Important boundary" title="Embedding geometry is not output probability">
+            <P style={{ margin: 0 }}>
+              Similar input embeddings can reveal learned relationships, but they do not determine the next token. The
+              full prompt, transformer layers, and output projection intervene before softmax produces a distribution.
+            </P>
+          </ClaimCard>
+          <P>
+            A valid term of art steers a response by shifting contextual states toward learned technical patterns; the
+            prompt must still supply the assumptions that make those patterns applicable. The next section examines how
+            that shift narrows uncertainty. For the cross-entropy and backpropagation that shaped these weights, see the{" "}
+            <LinkPreview url="/writing/vision-and-values" asChild>
+              <Link to="/writing/$slug" params={{ slug: "vision-and-values" }}>
+                training walkthrough in Vision and Values
+              </Link>
+            </LinkPreview>
+            .
+          </P>
+        </Section>
+<Section index="03" title="Entropy, Surprise, and Conditional Prediction">
+          <P>
+            Information theory gives us a precise way to talk about the uncertainty a request leaves behind. A{" "}
+            <Term definition="A description of how much weight a system assigns to each possible outcome; outcomes with more weight are considered more likely.">probability distribution</Term>{" "}
+            represents uncertainty among possible messages or symbols. A less probable observation carries more{" "}
+            <Term definition="A measure of how unlikely an observation is under a distribution; rarer outcomes are more surprising.">surprise</Term>{" "}
+            under that distribution. <Term definition="Shannon entropy summarizes the expected uncertainty of a distribution in bits; it is not a claim about disorder in the world.">Entropy</Term>{" "}
+            is the expected surprise — a summary of how much the system still has to learn before it can pick an
+            outcome confidently. <Term definition="Asking how the distribution changes when prior context is known, rather than predicting from nothing.">Conditional prediction</Term>{" "}
+            asks how that distribution changes when prior context is known.
+          </P>
+          <P>
+            Modern language modeling operationalizes these ideas directly. A next-token model estimates a{" "}
+            <Term definition="A description of how much weight a system assigns to each possible outcome; outcomes with more weight are considered more likely.">distribution</Term>{" "}
+            over possible continuations given the preceding context. Training penalizes probability assigned away
+            from observed continuations, commonly through a <Term definition={"A loss that scores how well the model's predicted distribution matches the observed next token; lower values mean the model assigned the observed token more probability."}>cross-entropy</Term>{" "}
+            objective. The result is not a database of sentences; it is a learned structure of conditional
+            regularities.
+          </P>
+          <P>
+            The lineage here matters. Claude Shannon did not invent language models, and next-token prediction does
+            not follow automatically from his work. In{" "}
+            <LinkPreview url="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" external>
+              “A Mathematical Theory of Communication”
+            </LinkPreview>
+            , Shannon defined entropy as uncertainty in a probability distribution; in{" "}
+            <LinkPreview url="https://doi.org/10.1002/j.1538-7305.1951.tb01366.x" external>
+              “Prediction and Entropy of Printed English”
+            </LinkPreview>
+            , he had human subjects repeatedly guess the next letter of unfamiliar passages and used their prediction
+            performance to estimate the redundancy of English. That is a genuine intellectual ancestor of statistical
+            language modeling — and it is historical intuition, not proof that human language or thought is only
+            next-token prediction.
+          </P>
+          <Asset id="prediction-figure" />
+          <P>
+            The figure above is the article’s core move in miniature. An ambiguous request leaves a broad
+            distribution — high entropy, many plausible continuations. A fitting term of art selects a response
+            family, and valid assumptions narrow it into a handful of testable continuations. The scenario, selected
+            phrase, and ambiguity meter have separate roles; the meter is an illustrative proxy, not a measured model
+            probability. The model did not become smarter between the two prompts; the second prompt simply selected
+            more of the structure the model had learned.
+          </P>
+          <P>
+            Compression also runs in the other direction. The four words <code>hash sort in TypeScript</code> do not
+            contain an implementation verbatim; they address a learned network of algorithmic and language
+            conventions. Expanding that address can produce a much denser response while preserving the prompt’s
+            direction and making its inferred choices visible.
+          </P>
+          <Asset id="prompt-expansion-figure" />
+        </Section>
+<Section index="04" title="Language Patterns Carry the History of Constraint">
+          <P>
+            Patterns become meaningful when practices repeatedly reward some distinctions and reject others.
+            Technical terms survive because they compress a history of use:
+          </P>
+          <ul>
+            <li>a term names a distinction practitioners repeatedly needed;</li>
+            <li>surrounding syntax records typical relationships;</li>
+            <li>examples teach ordinary cases;</li>
+            <li>failures and counterexamples define boundaries; and</li>
+            <li>institutions, tools, and consequences reinforce the usage.</li>
+          </ul>
+          <P>
+            This is why language can contain more knowledge than a glossary reveals. A term of art can point into a
+            network of assumptions and operations — a <Gloss definition="A boundary around a set of terms and rules that keeps them consistent with each other; outside the boundary the same word may mean something different. Coined in domain-driven design to keep models honest.">bounded context</Gloss>{" "}
+            that a dictionary entry cannot enumerate. But it also explains stale or harmful fluency: language
+            faithfully records fashionable habits, institutional blind spots, and repeated mistakes too.
+          </P>
+          <P>
+            The figure below states a working hypothesis, not a settled law of language: domains subjected to repeated
+            correspondence and consequence checks tend to preserve the distinctions that make those checks efficient.
+            Their terms of art become compact addresses into a much larger body of inputs, operations, boundaries, and
+            known failures.
+          </P>
+          <Asset id="constraint-feedback-figure" />
+          <P className="article-outline__flow">
+            Label. Operationalize. Formalize. Compute.
+          </P>
+          <P>
+            At the third truth-linked stage, mathematics, logic, type systems, and programming languages make
+            relationships explicit enough to compose and calculate. This makes a fourth step possible: systems can
+            generate synthetic cases, derive consequences, check proofs, type-check programs, and execute tests.
+            These operations can supply strong evidence of coherence — and, when execution is part of the check,
+            operational success — but they do not establish correspondence by themselves. The formal result must
+            still be regrounded in observation, measurement, and consequence.
+          </P>
+          <P>
+            This computational ladder does not absorb the other truth practices introduced earlier. Relational and
+            acquaintance-based truth remains anchored in first-person experience, as does sincerity; trustworthiness
+            depends on judgments about warranted reliance and what ought to count as dependable. Religious and
+            theological traditions have often supplied languages and communities for making those judgments, but the
+            practices are neither exclusively theological nor merely private. Personal values are tested and
+            negotiated through relationships, shared norms, testimony, and consequences. Their constraints can be
+            rigorous without becoming fully reducible to formal proof.
+          </P>
+        </Section>
+<Section index="05" title="Why Code Is So Pattern-Dense">
+          <P>
+            The practical constraints that enforce programming-language patterns form a stack. Each layer rejects
+            invalid expressions before the next one ever sees them:
+          </P>
+          <Asset id="constraint-stack-figure" />
+          <P>
+            These filters produce large corpora in which many patterns map to executable behavior. That makes code
+            unusually compatible with predictive generation. It does not guarantee that the requested behavior was
+            the right behavior — and it does not make code fully objective. Requirements, architecture, naming,
+            product behavior, and acceptable tradeoffs remain human judgments.
+          </P>
+          <P>
+            Formal mathematics intensifies the same pattern density. Definitions restrict meaning, proof rules
+            constrain inference, counterexamples eliminate false generalizations, and{" "}
+            <Term definition="A tool like Lean that mechanically checks derivations and rejects invalid proofs.">proof assistant</Term>{" "}
+            such as{" "}
+            <LinkPreview url="https://lean-lang.org/" external>
+              Lean
+            </LinkPreview>{" "}
+            can mechanically reject invalid derivations. Models can therefore search a dense field of candidate steps
+            and receive sharper feedback than most natural-language domains provide. Even so, a verified derivation
+            does not decide whether the formal statement captures the intended problem, or whether the result
+            matters. That consequence becomes a case study in Understanding and Bottlenecks.
+          </P>
+          <P>
+            The deeper contrast is what the notes for this essay call{" "}
+            <Gloss definition="Whether a task supplies enough evidence, constraints, feedback, and authority to determine whether a change is better. Code optimization usually closes the loop; strategy usually cannot.">evaluative closure</Gloss>
+            . A coding task often gives the system enough evidence, constraints, feedback, and authority to determine
+            whether its change is better — the tests and benchmarks value the result on the system’s behalf. A
+            strategy task often asks the system to define “better” while simultaneously guessing the world, the
+            values, and the acceptable tradeoffs. The repository contains much of the relevant state for one; the
+            decisive facts for the other may be tacit, private, or still being discovered.
+          </P>
+        </Section>
+<Section index="06" title="A Map of Domain Fluency">
+          <P>
+            When you need to know whether a model can be trusted in a domain, look for evidence that the domain’s
+            language is well grounded:
+          </P>
+          <ul>
+            <li>stable vocabulary inside a bounded context;</li>
+            <li>repeated relationships among named concepts;</li>
+            <li>examples and counterexamples;</li>
+            <li>external checks or observable consequences;</li>
+            <li>explicit uncertainty and disagreement;</li>
+            <li>maintained standards, tests, or professional practices; and</li>
+            <li>enough representative source material to expose variation.</li>
+          </ul>
+          <P>
+            The warning signs are the mirror image: overloaded terms, fashionable but untested narratives, hidden
+            value conflicts, sparse evidence, no corrective feedback, and evaluation that depends entirely on whether
+            an answer sounds right. Fluency is domain- and task-specific, not one global measure of intelligence —
+            the same model can be sharp in a strongly constrained domain and glib in a weakly constrained one.
+          </P>
+          <h3>Vibes to a Typographic Specification</h3>
+          <P>
+            Vibe designing this site’s logo exposed the point. Broad prompts produced plausible marks, but not
+            controllable typography. Once I operationalized the prompt in typography’s domain language — optical
+            profiles, stroke hierarchy, glyph silhouette, spacing, and construction-line density — I could make
+            specific changes: detail the Bézier curves that define the iconic T shape, align stroke thickness across
+            the characters at the median line, add irregular traces around the compact M used in the header and
+            footer, preserve its legible ivory core, and leave the jumbo display mark untouched.
+          </P>
+          <P>
+            You can probably tell it was vibe designed. It is still better than I thought I could make, because the
+            prompt stopped asking for taste in the abstract and started defining a bounded typographic problem with
+            observable constraints.
+          </P>
+        </Section>
+<Section index="07" title="From Abstract to Actual">
+          <P>
+            Close by running the three truth practices in reverse — from abstract structure back to actual conditions
+            and effects:
+          </P>
+          <Card style={{ margin: "1.5em 0" }}>
+            <CardHeader>
+              <CardTitle>Coherence · Consequence · Correspondence</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Truth lens</th>
+                    <th>Question</th>
+                    <th>What the evidence establishes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Coherence</strong></td>
+                    <td>Is it correct within its semantic logic?</td>
+                    <td>The result follows from the system’s definitions, premises, syntax, and inference rules.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Consequence</strong></td>
+                    <td>Does it produce the intended outputs and survive the domain’s tests?</td>
+                    <td>Execution and evaluation show that it works under the stated conditions.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Correspondence</strong></td>
+                    <td>Does it map back to an identifiable problem and its claimed real-world impact?</td>
+                    <td>Observation, measurement, and affected people show whether the model and result track reality.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardContent>
+          </Card>
+          <P>
+            AI can help at all three, but success at an earlier stage can simulate success at the next. A result can be
+            coherent within a semantic system yet fail to produce the intended outputs. It can pass domain tests yet
+            optimize a proxy that does not correspond to the actual problem or impact. The loop closes only when
+            formal claims and operational results are regrounded in observable conditions and consequences for the
+            people affected. Work backward from abstraction: does it fit, does it work, and does it match?
+          </P>
+        </Section>
+<div className="article-outline__closing">
+          <blockquote>
+            A model is fluent where language has learned to carry the constraints. Our work is to follow that fluency
+            back through consequence to correspondence: does it fit, does it work, and does it match the world we mean
+            to change?
+          </blockquote>
+          <P>Closing line</P>
+        </div>
+<Section index="08" title="Sources">
+          <ul>
+            <li>
+              Claude E. Shannon, {" "}
+              <LinkPreview url="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" external>
+                “A Mathematical Theory of Communication”
+              </LinkPreview>{" "}
+              (1948). Defines information entropy and conditional uncertainty.
+            </li>
+            <li>
+              Claude E. Shannon, {" "}
+              <LinkPreview url="https://doi.org/10.1002/j.1538-7305.1951.tb01366.x" external>
+                “Prediction and Entropy of Printed English”
+              </LinkPreview>{" "}
+              (1951). Uses next-character prediction to estimate the redundancy of English.
+            </li>
+            <li>
+              Yoshua Bengio, Réjean Ducharme, Pascal Vincent, and Christian Jauvin, {" "}
+              <LinkPreview url="https://www.jmlr.org/papers/v3/bengio03a.html" external>
+                “A Neural Probabilistic Language Model”
+              </LinkPreview>{" "}
+              (2003). Connects conditional word-sequence probabilities with learned distributed representations.
+            </li>
+            <li>
+              Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean,{" "}
+              <LinkPreview
+                url="https://research.google/pubs/efficient-estimation-of-word-representations-in-vector-space/"
+                external
+              >
+                “Efficient Estimation of Word Representations in Vector Space”
+              </LinkPreview>{" "}
+              (2013). Introduces efficient continuous bag-of-words and skip-gram architectures for learning word vectors
+              at scale.
+            </li>
+            <li>
+              Ashish Vaswani et al., {" "}
+              <LinkPreview url="https://arxiv.org/abs/1706.03762" external>
+                “Attention Is All You Need”
+              </LinkPreview>{" "}
+              (2017). Describes learned token embeddings, contextual transformation through attention, and projection
+              plus softmax into output-token probabilities.
+            </li>
+            <li>
+              Eric Evans, {" "}
+              <LinkPreview url="https://www.domainlanguage.com/ddd/reference/" external>
+                <em>Domain-Driven Design Reference</em>
+              </LinkPreview>
+              . Defines bounded contexts and model-aligned domain language.
+            </li>
+            <li>
+              Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein, {" "}
+              <LinkPreview url="https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/" external>
+                <em>Introduction to Algorithms</em>
+              </LinkPreview>
+              . Provides the sorting and algorithmic assumptions referenced in the essay.
+            </li>
+            <li>
+              Jeremy Avigad, Leonardo de Moura, Soonho Kong, and Sebastian Ullrich, {" "}
+              <LinkPreview url="https://docs.lean-lang.org/theorem_proving_in_lean4/" external>
+                <em>Theorem Proving in Lean 4</em>
+              </LinkPreview>
+              . Documents mechanically checked propositions and proof objects.
+            </li>
+            <li>
+              Microsoft, {" "}
+              <LinkPreview url="https://www.typescriptlang.org/docs/handbook/" external>
+                <em>The TypeScript Handbook</em>
+              </LinkPreview>
+              . Provides an official example of a type checker rejecting invalid program relationships.
+            </li>
+            <li>
+              Stanford Encyclopedia of Philosophy, {" "}
+              <LinkPreview url="https://plato.stanford.edu/entries/truth-correspondence/" external>
+                “The Correspondence Theory of Truth”
+              </LinkPreview>
+              . Surveys facts, states of affairs, events, objects, and properties as possible correspondence relata.
+            </li>
+            <li>
+              Stanford Encyclopedia of Philosophy, {" "}
+              <LinkPreview url="https://plato.stanford.edu/entries/truth-pragmatic/" external>
+                “The Pragmatic Theory of Truth”
+              </LinkPreview>
+              . Surveys accounts that test truth through practical consequences and the outcomes of inquiry.
+            </li>
+            <li>
+              Stanford Encyclopedia of Philosophy, {" "}
+              <LinkPreview url="https://plato.stanford.edu/entries/habermas/" external>
+                “Jürgen Habermas”
+              </LinkPreview>
+              . Distinguishes sincerity or truthfulness from propositional truth and normative rightness as a validity
+              claim of speech.
+            </li>
+            <li>
+              Stanford Encyclopedia of Philosophy, {" "}
+              <LinkPreview url="https://plato.stanford.edu/entries/knowledge-acquaindescrip/" external>
+                “Knowledge by Acquaintance vs. Description”
+              </LinkPreview>
+              . Surveys direct, non-propositional acquaintance and its distinction from descriptive knowledge.
+            </li>
+            <li>
+              Key Concepts in Chinese Thought and Culture, {" "}
+              <LinkPreview url="https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=2126" external>
+                “Chéng (誠): Sincerity”
+              </LinkPreview>
+              . Relates freedom from deceit and consistency of conduct to the Way of Heaven and human moral
+              cultivation.
+            </li>
+            <li>
+              TheTorah.com, {" "}
+              <LinkPreview
+                url="https://www.thetorah.com/article/torat-emet-truth-spoken-through-the-humble-human-experience"
+                external
+              >
+                “Torat Emet: Truth Spoken through the Humble Human Experience”
+              </LinkPreview>
+              . Explains the biblical Hebrew sense of <em>ʾemet</em> as truth and trustworthiness.
+            </li>
+            <li>
+              Kane Baker, {" "}
+              <LinkPreview url="https://www.youtube.com/watch?v=c9BFn4Kqj0E&t=1954s" external>
+                “Nonpropositional Truth” — Trustworthiness Theory
+              </LinkPreview>
+              . Presents trustworthiness as warranted reliance.
+            </li>
+          </ul>
+        </Section>

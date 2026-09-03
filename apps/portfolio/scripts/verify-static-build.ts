@@ -1,3 +1,4 @@
+import { readdir } from "node:fs/promises";
 import { relative, resolve, sep } from "node:path";
 import type { BlogManifest } from "@th-m/blogs/publish";
 
@@ -56,8 +57,9 @@ for (const post of manifest.posts) {
   if (!assets || typeof assets !== "object" || Array.isArray(assets)) {
     throw new Error(`${post.assetRegistryPath} must contain a serialized asset registry.`);
   }
-  if (await Bun.file(publicFile(`_content/posts/${post.slug}/index.tsx`)).exists()) {
-    throw new Error(`${post.slug} exposes obsolete React page source.`);
+  const publicEntries = await readdir(publicFile(`_content/posts/${post.slug}`));
+  if (publicEntries.some((name) => name === "components" || /\.(ts|tsx|css)$/.test(name))) {
+    throw new Error(`${post.slug} exposes article compile sources.`);
   }
 }
 

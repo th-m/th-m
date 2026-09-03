@@ -14,13 +14,13 @@ import { ToolDrawerProvider } from "../src/tools/ToolDrawerProvider";
 
 function truthEntropyArticle(): PublishedArticle {
   return {
-    slug: "truth-entropy-and-inference",
-    title: "Truth, Entropy & Inference",
+    slug: "truth-and-inference",
+    title: "Truth and Inference",
     description: "Why some language reliably predicts useful answers.",
     publishedAt: "2026-08-21",
     tags: ["Artificial Intelligence", "Language Models", "Information Theory", "Software Systems"],
-    articlePath: "posts/truth-entropy-and-inference/article.mdx",
-    assetRegistryPath: "posts/truth-entropy-and-inference/assets.json",
+    articlePath: "posts/truth-and-inference/article.mdx",
+    assetRegistryPath: "posts/truth-and-inference/assets.json",
   };
 }
 
@@ -39,13 +39,13 @@ async function renderPage() {
   });
   const router = createRouter({
     routeTree: rootRoute.addChildren([writingRoute]),
-    history: createMemoryHistory({ initialEntries: ["/writing/truth-entropy-and-inference"] }),
+    history: createMemoryHistory({ initialEntries: ["/writing/truth-and-inference"] }),
   });
   await router.load();
   return render(<RouterProvider router={router} />);
 }
 
-describe("Truth, Entropy & Inference language visualization", () => {
+describe("Truth and Inference language visualization", () => {
   it("opens with a concise statement of the argument", async () => {
     await renderPage();
 
@@ -137,8 +137,8 @@ describe("Truth, Entropy & Inference language visualization", () => {
     expect(section).toHaveTextContent(/before the next concrete problem instance is known/i);
     expect(
       screen
-        .getAllByRole("link", { name: "Goals, Solutions & Value" })
-        .some((link) => link.getAttribute("href") === "/writing/goals-solutions-and-value"),
+        .getAllByRole("link", { name: "Vision and Values" })
+        .some((link) => link.getAttribute("href") === "/writing/vision-and-values"),
     ).toBe(true);
     expect(section).toHaveTextContent(/ought not be trusted by either Sienna or Pearl/i);
     expect(section).not.toHaveTextContent(/true prop door/i);
@@ -235,9 +235,9 @@ describe("Truth, Entropy & Inference language visualization", () => {
     fireEvent.change(roleTerms, { target: { value: "boy" } });
     fireEvent.change(screen.getByRole("combobox", { name: "Composition term 2" }), { target: { value: "royal" } });
     expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent(/boy\s*\+\s*royal\s*=\s*prince/);
-    expect(screen.getByRole("link", { name: /training walkthrough in Goals, Solutions & Value/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /training walkthrough in Vision and Values/i })).toHaveAttribute(
       "href",
-      "/writing/goals-solutions-and-value",
+      "/writing/vision-and-values",
     );
     expect(screen.queryByRole("button", { name: /Inspect a learned token embedding space/i })).not.toBeInTheDocument();
   });

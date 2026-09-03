@@ -34,13 +34,13 @@ decisions remain gated above the people doing the work.
 This is the fourth essay in the sequence. The earlier essays describe the
 landscape, the problem, and the opportunity:
 
-1. **[Goals, Solutions & Value](/writing/goals-solutions-and-value):** the
+1. **[Vision and Values](/writing/vision-and-values):** the
    factory cannot derive its own definition of value from output volume;
    opportunities remain grounded in human stakes and accountable choices.
-2. **[Truth, Entropy & Inference](/writing/truth-entropy-and-inference):**
+2. **[Truth and Inference](/writing/truth-and-inference):**
    predictive systems are strongest where language carries stable constraints
    and feedback; coherence alone is not evidence of correctness or meaning.
-3. **[The Understanding Bottleneck](/writing/understanding-is-the-bottleneck):**
+3. **[Understanding and Bottlenecks](/writing/understanding-and-bottlenecks):**
    the scarce leadership capability is distilling meaningful context and
    multiplying a team's capacity to solve problems.
 

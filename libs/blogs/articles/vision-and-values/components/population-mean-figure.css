@@ -1,0 +1,183 @@
+.population-mean-figure {
+  --population-mean-accent: var(--color-primary);
+  --population-mean-secondary: #8f7ac8;
+  --population-mean-tertiary: #c48663;
+}
+
+.population-mean {
+  display: grid;
+  gap: 24px;
+  padding: clamp(22px, 4vw, 36px);
+  border: 1px solid color-mix(in srgb, var(--population-mean-accent) 28%, transparent);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--population-mean-accent) 6%, transparent),
+      transparent 44%
+    ),
+    var(--color-background);
+}
+
+.population-mean__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.population-mean__header strong {
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+.population-mean__plot {
+  display: grid;
+  gap: 13px;
+}
+
+.population-mean__row {
+  display: grid;
+  grid-template-columns: minmax(64px, 80px) minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.population-mean__row > strong {
+  color: var(--color-foreground);
+  font-weight: 500;
+  text-align: right;
+}
+
+.population-mean__track {
+  position: relative;
+  display: block;
+  height: 15px;
+  background: color-mix(in srgb, var(--color-foreground) 6%, transparent);
+}
+
+.population-mean__bar {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  display: block;
+}
+
+.population-mean__bar--employee {
+  width: 80%;
+  background: var(--population-mean-accent);
+}
+
+.population-mean__bar--manager {
+  width: max(15%, 6px);
+  background: color-mix(
+    in srgb,
+    var(--population-mean-accent) 58%,
+    var(--population-mean-secondary)
+  );
+}
+
+.population-mean__bar--director {
+  width: max(4%, 5px);
+  background: var(--population-mean-secondary);
+}
+
+.population-mean__bar--executive {
+  width: max(1%, 4px);
+  background: var(--population-mean-tertiary);
+}
+
+.population-mean__comparison {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(14px, 3vw, 28px);
+}
+
+.population-mean__comparison > div {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  gap: 2px 7px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--color-foreground) 14%, transparent);
+  background: color-mix(in srgb, var(--color-foreground) 3%, transparent);
+}
+
+.population-mean__comparison span:not(.population-mean__inequality) {
+  grid-column: 1 / -1;
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.population-mean__comparison strong {
+  color: var(--color-foreground);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.population-mean__comparison small {
+  color: var(--color-muted-foreground);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.population-mean__inequality {
+  color: var(--population-mean-accent);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1;
+}
+
+.population-mean__note {
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+  color: var(--color-muted-foreground);
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(14px, 1.8vw, 17px);
+  line-height: 1.55;
+}
+
+@media (max-width: 540px) {
+  .population-mean {
+    gap: 20px;
+  }
+
+  .population-mean__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .population-mean__comparison {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .population-mean__comparison > div {
+    grid-template-columns: auto 1fr;
+  }
+
+  .population-mean__inequality {
+    justify-self: center;
+  }
+}

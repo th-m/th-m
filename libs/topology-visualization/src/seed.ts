@@ -78,7 +78,7 @@ export function createPipelineTopology(now = new Date().toISOString()): Topology
       { id: "accumulate-canonical", source: "adopt-node", target: "canonical-node", label: "accumulates" },
     ],
     poster: {
-      kicker: "THE UNDERSTANDING BOTTLENECK",
+      kicker: "UNDERSTANDING AND BOTTLENECKS",
       title: "Proof abundance",
       footer: "GENERATE → VERIFY → EXPLAIN → ADOPT → CANONICAL",
       showLegend: false,

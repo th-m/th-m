@@ -5,10 +5,11 @@
 Develop ideas under `articles/` according to its README and AGENTS contract.
 Introduce `article.mdx` together with `article-assets.ts` only when publication
 is intentional. Keep public static files in `assets/`, article-owned React and
-style modules as immediate kebab-case siblings, and wire tagged component assets
-through `article-components.tsx`. Use the publisher to stage the artifact. This
-project is a library: `publish` never deploys, and `start` opens Obsidian rather
-than an application runtime.
+style modules as kebab-case files beside the MDX or directly inside the article's
+`components/` folder, and wire tagged component assets through
+`article-components.tsx` (which may re-export a local registry). Use the publisher
+to stage the artifact. This project is a library: `publish` never deploys, and
+`start` opens Obsidian rather than an application runtime.
 
 ## Required Verification Parameters Within Nested Context
 
@@ -27,8 +28,9 @@ published workspace contains exactly one canonical `article.mdx` and one
 `article-assets.ts`; `article.md` cannot publish beside it and `index.tsx` is
 obsolete. MDX imports are named imports from immediate kebab-case modules.
 Every public static asset is registered, every registered image exists, and
-component assets use stable tagged IDs. Drafts, notes, research, nested private
-modules, and workspace documentation never enter `dist/`. Published article
-directories use stable kebab-case slugs, articles satisfy schema version 3,
+component assets use stable tagged IDs. Only root and immediate `components/`
+TS/TSX/CSS files are staged as compile modules; further directories remain private.
+Drafts, notes, research, and workspace documentation never enter `dist/`.
+Published article directories use stable kebab-case slugs, articles satisfy schema version 3,
 publication order is newest first, and generated content writes only beneath
 `libs/blogs/dist`. The library never imports application or tool source.
