@@ -543,3 +543,11 @@
   outline: 2px solid var(--color-ring);
   outline-offset: 3px;
 }
+.thom-popover {
+  z-index: 60;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  background: var(--color-popover);
+  color: var(--color-popover-foreground);
+  box-shadow: var(--shadow-glow);
+}

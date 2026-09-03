@@ -1,31 +1,58 @@
-import { Fragment } from "react";
+import "./value-ladder.css";
 
 const valueLadder = [
-  { kind: "Value", text: "Privacy matters" },
-  { kind: "Preference", text: "Prefer privacy to personalization" },
-  { kind: "Priority", text: "Privacy outranks engagement" },
-  { kind: "Constraint", text: "Never share data without consent" },
-  { kind: "Metric", text: "Zero unconsented disclosures" },
-  { kind: "Procedure", text: "If consent is uncertain, stop and escalate" },
-];
+  {
+    intent: "Feel valued",
+    goals: ["Increase income from my expertise", "Receive credit for my work"],
+  },
+  {
+    intent: "Have more time",
+    goals: ["Spend fewer hours commuting", "Protect evenings with my family"],
+  },
+  {
+    intent: "Preserve purpose",
+    goals: ["Keep teaching and helping people", "Reach more people with my ideas"],
+  },
+] as const;
 
 export function ValueLadder() {
   return (
-    <div
-      className="article-stepper"
-      role="region"
-      tabIndex={0}
-      aria-label="Value-laden language becomes progressively more operational"
+    <figure
+      className="article-figure value-ladder"
+      aria-label="Jon Doe: one statement, multiple possible intents and goals"
     >
-      {valueLadder.map((step, index) => (
-        <Fragment key={step.kind}>
-          {index > 0 ? <span className="article-stepper__arrow" aria-hidden="true">→</span> : null}
-          <div className="article-stepper__node">
-            <strong>{step.kind}</strong>
-            <span>{step.text}</span>
-          </div>
-        </Fragment>
-      ))}
-    </div>
+      <div className="value-ladder__tree">
+        <div className="value-ladder__statement">
+          <span className="value-ladder__label">Jon Doe says</span>
+          <strong>“I want something better”</strong>
+        </div>
+        <ul className="value-ladder__branches" aria-label="Possible intents" role="list">
+          {valueLadder.map(({ intent, goals }) => (
+            <li className="value-ladder__branch" key={intent}>
+              <div className="value-ladder__intent">
+                <span className="value-ladder__label">Possible intent</span>
+                <strong>{intent}</strong>
+              </div>
+              <ul
+                className="value-ladder__goals"
+                aria-label={`Possible goals for ${intent.toLowerCase()}`}
+                role="list"
+              >
+                {goals.map((goal) => (
+                  <li className="value-ladder__goal" key={goal}>
+                    <span className="value-ladder__label">Possible goal</span>
+                    <span className="value-ladder__goal-text">{goal}</span>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <figcaption>
+        These are possible interpretations, not facts about Jon. Several may coexist or compete.
+        Confirm and rank them with him before proposing a solution.
+      </figcaption>
+    </figure>
   );
 }

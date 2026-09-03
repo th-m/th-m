@@ -86,6 +86,9 @@ describe("article MDX module staging", () => {
       "goal-tree-figure.css",
       "goal-tree-figure.tsx",
       "governing-loop-figure.tsx",
+      "language-compression-figure.css",
+      "language-compression-figure.tsx",
+      "morpheme-glossary.tsx",
       "population-mean-figure.css",
       "population-mean-figure.tsx",
       "registry.ts",
@@ -93,6 +96,7 @@ describe("article MDX module staging", () => {
       "relational-knowing-figure.tsx",
       "strategy-map-figure.css",
       "strategy-map-figure.tsx",
+      "value-ladder.css",
       "value-ladder.tsx",
     ]);
     await expect(readFile(resolve(generatedPage, "components/value-ladder.tsx"), "utf8")).resolves.toContain(
@@ -115,6 +119,7 @@ describe("article MDX module staging", () => {
     expect(publicEntries).toContain("article.mdx");
     expect(publicEntries).toContain("assets.json");
     expect(publicEntries).not.toContain("components");
+    expect(publicEntries).not.toContain("research");
     expect(publicEntries).not.toContain("article-components.tsx");
     expect(publicEntries).not.toContain("neural-training-figure.tsx");
     expect(publicEntries).not.toContain("neural-training-figure.css");

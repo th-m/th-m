@@ -14,6 +14,9 @@ with their articles. Reusable walkthroughs have their own subdirectory exports.
 - `links.tsx`: preview-enabled BlogLink, ArticleLink, ExternalLink, and the host
   routing provider. Without a provider, links render ordinary anchors.
 - `styles.css`: shared article typography, surfaces, and responsive tables.
+- `document-popover.tsx`: click/touch/keyboard-accessible, scrollable reference
+  content with a persistent close button. Supply a title, inline trigger, and
+  rendered content; the original article remains visible.
 - `neural-training-figure/`: reusable training walkthrough, styles, and tests.
 
 Canonical MDX receives the shared vocabulary from its renderer; it does not

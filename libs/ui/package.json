@@ -14,6 +14,7 @@
   "dependencies": {
     "@radix-ui/react-dialog": "latest",
     "@radix-ui/react-hover-card": "latest",
+    "@radix-ui/react-popover": "^1.1.23",
     "@radix-ui/react-slot": "latest",
     "@radix-ui/react-tooltip": "latest",
     "@th-m/design-theme": "workspace:*",
@@ -43,8 +44,12 @@
     "projectType": "library",
     "tags": ["kind:lib", "runtime:web", "domain:design"],
     "targets": {
-      "typecheck": { "outputs": [] },
-      "test": { "outputs": [] }
+      "typecheck": {
+        "outputs": []
+      },
+      "test": {
+        "outputs": []
+      }
     }
   }
 }

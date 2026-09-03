@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -61,6 +61,41 @@ const dedicatedPageSlugs = [
 ] as const;
 
 describe("ArticleContent MDX rendering", () => {
+  it("links the language explanation and opens the local glossary in context", async () => {
+    render(
+      <ToolDrawerProvider>
+        <ArticleContent article={article("vision-and-values")} />
+      </ToolDrawerProvider>,
+    );
+    for (const link of screen.getAllByRole("link", { name: "Truth and Inference" })) {
+      expect(link).toHaveAttribute("href", "/writing/truth-and-inference");
+    }
+    expect(screen.getByRole("link", { name: /the hard problem of/ })).toHaveAttribute(
+      "href", "https://en.wikipedia.org/wiki/Hard_problem_of_consciousness",
+    );
+    const morpheme = screen.getByRole("button", { name: "morpheme" });
+    expect(morpheme).toHaveAttribute("aria-haspopup", "dialog");
+    expect(morpheme.closest("p")).toHaveTextContent("minimal unit of meaning in language");
+    const figure = screen.getByRole("figure", {
+      name: "From Jon's experience to the word pain: language leaves details unstated",
+    });
+    expect(morpheme.compareDocumentPosition(figure) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const populationFigure = screen.getByRole("img", { name: /Illustrative company of 100 people/ });
+    expect(figure.compareDocumentPosition(populationFigure) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    fireEvent.click(morpheme);
+    const glossary = await screen.findByRole("document", {
+      name: "Grams and Language Units: A Cross-Domain Glossary",
+    });
+    expect(await within(glossary).findByRole("heading", { name: "Morphological, Lexical, and Semantic Units" })).toBeInTheDocument();
+    expect(within(glossary).getByRole("heading", { name: "Source Guide" })).toBeInTheDocument();
+    expect(within(glossary).getByRole("link", { name: "historical review of Semon’s engram vocabulary" })).toHaveAttribute(
+      "href", "https://pmc.ncbi.nlm.nih.gov/articles/PMC10202315/",
+    );
+    expect(within(glossary).getAllByRole("table").length).toBeGreaterThan(10);
+    fireEvent.click(screen.getByRole("button", { name: "Close reference" }));
+    await waitFor(() => expect(screen.queryByRole("document", { name: /Grams and Language Units/ })).not.toBeInTheDocument());
+  });
+
   it("renders the canonical MDX article selected by slug", async () => {
     const user = userEvent.setup();
     render(
@@ -86,7 +121,7 @@ describe("ArticleContent MDX rendering", () => {
       "href",
       "/writing/consciousness-is-incoherent",
     );
-    expect(screen.getByRole("heading", { name: "Goals Create Opportunity Spaces" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Vision and Goals" })).toBeInTheDocument();
     expect(screen.getByText(/Once the root goal is supplied/)).toHaveTextContent(
       "That distinction separates two kinds of decision:",
     );
@@ -130,8 +165,8 @@ describe("ArticleContent MDX rendering", () => {
       salaryFigureText.indexOf("Company average"),
     );
     expect(screen.queryByText(/80 × \$60k/)).not.toBeInTheDocument();
-    expect(screen.getByText(/Subjective terms and value-laden language inherit personal definitions/)).toHaveTextContent(
-      "An average can describe a population while obscuring the person we are trying to understand. This is not only an AI problem. It is a language problem.",
+    expect(screen.getByText(/Value statements are built from subjective experience/)).toHaveTextContent(
+      /an average can describe a population while obscuring the person we are trying to understand/i,
     );
     expect(screen.queryByText(/Visualization placeholder/)).not.toBeInTheDocument();
     expect(screen.getByText("optimal", { selector: "code" }).closest("p")).toHaveTextContent(

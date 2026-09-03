@@ -25,7 +25,7 @@ import { ConversationLink } from "./article-components"
 
 </Quote>
 
-Nine hours later it returned a huge mess, hundreds of validation checks, hallucinated product details.  Ultimately, It was completely incoherent and unusable.
+Nine hours later it returned a huge mess, hundreds of validation checks and hallucinated product details.  Ultimately, the prompt failed and the output plan was completely unusable.
 
 Why doesn't the AI know what `optimize` means? What fool tool interprets `find all the gaps` and treats every possible omission as equally important?
 
@@ -92,39 +92,43 @@ Grant Anderson from 3Blue1Brown says usisng cross entropy loss is "actually equi
 
 <Section index="03" title="What Language Leaves Out">
 
-Where is the theoretical limit of this language-compression and prediction process? Could a sufficiently capable LLM be a god-like oracle? Statisticallying speaking prompting “What is my purpose?” would have a nonzero chance to return the best possible answer. Even if it did, it could not intend for you to live a purposeful life.
+Where is the theoretical limit of this language-compression and prediction process? Could a sufficiently capable LLM be a god-like oracle? Statisticallying speaking prompting “What is my purpose?” would have a nonzero chance to return the best possible answer. Even if it did, it could not intend for you to live a purposeful life. [A model is not conscious](/writing/consciousness-is-incoherent). It cannot directly observe a private motivation or judgment, or know that its inference is correct.
 
-[A model is not conscious](/writing/consciousness-is-incoherent). It cannot directly observe a private motivation or judgment, or know that its inference is correct.
-
-I think a practical way to put it is, it has all the information in the world about your customer, but it does not "know" your customer.
-
-I like to imagine these "subjective" terms as living in the space between objective facts.
+A more practical way to put it, it has all the information in the world about your customer, but it does not "know" your customer. I like to imagine this "subjective knowing" as the edges between objective facts.
 
 <Asset id="relational-knowing-figure" />
 
-<Flow>experience → judgment → language</Flow>
+For this article, let’s define a value statement as an expression of how something matters to someone. These statements are shaped by subjective experience and individual preferences, reflecting personal desires, fears, and sources of meaning. “Jon earns $72,000” describes his salary. “Jon feels underpaid” expresses how he evaluates that salary. The second statement tells us something about what matters to Jon, but not yet what change would help him or what he would sacrifice to get it.
 
-Language is a lossy form of compression before the model ever sees it. A person experiences a situation, interprets it, forms intentions, and compresses some portion of that inner and social reality into words. Often, those words are meant for an empathetic, self-aware, feeling human who can infer the gaps.
+In linquistic studies we use the word  <Asset id="morpheme-glossary" />. It is a minimal unit of meaning in language. The word `pain` contains one morpheme.
 
-Training performs a second kind of compression:
+<Asset id="language-compression-figure" />
 
-<Flow>language → token sequences → learned weights → context-sensitive predictions</Flow>
+Remember one minute ago where we showed that LLMs are essentially optimized compression tools. It is also useful to recognize that language is itself a compresssion tool.  We encapsulate meaningful ideas into shared terms, i.e. morphemes, Language however, and these morphemes, are not "lossless"
 
-Put together:
+Language is very "lossy".  When someone says "thats painful" it can only be partially understood and we do that through empathy and shared experience. The inverse is true too, words or morphemes, will have subjective and contextual reference points. For my wife an icebath is "painful" for me I would say it is "excilerating". For her gardening is "relaxing" for me I would say "painful".  The imaginary wordcloud of ideas that correlate to "pain" are going to be unique to each individual. This train of thought is explored more scientifically through the lens of  "[the hard problem of conciousness](https://en.wikipedia.org/wiki/Hard_problem_of_consciousness)" where much greater thinkers than I illustrate what we cannot currently capture or express in our language.
 
-<Flow>experience → judgment → language → training corpus → learned weights → inferred continuation</Flow>
+<Flow>experience → morpheme → recording → training data</Flow>
 
+Alright before we get too far off in the weeds considering "consciousness" lets point out two meaningful insights:
+
+- Value statements get distorted in normalization.
+- Value statements become meaningless without intent.
+
+### The Distorted Average.
 <Asset id="population-mean-figure" />
 
-Subjective terms and value-laden language inherit personal definitions, just as `income` translates to a unique value for each individual. An average can describe a population while obscuring the person we are trying to understand. This is not only an AI problem. It is a language problem.
+ Value statements are built from subjective experience. Terms will have individual meaning for instance `income` translates to a unique value for each individual. Furthermore, an average can describe a population while obscuring the person we are trying to understand.
 
-Two coworkers may use `quality`, `safe`, or `done` for weeks while carrying different definitions. Each hears a familiar word and assumes shared meaning. They talk past one another until a failure, an example, or a direct question exposes the difference.
+The same can happen with and value-laden language. Two coworkers may use `quality`, `safe`, or `done` for weeks while carrying different definitions. Each hears a familiar word and assumes shared meaning. They talk past one another until a failure.
 
-AI inherits that problem at scale. When a term underdetermines the speaker's intent, the system fills the gap with patterns from training, post-training, runtime instructions, and the surrounding context. Its answer can be coherent under the inferred meaning and completely wrong for the person who asked.
+This problem is inherent to language and AI inherits that problem at scale. The problem comes when a term underdetermines the speaker's intent and the system fills the gap. Its answer can be coherent under the inferred meaning and completely wrong for the person who asked.
 
-### Judgments hidden in ordinary language
+### Meaningless Without Intent
 
-Values do not appear only in declarations such as “privacy matters.” Ordinary language implies objectives, priorities, obligations, and authority:
+Value statements need to carry the proper intent to be meaningfully applied. When talking to a person, we implicilty know the intent without having it spelled it out. Cases of communication failure largly stems from the intent not being understood.
+
+Value statements often use familiar words that signal a judgment without explaining the intent behind it. Calling something “better,” for example, leaves important questions unanswered: better for whom, in what way, and at what cost? The table below groups words and phrases by the kinds of judgment they can express, notice the intent is still undefined.
 
 | Kind | Examples | Implied judgment |
 | --- | --- | --- |
@@ -137,17 +141,30 @@ Values do not appear only in declarations such as “privacy matters.” Ordinar
 | Authority | `consent`, `deserve`, `authorized`, `accountable` | Assign standing and responsibility |
 
 
-Those judgments can become progressively more operational:
+Jon's “I want something better” does not identify one goal. It can branch into several possible intents, each pointing toward different outcomes:
 
 <Asset id="value-ladder" />
 
-An AI can enact the later statements more reliably because they expose priorities, observable conditions, and actions. But operational precision does not establish that the hierarchy is legitimate. Someone still has to decide that privacy should outrank engagement in this context, determine whose consent counts, observe the consequences, and authorize exceptions or revision.
-
 </Section>
 
-<Section index="04" title="Goals Create Opportunity Spaces">
+<Section index="04" title="Vision and Goals">
 
-A problem becomes an opportunity only relative to a valued outcome. A candidate becomes a solution only if its consequences move the situation toward that outcome:
+We are accelerating toward future where everyone can build everything with a simple prompt. From an economic perspective this means the cost and value of the average goes to zero.
+
+Anyone with practical experience in product is probably relieved by that statement. You know the old addage "the customer is always right". Did you know the full qoute is actually, "the customer is always right, but incapable of articulating their needs or describing a product they would actual pay for and use."
+
+Imagine our business offers a book-publishing service. We could help Jon turn his teaching materials into a book, earn additional income, and reach more educators. But writing and promoting that book could also consume his evenings. Before calling it a valuable solution, we need to understand which outcomes Jon wants, how he ranks them, and what he is unwilling to sacrifice.
+
+This is where **value statements**, **goals**, and **value propositions** connect. A value statement expresses how something matters to someone. A goal identifies a condition they want to bring about or preserve. A value proposition explains how an offer is expected to help them achieve those goals
+
+For Jon, a possible goal might be to earn more from his expertise while protecting his family time. Our value proposition could then be:
+>Turn your existing teaching materials into additional income without taking on the full workload of publishing and selling a book.
+
+That is a proposed benefit but we haven't established fact. We still need to learn whether Jon wants it, whether we can deliver it, and whether the benefit justifies his time, effort, and expense. We also have our own goals and constraints. Can we provide that service at a cost that makes the business sustainable?
+
+[Lena Hall captures this shift in The Signal Layer](https://www.youtube.com/watch?v=1KOdiGgMtpY): "the differentiator is deciding what is worth building, what is worth saying, and what deserves trust. Our vision gives direction to that judgment; our value proposition makes the intended benefit explicit."
+
+### Goals Reflect Opportunities
 
 - A **goal** identifies a state worth bringing about or preserving.
 - An **opportunity** is a condition that may enable progress toward it.
@@ -156,6 +173,8 @@ A problem becomes an opportunity only relative to a valued outcome. A candidate 
 - A **strategy** coordinates cognitive operations and actions over time toward a goal. It can combine inference, prediction, planning, valuation, action selection, and revision in response to feedback.
 
 <Asset id="goal-tree-figure" />
+
+There is a more fundemental reason that AI cannot find valuable goals. Deeper than market economics zeroing out, or compressed averages causing  AI always apply the same strategy. The goals need to reflect value statements
 
 The observation—“support tickets increased”—has no inherent strategic meaning. The governing goal determines what the increase represents:
 

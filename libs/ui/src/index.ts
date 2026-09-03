@@ -35,6 +35,7 @@ export {
 } from "./ToolLauncher";
 export { CardSpotlight, type CardSpotlightProps } from "./CardSpotlight";
 export { LinkPreview, type LinkPreviewProps } from "./LinkPreview";
+export { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "./Popover";
 export { BentoGrid, BentoGridItem, type BentoGridItemProps, type BentoGridProps } from "./BentoGrid";
 export {
   Dialog,

@@ -1,0 +1,150 @@
+.language-compression {
+  --language-compression-term-size: 36px;
+  container-type: inline-size;
+}
+
+.language-compression__graph {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 130px minmax(0, 1fr);
+  align-items: center;
+  gap: 28px 16px;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: "Newsreader Variable", Georgia, serif;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.language-compression__experience,
+.language-compression__word {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 12px;
+  justify-self: center;
+  box-sizing: border-box;
+  width: 100%;
+  background: var(--color-surface);
+}
+
+.language-compression__experience {
+  position: relative;
+  max-width: 240px;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface));
+  color: var(--color-primary);
+}
+
+.language-compression__experience > strong {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-primary);
+  font-size: var(--language-compression-term-size);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.language-compression__icons {
+  position: absolute;
+  inset: 0;
+}
+
+.language-compression__experience-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: .5;
+  opacity: .7;
+  pointer-events: none;
+}
+
+.language-compression__icons > svg {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.language-compression__icons > svg:nth-child(1) { left: 26%; top: 26%; }
+.language-compression__icons > svg:nth-child(2) { left: 74%; top: 26%; }
+.language-compression__icons > svg:nth-child(3) { left: 26%; top: 74%; }
+.language-compression__icons > svg:nth-child(4) { left: 74%; top: 74%; }
+
+.language-compression__label {
+  color: var(--color-foreground-muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.language-compression__word {
+  max-width: 230px;
+  padding: 26px 16px;
+  border: 2px dotted var(--color-border-strong);
+}
+
+.language-compression__word > strong {
+  color: var(--color-foreground);
+  font-size: var(--language-compression-term-size);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.language-compression__edge {
+  display: grid;
+  gap: 12px;
+  color: var(--color-primary);
+  font-size: 16px;
+}
+
+.language-compression__edge > strong { font-weight: 700; }
+
+.language-compression__arrow {
+  position: relative;
+  border-top: 1px solid currentColor;
+}
+
+.language-compression__arrow::after {
+  position: absolute;
+  top: -4px;
+  right: 1px;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
+  content: "";
+}
+
+.language-compression__omissions {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--color-border-strong);
+}
+
+@container (max-width: 640px) {
+  .language-compression__graph { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .language-compression__edge { justify-items: center; }
+  .language-compression__arrow { width: 36px; margin: 18px 0; transform: rotate(90deg); }
+}

@@ -57,6 +57,15 @@ routing, asset resolution, and tool integration; articles do not duplicate them.
 - **Publish:** validate public sources and recreate `dist/`; it never deploys
   remotely.
 
+## Explicit Reference Documents
+
+`@th-m/blogs/references/language-units-glossary.md` explicitly exposes the
+requested glossary from `building-an-llm/research/` for Markdown compilation in
+the portfolio. The morpheme popover lazy-loads this one source file through the
+package export. It does not duplicate the document or stage research folders;
+other private files remain excluded. The app's MDX compiler renders Markdown
+tables, emphasis, and links using the shared blog presentation components.
+
 ## Authoring with Obsidian
 
 The repository root is an Obsidian vault. Start the authoring workflow with:

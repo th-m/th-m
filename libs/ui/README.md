@@ -37,6 +37,9 @@ drawer shell (that shell is portfolio composition).
 - **LinkPreview:** the Aceternity-style link that reveals a small floating
   destination card (hostname + path, a custom preview, or a static image) on
   hover or focus; `asChild` keeps SPA links.
+- **Popover:** a Radix-anchored, nonmodal click/touch/keyboard surface with
+  Escape/outside dismissal and focus return. Compose its trigger, content,
+  and close control for interactive references that need to stay open.
 - **BentoGrid:** the Aceternity-style mixed-size grid; `BentoGridItem` cells
   may span columns and rows, and render as external links via `href`.
 - **Surface tokens:** the `card`, `hover-card`, `popover`, and `dialog`
