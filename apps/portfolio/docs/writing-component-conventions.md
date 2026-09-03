@@ -16,6 +16,20 @@ styles live in [`@th-m/blogs/components`](../../../libs/blogs/components/README.
 The portfolio supplies routing through `BlogLinkProvider` and keeps asset and
 tool adapters in `ArticleMdx.tsx`; article modules keep their figures and data.
 
+## Shared Markdown typography
+
+Every `article.mdx` uses the same root layout and shared prose styles. The root
+layout loads upright and real italic faces for Newsreader (body and display),
+Inter (sans-serif text and tables), and IBM Plex Mono (code and labels).
+`font-synthesis: none` remains intentional; load the actual font face whenever
+adding a new font or style.
+
+Use standard Markdown: `*emphasis*` or `_emphasis_`, `**strong emphasis**`, and
+`***both***`. These semantics also work inside shared `P`, `Section`, `Callout`,
+and `Quote` components. Keep font loading in the root layout and reusable prose
+styles in `@th-m/blogs/components`; articles need no per-file font imports or
+formatting wrappers.
+
 ## The six contextual surfaces
 
 | Surface | Shape | Reading posture | Home for |

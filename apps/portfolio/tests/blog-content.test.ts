@@ -89,6 +89,8 @@ describe("article MDX module staging", () => {
       "population-mean-figure.css",
       "population-mean-figure.tsx",
       "registry.ts",
+      "relational-knowing-figure.css",
+      "relational-knowing-figure.tsx",
       "strategy-map-figure.css",
       "strategy-map-figure.tsx",
       "value-ladder.tsx",

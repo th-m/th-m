@@ -72,19 +72,12 @@ describe("ArticleContent MDX rendering", () => {
     // The MDX module renders the complete canonical essay.
     expect(screen.getByRole("heading", { name: "AI has Hidden Priorities" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "What a Language Model Carries" })).toBeInTheDocument();
-    expect(screen.getByText(/An LLM is a compressed statistical model of patterns in human language/)).toBeInTheDocument();
+    expect(screen.getByText(/An LLM is a compressed statistical model that is patterned from human language/)).toBeInTheDocument();
     expect(screen.getByText(/A model never experiences anything/)).toHaveTextContent(
-      "The value of its predictive capabilities comes from the relationships between words.",
+      "The value of its predictions comes from the relationships between words.",
     );
-    expect(
-      screen.getByText(
-        "There is no evidence to suggest anything beyond a pattern with incredible predictive power.",
-      ),
-    ).toBeInTheDocument();
     expect(screen.queryByText(/The model never encounters a cat/)).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Input and tokens" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Training through cross-entropy" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Model, inference, and runtime" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Tokens and Cross-entropy Training" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "Possible next token" }).closest("table")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "What Language Leaves Out" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Two compressions" })).not.toBeInTheDocument();
@@ -116,11 +109,11 @@ describe("ArticleContent MDX rendering", () => {
     );
     expect(screen.getByText(/Human governance does not mean manually choosing every action/)).toBeInTheDocument();
     expect(screen.getByText(/What I actually wanted was for the agent to have a bit of common sense/)).toHaveTextContent(
-      "Find the gaps that affect outcomes. Ensure validators between boundaries.",
+      "Find the gaps that affect outcomes. Ensure validation checks between boundaries.",
     );
     const coreThesis = screen.getByText(/Strategy negotiates trade-offs between competing values/);
     const strategicStudy = screen.getByRole("complementary", { name: "External research" });
-    const governingPoint = screen.getByText(/AI is not nefarious, it is biased/);
+    const governingPoint = screen.getByText(/AI is biased\. It comes baked with it's own values/);
     expect(coreThesis.compareDocumentPosition(strategicStudy) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(strategicStudy.compareDocumentPosition(governingPoint) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(coreThesis.closest(".article-claim")).toHaveClass("article-claim--emphasis");
@@ -146,9 +139,9 @@ describe("ArticleContent MDX rendering", () => {
     );
     expect(screen.getByText(/Our hypothesis is that, had the researchers/)).toBeInTheDocument();
     expect(screen.getByText(/The strategic-advice study did not test this claim directly/)).toBeInTheDocument();
-    expect(screen.getByText("Fewer than 2%:", { selector: "strong" })).toBeInTheDocument();
-    expect(screen.getByText("About 11%:", { selector: "strong" })).toBeInTheDocument();
-    expect(screen.getByText("About 19%:", { selector: "strong" })).toBeInTheDocument();
+    expect(screen.getByText("fewer than 2% of cases", { selector: "strong" })).toBeInTheDocument();
+    expect(screen.getByText("11% of cases", { selector: "strong" })).toBeInTheDocument();
+    expect(screen.getByText("19% of cases", { selector: "strong" })).toBeInTheDocument();
     const corrigibilityList = screen
       .getByText("direct observation of customer and employee consequences")
       .closest("ul");

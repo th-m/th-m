@@ -3,6 +3,7 @@ import { createMemoryHistory, createRootRoute, createRoute, createRouter, Outlet
 import { ArticleLink, BlogLink, BlogLinkProvider, Callout, ExternalLink, Flow, Gloss, Lede, Paragraph, Quote, Section, Term } from "@th-m/blogs/components";
 import { describe, expect, it } from "vitest";
 import { createArticleMdxComponents, renderArticleLink } from "../src/writing/ArticleMdx";
+import Typography from "./fixtures/typography.mdx";
 
 const article = {
   slug: "vision-and-values",
@@ -15,6 +16,20 @@ const article = {
 };
 
 describe("portfolio shared MDX adapter", () => {
+  it("preserves Markdown emphasis in prose and shared article components", () => {
+    render(<Typography components={createArticleMdxComponents(article, {})} />);
+
+    for (const context of ["prose", "paragraph", "section", "list", "table", "callout", "quote"]) {
+      expect(screen.getByText(`Italic ${context}`, { exact: true }).tagName).toBe("EM");
+      expect(screen.getByText(`bold ${context}`, { exact: true }).tagName).toBe("STRONG");
+    }
+    for (const context of ["prose", "paragraph", "section"]) {
+      const combined = screen.getByText(`bold italic ${context}`, { exact: true });
+      expect(combined.closest("em")).toBeInTheDocument();
+      expect(combined.closest("strong")).toBeInTheDocument();
+    }
+  });
+
   it("injects the library implementations without redefining presentation", () => {
     expect(createArticleMdxComponents(article, {})).toMatchObject({
       ArticleLink, BlogLink, Callout, ExternalLink, Flow, Gloss, Lede, P: Paragraph, Quote, Section, Term,

@@ -5,6 +5,7 @@ export default defineArticleAssets({
   "governing-loop-figure": { kind: "figure", label: "Governing Loop Figure", tags: ["article-figure", "mdx-component"] },
   "neural-training-figure": { kind: "interactive", label: "Neural Training Figure", tags: ["article-interactive", "mdx-component"] },
   "population-mean-figure": { kind: "figure", label: "Population Mean Figure", tags: ["article-figure", "mdx-component"] },
+  "relational-knowing-figure": { kind: "figure", label: "Relational Knowing Figure", tags: ["article-figure", "knowledge-graph", "relational-knowing"] },
   "strategy-map-figure": { kind: "figure", label: "Strategy Map Figure", tags: ["article-figure", "mdx-component"] },
   "value-ladder": { kind: "figure", label: "Value Ladder", tags: ["article-figure", "mdx-component"] },
 });

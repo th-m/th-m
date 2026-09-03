@@ -21,19 +21,15 @@ import { ConversationLink } from "./article-components"
 
 <Quote plain>
 
-**“Optimize this plan, find all the gaps and ensure validation checks are in place.”**
+**“Hey AI, Optimize this plan, find all the gaps and ensure validation checks are in place.”**
 
 </Quote>
 
-*Plan sent*
+Nine hours later it returned a huge mess, hundreds of validation checks, hallucinated product details.  Ultimately, It was completely incoherent and unusable.
 
-Nine hours later it returned a huge mess, hundreds of validation checks, hallucinated product details.  It was completely incoherent and unusable.
+Why doesn't the AI know what `optimize` means? What fool tool interprets `find all the gaps` and treats every possible omission as equally important?
 
-Why doesn't the AI know what `optimize` means? What fool tool interprets `find all the gaps` and treats every imaginable omission as equally important?
-
-What I actually wanted was for the agent to have a bit of common sense. Find the *gaps that affect outcomes*. Ensure *validators between boundaries*.
-
-Even with the updated prompt, I am not convinced the model would have output anything better.
+What I actually wanted was for the agent to have a bit of common sense. Find the *gaps that affect outcomes*. Ensure *validation checks between boundaries*. Even if I clarified those details in the prompt, I am not convinced the model would have output anything better.
 
 <Callout label="Core thesis" emphasis>
 
@@ -45,15 +41,16 @@ Even with the updated prompt, I am not convinced the model would have output any
 
  In one [study of seven strategic tradeoffs](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return) researchers identified different levels of influence on AI's strategic recommendations:
 
-- **Fewer than 2%:** Changing the wording or asking a model to reason harder changed the answers.
-- **About 11%:** Adding relevant company information changed the answers.
-- **About 19%:** Merely reversing the order of the choices changed the answers—more than the company evidence did.
+* Changing the wording or asking the model to reason harder changed its answer in **fewer than 2% of cases**.
+* Adding relevant company information changed its answer in **11% of cases**.
+* Merely reversing the order of the choices changed its answer in **19% of cases**.
+
 
 </aside>
 
 The article demonstrated that models favored the same strategic positions despite adding relevant information that would encourage alternatives. Worse than that, the biggest factor affecting it's response was the way the choice was presented.
 
-AI is biased.  It comes baked with it's own values and strategic preferences. This prebuilt bias comes is a product of multiple layers of the LLM: the training data,pre-training, fine-tuning, system prompts, and the harnesses.
+AI is biased. It comes baked with it's own values and strategic preferences. This bias is a product of multiple layers of the LLM: the training data,pre-training, fine-tuning, system prompts, and the harnesses.  Furthermore, AI is a mechanical and mathmatical process order of input.
 
 </Section>
 
@@ -69,7 +66,7 @@ To drive this point home I think it is helpful to understand tokenization and cr
 
 Before a model can process text, a **tokenizer** converts it into numerical units. The process is designed so those units can later be decoded back into text. Technically tokenization is a lossless compression technique. A popular method is **Byte Pair Encoding**, adapted from Philip Gage's [“A New Algorithm for Data Compression”](https://www.derczynski.com/papers/archive/BPE_Gage.pdf).
 
-<Flow>text → tokens → model inference → tokens → text</Flow>
+<Flow>text → tokens →  inference → tokens → text</Flow>
 
 The pretraining process is eleqent in how it reinforces the model.  Given a sentance "the cat sat on the mat".
 we remove the the word "mat" then ask the model to predict the continuation.
@@ -89,42 +86,21 @@ Given *The cat sat on the …*, the model might assign:
 - Backpropagation identifies how parameters contributed to it.
 - The optimizer updates those parameters to improve future predictions.
 
-<Flow>context → token probabilities → observed token → cross-entropy loss → backpropagation → updated weights</Flow>
-
-Repeated across an enormous body of language, the training process adjusts billions of parameters, distilling statistical information into learned patterns. It does not distill meaning. 3Blue1Brown explains the mathematical principles behind this in [“Reinventing Entropy | Compression is Intelligence Part 1”](https://www.youtube.com/watch?v=l6DKRf-fAAM) and [“But what is cross-entropy? | Compression is Intelligence Part 2”](https://www.youtube.com/watch?v=GlYgs6v2YfU).
-
-### Model, inference, and runtime
-
-The trained model combines an architecture with billions of learned parameters, or **weights**:
-
-- embeddings map token IDs into learned numerical representations
-- attention combines information from different positions in the context
-- feed-forward layers transform each contextualized representation
-- output weights turn the final representation into scores for possible next tokens
-
-At inference time, the current tokens pass through the network, the model produces a probability distribution, a decoding strategy selects a token, and the process repeats.
-
-<Flow>prompt → tokens → learned representations → token probabilities → selected token → append → repeat</Flow>
-
-Training changes the weights. Inference uses those weights. Runtime context then steers which learned patterns matter:
-
-- system prompt
-- agent charter
-- user prompt
-- prompt composition
-- tool permissions
-- retrieved evidence
-- conversation history
-
-There is no evidence to suggest anything beyond a pattern with incredible predictive power.
+Grant Anderson from 3Blue1Brown says usisng cross entropy loss is "actually equivalent to training the model to be the best possible text compressor". I   [“Reinventing Entropy | Compression is Intelligence Part 1”](https://www.youtube.com/watch?v=l6DKRf-fAAM) and [“But what is cross-entropy? | Compression is Intelligence Part 2”](https://www.youtube.com/watch?v=GlYgs6v2YfU).
 
 </Section>
 
 <Section index="03" title="What Language Leaves Out">
 
-Where is the theoretical limit of this language-compression and prediction process? Could a sufficiently capable LLM become a god-like oracle? Ask one, “What is my purpose?” There is some nonzero chance it returns the right answer. Even if it did, it could not intend for you to live a purposeful life.
+Where is the theoretical limit of this language-compression and prediction process? Could a sufficiently capable LLM be a god-like oracle? Statisticallying speaking prompting “What is my purpose?” would have a nonzero chance to return the best possible answer. Even if it did, it could not intend for you to live a purposeful life.
 
 [A model is not conscious](/writing/consciousness-is-incoherent). It cannot directly observe a private motivation or judgment, or know that its inference is correct.
+
+I think a practical way to put it is, it has all the information in the world about your customer, but it does not "know" your customer.
+
+I like to imagine these "subjective" terms as living in the space between objective facts.
+
+<Asset id="relational-knowing-figure" />
 
 <Flow>experience → judgment → language</Flow>
 
@@ -148,7 +124,7 @@ AI inherits that problem at scale. When a term underdetermines the speaker's int
 
 ### Judgments hidden in ordinary language
 
-Values do not appear only in declarations such as “privacy matters.” Ordinary language quietly supplies objectives, priorities, obligations, and authority:
+Values do not appear only in declarations such as “privacy matters.” Ordinary language implies objectives, priorities, obligations, and authority:
 
 | Kind | Examples | Implied judgment |
 | --- | --- | --- |
@@ -160,7 +136,6 @@ Values do not appear only in declarations such as “privacy matters.” Ordinar
 | Affective | `painful`, `reassuring`, `alienating` | Point toward experienced consequences |
 | Authority | `consent`, `deserve`, `authorized`, `accountable` | Assign standing and responsibility |
 
-Even a noun such as `problem` contains a judgment: the present condition is undesirable relative to someone's interests. `Opportunity` implies a valued outcome. `Success`, `failure`, `risk`, and `waste` all depend on a perspective and a time horizon.
 
 Those judgments can become progressively more operational:
 

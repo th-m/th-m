@@ -31,7 +31,7 @@ const consolidationAnchors: Record<string, string[]> = {
     "Before attributing phenomenal consciousness to an artificial system, require four things:",
   ],
   "vision-and-values": [
-    "Model, inference, and runtime",
+    "The value of its predictions comes from the relationships between words.",
     "Once the root goal is supplied, it becomes valuable to explore opportunities",
   ],
   "the-cognitive-factory": [
