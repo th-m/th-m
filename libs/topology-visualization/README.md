@@ -11,6 +11,12 @@ layout, the self-contained SVG renderer (content figure + 1600×1000 poster),
 the seed topologies, and the reagraph interactive canvas used by the local
 authoring tool.
 
+## Boundaries
+
+This library owns topology documents, deterministic layout, renderers, and canvas
+presentation. The topology tool owns CLI inputs and output paths. A structural
+dependency link is distinct from a proposition-graph relationship.
+
 ## Ontology
 
 A topology is a set of **layers** (ordered columns or rows), **nodes** that
@@ -50,8 +56,3 @@ Browser consumers must provide the design theme tokens
 (`@th-m/design-theme/theme.css`). CLI consumers import
 `@th-m/topology-visualization/core` and use `layoutTopology` +
 `createTopologySvg`.
-
-## Verification
-
-Run `topology-visualization:typecheck` and `topology-visualization:test`.
-The library depends on the `testing` support library for the vitest setup.

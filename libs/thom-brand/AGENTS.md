@@ -6,6 +6,9 @@ Keep reusable identity components, geometry, motion, optical profiles, and
 generated runtime data in this library. Application-specific routes, copy,
 public artifacts, and publication workflows remain with their owning app.
 
+Agents creating THOM visual assets should follow the
+[THOM Design Instructions for Agents](agent-design-instruction-guidelines.md).
+
 ## Required Verification Parameters Within Nested Context
 
 Run `thom-brand:typecheck` and `thom-brand:test` for library changes. Run the

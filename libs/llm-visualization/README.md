@@ -7,6 +7,12 @@ decoder-only language-model inference and exploring a deterministic
 transformer learning lab. It uses local illustrative values and makes no live
 model calls.
 
+## Boundaries
+
+This library owns the guided inference model, teaching lab, reducers, and
+presentation. Consumers own routes and prose. Deterministic lab examples remain
+separate from live model inference or production weight training.
+
 ## Ontology
 
 The library separates the scientific stage model, deterministic scenario data,

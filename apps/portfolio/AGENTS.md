@@ -12,6 +12,15 @@ compile sources) and regenerates `src/generated/blog-pages/` with every post's
 MDX, asset registry, root and article-local `components/` compile modules, and
 slug registry, preserving module paths.
 
+### Local workflow
+
+Run `bun run nx run portfolio:start` locally and
+`bun run nx run portfolio:publish` to produce its local artifact.
+
+### Design tool
+
+[Paper](https://paper.design/) is the specified design tool for this project. Use Paper for brand exploration, visual design, review, and design handoff instead of Figma.
+
 ## Required Verification Parameters Within Nested Context
 
 Run `portfolio:typecheck` and `portfolio:test` for implementation changes (both
@@ -37,3 +46,9 @@ composition; the `@th-m/ui` primitives they compose live in the library.
 Generated brand and content files must remain reproducible, every public route
 must hydrate, and Netlify publication must use `dist/client` without a server
 function.
+
+## Downlinks
+
+- [Brand audit evidence](public/brand-audit/audit/AGENTS.md): historical captures.
+- [Blogs](../../libs/blogs/AGENTS.md): public content inputs.
+- [THOM brand](../../libs/thom-brand/AGENTS.md): shared identity geometry.

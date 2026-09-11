@@ -12,6 +12,12 @@ brand fills, and the Newsreader / IBM Plex Mono typography mapping — the forme
 refactor. The `GraphDocument` contract, storage, seeds, and model remain the
 shared source of truth.
 
+## Boundaries
+
+This library owns proposition documents, storage, canvas adaptation, and reusable
+editor/explorer surfaces. Consumers own routes and article claims. Layered
+topology rendering belongs to `topology-visualization`.
+
 ## Ontology
 
 A proposition states what can be asserted; a relationship expresses how two or
@@ -60,10 +66,3 @@ Browser consumers must provide the design theme tokens
 page. Reagraph requires a WebGL-capable browser; the figure and canvas surface
 fall back to a status message when WebGL is unavailable. CLI consumers import
 `@th-m/graph-visualization/core`.
-
-## Verification
-
-Run `graph-visualization:typecheck` and `graph-visualization:test`. The
-library depends on the `testing` support library for the vitest setup.
-Component tests mock the `reagraph` canvas; the pure document→canvas mapping
-(`canvas.ts`) is unit-tested without a WebGL context.

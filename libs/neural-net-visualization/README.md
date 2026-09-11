@@ -8,6 +8,12 @@ nodes, edges, and value bars. A consumer owns the scene's meaning, labels,
 numerical snapshots, and timeline; the library does not define training,
 inference, targets, loss, or other neural-network concepts.
 
+## Boundaries
+
+This library owns domain-neutral scene validation, rendering, and playback.
+Consumers own scientific meaning, labels, snapshots, and timelines. Article
+semantics and preset learning scenarios do not belong in this rendering engine.
+
 ## Ontology
 
 A **scene** contains ordered layers and nodes, static edges, optional value-bar

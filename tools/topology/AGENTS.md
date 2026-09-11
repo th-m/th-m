@@ -7,6 +7,14 @@ the same `TopologyDocument` contract (owned by
 `@th-m/topology-visualization`). Require explicit input and output arguments
 for CLI generation.
 
+### Generation
+
+Generate an artifact with:
+
+```sh
+bun run nx run topology:gen -- --input path/to/topology.json --output path/to/name [--mode graph|poster]
+```
+
 ## Required Verification Parameters Within Nested Context
 
 Run `topology:typecheck` and `topology:test`. Run `topology:gen` on a fixture

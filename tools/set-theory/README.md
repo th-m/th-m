@@ -12,6 +12,12 @@ the compiler analysis itself lives in `@th-m/knowledge-model` and runs only
 locally. Static set-diagram output is produced by that library's general
 overlap renderer — this tool deliberately does not generate artifacts.
 
+## Boundaries
+
+This tool owns local TypeScript authoring and inspection. `knowledge-model`
+owns compiler analysis; `set-theory-visualization` owns layout and rendering.
+The workbench does not generate artifacts or modify inspected source.
+
 ## Ontology
 
 The TypeScript compiler determines assignability and diagnostics. The analyzer

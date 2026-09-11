@@ -6,6 +6,40 @@ Keep source vectors, deterministic projection metadata, vector math, React
 presentation, tests, and generation scripts under this owner. Export consumer
 contracts through the package root and keep app routes composition-only.
 
+### Composition Review CSV
+
+Generate the reviewer-facing composition inventory to its explicit
+library-owned path:
+
+```sh
+bun run nx run embedding-space:gen-composition-review -- \
+  --output /absolute/path/to/libs/embedding-space/generated/embedding-composition-review.csv
+```
+
+The generator enumerates canonical multisets of one to four control terms,
+including repeated terms. Because vector addition is order-independent, each
+row represents all equivalent slot orders and records their count in
+`ordered_permutation_count`. Blank review columns sit beside the current
+authored, exact, projected-neighbor, or invalid classification.
+
+### Dataset generation
+
+Regenerate the fixed dataset to an explicit library-owned path:
+
+```sh
+bun run nx run embedding-space:gen -- \
+  --model /absolute/path/model.safetensors \
+  --tokenizer /absolute/path/tokenizer.json \
+  --output /absolute/path/to/libs/embedding-space/src/data/gpt2-embedding-space.json
+```
+
+Generate the independent skip-gram teaching checkpoints:
+
+```sh
+bun run nx run embedding-space:gen-training -- \
+  --output /absolute/path/to/libs/embedding-space/src/data/skip-gram-training.json
+```
+
 ## Required Verification Parameters Within Nested Context
 
 Run `embedding-space:typecheck` and `embedding-space:test`. Smoke-test

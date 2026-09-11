@@ -10,6 +10,12 @@ rendering used by both the local authoring tool (`tools/set-theory`) and the
 portfolio, and the reason blog pages no longer need pre-generated atlas
 figures.
 
+## Boundaries
+
+This library owns atlas documents, layout, rendering, and interactive figures.
+The `knowledge-model` library owns compiler semantics; the `set-theory` tool
+owns local authoring. Browser views consume analyses without running a compiler.
+
 ## Ontology
 
 The TypeScript compiler is the semantic authority: `@th-m/knowledge-model`
@@ -45,35 +51,3 @@ import "@th-m/set-theory-visualization/styles.css";
 Browser consumers provide the design theme tokens
 (`@th-m/design-theme/theme.css`); the stylesheet is scoped to `.set-app` /
 `.set-figure`. CLI consumers import `@th-m/set-theory-visualization/core`.
-
-Regenerate the curated analyses (requires a TypeScript compiler):
-
-```sh
-bun run nx run set-theory-visualization:generate:curated
-```
-
-Render a static overlap figure from a JSON spec — explicit placement and
-coloring, optionally bootstrapped from an `AnalyzeResult`:
-
-```sh
-bun run nx run set-theory-visualization:render:overlap -- \
-  --input dist-sets/known-sets.json --output dist-sets/known-sets
-```
-
-Each `groups` entry sets `label`, `cx`/`cy`/`rx`/`ry`, and `fill`/`opacity`/
-`stroke`/`strokeWidth`; unspecified values fall back to the `style` defaults.
-Groups without a color take the ordered accent palette one accent per group
-(blue, rose, lime, violet, teal, plum — cycling), and the label text inside a
-group inherits the group accent unless a global `style.labelColor` or a
-per-group `labelColor` is given. With `"analysis"` pointing at an
-`AnalyzeResult` JSON (or
-`{ "source": "...", "tsconfig": "..." }`), groups are derived from the
-compiler analysis and the `groups` entries override them by label or symbol
-id. The SVG is sized exactly to the placed ellipses, so outputs never get
-unexpected dimensions. `--print` writes the resolved groups back as a pure
-spec for hand-tuning.
-
-## Verification
-
-Run `set-theory-visualization:typecheck` and `set-theory-visualization:test`.
-The library depends on the `testing` support library for the vitest setup.

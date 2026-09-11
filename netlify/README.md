@@ -6,6 +6,12 @@ This directory documents Netlify delivery for the personal site. The
 site-specific build configuration lives with the deployed app at
 [`apps/portfolio/netlify.toml`](../apps/portfolio/netlify.toml).
 
+## Boundaries
+
+This folder owns delivery documentation, not application source or publication
+selection. The portfolio owns its build configuration. Remote account state and
+deployment require a separate hosting task; local publish remains artifact-only.
+
 ## Ontology
 
 Netlify is a delivery boundary for app-owned publish artifacts. It does not own
@@ -26,13 +32,15 @@ The build runs `portfolio:publish`, publishes `apps/portfolio/dist/client`, and
 uses a non-forced catch-all rewrite so prerendered files win before the SPA
 shell.
 
-## Live Deployment
+## Recorded Deployment
 
-The static production artifact is live at [th-m.dev](https://th-m.dev), with
+The recorded deployment uses a static production artifact at [th-m.dev](https://th-m.dev), with
 `www.th-m.dev` redirecting to the apex domain. The generated
 [th-m.netlify.app](https://th-m.netlify.app) URL remains available as the
 Netlify project subdomain. The `/`, `/writing`, content manifest, and SPA
-fallback responses are verified on the CDN. The deploy has no Functions or
+fallback responses were recorded as verified on the CDN during the original setup.
+These are historical observations; current account and CDN state require a
+separate read-only check. The deploy has no Functions or
 Edge Functions.
 
 DNS remains managed by Porkbun on its authoritative nameservers. The apex uses
@@ -48,17 +56,3 @@ uses `apps/portfolio` as the package directory, runs
 `bun run nx run portfolio:publish`, and publishes
 `apps/portfolio/dist/client`. `main` is the production branch, and deploy
 previews are enabled for pull requests against it.
-
-## Preview Promotion and Rollback
-
-After the checked-in monorepo migration reaches GitHub, pull requests receive
-deploy previews and merges to `main` create production deploys. Before
-promotion, verify `/`, `/writing`, a non-prerendered fallback URL, and the
-content manifest on the immutable deploy URL.
-
-Netlify deploys are atomic. To roll back, open the project's **Deploys** page,
-select the last known-good production deploy, and choose **Publish deploy**.
-Re-run the same live route checks after the alias changes. A rollback changes
-the published artifact; it does not revert the Git repository.
-
-See [TODO.md](TODO.md) for the remaining account-level setup.

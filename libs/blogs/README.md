@@ -9,6 +9,13 @@ scripts, tests, and publication API that validate intentionally public articles
 and recreate `dist/`. It is a library, not an app: `publish` creates local build
 inputs for the portfolio, while `start` opens the Obsidian editor.
 
+## Boundaries
+
+Blogs owns editorial sources, article modules, shared essay components, and the
+local content artifact. Portfolio owns site routes and rendering composition;
+visualization libraries own reusable interaction engines. Authoring and
+publication commands live in [AGENTS.md](AGENTS.md).
+
 ## Ontology
 
 | Path | Meaning |
@@ -66,29 +73,7 @@ package export. It does not duplicate the document or stage research folders;
 other private files remain excluded. The app's MDX compiler renders Markdown
 tables, emphasis, and links using the shared blog presentation components.
 
-## Authoring with Obsidian
-
-The repository root is an Obsidian vault. Start the authoring workflow with:
-
-```sh
-bun run nx run blogs:start
-```
-
-This opens this README. Browse the [article catalog and working
-conventions](./articles/README.md), or pass a note path relative to the
-repository root:
-
-```sh
-bun run nx run blogs:start -- libs/blogs/articles/vision-and-values/draft/draft\ 2.md
-```
-
-## Publishing
-
-Run the publisher with:
-
-```sh
-bun run nx run blogs:publish
-```
+## Publication Semantics
 
 The publisher compiles every article with MDX and GFM, validates the component
 vocabulary and local named imports, checks all tagged assets, and writes a

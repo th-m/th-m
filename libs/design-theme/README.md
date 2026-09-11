@@ -5,6 +5,12 @@
 This library provides the typed and Tailwind-backed THOM visual foundation
 shared by portfolio pages, local content tools, and generated artifacts.
 
+## Boundaries
+
+This library owns shared visual tokens and the CSS derived from them.
+Consumers own component layout, geometry, and domain-specific themes. Token
+meaning belongs here; product behavior and React components do not.
+
 ## Ontology
 
 The design foundation contains stable color, typography, easing, and effect
@@ -24,9 +30,3 @@ geometry, React components, or generated assets.
 - **Tailwind theme:** the generated `@th-m/design-theme/theme.css` export.
 - **Public API:** `ThomDesignTokens`, `thomDesignTokens`, semantic names, and
   the ordered accent palette.
-
-Regenerate the shared CSS after changing typed tokens:
-
-```sh
-bun run nx run design-theme:generate-theme
-```

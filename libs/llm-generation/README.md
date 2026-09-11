@@ -8,6 +8,12 @@ walks an example prompt through every inference stage — embedding, attention,
 feed-forward, logits, decoding, and the append step — one generated token at a
 time, with transport controls, keyboard shortcuts, and autoplay.
 
+## Boundaries
+
+This library owns authored inference traces, playback state, and presentation.
+Consumers own the page and explanatory context. It performs no live generation
+and does not own training or optimizer behavior.
+
 ## Ontology
 
 The library separates deterministic authored example traces, the playback

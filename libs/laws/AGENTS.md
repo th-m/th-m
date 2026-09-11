@@ -10,6 +10,21 @@ laws under `src/laws-curated/` with real provenance (Wikipedia or canonical
 references). Keep the adaptation pure and tested, and keep the curated label
 map complete for every law.
 
+### Regenerating the content snapshot
+
+The per-law data files are generated from the live sources:
+
+```sh
+bun run nx run laws:fetch-laws
+```
+
+The generator fetches the lawsofux.com homepage and each law page plus the
+timsommer.be software-development laws page, extracts the definitions,
+takeaways, copy, sources, further reading links, related laws, and artwork,
+applies the curated label map, merges the duplicated laws, and writes
+`src/laws/<slug>.ts` plus `src/laws/index.ts`. Treat the generated files as
+the content snapshot; edit copy or labels through the generator, not by hand.
+
 ## Required Verification Parameters Within Nested Context
 
 Run `laws:typecheck` and `laws:test` for library changes. Run `testing:test`

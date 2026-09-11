@@ -15,6 +15,12 @@ related laws, provenance URLs, and (where the source provides it) the original
 SVG artwork, recolored at render time onto the THOM brand: gold shapes on a
 darkened, hue-tinted tone of the law's source color.
 
+## Boundaries
+
+This library owns attributed snapshots, curated records, adaptation, and reusable
+law presentation. Source publishers own the original material; consuming apps
+own routes and selection. Generated and hand-curated records remain distinct.
+
 ## Ontology
 
 The library separates content from presentation. The framework-independent
@@ -56,7 +62,7 @@ import "@th-m/laws/styles.css";
 import { LawsGrid, lawBySlug } from "@th-m/laws";
 
 export function App() {
-  return <LawsGrid />; // all 42 laws as cards
+  return <LawsGrid />; // the current collection as cards
 }
 ```
 
@@ -74,21 +80,6 @@ export function LawPages() {
   );
 }
 ```
-
-## Regenerating the content snapshot
-
-The per-law data files are generated from the live sources:
-
-```sh
-bun run nx run laws:fetch-laws
-```
-
-The generator fetches the lawsofux.com homepage and each law page plus the
-timsommer.be software-development laws page, extracts the definitions,
-takeaways, copy, sources, further reading links, related laws, and artwork,
-applies the curated label map, merges the duplicated laws, and writes
-`src/laws/<slug>.ts` plus `src/laws/index.ts`. Treat the generated files as
-the content snapshot; edit copy or labels through the generator, not by hand.
 
 ## Attribution
 

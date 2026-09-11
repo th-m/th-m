@@ -10,6 +10,12 @@ tokenization in a responsive THOM interface:
 - an `o200k_base` inspector with production token IDs, byte fragments, visible
   whitespace, and line breaks.
 
+## Boundaries
+
+This library owns local tokenization, the teaching lab, interaction, and styling.
+Apps own browser bootstrap. The fixed inspector describes its selected encoding;
+the learned BPE lab is a separate teaching model.
+
 ## Ontology
 
 The learning view pre-tokenizes the supplied corpus, starts with Unicode code

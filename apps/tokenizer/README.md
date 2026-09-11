@@ -3,8 +3,13 @@
 ## Purpose
 
 This Vite app is the minimal runnable surface for the reusable THOM tokenizer
-visualization. Run `bun run nx run tokenizer:start` locally and
-`bun run nx run tokenizer:publish` to create its local `dist/` artifact.
+visualization. Local commands live in [AGENTS.md](AGENTS.md).
+
+## Boundaries
+
+This app owns browser bootstrap and the local site artifact. Tokenization,
+interaction, and presentation belong to `tokenizer-visualization`; the app
+consumes that package rather than maintaining a second implementation.
 
 ## Ontology
 

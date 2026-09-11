@@ -5,9 +5,19 @@
 `libs/` contains reusable, non-deployable capabilities shared by apps and
 tools.
 
+## Boundaries
+
+Libraries expose reusable public APIs or the explicitly owned blog content
+artifact. Apps and tools own product runtime composition. Libraries may own
+generation and authoring commands for their data or content. Library names identify
+capabilities, not agent roles; runtime and domain tags remain in each manifest.
+See the [workspace ontology](../README.md) for shared terms.
+
 ## Ontology
 
-A library has a typed public API and no independently started runtime. Design
+A library exposes a public API or content contract without owning a deployable
+product. The blogs authoring command opens Obsidian; its publisher builds the
+library's local content artifact. Design
 tokens live in `design-theme`; reusable THOM identity components and geometry
 live in `thom-brand`; the browser-safe tokenizer visualization lives in
 `tokenizer-visualization`; the proposition graph domain, editor, explorer, and

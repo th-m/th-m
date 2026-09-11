@@ -6,6 +6,11 @@ Keep this application as a thin runtime wrapper around
 `@th-m/tokenizer-visualization`; move all reusable behavior and presentation
 into the library.
 
+### Local workflow
+
+Run `bun run nx run tokenizer:start` locally and
+`bun run nx run tokenizer:publish` to produce the local artifact.
+
 ## Required Verification Parameters Within Nested Context
 
 Run `tokenizer:typecheck`, `tokenizer:test`, and `tokenizer:publish` for runtime,

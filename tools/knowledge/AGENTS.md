@@ -7,6 +7,26 @@ this tool while sharing only renderer-independent semantics through
 `@th-m/knowledge-model`. Generation accepts an explicit manifest and output;
 external imports use the separate read-only snapshot target.
 
+### Generation
+
+Import a read-only TypeScript domain:
+
+```sh
+bun run nx run knowledge:snapshot -- \
+  --repository /absolute/path/to/repository \
+  --source libs/schema \
+  --tsconfig tsconfig.base.json \
+  --output tools/knowledge/fixtures/domain/model.json
+```
+
+Generate a proof board:
+
+```sh
+bun run nx run knowledge:gen -- \
+  --manifest tools/knowledge/fixtures/first-proof/proof.json \
+  --output dist-knowledge/proofs/first-proof
+```
+
 ## Required Verification Parameters Within Nested Context
 
 Run `knowledge:typecheck` and `knowledge:test`. Smoke-test `knowledge:snapshot`

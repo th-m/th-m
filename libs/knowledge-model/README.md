@@ -7,6 +7,12 @@ knowledge representations. It normalizes entities, groups, relations,
 provenance, diagnostics, and requested perspectives without prescribing an
 author-facing syntax or a visual layout.
 
+## Boundaries
+
+This library owns renderer-independent semantics and compiler-backed TypeScript
+set analysis. Source adapters belong to importing tools; scene geometry and
+rendering belong to visualization libraries. It has no UI or generator runtime.
+
 ## Ontology
 
 A knowledge document contains typed entities connected by semantic relations.
@@ -16,7 +22,8 @@ same model; arrow direction, layout influence, and visual treatment remain
 separate from relation meaning.
 
 The library also owns TypeScript compiler analysis for set semantics. Visual
-region geometry and SVG rendering remain with the `set-theory` tool.
+region geometry and SVG rendering belong to `set-theory-visualization`;
+the `set-theory` tool owns the interactive authoring shell.
 
 ## Key Terms
 

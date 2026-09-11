@@ -11,6 +11,19 @@ style modules as kebab-case files beside the MDX or directly inside the article'
 to stage the artifact. This project is a library: `publish` never deploys, and
 `start` opens Obsidian rather than an application runtime.
 
+### Authoring and publication
+
+Run `bun run nx run blogs:start` to open the blog README in Obsidian. An
+optional note path is relative to the repository root:
+
+```sh
+bun run nx run blogs:start -- libs/blogs/articles/vision-and-values/draft/draft\ 2.md
+```
+
+Run `bun run nx run blogs:publish` to validate public sources and recreate the
+local content artifact. The README owns its publication semantics; the checks
+below determine when it must run.
+
 ## Required Verification Parameters Within Nested Context
 
 Run `blogs:typecheck` and `blogs:test` for publication code, types, article
@@ -34,3 +47,17 @@ Drafts, notes, research, and workspace documentation never enter `dist/`.
 Published article directories use stable kebab-case slugs, articles satisfy schema version 3,
 publication order is newest first, and generated content writes only beneath
 `libs/blogs/dist`. The library never imports application or tool source.
+
+## Skills
+
+- [thm-blog-authoring](../../.agents/skills/thm-blog-authoring/SKILL.md): research,
+  drafts, revision, and intentional local publication.
+- [thm-team](../../.agents/skills/thm-team/SKILL.md): requested Thom Blog team
+  coordination; use one integrator and verify the assembled deliverable.
+
+## Downlinks
+
+- [Articles](articles/AGENTS.md): editorial workspaces and asset contracts.
+- [Components](components/AGENTS.md): shared essay presentation.
+- [Team investigation](agent-team-investigation.md): proposed runtime architecture,
+  not an implemented orchestration service.

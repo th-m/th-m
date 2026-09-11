@@ -8,6 +8,12 @@ article has an independent workspace so its thesis, evidence, private working
 material, public prose, figures, and interactives can evolve without mixing
 with app tooling or another post.
 
+## Boundaries
+
+Article workspaces own prose, evidence, semantic scenes, and asset registration.
+The `blogs` project owns their validation and publication; portfolio owns site
+composition. Reusable components and renderers remain with their library owners.
+
 ## Ontology
 
 An immediate child directory is one article workspace. Its `draft/`, `notes/`,
@@ -181,41 +187,7 @@ every registered image must exist, and the publisher rejects unknown IDs.
 
 ## Publication Artifact
 
-Run from the workspace root:
-
-```sh
-bun run nx run blogs:publish
-```
-
 The schema-v3 artifact includes frontmatter-free raw `article.mdx`, serialized
 `assets.json`, optional static files, and compile modules. The portfolio compiles
 the same MDX to React and publishes the raw MDX beside the HTML. Private
 workspaces never enter the artifact.
-
-## Working Conventions
-
-- Keep one singular `draft/` workspace in every article directory.
-- Keep durable supporting material and retired directions in `notes/`; keep
-  evidentiary work in `research/`.
-- Preserve uncertainty, counterevidence, and source limitations.
-- Prefer primary sources for publication claims.
-- Use stable, unnumbered kebab-case directory, module, asset, and tag names.
-- Keep the `Sources` section last.
-- Treat `article.mdx` as the only canonical public prose and render order.
-- Move reusable components into `libs/`; keep article-specific semantic scenes
-  and wrappers with their article.
-
-## Adding an Article
-
-Create a stable kebab-case directory with private workspaces first:
-
-```text
-new-article-slug/
-├── draft/
-├── notes/
-└── research/
-```
-
-Add `article.mdx` and `article-assets.ts` when publication is intentional. Add
-registered `assets/` and an `article-components.tsx` factory only as needed,
-then add the workspace to the inventory above.

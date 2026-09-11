@@ -1,5 +1,6 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join, relative, sep } from "node:path";
+import { checkDocumentation } from "./documentation-policy";
 
 export interface DocumentationViolation {
   path: string;
@@ -25,13 +26,6 @@ const ignoredDirectories = new Set([
   "playwright-report",
   "test-results",
 ]);
-
-const readmeHeadings = ["## Purpose", "## Ontology", "## Key Terms"];
-const agentHeadings = [
-  "## Operational Flow",
-  "## Required Verification Parameters Within Nested Context",
-  "## Required Invariants Within Folder Context",
-];
 
 const canonicalFoundationColors = [
   ["background", "050505"],
@@ -68,35 +62,8 @@ async function walk(directory: string): Promise<string[]> {
   return found;
 }
 
-function missingHeadings(contents: string, headings: string[]): string[] {
-  return headings.filter((heading) => !contents.includes(heading));
-}
-
 export async function documentationViolations(workspaceRoot: string): Promise<DocumentationViolation[]> {
-  const files = await walk(workspaceRoot);
-  const fileSet = new Set(files);
-  const violations: DocumentationViolation[] = [];
-
-  for (const readme of files.filter((path) => path.endsWith("/README.md") || path === join(workspaceRoot, "README.md"))) {
-    const agent = join(readme.slice(0, -"README.md".length), "AGENTS.md");
-    if (!fileSet.has(agent)) {
-      violations.push({ path: readme, message: "README.md is missing its sibling AGENTS.md" });
-      continue;
-    }
-
-    const [readmeContents, agentContents] = await Promise.all([
-      readFile(readme, "utf8"),
-      readFile(agent, "utf8"),
-    ]);
-    for (const heading of missingHeadings(readmeContents, readmeHeadings)) {
-      violations.push({ path: readme, message: `missing heading: ${heading}` });
-    }
-    for (const heading of missingHeadings(agentContents, agentHeadings)) {
-      violations.push({ path: agent, message: `missing heading: ${heading}` });
-    }
-  }
-
-  return violations;
+  return checkDocumentation(workspaceRoot);
 }
 
 /** Prevents implementation code from copying the canonical palette instead of consuming design-theme. */

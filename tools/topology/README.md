@@ -8,6 +8,12 @@ nodes, links, deterministic layout, and the SVG renderer are owned by
 [`@th-m/topology-visualization`](../../libs/topology-visualization/README.md);
 this tool is the local authoring shell and the CLI generator.
 
+## Boundaries
+
+This tool owns the authoring shell and explicit CLI input/output boundary.
+`topology-visualization` owns the shared document, layout, and renderer. The
+CLI derives artifacts without changing the source document.
+
 ## Ontology
 
 A topology arranges nodes into ordered layers and connects them with directed
@@ -28,9 +34,3 @@ rather than semantic proposition graphs (those live in the portfolio's
 - **Graph mode:** content-sized topology output.
 - **Poster mode:** fixed 1600×1000 editorial composition.
 - **Artifact pair:** `<output>.svg` and `<output>@2x.png`.
-
-Generate an artifact with:
-
-```sh
-bun run nx run topology:gen -- --input path/to/topology.json --output path/to/name [--mode graph|poster]
-```

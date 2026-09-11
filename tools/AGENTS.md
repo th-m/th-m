@@ -7,10 +7,17 @@ and require explicit workspace-contained input and output paths for generation.
 
 ## Required Verification Parameters Within Nested Context
 
-Run `typecheck` and unit `test`. When generator behavior changes, run `gen`
-against a valid fixture and inspect both emitted artifacts.
+Run the owner's `typecheck` and unit `test`. When a supported generator
+changes, run its documented target against a valid fixture and inspect its
+outputs. The `set-theory` workbench has no `gen` target.
 
 ## Required Invariants Within Folder Context
 
 Tools do not publish or deploy themselves. They do not import another tool's
 source, and generation never writes outside the workspace.
+
+## Downlinks
+
+- [knowledge](knowledge/AGENTS.md)
+- [set-theory](set-theory/AGENTS.md)
+- [topology](topology/AGENTS.md)

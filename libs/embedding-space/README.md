@@ -8,6 +8,12 @@ neighborhoods, explicit vector transformations, and a small co-occurrence
 teaching model. Its two modes separate production-token inspection from the
 pedagogical training objective.
 
+## Boundaries
+
+This library owns vector datasets, transformations, teaching state, and reusable
+presentation. Apps own routes; articles own their argument. Precomputed learning
+examples and authored compositions do not establish production-model behavior.
+
 ## Ontology
 
 The library separates licensed source vectors and deterministic projection
@@ -79,22 +85,6 @@ curated teaching scenario while keeping the offline artifact compact.
   they do not define a literal abstractness axis. These recipes are not measured
   Word2Vec output, definitions, or etymological claims.
 
-### Composition Review CSV
-
-Generate the reviewer-facing composition inventory to its explicit
-library-owned path:
-
-```sh
-bun run nx run embedding-space:gen-composition-review -- \
-  --output /absolute/path/to/libs/embedding-space/generated/embedding-composition-review.csv
-```
-
-The generator enumerates canonical multisets of one to four control terms,
-including repeated terms. Because vector addition is order-independent, each
-row represents all equivalent slot orders and records their count in
-`ordered_permutation_count`. Blank review columns sit beside the current
-authored, exact, projected-neighbor, or invalid classification.
-
 ## Data and License
 
 The generated dataset uses the `wte.weight` tensor and GPT-2 byte-pair
@@ -103,22 +93,6 @@ vocabulary from
 published under OpenAI's Modified MIT License. See
 [`LICENSE-GPT2.txt`](LICENSE-GPT2.txt). No model or network call runs in the
 browser.
-
-Regenerate the fixed dataset to an explicit library-owned path:
-
-```sh
-bun run nx run embedding-space:gen -- \
-  --model /absolute/path/model.safetensors \
-  --tokenizer /absolute/path/tokenizer.json \
-  --output /absolute/path/to/libs/embedding-space/src/data/gpt2-embedding-space.json
-```
-
-Generate the independent skip-gram teaching checkpoints:
-
-```sh
-bun run nx run embedding-space:gen-training -- \
-  --output /absolute/path/to/libs/embedding-space/src/data/skip-gram-training.json
-```
 
 The teaching corpus is original to this project. A deterministic Bun script
 trains a compact skip-gram model with negative sampling and stores checkpoints

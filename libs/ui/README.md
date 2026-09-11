@@ -15,6 +15,12 @@ the bento grid. Components are ports of the
 [bento-grids](https://ui.aceternity.com/blocks/bento-grids),
 restyled onto the THOM design tokens from `@th-m/design-theme`.
 
+## Boundaries
+
+This library owns reusable interface primitives and their styling. Consumers
+own page composition, routes, and domain workflows; `design-theme` owns shared
+tokens. The portfolio tool drawer shell is not part of the primitive library.
+
 ## Ontology
 
 The library exposes React components with typed props and a single

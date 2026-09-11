@@ -8,6 +8,12 @@ presentation. Import prose and links from `@th-m/blogs/components` and import
 UI primitives remain in `@th-m/ui`; article-specific data and figures remain
 with their articles. Reusable walkthroughs have their own subdirectory exports.
 
+## Boundaries
+
+This is a presentation boundary within the `blogs` Nx project, not a separate
+project. Articles own meaning and asset registration; the host owns routing and
+asset resolution; `ui` owns reusable interface primitives.
+
 ## Ontology
 
 - `prose.tsx`: Section, Lede, Paragraph, Callout, Term, Gloss, Quote, Flow, Table.

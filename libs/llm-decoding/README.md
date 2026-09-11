@@ -7,6 +7,12 @@ decoding strategies. Consumers get a compact interactive that applies greedy,
 temperature, top-k, and top-p decoding to one fixed set of next-token logits,
 comparing the resulting distributions and selected tokens.
 
+## Boundaries
+
+This library owns illustrative decoding math, fixed logits, selection state,
+and reusable presentation. Consumers own page composition. It neither calls a
+model nor claims its examples are production inference traces.
+
 ## Ontology
 
 The library separates fixed teaching data, pure decoding math, interaction

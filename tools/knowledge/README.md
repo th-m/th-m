@@ -7,6 +7,12 @@ board whose alternative views apply domain-specific organization rules. The
 first proof covers Mermaid system flowcharts, PostgreSQL/Supabase schema dumps,
 and a multi-package TypeScript schema domain.
 
+## Boundaries
+
+This tool owns source adapters, snapshot import, layout, and evidence generation.
+The `knowledge-model` library owns normalized semantics. Imported repositories
+remain read-only inputs; generated boards are derived evidence, not source.
+
 ## Ontology
 
 Adapters normalize source syntax into `@th-m/knowledge-model`. A manifest asks
@@ -23,21 +29,3 @@ there is no canonical author-facing knowledge DSL in this iteration.
   and perspectives.
 - **Review board:** a self-contained HTML comparison of generated evidence.
 - **Native baseline:** Mermaid's own rendering of the source or generated ERD.
-
-Import a read-only TypeScript domain:
-
-```sh
-bun run nx run knowledge:snapshot -- \
-  --repository /absolute/path/to/repository \
-  --source libs/schema \
-  --tsconfig tsconfig.base.json \
-  --output tools/knowledge/fixtures/domain/model.json
-```
-
-Generate a proof board:
-
-```sh
-bun run nx run knowledge:gen -- \
-  --manifest tools/knowledge/fixtures/first-proof/proof.json \
-  --output dist-knowledge/proofs/first-proof
-```

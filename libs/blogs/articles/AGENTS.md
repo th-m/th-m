@@ -12,6 +12,34 @@ kebab-case modules beside the MDX or directly inside its local `components/`
 folder, while reusable rendering and interaction behavior belongs in the
 owning library.
 
+### Editorial conventions
+
+- Keep one singular `draft/` workspace in every article directory.
+- Keep durable supporting material and retired directions in `notes/`; keep
+  evidentiary work in `research/`.
+- Preserve uncertainty, counterevidence, and source limitations.
+- Prefer primary sources for publication claims.
+- Use stable, unnumbered kebab-case directory, module, asset, and tag names.
+- Keep the `Sources` section last.
+- Treat `article.mdx` as the only canonical public prose and render order.
+- Move reusable components into `libs/`; keep article-specific semantic scenes
+  and wrappers with their article.
+
+### Adding an article
+
+Create a stable kebab-case directory with private workspaces first:
+
+```text
+new-article-slug/
+├── draft/
+├── notes/
+└── research/
+```
+
+Add `article.mdx` and `article-assets.ts` when publication is intentional. Add
+registered `assets/` and an `article-components.tsx` factory only as needed,
+then add the workspace to the inventory in the sibling README.
+
 ## Required Verification Parameters Within Nested Context
 
 Run `blogs:typecheck` and `blogs:test` for changes to public MDX, registries,
@@ -35,3 +63,9 @@ entrypoint beside the MDX. Every static asset is registered, every image registr
 path exists, and figure, interactive, and preview composition uses stable tagged
 IDs. Generated content writes only to explicit paths inside the workspace, and
 every repository-owned README has a sibling `AGENTS.md`.
+
+## Skills
+
+Use [thm-blog-authoring](../../../.agents/skills/thm-blog-authoring/SKILL.md)
+for editorial work and [thm-team](../../../.agents/skills/thm-team/SKILL.md)
+when team delegation is requested.

@@ -13,11 +13,18 @@ schema, theme, rendering, or interaction changes, also run the consuming
 projects' checks: `portfolio:typecheck` and `portfolio:test`, plus
 `blogs:test` when figure or seed surfaces change.
 
+### Test coverage
+
+The library depends on the `testing` support library for the vitest setup.
+Component tests mock the `reagraph` canvas; the pure document→canvas mapping
+(`canvas.ts`) is unit-tested without a WebGL context.
+
 ## Required Invariants Within Folder Context
 
 The library does not start or publish an application and never imports app or
-tool source. The editor and explorer are read-only consumers of the same
-storage key; the explorer never mutates the library. The reagraph adapter
+tool source. The editor persists changes to the graph library's
+storage key; the read-only explorer never mutates that library. The reagraph
+adapter
 (`canvas.ts`) stays React-free and the stylesheet stays scoped to
 `.graph-app` / `.graph-explorer` / `.graph-figure`, relying on consumers for
 resets, theme tokens, and a WebGL-capable browser. Deterministic artifact

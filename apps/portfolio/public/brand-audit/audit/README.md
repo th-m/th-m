@@ -5,6 +5,12 @@
 This directory records the reviewed visual evidence for the current THOM brand
 snapshot.
 
+## Boundaries
+
+This folder records a historical visual comparison. Its metrics and captures
+are evidence from that run, not a fresh verification of current source. Brand
+implementation and audit execution remain owned by the portfolio and brand library.
+
 ## Ontology
 
 Audit images are point-in-time evidence derived from brand source and browser

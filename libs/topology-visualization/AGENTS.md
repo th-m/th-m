@@ -14,6 +14,10 @@ After schema, layout, theme, rendering, or interaction changes, also run the
 consuming tool's checks (`topology:typecheck`, `topology:test`) and a
 `topology:gen` smoke run on a fixture (inspect both artifacts).
 
+### Test coverage
+
+The library depends on the `testing` support library for the vitest setup.
+
 ## Required Invariants Within Folder Context
 
 The library does not start or publish an application and never imports app or

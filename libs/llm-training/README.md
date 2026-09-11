@@ -7,6 +7,12 @@ LLM training loop. Consumers get a compact interactive that moves from a fixed
 corpus through next-token prediction, loss, backpropagation, and optimizer
 updates, with a simple view and a model view plus a loss curve.
 
+## Boundaries
+
+This library owns illustrative training data, walkthrough state, and presentation.
+Consumers own page composition. Its loss trace is teaching data, not measured
+training telemetry or a production training runtime.
+
 ## Ontology
 
 The library separates deterministic teaching data, walkthrough state, and

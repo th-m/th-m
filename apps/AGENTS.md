@@ -14,3 +14,8 @@ content selection, generated assets, public files, bundling, or prerendering.
 
 Apps do not import other apps. A publish target must produce only its own
 `dist/` tree and must not perform a remote deployment.
+
+## Downlinks
+
+- [portfolio](portfolio/AGENTS.md)
+- [tokenizer](tokenizer/AGENTS.md)

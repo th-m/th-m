@@ -6,6 +6,12 @@
 brand geometry, and WebGL animation runtime. Applications compose the exported
 components and provide public image assets at the configured asset base path.
 
+## Boundaries
+
+This library owns shared identity geometry, motion, and components. Apps own
+routes, public image staging, and delivery. Generated brand data is derived from
+source; audit evidence does not replace the geometry contract.
+
 ## Ontology
 
 The library exposes a composed animated logo, lower-level logo and orbit
@@ -29,6 +35,3 @@ generated brand data is the deterministic bridge between geometry and motion.
 - `ThomGlyphStage` renders one isolated glyph construction.
 
 Import `@th-m/thom-brand/styles.css` once in the consuming application.
-
-Agents creating THOM visual assets should follow the
-[THOM Design Instructions for Agents](agent-design-instruction-guidelines.md).

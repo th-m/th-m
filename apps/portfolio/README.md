@@ -4,9 +4,14 @@
 
 This TanStack Start app publishes the personal portfolio and integrated writing
 routes: Thomas Valadez's profile, essays, public artifacts, design references,
-and the THOM brand experience. Run
-`bun run nx run portfolio:start` locally and `bun run nx run portfolio:publish`
-to create its local `dist/` artifact.
+and the THOM brand experience. Local operating commands live in
+[AGENTS.md](AGENTS.md).
+
+## Boundaries
+
+Portfolio owns site routes, content staging, and local delivery artifacts.
+Blog sources belong to `blogs`; shared brand geometry and UI belong to their
+libraries. This app composes public exports and does not own tool runtimes.
 
 ## Ontology
 
@@ -81,10 +86,6 @@ I am interested in how software systems become understandable enough to change.
 Most of the engineering questions I return to live between product intent and system design: What is the real shape of the domain? Which boundaries are durable, and which ones are just artifacts of the current implementation?
 
 Where is complexity collecting? What would make the next change easier without over-designing for an imagined future?
-
-## Design Tool
-
-[Paper](https://paper.design/) is the specified design tool for this project. Use Paper for brand exploration, visual design, review, and design handoff instead of Figma.
 
 ## Workspace Tools
 
