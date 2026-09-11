@@ -9,6 +9,9 @@
 4. Use Bun TypeScript for repository scripts and invoke project work through Nx.
 5. Run the required owner verification before handing off a change.
 
+For editorial/technical diagrams, diagram theming, or diagram animation, follow
+`.agents/skills/thom-diagrams/SKILL.md` to use both upstream tools with THOM tokens.
+
 ## Required Verification Parameters Within Nested Context
 
 - Run `<project>:typecheck` and `<project>:test` for every affected project.

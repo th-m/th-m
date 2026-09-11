@@ -8,6 +8,8 @@ tools.
 ## Ontology
 
 A library has a typed public API and no independently started runtime. Design
+adapters for editorial and technical diagrams live in `diagram-theme`, including
+controlled browser motion. Foundation
 tokens live in `design-theme`; reusable THOM identity components and geometry
 live in `thom-brand`; the browser-safe tokenizer visualization lives in
 `tokenizer-visualization`; the proposition graph domain, editor, explorer, and

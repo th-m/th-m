@@ -8,6 +8,8 @@ durable visual content.
 ## Ontology
 
 Tools are local authoring runtimes with deterministic command-line generators.
+`diagrams` combines Diagram Design's editorial patterns and Fireworks Tech
+Graph's generators with THOM themes and controlled animation;
 `topology` authors layered system topologies (layers, nodes, directed
 dependency links — the structural "how things connect" content) and renders
 them through `@th-m/topology-visualization`; `set-theory` renders TypeScript

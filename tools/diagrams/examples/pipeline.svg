@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" role="img" aria-labelledby="pipeline-title pipeline-desc">
+  <title id="pipeline-title">From evidence to explanation</title>
+  <desc id="pipeline-desc">Ground an idea in evidence, connect the relationships, then compose an explanation.</desc>
+  <style>
+    .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
+    .node-name { text-anchor:middle; font-size:20px; }
+    .sublabel { text-anchor:middle; font-size:12px; }
+    .route { fill:none; stroke:var(--color-accent); stroke-width:1.5; }
+  </style>
+  <defs><marker id="pipeline-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6" data-thom-role="accent"/></marker></defs>
+  <rect width="1000" height="480" data-thom-role="paper"/>
+  <text x="48" y="52" class="eyebrow" font-size="12">01 / EDITORIAL FLOW</text>
+  <text x="48" y="108" class="diagram-title" font-size="42">From evidence to explanation</text>
+  <text x="48" y="144" class="subtitle" font-size="16">Make the relationships visible. Let the structure carry the idea.</text>
+  <path id="ground-connect" class="route" d="M288 276 H388" marker-end="url(#pipeline-arrow)" data-graph-role="edge" data-motion-stage="1"/>
+  <path id="connect-compose" class="route" d="M628 276 H728" marker-end="url(#pipeline-arrow)" data-graph-role="edge" data-motion-stage="2"/>
+  <g data-graph-role="node"><rect x="48" y="224" width="240" height="104" class="node"/><text x="168" y="267" class="node-name">Ground</text><text x="168" y="298" class="sublabel">OBSERVE / VERIFY</text></g>
+  <g data-graph-role="node"><rect x="388" y="224" width="240" height="104" class="node" data-thom-role="accent" data-thom-attribute="stroke"/><text x="508" y="267" class="node-name">Connect</text><text x="508" y="298" class="sublabel">RELATE / TRACE</text></g>
+  <g data-graph-role="node"><rect x="728" y="224" width="224" height="104" class="node"/><text x="840" y="267" class="node-name">Compose</text><text x="840" y="298" class="sublabel">EXPLAIN / REFINE</text></g>
+  <path d="M48 396 H952" data-thom-role="rule" data-thom-attribute="stroke"/>
+  <text x="48" y="432" class="footnote" font-size="12">THOM / Foundations → relationships → composition</text>
+</svg>

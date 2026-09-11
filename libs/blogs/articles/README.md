@@ -194,6 +194,9 @@ workspaces never enter the artifact.
 
 ## Working Conventions
 
+Follow the [writing process](../writing-process.md) for stage artifacts,
+handoffs, the GitHub draft checkpoint, and visible history for meaningful edits.
+
 - Keep one singular `draft/` workspace in every article directory.
 - Keep durable supporting material and retired directions in `notes/`; keep
   evidentiary work in `research/`.
