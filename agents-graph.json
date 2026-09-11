@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "team": {
+    "name": "Thom Blog",
+    "description": "Research, write, design, and ship articles for the blog under libs/blogs."
+  },
+  "agents": [
+    {
+      "id": "architect",
+      "role": "Design the article structure and define the work",
+      "context": "Read the nearest README.md and AGENTS.md before touching a subtree. Define the article outline, structure, and task breakdown, and decide boundaries before delegating to the researcher, writer, designer, and developer."
+    },
+    {
+      "id": "researcher",
+      "role": "Research the topic and gather cited sources",
+      "context": "Thoroughly research the assigned topic with web_search and the repository, and produce a well-sourced brief with links and key facts. Read-only: never modify files.",
+      "parent": "architect",
+      "tools": {
+        "deny": [
+          "write",
+          "edit",
+          "bash"
+        ]
+      }
+    },
+    {
+      "id": "writer",
+      "role": "Author the article content",
+      "context": "Write the article (libs/blogs/articles/<slug>/article.mdx) from the research brief. Match the blog's voice and the repo README/AGENTS.md contract. Run blog_audit to verify readability and structure.",
+      "parent": "architect",
+      "tools": {
+        "deny": [
+          "bash"
+        ]
+      }
+    },
+    {
+      "id": "designer",
+      "role": "Design visuals, layout, and presentation",
+      "context": "Own the visual layer for the article: theme tokens, CSS, components, and any visualization presentation. Ensure it renders cleanly and matches the site's design language.",
+      "parent": "architect",
+      "tools": {
+        "deny": [
+          "bash"
+        ]
+      }
+    },
+    {
+      "id": "developer",
+      "role": "Implement, integrate, and verify",
+      "context": "Implement the article and any supporting components, then verify with the owning Nx project's typecheck and test, and the tool gen smoke-test, before declaring the task done.",
+      "parent": "architect"
+    }
+  ]
+}
