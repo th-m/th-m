@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1040" role="img" aria-labelledby="writing-process-title writing-process-desc">
+  <title id="writing-process-title">The writing process and its artifacts</title>
+  <desc id="writing-process-desc">Research, outline, illustrate, write, and edit each create or modify explicit artifacts; a complete draft must reach GitHub before editing, and meaningful revisions retain separate commits.</desc>
+  <style>
+    text { fill:var(--color-ink); }
+    .file { font-family:var(--font-mono); font-size:16px; }
+    .detail { fill:var(--color-muted); font-size:16px; }
+    .slot { font-family:var(--font-mono); font-size:12px; letter-spacing:1px; fill:var(--color-muted); }
+    .stage { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
+    .route { fill:none; stroke:var(--color-rule-solid); stroke-width:1.5; }
+    .checkpoint { fill:none; stroke:var(--color-accent); stroke-width:1.5; }
+    .rule { fill:none; stroke:var(--color-rule); stroke-width:1; }
+  </style>
+  <defs>
+    <marker id="writing-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="var(--color-rule-solid)"/></marker>
+    <marker id="writing-gold-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="var(--color-accent)"/></marker>
+  </defs>
+  <rect width="1280" height="1040" data-thom-role="paper"/>
+  <text x="40" y="48" class="eyebrow" font-size="12">THOM / EDITORIAL PRACTICE</text>
+  <text x="40" y="112" class="diagram-title" font-size="48">An essay, with its history intact.</text>
+  <text x="40" y="152" class="subtitle" font-size="16">Five stages. Inspectable artifacts. A saved draft before the first edit.</text>
+
+  <!-- Stage handoffs draw first; the document remains complete without motion. -->
+  <path id="research-outline" class="route" d="M388 244 H416" marker-end="url(#writing-arrow)" data-graph-role="edge" data-motion-stage="1"/>
+  <path id="outline-illustrate" class="route" d="M596 244 H624" marker-end="url(#writing-arrow)" data-graph-role="edge" data-motion-stage="2"/>
+  <path id="illustrate-write" class="route" d="M804 244 H832" marker-end="url(#writing-arrow)" data-graph-role="edge" data-motion-stage="3"/>
+  <path id="write-edit" class="checkpoint" d="M1012 244 H1040" marker-end="url(#writing-gold-arrow)" data-graph-role="edge" data-motion-stage="4"/>
+
+  <g data-graph-role="node">
+    <rect x="208" y="200" width="180" height="88" class="stage"/>
+    <text x="224" y="228" class="eyebrow" font-size="12">01</text>
+    <text x="224" y="268" class="node-name" font-size="24">Research</text>
+  </g>
+  <g data-graph-role="node">
+    <rect x="416" y="200" width="180" height="88" class="stage"/>
+    <text x="432" y="228" class="eyebrow" font-size="12">02</text>
+    <text x="432" y="268" class="node-name" font-size="24">Outline</text>
+  </g>
+  <g data-graph-role="node">
+    <rect x="624" y="200" width="180" height="88" class="stage"/>
+    <text x="640" y="228" class="eyebrow" font-size="12">03 / ASSETS</text>
+    <text x="640" y="268" class="node-name" font-size="24">Illustrate</text>
+  </g>
+  <g data-graph-role="node">
+    <rect x="832" y="200" width="180" height="88" class="stage"/>
+    <text x="848" y="228" class="eyebrow" font-size="12">04</text>
+    <text x="848" y="268" class="node-name" font-size="24">Write</text>
+  </g>
+  <g data-graph-role="node">
+    <rect x="1040" y="200" width="180" height="88" class="stage" data-thom-role="accent" data-thom-attribute="stroke"/>
+    <text x="1056" y="228" class="eyebrow" font-size="12">05 / AFTER PUSH</text>
+    <text x="1056" y="268" class="node-name" font-size="24">Edit</text>
+  </g>
+
+  <path d="M40 312 H1240 M40 412 H1240 M40 512 H1240 M40 612 H1240 M40 712 H1240" class="rule"/>
+  <text x="40" y="356" class="slot">CREATES</text>
+  <text x="40" y="380" class="detail">First pass</text>
+  <text x="208" y="352" class="file" data-text-max-width="184">research/&lt;topic&gt;.md</text>
+  <text x="208" y="380" class="detail" data-text-max-width="184">Evidence + sources</text>
+  <text x="416" y="352" class="file" data-text-max-width="184">draft/outline.md</text>
+  <text x="416" y="380" class="detail" data-text-max-width="184">Thesis + section plan</text>
+  <text x="624" y="352" class="file" data-text-max-width="184">draft/figures/*</text>
+  <text x="624" y="380" class="detail" data-text-max-width="184">Sources + exports</text>
+  <text x="832" y="352" class="file" data-text-max-width="184">draft/article.md</text>
+  <text x="832" y="380" class="detail" data-text-max-width="184">Complete first draft</text>
+  <text x="1040" y="352" class="file" data-text-max-width="192">notes/edit-review.md</text>
+  <text x="1040" y="380" class="detail" data-text-max-width="184">Findings + baseline</text>
+
+  <text x="40" y="456" class="slot">MODIFIES</text>
+  <text x="40" y="480" class="detail">When needed</text>
+  <text x="208" y="452" data-text-max-width="184">Existing research</text>
+  <text x="208" y="480" class="detail" data-text-max-width="184">Evidence + caveats</text>
+  <text x="416" y="452" data-text-max-width="184">Outline + notes</text>
+  <text x="416" y="480" class="detail" data-text-max-width="184">Scope + sequence</text>
+  <text x="624" y="452" class="file" data-text-max-width="184">assets/* + IDs¹</text>
+  <text x="624" y="480" class="detail" data-text-max-width="184">Figures + components</text>
+  <text x="832" y="452" class="file" data-text-max-width="184">article.mdx¹</text>
+  <text x="832" y="480" class="detail" data-text-max-width="184">Prose + placement</text>
+  <text x="1040" y="452" data-text-max-width="184">Active prose + assets</text>
+  <text x="1040" y="480" class="detail" data-text-max-width="184">Claims, voice, clarity</text>
+
+  <text x="40" y="556" class="slot">CONVENTIONS</text>
+  <text x="40" y="580" class="detail">How we work</text>
+  <text x="208" y="552" data-text-max-width="184">Prefer primary sources.</text>
+  <text x="208" y="580" class="detail" data-text-max-width="184">Keep counterevidence.</text>
+  <text x="416" y="552" data-text-max-width="184">One controlling thesis.</text>
+  <text x="416" y="580" class="detail" data-text-max-width="184">Give each section a job.</text>
+  <text x="624" y="552" data-text-max-width="184">THOM + stable IDs.</text>
+  <text x="624" y="580" class="detail" data-text-max-width="184">Preview + static form.</text>
+  <text x="832" y="552" data-text-max-width="184">Clear subjects + verbs.</text>
+  <text x="832" y="580" class="detail" data-text-max-width="184">Sources section last.</text>
+  <text x="1040" y="552" data-text-max-width="184">Preserve voice + intent.</text>
+  <text x="1040" y="580" class="detail" data-text-max-width="184">Structure, prose, copy.</text>
+
+  <text x="40" y="656" class="slot">HANDOFF</text>
+  <text x="40" y="680" class="detail">Ready when…</text>
+  <text x="208" y="652" data-text-max-width="184">Claims are traceable.</text>
+  <text x="208" y="680" class="detail" data-text-max-width="184">Open questions visible.</text>
+  <text x="416" y="652" data-text-max-width="184">Argument is mapped.</text>
+  <text x="416" y="680" class="detail" data-text-max-width="184">Evidence + figure plan.</text>
+  <text x="624" y="652" data-text-max-width="184">Figures explain the idea.</text>
+  <text x="624" y="680" class="detail" data-text-max-width="184">Labels + sources clear.</text>
+  <text x="832" y="652" data-text-max-width="184" data-thom-role="accent">Draft saved on GitHub.</text>
+  <text x="832" y="680" class="detail" data-text-max-width="184">Commit + push verified.</text>
+  <text x="1040" y="652" data-text-max-width="184">Each pass has a diff.</text>
+  <text x="1040" y="680" class="detail" data-text-max-width="184">Verified + committed.</text>
+
+  <text x="40" y="748" class="detail" font-size="12">Paths are relative to the article. Example working names; reuse existing equivalents. ¹ Public work uses article.mdx + article-assets.ts.</text>
+  <rect x="40" y="780" width="1200" height="176" fill="var(--color-paper-2)"/>
+  <text x="64" y="812" class="eyebrow" font-size="12">GITHUB HISTORY / ILLUSTRATIVE PASSES</text>
+  <text x="64" y="852" class="diagram-title" font-size="28">Save the draft. Keep the revisions.</text>
+  <path id="baseline-structure" d="M80 888 H456" class="checkpoint" marker-end="url(#writing-gold-arrow)" data-graph-role="edge" data-motion-stage="5"/>
+  <path id="structure-evidence" d="M480 888 H720" class="route" marker-end="url(#writing-arrow)" data-graph-role="edge" data-motion-stage="6"/>
+  <path id="evidence-copy" d="M744 888 H984" class="route" marker-end="url(#writing-arrow)" data-graph-role="edge" data-motion-stage="7"/>
+  <circle cx="72" cy="888" r="8" data-thom-role="accent"/>
+  <circle cx="472" cy="888" r="8" fill="var(--color-paper-2)" stroke="var(--color-rule-solid)"/>
+  <circle cx="736" cy="888" r="8" fill="var(--color-paper-2)" stroke="var(--color-rule-solid)"/>
+  <circle cx="1000" cy="888" r="8" fill="var(--color-paper-2)" stroke="var(--color-rule-solid)"/>
+  <text x="64" y="924" data-thom-role="accent">Complete draft → commit + push</text>
+  <text x="456" y="924">Structure edit</text>
+  <text x="720" y="924">Evidence edit</text>
+  <text x="984" y="924">Copy edit</text>
+
+  <text x="40" y="992" class="detail" data-text-max-width="1200">Each meaningful edit gets its own commit and push. Preserve these checkpoints when merging.</text>
+  <text x="40" y="1020" class="footnote" font-size="12">Gold = required GitHub checkpoint · Author/agent convention; no automatic Git gate · Working files stay outside site builds</text>
+</svg>

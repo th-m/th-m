@@ -19,6 +19,7 @@ and tool source and expose reusable behavior through package exports.
 
 - [blogs](blogs/AGENTS.md)
 - [design-theme](design-theme/AGENTS.md)
+- [diagram-theme](diagram-theme/AGENTS.md)
 - [embedding-space](embedding-space/AGENTS.md)
 - [graph-visualization](graph-visualization/AGENTS.md)
 - [knowledge-model](knowledge-model/AGENTS.md)

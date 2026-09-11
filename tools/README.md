@@ -15,6 +15,8 @@ tool's source. The proposed agent coordinator is not an implemented tool here.
 
 Tools are local authoring runtimes; projects that generate artifacts expose
 explicit command-line operations.
+`diagrams` combines Diagram Design's editorial patterns and Fireworks Tech
+Graph's generators with THOM themes and controlled animation;
 `topology` authors layered system topologies (layers, nodes, directed
 dependency links — the structural "how things connect" content) and renders
 them through `@th-m/topology-visualization`; `set-theory` inspects TypeScript

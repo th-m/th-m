@@ -23,6 +23,10 @@ the article's prose and render order; the registry owns stable tagged asset IDs;
 optional TS/TSX/CSS modules beside the MDX or directly inside its local
 `components/` folder implement article-specific components.
 
+The [writing process](../writing-process.md) describes stage artifacts,
+handoffs, and revision history; its operating requirements are routed through
+[AGENTS.md](AGENTS.md).
+
 ## Key Terms
 
 - **Draft workspace:** `draft/`, where outlines, prose experiments, and voice

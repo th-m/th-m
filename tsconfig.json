@@ -4,6 +4,8 @@
     { "path": "./libs/blogs" },
     { "path": "./apps/portfolio" },
     { "path": "./libs/design-theme" },
+    { "path": "./libs/diagram-theme" },
+    { "path": "./tools/diagrams" },
     { "path": "./libs/laws" },
     { "path": "./libs/thom-brand" },
     { "path": "./libs/testing" },

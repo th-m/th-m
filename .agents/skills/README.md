@@ -18,6 +18,7 @@ remain outside the repository.
 | [thm-repo-docs](thm-repo-docs/SKILL.md) | Align ontology and operating contracts with current source. |
 | [thm-team](thm-team/SKILL.md) | Divide a brief into assignments and integrate verified results. |
 | [thm-blog-authoring](thm-blog-authoring/SKILL.md) | Produce the requested editorial draft or local publication package. |
+| [thom-diagrams](thom-diagrams/SKILL.md) | Create editorial and technical diagrams with THOM themes and controlled animation. |
 
 A skill has a `SKILL.md` with a name, selection description, and procedure.
 It links owner contracts rather than cloning rules. Coordination and domain

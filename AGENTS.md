@@ -72,6 +72,7 @@ grant tools or sandbox permissions.
 | Ontology and README/AGENTS responsibilities | [thm-repo-docs](.agents/skills/thm-repo-docs/SKILL.md) |
 | Named team or explicit delegation | [thm-team](.agents/skills/thm-team/SKILL.md) |
 | Article research, drafting, or local publication | [thm-blog-authoring](.agents/skills/thm-blog-authoring/SKILL.md) |
+| Editorial/technical diagrams, theming, and animation | [thom-diagrams](.agents/skills/thom-diagrams/SKILL.md) |
 
 ## Downlinks
 

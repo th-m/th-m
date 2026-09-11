@@ -17,7 +17,8 @@ See the [workspace ontology](../README.md) for shared terms.
 
 A library exposes a public API or content contract without owning a deployable
 product. The blogs authoring command opens Obsidian; its publisher builds the
-library's local content artifact. Design
+library's local content artifact. Design adapters for editorial and technical
+diagrams live in `diagram-theme`, including controlled browser motion. Foundation
 tokens live in `design-theme`; reusable THOM identity components and geometry
 live in `thom-brand`; the browser-safe tokenizer visualization lives in
 `tokenizer-visualization`; the proposition graph domain, editor, explorer, and

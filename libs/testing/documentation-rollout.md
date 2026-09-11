@@ -95,3 +95,17 @@ The remaining verification step is to make the already-declared Radix dependency
 available under an installation-authorized task, then rerun the UI, blogs, and
 portfolio checks and portfolio publication. No product source was changed to
 work around that dependency failure.
+
+## Integration with Origin
+
+Before merging into `main`, integrated origin commits `9936f1e` and `895b7f5`,
+preserving the article note, writing process, and diagram implementation.
+Reconciled the five overlapping contracts and applied the conventions to the
+new `diagram-theme` and `diagrams` owners. The catalog now routes four skills,
+and the repository has 33 README/AGENTS pairs and 24 Nx projects.
+
+The merged candidate passed `typecheck` and `test` for `testing`,
+`diagram-theme`, and `diagrams`, plus their design-theme prerequisites.
+The policy suite still passes all 33 tests; the new diagram owners pass 13
+tests. The fourth skill also passed the skill-creator validator. The previously
+recorded missing Radix dependency remains a limitation on full app verification.

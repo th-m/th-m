@@ -12,6 +12,11 @@ kebab-case modules beside the MDX or directly inside its local `components/`
 folder, while reusable rendering and interaction behavior belongs in the
 owning library.
 
+For research, outlining, illustration, writing, or editing, follow
+the [writing process](../writing-process.md). It defines artifact handoffs,
+the GitHub baseline required before editing, and separate commits for meaningful
+revisions.
+
 ### Editorial conventions
 
 - Keep one singular `draft/` workspace in every article directory.

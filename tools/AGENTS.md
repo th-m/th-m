@@ -18,6 +18,7 @@ source, and generation never writes outside the workspace.
 
 ## Downlinks
 
+- [diagrams](diagrams/AGENTS.md)
 - [knowledge](knowledge/AGENTS.md)
 - [set-theory](set-theory/AGENTS.md)
 - [topology](topology/AGENTS.md)
