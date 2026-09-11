@@ -74,12 +74,20 @@ delegation are different relationships.
 | README | Purpose, boundaries, concepts, relationships, and their representations | AGENTS for operation. |
 | AGENTS | Local workflow, required checks, invariants, skills, and child contracts | README for meaning; skills for reusable procedures. |
 | SKILL | Task selection, reusable procedure, inputs, and expected results | Owner contracts for local obligations. |
+| Role graph | Named team, role IDs, responsibilities, and delegation parents | Team skill for coordination; owner contracts for local work. |
 | Plan/investigation | Proposed work, evidence, decisions, and unfinished acceptance | Maintained contracts for current behavior. |
 | Delegated task | Bounded assignment with a responsible role and owner | Coordinator for integration and completion. |
 
 Parents route; children add local detail without copying parent definitions.
 Skills organize work but never become production-code owners. A role is reusable
 responsibility, a task is one assignment, and evidence supports a claim.
+
+[`agents-graph.json`](agents-graph.json) is the canonical **Thom Blog** role
+roster. Its version-1 graph retains the architect, researcher, writer, designer,
+and developer roles. The [team skill](.agents/skills/thm-team/SKILL.md) supplies
+the reusable coordination procedure. Graph parents are delegation relations,
+not a task schedule, and tool deny lists describe requested restrictions;
+this repository has no graph runner or permission-enforcement adapter.
 
 The [team investigation](libs/blogs/agent-team-investigation.md) remains a
 runtime proposal. Repository skills provide procedures, not a scheduler,

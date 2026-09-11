@@ -43,6 +43,12 @@ The coordinator retains integration and final verification responsibility.
 Routine single-owner edits do not need a team. Skills and instructions never
 grant tools or sandbox permissions.
 
+Maintain named Thom Blog roles in [agents-graph.json](agents-graph.json) and
+coordination procedure in `thm-team`. When changing the graph, verify valid JSON,
+unique role IDs, existing parents, an acyclic hierarchy, and alignment with owner
+contracts. Preserve the version-1 fields and tool-deny metadata unless a schema
+change is intentional. Do not describe requested tool restrictions as enforced.
+
 ## Required Verification Parameters Within Nested Context
 
 - Run `<project>:typecheck` and `<project>:test` for every affected project.

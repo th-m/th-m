@@ -2,6 +2,12 @@
 
 Date: 2026-09-08. Status: proposal only. Owner: `blogs`, because this document defines the editorial team pilot and its operational workflow. Reusable runtime code would have a separate owner if implemented. Repository baseline: `9f9cf3496701a7521ae13c7ab2ee64f187a9c65e`.
 
+Reconciliation note, 2026-09-11: the local graph was preserved in commit
+`6385e12` and is now tracked at [agents-graph.json](../../agents-graph.json).
+Its current role instructions follow the [team procedure](../../.agents/skills/thm-team/SKILL.md)
+and owner contracts. The findings below describe the original graph at the
+investigation baseline; the proposed runtime remains unimplemented.
+
 ## Recommendation
 
 Make “Thom Blog” a versioned team definition that Thomas can invoke with one brief. Give the architect responsibility for the finished deliverable, use fresh specialist executions for bounded tasks, and preserve accepted evidence, corrections, artifacts, and job records between runs. Persistence should mean durable definitions and recoverable work; it does not require five model processes to remain alive or five conversations to grow indefinitely.

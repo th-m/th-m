@@ -13,15 +13,12 @@ Turn the brief into an outcome and acceptance list. Keep a short Markdown plan
 with owners, dependencies, artifact paths, and verification, reusing an existing
 owner-local plan when available. Ask only for missing decisions that matter.
 
-For **Thom Blog**, use responsibilities as needed:
-
-| Role | Owns | Returns |
-| --- | --- | --- |
-| architect/coordinator | Scope, outline, dependencies, integration, completeness | Plan and final acceptance report |
-| researcher | Sources, provenance, contradictions | Cited claims and questions; no edits |
-| writer | Argument, voice, prose | Draft or MDX proposal from accepted evidence |
-| designer | Visual explanation and presentation | Scoped specification or visual artifacts |
-| developer/integrator | Candidate implementation and executable checks | Integrated files and actual results |
+For **Thom Blog**, read the [role graph](../../../agents-graph.json) for the
+canonical team name, role IDs, responsibilities, and parent relations. Use only
+the roles the brief needs. Parent relations identify delegation responsibility;
+the task plan defines dependencies and allowed outputs for each assignment.
+The graph's tool deny lists are requested restrictions. No repository runtime
+currently loads the graph or enforces those lists.
 
 Adapt roles for other work instead of requiring every role. The coordinator
 owns the whole result. Use [thm-blog-authoring](../thm-blog-authoring/SKILL.md)

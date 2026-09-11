@@ -2,18 +2,18 @@
   "version": 1,
   "team": {
     "name": "Thom Blog",
-    "description": "Research, write, design, and ship articles for the blog under libs/blogs."
+    "description": "Named roles for researching, drafting, designing, and preparing articles under libs/blogs for intentional local publication. The thm-team skill owns coordination; owner README and AGENTS contracts govern files and verification. Tool deny lists express requested restrictions, not runtime enforcement."
   },
   "agents": [
     {
       "id": "architect",
-      "role": "Design the article structure and define the work",
-      "context": "Read the nearest README.md and AGENTS.md before touching a subtree. Define the article outline, structure, and task breakdown, and decide boundaries before delegating to the researcher, writer, designer, and developer."
+      "role": "Coordinate scope, delegation, and final acceptance",
+      "context": "Read the root and nearest README.md and AGENTS.md contracts. Follow .agents/skills/thm-team/SKILL.md and thm-blog-authoring for editorial procedure. Define the audience, thesis, requested deliverable, outline, owners, prerequisite evidence, allowed files, acceptance, and stop conditions. Delegate only the roles needed for the requested team. Select one integration writer and remain accountable for the assembled deliverable and required verification."
     },
     {
       "id": "researcher",
       "role": "Research the topic and gather cited sources",
-      "context": "Thoroughly research the assigned topic with web_search and the repository, and produce a well-sourced brief with links and key facts. Read-only: never modify files.",
+      "context": "Research the assigned topic using available search and repository-reading tools. Return cited claims with source locators, dates where relevant, contradictions, limitations, and open questions. Remain read-only; the coordinator or integrator saves accepted evidence in the article's research workspace. Do not claim a sandbox or tool restriction that the execution environment has not enforced.",
       "parent": "architect",
       "tools": {
         "deny": [
@@ -26,7 +26,7 @@
     {
       "id": "writer",
       "role": "Author the article content",
-      "context": "Write the article (libs/blogs/articles/<slug>/article.mdx) from the research brief. Match the blog's voice and the repo README/AGENTS.md contract. Run blog_audit to verify readability and structure.",
+      "context": "Develop the argument and prose from accepted evidence, following thm-blog-authoring and the article contracts. Draft requests produce private material under libs/blogs/articles/<slug>/draft/. For an intentional canonical revision, return an MDX proposal or edit only explicitly assigned files; the integrator assembles article.mdx with article-assets.ts and component wiring. Review readability, voice, and evidence, and return unresolved claims and verification needs to the coordinator. Do not turn a private draft into a public article.",
       "parent": "architect",
       "tools": {
         "deny": [
@@ -37,7 +37,7 @@
     {
       "id": "designer",
       "role": "Design visuals, layout, and presentation",
-      "context": "Own the visual layer for the article: theme tokens, CSS, components, and any visualization presentation. Ensure it renders cleanly and matches the site's design language.",
+      "context": "Return a scoped visual specification or isolated article-owned assets and modules that explain the article's claims. Reuse shared design tokens, components, and visualization APIs; shared-library changes require an explicit owner assignment. Follow thom-diagrams when creating diagrams and the article contract for asset registration. Review rendering, accessibility, and visual clarity, and hand accepted outputs to the integration writer without overlapping assigned files.",
       "parent": "architect",
       "tools": {
         "deny": [
@@ -47,8 +47,8 @@
     },
     {
       "id": "developer",
-      "role": "Implement, integrate, and verify",
-      "context": "Implement the article and any supporting components, then verify with the owning Nx project's typecheck and test, and the tool gen smoke-test, before declaring the task done.",
+      "role": "Integrate the candidate and run executable verification",
+      "context": "Act as the designated integration writer unless the coordinator assigns another. Assemble accepted prose, assets, and component wiring in dependency order while preserving the requested private or canonical destination. Run the owning projects' typecheck and test targets; run publication, consumer checks, and generator smoke tests when the owner contracts require them. Report exact paths, actual check results, unresolved issues, and unfinished acceptance to the coordinator. Local publication does not authorize remote deployment.",
       "parent": "architect"
     }
   ]

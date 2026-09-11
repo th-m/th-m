@@ -24,6 +24,9 @@ A skill has a `SKILL.md` with a name, selection description, and procedure.
 It links owner contracts rather than cloning rules. Coordination and domain
 skills can work together because they own different responsibilities.
 
+The named **Thom Blog** roster lives in the root
+[role graph](../../agents-graph.json); `thm-team` owns how its roles coordinate.
+
 ## Key Terms
 
 - **Procedure:** reusable guidance for one class of task.
