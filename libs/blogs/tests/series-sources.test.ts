@@ -33,7 +33,7 @@ const consolidationAnchors: Record<string, string[]> = {
   "conspiracy-by-categories": [
     "I will show why this is not a constructive lens for evaluating complex systems.",
     "Financial benefit alone does not establish responsibility for the attacks.",
-    "I read the Gadianton account and the warning about secret combinations as speaking to our own time.",
+    "I see Revelation describing complete organizational capture in the last days.",
   ],
   "vision-and-values": [
     "The value of its predictions comes from the relationships between words.",
