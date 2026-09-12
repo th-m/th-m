@@ -32,8 +32,8 @@ describe("Conspiracy category details", () => {
   it("shows individual names and marks while keeping descriptions in hover details", async () => {
     await renderArticle();
     const section = screen.getByRole("heading", { name: "Theories organized by institutions" }).closest("section")!;
-    expect(within(section).getAllByRole("listitem")).toHaveLength(34);
-    for (const name of ["Tuskegee syphilis study ✓", "St. Louis aerosol tests ✓", "MKULTRA ✓", "Hillary Clinton emails ? $", "WTC ✓ $"]) {
+    expect(within(section).getAllByRole("listitem")).toHaveLength(35);
+    for (const name of ["Tuskegee syphilis study ✓", "St. Louis aerosol tests ✓", "MKULTRA ✓", "Hillary Clinton emails ? $", "WTC ✓ $", "Maxwell Curriculum reform ?"]) {
       expect(within(section).getByRole("button", { name })).toHaveAttribute("aria-expanded", "false");
     }
     expect(within(section).queryByRole("button", { name: /Building 7|9\/11 orchestration/ })).not.toBeInTheDocument();
