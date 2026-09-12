@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 728" role="img" aria-labelledby="syngenta-defense-title syngenta-defense-desc">
-  <title id="syngenta-defense-title">Syngenta’s atrazine defense</title>
+  <title id="syngenta-defense-title">Syngenta’s strategy</title>
   <desc id="syngenta-defense-desc">Lobbying for EPA evidence standards and costly qualifying research can strengthen a liability defense. Syngenta describes required industry studies as costing millions, while EPA’s strict quantitative screen accepted only its study out of 75. The cost barrier and dashed liability connections are interpretations of these records.</desc>
   <style>
     .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
@@ -14,7 +14,7 @@
   </defs>
   <rect width="1000" height="728" fill="var(--color-paper)"/>
   <text x="40" y="36" class="eyebrow" font-size="16" data-text-max-width="920">CASE STUDY / ATRAZINE</text>
-  <text x="40" y="92" class="diagram-title" font-size="48" data-text-max-width="920">Syngenta’s atrazine defense</text>
+  <text x="40" y="92" class="diagram-title" font-size="48" data-text-max-width="920">Syngenta’s strategy</text>
   <text x="40" y="128" class="subtitle" font-size="24" data-text-max-width="920">Legal and scientific actions that can limit liability.</text>
 
   <!-- Two actions lead to the shared defense; dashed arrows mark inferred protection. -->
