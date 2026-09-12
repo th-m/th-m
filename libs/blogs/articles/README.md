@@ -67,6 +67,7 @@ destabilizing URLs.
 | [building-an-llm](./building-an-llm/) | A visual primer from tokenization through training and inference | Published canonical MDX with four tagged interactives |
 | [consciousness-is-incoherent](./consciousness-is-incoherent/) | A coherent evidentiary standard for machine-consciousness claims | Published MDX addendum |
 | [ai-consciousness-is-incoherent](./ai-consciousness-is-incoherent/) | Why access-like function and theory-derived indicators do not establish phenomenal experience | Published canonical MDX with tagged argument figures |
+| [conspiracy-by-categories](./conspiracy-by-categories/article.mdx) | Institutions, conspiracy claims, financial incentives, and private networks | Canonical MDX with three registered case-study diagrams |
 
 ## Workspace Structure
 

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 960" role="img" aria-labelledby="syngenta-benefit-title syngenta-benefit-desc">
+  <title id="syngenta-benefit-title">Syngenta's atrazine defense: evidence and financial incentives</title>
+  <desc id="syngenta-benefit-desc">Three paths connect lobbying over evidence rules, company-funded research, and company-run monitoring to possible protection of atrazine sales and containment of legal costs, while noting EPA authority, scientific-panel objections, and a 105-million-dollar settlement.</desc>
+  <style>
+    .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
+    .node-name { font-size:25px; }
+    .body { font-size:20px; fill:var(--color-ink); }
+    .route { fill:none; stroke:var(--color-rule-solid); stroke-width:2; }
+    .inference { fill:none; stroke:var(--color-accent); stroke-width:2; stroke-dasharray:7 6; }
+    .lane { font-size:15px; letter-spacing:1px; }
+    .edge-label { font-size:17px; fill:var(--color-accent); text-anchor:middle; }
+    .source-link { font-size:15px; fill:var(--color-muted); }
+  </style>
+  <defs>
+    <marker id="syngenta-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-rule-solid)"/></marker>
+    <marker id="syngenta-inference-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-accent)"/></marker>
+  </defs>
+  <g transform="scale(0.8522727273)">
+  <rect width="1408" height="1120" fill="var(--color-paper)"/>
+  <text x="48" y="40" class="eyebrow" font-size="14" data-text-max-width="1312">CONSPIRACY BY CATEGORIES / CORPORATE</text>
+  <text x="48" y="100" class="diagram-title" font-size="54" data-text-max-width="1312">Syngenta’s atrazine defense</text>
+  <text x="48" y="140" class="subtitle" font-size="22" data-text-max-width="1312">How legal pressure, research selection, and monitoring could protect a market.</text>
+  <text x="48" y="174" class="subtitle" font-size="17" data-text-max-width="1312">Historical focus: 2000–2012. The “gay frogs” controversy concerned effects on frog sexual development.</text>
+  <path d="M48 200 H1360" stroke="var(--color-rule)"/>
+
+  <text x="48" y="228" class="eyebrow lane">01 / LEGAL &amp; LOBBYING</text>
+  <text x="496" y="228" class="eyebrow lane">02 / RESEARCH SELECTION</text>
+  <text x="944" y="228" class="eyebrow lane">03 / MONITORING &amp; OVERSIGHT</text>
+
+  <!-- Sourced relationships; routes are painted before the nodes. -->
+  <path id="syngenta-law-petition" class="route" d="M256 432 V494" marker-end="url(#syngenta-arrow)" data-graph-role="edge"/>
+  <path id="syngenta-study-screen" class="route" d="M704 432 V494" marker-end="url(#syngenta-arrow)" data-graph-role="edge"/>
+  <path id="syngenta-data-review" class="route" d="M1152 432 V494" marker-end="url(#syngenta-arrow)" data-graph-role="edge"/>
+
+  <!-- These financial effects are inferences, not measured causal results. -->
+  <path id="syngenta-law-benefit" class="inference" d="M256 680 V790" marker-end="url(#syngenta-inference-arrow)" data-graph-role="edge"/>
+  <path id="syngenta-study-benefit" class="inference" d="M704 680 V790" marker-end="url(#syngenta-inference-arrow)" data-graph-role="edge"/>
+  <path id="syngenta-monitor-benefit" class="inference" d="M1152 680 V790" marker-end="url(#syngenta-inference-arrow)" data-graph-role="edge"/>
+
+  <g data-graph-role="node" data-node-id="evidence-rules">
+    <rect x="48" y="248" width="416" height="184" class="node"/>
+    <text x="72" y="288" class="node-name" data-text-max-width="368">Lobby over evidence rules</text>
+    <text x="72" y="326" class="body" data-text-max-width="368">Syngenta consultant Jim Tozzi</text>
+    <text x="72" y="354" class="body" data-text-max-width="368">helped shape the Data Quality Act,</text>
+    <text x="72" y="382" class="body" data-text-max-width="368">according to reporting. [1]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="company-research">
+    <rect x="496" y="248" width="416" height="184" class="node"/>
+    <text x="520" y="288" class="node-name" data-text-max-width="368">Fund qualifying research</text>
+    <text x="520" y="326" class="body" data-text-max-width="368">Syngenta supplied a study designed</text>
+    <text x="520" y="354" class="body" data-text-max-width="368">to meet EPA’s required testing</text>
+    <text x="520" y="382" class="body" data-text-max-width="368">criteria. [3]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="company-monitoring">
+    <rect x="944" y="248" width="416" height="184" class="node"/>
+    <text x="968" y="288" class="node-name" data-text-max-width="368">Run required monitoring</text>
+    <text x="968" y="326" class="body" data-text-max-width="368">Syngenta collected watershed data</text>
+    <text x="968" y="354" class="body" data-text-max-width="368">under EPA’s monitoring</text>
+    <text x="968" y="382" class="body" data-text-max-width="368">requirements. [4]</text>
+  </g>
+
+  <g data-graph-role="node" data-node-id="petition">
+    <rect x="48" y="496" width="416" height="184" class="node"/>
+    <text x="72" y="536" class="node-name" data-text-max-width="368">Contest EPA risk language</text>
+    <text x="72" y="574" class="body" data-text-max-width="368">Tozzi’s group and growers used</text>
+    <text x="72" y="602" class="body" data-text-max-width="368">the Act to challenge endocrine-risk</text>
+    <text x="72" y="630" class="body" data-text-max-width="368">findings in 2002. [2]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="study-screen">
+    <rect x="496" y="496" width="416" height="184" class="node"/>
+    <text x="520" y="536" class="node-name" data-text-max-width="368">75 studies → 1 qualifies</text>
+    <text x="520" y="574" class="body" data-text-max-width="368">EPA’s strict screen left one company</text>
+    <text x="520" y="602" class="body" data-text-max-width="368">study for quantitative use; its science</text>
+    <text x="520" y="630" class="body" data-text-max-width="368">panel challenged this approach. [3]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="epa-review">
+    <rect x="944" y="496" width="416" height="184" class="node"/>
+    <text x="968" y="536" class="node-name" data-text-max-width="368">EPA retains decision power</text>
+    <text x="968" y="574" class="body" data-text-max-width="368">Company data informed mitigation;</text>
+    <text x="968" y="602" class="body" data-text-max-width="368">EPA also used university, state,</text>
+    <text x="968" y="630" class="body" data-text-max-width="368">and federal data. [4]</text>
+  </g>
+
+  <rect x="96" y="714" width="320" height="36" fill="var(--color-paper)"/>
+  <text x="256" y="738" class="edge-label" data-text-max-width="320">Weaken grounds for restrictions</text>
+  <rect x="556" y="714" width="296" height="36" fill="var(--color-paper)"/>
+  <text x="704" y="738" class="edge-label" data-text-max-width="296">Strengthen the low-risk case</text>
+  <rect x="992" y="714" width="320" height="36" fill="var(--color-paper)"/>
+  <text x="1152" y="738" class="edge-label" data-text-max-width="320">Shape the compliance case</text>
+
+  <g data-graph-role="node" data-node-id="financial-incentive">
+    <rect x="48" y="792" width="1312" height="128" fill="var(--color-accent-tint)" stroke="var(--color-accent)"/>
+    <text x="72" y="824" font-size="15" fill="var(--color-accent)" data-text-max-width="1264">$ / POTENTIAL FINANCIAL ADVANTAGE</text>
+    <text x="72" y="866" class="node-name" style="font-size:33px" data-text-max-width="1264">Protect sales · resist tighter restrictions · contain legal costs</text>
+    <text x="72" y="899" class="subtitle" font-size="18" data-text-max-width="1264">The reviewed records do not quantify how much these paths increased profit or reduced liability.</text>
+  </g>
+
+  <g data-graph-role="node" data-node-id="actual-settlement">
+    <rect x="48" y="944" width="1312" height="80" class="node"/>
+    <text x="72" y="978" class="node-name" font-size="25" data-text-max-width="288">$105m paid in 2012</text>
+    <text x="72" y="1004" class="subtitle" font-size="16" data-text-max-width="288">WATER-SYSTEM SETTLEMENT</text>
+    <text x="392" y="978" class="body" data-text-max-width="944">Syngenta denied liability and said settling would end litigation expense and uncertainty. [5]</text>
+    <text x="392" y="1004" class="subtitle" font-size="17" data-text-max-width="944">This was a real cost; the records do not establish total control of regulation or immunity from claims.</text>
+  </g>
+
+  <path d="M48 1058 H92" class="route"/>
+  <text x="104" y="1064" class="legend" font-size="16">Sourced relationship</text>
+  <path d="M328 1058 H372" class="inference"/>
+  <text x="384" y="1064" class="legend" font-size="16">Inferred business benefit</text>
+  <text x="1360" y="1064" class="legend" font-size="16" text-anchor="end">Source numbers correspond to the accompanying evidence note.</text>
+  <text x="48" y="1100" class="source-link">[1] Reporting</text>
+  <text x="272" y="1100" class="source-link">[2] EPA petition</text>
+  <text x="520" y="1100" class="source-link">[3] EPA science panel</text>
+  <text x="824" y="1100" class="source-link">[4] EPA monitoring</text>
+  <text x="1104" y="1100" class="source-link">[5] Syngenta results</text>
+  </g>
+</svg>

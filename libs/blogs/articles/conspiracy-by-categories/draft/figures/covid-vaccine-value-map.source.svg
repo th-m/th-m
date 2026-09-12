@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1770" role="img" aria-labelledby="covid-value-title covid-value-desc">
+  <title id="covid-value-title">COVID vaccines: policy, commercial value, and research relationships</title>
+  <desc id="covid-value-desc">Two panels distinguish the unverified vaccine-redefinition claim from procurement, PREP Act protections, and patent licensing, identify commercial beneficiaries, and trace separate Gates Foundation investments and grants, NIH collaboration under Fauci, and NIH funding through EcoHealth Alliance to the Wuhan Institute of Virology.</desc>
+  <style>
+    .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
+    .node-name { font-size:25px; }
+    .body { font-size:20px; fill:var(--color-ink); }
+    .small { font-size:17px; fill:var(--color-muted); }
+    .route { fill:none; stroke:var(--color-rule-solid); stroke-width:2; }
+    .money { fill:none; stroke:var(--color-accent); stroke-width:2; }
+    .conditional { fill:none; stroke:var(--color-muted); stroke-width:1.5; stroke-dasharray:7 6; }
+    .edge-label { font-size:17px; text-anchor:middle; fill:var(--color-accent); }
+    .financial { fill:var(--color-accent-tint); stroke:var(--color-accent); stroke-width:1; }
+  </style>
+  <defs>
+    <marker id="covid-value-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-rule-solid)"/></marker>
+    <marker id="covid-value-money" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-accent)"/></marker>
+    <marker id="covid-value-hypothesis" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-muted)"/></marker>
+  </defs>
+  <g transform="scale(0.8522727273)">
+  <rect width="1408" height="2077" fill="var(--color-paper)"/>
+  <g id="covid-market-panel">
+  <text x="48" y="40" class="eyebrow" font-size="14">CONSPIRACY BY CATEGORIES / POLICY &amp; FINANCIAL INTERESTS</text>
+  <text x="48" y="98" class="diagram-title" font-size="49" data-text-max-width="1312">COVID vaccines: rules, revenue &amp; research ties</text>
+  <text x="48" y="136" class="subtitle" font-size="21" data-text-max-width="1312">U.S. commercial mechanisms, selected beneficiaries, and historical funding relationships.</text>
+
+  <!-- Conditional model: no claim that the supplied material proves this amendment. -->
+  <rect x="48" y="168" width="1312" height="120" fill="var(--color-paper-2)" stroke="var(--color-muted)" stroke-dasharray="7 6"/>
+  <text x="72" y="198" class="eyebrow" font-size="14">PROPOSED DEFINITION-CHANGE MECHANISM / NOT ESTABLISHED FOR “VACCINE”</text>
+  <text x="72" y="236" class="node-name" data-text-max-width="552">Broaden a legally operative definition</text>
+  <path d="M646 228 H718" class="conditional" marker-end="url(#covid-value-hypothesis)" data-graph-role="edge"/>
+  <text x="744" y="236" class="node-name" data-text-max-width="592">More products qualify for a named policy</text>
+  <text x="72" y="268" class="small" data-text-max-width="1264">Requires a specific law connecting the term to the benefit. A wording change alone does not create purchases, immunity, or patents.</text>
+
+  <text x="48" y="336" class="eyebrow" font-size="15">01 / DOCUMENTED ROUTES TO COMMERCIAL VALUE</text>
+  <text x="48" y="368" class="small" data-text-max-width="1312">The 2013 expansion concerned “covered countermeasures”; the 2020 COVID declaration included vaccines, drugs, and devices. [1]</text>
+
+  <path id="covid-demand-sales" class="money" d="M256 600 V694" marker-end="url(#covid-value-money)" data-graph-role="edge"/>
+  <path id="covid-prep-benefit" class="route" d="M704 600 V694" marker-end="url(#covid-value-arrow)" data-graph-role="edge"/>
+  <path id="covid-patent-income" class="money" d="M1152 600 V694" marker-end="url(#covid-value-money)" data-graph-role="edge"/>
+
+  <g data-graph-role="node" data-node-id="procurement">
+    <rect x="48" y="400" width="416" height="200" class="node"/>
+    <text x="72" y="440" class="node-name" data-text-max-width="368">Crisis → funded demand</text>
+    <text x="72" y="480" class="body" data-text-max-width="368">FDA authorization enables use;</text>
+    <text x="72" y="508" class="body" data-text-max-width="368">government purchase contracts</text>
+    <text x="72" y="536" class="body" data-text-max-width="368">create a funded market. [2, 3]</text>
+    <text x="72" y="572" class="small" data-text-max-width="368">A contract commits money; a label does not.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="prep-act">
+    <rect x="496" y="400" width="416" height="200" class="node"/>
+    <text x="520" y="440" class="node-name" data-text-max-width="368">PREP Act → injury shield</text>
+    <text x="520" y="480" class="body" data-text-max-width="368">A declaration and qualifying</text>
+    <text x="520" y="508" class="body" data-text-max-width="368">products, people, and activities</text>
+    <text x="520" y="536" class="body" data-text-max-width="368">trigger covered-claim immunity. [1]</text>
+    <text x="520" y="572" class="small" data-text-max-width="368">Willful-misconduct exception; CICP route.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="patent-law">
+    <rect x="944" y="400" width="416" height="200" class="node"/>
+    <text x="968" y="440" class="node-name" data-text-max-width="368">IP → licensing leverage</text>
+    <text x="968" y="480" class="body" data-text-max-width="368">Patents and licenses cover RNA,</text>
+    <text x="968" y="508" class="body" data-text-max-width="368">delivery systems, and antigen</text>
+    <text x="968" y="536" class="body" data-text-max-width="368">design. Patent law applies. [4, 5]</text>
+    <text x="968" y="572" class="small" data-text-max-width="368">Penn’s modified-RNA patent issued in 2012.</text>
+  </g>
+  <rect x="92" y="632" width="328" height="32" fill="var(--color-paper)"/>
+  <text x="256" y="654" class="edge-label">Purchase revenue</text>
+  <rect x="540" y="632" width="328" height="32" fill="var(--color-paper)"/>
+  <text x="704" y="654" class="edge-label" style="fill:var(--color-muted)">Less covered legal exposure</text>
+  <rect x="988" y="632" width="328" height="32" fill="var(--color-paper)"/>
+  <text x="1152" y="654" class="edge-label">Royalties / licensing / settlements</text>
+
+  <g data-graph-role="node" data-node-id="vaccine-sellers">
+    <rect x="48" y="696" width="864" height="224" class="node"/>
+    <text x="72" y="736" class="node-name" data-text-max-width="816">Vaccine sellers &amp; covered manufacturers [6]</text>
+    <text x="72" y="778" class="body" data-text-max-width="816">Pfizer / BioNTech — Comirnaty</text>
+    <text x="72" y="810" class="body" data-text-max-width="816">Moderna — Spikevax and mNEXSPIKE</text>
+    <text x="72" y="842" class="body" data-text-max-width="816">Novavax / Sanofi — Nuvaxovid (protein-based)</text>
+    <text x="72" y="884" class="small" data-text-max-width="816">Protection depends on the applicable declaration and facts; it is not blanket immunity.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="ip-beneficiaries">
+    <rect x="944" y="696" width="416" height="224" class="node"/>
+    <text x="968" y="736" class="node-name" data-text-max-width="368">IP owners / licensees [5]</text>
+    <text x="968" y="770" class="body" data-text-max-width="368">Moderna · BioNTech</text>
+    <text x="968" y="798" class="body" data-text-max-width="368">Penn · MRT / CellScript</text>
+    <text x="968" y="826" class="body" data-text-max-width="368">Arbutus · Genevant (Roivant)</text>
+    <text x="968" y="854" class="body" data-text-max-width="368">Acuitas Therapeutics</text>
+    <text x="968" y="882" class="body" data-text-max-width="368">HHS · Dartmouth · Scripps</text>
+  </g>
+
+  <g data-graph-role="node" data-node-id="procurement-example">
+    <rect x="48" y="952" width="416" height="152" class="financial"/>
+    <text x="72" y="984" class="small">2020 / PROCUREMENT [3]</text>
+    <text x="72" y="1022" class="node-name" style="font-size:30px" data-text-max-width="368">U.S. → Pfizer / BioNTech</text>
+    <text x="72" y="1056" class="body" data-text-max-width="368">$1.95bn order for 100m doses;</text>
+    <text x="72" y="1084" class="body" data-text-max-width="368">delivery required authorization.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="novavax-example">
+    <rect x="496" y="952" width="416" height="152" class="financial"/>
+    <text x="520" y="984" class="small">2024 / LICENSING + EQUITY [7]</text>
+    <text x="520" y="1022" class="node-name" style="font-size:30px" data-text-max-width="368">Sanofi → Novavax</text>
+    <text x="520" y="1056" class="body" data-text-max-width="368">$500m upfront license payment</text>
+    <text x="520" y="1084" class="body" data-text-max-width="368">plus about $70m in equity.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="patent-settlement">
+    <rect x="944" y="952" width="416" height="152" class="financial"/>
+    <text x="968" y="984" class="small">MARCH 2026 / PATENT TERMS [8]</text>
+    <text x="968" y="1020" class="node-name" style="font-size:23px" data-text-max-width="368">Moderna → Genevant / Arbutus</text>
+    <text x="968" y="1056" class="body" data-text-max-width="368">$950m upfront obligation;</text>
+    <text x="968" y="1084" class="body" data-text-max-width="368">a further $1.3bn was conditional.</text>
+  </g>
+  <text x="48" y="1136" class="small" data-text-max-width="1312">Amounts are dated transaction terms, not net profit. Sales, injury liability, patent rights, and share ownership are distinct.</text>
+  </g>
+
+  <path d="M48 1176 H1360" stroke="var(--color-rule-solid)"/>
+  <g id="covid-research-panel">
+  <text x="48" y="1220" class="eyebrow" font-size="15">02 / GATES, FAUCI &amp; WUHAN: WHAT THE RELATIONSHIPS SHOW</text>
+  <text x="48" y="1262" class="diagram-title" font-size="36" data-text-max-width="1312">Equity investment, collaboration, and separate research grants</text>
+
+  <!-- Historical equity is distinct from the grants below. -->
+  <path id="covid-foundation-equity" class="money" d="M216 1408 V1344 Q216 1336 224 1336 H1184 Q1192 1336 1192 1344 V1406" marker-end="url(#covid-value-money)" data-graph-role="edge"/>
+  <text x="704" y="1322" class="edge-label" data-text-max-width="880">2019 / $55m equity agreement for HIV and tuberculosis programs [9]</text>
+  <path id="covid-africa-grant" class="money" d="M384 1480 H534" marker-end="url(#covid-value-money)" data-graph-role="edge"/>
+  <text x="460" y="1460" class="edge-label">Grant [11]</text>
+  <!-- No arrowhead: institutional collaboration is not a transfer to Fauci personally. -->
+  <path id="covid-nih-collaboration" class="route" d="M216 1552 V1760" data-graph-role="edge"/>
+  <rect x="56" y="1612" width="320" height="72" fill="var(--color-paper)"/>
+  <text x="216" y="1638" class="edge-label" style="fill:var(--color-muted)">2019 HIV / sickle-cell</text>
+  <text x="216" y="1666" class="edge-label" style="fill:var(--color-muted)">research collaboration [10]</text>
+  <path id="covid-nih-award" class="money" d="M384 1832 H534" marker-end="url(#covid-value-money)" data-graph-role="edge"/>
+  <text x="460" y="1812" class="edge-label">Grant [12]</text>
+  <path id="covid-wiv-subaward" class="money" d="M872 1832 H1022" marker-end="url(#covid-value-money)" data-graph-role="edge"/>
+  <text x="948" y="1812" class="edge-label">Subaward [12]</text>
+
+  <g data-graph-role="node" data-node-id="gates-foundation">
+    <rect x="48" y="1408" width="336" height="144" class="node"/>
+    <text x="72" y="1450" class="node-name" data-text-max-width="288">Gates Foundation</text>
+    <text x="72" y="1486" class="body" data-text-max-width="288">Foundation investment,</text>
+    <text x="72" y="1514" class="body" data-text-max-width="288">grant, and partnership roles.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="ecohealth-africa">
+    <rect x="536" y="1408" width="336" height="144" class="node"/>
+    <text x="560" y="1450" class="node-name" data-text-max-width="288">EcoHealth Alliance</text>
+    <text x="560" y="1486" class="body" data-text-max-width="288">Africa surveillance purpose;</text>
+    <text x="560" y="1514" class="body" data-text-max-width="288">$1,499,414, August 2020. [11]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="biontech-investment">
+    <rect x="1024" y="1408" width="336" height="144" class="node"/>
+    <text x="1048" y="1450" class="node-name" data-text-max-width="288">BioNTech</text>
+    <text x="1048" y="1486" class="body" data-text-max-width="288">Equity capital recipient;</text>
+    <text x="1048" y="1514" class="body" data-text-max-width="288">also a vaccine seller above.</text>
+  </g>
+  <text x="704" y="1630" class="small" text-anchor="middle" data-text-max-width="408">Same organization, separate awards.</text>
+  <text x="704" y="1658" class="small" text-anchor="middle" data-text-max-width="408">No onward Africa-grant → WIV link</text>
+  <text x="704" y="1686" class="small" text-anchor="middle" data-text-max-width="408">is established by these records.</text>
+
+  <g data-graph-role="node" data-node-id="fauci-niaid">
+    <rect x="48" y="1760" width="336" height="144" class="node"/>
+    <text x="72" y="1802" class="node-name" data-text-max-width="288">NIH / NIAID</text>
+    <text x="72" y="1838" class="body" data-text-max-width="288">Anthony Fauci led NIAID</text>
+    <text x="72" y="1866" class="body" data-text-max-width="288">from 1984 to 2022. [13]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="ecohealth-nih-project">
+    <rect x="536" y="1760" width="336" height="144" class="node"/>
+    <text x="560" y="1802" class="node-name" data-text-max-width="288">EcoHealth Alliance</text>
+    <text x="560" y="1838" class="body" data-text-max-width="288">NIH-funded bat-coronavirus</text>
+    <text x="560" y="1866" class="body" data-text-max-width="288">research, R01AI110964. [12]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="wuhan-institute">
+    <rect x="1024" y="1760" width="336" height="144" class="node"/>
+    <text x="1048" y="1792" class="node-name" style="font-size:23px" data-text-max-width="288">Wuhan Institute</text>
+    <text x="1048" y="1820" class="node-name" style="font-size:23px" data-text-max-width="288">of Virology</text>
+    <text x="1048" y="1858" class="body" style="font-size:18px" data-text-max-width="288">Research subrecipient;</text>
+    <text x="1048" y="1884" class="body" style="font-size:18px" data-text-max-width="288">oversight failures audited. [12]</text>
+  </g>
+  <text x="48" y="1946" class="small" data-text-max-width="1312">The reviewed records establish institutional relationships, not a shared personal Gates–Fauci investment in the Wuhan institute.</text>
+  </g>
+
+  <path d="M48 1984 H1360" stroke="var(--color-rule)"/>
+  <path d="M48 2018 H92" class="money"/>
+  <text x="108" y="2024" class="small">Commercial benefit / money</text>
+  <path d="M448 2018 H492" class="route"/>
+  <text x="508" y="2024" class="small">Other sourced relationship</text>
+  <path d="M912 2018 H956" class="conditional"/>
+  <text x="972" y="2024" class="small">Conditional, unverified mechanism</text>
+  <text x="48" y="2062" class="small" data-text-max-width="1312">Sources [1]–[13] and qualifications are in covid-vaccine-value-evidence.md. Historical links and dated transactions; prepared September 2026.</text>
+  </g>
+</svg>
