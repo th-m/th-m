@@ -1,131 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1360" role="img" aria-labelledby="wtc-incentives-title wtc-incentives-desc">
-  <title id="wtc-incentives-title">Silverstein and the World Trade Center: insurance and asbestos</title>
-  <desc id="wtc-incentives-desc">Two documented paths show roughly 4.57 billion dollars in aggregate net-lessee insurance recovery, continuing financial obligations, and a separate court defense against a neighboring building's contamination-cleanup claim. A dashed third path identifies possible future asbestos-retrofit savings as unverified, distinct from personal profit, injury liability, or evidence of advance intent.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 744" role="img" aria-labelledby="wtc-incentives-title wtc-incentives-desc">
+  <title id="wtc-incentives-title">WTC: insurance recovery and cleanup liability</title>
+  <desc id="wtc-incentives-desc">The destruction of the World Trade Center led to approximately 4.57 billion dollars in aggregate insurance recovery for its net lessees. Courts later dismissed one neighboring building’s asbestos-containing dust cleanup claim against Silverstein-linked entities and other defendants; the avoided amount is unquantified and the ruling did not erase all asbestos liabilities.</desc>
   <style>
     .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
-    .node-name { font-size:25px; }
-    .body { font-size:20px; fill:var(--color-ink); }
-    .small { font-size:17px; fill:var(--color-muted); }
-    .route { fill:none; stroke:var(--color-rule-solid); stroke-width:2; }
-    .money { fill:none; stroke:var(--color-accent); stroke-width:2; }
-    .conditional { fill:none; stroke:var(--color-muted); stroke-width:1.5; stroke-dasharray:7 6; }
-    .edge-label { font-size:17px; text-anchor:middle; fill:var(--color-accent); }
-    .financial { fill:var(--color-accent-tint); stroke:var(--color-accent); stroke-width:1; }
+    .outcome { fill:var(--color-accent-tint); stroke:var(--color-accent); stroke-width:1; }
+    .node-name { font-size:28px; }
+    .body { font-size:22px; fill:var(--color-ink); }
+    .small { font-size:20px; fill:var(--color-muted); }
+    .route { fill:none; stroke:var(--color-accent); stroke-width:2; }
   </style>
   <defs>
-    <marker id="wtc-incentives-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-rule-solid)"/></marker>
-    <marker id="wtc-incentives-money" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-accent)"/></marker>
-    <marker id="wtc-incentives-hypothesis" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-muted)"/></marker>
+    <marker id="wtc-incentives-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-accent)"/></marker>
   </defs>
-  <g transform="scale(0.8522727273)">
-    <rect width="1408" height="1596" fill="var(--color-paper)"/>
-    <text x="48" y="40" class="eyebrow" font-size="14" data-text-max-width="1312">CONSPIRACY BY CATEGORIES / GOVERNMENT / FINANCIAL INCENTIVES</text>
-    <text x="48" y="102" class="diagram-title" font-size="54" data-text-max-width="1312">Silverstein &amp; the World Trade Center</text>
-    <text x="48" y="144" class="subtitle" font-size="23" data-text-max-width="1312">Insurance proceeds, asbestos costs, and the scope of a legal shield.</text>
+  <rect width="1000" height="744" fill="var(--color-paper)"/>
+  <text x="40" y="36" class="eyebrow" font-size="16" data-text-max-width="920">CASE STUDY / WORLD TRADE CENTER</text>
+  <text x="40" y="92" class="diagram-title" font-size="48" data-text-max-width="920">Silverstein &amp; the World Trade Center</text>
+  <text x="40" y="128" class="subtitle" font-size="24" data-text-max-width="920">Two outcomes: cleanup liability and insurance recovery.</text>
 
-    <rect x="48" y="184" width="1312" height="132" class="node"/>
-    <text x="72" y="224" class="node-name" data-text-max-width="556">July 2001: 99-year net leases [1, 2]</text>
-    <text x="72" y="260" class="body" data-text-max-width="556">Silverstein-linked entities hold lease rights;</text>
-    <text x="72" y="288" class="body" data-text-max-width="556">the Port Authority owns the site.</text>
-    <path d="M660 250 H728" class="route" marker-end="url(#wtc-incentives-arrow)" data-graph-role="edge"/>
-    <text x="760" y="224" class="node-name" data-text-max-width="576">September 11, 2001</text>
-    <text x="760" y="260" class="body" data-text-max-width="576">Destruction produces insured losses and</text>
-    <text x="760" y="288" class="body" data-text-max-width="576">dust containing asbestos. [1, 7]</text>
+  <path id="wtc-cleanup-route" d="M368 304 V328 Q368 336 360 336 H268 Q260 336 260 344 V380" class="route" marker-end="url(#wtc-incentives-arrow)" data-graph-role="edge"/>
+  <path id="wtc-insurance-route" d="M632 304 V328 Q632 336 640 336 H732 Q740 336 740 344 V380" class="route" marker-end="url(#wtc-incentives-arrow)" data-graph-role="edge"/>
 
-    <text x="48" y="366" class="eyebrow" font-size="15" data-text-max-width="632">01 / INSURANCE RECOVERY</text>
-    <text x="728" y="366" class="eyebrow" font-size="15" data-text-max-width="632">02 / CONTAMINATION-CLEANUP LIABILITY</text>
-
-    <path d="M364 558 V644" class="money" marker-end="url(#wtc-incentives-money)" data-graph-role="edge"/>
-    <path d="M1044 558 V644" class="route" marker-end="url(#wtc-incentives-arrow)" data-graph-role="edge"/>
-    <path d="M364 816 V878" class="money" marker-end="url(#wtc-incentives-money)" data-graph-role="edge"/>
-    <path d="M1044 816 V878" class="money" marker-end="url(#wtc-incentives-money)" data-graph-role="edge"/>
-
-    <g data-node-id="required-insurance" data-graph-role="node">
-      <rect x="48" y="398" width="632" height="160" class="node"/>
-      <text x="72" y="440" class="node-name" data-text-max-width="584">Coverage required by the lease [1]</text>
-      <text x="72" y="478" class="body" data-text-max-width="584">About $3.5bn per occurrence.</text>
-      <text x="72" y="508" class="body" data-text-max-width="584">Silverstein parties argued for two occurrences;</text>
-      <text x="72" y="536" class="body" data-text-max-width="584">insurers disputed which policy terms applied.</text>
-    </g>
-    <g data-node-id="cleanup-claim" data-graph-role="node">
-      <rect x="728" y="398" width="632" height="160" class="node"/>
-      <text x="752" y="440" class="node-name" data-text-max-width="584">Neighbor seeks cleanup costs [4]</text>
-      <text x="752" y="478" class="body" data-text-max-width="584">Cedar &amp; Washington seeks reimbursement for</text>
-      <text x="752" y="508" class="body" data-text-max-width="584">removing WTC dust from its building.</text>
-      <text x="752" y="536" class="body" data-text-max-width="584">This is a property-remediation claim.</text>
-    </g>
-    <rect x="204" y="588" width="320" height="28" fill="var(--color-paper)"/>
-    <text x="364" y="608" class="edge-label" data-text-max-width="320">Policy litigation and recoveries</text>
-    <rect x="884" y="588" width="320" height="28" fill="var(--color-paper)"/>
-    <text x="1044" y="608" class="edge-label" style="fill:var(--color-muted)" data-text-max-width="320">CERCLA “act of war” defense</text>
-
-    <g data-node-id="insurance-recovery" data-graph-role="node">
-      <rect x="48" y="646" width="632" height="170" class="financial"/>
-      <text x="72" y="688" class="node-name" style="font-size:34px" data-text-max-width="584">$4.57bn recovered [2]</text>
-      <text x="72" y="726" class="body" data-text-max-width="584">Aggregate net-lessee insurance proceeds.</text>
-      <text x="72" y="756" class="body" data-text-max-width="584">Funds offset covered losses and obligations;</text>
-      <text x="72" y="786" class="body" data-text-max-width="584">the total is not Silverstein’s personal profit.</text>
-    </g>
-    <g data-node-id="cleanup-defense" data-graph-role="node">
-      <rect x="728" y="646" width="632" height="170" class="financial"/>
-      <text x="752" y="688" class="node-name" style="font-size:30px" data-text-max-width="584">$ Cleanup claim dismissed [4, 5]</text>
-      <text x="752" y="726" class="body" data-text-max-width="584">2013 ruling; affirmed in 2014.</text>
-      <text x="752" y="756" class="body" data-text-max-width="584">Courts apply CERCLA’s act-of-war defense;</text>
-      <text x="752" y="786" class="body" data-text-max-width="584">this prevents recovery on that claim.</text>
-    </g>
-    <g data-node-id="money-destinations" data-graph-role="node">
-      <rect x="48" y="880" width="632" height="166" class="node"/>
-      <text x="72" y="920" class="node-name" data-text-max-width="584">Who receives value?</text>
-      <text x="72" y="958" class="body" data-text-max-width="584">Leasehold entities: funding for insured losses.</text>
-      <text x="72" y="988" class="body" data-text-max-width="584">Port Authority: rent; GMAC: loan repaid. [2]</text>
-      <text x="72" y="1018" class="body" data-text-max-width="584">Rent and rebuilding obligations continue. [3]</text>
-    </g>
-    <g data-node-id="legal-beneficiaries" data-graph-role="node">
-      <rect x="728" y="880" width="632" height="166" class="node"/>
-      <text x="752" y="920" class="node-name" data-text-max-width="584">Who gets this legal protection?</text>
-      <text x="752" y="958" class="body" data-text-max-width="584">Silverstein-linked companies, Port Authority,</text>
-      <text x="752" y="988" class="body" data-text-max-width="584">and other defendants avoid this claim. [4]</text>
-      <text x="752" y="1018" class="body" data-text-max-width="584">No blanket asbestos-injury immunity. [5]</text>
-    </g>
-    <text x="48" y="1080" class="small" data-text-max-width="1312">Different rules: an insurance contract can cover a loss while environmental law supplies a defense to a cleanup claim. [4, 5]</text>
-
-    <path d="M48 1116 H1360" stroke="var(--color-rule-solid)"/>
-    <text x="48" y="1156" class="eyebrow" font-size="15" data-text-max-width="1312">03 / POSSIBLE ASBESTOS-COST INCENTIVE — UNVERIFIED</text>
-    <path d="M424 1290 H514" class="conditional" marker-end="url(#wtc-incentives-hypothesis)" data-graph-role="edge"/>
-    <path d="M892 1290 H982" class="conditional" marker-end="url(#wtc-incentives-hypothesis)" data-graph-role="edge"/>
-    <g data-node-id="existing-asbestos" data-graph-role="node">
-      <rect x="48" y="1192" width="376" height="196" class="node"/>
-      <text x="72" y="1232" class="node-name" style="font-size:23px" data-text-max-width="328">Existing asbestos costs [6]</text>
-      <text x="72" y="1270" class="body" data-text-max-width="328">Pre-9/11 records show asbestos</text>
-      <text x="72" y="1298" class="body" data-text-max-width="328">management and removal</text>
-      <text x="72" y="1326" class="body" data-text-max-width="328">during renovation.</text>
-      <text x="72" y="1362" class="small" data-text-max-width="328">Ongoing costs, not a total-removal order.</text>
-    </g>
-    <g data-node-id="avoided-retrofit-hypothesis" data-graph-role="node">
-      <rect x="516" y="1192" width="376" height="196" fill="var(--color-paper-2)" stroke="var(--color-muted)" stroke-dasharray="7 6"/>
-      <text x="540" y="1232" class="node-name" style="font-size:23px" data-text-max-width="328">? Possible avoided retrofit</text>
-      <text x="540" y="1270" class="body" data-text-max-width="328">Replacing old structures</text>
-      <text x="540" y="1298" class="body" data-text-max-width="328">could avoid some future</text>
-      <text x="540" y="1326" class="body" data-text-max-width="328">in-building abatement work.</text>
-      <text x="540" y="1362" class="small" data-text-max-width="328">Possible benefit; savings unmeasured.</text>
-    </g>
-    <g data-node-id="savings-not-established" data-graph-role="node">
-      <rect x="984" y="1192" width="376" height="196" fill="var(--color-paper-2)" stroke="var(--color-muted)" stroke-dasharray="7 6"/>
-      <text x="1008" y="1232" class="node-name" style="font-size:23px" data-text-max-width="328">? Net asbestos savings</text>
-      <text x="1008" y="1270" class="body" data-text-max-width="328">Need assigned costs, claims,</text>
-      <text x="1008" y="1298" class="body" data-text-max-width="328">and actual avoided amounts.</text>
-      <text x="1008" y="1326" class="body" data-text-max-width="328">Neither net savings nor erased</text>
-      <text x="1008" y="1354" class="body" data-text-max-width="328">poisoning liability is established.</text>
-    </g>
-    <text x="48" y="1428" class="small" data-text-max-width="1312">Financial recovery and a successful defense do not establish personal profit, prior knowledge, or responsibility for the attacks.</text>
-    <path d="M48 1460 H1360" stroke="var(--color-rule)"/>
-    <path d="M48 1494 H92" class="money"/>
-    <text x="108" y="1500" class="small" data-text-max-width="340">$ Money / specific legal benefit</text>
-    <path d="M504 1494 H548" class="route"/>
-    <text x="564" y="1500" class="small" data-text-max-width="332">Documented relationship</text>
-    <path d="M984 1494 H1028" class="conditional"/>
-    <text x="1044" y="1500" class="small" data-text-max-width="316">? Inferred / unestablished</text>
-    <text x="48" y="1536" class="small" data-text-max-width="1312">Insurance amount: main-site net-lessee pool, including retail interests; excludes a separate WTC 7 recovery. Historical record: 2001–2017.</text>
-    <text x="48" y="1562" class="small" style="font-size:15px" data-text-max-width="1312">Sources [1]–[7], claim limits, and reproduction details: wtc-silverstein-incentives-evidence.md. Prepared September 2026.</text>
+  <g data-graph-role="node" data-node-id="wtc-destruction">
+    <rect x="224" y="176" width="552" height="128" class="node"/>
+    <text x="248" y="208" class="eyebrow" font-size="16" data-text-max-width="504">SEPTEMBER 11, 2001</text>
+    <text x="248" y="248" class="node-name" data-text-max-width="504">World Trade Center destroyed</text>
+    <text x="248" y="280" class="small" data-text-max-width="504">Insured losses and asbestos-containing dust. [1, 7]</text>
   </g>
+
+  <g data-graph-role="node" data-node-id="cleanup-defense">
+    <rect x="40" y="384" width="440" height="264" class="outcome"/>
+    <text x="64" y="416" class="eyebrow" font-size="16" data-text-max-width="392">01 / ASBESTOS CLEANUP</text>
+    <text x="64" y="464" class="diagram-title" font-size="40" data-text-max-width="392">Claim dismissed</text>
+    <text x="64" y="508" class="body" data-text-max-width="392">Liability removed for one neighboring</text>
+    <text x="64" y="540" class="body" data-text-max-width="392">building’s WTC-dust cleanup claim.</text>
+    <text x="64" y="576" class="small" data-text-max-width="392">2013 ruling; affirmed in 2014. [4, 5]</text>
+    <text x="64" y="620" class="small" data-text-max-width="392">Avoided amount: unquantified.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="insurance-recovery">
+    <rect x="520" y="384" width="440" height="264" class="outcome"/>
+    <text x="544" y="416" class="eyebrow" font-size="16" data-text-max-width="392">02 / INSURANCE PAYOUT</text>
+    <text x="544" y="472" class="diagram-title" font-size="56" data-text-max-width="392">$4.57 billion</text>
+    <text x="544" y="508" class="body" data-text-max-width="392">Recovered by the WTC net lessees.</text>
+    <text x="544" y="540" class="small" data-text-max-width="392">Reported in 2011 accounts. [2]</text>
+    <text x="544" y="588" class="small" data-text-max-width="392">Gross proceeds for covered losses</text>
+    <text x="544" y="620" class="small" data-text-max-width="392">and obligations.</text>
+  </g>
+
+  <text x="40" y="692" class="small" data-text-max-width="920">The cleanup ruling covered that claim; it did not erase all asbestos liabilities. [5]</text>
+  <text x="40" y="728" class="eyebrow" font-size="16" data-text-max-width="920">Source numbers match the article’s World Trade Center sources.</text>
 </svg>

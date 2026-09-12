@@ -34,7 +34,7 @@ export default defineArticleAssets({
   "wtc-silverstein": {
     "kind": "image",
     "source": "assets/wtc-silverstein-incentives.svg",
-    "alt": "Silverstein and WTC insurance recovery, cleanup liability, and possible asbestos savings",
+    "alt": "WTC destruction followed by dismissal of one asbestos-dust cleanup claim and $4.57 billion in net-lessee insurance recovery",
     "tags": [
       "article-figure",
       "case-study",
