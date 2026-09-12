@@ -43,7 +43,8 @@ describe("Conspiracy category details", () => {
     const details = await screen.findByRole("dialog", { name: "Tuskegee syphilis study" });
     expect(details).toHaveTextContent("Tuskegee, Alabama, 1932–1972: public-health researchers deceived Black men and withheld effective treatment while studying untreated syphilis.");
     expect(details).toHaveTextContent("Year / period: 1932–1972 — study period.");
-    expect(within(details).getByText("Researchers did not deliberately infect the participants.").tagName).toBe("STRONG");
+    expect(within(details).queryByText("Researchers did not deliberately infect the participants.")).not.toBeInTheDocument();
+    expect(within(details).queryByRole("link", { name: "CDC" })).not.toBeInTheDocument();
     await user.keyboard("{Escape}");
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     await user.hover(screen.getByRole("button", { name: "St. Louis aerosol tests ✓" }));
