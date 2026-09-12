@@ -32,18 +32,23 @@ describe("Conspiracy category details", () => {
   it("shows individual names and marks while keeping descriptions in hover details", async () => {
     await renderArticle();
     const section = screen.getByRole("heading", { name: "Theories organized by institutions" }).closest("section")!;
-    expect(within(section).getAllByRole("listitem")).toHaveLength(33);
-    for (const name of ["Tuskegee syphilis study ✓", "MKULTRA ✓", "Hillary Clinton emails ? $", "WTC ✓ $"]) {
+    expect(within(section).getAllByRole("listitem")).toHaveLength(34);
+    for (const name of ["Tuskegee syphilis study ✓", "St. Louis aerosol tests ✓", "MKULTRA ✓", "Hillary Clinton emails ? $", "WTC ✓ $"]) {
       expect(within(section).getByRole("button", { name })).toHaveAttribute("aria-expanded", "false");
     }
     expect(within(section).queryByRole("button", { name: /Building 7|9\/11 orchestration/ })).not.toBeInTheDocument();
-    expect(screen.queryByText("Public-health researchers deceived participants and withheld treatment while studying untreated syphilis.")).not.toBeInTheDocument();
+    expect(screen.queryByText("Researchers did not deliberately infect the participants.")).not.toBeInTheDocument();
     const user = userEvent.setup();
     await user.hover(screen.getByRole("button", { name: "Tuskegee syphilis study ✓" }));
     const details = await screen.findByRole("dialog", { name: "Tuskegee syphilis study" });
-    expect(details).toHaveTextContent("Public-health researchers deceived participants and withheld treatment while studying untreated syphilis.");
+    expect(details).toHaveTextContent("Tuskegee, Alabama, 1932–1972: public-health researchers deceived Black men and withheld effective treatment while studying untreated syphilis.");
+    expect(within(details).getByText("Researchers did not deliberately infect the participants.").tagName).toBe("STRONG");
     await user.keyboard("{Escape}");
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    await user.hover(screen.getByRole("button", { name: "St. Louis aerosol tests ✓" }));
+    const aerosolDetails = await screen.findByRole("dialog", { name: "St. Louis aerosol tests" });
+    expect(aerosolDetails).toHaveTextContent("St. Louis aerosol tests, 1950s–1960s: the Army secretly dispersed zinc cadmium sulfide to study how airborne biological-warfare agents could spread. Residents were exposed without knowing about the tests. The spraying itself is documented.");
+    expect(within(aerosolDetails).getByRole("link", { name: "National Research Council" })).toHaveAttribute("href", "https://www.ncbi.nlm.nih.gov/books/NBK233549/");
   });
 
   it("reveals both original WTC descriptions from keyboard focus", async () => {
