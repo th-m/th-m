@@ -4,7 +4,7 @@ export default defineArticleAssets({
   "syngenta-atrazine": {
     "kind": "image",
     "source": "assets/syngenta-atrazine-benefit.svg",
-    "alt": "Lobbying for EPA evidence standards and a costly research barrier feeding Syngenta's defense against liability",
+    "alt": "A proposed sequence from lobbying over EPA evidence standards to a costly research barrier and reduced liability, with only Syngenta's study qualifying for a historical quantitative review of frog effects",
     "tags": [
       "article-figure",
       "case-study",
