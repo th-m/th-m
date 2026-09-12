@@ -42,6 +42,7 @@ describe("Conspiracy category details", () => {
     await user.hover(screen.getByRole("button", { name: "Tuskegee syphilis study ✓" }));
     const details = await screen.findByRole("dialog", { name: "Tuskegee syphilis study" });
     expect(details).toHaveTextContent("Tuskegee, Alabama, 1932–1972: public-health researchers deceived Black men and withheld effective treatment while studying untreated syphilis.");
+    expect(details).toHaveTextContent("Year / period: 1932–1972 — study period.");
     expect(within(details).getByText("Researchers did not deliberately infect the participants.").tagName).toBe("STRONG");
     await user.keyboard("{Escape}");
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
@@ -57,6 +58,7 @@ describe("Conspiracy category details", () => {
     const details = await screen.findByRole("dialog", { name: "WTC" });
     expect(details).toHaveTextContent("World Trade Center Building 7 was demolished deliberately.");
     expect(details).toHaveTextContent("July 2001. Larry Silverstein’s group had insurance coverage agreements started on June 7 and closed on July 24, 2001—49 days before September 11.");
+    expect(details).toHaveTextContent("Year / period: 2001 — insurance agreements and September 11 attacks.");
   });
 
   it("supports touch opening and closing while preserving the map wording", async () => {
@@ -67,6 +69,7 @@ describe("Conspiracy category details", () => {
     fireEvent.click(trigger);
     const details = await screen.findByRole("dialog", { name: "Textbook propaganda" });
     expect(details).toHaveTextContent("Read China's history books on WW2.");
+    expect(details).toHaveTextContent("Year / period: 1939–1945 — World War II, the period discussed in the textbooks.");
     fireEvent.click(within(details).getByRole("button", { name: "Close details" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
   });
