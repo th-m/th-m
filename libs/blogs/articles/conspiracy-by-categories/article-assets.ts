@@ -4,7 +4,7 @@ export default defineArticleAssets({
   "syngenta-atrazine": {
     "kind": "image",
     "source": "assets/syngenta-atrazine-benefit.svg",
-    "alt": "Syngenta's atrazine defense and potential financial benefits",
+    "alt": "Syngenta's legal, scientific, and market actions feeding a defense against liability",
     "tags": [
       "article-figure",
       "case-study",
