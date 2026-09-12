@@ -31,7 +31,7 @@ const consolidationAnchors: Record<string, string[]> = {
     "Before attributing phenomenal consciousness to an artificial system, require four things:",
   ],
   "conspiracy-by-categories": [
-    "Shared interests alone do not establish an agreement.",
+    "I will show why this is not a constructive lens for evaluating complex systems.",
     "Financial benefit alone does not establish responsibility for the attacks.",
     "I read the Gadianton account and the warning about secret combinations as speaking to our own time.",
   ],
