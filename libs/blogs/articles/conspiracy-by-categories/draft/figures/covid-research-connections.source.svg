@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 928" role="img" aria-labelledby="covid-connections-title covid-connections-desc">
+  <title id="covid-connections-title">Gates, NIH, EcoHealth, and Wuhan</title>
+  <desc id="covid-connections-desc">Gates Foundation made a 2019 equity investment in BioNTech for HIV and tuberculosis work, collaborated with NIH on HIV and sickle-cell research, and separately granted funds to EcoHealth for surveillance in Africa in 2020. A distinct federal route runs from NIH/NIAID, led by Anthony Fauci from 1984 to 2022, through EcoHealth’s NIH award to a Wuhan Institute of Virology subaward. The two EcoHealth boxes represent separate funding streams.</desc>
+  <style>
+    .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
+    .node-name { font-size:28px; }
+    .body { font-size:20px; fill:var(--color-ink); }
+    .route { fill:none; stroke:var(--color-accent); stroke-width:2; }
+    .collaboration { fill:none; stroke:var(--color-rule-solid); stroke-width:2; stroke-dasharray:6 6; }
+    .edge-label { font-size:20px; text-anchor:middle; fill:var(--color-accent); }
+  </style>
+  <defs><marker id="covid-connections-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-accent)"/></marker></defs>
+  <rect width="1000" height="928" fill="var(--color-paper)"/>
+  <text x="40" y="36" class="eyebrow" font-size="16" data-text-max-width="920">02 / FUNDING &amp; RESEARCH CONNECTIONS</text>
+  <text x="40" y="92" class="diagram-title" font-size="48" data-text-max-width="920">Gates, NIH, EcoHealth &amp; Wuhan</text>
+  <text x="40" y="128" class="subtitle" font-size="24" data-text-max-width="920">Follow the type and purpose of each relationship.</text>
+
+  <path id="covid-gates-equity" class="route" d="M332 244 H648" marker-end="url(#covid-connections-arrow)" data-graph-role="edge"/>
+  <path id="covid-gates-africa" class="route" d="M332 276 H440 Q448 276 448 284 V460 Q448 468 456 468 H648" marker-end="url(#covid-connections-arrow)" data-graph-role="edge"/>
+  <path id="covid-gates-nih" class="collaboration" d="M172 300 V664" data-graph-role="edge"/>
+  <path id="covid-nih-grant" class="route" d="M300 756 H396" marker-end="url(#covid-connections-arrow)" data-graph-role="edge"/>
+  <path id="covid-wiv-subaward" class="route" d="M640 756 H736" marker-end="url(#covid-connections-arrow)" data-graph-role="edge"/>
+
+  <rect x="364" y="196" width="256" height="36" fill="var(--color-paper)"/>
+  <text x="492" y="224" class="edge-label" data-text-max-width="256">2019 equity investment</text>
+  <rect x="464" y="420" width="172" height="36" fill="var(--color-paper)"/>
+  <text x="550" y="444" class="edge-label" data-text-max-width="172">2020 grant</text>
+  <rect x="192" y="380" width="236" height="76" fill="var(--color-paper)"/>
+  <text x="200" y="408" class="body" data-text-max-width="228">2019 collaboration</text>
+  <text x="200" y="440" class="subtitle" font-size="20" data-text-max-width="228">HIV / sickle-cell [10]</text>
+  <rect x="308" y="704" width="84" height="32" fill="var(--color-paper)"/>
+  <text x="350" y="728" class="edge-label" style="font-size:18px" data-text-max-width="84">Grant</text>
+  <rect x="644" y="704" width="92" height="32" fill="var(--color-paper)"/>
+  <text x="690" y="728" class="edge-label" style="font-size:18px" data-text-max-width="92">Subaward</text>
+
+  <g data-graph-role="node" data-node-id="gates">
+    <rect x="40" y="188" width="292" height="112" class="node"/>
+    <text x="64" y="240" class="node-name" data-text-max-width="244">Gates Foundation</text>
+    <text x="64" y="276" class="body" data-text-max-width="244">Investment &amp; grant roles</text>
+  </g>
+  <g data-graph-role="node" data-node-id="biontech">
+    <rect x="652" y="188" width="308" height="112" fill="var(--color-accent-tint)" stroke="var(--color-accent)"/>
+    <text x="676" y="240" class="node-name" data-text-max-width="260">BioNTech</text>
+    <text x="676" y="276" class="body" data-text-max-width="260">HIV / TB programs [9]</text>
+  </g>
+  <text x="652" y="332" class="subtitle" font-size="18" data-text-max-width="308">Also in the company map above.</text>
+  <g data-graph-role="node" data-node-id="ecohealth-africa-grant">
+    <rect x="652" y="396" width="308" height="148" class="node"/>
+    <text x="676" y="448" class="node-name" data-text-max-width="260">EcoHealth Alliance</text>
+    <text x="676" y="484" class="body" data-text-max-width="260">Africa surveillance [11]</text>
+    <text x="676" y="516" class="subtitle" font-size="20" data-text-max-width="260">Foundation grant</text>
+  </g>
+
+  <rect x="380" y="604" width="580" height="36" fill="var(--color-paper)"/>
+  <text x="400" y="628" class="eyebrow" font-size="16" data-text-max-width="560">NIH RESEARCH · FROM 2014 [12]</text>
+  <g data-graph-role="node" data-node-id="nih-niaid">
+    <rect x="40" y="668" width="260" height="176" class="node"/>
+    <text x="64" y="716" class="node-name" data-text-max-width="212">NIH / NIAID</text>
+    <text x="64" y="760" class="body" data-text-max-width="212">Fauci, director</text>
+    <text x="64" y="792" class="body" data-text-max-width="212">1984–2022 [13]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="ecohealth-nih-award">
+    <rect x="400" y="668" width="240" height="176" class="node"/>
+    <text x="424" y="716" class="node-name" data-text-max-width="192">EcoHealth</text>
+    <text x="424" y="748" class="node-name" data-text-max-width="192">Alliance</text>
+    <text x="424" y="792" class="body" data-text-max-width="192">NIH award</text>
+  </g>
+  <g data-graph-role="node" data-node-id="wuhan">
+    <rect x="740" y="668" width="220" height="176" class="node"/>
+    <text x="764" y="708" class="node-name" data-text-max-width="172">Wuhan</text>
+    <text x="764" y="740" class="node-name" style="font-size:24px" data-text-max-width="172">Institute of</text>
+    <text x="764" y="772" class="node-name" style="font-size:24px" data-text-max-width="172">Virology</text>
+    <text x="764" y="816" class="body" data-text-max-width="172">Subrecipient</text>
+  </g>
+  <text x="40" y="884" class="subtitle" font-size="20" data-text-max-width="920">EcoHealth’s foundation grant and NIH award are separate funding streams.</text>
+  <text x="40" y="916" class="subtitle" font-size="16" data-text-max-width="920">Sources [9–13] match the article’s COVID vaccine sources.</text>
+</svg>
