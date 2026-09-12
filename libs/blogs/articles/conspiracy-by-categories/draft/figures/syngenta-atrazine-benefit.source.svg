@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" role="img" aria-labelledby="syngenta-defense-title syngenta-defense-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 728" role="img" aria-labelledby="syngenta-defense-title syngenta-defense-desc">
   <title id="syngenta-defense-title">Syngenta’s atrazine defense</title>
-  <desc id="syngenta-defense-desc">Three actions feed a potential liability defense: lobbying to exclude adverse evidence, funding research that passes EPA screening, and supplying monitoring to support continued market access. EPA revised its assessment after the lobbying challenge. Dashed arrows represent how these actions can limit liability exposure, not legal immunity.</desc>
+  <desc id="syngenta-defense-desc">Lobbying for EPA evidence standards and costly qualifying research can strengthen a liability defense. Syngenta describes required industry studies as costing millions, while EPA’s strict quantitative screen accepted only its study out of 75. The cost barrier and dashed liability connections are interpretations of these records.</desc>
   <style>
     .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
     .node-name { font-size:28px; }
@@ -12,50 +12,45 @@
   <defs>
     <marker id="syngenta-defense-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-accent)"/></marker>
   </defs>
-  <rect width="1000" height="800" fill="var(--color-paper)"/>
+  <rect width="1000" height="728" fill="var(--color-paper)"/>
   <text x="40" y="36" class="eyebrow" font-size="16" data-text-max-width="920">CASE STUDY / ATRAZINE</text>
   <text x="40" y="92" class="diagram-title" font-size="48" data-text-max-width="920">Syngenta’s atrazine defense</text>
-  <text x="40" y="128" class="subtitle" font-size="24" data-text-max-width="920">Legal, scientific, and market actions that can limit liability.</text>
+  <text x="40" y="128" class="subtitle" font-size="24" data-text-max-width="920">Legal and scientific actions that can limit liability.</text>
 
-  <!-- Three distinct routes lead to the shared defense, without implying a measured result. -->
-  <path id="syngenta-legal-defense" class="inference" d="M656 268 H688 Q696 268 696 276 V360 Q696 368 704 368 H736" marker-end="url(#syngenta-defense-arrow)" data-graph-role="edge"/>
-  <path id="syngenta-science-defense" class="inference" d="M656 456 H736" marker-end="url(#syngenta-defense-arrow)" data-graph-role="edge"/>
-  <path id="syngenta-market-defense" class="inference" d="M656 632 H688 Q696 632 696 624 V560 Q696 552 704 552 H736" marker-end="url(#syngenta-defense-arrow)" data-graph-role="edge"/>
+  <!-- Two actions lead to the shared defense; dashed arrows mark inferred protection. -->
+  <path id="syngenta-legal-defense" class="inference" d="M656 268 H688 Q696 268 696 276 V336 Q696 344 704 344 H736" marker-end="url(#syngenta-defense-arrow)" data-graph-role="edge"/>
+  <path id="syngenta-science-defense" class="inference" d="M656 508 H688 Q696 508 696 500 V496 Q696 488 704 488 H736" marker-end="url(#syngenta-defense-arrow)" data-graph-role="edge"/>
 
   <g data-graph-role="node" data-node-id="legal">
     <rect x="40" y="176" width="616" height="184" class="node"/>
     <text x="64" y="204" class="eyebrow lane">01 / LEGAL</text>
-    <text x="64" y="244" class="node-name" data-text-max-width="568">Lobby to exclude adverse evidence</text>
+    <text x="64" y="244" class="node-name" data-text-max-width="568">Lobby to set new EPA “standards”</text>
     <text x="64" y="280" class="body" data-text-max-width="568">Syngenta’s lobbyist used the Data Quality Act to</text>
     <text x="64" y="308" class="body" data-text-max-width="568">challenge adverse findings. EPA revised its</text>
     <text x="64" y="336" class="body" data-text-max-width="568">assessment in response. [1, 2, 6]</text>
   </g>
   <g data-graph-role="node" data-node-id="scientific">
-    <rect x="40" y="380" width="616" height="152" class="node"/>
-    <text x="64" y="408" class="eyebrow lane">02 / SCIENTIFIC</text>
-    <text x="64" y="448" class="node-name" data-text-max-width="568">Fund qualifying research</text>
-    <text x="64" y="484" class="body" data-text-max-width="568">Only Syngenta’s study passed EPA’s strict screen</text>
-    <text x="64" y="512" class="body" data-text-max-width="568">for quantitative use out of 75; its panel objected. [3]</text>
-  </g>
-  <g data-graph-role="node" data-node-id="market">
-    <rect x="40" y="556" width="616" height="152" class="node"/>
-    <text x="64" y="584" class="eyebrow lane">03 / MARKET</text>
-    <text x="64" y="624" class="node-name" data-text-max-width="568">Support continued market access</text>
-    <text x="64" y="660" class="body" data-text-max-width="568">Syngenta ran EPA-required watershed monitoring</text>
-    <text x="64" y="688" class="body" data-text-max-width="568">and worked with growers on mitigation. [4]</text>
+    <rect x="40" y="380" width="616" height="252" class="node"/>
+    <text x="64" y="408" class="eyebrow lane">02 / SCIENCE</text>
+    <text x="64" y="448" class="node-name" data-text-max-width="568">A “pay to play” barrier</text>
+    <text x="64" y="484" class="body" data-text-max-width="568">Syngenta says required industry studies cost</text>
+    <text x="64" y="512" class="body" data-text-max-width="568">millions. [7] That expense can put qualifying</text>
+    <text x="64" y="540" class="body" data-text-max-width="568">research beyond independent budgets.</text>
+    <text x="64" y="580" class="body" data-text-max-width="568">Only Syngenta’s study passed EPA’s quantitative</text>
+    <text x="64" y="608" class="body" data-text-max-width="568">screen out of 75; the science panel objected. [3]</text>
   </g>
 
   <g data-graph-role="node" data-node-id="liability-defense">
-    <rect x="740" y="328" width="220" height="264" fill="var(--color-accent-tint)" stroke="var(--color-accent)"/>
-    <text x="764" y="360" class="eyebrow" font-size="16" fill="var(--color-accent)" data-text-max-width="172">DEFENSE</text>
-    <text x="764" y="412" class="diagram-title" font-size="40" data-text-max-width="172">Reduce</text>
-    <text x="764" y="456" class="diagram-title" font-size="40" data-text-max-width="172">liability</text>
-    <text x="764" y="500" class="diagram-title" font-size="40" data-text-max-width="172">exposure</text>
-    <text x="764" y="540" class="subtitle" font-size="20" data-text-max-width="172">Strengthen the</text>
-    <text x="764" y="568" class="subtitle" font-size="20" data-text-max-width="172">case for safety.</text>
+    <rect x="740" y="280" width="220" height="264" fill="var(--color-accent-tint)" stroke="var(--color-accent)"/>
+    <text x="764" y="312" class="eyebrow" font-size="16" fill="var(--color-accent)" data-text-max-width="172">DEFENSE</text>
+    <text x="764" y="364" class="diagram-title" font-size="40" data-text-max-width="172">Reduce</text>
+    <text x="764" y="408" class="diagram-title" font-size="40" data-text-max-width="172">liability</text>
+    <text x="764" y="452" class="diagram-title" font-size="40" data-text-max-width="172">exposure</text>
+    <text x="764" y="492" class="subtitle" font-size="20" data-text-max-width="172">Strengthen the</text>
+    <text x="764" y="520" class="subtitle" font-size="20" data-text-max-width="172">case for safety.</text>
   </g>
 
-  <path d="M40 744 H80" class="inference"/>
-  <text x="96" y="752" class="subtitle" font-size="20" data-text-max-width="864">How these actions can protect the company.</text>
-  <text x="40" y="784" class="source-link" data-text-max-width="920">2000–2012 · Source numbers match the article’s Syngenta sources.</text>
+  <path d="M40 672 H80" class="inference"/>
+  <text x="96" y="680" class="subtitle" font-size="20" data-text-max-width="864">How these actions can protect the company.</text>
+  <text x="40" y="712" class="source-link" data-text-max-width="920">Historical case: 2000–2012 · Source numbers match the article’s Syngenta sources.</text>
 </svg>
