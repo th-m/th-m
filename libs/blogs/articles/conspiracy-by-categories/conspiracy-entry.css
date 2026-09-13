@@ -33,6 +33,22 @@
   white-space: nowrap;
 }
 
+.conspiracy-entry__video {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: .4em;
+  border-radius: 3px;
+  vertical-align: middle;
+  color: var(--color-primary);
+}
+
+.conspiracy-entry__video:hover {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
 .conspiracy-entry__popover {
   width: min(30rem, calc(100vw - 32px));
   max-height: min(32rem, var(--radix-hover-card-content-available-height));
@@ -62,6 +78,7 @@
 }
 
 .conspiracy-entry__trigger:focus-visible,
+.conspiracy-entry__video:focus-visible,
 .conspiracy-entry__close:focus-visible {
   outline: 2px solid var(--color-ring);
   outline-offset: 3px;
@@ -77,6 +94,7 @@
 }
 
 @media (pointer: coarse) {
+  .conspiracy-entry__video { width: 44px; height: 44px; }
   .conspiracy-entry__trigger { min-height: 44px; }
   .conspiracy-entry__close { width: 44px; height: 44px; }
 }

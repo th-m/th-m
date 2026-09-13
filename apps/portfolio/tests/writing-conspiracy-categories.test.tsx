@@ -62,6 +62,27 @@ describe("Conspiracy category details", () => {
     expect(details).toHaveTextContent("Year / period: 2001 — insurance agreements and September 11 attacks.");
   });
 
+  it("links note videos beside the entries without opening their details", async () => {
+    await renderArticle();
+    const section = screen.getByRole("heading", { name: "Theories organized by institutions" }).closest("section")!;
+    const links = within(section).getAllByRole("link", { name: /^Watch .+ video \(opens in a new tab\)$/ });
+    expect(links).toHaveLength(20);
+    for (const link of links) {
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", "noopener noreferrer");
+      expect(link.closest("li")).toHaveClass("conspiracy-entry");
+      expect(link.closest("button")).toBeNull();
+    }
+    const video = within(section).getByRole("link", { name: "Watch Monsanto video (opens in a new tab)" });
+    expect(video).toHaveAttribute("href", "https://www.youtube.com/watch?v=CxVXvFOPIyQ");
+    expect(within(section).getByRole("link", { name: "Watch WTC video (opens in a new tab)" })).toHaveAttribute("href", "https://www.youtube.com/watch?v=qpxGbLQn2E4&t=2111s");
+    expect(within(section).queryByRole("link", { name: "Watch Tuskegee syphilis study video (opens in a new tab)" })).not.toBeInTheDocument();
+    const user = userEvent.setup();
+    await user.hover(video);
+    fireEvent.focus(video);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
   it("supports touch opening and closing while preserving the map wording", async () => {
     await renderArticle();
     const trigger = screen.getByRole("button", { name: "Textbook propaganda ?" });

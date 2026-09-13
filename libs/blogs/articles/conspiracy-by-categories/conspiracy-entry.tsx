@@ -3,10 +3,11 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@th-m/ui";
 import { BlogLink } from "@th-m/blogs/components";
 import "./conspiracy-entry.css";
 
-export function ConspiracyEntry({ name, marks, href, children }: {
+export function ConspiracyEntry({ name, marks, href, videoHref, children }: {
   name: string;
   marks: string;
   href?: string;
+  videoHref?: string;
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -45,6 +46,21 @@ export function ConspiracyEntry({ name, marks, href, children }: {
           <div className="conspiracy-entry__details">{children}</div>
         </HoverCardContent>
       </HoverCard>
+      {videoHref && (
+        <a
+          className="conspiracy-entry__video"
+          href={videoHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Watch ${name} video (opens in a new tab)`}
+          title={`Watch ${name} video (opens in a new tab)`}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true" focusable="false">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="m10 9 5 3-5 3Z" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+      )}
     </li>
   );
 }
