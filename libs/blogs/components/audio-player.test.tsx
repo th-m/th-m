@@ -60,4 +60,12 @@ describe("AudioPlayer", () => {
     expect(screen.getByRole("link", { name: "open the recording" })).toHaveAttribute("href", "/failed.mp3");
     expect(screen.getByLabelText("Failed audio")).toBeVisible();
   });
+
+  it("does not report a failure when switching recordings interrupts buffering", async () => {
+    vi.mocked(HTMLMediaElement.prototype.play).mockRejectedValue(new DOMException("Playback interrupted", "AbortError"));
+    render(<AudioPlayer src="/buffering.mp3" label="Buffering audio" />);
+    fireEvent.click(screen.getByRole("button", { name: "Play Buffering audio" }));
+    await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce());
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  });
 });

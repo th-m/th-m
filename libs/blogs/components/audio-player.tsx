@@ -37,8 +37,8 @@ export function AudioPlayer({ src, label, startAt = 0 }: {
     }
     try {
       await audio.play();
-    } catch {
-      setError(true);
+    } catch (cause) {
+      if (!(cause instanceof DOMException && cause.name === "AbortError")) setError(true);
     }
   }
 
