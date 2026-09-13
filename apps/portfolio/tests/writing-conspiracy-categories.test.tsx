@@ -78,7 +78,7 @@ describe("Conspiracy category details", () => {
     await renderArticle();
     const section = screen.getByRole("heading", { name: "Theories organized by institutions" }).closest("section")!;
     const links = within(section).getAllByRole("link", { name: /^Watch .+ video \(opens in a new tab\)$/ });
-    expect(links).toHaveLength(20);
+    expect(links).toHaveLength(7);
     for (const link of links) {
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", "noopener noreferrer");
@@ -87,7 +87,7 @@ describe("Conspiracy category details", () => {
     }
     const video = within(section).getByRole("link", { name: "Watch Monsanto video (opens in a new tab)" });
     expect(video).toHaveAttribute("href", "https://www.youtube.com/watch?v=CxVXvFOPIyQ");
-    expect(within(section).getByRole("link", { name: "Watch WTC video (opens in a new tab)" })).toHaveAttribute("href", "https://www.youtube.com/watch?v=qpxGbLQn2E4&t=2111s");
+    expect(within(section).queryByRole("link", { name: "Watch WTC video (opens in a new tab)" })).not.toBeInTheDocument();
     expect(within(section).queryByRole("link", { name: "Watch Tuskegee syphilis study video (opens in a new tab)" })).not.toBeInTheDocument();
     const user = userEvent.setup();
     await user.hover(video);
