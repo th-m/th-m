@@ -18,6 +18,7 @@ async function renderArticle() {
       tags: ["Institutions", "Conspiracies", "Society"],
       articlePath: "posts/conspiracy-by-categories/article.mdx",
       assetRegistryPath: "posts/conspiracy-by-categories/assets.json",
+      assetsPath: "posts/conspiracy-by-categories/assets",
     }} />,
   });
   const router = createRouter({
@@ -33,6 +34,17 @@ describe("Conspiracy category details", () => {
     await renderArticle();
     const section = screen.getByRole("heading", { name: "Theories organized by institutions" }).closest("section")!;
     expect(within(section).getAllByRole("listitem")).toHaveLength(39);
+    for (const [label, file] of [
+      ["COVID audio — MU 23.04", "mu-coronavirus.mp3"],
+      ["Titanic audio — MU 29.24", "mu-titanic.mp3"],
+      ["Panopticon audio — MU 26.02", "mu-panopticon.mp3"],
+      ["Psyops audio — MU Plus 27.13, Brain Warfare", "mu-brain-warfare.mp3"],
+    ]) {
+      expect(within(section).getByRole("button", { name: `Play ${label}` })).toHaveAttribute("aria-pressed", "false");
+      const audio = within(section).getByLabelText(label!);
+      expect(audio).toHaveAttribute("src", `/_content/posts/conspiracy-by-categories/assets/${file}`);
+      expect(audio).toHaveAttribute("preload", "none");
+    }
     for (const name of ["Tuskegee syphilis study ✓", "St. Louis aerosol tests ✓", "MKULTRA ✓", "Hillary Clinton emails ? $", "WTC ✓ $", "Maxwell Curriculum reform ✓", "Göbekli Tepe ✓", "Titanic ?", "Human engineering ✓", "Panopticon ?", "Psyops ✓"]) {
       expect(within(section).getByRole("button", { name })).toHaveAttribute("aria-expanded", "false");
     }

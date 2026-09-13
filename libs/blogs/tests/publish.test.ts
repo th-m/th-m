@@ -235,7 +235,7 @@ describe("buildBlogArtifact", () => {
     await mkdir(join(missingRoot, "articles", "missing-image"));
     await writeFile(join(missingRoot, "articles", "missing-image", "article.mdx"), article());
     await writeRegistry(missingRoot, "missing-image", '{ figure: { kind: "image", source: "assets/figure.svg", alt: "A figure", tags: ["diagram"] } }');
-    await expect(buildBlogArtifact(missingRoot)).rejects.toThrow("references images but assets/ is missing or empty");
+    await expect(buildBlogArtifact(missingRoot)).rejects.toThrow("references media but assets/ is missing or empty");
   });
 
   it("creates a deterministic empty schema-v3 manifest when no articles exist", async () => {
@@ -246,6 +246,30 @@ describe("buildBlogArtifact", () => {
     await buildBlogArtifact(root);
     await expect(readFile(join(root, "dist", "manifest.json"), "utf8"))
       .resolves.toBe('{\n  "schemaVersion": 3,\n  "posts": []\n}\n');
+  });
+
+  it("stages registered audio byte-for-byte while keeping note originals private", async () => {
+    const root = await temporaryProject();
+    const post = join(root, "articles", "audio");
+    await mkdir(join(post, "assets"), { recursive: true });
+    await mkdir(join(post, "notes"));
+    await writeFile(join(post, "article.mdx"), article({ body: '<Asset id="recording" />' }));
+    const recording = Buffer.from([0x49, 0x44, 0x33, 0x00]);
+    await writeFile(join(post, "assets", "recording.mp3"), recording);
+    await writeFile(join(post, "notes", "original.mp3"), "private");
+    await writeRegistry(root, "audio", '{ recording: { kind: "audio", source: "assets/recording.mp3", label: "Recording", startAt: 93, tags: ["research-audio"] } }');
+    await buildBlogArtifact(root);
+    expect(await readFile(join(root, "dist/posts/audio/assets/recording.mp3"))).toEqual(recording);
+    await expect(access(join(root, "dist/posts/audio/notes"))).rejects.toThrow();
+    await expect(readFile(join(root, "dist/posts/audio/assets.json"), "utf8")).resolves.toContain('"startAt": 93');
+    await writeRegistry(root, "audio", '{ recording: { kind: "audio", source: "assets/recording.mp3", label: "Recording", startAt: -1, tags: ["research-audio"] } }');
+    await expect(buildBlogArtifact(root)).rejects.toThrow("startAt must be a non-negative number");
+    await writeRegistry(root, "audio");
+    await writeFile(join(post, "article.mdx"), article());
+    await expect(buildBlogArtifact(root)).rejects.toThrow("assets/recording.mp3 must be registered");
+    await writeRegistry(root, "audio", '{ recording: { kind: "audio", source: "assets/missing.mp3", label: "Missing", tags: ["research-audio"] } }');
+    await rm(join(post, "assets/recording.mp3"));
+    await expect(buildBlogArtifact(root)).rejects.toThrow("references media but assets/ is missing or empty");
   });
 
   it("rejects invalid article metadata and ambiguous public sources", async () => {

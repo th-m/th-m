@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ArticleAssetRegistry } from "@th-m/blogs/mdx";
-import { ArticleLink, BlogLink, Callout, ExternalLink, Flow, Gloss, Lede, Paragraph, Quote, Section, Table, Term, type BlogLinkProps } from "@th-m/blogs/components";
+import { ArticleLink, AudioPlayer, BlogLink, Callout, ExternalLink, Flow, Gloss, Lede, Paragraph, Quote, Section, Table, Term, type BlogLinkProps } from "@th-m/blogs/components";
 import { ToolLauncher } from "@th-m/ui";
 import type { MDXComponents } from "mdx/types";
 import type { ComponentType, ReactNode } from "react";
@@ -23,6 +23,9 @@ export function createArticleMdxComponents(
   function Asset({ id, ...componentProps }: { id: string } & Record<string, unknown>) {
     const asset = assets[id];
     if (!asset || asset.kind === "preview") throw new Error(`${article.slug} cannot render unknown Asset ${id}.`);
+    if (asset.kind === "audio") {
+      return <AudioPlayer src={articleAssetUrl(article, asset.source)} label={asset.label} startAt={asset.startAt} />;
+    }
     if (asset.kind === "image") {
       return (
         <figure className="article-figure" data-asset={id} data-tags={asset.tags.join(" ")}>

@@ -20,6 +20,9 @@ asset resolution; `ui` owns reusable interface primitives.
 - `links.tsx`: preview-enabled BlogLink, ArticleLink, ExternalLink, and the host
   routing provider. Without a provider, links render ordinary anchors.
 - `styles.css`: shared article typography, surfaces, and responsive tables.
+- `audio-player.tsx` and `audio-player.css`: an accessible audio icon that starts
+  playback, reveals native controls, supports a starting cue, and pauses when
+  other media starts. The host supplies the registered recording's resolved URL.
 - `document-popover.tsx`: click/touch/keyboard-accessible, scrollable reference
   content with a persistent close button. Supply a title, inline trigger, and
   rendered content; the original article remains visible.
@@ -41,5 +44,5 @@ to the responsive Table and `P` to Paragraph.
 - **Shared vocabulary:** presentation components injected into every MDX page.
 - **Routing adapter:** the host's BlogLinkProvider renderer, which preserves
   client navigation without importing application code into this library.
-- **Article asset:** an article-registered figure, interactive, image, or preview;
+- **Article asset:** an article-registered figure, interactive, image, audio, or preview;
   extraction does not transfer ownership of its registration or article data.

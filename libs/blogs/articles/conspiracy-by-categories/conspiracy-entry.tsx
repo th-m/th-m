@@ -3,11 +3,12 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@th-m/ui";
 import { BlogLink } from "@th-m/blogs/components";
 import "./conspiracy-entry.css";
 
-export function ConspiracyEntry({ name, marks, href, videoHref, children }: {
+export function ConspiracyEntry({ name, marks, href, videoHref, audio, children }: {
   name: string;
   marks: string;
   href?: string;
   videoHref?: string;
+  audio?: ReactNode;
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -61,6 +62,7 @@ export function ConspiracyEntry({ name, marks, href, videoHref, children }: {
           </svg>
         </a>
       )}
+      {audio}
     </li>
   );
 }

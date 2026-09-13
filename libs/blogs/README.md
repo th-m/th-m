@@ -53,7 +53,7 @@ routing, asset resolution, and tool integration; articles do not duplicate them.
 - **Canonical article:** the frontmatter-bearing `article.mdx` file that owns
   both prose and render composition.
 - **Asset registry:** `article-assets.ts`, a typed map of stable IDs to tagged
-  image, figure, interactive, or preview metadata.
+  image, audio, figure, interactive, or preview metadata.
 - **Component factory:** optional `article-components.tsx` wiring non-image
   asset IDs to React components with access to the post and asset URL resolver.
 - **Article module:** a non-empty kebab-case `.ts`, `.tsx`, or `.css` file beside
@@ -80,6 +80,9 @@ vocabulary and local named imports, checks all tagged assets, and writes a
 schema-v3 artifact. Each post contains frontmatter-free `article.mdx`,
 `assets.json`, optional public static assets, and compile modules beside the MDX
 or directly inside its local `components/` folder. Module paths are preserved.
+Registered audio uses a local MP3 source, a label, and an optional `startAt`
+offset in seconds. The publisher checks and copies these files alongside images;
+the portfolio resolves their URLs and renders the shared on-demand audio player.
 Drafts, notes, research, other nested modules, and workspace documentation remain
 private. The portfolio excludes all compile modules from public downloads and
 stages the raw MDX beside its generated React module so
