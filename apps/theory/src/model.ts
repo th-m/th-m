@@ -56,11 +56,92 @@ export const families = [
     question: "Which notes give a mode its color?",
     color: "#b9d987",
   },
+  {
+    kind: "atlas",
+    name: "Shared-note Atlas",
+    short: "Shared notes",
+    question: "Which chords can hold these notes?",
+    color: "#5bd9c1",
+  },
+  {
+    kind: "weave",
+    name: "Time Weave",
+    short: "Time weave",
+    question: "How do phrases overlap in time?",
+    color: "#8fafff",
+  },
+  {
+    kind: "recipe",
+    name: "Pattern Recipes",
+    short: "Recipes",
+    question: "How was this phrase constructed?",
+    color: "#f2bc7d",
+  },
+  {
+    kind: "gesture",
+    name: "Gesture Score",
+    short: "Gesture",
+    question: "How does a drawn contour become notes?",
+    color: "#ef9fc6",
+  },
+  {
+    kind: "rhythmGarden",
+    name: "Rhythm Garden",
+    short: "Rhythm garden",
+    question: "What groove can grow from one placed hit?",
+    color: "#9dd57a",
+  },
+  {
+    kind: "journey",
+    name: "Phrase Journeys",
+    short: "Journeys",
+    question: "Which route can a small set of phrases take?",
+    color: "#86b7ff",
+  },
+  {
+    kind: "landscape",
+    name: "Variation Landscape",
+    short: "Landscape",
+    question: "How can one motif change by a few clear dimensions?",
+    color: "#efa6d7",
+  },
+  {
+    kind: "counterpoint",
+    name: "Counterpoint Builder",
+    short: "Counterpoint",
+    question: "Which note can accompany this line under one clear profile?",
+    color: "#e8c77f",
+  },
 ] as const;
 export type Kind = (typeof families)[number]["kind"];
 export type Quality = "major" | "minor" | "dim";
 export type Chord = { root: number; quality: Quality };
 export type Note = { pitch: number; duration: number };
+export type TimedEvent = { id: string; pitch: number; start: number; duration: number };
+export type GesturePoint = { id: string; beat: number; value: number };
+export type JourneyPhrase = {
+  id: string;
+  name: string;
+  notes: Note[];
+  role: "call" | "answer" | "echo" | "turn";
+  maxVisits: number;
+};
+export type JourneyChoice = {
+  id: string;
+  from: string;
+  to: string;
+  weight: number;
+  intent: "continue" | "answer" | "return" | "turn";
+};
+export type LandscapeAnchor = {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  activity: number;
+  register: number;
+  durationScale: number;
+};
 export type Motif = { id: string; name: string; notes: Note[] };
 export type Variation = Motif & { parent: string | null; operation: string };
 export type Ring = {
@@ -110,6 +191,54 @@ export type Data = {
     relation: "parallel" | "relative";
     a: number;
     b: number;
+  };
+  atlas: { source: Chord; pins: number[]; selected: Chord };
+  weave: {
+    source: TimedEvent[];
+    delay: number;
+    transpose: number;
+    reversed: boolean;
+  };
+  recipe: {
+    source: Note[];
+    repeats: number;
+    targetCopy: number;
+    transpose: number;
+    shortenEnding: number;
+  };
+  gesture: {
+    points: GesturePoint[];
+    sampleStep: 0.25 | 0.5 | 1;
+    root: number;
+    mode: number;
+  };
+  rhythmGarden: {
+    width: 8 | 16 | 32;
+    rule: number;
+    edgeMode: "fixed-zero" | "cyclic";
+    seed: boolean[];
+    generations: number;
+    selectedGeneration: number;
+  };
+  journey: {
+    phrases: JourneyPhrase[];
+    choices: JourneyChoice[];
+    start: string;
+    seed: number;
+    steps: number;
+  };
+  landscape: {
+    source: Note[];
+    anchors: LandscapeAnchor[];
+    cursor: { x: number; y: number };
+    committed: { id: string; name: string; notes: Note[] }[];
+  };
+  counterpoint: {
+    bass: number[];
+    soprano: number[];
+    anchor: "bass" | "soprano";
+    pins: Record<number, number>;
+    inspectBeat: number;
   };
 };
 export type Study = {
@@ -230,6 +359,83 @@ export function newStudy<K extends Kind>(kind: K): Extract<Study, { kind: K }> {
       })),
     },
     scale: { root: 0, relation: "parallel", a: 0, b: 3 },
+    atlas: {
+      source: { root: 0, quality: "major" },
+      selected: { root: 9, quality: "minor" },
+      pins: [0, 4],
+    },
+    weave: {
+      source: [
+        [60, 0, 0.5],
+        [64, 0.5, 0.5],
+        [67, 1, 1],
+        [62, 2, 0.5],
+      ].map(([pitch, start, duration]) => ({ id: uid(), pitch, start, duration })),
+      delay: 1,
+      transpose: 7,
+      reversed: false,
+    },
+    recipe: {
+      source: seedNotes(),
+      repeats: 2,
+      targetCopy: 2,
+      transpose: 2,
+      shortenEnding: 0.5,
+    },
+    gesture: {
+      points: [
+        [0, 60],
+        [1, 64],
+        [2, 67],
+        [3, 62],
+      ].map(([beat, value]) => ({ id: uid(), beat, value })),
+      sampleStep: 0.5,
+      root: 0,
+      mode: 0,
+    },
+    rhythmGarden: {
+      width: 8,
+      rule: 90,
+      edgeMode: "fixed-zero",
+      seed: [false, false, false, true, false, false, false, false],
+      generations: 4,
+      selectedGeneration: 3,
+    },
+    journey: (() => {
+      const phrases = [
+        ["Call", "call", [60, 62, 64, 67]],
+        ["Answer", "answer", [67, 64, 62, 60]],
+        ["Echo", "echo", [72, 67, 64, 62, 60]],
+        ["Turn", "turn", [57, 59, 62, 55]],
+      ].map(([name, role, pitches]) => ({
+        id: uid(), name: String(name), role: role as JourneyPhrase["role"], maxVisits: 4,
+        notes: (pitches as number[]).map((pitch) => ({ pitch, duration: 4 / (pitches as number[]).length })),
+      }));
+      const [call, answer, echo, turn] = phrases;
+      return {
+        phrases,
+        choices: [
+          [call, answer, 6, "answer"], [call, echo, 3, "continue"], [call, turn, 1, "turn"],
+          [answer, call, 4, "return"], [answer, turn, 1, "turn"], [echo, call, 1, "return"], [turn, call, 1, "return"],
+        ].map(([from, to, weight, intent]) => ({ id: uid(), from: (from as JourneyPhrase).id, to: (to as JourneyPhrase).id, weight: Number(weight), intent: intent as JourneyChoice["intent"] })),
+        start: call.id, seed: 7, steps: 8,
+      };
+    })(),
+    landscape: {
+      source: seedNotes(),
+      anchors: [
+        ["Sparse low", 0, 0, 0.5, -12], ["Busy low", 1, 0, 1, -12],
+        ["Sparse high", 0, 1, 0.5, 12], ["Busy high", 1, 1, 1, 12],
+      ].map(([name, x, y, activity, register]) => ({ id: uid(), name: String(name), x: Number(x), y: Number(y), activity: Number(activity), register: Number(register), durationScale: 1 })),
+      cursor: { x: 0.5, y: 0.5 }, committed: [],
+    },
+    counterpoint: {
+      bass: [48, 50, 52, 53, 43, 48],
+      soprano: [60, 65, 67, 69, 59, 60],
+      anchor: "bass",
+      pins: {},
+      inspectBeat: 1,
+    },
   };
   return {
     id: uid(),
@@ -280,6 +486,31 @@ export function toForm(study: Study, motif: Motif): Study {
     },
   ];
   next.source = { study: study.name, item: motif.name };
+  return next;
+}
+export function toMotif(study: Study, notes: Note[], item: string): Study {
+  const next = newStudy("motif"), id = uid();
+  next.name = item + " · motif";
+  next.data.variations = [
+    {
+      id,
+      name: item,
+      notes: structuredClone(notes),
+      parent: null,
+      operation: "Copied from Gesture Score",
+    },
+  ];
+  next.source = { study: study.name, item };
+  return next;
+}
+export function toMandala(study: Study, cells: boolean[], item: string): Study {
+  const next = newStudy("mandala"), hits = cells.flatMap((live, index) => live ? [index] : []);
+  next.name = item + " · rhythm";
+  next.data.rings = [{
+    id: uid(), name: item, steps: cells.length, hits: hits.length, rotation: 0,
+    bars: 1, enabled: hits, accents: hits.slice(0, 1),
+  }];
+  next.source = { study: study.name, item };
   return next;
 }
 export function copyOccurrence(

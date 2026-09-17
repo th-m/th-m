@@ -1,4 +1,4 @@
-import type { Chord, Note } from "./model";
+import type { Chord, Note, TimedEvent, GesturePoint, JourneyPhrase, JourneyChoice, LandscapeAnchor } from "./model";
 export const pc = (n: number) => ((n % 12) + 12) % 12;
 export const sharpNames = [
   "C",
@@ -133,6 +133,212 @@ export function chordDifference(a: Chord, b: Chord) {
     removed: x.filter((n) => !y.includes(n)),
     added: y.filter((n) => !x.includes(n)),
   };
+}
+export function atlasChords(): Chord[] {
+  return Array.from({ length: 12 }, (_, root) =>
+    (["major", "minor", "dim"] as const).map((quality) => ({ root, quality })),
+  ).flat();
+}
+export const chordContainsPins = (chord: Chord, pins: number[]) =>
+  pins.every((pin) => triadPcs(chord).includes(pin));
+export function weaveEvents(
+  source: TimedEvent[],
+  delay: number,
+  transpose: number,
+  reversed: boolean,
+): TimedEvent[] {
+  const span = source.reduce((end, event) => Math.max(end, event.start + event.duration), 0);
+  return source.map((event, index) => ({
+    id: "copy:" + event.id,
+    pitch: event.pitch + transpose,
+    start: delay + (reversed ? span - event.start - event.duration : event.start),
+    duration: event.duration,
+    // Keep source order stable for inspection even when a copy is reversed.
+    sourceIndex: index,
+  }));
+}
+export function recipeEvents(
+  source: Note[],
+  repeats: number,
+  targetCopy: number,
+  transpose: number,
+  shortenEnding: number,
+): TimedEvent[] {
+  const span = totalDuration(source);
+  return Array.from({ length: repeats }, (_, copy) => {
+    let start = copy * span;
+    return source.map((note, index) => {
+      const last = index === source.length - 1;
+      const duration =
+        copy + 1 === targetCopy && last
+          ? Math.max(0.125, note.duration - shortenEnding)
+          : note.duration;
+      const event = {
+        id: `copy:${copy + 1}:note:${index + 1}`,
+        pitch: note.pitch + (copy + 1 === targetCopy ? transpose : 0),
+        start,
+        duration,
+      };
+      start += note.duration;
+      return event;
+    });
+  }).flat();
+}
+export type GestureSample = {
+  id: string;
+  start: number;
+  duration: number;
+  raw: number;
+  rounded: number;
+  pitch: number;
+};
+export function gestureSamples(
+  points: GesturePoint[],
+  sampleStep: number,
+  root: number,
+  mode: number,
+): GestureSample[] {
+  const end = points.at(-1)!.beat,
+    candidates = Array.from({ length: 128 }, (_, pitch) => pitch).filter((pitch) =>
+      modePcs(root, mode).includes(pc(pitch)),
+    );
+  return Array.from({ length: Math.floor(end / sampleStep) + 1 }, (_, index) => {
+    const start = index * sampleStep;
+    const right = points.find((point) => point.beat >= start) ?? points.at(-1)!;
+    const left = [...points].reverse().find((point) => point.beat <= start) ?? points[0];
+    const ratio = left.beat === right.beat ? 0 : (start - left.beat) / (right.beat - left.beat);
+    const raw = left.value + (right.value - left.value) * ratio;
+    const rounded = Math.floor(raw + 0.5);
+    const pitch = candidates.reduce((best, candidate) =>
+      Math.abs(candidate - rounded) < Math.abs(best - rounded) ||
+      (Math.abs(candidate - rounded) === Math.abs(best - rounded) && candidate > best)
+        ? candidate
+        : best,
+    );
+    return { id: `sample:${index}`, start, duration: sampleStep, raw, rounded, pitch };
+  });
+}
+export const gestureNotes = (
+  points: GesturePoint[],
+  sampleStep: number,
+  root: number,
+  mode: number,
+): Note[] => gestureSamples(points, sampleStep, root, mode).map(({ pitch, duration }) => ({ pitch, duration }));
+export function gardenRows(
+  seed: boolean[],
+  rule: number,
+  edgeMode: "fixed-zero" | "cyclic",
+  generations: number,
+): boolean[][] {
+  const rows = [seed];
+  for (let generation = 0; generation < generations; generation++) {
+    const previous = rows.at(-1)!;
+    rows.push(previous.map((_, index) => {
+      const read = (offset: number) => {
+        const at = index + offset;
+        return edgeMode === "cyclic"
+          ? previous[pcIndex(at, previous.length)]
+          : (previous[at] ?? false);
+      };
+      const neighborhood = (read(-1) ? 4 : 0) + (read(0) ? 2 : 0) + (read(1) ? 1 : 0);
+      return ((rule >> neighborhood) & 1) === 1;
+    }));
+  }
+  return rows;
+}
+export const gardenHits = (cells: boolean[]) =>
+  cells.flatMap((live, index) => (live ? [index] : []));
+const seeded = (seed: number) => {
+  let state = seed >>> 0;
+  return () => {
+    state += 0x6d2b79f5;
+    let value = state;
+    value = Math.imul(value ^ (value >>> 15), value | 1);
+    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+  };
+};
+export type JourneyEvent = { step: number; phraseId: string; choiceId?: string; denominator?: number };
+export function journeyPreview(
+  phrases: JourneyPhrase[],
+  choices: JourneyChoice[],
+  start: string,
+  seed: number,
+  steps: number,
+): JourneyEvent[] {
+  const result: JourneyEvent[] = [], visits = new Map<string, number>(), random = seeded(seed);
+  let at = start;
+  for (let step = 0; step < steps; step++) {
+    result.push({ step, phraseId: at });
+    visits.set(at, (visits.get(at) ?? 0) + 1);
+    const eligible = choices.filter((choice) => {
+      const target = phrases.find((phrase) => phrase.id === choice.to);
+      return choice.from === at && choice.weight > 0 && target && (visits.get(target.id) ?? 0) < target.maxVisits;
+    });
+    const denominator = eligible.reduce((sum, choice) => sum + choice.weight, 0);
+    if (!denominator) break;
+    let threshold = random() * denominator;
+    const choice = eligible.find((candidate) => (threshold -= candidate.weight) < 0) ?? eligible.at(-1)!;
+    result.at(-1)!.choiceId = choice.id;
+    result.at(-1)!.denominator = denominator;
+    at = choice.to;
+  }
+  return result;
+}
+export type LandscapePreview = {
+  weights: { id: string; name: string; value: number }[];
+  activity: number;
+  register: number;
+  durationScale: number;
+  notes: Note[];
+};
+export function landscapePreview(
+  source: Note[], anchors: LandscapeAnchor[], cursor: { x: number; y: number },
+): LandscapePreview {
+  const exact = anchors.filter((anchor) => anchor.x === cursor.x && anchor.y === cursor.y);
+  const raw = exact.length
+    ? anchors.map((anchor) => (exact.includes(anchor) ? 1 / exact.length : 0))
+    : anchors.map((anchor) => 1 / Math.max(0.0001, (anchor.x - cursor.x) ** 2 + (anchor.y - cursor.y) ** 2));
+  const total = raw.reduce((sum, value) => sum + value, 0);
+  const weights = anchors.map((anchor, index) => ({ id: anchor.id, name: anchor.name, value: raw[index] / total }));
+  const blend = (key: "activity" | "register" | "durationScale") => anchors.reduce((sum, anchor, index) => sum + anchor[key] * weights[index].value, 0);
+  const activity = blend("activity"), register = Math.floor(blend("register") + 0.5), durationScale = blend("durationScale");
+  const count = Math.max(1, Math.min(source.length, Math.floor(activity * source.length + 0.5)));
+  const notes = source.slice(0, count).map((note) => ({
+    pitch: note.pitch + register,
+    duration: Math.max(0.125, Math.floor(note.duration * durationScale * 8 + 0.5) / 8),
+  }));
+  return { weights, activity, register, durationScale, notes };
+}
+export const consonantInterval = (bass: number, soprano: number) =>
+  [0, 3, 4, 7, 8, 9].includes(pc(soprano - bass));
+export const intervalLabel = (bass: number, soprano: number) => {
+  const semitones = Math.abs(soprano - bass), simple = pc(semitones);
+  const names: Record<number, string> = { 0: "P8", 3: "m3", 4: "M3", 7: "P5", 8: "m6", 9: "M6" };
+  return names[simple] ? (semitones >= 12 && simple !== 0 ? `${names[simple]} + octave` : names[simple]) : `${semitones} semitones`;
+};
+export const parallelPerfect = (beforeBass: number, beforeSoprano: number, bass: number, soprano: number) => {
+  const before = pc(beforeSoprano - beforeBass), after = pc(soprano - bass);
+  const bassDirection = Math.sign(bass - beforeBass), sopranoDirection = Math.sign(soprano - beforeSoprano);
+  return before === after && [0, 7].includes(after) && bassDirection !== 0 && bassDirection === sopranoDirection;
+};
+export function counterpointCandidates(
+  bass: number[], soprano: number[], anchor: "bass" | "soprano", pins: Record<number, number>, index: number,
+): { pitch: number; accepted: boolean; reason: string }[] {
+  const fixed = anchor === "bass" ? bass : soprano;
+  const domain = anchor === "bass" ? [59, 60, 62, 64, 65, 67, 69, 71] : [43, 45, 47, 48, 50, 52, 53, 55, 57, 59];
+  const target = pins[index] === undefined ? domain : [pins[index]];
+  return target.map((pitch) => {
+    const lower = anchor === "bass" ? fixed[index] : pitch, upper = anchor === "bass" ? pitch : fixed[index];
+    if (upper < lower) return { pitch, accepted: false, reason: "voice crossing" };
+    if (!consonantInterval(lower, upper)) return { pitch, accepted: false, reason: "vertical dissonance" };
+    if (index > 0) {
+      const previousBass = anchor === "bass" ? fixed[index - 1] : soprano[index - 1];
+      const previousSoprano = anchor === "bass" ? soprano[index - 1] : fixed[index - 1];
+      if (parallelPerfect(previousBass, previousSoprano, lower, upper)) return { pitch, accepted: false, reason: "parallel perfect interval" };
+    }
+    return { pitch, accepted: true, reason: "consonant option" };
+  });
 }
 export function diatonic(root: number, mode: "major" | "minor") {
   const pcs = modePcs(root, mode === "major" ? 0 : 5),

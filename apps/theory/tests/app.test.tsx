@@ -58,7 +58,7 @@ describe("workspace interactions", () => {
     fireEvent.click(screen.getByRole("button", { name: "+ New study" }));
     expect(
       decodeWorkspace(localStorage.getItem(STORAGE_KEY)!).studies,
-    ).toHaveLength(9);
+    ).toHaveLength(17);
     fireEvent.change(screen.getByRole("textbox", { name: "Study name" }), {
       target: { value: "My snowflake" },
     });
@@ -71,7 +71,7 @@ describe("workspace interactions", () => {
     fireEvent.click(screen.getByRole("button", { name: "Delete" }));
     expect(
       decodeWorkspace(localStorage.getItem(STORAGE_KEY)!).studies,
-    ).toHaveLength(9);
+    ).toHaveLength(17);
   });
   it("renders the core controls of every family", () => {
     render(<App />);
@@ -83,11 +83,73 @@ describe("workspace interactions", () => {
       [/06 Register/, "Voices · octave-labeled pitches"],
       [/07 Form/, "+ Add section"],
       [/08 Scales/, "Compare mode A"],
+      [/09 Shared notes/, "Held pitch classes"],
+      [/10 Time weave/, "Follower delay · beats"],
+      [/11 Recipes/, "Sequential copies"],
+      [/12 Gesture/, "Contour points · beat@pitch"],
+      [/13 Rhythm garden/, "Paint seed · hits / rests"],
+      [/14 Journeys/, "Choice weights"],
+      [/15 Landscape/, "Horizontal cursor · sparse to busy"],
+      [/16 Counterpoint/, "Pinned voice"],
     ] as const;
     for (const [name, text] of checks) {
       fireEvent.click(screen.getByRole("button", { name }));
       expect(screen.getByText(text, { exact: true })).toBeInTheDocument();
     }
+  });
+  it("selects an atlas chord and preserves the explicit comparison", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "09 Shared notes" }));
+    fireEvent.click(screen.getByRole("button", { name: "Am · A · C · E" }));
+    fireEvent.click(screen.getByRole("button", { name: "Compare with source chord" }));
+    expect(screen.getByText(/C → Am: keeps C, E/)).toBeInTheDocument();
+  });
+  it("updates timing and recipe controls without mutating other studies", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "10 Time weave" }));
+    fireEvent.change(screen.getByRole("textbox", { name: "Source events · pitch@start:beats" }), {
+      target: { value: "C4@0:1 G4@1:1" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Update source events" }));
+    expect(screen.getAllByRole("button", { name: "G4 · 1–2 beats" })).toHaveLength(2);
+    fireEvent.change(screen.getByRole("slider", { name: "Follower delay · beats" }), { target: { value: "2" } });
+    expect(screen.getByText(/follower starts 2 beats later/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "11 Recipes" }));
+    fireEvent.change(screen.getByRole("slider", { name: "Move edited copy · semitones" }), { target: { value: "7" } });
+    expect(screen.getByText(/Copy 2 moves \+7 semitones/)).toBeInTheDocument();
+  });
+  it("copies a quantized Gesture Score contour as an independent motif", () => {
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "12 Gesture" }));
+    fireEvent.click(container.querySelector("[data-node-id]")!);
+    fireEvent.click(screen.getByRole("button", { name: "Copy as Motif snapshot ↗" }));
+    expect(screen.getByRole("heading", { name: "Motif Tree" })).toBeInTheDocument();
+    expect(screen.getByText(/Copied from Gesture Score \/ Quantized contour/)).toBeInTheDocument();
+  });
+  it("captures a generated Rhythm Garden row and keeps it as a separate Mandala study", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "13 Rhythm garden" }));
+    fireEvent.click(screen.getByText("Inspect"));
+    fireEvent.click(screen.getByRole("button", { name: "Capture selected row in Rhythm Mandala ↗" }));
+    expect(screen.getByRole("heading", { name: "Rhythm Mandala" })).toBeInTheDocument();
+    expect(screen.getByText(/Copied from Rhythm Garden/)).toBeInTheDocument();
+  });
+  it("copies a derived Variation Landscape candidate without changing its source", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "15 Landscape" }));
+    fireEvent.click(screen.getByText("Inspect"));
+    fireEvent.click(screen.getByRole("button", { name: "Copy candidate as Motif snapshot ↗" }));
+    expect(screen.getByRole("heading", { name: "Motif Tree" })).toBeInTheDocument();
+    expect(screen.getByText(/Copied from Variation Landscape/)).toBeInTheDocument();
+  });
+  it("commits an explicit Landscape candidate and pins an accepted counterpoint option", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "15 Landscape" }));
+    fireEvent.click(screen.getByRole("button", { name: "Commit candidate snapshot" }));
+    expect(decodeWorkspace(localStorage.getItem(STORAGE_KEY)!).studies.find((study) => study.kind === "landscape")?.data.committed).toHaveLength(1);
+    fireEvent.click(screen.getByRole("button", { name: "16 Counterpoint" }));
+    fireEvent.click(screen.getByRole("button", { name: "B3 · use" }));
+    expect(decodeWorkspace(localStorage.getItem(STORAGE_KEY)!).studies.find((study) => study.kind === "counterpoint")?.data.pins[1]).toBe(59);
   });
 });
 
