@@ -98,10 +98,12 @@
         ]
       },
       "typecheck": {
-        "outputs": []
+        "outputs": [],
+        "parallelism": false
       },
       "test": {
-        "outputs": []
+        "outputs": [],
+        "parallelism": false
       },
       "start": {
         "outputs": []

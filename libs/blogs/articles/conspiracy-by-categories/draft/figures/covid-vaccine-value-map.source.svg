@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 848" role="img" aria-labelledby="covid-commercial-title covid-commercial-desc">
+  <title id="covid-commercial-title">COVID vaccines: who benefits?</title>
+  <desc id="covid-commercial-desc">Government purchases provide revenue to vaccine companies. PREP Act coverage gives qualifying manufacturers immunity from covered injury claims. Patents and licenses support fees and royalties for technology owners and licensees. The diagram identifies selected companies and institutions for each benefit.</desc>
+  <style>
+    .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
+    .beneficiary { fill:var(--color-accent-tint); stroke:var(--color-accent); stroke-width:1; }
+    .node-name { font-size:28px; }
+    .body { font-size:20px; fill:var(--color-ink); }
+    .route { fill:none; stroke:var(--color-accent); stroke-width:2; }
+    .edge-label { font-size:18px; text-anchor:middle; fill:var(--color-accent); }
+  </style>
+  <defs><marker id="covid-commercial-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-accent)"/></marker></defs>
+  <rect width="1000" height="848" fill="var(--color-paper)"/>
+  <text x="40" y="36" class="eyebrow" font-size="16" data-text-max-width="920">01 / COMMERCIAL MECHANISMS · U.S.</text>
+  <text x="40" y="92" class="diagram-title" font-size="48" data-text-max-width="920">COVID vaccines: who benefits?</text>
+  <text x="40" y="128" class="subtitle" font-size="24" data-text-max-width="920">Three routes: purchase revenue, liability protection, and licensing.</text>
+
+  <path id="covid-purchase" class="route" d="M400 244 H600" marker-end="url(#covid-commercial-arrow)" data-graph-role="edge"/>
+  <path id="covid-immunity" class="route" d="M400 428 H600" marker-end="url(#covid-commercial-arrow)" data-graph-role="edge"/>
+  <path id="covid-royalties" class="route" d="M400 660 H600" marker-end="url(#covid-commercial-arrow)" data-graph-role="edge"/>
+  <rect x="412" y="196" width="176" height="36" fill="var(--color-paper)"/>
+  <text x="500" y="224" class="edge-label" data-text-max-width="176">Purchase revenue</text>
+  <rect x="412" y="376" width="176" height="40" fill="var(--color-paper)"/>
+  <text x="500" y="392" class="edge-label" data-text-max-width="176">Covered injury</text>
+  <text x="500" y="412" class="edge-label" data-text-max-width="176">claim immunity</text>
+  <rect x="412" y="616" width="176" height="32" fill="var(--color-paper)"/>
+  <text x="500" y="640" class="edge-label" data-text-max-width="176">Fees &amp; royalties</text>
+
+  <g data-graph-role="node" data-node-id="purchases">
+    <rect x="40" y="176" width="360" height="136" class="node"/>
+    <text x="64" y="228" class="node-name" data-text-max-width="312">Government purchases</text>
+    <text x="64" y="272" class="body" data-text-max-width="312">Contracts fund demand. [2, 3]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="prep">
+    <rect x="40" y="360" width="360" height="136" class="node"/>
+    <text x="64" y="412" class="node-name" data-text-max-width="312">PREP Act protection</text>
+    <text x="64" y="456" class="body" data-text-max-width="312">Qualifying products &amp; actors. [1]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="ip">
+    <rect x="40" y="584" width="360" height="152" class="node"/>
+    <text x="64" y="636" class="node-name" data-text-max-width="312">Patents &amp; licenses</text>
+    <text x="64" y="676" class="body" data-text-max-width="312">RNA, delivery, antigen design.</text>
+    <text x="64" y="708" class="body" data-text-max-width="312">[4, 5]</text>
+  </g>
+  <g data-graph-role="node" data-node-id="vaccine-companies">
+    <rect x="604" y="176" width="356" height="320" class="beneficiary"/>
+    <text x="628" y="208" class="eyebrow" font-size="16" data-text-max-width="308">BENEFICIARIES</text>
+    <text x="628" y="248" class="node-name" font-size="26" data-text-max-width="308">Vaccine companies [6]</text>
+    <text x="628" y="296" class="body" style="font-size:24px" data-text-max-width="308">Pfizer / BioNTech</text>
+    <text x="628" y="336" class="body" style="font-size:24px" data-text-max-width="308">Moderna</text>
+    <text x="628" y="376" class="body" style="font-size:24px" data-text-max-width="308">Novavax / Sanofi</text>
+    <text x="628" y="436" class="subtitle" font-size="20" data-text-max-width="308">Protection depends on the</text>
+    <text x="628" y="464" class="subtitle" font-size="20" data-text-max-width="308">manufacturer and claim.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="ip-holders">
+    <rect x="604" y="532" width="356" height="240" class="node"/>
+    <text x="628" y="576" class="node-name" style="font-size:26px" data-text-max-width="308">IP holders &amp; licensees</text>
+    <text x="628" y="616" class="body" data-text-max-width="308">BioNTech · Moderna</text>
+    <text x="628" y="648" class="body" data-text-max-width="308">Penn / MRT / CellScript</text>
+    <text x="628" y="680" class="body" data-text-max-width="308">Genevant / Arbutus · Acuitas</text>
+    <text x="628" y="712" class="body" data-text-max-width="308">HHS · Dartmouth · Scripps</text>
+    <text x="628" y="744" class="subtitle" font-size="16" data-text-max-width="308">Selected technology interests. [5]</text>
+  </g>
+  <text x="40" y="812" class="subtitle" font-size="20" data-text-max-width="920">PREP coverage is conditional; willful misconduct is excluded. [1]</text>
+  <text x="40" y="840" class="subtitle" font-size="16" data-text-max-width="920">Source numbers match the article’s COVID vaccine sources.</text>
+</svg>

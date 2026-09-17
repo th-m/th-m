@@ -2,3 +2,4 @@ export { Callout, Flow, Gloss, Lede, Paragraph, Quote, Section, Table, Term } fr
 export { ArticleLink, BlogLink, BlogLinkProvider, ExternalLink } from "./links";
 export type { BlogLinkProps, BlogLinkRenderer } from "./links";
 export { DocumentPopover } from "./document-popover";
+export { AudioPlayer } from "./audio-player";

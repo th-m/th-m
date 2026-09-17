@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 744" role="img" aria-labelledby="wtc-incentives-title wtc-incentives-desc">
+  <title id="wtc-incentives-title">WTC: insurance recovery and cleanup liability</title>
+  <desc id="wtc-incentives-desc">The destruction of the World Trade Center led to approximately 4.57 billion dollars in aggregate insurance recovery for its net lessees. Courts later dismissed one neighboring building’s asbestos-containing dust cleanup claim against Silverstein-linked entities and other defendants; the avoided amount is unquantified and the ruling did not erase all asbestos liabilities.</desc>
+  <style>
+    .node { fill:var(--color-paper-2); stroke:var(--color-rule-solid); stroke-width:1; }
+    .outcome { fill:var(--color-accent-tint); stroke:var(--color-accent); stroke-width:1; }
+    .node-name { font-size:28px; }
+    .body { font-size:22px; fill:var(--color-ink); }
+    .small { font-size:20px; fill:var(--color-muted); }
+    .route { fill:none; stroke:var(--color-accent); stroke-width:2; }
+  </style>
+  <defs>
+    <marker id="wtc-incentives-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="var(--color-accent)"/></marker>
+  </defs>
+  <rect width="1000" height="744" fill="var(--color-paper)"/>
+  <text x="40" y="36" class="eyebrow" font-size="16" data-text-max-width="920">CASE STUDY / WORLD TRADE CENTER</text>
+  <text x="40" y="92" class="diagram-title" font-size="48" data-text-max-width="920">Silverstein &amp; the World Trade Center</text>
+  <text x="40" y="128" class="subtitle" font-size="24" data-text-max-width="920">Two outcomes: cleanup liability and insurance recovery.</text>
+
+  <path id="wtc-cleanup-route" d="M368 304 V328 Q368 336 360 336 H268 Q260 336 260 344 V380" class="route" marker-end="url(#wtc-incentives-arrow)" data-graph-role="edge"/>
+  <path id="wtc-insurance-route" d="M632 304 V328 Q632 336 640 336 H732 Q740 336 740 344 V380" class="route" marker-end="url(#wtc-incentives-arrow)" data-graph-role="edge"/>
+
+  <g data-graph-role="node" data-node-id="wtc-destruction">
+    <rect x="224" y="176" width="552" height="128" class="node"/>
+    <text x="248" y="208" class="eyebrow" font-size="16" data-text-max-width="504">SEPTEMBER 11, 2001</text>
+    <text x="248" y="248" class="node-name" data-text-max-width="504">World Trade Center destroyed</text>
+    <text x="248" y="280" class="small" data-text-max-width="504">Insured losses and asbestos-containing dust. [1, 7]</text>
+  </g>
+
+  <g data-graph-role="node" data-node-id="cleanup-defense">
+    <rect x="40" y="384" width="440" height="264" class="outcome"/>
+    <text x="64" y="416" class="eyebrow" font-size="16" data-text-max-width="392">01 / ASBESTOS CLEANUP</text>
+    <text x="64" y="464" class="diagram-title" font-size="40" data-text-max-width="392">Claim dismissed</text>
+    <text x="64" y="508" class="body" data-text-max-width="392">Liability removed for one neighboring</text>
+    <text x="64" y="540" class="body" data-text-max-width="392">building’s WTC-dust cleanup claim.</text>
+    <text x="64" y="576" class="small" data-text-max-width="392">2013 ruling; affirmed in 2014. [4, 5]</text>
+    <text x="64" y="620" class="small" data-text-max-width="392">Avoided amount: unquantified.</text>
+  </g>
+  <g data-graph-role="node" data-node-id="insurance-recovery">
+    <rect x="520" y="384" width="440" height="264" class="outcome"/>
+    <text x="544" y="416" class="eyebrow" font-size="16" data-text-max-width="392">02 / INSURANCE PAYOUT</text>
+    <text x="544" y="472" class="diagram-title" font-size="56" data-text-max-width="392">$4.57 billion</text>
+    <text x="544" y="508" class="body" data-text-max-width="392">Recovered by the WTC net lessees.</text>
+    <text x="544" y="540" class="small" data-text-max-width="392">Reported in 2011 accounts. [2]</text>
+    <text x="544" y="588" class="small" data-text-max-width="392">Gross proceeds for covered losses</text>
+    <text x="544" y="620" class="small" data-text-max-width="392">and obligations.</text>
+  </g>
+
+  <text x="40" y="692" class="small" data-text-max-width="920">The cleanup ruling covered that claim; it did not erase all asbestos liabilities. [5]</text>
+  <text x="40" y="728" class="eyebrow" font-size="16" data-text-max-width="920">Source numbers match the article’s World Trade Center sources.</text>
+</svg>

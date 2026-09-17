@@ -18,7 +18,14 @@ export interface ArticleComponentAsset extends ArticleAssetBase {
   description?: string;
 }
 
-export type ArticleAsset = ArticleImageAsset | ArticleComponentAsset;
+export interface ArticleAudioAsset extends ArticleAssetBase {
+  kind: "audio";
+  source: `assets/${string}`;
+  label: string;
+  startAt?: number;
+}
+
+export type ArticleAsset = ArticleImageAsset | ArticleAudioAsset | ArticleComponentAsset;
 export type ArticleAssetRegistry = Record<string, ArticleAsset>;
 
 export interface ArticleRenderContext {
@@ -27,7 +34,7 @@ export interface ArticleRenderContext {
 }
 
 type ComponentAssetKeys<Registry extends ArticleAssetRegistry> = {
-  [Key in keyof Registry]: Registry[Key] extends ArticleImageAsset ? never : Key;
+  [Key in keyof Registry]: Registry[Key] extends ArticleComponentAsset ? Key : never;
 }[keyof Registry];
 
 export type ArticleComponentMap<Registry extends ArticleAssetRegistry> = {
@@ -74,9 +81,24 @@ export function validateArticleAssetRegistry(value: unknown, slug: string): Arti
       throw new Error(`${slug}/article-assets.ts ${id} tags must be unique.`);
     }
 
-    if (asset.kind === "image") {
+    if (asset.kind === "image" || asset.kind === "audio") {
       if (typeof asset.source !== "string" || !/^assets\/[a-zA-Z0-9][a-zA-Z0-9._/-]*$/.test(asset.source) || asset.source.includes("..")) {
         throw new Error(`${slug}/article-assets.ts ${id} source must be a safe assets/ path.`);
+      }
+      if (asset.kind === "audio") {
+        if (!asset.source.endsWith(".mp3")) throw new Error(`${slug}/article-assets.ts ${id} audio source must be an MP3.`);
+        if (typeof asset.label !== "string" || !asset.label.trim()) throw new Error(`${slug}/article-assets.ts ${id} must define a non-empty label.`);
+        if (asset.startAt !== undefined && (typeof asset.startAt !== "number" || !Number.isFinite(asset.startAt) || asset.startAt < 0)) {
+          throw new Error(`${slug}/article-assets.ts ${id} startAt must be a non-negative number.`);
+        }
+        registry[id] = {
+          kind: "audio",
+          source: asset.source as `assets/${string}`,
+          label: asset.label.trim(),
+          ...(typeof asset.startAt === "number" ? { startAt: asset.startAt } : {}),
+          tags: asset.tags as string[],
+        };
+        continue;
       }
       if (typeof asset.alt !== "string" || asset.alt.trim().length === 0) {
         throw new Error(`${slug}/article-assets.ts ${id} must define non-empty alt text.`);

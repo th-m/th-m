@@ -30,6 +30,11 @@ const consolidationAnchors: Record<string, string[]> = {
     "The problem is not solved by choosing a more confident definition.",
     "Before attributing phenomenal consciousness to an artificial system, require four things:",
   ],
+  "conspiracy-by-categories": [
+    "I will show why this is not a constructive lens for evaluating complex systems.",
+    "Financial benefit alone does not establish responsibility for the attacks.",
+    "I see Revelation describing complete organizational capture in the last days.",
+  ],
   "vision-and-values": [
     "The value of its predictions comes from the relationships between words.",
     "Once the root goal is supplied, it becomes valuable to explore opportunities",

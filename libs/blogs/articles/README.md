@@ -67,6 +67,7 @@ destabilizing URLs.
 | [building-an-llm](./building-an-llm/) | A visual primer from tokenization through training and inference | Published canonical MDX with four tagged interactives |
 | [consciousness-is-incoherent](./consciousness-is-incoherent/) | A coherent evidentiary standard for machine-consciousness claims | Published MDX addendum |
 | [ai-consciousness-is-incoherent](./ai-consciousness-is-incoherent/) | Why access-like function and theory-derived indicators do not establish phenomenal experience | Published canonical MDX with tagged argument figures |
+| [conspiracy-by-categories](./conspiracy-by-categories/article.mdx) | Institutions, conspiracy claims, financial incentives, and private networks | Canonical MDX with diagrams for three case studies |
 
 ## Workspace Structure
 
@@ -187,7 +188,13 @@ export default defineArticleComponents(articleAssets, () => ({
 Then compose them in the prose with `<Asset id="training-lab" />` or
 `<PreviewLink href="https://example.com" previewId="source-preview">Source</PreviewLink>`.
 Asset IDs and tags use kebab-case. Every file under `assets/` must be registered,
-every registered image must exist, and the publisher rejects unknown IDs.
+every registered image or audio file must exist, and the publisher rejects unknown IDs.
+
+Audio assets use `kind: "audio"`, an MP3 `source` under `assets/`, a `label`,
+non-empty `tags`, and optionally `startAt` in seconds. `<Asset id="recording" />`
+renders an audio icon that starts playback and reveals native controls. Audio
+loads on demand and pauses when another recording starts. Original recordings
+in private notes remain separate from the intentionally published web copies.
 
 ## Publication Artifact
 

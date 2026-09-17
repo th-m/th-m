@@ -154,6 +154,8 @@ const sharedMdxComponents = new Set([
 
 function literalValue(node: ts.Expression, slug: string): unknown {
   if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) return node.text;
+  if (ts.isNumericLiteral(node)) return Number(node.text);
+  if (ts.isPrefixUnaryExpression(node) && node.operator === ts.SyntaxKind.MinusToken && ts.isNumericLiteral(node.operand)) return -Number(node.operand.text);
   if (node.kind === ts.SyntaxKind.TrueKeyword) return true;
   if (node.kind === ts.SyntaxKind.FalseKeyword) return false;
   if (node.kind === ts.SyntaxKind.NullKeyword) return null;
@@ -372,7 +374,7 @@ export async function buildBlogArtifact(projectDirectory = resolve(dirname(fileU
       const assetEntries = await publicAssetFiles(assetsSource);
       if (assetEntries.length > 0) {
         const registeredFiles = new Set<string>(Object.values(assets)
-          .filter((asset) => asset.kind === "image")
+          .filter((asset) => asset.kind === "image" || asset.kind === "audio")
           .map((asset) => asset.source));
         for (const file of assetEntries) {
           if (!registeredFiles.has(file)) throw new Error(`${slug}/${file} must be registered in article-assets.ts.`);
@@ -386,8 +388,8 @@ export async function buildBlogArtifact(projectDirectory = resolve(dirname(fileU
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
     }
-    if (!assetsPath && Object.values(assets).some((asset) => asset.kind === "image")) {
-      throw new Error(`${slug}/article-assets.ts references images but assets/ is missing or empty.`);
+    if (!assetsPath && Object.values(assets).some((asset) => asset.kind === "image" || asset.kind === "audio")) {
+      throw new Error(`${slug}/article-assets.ts references media but assets/ is missing or empty.`);
     }
 
     await stagedArticleModules(articlesRoot, slug, postOutput);
