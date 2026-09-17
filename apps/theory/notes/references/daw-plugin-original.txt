@@ -1,0 +1,426 @@
+# Technical Reference for Cross-DAW Composer Plug-in Development
+
+## Executive summary
+
+For a commercial composition plug-in that must work inside Ableton Live, Logic Pro, Pro Tools, FL Studio, Cubase, Fender Studio Pro/Studio One, REAPER, Bitwig Studio, Reason, GarageBand, and mobile DAWs, the lowest-risk architecture is **one shared real-time-safe C++ core with several thin plug-in-format adapters**, plus optional host-specific bridges for DAWs where you need deeper project manipulation.
+
+The recommended shipping set is:
+
+| Priority | Target | Why |
+|---|---|---|
+| Core | **VST3** | Best common denominator across Windows/macOS desktop DAWs; use for Live, FL Studio, Cubase, Fender Studio Pro, REAPER, Bitwig and Reason. Steinberg publishes the VST3 SDK under MIT. citeturn9search32 |
+| Core | **AUv2** | Safest desktop route for Logic Pro and GarageBand on macOS; also supported by Live on macOS. |
+| Core for Pro Tools | **AAX Native** | Pro Tools' native third-party format; commercial AAX development requires Avid's licensing/signing/certification process. citeturn10search2 |
+| Core for mobile | **AUv3** | Required architecture for modern third-party audio/MIDI plug-ins on iPhone/iPad and useful on macOS. Ableton Live also supports AUv3. citeturn17view0turn20view0 |
+| Strongly recommended | **CLAP** | Especially valuable in Bitwig and REAPER for modern event/parameter/note-expression workflows. |
+| Host-specific | **Max for Live** | The best sanctioned route when your product must create/manipulate Live clips, notes, tracks or devices rather than merely process MIDI/audio. Live 12.4 added an explicit Max for Live Developer Mode and continues expanding the Live API. citeturn15view1turn15view2 |
+| Host-specific | **REAPER Extension/ReaScript** | Gives dramatically deeper project access than an ordinary audio plug-in. REAPER exposes a C/C++ extension SDK and EEL2/Lua/Python scripting APIs. citeturn23search2turn23search6turn23search10 |
+| Host-specific | **Reason Rack Extension** | Best way to build a truly native Reason compositional device/Player. Rack Extension SDK 5.0.0 was released June 30, 2026 and requires Reason 14+. citeturn23search13 |
+| Optional | **ARA 2** | Add only when the product needs random access to host audio/regions rather than ordinary streaming processing. Treat it as another compatibility/certification axis rather than as a basic plug-in format. |
+
+The most important architectural limitation is that **standard plug-in APIs generally do not give a plug-in unrestricted access to the DAW project**. VST3, AU and AAX are principally processing/instrument APIs. They provide transport/context information, parameter automation, state, audio and MIDI/event routing, but they do not create a universal API for operations such as “insert these eight MIDI regions into four tracks,” “rename the selected track,” or “read the entire arrangement.” For that class of composer workflow, use sanctioned host extensions where they exist—Max for Live, REAPER extensions, Bitwig controller extensions, Reason Players/Rack Extensions—and degrade gracefully elsewhere to generated MIDI/event output, drag-and-drop MIDI files, or an explicit user action.
+
+A good product architecture therefore looks like this:
+
+```mermaid
+flowchart LR
+    UI[Plug-in UI] --> Model[Shared composition/model layer]
+    Model --> DSP[Real-time DSP and MIDI/event engine]
+    Model --> BG[Background worker]
+    BG -->|HTTPS / local IPC| Service[Optional cloud or companion service]
+
+    DSP --> VST[VST3 adapter]
+    DSP --> AU[AUv2 / AUv3 adapter]
+    DSP --> AAX[AAX adapter]
+    DSP --> CLAP[CLAP adapter]
+
+    VST --> DAWS[Live / FL / Cubase / Studio Pro / REAPER / Bitwig / Reason]
+    AU --> Apple[Logic / GarageBand / Live macOS / iPad hosts]
+    AAX --> PT[Pro Tools]
+    CLAP --> Modern[Bitwig / REAPER]
+
+    Model --> HostBridges[Optional host bridges]
+    HostBridges --> M4L[Max for Live]
+    HostBridges --> ReaperExt[REAPER extension]
+    HostBridges --> BitwigExt[Bitwig controller extension]
+    HostBridges --> RE[Reason Rack Extension]
+```
+
+Do **not** put network calls, disk I/O, locks, allocation-heavy AI inference, process spawning or IPC waits in the audio callback. A composition request can be asynchronous; real-time audio cannot.
+
+Target minimum operating-system versions were not specified. Consequently, this report recommends **Universal Apple Silicon + Intel macOS builds where commercially justified, 64-bit Windows, and Linux for CLAP/VST3 where supported**, but the actual deployment floor should be set after testing the DAW/version matrix below.
+
+The version baseline in this report is current to **September 17, 2026**. Ableton Live is 12.4.6, Logic Pro for Mac is 12.3.1, Pro Tools is 2026.4.1, FL Studio is 2026.1.6, Cubase is 15.0.30, Fender Studio Pro is in the 8.1 line with 8.1.2 release notes published, REAPER is 7.80, and Bitwig Studio is 6.1.1. citeturn16view0turn3view0turn1view3turn1view1turn24search5turn24search2turn23search6turn24search11
+
+## Scope, standards and assumptions
+
+The recommendation assumes a product that may generate or transform notes/chords, react to transport and tempo, expose automatable composition controls, optionally process audio, and possibly communicate with an external generative service. If the intended product instead needs full bidirectional manipulation of every DAW's arrangement, a conventional plug-in alone is insufficient.
+
+The relevant official SDKs and specifications are:
+
+| Technology | Official development resource | Licensing/distribution significance |
+|---|---|---|
+| VST3 | [Steinberg VST3 SDK](https://github.com/steinbergmedia/vst3sdk) and [VST3 documentation](https://steinbergmedia.github.io/vst3_doc/) | Current VST3 SDK is open source under MIT; unlike legacy VST2, it is appropriate for new products. citeturn9search32 |
+| Audio Units / AUv3 | [Apple Audio Unit v3 documentation](https://developer.apple.com/documentation/audiotoolbox/audio-unit-v3-plug-ins) | Apple-platform API. AUv3 is an app-extension architecture and therefore participates in Apple's extension, signing and sandbox model. citeturn20view0 |
+| AAX | [Avid AAX developer portal](https://developer.avid.com/aax/) | SDK evaluation is available without a commercial license; commercial development/monetization requires Avid's commercial agreement and AAX certification/signing process. citeturn10search2 |
+| CLAP | [Official CLAP repository](https://github.com/free-audio/clap) | Open, royalty-free modern plug-in ABI. Particularly attractive for Bitwig/REAPER. |
+| LV2 | [LV2 project](https://lv2plug.in/) | Open plug-in ecosystem, most relevant here for REAPER/Linux rather than the mainstream Windows/macOS hosts. |
+| Ableton Link | [Ableton Link documentation](https://ableton.github.io/link/) | Synchronizes tempo, beat, phase and optionally transport; Link Audio additionally exchanges aligned audio. The cross-platform Link library is dual-licensed GPLv2+ or proprietary, so closed-source products need the appropriate Ableton license. citeturn18search3turn18search4 |
+| Ableton LinkKit | [LinkKit](https://ableton.github.io/linkkit/) | iOS SDK. Ableton supplies LinkHut reference code and documents iOS local-network/multicast entitlement requirements. citeturn18search0 |
+| Cubase MIDI Remote | [Steinberg MIDI Remote API](https://steinbergmedia.github.io/midiremote_api_doc/) | JavaScript-based host controller integration; useful for companion hardware/scripts, not a substitute for a VST3 plug-in API. citeturn9search20 |
+| REAPER Extension SDK | [REAPER Extension mini-SDK](https://www.reaper.fm/sdk/plugin/plugin.php) | C/C++ API with examples; REAPER explicitly points developers to SWS as a larger example. citeturn23search2 |
+| REAPER ReaScript | [ReaScript](https://www.reaper.fm/sdk/reascript/reascript.php) | EEL2, Lua and Python scripting over much of REAPER's application API. citeturn23search10 |
+| Reason Rack Extension | [Reason Rack Extension SDK downloads](https://developer.reasonstudios.com/downloads) | Proprietary Reason ecosystem and developer/distribution agreement; SDK 5.0.0 requires Reason 14+. citeturn23search13turn23search17 |
+| macOS notarization | [Apple notarization documentation](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution) | Required production concern for Developer-ID-distributed macOS software. citeturn20view2 |
+
+For a new product, **do not make VST2 a foundational target**. It remains loadable in several hosts for backward compatibility, but VST3 is the sustainable cross-DAW target. Cubase 15 itself is VST3-centric; legacy VST2 handling is platform-dependent and native Apple Silicon Cubase should not be treated as a reliable VST2 deployment target. citeturn22search20turn24search5
+
+AAX, AU, VST3 and CLAP identifiers must remain stable forever after public release. The exact mechanisms differ—VST3 class IDs, Audio Unit type/subtype/manufacturer codes, AAX IDs, CLAP IDs—but changing identity or repurposing a parameter ID breaks project recall or automation. Treat those IDs as serialized public API.
+
+For the implementation language, **C++20 plus CMake is the least risky center of gravity**. JUCE is a pragmatic abstraction layer for VST3/AU/AUv3/AAX and UI/DSP, although every target must still be tested against its native SDK semantics. Swift or Objective-C++ is useful around AUv3 containing apps and Apple-specific UI; Rust is reasonable for algorithmic/model code behind a clean C ABI, but a pure-Rust strategy still increases integration work for AAX and Apple-specific formats. Cubase MIDI Remote uses JavaScript, REAPER scripts commonly use Lua/EEL2, and Bitwig host-controller integrations use its controller-extension API; those are adjunct layers rather than substitutes for the audio plug-in implementation. citeturn9search20turn23search10
+
+## Compatibility matrix
+
+| Host / vendor | Latest verified stable baseline | OS | Relevant third-party formats | Recommended implementation |
+|---|---|---|---|---|
+| **Ableton Live — Ableton** | **12.4.6**, Sep. 15, 2026. citeturn16view0 | Windows, macOS | Windows: VST2, VST3. macOS: VST2, VST3, AUv2, AUv3. AAX/RTAS/DX unsupported. citeturn17view0turn17view1turn17view2 | **VST3 first**; AU optional on Mac. Add Max for Live only for deeper Live-object/clip integration. |
+| **Logic Pro — Apple** | **12.3.1**; Apple published current release notes Aug. 14, 2026. citeturn3view0 | macOS | Audio Units; use AUv2 as conservative desktop baseline and AUv3 when its extension model is desirable. | **AUv2 + optionally AUv3**. Consider MIDI-effect AU design for a note-generating composer tool rather than pretending to be an audio effect. |
+| **Pro Tools — Avid** | **2026.4.1**, released Jul. 9, 2026. citeturn1view3turn0search4 | Windows, macOS | AAX Native; AAX DSP where HDX/DSP processing is required; AAX MIDI effects are supported by the modern SDK. citeturn10search2turn10search6 | **AAX Native**. Implement AAX MIDI effect capability if composition/MIDI transformation is central. |
+| **FL Studio — Image-Line** | **2026.1.6**, Sep. 7, 2026. citeturn1view1 | Windows, macOS | VST2/VST3; AU on macOS. | **VST3**; AU only as additional Mac coverage. |
+| **Cubase — Steinberg** | **15.0.30**, Jun. 3, 2026. citeturn24search5 | Windows, macOS | VST3; legacy VST2 behavior depends on platform/mode. | **VST3 exclusively for new development**. Optional MIDI Remote companion for supported controller workflows. |
+| **Fender Studio Pro / Studio One lineage — Fender/PreSonus** | **8.1.x; official resource page lists 8.1.2 release notes**. Studio One Pro has evolved into Fender Studio Pro. citeturn24search2turn22search25 | Windows, macOS | VST-family plug-ins; AU on macOS; ARA is an important extension path. | **VST3 + AU**. Add ARA only when random host-audio access is essential. |
+| **REAPER — Cockos** | **7.80** current docs/build baseline. citeturn23search6turn23search18 | Windows, macOS, Linux | VST2, VST3, LV2, AU/macOS, CLAP, DX/Windows, JSFX; VST3 includes ARA support. citeturn23search0turn23search8 | **VST3 + CLAP**. Add a REAPER Extension/ReaScript bridge for deep arrangement integration. |
+| **Bitwig Studio — Bitwig** | **6.1.1**, Sep. 2, 2026. citeturn24search11 | Windows including ARM, macOS, Linux | VST2/VST3 and CLAP; sandboxed plug-in execution is a core Bitwig capability. citeturn7search0 | **CLAP + VST3**. CLAP is especially attractive for polyphonic/note-expression design. |
+| **Reason — Reason Studios** | **Reason 14** current major release. citeturn23search11turn23search19 | Windows, macOS | Reason standalone supports Rack Extensions and current VST hosting; Reason Rack itself is distributed as VST3/AUv2/AAX. citeturn23search3turn23search7 | **VST3 for ordinary compatibility; Rack Extension/Player for first-class compositional integration.** |
+| **GarageBand — Apple** | Current Mac App Store release; Apple's indexed page did not expose a reliable current build number during this research. | macOS | Audio Units. | **AUv2**, with AUv3 where applicable. Design for fewer advanced routing/automation assumptions than Logic. |
+| **Logic Pro for iPad — Apple** | Current 2026 App Store generation; exact patch was not reliably exposed in the indexed listing. citeturn24search4 | iPadOS | AUv3 | **AUv3**. |
+| **GarageBand — Apple mobile** | Current App Store release; exact patch was not reliably exposed in the indexed listing. citeturn24search1turn24search7 | iOS, iPadOS | AUv3 host capabilities are the relevant third-party path; exact MIDI-effect support must be tested against GarageBand rather than inferred from Logic. | **AUv3**, but explicitly test the exact Audio Unit type you need. |
+| **Cubasis — Steinberg** | Cubasis 3 current mobile line. citeturn24search3 | iOS/iPadOS; Android variant has a different plug-in ecosystem | AUv3 is the strategic iOS plug-in route. | **AUv3** on Apple mobile platforms. |
+| **FL Studio Mobile — Image-Line** | Current mobile line | iOS/iPadOS, Android, Windows mobile-style app | Do not assume desktop FL Studio VST hosting carries over to FL Studio Mobile. | Treat as a separate app/workflow; MIDI/audio exchange is safer than assuming desktop plug-in compatibility. |
+
+Two conclusions follow from this matrix. First, **VST3 + AU + AAX covers almost the entire commercial desktop market represented here**. Second, CLAP is not necessary for basic coverage but is strategically worthwhile because REAPER and Bitwig expose it directly, while AUv3 is mandatory if serious iPad/iPhone support is part of the product.
+
+There is no value in forcing one format on every host. Logic users expect AU, Pro Tools requires AAX, Bitwig can exploit CLAP, while Cubase is the reference VST3 environment.
+
+## Recommended architecture, plug-in lifecycle and real-time contracts
+
+The plug-in should be split into five relatively independent layers: a deterministic composition/model layer; a real-time MIDI/audio engine; persistent document/state serialization; format adapters; and a non-real-time service layer.
+
+```mermaid
+sequenceDiagram
+    participant H as DAW Host
+    participant P as Format Adapter
+    participant C as Shared Core
+    participant W as Background Worker
+    participant S as Optional Service
+
+    H->>P: Discover / validate module
+    H->>P: Instantiate component
+    P->>C: Create engine + state
+    H->>P: Negotiate buses / sample rate / block size
+    H->>P: Activate
+
+    loop Every process block
+        H->>P: audio + MIDI/events + parameter changes + transport
+        P->>C: normalized real-time event stream
+        C-->>P: audio + generated MIDI/events
+        P-->>H: results + reported latency
+    end
+
+    H->>P: save/restore plug-in state
+    P->>C: versioned serialized state
+
+    P->>W: async composition request
+    W->>S: network/IPC outside audio thread
+    S-->>W: result
+    W-->>P: immutable completed result
+    P-->>C: publish at safe boundary
+
+    H->>P: suspend/deactivate
+    H->>P: destroy
+```
+
+**Real-time invariants.** The process callback must tolerate arbitrary legal block sizes, sample-rate changes after reinitialization, bypass, suspend/resume, offline rendering, missing MIDI, changing bus layouts and hosts that call processing before the editor ever opens. Networking, authentication, model downloads and cloud composition belong on background threads. A host can render much faster than real time, so generation logic cannot use wall-clock sleeps or assume that 1 second of audio processing takes 1 second.
+
+**Parameter automation.** Every public parameter needs a stable immutable identity, a deterministic normalized↔semantic value mapping and stable meaning across releases. VST3 parameter/event queues, AU render events, AAX parameter mechanisms and CLAP events differ in ABI but should all be normalized internally into `{parameter-id, value, sample-offset}` events. Consume every automation point rather than reading only the final value of each process block. Hosts differ in how densely they supply points, so interpolation/ramping must remain correct with both sparse and dense automation.
+
+For a composer plug-in, do not expose thousands of transient composition values as host parameters. Host automation is appropriate for durable controls such as complexity, density, variation, key/scale choice or humanization. A generated 200-note phrase belongs in plug-in state/MIDI events, not in 200 temporary automatable parameters.
+
+**Preset/state management.** Host project state is authoritative for recall. Keep a versioned internal serialization independent from VST3/AU/AAX/CLAP wrappers, so all wrappers can restore the same musical document where practical. Never assume a host will save files from your own preset browser. Persist enough state through the official plug-in state interface to reopen a session offline years later; external library references should use stable IDs plus missing-resource recovery.
+
+**Latency.** Report actual algorithmic latency to the host and notify/restart the relevant component when it changes. Do not hide look-ahead or model buffering. Live explicitly compensates plug-in/device latency across audio, automation and modulation, while also documenting exceptions for transport-synchronized modulation, certain return routing and reduced-latency monitoring. citeturn17view3 Similar host PDC systems should be treated as relying on your reported latency, not as an excuse for the plug-in to maintain its own DAW-specific timeline offsets.
+
+A composition generator should normally have **zero audio latency**. A background AI request lasting hundreds of milliseconds or seconds is not “plug-in latency”; it is an asynchronous editing operation. Do not tell the host it has five seconds of PDC because a cloud model takes five seconds to answer.
+
+**GUI.** Keep the DSP/model entirely independent from editor lifetime. DAWs freely close and reopen editor windows. Implement resizable HiDPI/Retina UI; make every native VST3/AU/AAX size request legal; never rely on a fixed screen coordinate or parent-window hierarchy. For AUv3 mobile, the host owns the containing view and can resize it, suspend it or run the extension independently of its containing app.
+
+A practical desktop stack is C++/JUCE for the cross-format editor with carefully isolated platform glue. A native Swift/SwiftUI containing app around an AUv3 extension is reasonable, but the actual AU audio/MIDI engine should remain independent of Swift UI lifetime.
+
+**IPC/network.** A companion process is preferable when you need authentication, large model runtimes, database access or shared state across multiple plug-in instances. Use a lock-free/low-contention queue from audio code to a non-real-time controller, then shared memory, Unix-domain sockets/named pipes or loopback TCP from that controller to the companion process. OSC is useful for semantically named control messages; MIDI is good for interoperable note/control exchange; Ableton Link is appropriate for tempo/beat/phase synchronization, not arbitrary DAW project access. Link 3 synchronizes start/stop intent as well as tempo/beat/phase, and current Link also defines Link Audio channel transport. citeturn18search4
+
+ReWire should **not** be chosen for a new architecture. Reason Studios states that ReWire has been discontinued since Reason 11 and recommends the Reason Rack Plugin for inter-DAW use instead. citeturn23search7
+
+## DAW integration reference
+
+**Ableton — Ableton Live 12.4.6.** Live currently supports 64-bit VST2/VST3 on Windows; on macOS it supports VST2/VST3 plus AUv2 and AUv3. Ableton explicitly lists AAX, RTAS and DirectX as unsupported. AUv3 support is present in modern Live; Ableton's current help page lists AUv3 on macOS in Live 11.2+ while its newer Mac setup page describes AUv2/AUv3 support in the 11.3+ context. citeturn17view0turn17view2
+
+For ordinary operation, ship VST3. This also gives direct MIDI output in Live, whereas Ableton documents that its AU path does **not** provide direct MIDI output in the same way; that matters considerably for a composer that emits notes. citeturn17view2 Thus VST3 should be your preferred Live/macOS format even if the product also has an AU build.
+
+For deep Live integration, Max for Live is qualitatively different from a plug-in. The Live Object Model exposes Live objects to Max devices and has continued adding methods/properties: recent Live 12 releases added clip/take-lane operations and Live 12.4 made Developer Mode an explicit Options-menu facility. citeturn15view1turn15view2 A commercial product that needs “write these notes into the selected Live clip” is therefore better served by a thin Max-for-Live bridge talking to your core/companion service than by unsupported reverse engineering of the Live UI.
+
+Ableton's control-surface mechanism is primarily for hardware/controller integration. The officially documented basic custom route uses `UserConfiguration.txt`, with files stored in Live's User Remote Scripts preferences directory; Ableton does not promise that this works for every controller. citeturn17view4 Treat undocumented Python Remote Script internals as unstable unless Ableton explicitly blesses your use.
+
+For synchronization with external apps, use Link. The cross-platform C++ Link SDK synchronizes beat, tempo, phase and start/stop, and Live 12.4 added Link Audio for aligned peer-to-peer audio streams. Closed-source Link use requires paying attention to Ableton's dual licensing. citeturn18search3turn18search4turn16view1
+
+Scanning is predictable: Windows VST3 defaults to `C:\Program Files\Common Files\VST3`; macOS uses `/Library/Audio/Plug-Ins/VST3`, while AU components use `/Library/Audio/Plug-Ins/Components`. Live also allows custom VST folders. citeturn17view1turn17view2 Live 12.1 moved plug-in scanning information into a separate plug-in database and performs rescanning after appropriate updates. citeturn11search28 When diagnosing a scanner crash on Mac, Ableton documents holding Option/Alt during startup to temporarily disable plug-in scanning. citeturn17view2
+
+Live's notable latency quirk is that PDC is not equivalent to “every timeline-derived modulation source has been time-shifted.” Ableton specifically notes that devices dependent on song/beat position can be displaced in some latency-heavy routings, and Reduced Latency When Monitoring changes compensation behavior. Test tempo-synced/generative plug-ins both with and without upstream look-ahead processors. citeturn17view3
+
+Reference implementations: Steinberg VST3 samples for your normal plug-in, Ableton's Link examples for synchronization, and Max for Live example/template devices for the Live bridge. Community: Ableton Forums and Cycling '74's Max community.
+
+**Apple — Logic Pro 12.3.1.** Logic is an Audio Units host, not a VST/AAX host. For a desktop composer product, AUv2 remains the conservative baseline because it fits the normal macOS component deployment model and has extremely broad Logic/GarageBand compatibility; AUv3 is useful when you intentionally want the newer app-extension architecture or shared Mac/iOS code. Apple's AUv3 API is part of AudioToolbox. citeturn20view0
+
+The standard AU installation location is `/Library/Audio/Plug-Ins/Components`, with user-local components under `~/Library/Audio/Plug-Ins/Components`; Apple documents these paths in its Logic troubleshooting procedure. citeturn20view3 Logic's Plug-In Manager records Audio Unit validation status and is the primary host-side place to reset/rescan problematic units. citeturn21view2 During development, also run Apple's command-line `auval` against every Audio Unit type/subtype/manufacturer tuple before testing it in Logic.
+
+For an actual **composer** rather than an effect, choose your AU type deliberately. An instrument AU works well when the product's generated MIDI is ultimately rendered by its own instrument engine. A MIDI-processing AU/MIDI FX architecture is better when notes should feed another instrument in Logic. Do not assume that an ordinary audio-effect AU can directly edit Piano Roll regions.
+
+Logic supports extensive Control Surface functionality and MIDI routing, but there is no public general-purpose “Logic project object model” for arbitrary third-party plug-ins comparable to Live's Max for Live API or REAPER's extension API. That is a fundamental product constraint: provide MIDI FX/output/drag-and-drop workflows rather than building a business around UI automation.
+
+For GUI work, Logic supplies the native AU plug-in window; its current user guide explicitly includes plug-in-window scaling support. citeturn21view2 Test custom views at multiple Retina scaling settings, with the editor repeatedly opened/closed while playback continues.
+
+Logic's recent release notes contain continued fixes to third-party Audio Unit UI loading and ARA behavior, which is a reminder to test AU, AUv3 and ARA paths independently instead of assuming success in one implies success in the others. citeturn3view0
+
+Debug with `auval`, Plug-In Manager reset/rescan, Xcode/lldb attached to Logic or the relevant Audio Unit hosting process, and Instruments for allocation/thread/CPU problems. For AUv3, attach to the extension process rather than assuming all code runs in Logic's main process.
+
+Reference code: Apple's Audio Unit v3 documentation/sample implementations and your framework's AU/AUv3 examples. Community: Apple Developer Forums and Apple's Logic Pro support community.
+
+**Avid — Pro Tools 2026.4.1.** AAX is mandatory. Avid's current developer portal describes the AAX SDK as the plug-in technology for Pro Tools and VENUE-class products. It permits evaluation development before a commercial agreement, while commercial monetization requires the relevant Avid licensing/Alliance process. citeturn10search2
+
+Ship **AAX Native** by default. AAX DSP is only worth adding if your algorithm genuinely benefits HDX users and can satisfy DSP-specific constraints; a composition/AI plug-in usually gains little from that extra engineering effort. Avid has also extended the SDK to MIDI-effect plug-ins, making AAX MIDI effects the appropriate path for a note-transforming/generative composer rather than inventing a MIDI-through-audio hack. citeturn10search6
+
+AAX distribution is materially more controlled than VST3/AU. Plan for Avid developer enrollment, AAX-specific binary signing through the required PACE tooling, certification/qualification and testing against Avid's supported Pro Tools matrix. Pro Tools itself currently lists 2026.4.1 as its current version and supports current macOS and Windows 11 configurations; Avid's July 2026 compatibility page lists Apple M-series hardware and 64-bit Windows requirements. citeturn1view3
+
+Plug-in installation is in the standard Avid Audio Plug-Ins location rather than VST/AU directories. On macOS the familiar deployment root is `/Library/Application Support/Avid/Audio/Plug-Ins`; use Avid's installer recommendations rather than letting users manually copy arbitrary resources.
+
+Use persistent AAX parameter IDs and proper touch/begin/end automation gestures. Do not overload one parameter ID with a different musical meaning in a later release. State recall and Pro Tools preset compatibility must be migration-tested across upgrades.
+
+The AAX SDK documentation covers plug-in initialization and AAX GUI hosting; use its included example plug-ins as the reference before layering JUCE over it. citeturn10search4 Debug a Development build attached to Pro Tools and reproduce problems both with a minimal AAX implementation and your abstraction framework, because wrapper/framework bugs otherwise look like host bugs.
+
+Pro Tools is especially important for post-production customers, so also test surround/multichannel bus negotiations if those users matter. Do not advertise AAX DSP just because AAX Native works.
+
+Community: Avid's developer portal and Avid Pro Audio Community.
+
+**Image-Line — FL Studio 2026.1.6.** Treat VST3 as the primary format on both operating systems, with AU as an optional macOS build. Current FL Studio development remains active—the official change history lists 2026.1.6 as the September 2026 maintenance line. citeturn1view1
+
+FL Studio wraps third-party plug-ins in its own plug-in wrapper, so test window resize, keyboard focus, detached/floating behavior, sidechains, multiple audio outputs and MIDI routing specifically rather than assuming the behavior seen in Cubase. FL's wrapper is one of the places where a technically valid VST3 can still expose UI or routing assumptions.
+
+Image-Line also exposes a Python-based **MIDI scripting API** for controller integrations. It is useful for a dedicated FL hardware/controller companion, but it should not be confused with an officially sanctioned plug-in-to-project editing API. Do not have a VST3 secretly automate FL through internal Python functions unless Image-Line explicitly supports that architecture.
+
+Use FL Studio's Plug-in Manager/scanner during testing and verify clean installation on a machine where no previous version of your product exists. Test project reload after renaming the binary, vendor or plug-in display name; stable VST3 class identity matters more than the filename.
+
+For MIDI-generating composition, explicitly test how your VST3 output is routed through FL's channel/routing model and document the required setup for users. A generator that “works in Cubase” is not sufficient evidence that FL users will intuitively receive its outgoing note events.
+
+Reference code should be the standard Steinberg VST3 samples rather than an FL-proprietary native plug-in format for a new cross-DAW product. Community: Image-Line's official forums and knowledge base.
+
+**Steinberg — Cubase 15.0.30.** Cubase is your **reference VST3 host**. Version 15.0.30 shipped June 3, 2026 and added, among other fixes, MIDI Remote API 1.3 support. citeturn24search5 The current VST3 SDK is MIT-licensed, making the SDK itself straightforward to integrate and redistribute under its terms. citeturn9search32
+
+Develop the raw VST3 version against Steinberg's SDK first even if JUCE generates the production target. Run Steinberg's validator and sample/host-test utilities continuously in CI. The SDK's `again`, instrument/note-expression and host-checking examples are useful references for parameter state, event processing and host capability checks.
+
+Cubase's MIDI Remote API is a separate JavaScript surface for external controllers. Its model consists of driver setup, a surface definition and mappings into the host. citeturn9search20 It is useful for hardware integration but is not a general back door through which a VST3 should rewrite the user's project.
+
+Steinberg also has SKI Remote infrastructure used by Cubase iC Pro for network remote control. citeturn9search8 Again, treat that as a remote-control system rather than a substitute for proper VST3 integration.
+
+Cubase 15's VST Plug-in Manager was redesigned and includes project/filter improvements. citeturn24search5 Validate scanner behavior and any blacklist/failure state after intentionally crashing validation; a customer should be able to recover without deleting arbitrary Cubase preferences.
+
+For automation, implement VST3's parameter queues correctly and honor sample offsets. For MIDI/note expression, test ordinary MIDI, MPE and any VST3 note-expression support separately. Cubase is often the host in which incorrectly implemented VST3 bus activation or parameter semantics become visible earliest.
+
+Do not build a new commercial product around VST2 merely because Windows Cubase can still expose legacy VST2 workflows. On Apple Silicon, legacy behavior is especially conditional. citeturn22search20
+
+Community: Steinberg Forums; SDK issues/documentation around Steinberg's VST GitHub organization.
+
+**Fender/PreSonus — Fender Studio Pro, successor to Studio One Pro.** The product lineage is now explicitly marketed as Fender Studio Pro—PreSonus describes it as the next evolution of Studio One Pro—and the current resource page lists 8.1.2 release notes. citeturn22search25turn24search2 A product-support database should therefore recognize both “Studio One” and “Fender Studio Pro” when customers report their DAW.
+
+Use VST3 on Windows/macOS and AU as the Apple-specific supplementary target. If your composition product performs clip-level audio analysis, this family is also important for **ARA** workflows, but ordinary MIDI generation does not justify adding ARA.
+
+There is no need for a proprietary Studio One/Fender DSP format. The major engineering tasks are robust VST3/AU state recall, DPI-aware resizing, sidechain/bus negotiation, preset handling and automation.
+
+Do not assume DAW Remote/controller functionality implies a public project-editing SDK for your plug-in. Architect the basic product around standard plug-in contracts, then pursue a vendor partnership if deep arrangement manipulation becomes a strategic requirement.
+
+Community/resources: PreSonus/Fender support and the official Fender Studio Pro feature-request community. citeturn22search22
+
+**Cockos — REAPER 7.80.** REAPER deserves special treatment because it provides both extremely broad plug-in-format coverage and unusually deep extension APIs. Current REAPER supports VST2, VST3 including ARA, LV2, CLAP, AU on macOS, DX on Windows and its own JSFX environment. citeturn23search0turn23search8 It runs on Windows, macOS and Linux; the current documentation/API is generated for 7.80. citeturn23search4turn23search6
+
+Ship VST3 and CLAP. For a composition assistant that should actually edit the REAPER project, add a **native extension** or ReaScript bridge. Cockos publishes an Extension mini-SDK with headers and examples and specifically cites the open-source SWS extension as a larger example. citeturn23search2
+
+ReaScript exposes most of the same application API from EEL2, Lua or Python. Lua and EEL2 are embedded; Python is external. citeturn23search10 This makes REAPER one of the cleanest hosts for a two-part design:
+
+`VST3/CLAP plug-in ⇄ local IPC ⇄ signed REAPER extension`
+
+The plug-in remains portable while the extension performs REAPER-specific region/track/project operations. Make the extension optional so projects still load when it is absent.
+
+REAPER also documents proprietary extensions to the VST2 host interface, but those should be regarded as legacy/REAPER-specific optimization, not the basis of a 2026 cross-host design. citeturn23search14
+
+For troubleshooting, REAPER's flexible plug-in process isolation and routing make it an excellent stress-test host. Test mono/stereo/multichannel, oversampling, offline render, individual FX bypass, UI closure and large nonstandard block sizes. REAPER's own documentation notes host-level oversampling and automatic bypass-on-silence features for third-party plug-ins. citeturn23search8
+
+Reference implementations: Cockos mini-SDK examples, SWS, ReaScript samples and JSFX for simple signal/MIDI experiments. Community: the official REAPER Forums are exceptionally useful, but SDK/source behavior remains the authority.
+
+**Bitwig — Bitwig Studio 6.1.1.** Bitwig's current archive lists 6.1.1 from September 2, 2026 and provides Windows, Windows ARM, macOS, Flatpak and Ubuntu builds. citeturn24search11 Bitwig is particularly important for CLAP: support CLAP in addition to VST3 rather than treating it merely as a compatibility checkbox.
+
+Bitwig also emphasizes **sandboxed plug-ins** as part of the host architecture. citeturn7search0 Your plug-in must therefore not assume that its process identity, working directory, lifetime or crash behavior matches the DAW process. This is good engineering discipline anyway: keep persistent state explicit, IPC reconnectable and UI/DSP separation robust.
+
+For a modern composition instrument, CLAP can be your richer Bitwig path while VST3 remains the universal fallback. Test polyphonic parameters/modulation, note-expression/event timing, large modulation loads and state cloning.
+
+Bitwig's controller-extension ecosystem is relevant when you need host-level integration beyond a plug-in. Keep it as a separately installed adapter communicating through a documented local protocol to the same shared composition service.
+
+A practical pitfall is over-coupling functionality to Bitwig's modulation system. A CLAP-specific feature should degrade to ordinary automatable VST3 parameters rather than causing the same preset to become semantically different across formats.
+
+Community: Bitwig's official support resources and controller-extension developer ecosystem.
+
+**Reason Studios — Reason 14.** Reason 14 is the current major generation, and the Rack Extension SDK 5.0.0 released June 30, 2026 is specifically for Reason 14 and later. citeturn23search13turn23search19 Reason's distinctive opportunity is not merely hosting your VST3; it is the native Rack Extension ecosystem.
+
+For minimum engineering effort, ship VST3. Reason 12.5 and later added 64-bit VST3 hosting alongside its older VST support and Rack Extensions. citeturn23search7 For a serious composer product, however, evaluate a **Rack Extension Player** because Reason Players are designed around MIDI-generation/transformation workflows and can interact naturally with Rack devices.
+
+Rack Extensions use Reason Studios' proprietary SDK, packaging and distribution ecosystem. SDK 5.0 is therefore a separate product target with its own development agreement/review lifecycle, not simply another CMake output format. citeturn23search13turn23search17
+
+Do not confuse the formats that Reason **hosts** with the formats in which **Reason Rack Plugin** is itself sold. Reason Rack Plugin is available as VST3, AU/AUv2 and AAX for embedding Reason inside other DAWs. citeturn23search3turn23search5 A VST hosted inside Reason Rack Plugin is not allowed; Reason Studios explicitly says the Rack Plugin is not a VST host, although it does run Rack Extensions. citeturn23search7
+
+ReWire is obsolete for new integration. Reason Studios says it has been discontinued since Reason 11. citeturn23search7
+
+Reference code and validation tooling come with the Reason Rack Extension SDK; use Reason Recon/current SDK validation as part of release qualification. Community: Reason Studios developer resources and the broader Reason user/developer community.
+
+**Apple — GarageBand.** GarageBand for Mac is best treated as a constrained Audio Unit host sharing much of Apple's audio-platform technology but not Logic's professional routing and editing surface. Apple's current mobile App Store listing remains active for iPhone/iPad GarageBand. citeturn24search1turn24search7
+
+On macOS, ship the same AU build you qualify in Logic, but test it independently in GarageBand. Do not assume Logic-only MIDI FX, routing or sophisticated bus configurations are present. A composition tool that depends on generating MIDI for a downstream third-party instrument needs a specific GarageBand UX test rather than a generic “AU supported” checkbox.
+
+GarageBand is particularly useful as a simplicity test: your plug-in should load without requiring users to understand multi-port MIDI routing, custom bus activation or companion scripts.
+
+On iOS/iPadOS, AUv3 is the strategic extension mechanism. Keep the extension self-contained enough to launch without its containing app already running, tolerate sandbox storage rules and communicate with cloud services only through properly entitled non-real-time code.
+
+**Mobile DAWs.** Logic Pro for iPad is now a major professional mobile target; Apple's current listing places it in the same modern product family as desktop Logic. citeturn24search4 Build a real AUv3 extension, not a desktop AU wrapper copied into an iOS target.
+
+Cubasis 3 is another important AUv3 host on iPad/iPhone. citeturn24search3 For mobile qualification, test Logic Pro for iPad, GarageBand and Cubasis independently because Audio Unit subtype support, MIDI routing and UI size policies can differ even though all sit on Apple's AU infrastructure.
+
+FL Studio Mobile should be considered a separate product from desktop FL Studio. Do not state that the desktop VST3 binary “supports FL Studio Mobile.” When necessary, integrate through MIDI/audio/file interchange or a companion-app workflow unless Image-Line's current mobile API explicitly supports the capability you need.
+
+AUv3's sandboxing has concrete networking consequences. Ableton's LinkKit documentation, for example, notes that iOS 14+ local-network communication requires `NSLocalNetworkUsageDescription`, and multicast Link use requires Apple's multicast-network entitlement. citeturn18search0 Similar entitlement review should be part of any mobile companion/network architecture.
+
+## Distribution, validation, automation and host-compatibility hazards
+
+**macOS packaging.** Production binaries should be signed with the appropriate Developer ID identity, distributed through a signed installer/package where appropriate, and submitted through Apple's current notarization workflow so Gatekeeper sees a trusted package. Apple maintains dedicated notarization documentation for software distributed outside the Mac App Store. citeturn20view2
+
+For desktop coverage, create **universal binaries containing `arm64` and `x86_64`** unless your product explicitly drops Intel. This is particularly important for plug-ins because the architecture must be loadable by the host process. Ableton explicitly notes that native Apple Silicon Live only recognizes VST2/VST3 builds that contain compatible native code; some Intel-dependent Audio Unit configurations otherwise involve Rosetta/compatibility mechanisms. citeturn17view2
+
+Do not modify a signed plug-in bundle after code signing. Sample/model downloads should live in application-support data directories rather than being written into `.vst3`, `.component`, `.aaxplugin` or app-extension bundles.
+
+AUv3 is a stronger isolation boundary than classic AUv2: it is an extension architecture with its own lifecycle/container expectations. Authentication, shared user libraries and subscription state are generally easier to manage through the containing app/Keychain/shared-container architecture than by making the extension own your entire product lifecycle.
+
+**Windows packaging.** Build x64 at minimum and consider Windows ARM only as a separate tested target. Authenticode-sign both installer and relevant executables/binaries to reduce SmartScreen friction. Install VST3 in the standard system path rather than asking users to browse to a custom folder. Ableton documents the canonical Windows VST3 folder as `C:\Program Files\Common Files\VST3`. citeturn17view1
+
+**Format validation.**
+
+| Format | Release gate |
+|---|---|
+| VST3 | Run Steinberg's VST3 validator plus SDK host-checker/reference hosts. Test standard bundle layout and IDs. |
+| AUv2 | Run `auval` and then Logic Plug-In Manager validation. Apple documents Logic's Plug-In Manager and component locations. citeturn20view3turn21view2 |
+| AUv3 | Validate the extension through Xcode and several independent AUv3 hosts; test extension termination/relaunch, state restoration and containing-app absence. |
+| AAX | Avid/PACE signing plus Avid's commercial qualification/certification requirements. citeturn10search2 |
+| CLAP | Run the ecosystem's CLAP validator and dedicated minimal hosts; then Bitwig and REAPER. |
+| Rack Extension | Use the current Reason SDK/Recon toolchain and Reason Studios' submission requirements. citeturn23search13 |
+
+**Scanning/discovery defaults.**
+
+| Platform / format | Conventional deployment |
+|---|---|
+| Windows VST3 | `C:\Program Files\Common Files\VST3` citeturn17view1 |
+| macOS VST3 | `/Library/Audio/Plug-Ins/VST3` citeturn17view2 |
+| macOS AU | `/Library/Audio/Plug-Ins/Components` or user equivalent citeturn17view2turn20view3 |
+| macOS AAX | `/Library/Application Support/Avid/Audio/Plug-Ins` |
+| VST2 | Legacy/custom directories; do not use as the installation architecture for a new product. |
+| REAPER | Supports standard locations plus user-configured search paths; its broad host support includes VST/VST3/LV2/AU/CLAP. citeturn23search0 |
+
+A release installer should never require users to copy files into the DAW application's own bundle/program directory. Ableton explicitly warns against installing VSTs into Live's program folder. citeturn17view1
+
+**Preset and session compatibility** deserves its own automated test suite. Save sessions in every host with version N, install N+1, then verify state, automation, preset selection, generated phrase data and resource references. Repeat when changing framework/JUCE versions. Also test duplicate instances: many subtle bugs come from accidentally storing per-instance state in process-global variables.
+
+**Automation/sample accuracy.** The cross-format rule should be: represent parameter changes internally with explicit sample offsets and preserve all points supplied by the host. VST3, CLAP and modern AU interfaces are capable of time-local event delivery, but individual hosts may choose different automation densities. Therefore market the product as sample-accurate only for behavior you have actually measured in each format/host combination.
+
+Similarly, MIDI/note timing must use event offsets inside the processing block. Scheduling every generated note at block start is not “close enough”; at a 1,024-sample buffer it becomes an audible groove error.
+
+**Latency compensation.** Maintain one authoritative latency value in samples and adapt it to each wrapper. Test changing oversampling/look-ahead while playback is running. Live demonstrates why this deserves host-specific tests: it compensates audio/automation/modulation but explicitly documents transport-synced and monitoring exceptions. citeturn17view3
+
+**Offline/bounce behavior.** Your plugin must produce deterministic results if requested. Hosts can bounce faster than real time; never make a render depend on animation frames, editor timers or a live network response. A cloud-created composition should be completed and stored in state before the user renders.
+
+**GUI hazards.** Avoid nested modal event loops; support repeated editor construction/destruction; do not hold the audio engine hostage while the editor waits for web content. Test Wayland/X11 on Linux if you support Bitwig/REAPER Linux, Retina/non-Retina Macs, Windows scaling at 100–200%, multiple monitors, and hosts that embed versus float editors.
+
+**Known high-risk compatibility errors** are more universal than DAW-specific: changing plug-in/class IDs; changing existing parameter IDs; removing parameters that have automation; assuming stereo; assuming one MIDI port; allocating in the audio callback; treating transport position as monotonically increasing despite looping/scrubbing; failing when the host asks for zero/very small blocks; assuming editor and DSP are in the same process; keeping authorization only in RAM; relying on writable plug-in-bundle directories; and assuming VST/AU/AAX preset files are interchangeable.
+
+For debugging, maintain a special Development build with a lock-free diagnostic ring buffer and an optional log consumer outside the audio thread. Do not call synchronous OS logging APIs thousands of times per process callback. Capture host name/version, format, architecture, sample rate, maximum block size, active bus layout and reported latency near activation; these facts make field crash reports substantially more useful.
+
+## Implementation recommendation and primary resource index
+
+A practical production repository would look approximately like:
+
+```text
+composer/
+  core/
+    composition/
+    midi/
+    dsp/
+    transport/
+    state/
+  plugin/
+    vst3/
+    au/
+    auv3/
+    aax/
+    clap/
+  host_bridges/
+    ableton_m4l/
+    reaper_extension/
+    bitwig_extension/
+    reason_re/
+  companion/
+    auth/
+    networking/
+    model_runtime/
+    content_library/
+  ui/
+  tests/
+    realtime/
+    serialization/
+    automation/
+    host_compat/
+  installers/
+    macos/
+    windows/
+```
+
+The **first production milestone** should ship VST3 + AUv2 + AAX Native with one shared state schema. That immediately covers the essential desktop paths: Live, Logic, Pro Tools, FL Studio, Cubase, Fender Studio Pro, REAPER, Bitwig, Reason and GarageBand. Add AUv3 immediately if iPad is launch-critical. Add CLAP once the core wrappers are stable; it provides meaningful upside in Bitwig and REAPER rather than merely another logo. Reason Rack Extension and Max for Live should be separate host-integration products sharing the same composition engine/protocol.
+
+For the composer-specific user experience, support three progressively richer levels:
+
+| Capability level | Implementation | Availability |
+|---|---|---|
+| Universal | Generate/process MIDI events in the plug-in and allow MIDI-file drag/export | Almost every serious desktop host through the appropriate format |
+| Enhanced | Read transport/tempo/time signature, automate musical controls, synchronize external companion via Link/MIDI/OSC | Broadly available; Link specifically provides tempo/beat/phase rather than project editing. citeturn18search4 |
+| Deep | Create/edit host clips/tracks/regions through host-specific sanctioned APIs | Max for Live, REAPER Extension/ReaScript, Reason Rack Extensions/Players, selected Bitwig extension capabilities; not portable through VST3/AU/AAX |
+
+This division prevents the most common architectural mistake in DAW products: designing against one unusually open host and then discovering that the same project-editing operations cannot be implemented from a normal Logic AU or Pro Tools AAX.
+
+For **Ableton**, start from [Live's supported plug-in format documentation](https://help.ableton.com/hc/en-us/articles/5937501570460-Supported-Plug-in-Formats), [Ableton Link](https://ableton.github.io/link/), and Max for Live/Live API materials. Live 12.4.6 is the current verified production baseline. citeturn16view0turn17view0turn18search4
+
+For **Apple hosts**, start with [Audio Unit v3](https://developer.apple.com/documentation/audiotoolbox/audio-unit-v3-plug-ins), Apple's Logic Plug-In Manager documentation, and [macOS notarization](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution). Logic Pro for Mac's current verified release is 12.3.1. citeturn3view0turn20view0turn21view2
+
+For **Pro Tools**, start from the [Avid AAX portal](https://developer.avid.com/aax/) before committing your installer/licensing schedule, because AAX adds commercial agreement, PACE signing and certification considerations that do not exist in the same form for VST3. citeturn10search2
+
+For **Steinberg/Cubase**, use the [VST3 SDK](https://github.com/steinbergmedia/vst3sdk) as the normative format reference and the [MIDI Remote API](https://steinbergmedia.github.io/midiremote_api_doc/) only for controller/host extensions. Cubase 15.0.30 is the current verified release. citeturn9search32turn9search20turn24search5
+
+For **REAPER**, the [Extension SDK](https://www.reaper.fm/sdk/plugin/plugin.php), [ReaScript API](https://www.reaper.fm/sdk/reascript/reascript.php), and REAPER's documented plug-in-format support make it the strongest reference environment for an optional deep host bridge. citeturn23search2turn23search10turn23search8
+
+For **Reason**, the [Rack Extension SDK](https://developer.reasonstudios.com/downloads) is worth evaluating specifically for a composer product because native Reason Players can be a better semantic match than forcing generative composition through an ordinary audio plug-in. SDK 5.0.0 targets Reason 14+. citeturn23search13
+
+For synchronization, [Ableton Link](https://ableton.github.io/link/) is the modern cross-application option; for arbitrary messages, use OSC/MIDI or your own authenticated local IPC. Do not revive ReWire for new engineering. citeturn18search4turn23search7
+
+The release-quality test matrix should minimally cover **native Apple Silicon and Intel/universal macOS where supported, Windows x64, every relevant format in at least two independent hosts, 44.1/48/96 kHz, small and large buffers, offline rendering, automation ramps, project save/reload, plug-in upgrade migration, missing network, missing authorization, UI closed during processing, multiple instances, sidechains/multi-outs where applicable, scanner crashes, and clean-system installation**. Bitwig/REAPER Linux and Windows ARM should become additional CI lanes only if those platforms are explicitly part of the commercial support contract. Bitwig already distributes current 6.1.x builds for Windows ARM and Linux, while REAPER officially supports Windows/macOS/Linux. citeturn24search11turn23search4
+
+The resulting strategic target is therefore not “one binary that somehow controls every DAW.” It is **one stable musical engine, four principal plug-in adapters—VST3, AU, AAX and CLAP—and a small number of sanctioned host bridges where the product genuinely benefits from direct arrangement access**. That design aligns with the extension models the DAW vendors actually expose, isolates vendor-specific breakage, and keeps session/state compatibility under your control.

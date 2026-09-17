@@ -1,0 +1,25 @@
+**Yes—several free tools cover parts of this idea.** The closest matches range from interactive theory diagrams to tools where drawing a graph actually creates music.
+
+| App                                     | How it relates to our concepts                                                                                                                                                                         | Free?                                                                                                                |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| **Chromatone** — browser                | A collection of visual music tools: harmonic lattices, circle-of-fifths explorers, scales, and circular rhythms. **The broadest match to our visual-theory approach.**                                 | **Free and open source.** ([Chromatone][1])                                                                          |
+| **TonnetzViz** — browser                | Closely matches the **voice-leading honeycomb**. Play through a MIDI or computer keyboard and see notes and chords form shapes on a harmonic lattice. Useful for interpreting chord relationships.     | **Free; MIT-licensed source code.** ([GitHub][2])                                                                    |
+| **Groove Pizza** — browser              | Closely matches the **rhythm mandala**. Build circular drum patterns using shapes and positions, then export audio or MIDI. Useful for seeing rhythmic repetition and alignment.                       | **Free web app.** ([MusedLab][3])                                                                                    |
+| **muted.io** — browser                  | Interactive references for **intervals, scales, chords, and key relationships**. More a collection of learning tools than a unified composer.                                                          | **Free web tools; desktop app offered separately.** ([muted.io][4])                                                  |
+| **Midinous** — desktop                  | **Compose through connected points and paths.** Build branching sequences, loops, and scale-constrained patterns. Particularly relevant to making our graphs playable rather than merely illustrative. | **Free demo; $24.99 full version.** ([Steam Store][5])                                                               |
+| **Nodal** — Mac/Windows                 | Draw networks of musical events; virtual players traverse them. **Connection length controls timing**, and you can edit the network during playback. Useful for evolving, generative compositions.     | **Paid; 30-day trial with saving disabled.** Its site also warns of macOS Sonoma incompatibility. ([Nodal Music][6]) |
+| **Fugue Machine Classic** — iPhone/iPad | Related to the **motif tree**, but uses a piano roll rather than branches. Up to four playheads reinterpret one melody at different speeds, directions, and pitches.                                   | **$19.99.** ([App Store][7])                                                                                         |
+| **Hookpad** — browser                   | Color-coded chords and melodies help interpret harmonic function and build complete songs. Relevant to our **composition workflow**, though not a nested or fractal interface.                         | **Free basic tier; Standard $7.99/month**, including MIDI/MP3 export and more instruments. ([Hooktheory][8])         |
+
+**For your design research, I’d start with Chromatone and Midinous:** one demonstrates *seeing musical relationships*; the other demonstrates *turning a graph into music*. ([Chromatone][1])
+
+Among these products, I didn’t find one combining all eight proposed views into a single, synchronized composer.
+
+[1]: https://chromatone.center/practice/ "Practice | Chromatone.center"
+[2]: https://github.com/cifkao/tonnetz-viz "GitHub - cifkao/tonnetz-viz: TonnetzViz, an app for visualizing music using the Tonnetz · GitHub"
+[3]: https://www.musedlab.org/groovepizza "<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> <title>Groove Pizza – NYU Music Experience Design Lab"
+[4]: https://muted.io/ "Magical Music Theory Tools to Learn Music Online for Free"
+[5]: https://store.steampowered.com/app/1727420/Midinous/ "Midinous on Steam"
+[6]: https://nodalmusic.com/ "Nodal – Generative Music Software"
+[7]: https://apps.apple.com/us/app/fugue-machine-midi-sequencer/id1014191410 "‎Fugue Machine : MIDI Sequencer App - App Store"
+[8]: https://www.hooktheory.com/hookpad "Hookpad Songwriting Software: Create Amazing Music"
