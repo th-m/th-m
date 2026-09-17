@@ -30,6 +30,18 @@ const notes = (x: unknown) =>
     16,
     (n) => obj(n) && int(n.pitch, 0, 127) && num(n.duration, 0.125, 16),
   );
+const timedEvents = (x: unknown) =>
+  arr(
+    x,
+    1,
+    16,
+    (event) =>
+      obj(event) &&
+      str(event.id) &&
+      int(event.pitch, 0, 127) &&
+      num(event.start, 0, 32) &&
+      num(event.duration, 0.125, 16),
+  ) && unique(x as any[], (event) => event.id);
 function dataValid(s: Record<string, unknown>): boolean {
   const d = s.data;
   if (!obj(d)) return false;
@@ -196,6 +208,90 @@ function dataValid(s: Record<string, unknown>): boolean {
         int(d.a, 0, 6) &&
         int(d.b, 0, 6) &&
         d.a !== d.b
+      );
+    case "atlas":
+      return (
+        obj(d.source) &&
+        obj(d.selected) &&
+        int(d.source.root, 0, 11) &&
+        int(d.selected.root, 0, 11) &&
+        ["major", "minor", "dim"].includes(d.source.quality as string) &&
+        ["major", "minor", "dim"].includes(d.selected.quality as string) &&
+        arr(d.pins, 0, 3, (n) => int(n, 0, 11)) &&
+        unique(d.pins)
+      );
+    case "weave":
+      return (
+        timedEvents(d.source) &&
+        int(d.delay, 0, 16) &&
+        int(d.transpose, -24, 24) &&
+        typeof d.reversed === "boolean" &&
+        (d.source as any[]).every((event) => event.pitch + (d.transpose as number) >= 0 && event.pitch + (d.transpose as number) <= 127)
+      );
+    case "recipe":
+      return (
+        notes(d.source) &&
+        int(d.repeats, 1, 4) &&
+        int(d.targetCopy, 1, d.repeats as number) &&
+        int(d.transpose, -24, 24) &&
+        num(d.shortenEnding, 0, 8) &&
+        (d.source as any[]).at(-1).duration - (d.shortenEnding as number) >= 0.125 &&
+        (d.source as any[]).every((note) => note.pitch + (d.transpose as number) >= 0 && note.pitch + (d.transpose as number) <= 127)
+      );
+    case "gesture": {
+      const step = d.sampleStep as number,
+        points = d.points as any[];
+      return (
+        [0.25, 0.5, 1].includes(step) &&
+        int(d.root, 0, 11) &&
+        int(d.mode, 0, 6) &&
+        arr(points, 2, 16, (point) =>
+          obj(point) && str(point.id) && num(point.beat, 0, 16) && num(point.value, 0, 127),
+        ) &&
+        unique(points, (point) => point.id) &&
+        points[0].beat === 0 &&
+        points.every((point, index) =>
+          (index === 0 || point.beat > points[index - 1].beat) &&
+          Math.abs(point.beat / step - Math.round(point.beat / step)) < 0.000001,
+        ) &&
+        Math.floor(points.at(-1).beat / step) + 1 <= 16
+      );
+    }
+    case "rhythmGarden":
+      return (
+        [8, 16, 32].includes(d.width as number) &&
+        int(d.rule, 0, 255) &&
+        ["fixed-zero", "cyclic"].includes(d.edgeMode as string) &&
+        arr(d.seed, d.width as number, d.width as number, (value) => typeof value === "boolean") &&
+        int(d.generations, 1, 16) &&
+        int(d.selectedGeneration, 0, d.generations as number)
+      );
+    case "journey": {
+      const phrases = d.phrases as any[], choices = d.choices as any[];
+      return (
+        arr(phrases, 2, 16, (phrase) => obj(phrase) && str(phrase.id) && str(phrase.name) && notes(phrase.notes) && ["call", "answer", "echo", "turn"].includes(phrase.role as string) && int(phrase.maxVisits, 1, 16)) &&
+        unique(phrases, (phrase) => phrase.id) &&
+        arr(choices, 1, 64, (choice) => obj(choice) && str(choice.id) && phrases.some((phrase) => phrase.id === choice.from) && phrases.some((phrase) => phrase.id === choice.to) && int(choice.weight, 0, 10) && ["continue", "answer", "return", "turn"].includes(choice.intent as string)) &&
+        unique(choices, (choice) => choice.id) &&
+        phrases.some((phrase) => phrase.id === d.start) &&
+        int(d.seed, 0, 9999) && int(d.steps, 1, 32)
+      );
+    }
+    case "landscape":
+      return (
+        notes(d.source) &&
+        arr(d.anchors, 2, 8, (anchor) => obj(anchor) && str(anchor.id) && str(anchor.name) && num(anchor.x, 0, 1) && num(anchor.y, 0, 1) && num(anchor.activity, 0.25, 1) && int(anchor.register, -24, 24) && num(anchor.durationScale, 0.5, 2)) &&
+        unique(d.anchors as any[], (anchor) => anchor.id) &&
+        obj(d.cursor) && num(d.cursor.x, 0, 1) && num(d.cursor.y, 0, 1) &&
+        arr(d.committed, 0, 32, (item) => obj(item) && str(item.id) && str(item.name) && notes(item.notes))
+      );
+    case "counterpoint":
+      return (
+        arr(d.bass, 6, 6, (pitch) => int(pitch, 0, 127)) &&
+        arr(d.soprano, 6, 6, (pitch) => int(pitch, 0, 127)) &&
+        ["bass", "soprano"].includes(d.anchor as string) &&
+        obj(d.pins) && Object.entries(d.pins).every(([index, pitch]) => int(+index, 0, 5) && int(pitch, 0, 127)) &&
+        int(d.inspectBeat, 0, 5)
       );
     default:
       return false;

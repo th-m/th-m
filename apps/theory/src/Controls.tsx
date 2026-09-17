@@ -27,6 +27,8 @@ import {
   common,
   pitchName,
   totalDuration,
+  landscapePreview,
+  counterpointCandidates,
 } from "./music";
 import type { GNode } from "./graphs";
 export const Field = ({
@@ -181,6 +183,64 @@ export function NoteEdit({
       <button type="submit" className="small-button">
         {button}
       </button>
+    </form>
+  );
+}
+export function TimedEventEdit({
+  events,
+  onApply,
+}: {
+  events: Data["weave"]["source"];
+  onApply: (events: Data["weave"]["source"]) => void;
+}) {
+  const [text, setText] = useState(
+      events.map((event) => `${noteName(event.pitch)}@${event.start}:${event.duration}`).join(" "),
+    ),
+    [error, setError] = useState("");
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const parsed = text.trim().split(/\s+/).map((token) => {
+          const match = /^([^@]+)@([\d.]+):([\d.]+)$/.exec(token);
+          return match && {
+            pitch: parseNote(match[1]),
+            start: Number(match[2]),
+            duration: Number(match[3]),
+          };
+        });
+        if (
+          !parsed.length ||
+          parsed.length > 16 ||
+          parsed.some(
+            (item) =>
+              !item ||
+              item.pitch === null ||
+              !Number.isFinite(item.start) ||
+              !Number.isFinite(item.duration) ||
+              item.start < 0 ||
+              item.start > 32 ||
+              item.duration < 0.125 ||
+              item.duration > 16,
+          )
+        ) {
+          setError("Use 1–16 events such as C4@0:0.5 E4@0.5:0.5. Starts: 0–32; durations: 0.125–16 beats.");
+          return;
+        }
+        setError("");
+        onApply(parsed.map((item, index) => ({ id: events[index]?.id ?? uid(), pitch: item!.pitch!, start: item!.start, duration: item!.duration })));
+      }}
+    >
+      <Field label="Source events · pitch@start:beats">
+        <textarea
+          aria-label="Source events · pitch@start:beats"
+          rows={3}
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+        />
+      </Field>
+      {error && <p role="alert" className="error">{error}</p>}
+      <button type="submit" className="small-button">Update source events</button>
     </form>
   );
 }
@@ -388,6 +448,22 @@ export function Controls(props: Props) {
       return <SpiralControls {...props} study={s} />;
     case "form":
       return <FormControls {...props} study={s} />;
+    case "atlas":
+      return <AtlasControls {...props} study={s} />;
+    case "weave":
+      return <WeaveControls {...props} study={s} />;
+    case "recipe":
+      return <RecipeControls {...props} study={s} />;
+    case "gesture":
+      return <GestureControls {...props} study={s} />;
+    case "rhythmGarden":
+      return <RhythmGardenControls {...props} study={s} />;
+    case "journey":
+      return <JourneyControls {...props} study={s} />;
+    case "landscape":
+      return <LandscapeControls {...props} study={s} />;
+    case "counterpoint":
+      return <CounterpointControls {...props} study={s} />;
     case "scale": {
       const d = s.data,
         change = (data: Partial<typeof d>) =>
@@ -472,6 +548,332 @@ export function Controls(props: Props) {
       );
     }
   }
+}
+function RhythmGardenControls({ study: s, edit }: Props & { study: Extract<Study, { kind: "rhythmGarden" }> }) {
+  const d = s.data;
+  return <>
+    <Select label="Grid width" value={d.width} options={[8, 16, 32].map((value) => ({ label: `${value} steps`, value }))} onChange={(width) => edit((study) => {
+      if (study.kind === "rhythmGarden") {
+        const next = +width as 8 | 16 | 32;
+        study.data.width = next;
+        study.data.seed = Array.from({ length: next }, (_, i) => study.data.seed[Math.floor(i * study.data.seed.length / next)] ?? false);
+        study.data.selectedGeneration = Math.min(study.data.selectedGeneration, study.data.generations);
+      }
+    })} />
+    <NumberField label="Elementary rule" value={d.rule} min={0} max={255} onChange={(rule) => edit((study) => { if (study.kind === "rhythmGarden") study.data.rule = rule; })} />
+    <Select label="Edge behavior" value={d.edgeMode} options={[{ label: "Fixed-zero edges", value: "fixed-zero" }, { label: "Cyclic edges", value: "cyclic" }]} onChange={(edgeMode) => edit((study) => { if (study.kind === "rhythmGarden") study.data.edgeMode = edgeMode as typeof d.edgeMode; })} />
+    <NumberField label="Derived generations" value={d.generations} min={1} max={16} onChange={(generations) => edit((study) => { if (study.kind === "rhythmGarden") { study.data.generations = generations; study.data.selectedGeneration = Math.min(study.data.selectedGeneration, generations); } })} />
+    <NumberField label="Generation to inspect or capture" value={d.selectedGeneration} min={0} max={d.generations} onChange={(selectedGeneration) => edit((study) => { if (study.kind === "rhythmGarden") study.data.selectedGeneration = selectedGeneration; })} />
+    <Field label="Paint seed · hits / rests"><div className="chip-grid">{d.seed.map((live, index) => <button key={index} aria-pressed={live} onClick={() => edit((study) => { if (study.kind === "rhythmGarden") study.data.seed[index] = !study.data.seed[index]; })}>{live ? "●" : "○"} {index + 1}</button>)}</div></Field>
+    <p className="hint">A row is an onset proposal, never another bar. Rule 90 means left XOR right; capture stays explicit.</p>
+  </>;
+}
+function JourneyControls({ study: s, edit, node }: Props & { study: Extract<Study, { kind: "journey" }> }) {
+  const d = s.data;
+  const selected = d.phrases.find((phrase) => phrase.id === node?.id);
+  return <>
+    <Select label="Starting phrase" value={d.start} options={d.phrases.map((phrase) => ({ label: phrase.name, value: phrase.id }))} onChange={(start) => edit((study) => { if (study.kind === "journey") study.data.start = start; }, true)} />
+    <NumberField label="Route seed" value={d.seed} min={0} max={9999} onChange={(seed) => edit((study) => { if (study.kind === "journey") study.data.seed = seed; }, true)} />
+    <NumberField label="Preview visits" value={d.steps} min={1} max={32} onChange={(steps) => edit((study) => { if (study.kind === "journey") study.data.steps = steps; }, true)} />
+    <Field label="Choice weights"><div className="choice-list">{d.choices.map((choice) => { const from = d.phrases.find((phrase) => phrase.id === choice.from)!; const to = d.phrases.find((phrase) => phrase.id === choice.to)!; return <div key={choice.id}><span>{from.name} → {to.name}</span><input aria-label={`${from.name} to ${to.name} weight`} type="range" min="0" max="10" value={choice.weight} onChange={(event) => edit((study) => { if (study.kind === "journey") study.data.choices.find((item) => item.id === choice.id)!.weight = +event.target.value; }, true)} /><output>{choice.weight}</output></div>; })}</div></Field>
+    {selected && <NoteEdit notes={selected.notes} label={`${selected.name} notes · pitch:beats`} button="Update selected phrase" onApply={(notes) => edit((study) => { if (study.kind === "journey") study.data.phrases.find((phrase) => phrase.id === selected.id)!.notes = notes; })} />}
+    <p className="hint">Weights are relative only among eligible choices at each decision. A saved seed keeps the preview repeatable.</p>
+  </>;
+}
+function LandscapeControls({ study: s, edit }: Props & { study: Extract<Study, { kind: "landscape" }> }) {
+  const d = s.data;
+  const preview = landscapePreview(d.source, d.anchors, d.cursor);
+  return <>
+    <NoteEdit notes={d.source} label="Source motif · pitch:beats" button="Update source" onApply={(source) => edit((study) => { if (study.kind === "landscape") study.data.source = source; })} />
+    <NumberField label="Horizontal cursor · sparse to busy" value={d.cursor.x} min={0} max={1} step={0.05} onChange={(x) => edit((study) => { if (study.kind === "landscape") study.data.cursor.x = x; })} />
+    <NumberField label="Vertical cursor · low to high" value={d.cursor.y} min={0} max={1} step={0.05} onChange={(y) => edit((study) => { if (study.kind === "landscape") study.data.cursor.y = y; })} />
+    <Field label="Anchors"><div className="choice-list">{d.anchors.map((anchor) => <div key={anchor.id}><span>{anchor.name}</span><button onClick={() => edit((study) => { if (study.kind === "landscape") { study.data.cursor = { x: anchor.x, y: anchor.y }; } })}>Visit</button></div>)}</div></Field>
+    <button className="small-button" onClick={() => edit((study) => { if (study.kind === "landscape") study.data.committed.push({ id: uid(), name: `Candidate ${study.data.committed.length + 1}`, notes: structuredClone(preview.notes) }); })}>Commit candidate snapshot</button>
+    <p className="hint">The cursor derives a candidate; it does not save it. Activity keeps the earliest source notes, register moves them by semitones.</p>
+  </>;
+}
+function CounterpointControls({ study: s, edit }: Props & { study: Extract<Study, { kind: "counterpoint" }> }) {
+  const d = s.data;
+  const candidates = counterpointCandidates(d.bass, d.soprano, d.anchor, d.pins, d.inspectBeat);
+  return <>
+    <Select label="Pinned voice" value={d.anchor} options={[{ label: "Bass fixed · choose soprano", value: "bass" }, { label: "Soprano fixed · choose bass", value: "soprano" }]} onChange={(anchor) => edit((study) => { if (study.kind === "counterpoint") study.data.anchor = anchor as typeof d.anchor; }, true)} />
+    <NumberField label="Beat to inspect" value={d.inspectBeat + 1} min={1} max={6} onChange={(beat) => edit((study) => { if (study.kind === "counterpoint") study.data.inspectBeat = beat - 1; })} />
+    <Field label="Pinned candidate · beat"><div className="chip-grid">{d.soprano.map((_, index) => <button key={index} aria-pressed={d.pins[index] !== undefined} onClick={() => edit((study) => { if (study.kind === "counterpoint") { if (study.data.pins[index] === undefined) study.data.pins[index] = (study.data.anchor === "bass" ? study.data.soprano : study.data.bass)[index]; else delete study.data.pins[index]; } }, true)}>Beat {index + 1}{d.pins[index] === undefined ? " · open" : " · pinned"}</button>)}</div></Field>
+    <Field label="Possible notes at inspected beat"><div className="chip-grid">{candidates.map((candidate) => <button key={candidate.pitch} disabled={!candidate.accepted} onClick={() => edit((study) => { if (study.kind === "counterpoint") { study.data.pins[study.data.inspectBeat] = candidate.pitch; const line = study.data.anchor === "bass" ? study.data.soprano : study.data.bass; line[study.data.inspectBeat] = candidate.pitch; } }, true)}>{noteName(candidate.pitch)} · {candidate.accepted ? "use" : candidate.reason}</button>)}</div></Field>
+    <p className="hint">This is one C-major two-voice consonance profile: consonant vertical intervals, no crossing, octave ends, and no parallel perfect intervals.</p>
+  </>;
+}
+function AtlasControls({
+  study: s,
+  edit,
+}: Props & { study: Extract<Study, { kind: "atlas" }> }) {
+  const d = s.data;
+  const change = (data: Partial<typeof d>) =>
+    edit((study) => {
+      if (study.kind === "atlas") Object.assign(study.data, data);
+    });
+  return (
+    <>
+      <Select
+        label="Source chord · root"
+        value={d.source.root}
+        options={pcOptions}
+        onChange={(root) => change({ source: { ...d.source, root: +root } })}
+      />
+      <Select
+        label="Source chord · quality"
+        value={d.source.quality}
+        options={["major", "minor", "dim"]}
+        onChange={(quality) =>
+          change({ source: { ...d.source, quality: quality as typeof d.source.quality } })
+        }
+      />
+      <Field label="Held pitch classes">
+        <div className="chip-grid">
+          {sharpNames.map((name, pitch) => (
+            <button
+              key={name}
+              aria-pressed={d.pins.includes(pitch)}
+              disabled={!d.pins.includes(pitch) && d.pins.length >= 3}
+              onClick={() =>
+                change({
+                  pins: d.pins.includes(pitch)
+                    ? d.pins.filter((value) => value !== pitch)
+                    : [...d.pins, pitch],
+                })
+              }
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+      </Field>
+      <p className="hint">
+        Held notes filter triads by pitch class. A shared note does not by itself
+        prove a good progression, voicing, or key.
+      </p>
+    </>
+  );
+}
+function WeaveControls({
+  study: s,
+  edit,
+}: Props & { study: Extract<Study, { kind: "weave" }> }) {
+  const d = s.data;
+  return (
+    <>
+      <TimedEventEdit
+        events={d.source}
+        onApply={(source) =>
+          edit((study) => {
+            if (study.kind === "weave") study.data.source = source;
+          })
+        }
+      />
+      <NumberField
+        label="Follower delay · beats"
+        value={d.delay}
+        min={0}
+        max={16}
+        step={0.5}
+        onChange={(delay) =>
+          edit((study) => {
+            if (study.kind === "weave") study.data.delay = delay;
+          })
+        }
+      />
+      <NumberField
+        label="Follower transposition · semitones"
+        value={d.transpose}
+        min={-24}
+        max={24}
+        onChange={(transpose) =>
+          edit((study) => {
+            if (study.kind === "weave") study.data.transpose = transpose;
+          })
+        }
+      />
+      <Field label="Follower order">
+        <button
+          aria-pressed={d.reversed}
+          onClick={() =>
+            edit((study) => {
+              if (study.kind === "weave") study.data.reversed = !study.data.reversed;
+            })
+          }
+        >
+          {d.reversed ? "Reversed phrase" : "Original phrase order"}
+        </button>
+      </Field>
+      <p className="hint">The displayed follower is derived from the saved source. Pan and zoom do not retime it.</p>
+    </>
+  );
+}
+function RecipeControls({
+  study: s,
+  edit,
+}: Props & { study: Extract<Study, { kind: "recipe" }> }) {
+  const d = s.data;
+  return (
+    <>
+      <NoteEdit
+        notes={d.source}
+        label="Recipe source · pitch:beats"
+        button="Update source"
+        onApply={(source) =>
+          edit((study) => {
+            if (study.kind === "recipe") study.data.source = source;
+          })
+        }
+      />
+      <NumberField
+        label="Sequential copies"
+        value={d.repeats}
+        min={1}
+        max={4}
+        onChange={(repeats) =>
+          edit((study) => {
+            if (study.kind === "recipe") {
+              study.data.repeats = repeats;
+              study.data.targetCopy = Math.min(study.data.targetCopy, repeats);
+            }
+          })
+        }
+      />
+      <NumberField
+        label="Edited copy"
+        value={d.targetCopy}
+        min={1}
+        max={d.repeats}
+        onChange={(targetCopy) =>
+          edit((study) => {
+            if (study.kind === "recipe") study.data.targetCopy = targetCopy;
+          })
+        }
+      />
+      <NumberField
+        label="Move edited copy · semitones"
+        value={d.transpose}
+        min={-24}
+        max={24}
+        onChange={(transpose) =>
+          edit((study) => {
+            if (study.kind === "recipe") study.data.transpose = transpose;
+          })
+        }
+      />
+      <NumberField
+        label="Shorten edited ending · beats"
+        value={d.shortenEnding}
+        min={0}
+        max={Math.max(0, d.source.at(-1)!.duration - 0.125)}
+        step={0.125}
+        onChange={(shortenEnding) =>
+          edit((study) => {
+            if (study.kind === "recipe") study.data.shortenEnding = shortenEnding;
+          })
+        }
+      />
+      <p className="hint">A recipe stores operations, not card positions. The rows are recalculated from the source and the named copy.</p>
+    </>
+  );
+}
+function GestureControls({
+  study: s,
+  edit,
+}: Props & { study: Extract<Study, { kind: "gesture" }> }) {
+  const d = s.data;
+  const [text, setText] = useState(
+      d.points.map((point) => `${point.beat}@${noteName(Math.round(point.value))}`).join(" "),
+    ),
+    [error, setError] = useState("");
+  return (
+    <>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          const points = text.trim().split(/\s+/).map((token) => {
+            const match = /^([\d.]+)@(.+)$/.exec(token);
+            return match && { beat: Number(match[1]), value: parseNote(match[2]) };
+          });
+          const step = d.sampleStep;
+          if (
+            points.length < 2 ||
+            points.length > 16 ||
+            points.some(
+              (point, index) =>
+                !point ||
+                point.value === null ||
+                !Number.isFinite(point.beat) ||
+                point.beat < 0 ||
+                point.beat > 16 ||
+                (index === 0 ? point.beat !== 0 : point.beat <= points[index - 1]!.beat) ||
+                Math.abs(point.beat / step - Math.round(point.beat / step)) > 0.000001,
+            ) ||
+            Math.floor(points.at(-1)!.beat / step) + 1 > 16
+          ) {
+            setError(`Use 2–16 ordered points such as 0@C4 1@E4. Times must start at 0, follow the ${step}-beat grid, and produce at most 16 samples.`);
+            return;
+          }
+          setError("");
+          edit((study) => {
+            if (study.kind === "gesture")
+              study.data.points = points.map((point, index) => ({
+                id: study.data.points[index]?.id ?? uid(),
+                beat: point!.beat,
+                value: point!.value!,
+              }));
+          });
+        }}
+      >
+        <Field label="Contour points · beat@pitch">
+          <textarea
+            aria-label="Contour points · beat@pitch"
+            rows={3}
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+          />
+        </Field>
+        {error && <p role="alert" className="error">{error}</p>}
+        <button type="submit" className="small-button">Update contour</button>
+      </form>
+      <Select
+        label="Scale root"
+        value={d.root}
+        options={pcOptions}
+        onChange={(root) =>
+          edit((study) => {
+            if (study.kind === "gesture") study.data.root = +root;
+          })
+        }
+      />
+      <Select
+        label="Scale mode"
+        value={d.mode}
+        options={modes.map((label, value) => ({ label, value }))}
+        onChange={(mode) =>
+          edit((study) => {
+            if (study.kind === "gesture") study.data.mode = +mode;
+          })
+        }
+      />
+      <Select
+        label="Sampling grid"
+        value={d.sampleStep}
+        options={[
+          { label: "Quarter beat", value: 0.25 },
+          { label: "Half beat", value: 0.5 },
+          { label: "Whole beat", value: 1 },
+        ]}
+        onChange={(sampleStep) =>
+          edit((study) => {
+            if (study.kind === "gesture") study.data.sampleStep = +sampleStep as 0.25 | 0.5 | 1;
+          })
+        }
+      />
+      <p className="hint">The contour is linear. Each sample shows raw value, rounding, and scale snap before it becomes a note.</p>
+    </>
+  );
 }
 function RhythmControls({
   study: s,

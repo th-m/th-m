@@ -13,6 +13,19 @@ import {
   parseNotes,
   spellScale,
   diatonic,
+  atlasChords,
+  chordContainsPins,
+  weaveEvents,
+  recipeEvents,
+  gestureSamples,
+  gestureNotes,
+  gardenRows,
+  gardenHits,
+  journeyPreview,
+  landscapePreview,
+  consonantInterval,
+  parallelPerfect,
+  counterpointCandidates,
 } from "../src/music";
 import {
   newStudy,
@@ -109,6 +122,67 @@ describe("musical relationships", () => {
       "F",
       "G",
     ]);
+  });
+  it("filters the atlas by pitch-class membership without claiming voicing", () => {
+    const c = { root: 0, quality: "major" as const };
+    const a = { root: 9, quality: "minor" as const };
+    expect(atlasChords()).toHaveLength(36);
+    expect(chordContainsPins(c, [0, 4])).toBe(true);
+    expect(chordContainsPins(a, [0, 4])).toBe(true);
+    expect(chordContainsPins({ root: 7, quality: "major" }, [0, 4])).toBe(false);
+    expect(chordDifference(c, a)).toEqual({ shared: [0, 4], removed: [7], added: [9] });
+  });
+  it("derives a delayed follower and a bounded sequential recipe", () => {
+    const weave = newStudy("weave");
+    expect(weaveEvents(weave.data.source, 1, 7, false).map((event) => [event.pitch, event.start, event.duration])).toEqual([
+      [67, 1, 0.5], [71, 1.5, 0.5], [74, 2, 1], [69, 3, 0.5],
+    ]);
+    const reverse = weaveEvents(weave.data.source, 1, 7, true);
+    expect(reverse.map((event) => event.start)).toEqual([3, 2.5, 1.5, 1]);
+    const recipe = newStudy("recipe");
+    const generated = recipeEvents(recipe.data.source, 2, 2, 2, 0.5);
+    expect(generated.map((event) => [event.pitch, event.start, event.duration])).toEqual([
+      [60, 0, 1], [64, 1, 1], [67, 2, 1], [62, 3, 1],
+      [62, 4, 1], [66, 5, 1], [69, 6, 1], [64, 7, 0.5],
+    ]);
+  });
+  it("samples a linear gesture with explicit rounding and scale snapping", () => {
+    const gesture = newStudy("gesture");
+    const samples = gestureSamples(
+      gesture.data.points,
+      gesture.data.sampleStep,
+      gesture.data.root,
+      gesture.data.mode,
+    );
+    expect(samples.map((sample) => sample.raw)).toEqual([60, 62, 64, 65.5, 67, 64.5, 62]);
+    expect(samples.map((sample) => sample.rounded)).toEqual([60, 62, 64, 66, 67, 65, 62]);
+    expect(samples.map((sample) => sample.pitch)).toEqual([60, 62, 64, 67, 67, 65, 62]);
+    expect(gestureNotes(gesture.data.points, 0.5, 0, 0)).toHaveLength(7);
+  });
+  it("grows Rule 90 rows and keeps a captured onset row independent", () => {
+    const rows = gardenRows([false, false, false, true, false, false, false, false], 90, "fixed-zero", 3);
+    expect(rows.map((row) => row.map((cell) => +cell).join(""))).toEqual(["00010000", "00101000", "01000100", "10101010"]);
+    expect(gardenHits(rows[3])).toEqual([0, 2, 4, 6]);
+    expect(gardenRows([true, false, false, false, false, false, false, false], 90, "fixed-zero", 1)[1]).not.toEqual(gardenRows([true, false, false, false, false, false, false, false], 90, "cyclic", 1)[1]);
+  });
+  it("replays weighted phrase choices from the saved seed", () => {
+    const journey = newStudy("journey"), { phrases, choices, start, seed, steps } = journey.data;
+    expect(journeyPreview(phrases, choices, start, seed, steps)).toEqual(journeyPreview(phrases, choices, start, seed, steps));
+    expect(journeyPreview(phrases, choices, start, seed, steps)).toHaveLength(steps);
+  });
+  it("blends the Landscape centre into three original-register events", () => {
+    const landscape = newStudy("landscape"), preview = landscapePreview(landscape.data.source, landscape.data.anchors, landscape.data.cursor);
+    expect(preview.weights.map((weight) => weight.value)).toEqual([0.25, 0.25, 0.25, 0.25]);
+    expect(preview.activity).toBe(0.75);
+    expect(preview.register).toBe(0);
+    expect(preview.notes.map((note) => note.pitch)).toEqual([60, 64, 67]);
+  });
+  it("identifies consonance and named parallel-perfect rejection", () => {
+    expect(consonantInterval(48, 60)).toBe(true);
+    expect(parallelPerfect(48, 60, 50, 62)).toBe(true);
+    const counterpoint = newStudy("counterpoint");
+    const blocked = counterpointCandidates(counterpoint.data.bass, counterpoint.data.soprano, "bass", { 1: 62 }, 1)[0];
+    expect(blocked).toMatchObject({ accepted: false, reason: "parallel perfect interval" });
   });
   it("spells diatonic collections using letters rather than pitch-class shortcuts", () => {
     expect(spellScale(5, modePcs(5, 0))).toEqual([

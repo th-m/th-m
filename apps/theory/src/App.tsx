@@ -7,6 +7,8 @@ import {
   duplicateStudy,
   toSpiral,
   toForm,
+  toMotif,
+  toMandala,
   commit,
   undo,
   redo,
@@ -24,7 +26,7 @@ import {
 } from "./storage";
 import { Canvas } from "./Canvas";
 import { Controls, TextEdit } from "./Controls";
-import { modePcs, pitchName } from "./music";
+import { gestureNotes, gardenRows, landscapePreview, modePcs, pitchName } from "./music";
 function initial() {
   try {
     return loadWorkspace(window.localStorage);
@@ -361,12 +363,12 @@ export default function App() {
         </div>
       </header>
       <aside className="sidebar">
-        <div className="eyebrow">EIGHT WAYS TO EXPLORE</div>
+        <div className="eyebrow">SIXTEEN WAYS TO EXPLORE</div>
         <nav aria-label="Pattern families">
           {families.map((f, i) => (
             <button
               key={f.kind}
-              aria-label={"0" + (i + 1) + " " + f.short}
+              aria-label={String(i + 1).padStart(2, "0") + " " + f.short}
               className={"family " + (s.kind === f.kind ? "active" : "")}
               aria-current={s.kind === f.kind ? "page" : undefined}
               onClick={() => choose(f.kind)}
@@ -374,7 +376,7 @@ export default function App() {
             >
               <Glyph kind={f.kind} />
               <span>
-                <small>0{i + 1}</small>
+                <small>{String(i + 1).padStart(2, "0")}</small>
                 {f.short}
               </span>
               <span className="family-arrow">↗</span>
@@ -400,7 +402,7 @@ export default function App() {
         <div className="page-heading">
           <div>
             <div className="eyebrow">
-              EXPLORER / 0{families.indexOf(family) + 1}
+              EXPLORER / {String(families.indexOf(family) + 1).padStart(2, "0")}
             </div>
             <h1>{family.name}</h1>
             <p>{family.question}</p>
@@ -524,6 +526,68 @@ export default function App() {
                     Add example variations
                   </button>
                 )}
+              </section>
+            )}
+            {s.kind === "atlas" && (
+              <section className="motif-intro" aria-label="How the Shared-note Atlas works">
+                <div className="eyebrow">HOLD A NOTE · FIND ANOTHER HOME</div>
+                <h2>Keep C and E. See what can contain them.</h2>
+                <p>
+                  Lines mean pitch-class membership only. The default compares C major
+                  with A minor: C and E stay; G changes to A.
+                </p>
+              </section>
+            )}
+            {s.kind === "weave" && (
+              <section className="motif-intro" aria-label="How the Time Weave works">
+                <div className="eyebrow">ONE PHRASE · TWO ENTRIES</div>
+                <h2>Place a follower. Read the overlap.</h2>
+                <p>Left to right is musical time. Each line links an original event to its derived follower.</p>
+              </section>
+            )}
+            {s.kind === "recipe" && (
+              <section className="motif-intro" aria-label="How Pattern Recipes work">
+                <div className="eyebrow">ONE IDEA · NAMED OPERATIONS</div>
+                <h2>Repeat it, change one copy, inspect the result.</h2>
+                <p>The amber row is the chosen copy. Its changes come from controls, not from dragging generated notes.</p>
+              </section>
+            )}
+            {s.kind === "gesture" && (
+              <section className="motif-intro" aria-label="How Gesture Score works">
+                <div className="eyebrow">DRAW A LINE · INSPECT THE NOTES</div>
+                <h2>Shape a contour. See each musical decision.</h2>
+                <p>
+                  Hexagons are raw control points. Cards are samples after rounding and
+                  scale snapping; they can become an independent Motif Tree snapshot.
+                </p>
+              </section>
+            )}
+            {s.kind === "rhythmGarden" && (
+              <section className="motif-intro" aria-label="How Rhythm Garden works">
+                <div className="eyebrow">PAINT A SEED · GROW ONSET ROWS</div>
+                <h2>Let one hit unfold into a pattern.</h2>
+                <p>Each row is a calculated onset proposal. Its vertical position is generation, not musical time; capture makes a separate Mandala study.</p>
+              </section>
+            )}
+            {s.kind === "journey" && (
+              <section className="motif-intro" aria-label="How Phrase Journeys work">
+                <div className="eyebrow">REUSABLE PHRASES · WEIGHTED CHOICES</div>
+                <h2>Keep the ideas. Explore a route.</h2>
+                <p>Cards are phrases. Arrow weights only matter among the choices that are currently eligible, and the seed keeps the preview repeatable.</p>
+              </section>
+            )}
+            {s.kind === "landscape" && (
+              <section className="motif-intro" aria-label="How Variation Landscape works">
+                <div className="eyebrow">FOUR ANCHORS · ONE EXPLAINABLE CANDIDATE</div>
+                <h2>Move between sparse, busy, low, and high.</h2>
+                <p>The cursor blends numeric controls, then makes a visible discrete note choice. It never invents an untraceable melody.</p>
+              </section>
+            )}
+            {s.kind === "counterpoint" && (
+              <section className="motif-intro" aria-label="How Counterpoint Builder works">
+                <div className="eyebrow">TWO VOICES · ONE CLEAR TEACHING PROFILE</div>
+                <h2>Pin one voice. Inspect the other.</h2>
+                <p>It checks consonant vertical intervals, no crossing, and parallel perfects in a deliberately narrow C-major exercise.</p>
               </section>
             )}
 
@@ -706,12 +770,61 @@ export default function App() {
                       Open chord in Register Spiral ↗
                     </button>
                   )}
+                  {node?.chord && s.kind === "atlas" && (
+                    <button
+                      className="wide-button"
+                      onClick={() =>
+                        edit((study) => {
+                          if (study.kind === "atlas") study.data.selected = node.chord!;
+                        })
+                      }
+                    >
+                      Compare with source chord
+                    </button>
+                  )}
                   {node?.motif && s.kind === "motif" && (
                     <button
                       className="wide-button"
                       onClick={() => add(toForm(s, node.motif!))}
                     >
                       Add motif to Form Map ↗
+                    </button>
+                  )}
+                  {s.kind === "gesture" && (
+                    <button
+                      className="wide-button"
+                      onClick={() =>
+                        add(
+                          toMotif(
+                            s,
+                            gestureNotes(
+                              s.data.points,
+                              s.data.sampleStep,
+                              s.data.root,
+                              s.data.mode,
+                            ),
+                            "Quantized contour",
+                          ),
+                        )
+                      }
+                    >
+                      Copy as Motif snapshot ↗
+                    </button>
+                  )}
+                  {s.kind === "rhythmGarden" && (
+                    <button className="wide-button" onClick={() => {
+                      const rows = gardenRows(s.data.seed, s.data.rule, s.data.edgeMode, s.data.generations);
+                      add(toMandala(s, rows[s.data.selectedGeneration], `Garden generation ${s.data.selectedGeneration}`));
+                    }}>
+                      Capture selected row in Rhythm Mandala ↗
+                    </button>
+                  )}
+                  {s.kind === "landscape" && (
+                    <button className="wide-button" onClick={() => {
+                      const preview = landscapePreview(s.data.source, s.data.anchors, s.data.cursor);
+                      add(toMotif(s, preview.notes, "Landscape candidate"));
+                    }}>
+                      Copy candidate as Motif snapshot ↗
                     </button>
                   )}
                   {s.kind === "scale" && node?.meta?.mode !== undefined && (
