@@ -31,6 +31,7 @@ await requireHtml("brand/index.html", "Measured to stay itself at every scale.")
 await requireHtml("embedding-space/index.html", "Meaning has neighborhoods, not addresses.");
 await requireHtml("llm-visualization/index.html", "Inside a language model");
 await requireHtml("laws/index.html", "Laws for making systems legible.");
+await requireHtml("resume/index.html", "Architecture is useful when it changes what a team can do.");
 await requireHtml("writing/index.html", "Ideas with enough structure to navigate.");
 await requireHtml("_shell.html", "__TSR");
 

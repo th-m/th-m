@@ -39,6 +39,7 @@ function publishedPages() {
     { path: "/laws", prerender: { enabled: true, outputPath: "/laws/index.html" } },
     { path: "/login", prerender: { enabled: true, outputPath: "/login/index.html" } },
     { path: "/relationship-graph", prerender: { enabled: true, outputPath: "/relationship-graph/index.html" } },
+    { path: "/resume", prerender: { enabled: true, outputPath: "/resume/index.html" } },
     { path: "/writing", prerender: { enabled: true, outputPath: "/writing/index.html" } },
     ...slugs.map((slug) => ({
       path: `/writing/${slug}`,

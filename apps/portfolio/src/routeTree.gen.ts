@@ -17,6 +17,7 @@ import { Route as LawsRouteImport } from './routes/laws'
 import { Route as LlmVisualizationRouteImport } from './routes/llm-visualization'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RelationshipGraphRouteImport } from './routes/relationship-graph'
+import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as SpaShellRouteImport } from './routes/spa-shell'
 import { Route as WritingIndexRouteImport } from './routes/writing.index'
 import { Route as WritingSlugRouteImport } from './routes/writing.$slug'
@@ -61,6 +62,11 @@ const RelationshipGraphRoute = RelationshipGraphRouteImport.update({
   path: '/relationship-graph',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResumeRoute = ResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpaShellRoute = SpaShellRouteImport.update({
   id: '/spa-shell',
   path: '/spa-shell',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/llm-visualization': typeof LlmVisualizationRoute
   '/login': typeof LoginRoute
   '/relationship-graph': typeof RelationshipGraphRoute
+  '/resume': typeof ResumeRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing/': typeof WritingIndexRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/llm-visualization': typeof LlmVisualizationRoute
   '/login': typeof LoginRoute
   '/relationship-graph': typeof RelationshipGraphRoute
+  '/resume': typeof ResumeRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing': typeof WritingIndexRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/llm-visualization': typeof LlmVisualizationRoute
   '/login': typeof LoginRoute
   '/relationship-graph': typeof RelationshipGraphRoute
+  '/resume': typeof ResumeRoute
   '/spa-shell': typeof SpaShellRoute
   '/writing/$slug': typeof WritingSlugRoute
   '/writing/': typeof WritingIndexRoute
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
     | '/llm-visualization'
     | '/login'
     | '/relationship-graph'
+    | '/resume'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing/'
@@ -141,6 +151,7 @@ export interface FileRouteTypes {
     | '/llm-visualization'
     | '/login'
     | '/relationship-graph'
+    | '/resume'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing'
@@ -154,6 +165,7 @@ export interface FileRouteTypes {
     | '/llm-visualization'
     | '/login'
     | '/relationship-graph'
+    | '/resume'
     | '/spa-shell'
     | '/writing/$slug'
     | '/writing/'
@@ -168,6 +180,7 @@ export interface RootRouteChildren {
   LlmVisualizationRoute: typeof LlmVisualizationRoute
   LoginRoute: typeof LoginRoute
   RelationshipGraphRoute: typeof RelationshipGraphRoute
+  ResumeRoute: typeof ResumeRoute
   SpaShellRoute: typeof SpaShellRoute
   WritingSlugRoute: typeof WritingSlugRoute
   WritingIndexRoute: typeof WritingIndexRoute
@@ -231,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RelationshipGraphRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resume': {
+      id: '/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/spa-shell': {
       id: '/spa-shell'
       path: '/spa-shell'
@@ -264,6 +284,7 @@ const rootRouteChildren: RootRouteChildren = {
   LlmVisualizationRoute: LlmVisualizationRoute,
   LoginRoute: LoginRoute,
   RelationshipGraphRoute: RelationshipGraphRoute,
+  ResumeRoute: ResumeRoute,
   SpaShellRoute: SpaShellRoute,
   WritingSlugRoute: WritingSlugRoute,
   WritingIndexRoute: WritingIndexRoute,
