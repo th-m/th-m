@@ -1,0 +1,66 @@
+{
+  "fileKey": "yviBCbP8XjQzcN2067EgAi",
+  "url": "https://www.figma.com/design/yviBCbP8XjQzcN2067EgAi",
+  "pages": {
+    "compose": "0:1",
+    "foundations": "2:2",
+    "components": "2:3"
+  },
+  "frames": {
+    "compose": "2:79",
+    "inspect": "2:281",
+    "preview": "5:15",
+    "applied": "5:227",
+    "foundations": "2:49"
+  },
+  "componentSets": {
+    "action": "2:41",
+    "chord": "2:48"
+  },
+  "components": {
+    "quietAction": "2:37",
+    "primaryAction": "2:39",
+    "restChord": "2:42",
+    "selectedChord": "2:44",
+    "previewChord": "2:46"
+  },
+  "composeSections": {
+    "orbit": "2:104",
+    "harmony": "2:105",
+    "inspector": "2:106",
+    "phrase": "2:108",
+    "transport": "2:109"
+  },
+  "collections": [
+    "VariableCollectionId:2:4",
+    "VariableCollectionId:2:5"
+  ],
+  "status": "Seventeen editable screens on Compose: four original harmony, eight bell voice, and five weave states. Main workflows checked in presentation mode.",
+  "prototypeUrl": "https://www.figma.com/proto/yviBCbP8XjQzcN2067EgAi/Theory?node-id=2-79&starting-point-node-id=2%3A79",
+  "lastSuccessfulMutation": "Voice-leading weave and focus states; Db7 preview, apply, cancel, and undo; bell entry link and unique flow starting points.",
+  "pending": [
+    "Live audio and unrestricted editing implementation",
+    "Persistent recipe and captured-take state",
+    "Responsive layouts and full accessibility review",
+    "Recursive motif expansion and wider production workflows"
+  ],
+  "voiceFrames": {
+    "shape": "10:53",
+    "inspect": "10:351",
+    "rules": "10:568",
+    "sound": "10:748",
+    "take": "11:97",
+    "rotationPreview": "11:304",
+    "shortDecayPreview": "11:446",
+    "editedTake": "11:566"
+  },
+  "voicePrototypeUrl": "https://www.figma.com/proto/yviBCbP8XjQzcN2067EgAi/Theory?node-id=10-53&starting-point-node-id=10%3A53",
+  "weaveFrames": {
+    "main": "13:141",
+    "upper": "13:384",
+    "lower": "13:548",
+    "preview": "13:712",
+    "applied": "13:885"
+  },
+  "weavePrototypeUrl": "https://www.figma.com/proto/yviBCbP8XjQzcN2067EgAi/Theory?node-id=13-141&starting-point-node-id=13%3A141"
+}

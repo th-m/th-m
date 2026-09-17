@@ -73,6 +73,28 @@
         "vitest": "latest",
       },
     },
+    "apps/theory": {
+      "name": "@th-m/theory",
+      "version": "1.0.0",
+      "dependencies": {
+        "@fontsource-variable/inter": "5.3.0",
+        "@fontsource/ibm-plex-mono": "5.3.0",
+        "react": "19.2.8",
+        "react-dom": "19.2.8",
+      },
+      "devDependencies": {
+        "@testing-library/jest-dom": "7.0.1",
+        "@testing-library/react": "16.3.2",
+        "@th-m/testing": "workspace:*",
+        "@types/react": "19.2.18",
+        "@types/react-dom": "19.2.4",
+        "@vitejs/plugin-react": "6.1.0",
+        "jsdom": "30.0.1",
+        "typescript": "6.0.2",
+        "vite": "8.2.2",
+        "vitest": "4.1.11",
+      },
+    },
     "apps/tokenizer": {
       "name": "@th-m/tokenizer",
       "version": "1.0.0",
@@ -1291,6 +1313,8 @@
     "@th-m/set-theory-visualization": ["@th-m/set-theory-visualization@workspace:libs/set-theory-visualization"],
 
     "@th-m/testing": ["@th-m/testing@workspace:libs/testing"],
+
+    "@th-m/theory": ["@th-m/theory@workspace:apps/theory"],
 
     "@th-m/thom-brand": ["@th-m/thom-brand@workspace:libs/thom-brand"],
 
@@ -2643,6 +2667,8 @@
     "@th-m/set-theory-visualization/@types/bun": ["@types/bun@1.4.0", "", { "dependencies": { "bun-types": "1.4.0" } }, "sha512-K+lZULY23vRgK/CfTjFIV+tyifaNdSMlPh9j+6mQ/cLfpOznLyAuzgV/JQysyECpkBQLVMSyvjlr2fBUSA9wFQ=="],
 
     "@th-m/testing/@types/bun": ["@types/bun@1.4.0", "", { "dependencies": { "bun-types": "1.4.0" } }, "sha512-K+lZULY23vRgK/CfTjFIV+tyifaNdSMlPh9j+6mQ/cLfpOznLyAuzgV/JQysyECpkBQLVMSyvjlr2fBUSA9wFQ=="],
+
+    "@th-m/theory/@types/react-dom": ["@types/react-dom@19.2.4", "", { "peerDependencies": { "@types/react": "^19.2.0" } }, "sha512-Bsc+QHgp+P/F02XDzNCY9jnZNCUuLki36KT7VKrTXXLdHf+vHMNZnW1rVu5DNW/rCK+fya3DATySbLM4yhtKUw=="],
 
     "@th-m/thom-brand/@types/bun": ["@types/bun@1.4.0", "", { "dependencies": { "bun-types": "1.4.0" } }, "sha512-K+lZULY23vRgK/CfTjFIV+tyifaNdSMlPh9j+6mQ/cLfpOznLyAuzgV/JQysyECpkBQLVMSyvjlr2fBUSA9wFQ=="],
 
