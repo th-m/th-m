@@ -1,4 +1,5 @@
 import { defineArticleComponents } from "@th-m/blogs/mdx";
+import { AiFactoryMotif } from "@th-m/blogs/components";
 import articleAssets from "./article-assets";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
@@ -16,6 +17,10 @@ import {
 } from "@th-m/ui";
 import { NeuralInferenceFigure } from "./neural-inference-figure";
 import "./understanding-figures.css";
+
+function OntologyToTokensMotif() {
+  return <AiFactoryMotif variant="ontology-to-tokens" />;
+}
 
 const proofPipeline = [
   {
@@ -185,6 +190,7 @@ function UnderstandingLoopFigure() {
 export { Card, CardContent, CardHeader, CardTitle, formatDate, Link, LinkPreview, NeuralInferenceFigure, Note, proofPipeline, ProofPipelineFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, understandingLoop, UnderstandingLoopFigure };
 export default defineArticleComponents(articleAssets, () => ({
   "neural-inference-figure": NeuralInferenceFigure,
+  "ontology-to-tokens-motif": OntologyToTokensMotif,
   "proof-pipeline-figure": ProofPipelineFigure,
   "understanding-loop-figure": UnderstandingLoopFigure,
 }));

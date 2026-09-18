@@ -1,4 +1,5 @@
 import { defineArticleComponents } from "@th-m/blogs/mdx";
+import { AiFactoryMotif } from "@th-m/blogs/components";
 import articleAssets from "./article-assets";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
@@ -24,6 +25,10 @@ import {
   TrustworthinessBalanceInstrument,
 } from "./situated-truth-instruments";
 import "./truth-instruments.css";
+
+function FormalizedIdeaToDensityMotif() {
+  return <AiFactoryMotif variant="formalized-idea-to-density" />;
+}
 
 /* ------------------------------------------------------------------ */
 /* Small prose primitives                                              */
@@ -1746,6 +1751,7 @@ export default defineArticleComponents(articleAssets, () => ({
   "constraint-feedback-figure": ConstraintFeedbackFigure,
   "constraint-stack-figure": ConstraintStackFigure,
   "embedding-composition-explorer": EmbeddingCompositionExplorer,
+  "formalized-idea-to-density-motif": FormalizedIdeaToDensityMotif,
   "prediction-figure": PredictionFigure,
   "prompt-expansion-figure": PromptExpansionFigure,
   "situated-truth-practices-figure": SituatedTruthPracticesFigure,

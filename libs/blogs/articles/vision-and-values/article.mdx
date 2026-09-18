@@ -2,16 +2,10 @@
 title: Vision and Values
 description: Why human experience, values, and strategy must govern the goals that predictive systems pursue.
 publishedAt: 2026-08-22
-updatedAt: 2026-08-26
+updatedAt: 2026-09-17
 tags: [Artificial Intelligence, Language Models, Strategy, Values]
 ---
 # Vision and Values
-
-{/* TODO: Develop the recurring graphic motif across the first three AI Factory articles:
-Morpheme -> token
-Formalized idea -> targeted token density
-Ontology -> formalized idea -> tokens
-*/}
 
 import { ConversationLink } from "./article-components"
 
@@ -67,6 +61,8 @@ To drive this point home I think it is helpful to understand tokenization and cr
 Before a model can process text, a **tokenizer** converts it into numerical units. The process is designed so those units can later be decoded back into text. Technically tokenization is a lossless compression technique. A popular method is **Byte Pair Encoding**, adapted from Philip Gage's [“A New Algorithm for Data Compression”](https://www.derczynski.com/papers/archive/BPE_Gage.pdf).
 
 <Flow>text → tokens →  inference → tokens → text</Flow>
+
+<Asset id="morpheme-to-token-motif" />
 
 The pretraining process is eleqent in how it reinforces the model.  Given a sentance "the cat sat on the mat".
 we remove the the word "mat" then ask the model to predict the continuation.

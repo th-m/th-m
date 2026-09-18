@@ -1,0 +1,202 @@
+.ai-factory-motif {
+  margin: 2.25em 0;
+  overflow: hidden;
+  border-block: 1px solid var(--color-border);
+  background:
+    radial-gradient(circle at 72% 22%, color-mix(in srgb, var(--color-primary) 7%, transparent), transparent 38%),
+    var(--color-surface);
+}
+
+.ai-factory-motif__header {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.42fr) minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 40px);
+  align-items: baseline;
+  padding: clamp(20px, 3vw, 28px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.article-outline__content .ai-factory-motif__header > p,
+.ai-factory-motif__header > p {
+  margin: 0;
+  color: var(--color-primary);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.ai-factory-motif__header h3 {
+  margin: 0;
+  color: var(--color-foreground-strong);
+  font-family: "Newsreader Variable", Newsreader, Georgia, serif;
+  font-size: clamp(24px, 3.7vw, 36px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+}
+
+.ai-factory-motif__viewport {
+  overflow-x: hidden;
+}
+
+.ai-factory-motif__viewport:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -3px;
+}
+
+.ai-factory-motif svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--color-foreground-muted);
+}
+
+.article-outline__content .ai-factory-motif__scroll-cue,
+.ai-factory-motif__scroll-cue {
+  display: none;
+}
+
+.ai-factory-motif__node > rect {
+  fill: color-mix(in srgb, var(--color-card) 94%, transparent);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__node--focal > rect {
+  fill: color-mix(in srgb, var(--color-primary) 7%, var(--color-card));
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__index,
+.ai-factory-motif__detail,
+.ai-factory-motif__axis text {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.ai-factory-motif__index {
+  fill: var(--color-foreground-subtle);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.ai-factory-motif__node--focal .ai-factory-motif__index {
+  fill: var(--color-primary);
+}
+
+.ai-factory-motif__label {
+  fill: var(--color-foreground-strong);
+  font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ai-factory-motif__detail {
+  fill: var(--color-foreground-muted);
+  font-size: 8px;
+  letter-spacing: 0.025em;
+}
+
+.ai-factory-motif__connectors path {
+  fill: none;
+  stroke: var(--color-foreground-subtle);
+  stroke-width: 1;
+}
+
+.ai-factory-motif marker path {
+  fill: var(--color-foreground-subtle);
+}
+
+.ai-factory-motif__glyph {
+  fill: none;
+  stroke: var(--color-foreground-muted);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__glyph circle {
+  fill: var(--color-surface);
+}
+
+.ai-factory-motif__glyph--focal {
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__glyph--focal circle {
+  fill: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+}
+
+.ai-factory-motif__tokens rect {
+  fill: color-mix(in srgb, var(--color-foreground-muted) 12%, transparent);
+  stroke: var(--color-foreground-muted);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__tokens rect[data-emphasis="true"] {
+  fill: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  stroke: color-mix(in srgb, var(--color-primary) 64%, var(--color-foreground-muted));
+}
+
+.ai-factory-motif__tokens--focal rect {
+  fill: color-mix(in srgb, var(--color-primary) 13%, transparent);
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__axis path {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__axis text {
+  fill: var(--color-foreground-subtle);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+}
+
+.ai-factory-motif figcaption {
+  padding: 16px clamp(20px, 3vw, 28px);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-foreground-muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .ai-factory-motif__header {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .ai-factory-motif svg {
+    width: 760px;
+    max-width: none;
+  }
+
+  .ai-factory-motif__viewport {
+    overflow-x: auto;
+    scrollbar-color: color-mix(in srgb, var(--color-primary) 45%, transparent) transparent;
+  }
+
+  .article-outline__content .ai-factory-motif__scroll-cue,
+  .ai-factory-motif__scroll-cue {
+    display: block;
+    margin: 0;
+    padding: 10px 20px 0;
+    color: var(--color-foreground-subtle);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    line-height: 1.5;
+    text-align: right;
+    text-transform: uppercase;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .ai-factory-motif {
+    background: var(--color-surface);
+  }
+}

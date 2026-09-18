@@ -1,5 +1,7 @@
 import { defineArticleComponents } from "@th-m/blogs/mdx";
+import { AiFactoryMotif } from "@th-m/blogs/components";
 import { NeuralTrainingFigure } from "@th-m/blogs/components/neural-training-figure";
+import { createElement } from "react";
 import articleAssets from "../article-assets";
 import { PopulationMeanFigure } from "./population-mean-figure";
 import { RelationalKnowingFigure } from "./relational-knowing-figure";
@@ -10,10 +12,15 @@ import { GoverningLoopFigure } from "./governing-loop-figure";
 import { LanguageCompressionFigure } from "./language-compression-figure";
 import { MorphemeGlossary } from "./morpheme-glossary";
 
+function MorphemeToTokenMotif() {
+  return createElement(AiFactoryMotif, { variant: "morpheme-to-token" });
+}
+
 export default defineArticleComponents(articleAssets, () => ({
   "goal-tree-figure": GoalTreeFigure,
   "governing-loop-figure": GoverningLoopFigure,
   "language-compression-figure": LanguageCompressionFigure,
+  "morpheme-to-token-motif": MorphemeToTokenMotif,
   "morpheme-glossary": MorphemeGlossary,
   "neural-training-figure": NeuralTrainingFigure,
   "population-mean-figure": PopulationMeanFigure,
