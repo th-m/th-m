@@ -143,7 +143,7 @@ describe("ArticleContent MDX rendering", () => {
       "They have to become available through some combination of:",
     );
     expect(screen.getByText(/Human governance does not mean manually choosing every action/)).toBeInTheDocument();
-    expect(screen.getByText(/What I actually wanted was for the agent to have a bit of common sense/)).toHaveTextContent(
+    expect(screen.getByText(/What I actually wanted was\s+a bit of common sense/)).toHaveTextContent(
       "Find the gaps that affect outcomes. Ensure validation checks between boundaries.",
     );
     const coreThesis = screen.getByText(/Strategy negotiates trade-offs between competing values/);
