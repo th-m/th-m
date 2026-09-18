@@ -23,7 +23,7 @@ Nine hours later it returned a huge mess, hundreds of validation checks and hall
 
 Why doesn't the AI know what `optimize` means? What fool tool interprets `find all the gaps` and treats every possible omission as equally important?
 
-What I actually wanted was for the agent to have a bit of common sense. Find the *gaps that affect outcomes*. Ensure *validation checks between boundaries*. Even if I clarified those details in the prompt, I am not convinced the model would have output anything better.
+What I actually wanted was  a bit of common sense. Find the *gaps that affect outcomes*. Ensure *validation checks between boundaries*. Even with those clarifications in the prompt, research suggests it would only effect output two percent of the time.
 
 <Callout label="Core thesis" emphasis>
 
@@ -42,23 +42,25 @@ What I actually wanted was for the agent to have a bit of common sense. Find the
 
 </aside>
 
-The article demonstrated that models favored the same strategic positions despite adding relevant information that would encourage alternatives. Worse than that, the biggest factor affecting it's response was the way the choice was presented.
+The article shows that AI favored the same strategic positions despite adding relevant information that would encourage alternatives. Worse than that, the biggest factor affecting it's response was the way the choice was presented.
 
-AI is biased. It comes baked with it's own values and strategic preferences. This bias is a product of multiple layers of the LLM: the training data,pre-training, fine-tuning, system prompts, and the harnesses.  Furthermore, AI is a mechanical and mathmatical process order of input.
+AI is biased. It comes baked with it's own values and strategic preferences. This bias is baked into the AI model from the beginning , starting with the training data,  pre-training, fine-tuning, system prompts, and the harnesses.  Furthermore, AI is a mechanical and mathmatical process order of input.
 
 </Section>
 
 <Section index="02" title="What a Language Model Carries">
 
-An LLM is a compressed statistical model that is patterned from human language. It doesn't “think” and it doesn't “reason”; it operates on patterns. I don't want to undersll this, it is amazing, mind-boggling, and nothing short of a miracle, and why AI researchers like[ Elan Barenholtz say with such profundity](https://www.youtube.com/watch?v=A36OumnSrWY&t=1663s), “the map is the territory … it’s the relations that matter between these symbols.”
+An LLM is a compressed statistical model that is patterned from human language. It doesn't “think” and it doesn't “reason”,; it operates on patterns. I don't want to undersll this, it is amazing, mind-boggling, and nothing short of a miracle, and why AI researchers like[ Elan Barenholtz say with such profundity](https://www.youtube.com/watch?v=A36OumnSrWY&t=1663s), “the map is the territory … it’s the relations that matter between these symbols.”
 
-A model never experiences anything. The value of its predictions comes from the relationships between words. So even after these frontier labs stole all the content from the internet, there are still linquistic gaps the data is incomplete, historically situated, and as mentioned before it is further constrained training and harnessing.
+A model never experiences anything. The value of its predictions comes from the relationships between words. So even after these frontier labs stole all the content from the internet, there are still linquistic gaps,  the data is incomplete, historically situated, and as mentioned before it is further constrained training and harnessing.
 
 To drive this point home I think it is helpful to understand tokenization and cross-entropy training. This is "how" we get these models to identify useful next tokens.
 
 ### Tokens and Cross-entropy Training
 
-Before a model can process text, a **tokenizer** converts it into numerical units. The process is designed so those units can later be decoded back into text. Technically tokenization is a lossless compression technique. A popular method is **Byte Pair Encoding**, adapted from Philip Gage's [“A New Algorithm for Data Compression”](https://www.derczynski.com/papers/archive/BPE_Gage.pdf).
+Before a model can process text, a **tokenizer** converts it into numerical units. The process is designed so those units can later be decoded back into text.
+// todo make a little technical callout box that has some software engineering related icon
+Technically tokenization is a lossless compression technique. A popular method is **Byte Pair Encoding**, adapted from Philip Gage's [“A New Algorithm for Data Compression”](https://www.derczynski.com/papers/archive/BPE_Gage.pdf).
 
 <Flow>text → tokens →  inference → tokens → text</Flow>
 
