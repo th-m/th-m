@@ -228,3 +228,21 @@ Lambda's in-memory cache is local to a reused execution environment, not shared
 across all workers. That makes "local Lambda cache" versus "shared DynamoDB or
 Redis cache" the clearer comparison.
 [AWS execution-environment guidance](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html)
+
+## Vision Quotations to Incorporate
+
+Candidate language for strengthening the article's definition of vision:
+
+> “What you aim at determines what you see.”
+
+> “A vision of the future, the desirable future, is necessary. Such a vision
+> links action taken now with important, long-term, foundational values.”
+
+The first quotation can reinforce the argument that governing goals determine
+which conditions become visible as opportunities, problems, or evidence. The
+second can help define **vision** as a desirable future that connects present
+action with durable values, distinguishing it from a single goal or value
+proposition.
+
+Source attribution and exact wording still need verification before either
+quotation is incorporated into the canonical article.

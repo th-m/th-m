@@ -10,7 +10,7 @@ export default defineArticleAssets({
   "constraint-feedback-figure": { kind: "figure", label: "Constraint Feedback Figure", tags: ["article-figure", "mdx-component"] },
   "constraint-stack-figure": { kind: "figure", label: "Constraint Stack Figure", tags: ["article-figure", "mdx-component"] },
   "embedding-composition-explorer": { kind: "interactive", label: "Embedding Composition Explorer", tags: ["article-interactive", "mdx-component"] },
-  "formalized-idea-to-density-motif": { kind: "figure", label: "Formalized Idea to Token Density Motif", tags: ["article-figure", "ai-factory-series", "mdx-component"] },
+  "formalized-idea-to-density-motif": { kind: "figure", label: "Discipline to Morpheme Motif", tags: ["article-figure", "ai-factory-series", "mdx-component"] },
   "prediction-figure": { kind: "figure", label: "Prediction Figure", tags: ["article-figure", "mdx-component"] },
   "prompt-expansion-figure": { kind: "figure", label: "Prompt Expansion Figure", tags: ["article-figure", "mdx-component"] },
   "situated-truth-practices-figure": { kind: "figure", label: "Situated Truth Practices Figure", tags: ["article-figure", "mdx-component"] },

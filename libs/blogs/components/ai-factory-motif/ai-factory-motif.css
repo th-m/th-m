@@ -58,31 +58,18 @@
   display: none;
 }
 
-.ai-factory-motif__node > rect {
+.ai-factory-motif__station,
+.ai-factory-motif__discipline,
+.ai-factory-motif__ontology-node > rect {
   fill: color-mix(in srgb, var(--color-card) 94%, transparent);
   stroke: var(--color-border);
   stroke-width: 1;
 }
 
-.ai-factory-motif__node--focal > rect {
+.ai-factory-motif__station--focal,
+.ai-factory-motif__ontology-node--focal > rect {
   fill: color-mix(in srgb, var(--color-primary) 7%, var(--color-card));
   stroke: var(--color-primary);
-}
-
-.ai-factory-motif__index,
-.ai-factory-motif__detail,
-.ai-factory-motif__axis text {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-}
-
-.ai-factory-motif__index {
-  fill: var(--color-foreground-subtle);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-}
-
-.ai-factory-motif__node--focal .ai-factory-motif__index {
-  fill: var(--color-primary);
 }
 
 .ai-factory-motif__label {
@@ -90,6 +77,14 @@
   font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
   font-size: 13px;
   font-weight: 500;
+}
+
+.ai-factory-motif__detail,
+.ai-factory-motif__axis text,
+.ai-factory-motif__ontology-legend text,
+.ai-factory-motif__connector-label text,
+.ai-factory-motif__vertical-edge-label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 .ai-factory-motif__detail {
@@ -104,51 +99,128 @@
   stroke-width: 1;
 }
 
-.ai-factory-motif marker path {
-  fill: var(--color-foreground-subtle);
+.ai-factory-motif__connectors .ai-factory-motif__connector--focal {
+  stroke: var(--color-primary);
 }
 
-.ai-factory-motif__glyph {
+.ai-factory-motif marker path {
+  fill: var(--color-foreground-subtle);
+  stroke: none;
+}
+
+.ai-factory-motif__connector-label rect {
+  fill: var(--color-surface);
+}
+
+.ai-factory-motif__connector-label text,
+.ai-factory-motif__vertical-edge-label {
+  fill: var(--color-foreground-subtle);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.ai-factory-motif__vision-glyph,
+.ai-factory-motif__meaning-glyph {
   fill: none;
   stroke: var(--color-foreground-muted);
   stroke-width: 1;
 }
 
-.ai-factory-motif__glyph circle {
-  fill: var(--color-surface);
+.ai-factory-motif__vision-glyph circle:not(:first-child) {
+  fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface));
 }
 
-.ai-factory-motif__glyph--focal {
+.ai-factory-motif__vision-glyph .ai-factory-motif__vision-orbit {
+  stroke-dasharray: 3 5;
+  opacity: 0.48;
+}
+
+.ai-factory-motif__meaning-glyph > circle:first-child {
+  fill: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface));
   stroke: var(--color-primary);
 }
 
-.ai-factory-motif__glyph--focal circle {
-  fill: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+.ai-factory-motif__meaning-glyph > circle:last-child {
+  stroke: color-mix(in srgb, var(--color-primary) 70%, var(--color-foreground-muted));
+  stroke-dasharray: 2 4;
 }
 
-.ai-factory-motif__tokens rect {
-  fill: color-mix(in srgb, var(--color-foreground-muted) 12%, transparent);
+.ai-factory-motif__meaning-glyph path {
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__morpheme {
+  fill: none;
   stroke: var(--color-foreground-muted);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.ai-factory-motif__morpheme-halo {
+  stroke-dasharray: 3 5;
+  opacity: 0.28;
+}
+
+.ai-factory-motif__morpheme--diffuse .ai-factory-motif__morpheme-core {
+  stroke-dasharray: 6 4;
+  opacity: 0.78;
+}
+
+.ai-factory-motif__morpheme-center {
+  fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface));
+}
+
+.ai-factory-motif__morpheme-bounds {
+  stroke: var(--color-border-strong);
+}
+
+.ai-factory-motif__morpheme--disciplined .ai-factory-motif__morpheme-core {
+  fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent);
+  stroke-width: 1.2;
+}
+
+.ai-factory-motif__morpheme--focal {
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__morpheme--focal .ai-factory-motif__morpheme-center {
+  fill: color-mix(in srgb, var(--color-primary) 24%, var(--color-surface));
+}
+
+.ai-factory-motif__morpheme--focal .ai-factory-motif__morpheme-bounds {
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__operator {
+  fill: var(--color-surface);
+  stroke: var(--color-border-strong);
   stroke-width: 1;
 }
 
-.ai-factory-motif__tokens rect[data-emphasis="true"] {
-  fill: color-mix(in srgb, var(--color-primary) 12%, transparent);
-  stroke: color-mix(in srgb, var(--color-primary) 64%, var(--color-foreground-muted));
+.ai-factory-motif__operator-label {
+  fill: var(--color-primary);
+  font-family: "Newsreader Variable", Newsreader, Georgia, serif;
+  font-size: 24px;
 }
 
-.ai-factory-motif__tokens--focal rect {
-  fill: color-mix(in srgb, var(--color-primary) 13%, transparent);
-  stroke: var(--color-primary);
+.ai-factory-motif__ontology-node .ai-factory-motif__label {
+  dominant-baseline: middle;
+  font-size: 12px;
 }
 
-.ai-factory-motif__axis path {
+.ai-factory-motif__ontology-node--focal .ai-factory-motif__label {
+  fill: var(--color-primary);
+}
+
+.ai-factory-motif__axis path,
+.ai-factory-motif__ontology-legend path {
   fill: none;
   stroke: var(--color-border);
   stroke-width: 1;
 }
 
-.ai-factory-motif__axis text {
+.ai-factory-motif__axis text,
+.ai-factory-motif__ontology-legend text {
   fill: var(--color-foreground-subtle);
   font-size: 8px;
   letter-spacing: 0.14em;

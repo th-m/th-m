@@ -12,15 +12,15 @@ import { GoverningLoopFigure } from "./governing-loop-figure";
 import { LanguageCompressionFigure } from "./language-compression-figure";
 import { MorphemeGlossary } from "./morpheme-glossary";
 
-function MorphemeToTokenMotif() {
-  return createElement(AiFactoryMotif, { variant: "morpheme-to-token" });
+function VisionToMorphemeMotif() {
+  return createElement(AiFactoryMotif, { variant: "vision-to-morpheme" });
 }
 
 export default defineArticleComponents(articleAssets, () => ({
   "goal-tree-figure": GoalTreeFigure,
   "governing-loop-figure": GoverningLoopFigure,
   "language-compression-figure": LanguageCompressionFigure,
-  "morpheme-to-token-motif": MorphemeToTokenMotif,
+  "morpheme-to-token-motif": VisionToMorphemeMotif,
   "morpheme-glossary": MorphemeGlossary,
   "neural-training-figure": NeuralTrainingFigure,
   "population-mean-figure": PopulationMeanFigure,
