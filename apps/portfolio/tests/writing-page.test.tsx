@@ -107,16 +107,22 @@ describe("ArticleContent MDX rendering", () => {
     // The MDX module renders the complete canonical essay.
     expect(screen.getByRole("heading", { name: "AI has Hidden Priorities" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "What a Language Model Carries" })).toBeInTheDocument();
-    expect(screen.getByText(/An LLM is a compressed statistical model that is patterned from human language/)).toBeInTheDocument();
+    const llmCompressionDetail = screen.getByRole("button", { name: "An LLM is a compressed statistical model" });
+    expect(llmCompressionDetail).toBeInTheDocument();
     expect(screen.getByText(/A model never experiences anything/)).toHaveTextContent(
       "The value of its predictions comes from the relationships between words.",
     );
     expect(screen.queryByText(/The model never encounters a cat/)).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Tokens and Cross-entropy Training" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "Possible next token" }).closest("table")).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Tokens and Cross-entropy Training" })).not.toBeInTheDocument();
+    await user.click(llmCompressionDetail);
+    const compressionDialog = await screen.findByRole("dialog", { name: "Tokens and Cross-entropy Training" });
+    expect(within(compressionDialog).getByText("Software engineering detail")).toBeInTheDocument();
+    expect(within(compressionDialog).getByRole("columnheader", { name: "Possible next token" }).closest("table")).toBeInTheDocument();
+    expect(within(compressionDialog).getByRole("heading", { name: "LLM Training" })).toBeInTheDocument();
+    fireEvent.click(within(compressionDialog).getByRole("button", { name: "Close reference" }));
+    await waitFor(() => expect(screen.queryByRole("dialog", { name: "Tokens and Cross-entropy Training" })).not.toBeInTheDocument());
     expect(screen.getByRole("heading", { name: "What Language Leaves Out" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Two compressions" })).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "LLM Training" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "A model is not conscious" })).toHaveAttribute(
       "href",
       "/writing/consciousness-is-incoherent",

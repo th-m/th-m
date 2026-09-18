@@ -18,8 +18,8 @@ import {
 import { NeuralInferenceFigure } from "./neural-inference-figure";
 import "./understanding-figures.css";
 
-function OntologyOfMorphemesMotif() {
-  return <AiFactoryMotif variant="ontology-of-morphemes" />;
+function TermOfArtImplementationMotif() {
+  return <AiFactoryMotif variant="term-of-art-to-implementation" />;
 }
 
 const proofPipeline = [
@@ -190,7 +190,7 @@ function UnderstandingLoopFigure() {
 export { Card, CardContent, CardHeader, CardTitle, formatDate, Link, LinkPreview, NeuralInferenceFigure, Note, proofPipeline, ProofPipelineFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, understandingLoop, UnderstandingLoopFigure };
 export default defineArticleComponents(articleAssets, () => ({
   "neural-inference-figure": NeuralInferenceFigure,
-  "ontology-to-tokens-motif": OntologyOfMorphemesMotif,
+  "term-of-art-implementation-motif": TermOfArtImplementationMotif,
   "proof-pipeline-figure": ProofPipelineFigure,
   "understanding-loop-figure": UnderstandingLoopFigure,
 }));

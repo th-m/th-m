@@ -1,6 +1,8 @@
 import { LinkPreview } from "@th-m/ui";
 import "./goals-article.css";
 
+export { LlmCompressionDetail } from "./components/llm-compression-detail";
+
 type ConversationMessage = {
   speaker: string;
   kind: "user" | "model";

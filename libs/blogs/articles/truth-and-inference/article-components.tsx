@@ -26,8 +26,8 @@ import {
 } from "./situated-truth-instruments";
 import "./truth-instruments.css";
 
-function DisciplinedMorphemeMotif() {
-  return <AiFactoryMotif variant="discipline-to-morpheme" />;
+function TermOfArtMotif() {
+  return <AiFactoryMotif variant="refinement-and-discipline-to-term-of-art" />;
 }
 
 /* ------------------------------------------------------------------ */
@@ -1751,7 +1751,7 @@ export default defineArticleComponents(articleAssets, () => ({
   "constraint-feedback-figure": ConstraintFeedbackFigure,
   "constraint-stack-figure": ConstraintStackFigure,
   "embedding-composition-explorer": EmbeddingCompositionExplorer,
-  "formalized-idea-to-density-motif": DisciplinedMorphemeMotif,
+  "formalized-idea-to-density-motif": TermOfArtMotif,
   "prediction-figure": PredictionFigure,
   "prompt-expansion-figure": PromptExpansionFigure,
   "situated-truth-practices-figure": SituatedTruthPracticesFigure,

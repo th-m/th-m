@@ -59,7 +59,7 @@
 }
 
 .ai-factory-motif__station,
-.ai-factory-motif__discipline,
+.ai-factory-motif__practice > rect,
 .ai-factory-motif__ontology-node > rect {
   fill: color-mix(in srgb, var(--color-card) 94%, transparent);
   stroke: var(--color-border);
@@ -126,13 +126,8 @@
   stroke-width: 1;
 }
 
-.ai-factory-motif__vision-glyph circle:not(:first-child) {
+.ai-factory-motif__vision-center {
   fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface));
-}
-
-.ai-factory-motif__vision-glyph .ai-factory-motif__vision-orbit {
-  stroke-dasharray: 3 5;
-  opacity: 0.48;
 }
 
 .ai-factory-motif__meaning-glyph > circle:first-child {
@@ -149,6 +144,39 @@
   stroke: var(--color-primary);
 }
 
+.ai-factory-motif__understanding-glyph,
+.ai-factory-motif__implementation-glyph {
+  fill: none;
+  stroke: var(--color-foreground-muted);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__understanding-glyph {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 1.2;
+}
+
+.ai-factory-motif__understanding-term-boundary {
+  fill: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.ai-factory-motif__understanding-vision-center {
+  fill: color-mix(in srgb, var(--color-primary) 22%, var(--color-surface));
+}
+
+.ai-factory-motif__understanding-term-center {
+  fill: var(--color-primary);
+}
+
+.ai-factory-motif__implementation-glyph > rect {
+  fill: color-mix(in srgb, var(--color-foreground-muted) 6%, transparent);
+}
+
+.ai-factory-motif__implementation-core {
+  fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface));
+}
+
 .ai-factory-motif__morpheme {
   fill: none;
   stroke: var(--color-foreground-muted);
@@ -156,13 +184,8 @@
   vector-effect: non-scaling-stroke;
 }
 
-.ai-factory-motif__morpheme-halo {
-  stroke-dasharray: 3 5;
-  opacity: 0.28;
-}
-
 .ai-factory-motif__morpheme--diffuse .ai-factory-motif__morpheme-core {
-  stroke-dasharray: 6 4;
+  stroke-dasharray: 3 5;
   opacity: 0.78;
 }
 
@@ -170,11 +193,7 @@
   fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface));
 }
 
-.ai-factory-motif__morpheme-bounds {
-  stroke: var(--color-border-strong);
-}
-
-.ai-factory-motif__morpheme--disciplined .ai-factory-motif__morpheme-core {
+.ai-factory-motif__morpheme--refined .ai-factory-motif__morpheme-core {
   fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent);
   stroke-width: 1.2;
 }
@@ -187,8 +206,8 @@
   fill: color-mix(in srgb, var(--color-primary) 24%, var(--color-surface));
 }
 
-.ai-factory-motif__morpheme--focal .ai-factory-motif__morpheme-bounds {
-  stroke: var(--color-primary);
+.ai-factory-motif__morpheme--refined.ai-factory-motif__morpheme--focal .ai-factory-motif__morpheme-core {
+  fill: color-mix(in srgb, var(--color-primary) 8%, transparent);
 }
 
 .ai-factory-motif__operator {

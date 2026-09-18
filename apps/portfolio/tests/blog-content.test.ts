@@ -88,6 +88,8 @@ describe("article MDX module staging", () => {
       "governing-loop-figure.tsx",
       "language-compression-figure.css",
       "language-compression-figure.tsx",
+      "llm-compression-detail.css",
+      "llm-compression-detail.tsx",
       "morpheme-glossary.tsx",
       "population-mean-figure.css",
       "population-mean-figure.tsx",

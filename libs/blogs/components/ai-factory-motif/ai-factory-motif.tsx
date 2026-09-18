@@ -10,23 +10,32 @@ const motifContent = {
     caption:
       "Vision exceeds what language can hold. Meaning gives part of it direction; a morpheme expresses a minimal unit of that meaning without fixing every possible interpretation.",
   },
-  "discipline-to-morpheme": {
+  "refinement-and-discipline-to-term-of-art": {
     index: "02",
-    eyebrow: "Discipline",
-    title: "Discipline stabilizes the morpheme",
+    eyebrow: "Refinement + discipline",
+    title: "Refinement and discipline establish a term of art",
     description:
-      "Definitions, methods, evidence, and correction refine a context-sensitive morpheme into a disciplined morpheme with a consistent domain boundary.",
+      "Refinement defines and corrects a context-sensitive morpheme; discipline sustains continuity, clarification, and specification until it becomes a term of art with a stable domain boundary.",
     caption:
-      "This series uses disciplined morpheme as editorial shorthand for a morpheme, word, or phrase whose use a discipline has intentionally narrowed through definition and corrective practice.",
+      "Refinement supplies definition, evidence, and correction. Discipline supplies continuity, clarification, and specification. Together they narrow a morpheme, word, or phrase into a term of art.",
   },
-  "ontology-of-morphemes": {
-    index: "03",
+  "ontology-of-terms": {
+    index: "04",
     eyebrow: "Coordination",
-    title: "Ontology coordinates disciplined morphemes",
+    title: "Ontology coordinates terms of art",
     description:
-      "An ontology repeats bounded linguistic forms as concept labels and coordinates them through typed relationships and constraints.",
+      "An ontology repeats terms of art as concept labels and coordinates them through typed relationships and constraints.",
     caption:
-      "The repeated shape is the disciplined morpheme. More precisely, an ontology maps the concepts those expressions designate; typed relationships coordinate them into a shared model.",
+      "The repeated shape is a term of art. More precisely, an ontology maps the concepts those expressions designate; typed relationships coordinate them into a shared model.",
+  },
+  "term-of-art-to-implementation": {
+    index: "03",
+    eyebrow: "Understanding",
+    title: "Understanding carries a term into implementation",
+    description:
+      "A term of art enters a situated working model, where context, evidence, and stakes make its shared constraints actionable in a concrete implementation.",
+    caption:
+      "Knowing the term is not yet understanding. Understanding preserves its distinctions in a situated model, predicts what should follow, and makes a concrete implementation possible to test and revise.",
   },
 } as const;
 
@@ -54,7 +63,7 @@ function MorphemeGlyph({
 }: {
   x: number;
   y: number;
-  state: "diffuse" | "disciplined";
+  state: "diffuse" | "refined";
   focal?: boolean;
   scale?: number;
 }) {
@@ -68,22 +77,8 @@ function MorphemeGlyph({
 
   return (
     <g className={className} transform={`translate(${x} ${y}) scale(${scale})`} aria-hidden="true">
-      {state === "diffuse" ? (
-        <g className="ai-factory-motif__morpheme-halo">
-          <path transform="translate(-8 -4)" d="M0-32C20-32 36-16 32 4C28 24 12 36-8 32C-28 28-40 8-32-12C-24-32-8-40 0-32Z" />
-          <path transform="translate(8 4)" d="M0-32C20-32 36-16 32 4C28 24 12 36-8 32C-28 28-40 8-32-12C-24-32-8-40 0-32Z" />
-        </g>
-      ) : null}
-      <path className="ai-factory-motif__morpheme-core" d="M0-32C20-32 36-16 32 4C28 24 12 36-8 32C-28 28-40 8-32-12C-24-32-8-40 0-32Z" />
+      <circle className="ai-factory-motif__morpheme-core" cx="0" cy="0" r="32" />
       <circle className="ai-factory-motif__morpheme-center" cx="0" cy="0" r="5" />
-      {state === "disciplined" ? (
-        <g className="ai-factory-motif__morpheme-bounds">
-          <path d="M-44-16V-44H-16" />
-          <path d="M16-44H44V-16" />
-          <path d="M44 16V44H16" />
-          <path d="M-16 44H-44V16" />
-        </g>
-      ) : null}
     </g>
   );
 }
@@ -91,13 +86,11 @@ function MorphemeGlyph({
 function VisionGlyph() {
   return (
     <g className="ai-factory-motif__vision-glyph" aria-hidden="true">
-      <circle cx="132" cy="136" r="28" />
-      <circle cx="108" cy="116" r="5" />
-      <circle cx="160" cy="112" r="4" />
-      <circle cx="164" cy="156" r="6" />
-      <circle cx="104" cy="164" r="4" />
-      <path d="M112 120L124 128M156 116L140 128M156 152L140 144M108 160L124 148" />
-      <path className="ai-factory-motif__vision-orbit" d="M88 136C88 104 108 88 136 88C168 88 184 108 184 136C184 168 164 184 136 184C104 184 88 164 88 136Z" />
+      <circle className="ai-factory-motif__vision-center" cx="132" cy="136" r="12" />
+      <path className="ai-factory-motif__vision-edge" d="M132 92V112" />
+      <path className="ai-factory-motif__vision-edge" d="M132 160V180" />
+      <path className="ai-factory-motif__vision-edge" d="M88 136H112" />
+      <path className="ai-factory-motif__vision-edge" d="M152 136H176" />
     </g>
   );
 }
@@ -152,27 +145,84 @@ function VisionToMorpheme({ arrowId }: { arrowId: string }) {
   );
 }
 
-function DisciplineToMorpheme({ arrowId }: { arrowId: string }) {
+function RefinementAndDisciplineToTermOfArt({ arrowId }: { arrowId: string }) {
   return (
     <>
       <g className="ai-factory-motif__connectors" aria-hidden="true">
         <path d="M228 152H336" />
-        <path d="M360 120V136" />
+        <path className="ai-factory-motif__practice-input" data-practice="discipline" d="M360 104V136" markerEnd={`url(#${arrowId})`} />
+        <path className="ai-factory-motif__practice-input" data-practice="refinement" d="M360 200V168" markerEnd={`url(#${arrowId})`} />
         <path className="ai-factory-motif__connector--focal" d="M384 152H484" markerEnd={`url(#${arrowId})`} />
-        <ConnectorLabel x={436} y={132}>REFINES</ConnectorLabel>
+        <ConnectorLabel x={436} y={132}>ESTABLISHES</ConnectorLabel>
       </g>
       <rect className="ai-factory-motif__station" x="44" y="64" width="184" height="184" />
-      <rect className="ai-factory-motif__discipline" x="272" y="48" width="176" height="72" />
       <rect className="ai-factory-motif__station ai-factory-motif__station--focal" x="492" y="64" width="184" height="184" />
       <MorphemeGlyph x={136} y={136} state="diffuse" />
-      <MorphemeGlyph x={584} y={136} state="disciplined" focal />
+      <MorphemeGlyph x={584} y={136} state="refined" focal />
       <circle className="ai-factory-motif__operator" cx="360" cy="152" r="16" />
       <text className="ai-factory-motif__operator-label" x="360" y="158" textAnchor="middle">+</text>
-      <text className="ai-factory-motif__label" x="360" y="76" textAnchor="middle">Discipline</text>
-      <text className="ai-factory-motif__detail" x="360" y="94" textAnchor="middle">definition · evidence · correction</text>
+      <g className="ai-factory-motif__practice" data-practice="discipline">
+        <rect x="272" y="24" width="176" height="80" />
+        <text className="ai-factory-motif__label" x="360" y="48" textAnchor="middle">Discipline</text>
+        <text className="ai-factory-motif__detail" x="360" y="68" textAnchor="middle">continuity · clarification</text>
+        <text className="ai-factory-motif__detail" x="360" y="82" textAnchor="middle">specification</text>
+      </g>
+      <g className="ai-factory-motif__practice" data-practice="refinement">
+        <rect x="272" y="200" width="176" height="56" />
+        <text className="ai-factory-motif__label" x="360" y="224" textAnchor="middle">Refinement</text>
+        <text className="ai-factory-motif__detail" x="360" y="244" textAnchor="middle">definition · evidence · correction</text>
+      </g>
       <StationLabel x={136} label="Morpheme" detail="context-sensitive meaning" />
-      <StationLabel x={584} label="Disciplined morpheme" detail="consistent within a domain" />
-      <Axis left="MEANING POTENTIAL" middle="CORRECTIVE PRACTICE" right="STABLE TERM" />
+      <StationLabel x={584} label="Term of art" detail="consistent within a domain" />
+      <Axis left="MEANING POTENTIAL" middle="REFINEMENT + DISCIPLINE" right="STABLE TERM" />
+    </>
+  );
+}
+
+function UnderstandingGlyph() {
+  return (
+    <g className="ai-factory-motif__understanding-glyph" aria-hidden="true">
+      <path className="ai-factory-motif__understanding-vision-edge" d="M364 92V112" />
+      <path className="ai-factory-motif__understanding-vision-edge" d="M364 160V180" />
+      <path className="ai-factory-motif__understanding-vision-edge" d="M320 136H344" />
+      <path className="ai-factory-motif__understanding-vision-edge" d="M384 136H408" />
+      <circle className="ai-factory-motif__understanding-term-boundary" cx="364" cy="136" r="32" />
+      <circle className="ai-factory-motif__understanding-vision-center" cx="364" cy="136" r="12" />
+      <circle className="ai-factory-motif__understanding-term-center" cx="364" cy="136" r="4" />
+    </g>
+  );
+}
+
+function ImplementationGlyph() {
+  return (
+    <g className="ai-factory-motif__implementation-glyph" aria-hidden="true">
+      <rect x="548" y="100" width="80" height="72" />
+      <circle cx="572" cy="136" r="16" />
+      <circle className="ai-factory-motif__implementation-core" cx="572" cy="136" r="4" />
+      <path d="M600 120H616M600 136H616M600 152H616" />
+    </g>
+  );
+}
+
+function TermOfArtToImplementation({ arrowId }: { arrowId: string }) {
+  return (
+    <>
+      <g className="ai-factory-motif__connectors" aria-hidden="true">
+        <path d="M224 136H264" markerEnd={`url(#${arrowId})`} />
+        <path className="ai-factory-motif__connector--focal" d="M456 136H488" markerEnd={`url(#${arrowId})`} />
+        <ConnectorLabel x={244} y={116}>APPLIED IN</ConnectorLabel>
+        <ConnectorLabel x={472} y={116}>IMPLEMENTS</ConnectorLabel>
+      </g>
+      <StationFrame x={40} />
+      <StationFrame x={272} focal />
+      <StationFrame x={496} />
+      <MorphemeGlyph x={132} y={136} state="refined" />
+      <UnderstandingGlyph />
+      <ImplementationGlyph />
+      <StationLabel x={132} label="Term of art" detail="shared domain constraint" />
+      <StationLabel x={364} label="Understanding" detail="context · evidence · stakes" />
+      <StationLabel x={588} label="Implementation" detail="decision · test · artifact" />
+      <Axis left="SHARED TERM" middle="SITUATED MODEL" right="CONCRETE ACTION" />
     </>
   );
 }
@@ -181,13 +231,13 @@ function OntologyNode({ x, y, label, focal = false }: { x: number; y: number; la
   return (
     <g className={focal ? "ai-factory-motif__ontology-node ai-factory-motif__ontology-node--focal" : "ai-factory-motif__ontology-node"}>
       <rect x={x} y={y} width="136" height="72" />
-      <MorphemeGlyph x={x + 36} y={y + 36} state="disciplined" focal={focal} scale={0.42} />
+      <MorphemeGlyph x={x + 36} y={y + 36} state="refined" focal={focal} scale={0.42} />
       <text className="ai-factory-motif__label" x={x + 76} y={y + 41}>{label}</text>
     </g>
   );
 }
 
-function OntologyOfMorphemes({ arrowId }: { arrowId: string }) {
+function OntologyOfTerms({ arrowId }: { arrowId: string }) {
   return (
     <>
       <g className="ai-factory-motif__connectors" aria-hidden="true">
@@ -249,8 +299,9 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
             </marker>
           </defs>
           {variant === "vision-to-morpheme" ? <VisionToMorpheme arrowId={arrowId} /> : null}
-          {variant === "discipline-to-morpheme" ? <DisciplineToMorpheme arrowId={arrowId} /> : null}
-          {variant === "ontology-of-morphemes" ? <OntologyOfMorphemes arrowId={arrowId} /> : null}
+          {variant === "refinement-and-discipline-to-term-of-art" ? <RefinementAndDisciplineToTermOfArt arrowId={arrowId} /> : null}
+          {variant === "term-of-art-to-implementation" ? <TermOfArtToImplementation arrowId={arrowId} /> : null}
+          {variant === "ontology-of-terms" ? <OntologyOfTerms arrowId={arrowId} /> : null}
         </svg>
       </div>
       <figcaption>{content.caption}</figcaption>

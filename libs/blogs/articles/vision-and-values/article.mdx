@@ -7,7 +7,7 @@ tags: [Artificial Intelligence, Language Models, Strategy, Values]
 ---
 # Vision and Values
 
-import { ConversationLink } from "./article-components"
+import { ConversationLink, LlmCompressionDetail } from "./article-components"
 
 <div className="goals-article">
 
@@ -50,39 +50,9 @@ AI is biased. It comes baked with it's own values and strategic preferences. Thi
 
 <Section index="02" title="What a Language Model Carries">
 
-An LLM is a compressed statistical model that is patterned from human language. It doesn't “think” and it doesn't “reason”,; it operates on patterns. I don't want to undersll this, it is amazing, mind-boggling, and nothing short of a miracle, and why AI researchers like[ Elan Barenholtz say with such profundity](https://www.youtube.com/watch?v=A36OumnSrWY&t=1663s), “the map is the territory … it’s the relations that matter between these symbols.”
+<LlmCompressionDetail>An LLM is a compressed statistical model</LlmCompressionDetail>{" "}that is patterned from human language. It doesn't “think” and it doesn't “reason”,; it operates on patterns. I don't want to undersll this, it is amazing, mind-boggling, and nothing short of a miracle, and why AI researchers like[ Elan Barenholtz say with such profundity](https://www.youtube.com/watch?v=A36OumnSrWY&t=1663s), “the map is the territory … it’s the relations that matter between these symbols.”
 
 A model never experiences anything. The value of its predictions comes from the relationships between words. So even after these frontier labs stole all the content from the internet, there are still linquistic gaps,  the data is incomplete, historically situated, and as mentioned before it is further constrained training and harnessing.
-
-To drive this point home I think it is helpful to understand tokenization and cross-entropy training. This is "how" we get these models to identify useful next tokens.
-
-### Tokens and Cross-entropy Training
-
-Before a model can process text, a **tokenizer** converts it into numerical units. The process is designed so those units can later be decoded back into text.
-// todo make a little technical callout box that has some software engineering related icon
-Technically tokenization is a lossless compression technique. A popular method is **Byte Pair Encoding**, adapted from Philip Gage's [“A New Algorithm for Data Compression”](https://www.derczynski.com/papers/archive/BPE_Gage.pdf).
-
-<Flow>text → tokens →  inference → tokens → text</Flow>
-
-The pretraining process is eleqent in how it reinforces the model.  Given a sentance "the cat sat on the mat".
-we remove the the word "mat" then ask the model to predict the continuation.
-
-Given *The cat sat on the …*, the model might assign:
-
-| Possible next token | Probability |
-| --- | ---: |
-| `mat` | 70% |
-| `floor` | 15% |
-| `chair` | 5% |
-| everything else | 10% |
-
-<Asset id="neural-training-figure" />
-
-- The loss function measures the prediction error.
-- Backpropagation identifies how parameters contributed to it.
-- The optimizer updates those parameters to improve future predictions.
-
-Grant Anderson from 3Blue1Brown says usisng cross entropy loss is "actually equivalent to training the model to be the best possible text compressor". I   [“Reinventing Entropy | Compression is Intelligence Part 1”](https://www.youtube.com/watch?v=l6DKRf-fAAM) and [“But what is cross-entropy? | Compression is Intelligence Part 2”](https://www.youtube.com/watch?v=GlYgs6v2YfU).
 
 </Section>
 
