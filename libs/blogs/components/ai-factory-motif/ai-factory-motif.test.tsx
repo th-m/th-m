@@ -6,9 +6,9 @@ afterEach(cleanup);
 
 describe("AiFactoryMotif", () => {
   it.each([
-    ["morpheme-to-token", "Meaning does not arrive as a token", "Morpheme", "Token sequence"],
-    ["formalized-idea-to-density", "Constraint concentrates the continuation", "Formalized idea", "Targeted token field"],
-    ["ontology-to-tokens", "Ontology gives generation a world to target", "Ontology", "Token sequence"],
+    ["vision-to-morpheme", "Vision becomes a morpheme", "Vision", "Morpheme"],
+    ["discipline-to-morpheme", "Discipline stabilizes the morpheme", "Discipline", "Disciplined morpheme"],
+    ["ontology-of-morphemes", "Ontology coordinates disciplined morphemes", "Actor", "Constraint"],
   ] as const)("renders the %s chapter with an accessible diagram", (variant, title, firstLabel, secondLabel) => {
     render(<AiFactoryMotif variant={variant} />);
 
