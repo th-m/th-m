@@ -1,0 +1,10 @@
+# Project-scoped integrations for the th-m site and portfolio workflow.
+
+[plugins."netlify@openai-curated"]
+enabled = true
+
+[plugins."stripe@openai-curated"]
+enabled = true
+
+[plugins."figma@openai-curated"]
+enabled = true
