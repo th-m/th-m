@@ -94,24 +94,30 @@ describe("The Knowledge Factory published page", () => {
       screen.getByRole("heading", { name: "5. Fix the Factory Before Asking AI to Scale It" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "6. Systematize the Whole Chain" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "8. Human Direction Sets the Boundary" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "9. Retain Learning, Not Just Outputs" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "11. Human Direction Sets the Boundary" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "12. Retain Learning, Not Just Outputs" })).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: "12. Ontology Makes It Coherent; Cognition Makes It Learn",
+        name: "15. Ontology Makes It Coherent; Cognition Makes It Learn",
       }),
     ).toBeInTheDocument();
     expect(screen.getByText(/authoritative enough to own, version, validate, and regenerate/)).toBeInTheDocument();
     expect(screen.getByText("Systematize everything that repeats.")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Factory engineer" })).toBeInTheDocument();
     expect(screen.getByTestId("proposition-graph-figure")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "8. Triggers Open Investigations" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "9. Agent DAGs Make Delegation Inspectable" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "10. Engineer the Return Path" })).toBeInTheDocument();
+    expect(screen.getByAltText(/operational sensors feed an event contract/)).toBeInTheDocument();
+    expect(document.querySelector('[data-variant="trigger-opens-hypotheses"]')).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "From documents to executable context" })).toBeInTheDocument();
   });
 
   it("links every series essay through the writing routes", async () => {
     await renderPage();
     const links: Array<[string, string]> = [
       ["Vision and Values", "/writing/vision-and-values"],
-      ["Truth and Inference", "/writing/truth-and-inference"],
+      ["Truth and Coherence", "/writing/truth-and-inference"],
       ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
       ["Ontology Factory", "/writing/the-ontology-factory"],
       ["Cognitive Factory", "/writing/the-cognitive-factory"],
@@ -120,7 +126,7 @@ describe("The Knowledge Factory published page", () => {
       expect(screen.getByRole("link", { name })).toHaveAttribute("href", href);
     }
     expect(screen.getByRole("link", { name: "Cognitive Factory" }).closest("p")).toHaveTextContent(
-      "connects graph and executable context, evaluation, and feedback",
+      "develops the sensemaking capabilities that guide this machinery",
     );
   });
 });

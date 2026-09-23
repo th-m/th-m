@@ -10,8 +10,8 @@ an operating model. *Vision and Values* supplies accountable direction, *Truth
 and Coherence* supplies standards for judging claims, and *Understanding and
 Bottlenecks* distributes the capacity to judge. This article asks what system
 those teams need around AI generation. *Ontology Factory* will develop that
-system's semantic infrastructure; *Cognitive Factory* will develop its governed
-signal-to-action loop.
+system's semantic infrastructure; *Cognitive Factory* will develop its
+sensemaking, cognitive reach, signals, and discoverable organizational memory.
 
 **Central question:** What must an organization build around token generation to
 turn abundant AI output into verified outcomes that improve the next project?
@@ -227,8 +227,8 @@ action.
 introducing a second production diagram. Its intent/evidence, context, model,
 candidate inventory, evaluation, value, and rework stages provide the stable
 icon legend for this loop. The article prose adds retained learning as the step
-that revises context for the next cycle. Keep agent DAG mechanics for *Cognitive
-Factory*.
+that revises context for the next cycle. Sections 7–9 develop the trigger,
+agent DAG, and loop-engineering mechanics within this article.
 
 ### 5. Factory Engineers Make Context and Judgment Portable
 
@@ -306,7 +306,60 @@ project into greater capability for the next one.
 **Visual:** Use the evaluation-gate branch already present in the main loop. A
 second evaluation diagram would repeat rather than advance the reasoning.
 
-### 7. The Factory Compounds Learning, Not Output
+### 7. Triggers Open Investigations
+
+**Reader move:** From a signal to a bounded work proposal.
+
+Use the release/onboarding case moved from *Cognitive Factory*. Record the
+source, window, baseline, uncertainty, affected domain, owner, evidence links,
+and expiry in an event contract. Preserve regression, intended tradeoff, and
+coincidental change as alternative explanations.
+
+A trigger should open a hypothesis, not declare a diagnosis. Separate the
+permission to investigate from the permission to release. Define event
+identity, deduplication, cooldowns, and ownership so repeat observations do not
+silently produce repeat interventions.
+
+**Evidence:** Existing PostHog, Sentry, and CloudWatch primary documentation
+supports individual capabilities. Their composition is a proposed design.
+Choosing lead/lag measures and interpreting their meaning belongs in cognition.
+
+**Visual:** Move the shared trigger-opens-hypotheses motif into this section.
+
+### 8. Agent DAGs Make Delegation Inspectable
+
+**Reader move:** From authorized work to inspectable dependencies and handoffs.
+
+For each task, name inputs and retrieved context, outputs, tools, permissions,
+checks, dependencies, side effects, owner, and stop/recovery conditions.
+
+Context retrieval and reproduction may proceed independently before hypothesis
+review, implementation, verification, and integration. Keep the per-attempt DAG
+acyclic; bounded retries or later iterations belong to the enclosing workflow.
+Retain state across interruptions and guard repeated side effects.
+
+Keep local team authority intact. Integration ownership resolves shared effects
+without putting every local decision through a central director.
+
+**Visual:** Move the executable-context card here. Distinguish knowledge used as
+evidence from an accepted rule encoded as a schema, test, or policy.
+
+### 9. Engineer the Return Path
+
+**Reader move:** From completed artifact to an evaluated consequence.
+
+Specify expected effect, observation window, acceptable tradeoffs, outcome
+owner, stopping conditions, and rollback before execution. Follow observation,
+hypothesis, authorization, DAG, verification, release, consequence, and revision.
+
+Bound retries, handle missing or delayed observations, and close inconclusive
+work explicitly. Verification of the artifact and evaluation of its consequence
+answer different questions.
+
+**Visual:** Move the existing control-loop SVG here. Treat it as a proposed
+composition; cognition now owns the capabilities and memory behind its inputs.
+
+### 10. The Factory Compounds Learning, Not Output
 
 **Reader move:** From improving one delivery cycle to understanding the
 article's strategic destination: verified, reusable capability.
@@ -337,10 +390,9 @@ moat and name the conditions that would make it real: customer value, retention,
 reuse, and continued improvement.
 
 **Transition to the series:** *Ontology Factory* explains how shared context
-becomes precise enough to reuse. *Cognitive Factory* explains how signals,
-bounded decisions, agent work, evaluation, and memory operate as a governed
-closed loop. This article owns why the whole system is needed and how to judge
-whether it produces useful yield.
+becomes precise enough to reuse. *Cognitive Factory* explains how the organization interprets signals, relates
+history to current state, and retrieves relevant memory without loading the
+entire archive. This article owns the execution machinery and useful yield.
 
 **Visual:** Close by returning to **V_OUTPUT** in the token-economics figure and
 explain that a verified result becomes economically compounding only when its
@@ -356,8 +408,9 @@ assets; the return to the opening variables is the argument.
   Bottlenecks* as premises rather than reopening those arguments.
 - Keep ontology mechanics—bounded contexts, entity relationships, provenance,
   and semantic conflict resolution—in *Ontology Factory*.
-- Keep sensors, typed events, triggers, bounded decisions, agent DAGs, and the
-  detailed control loop in *Cognitive Factory*.
+- Own event contracts, triggers, bounded authorization, agent DAGs, and loop
+  engineering here. Keep cognitive light-cone assessment, 4DX signal selection,
+  Second Brain records, and selective discovery conventions in *Cognitive Factory*.
 - Do not equate generated output with accepted work, accepted work with customer
   impact, or customer impact with truth or moral value.
 - Do not claim a quantified productivity gain, universal organizational model,
@@ -389,6 +442,11 @@ evaluation authorizes action; and retained learning turns one verified outcome
 into greater capacity for the next.
 
 ## Sources and Locators
+
+- Sentry, [Seer](https://docs.sentry.io/product/ai-in-sentry/seer/); PostHog,
+  [Insights](https://posthog.com/docs/product-analytics/insights/); AWS,
+  [alarm actions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-actions.html).
+  Source the individual sensing mechanisms; the assembled workflow is a proposal.
 
 - DORA, Google, [*2025 State of AI-assisted Software Development
   Report*](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/),

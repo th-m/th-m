@@ -1,6 +1,6 @@
 ---
 title: The Knowledge Factory
-description: "Every company has a knowledge factory. The question is whether people merely work inside it or improve the system that turns evidence and intent into reliable outcomes."
+description: "Build the system around AI generation: reusable context, bounded triggers, inspectable agent DAGs, evaluation, and feedback that turns outcomes into reusable capability."
 publishedAt: 2026-08-22
 updatedAt: 2026-09-23
 tags: [Artificial Intelligence, Organizations, Strategy, Knowledge Work, Software Systems]
@@ -23,7 +23,7 @@ import { Card, CardContent, Figure, PropositionGraphFigure, secondBrainGraph, To
   <P>This fourth essay builds on three claims:</P>
   <ul>
     <li><strong><ArticleLink slug="vision-and-values">Vision and Values</ArticleLink>:</strong> value begins with human stakes and accountable choice, not output.</li>
-    <li><strong><ArticleLink slug="truth-and-inference">Truth and Inference</ArticleLink>:</strong> prediction needs stable constraints and feedback; coherence proves neither truth nor meaning.</li>
+    <li><strong><ArticleLink slug="truth-and-inference">Truth and Coherence</ArticleLink>:</strong> prediction needs stable constraints and feedback; coherence proves neither truth nor meaning.</li>
     <li><strong><ArticleLink slug="understanding-and-bottlenecks">Understanding and Bottlenecks</ArticleLink>:</strong> clear context lets more people solve the right problems.</li>
   </ul>
   <P>This essay asks what an organization must build once it accepts those claims.</P>
@@ -152,7 +152,107 @@ import { Card, CardContent, Figure, PropositionGraphFigure, secondBrainGraph, To
   </P>
 </Section>
 
-<Section index="12" title="8. Human Direction Sets the Boundary">
+<Section index="12" title="8. Triggers Open Investigations">
+  <P>
+    A product metric crosses a threshold after a release. PostHog reports a journey drop, Sentry reports errors,
+    and runtime telemetry supplies operating conditions. These observations justify investigation; they do not
+    establish a cause or authorize a code change. This is an illustrative workflow assembled from documented
+    sensing capabilities, not a demonstrated autonomous product.
+  </P>
+  <P>A trigger should open a hypothesis, not declare a diagnosis.</P>
+  <P>Translate the signal into an event contract containing:</P>
+  <ul>
+    <li>source, observation window, baseline, provenance, and uncertainty;</li>
+    <li>affected journey, system, release, and owner;</li>
+    <li>corroborating and contradicting evidence; and</li>
+    <li>permitted next steps, expiry, and links to the underlying observations.</li>
+  </ul>
+  <P>
+    Keep several explanations live: a regression, an intended change with an unexpected tradeoff, or a coincident
+    change elsewhere. Name the observation that could distinguish them. A work record links these hypotheses,
+    their evidence, and the person responsible for the next decision.
+  </P>
+  <Asset id="trigger-opens-hypotheses-motif" />
+  <P>
+    Configure thresholds, event identity, deduplication, and cooldowns so repeated alerts do not launch repeated
+    interventions. A trigger may schedule an investigation; the evidence and authority required for a release
+    remain separate. Rules handle exact conditions. Model judgment can help classify bounded ambiguity, while
+    contested goals and exceptions go to the responsible people.
+  </P>
+</Section>
+
+<Section index="13" title="9. Agent DAGs Make Delegation Inspectable">
+  <P>
+    Authorized work becomes a directed acyclic graph (DAG) of scoped tasks. For one investigation, context
+    retrieval and failure reproduction can proceed independently, converge on a hypothesis review, and then
+    feed a proposed change, verification, and an integration decision.
+  </P>
+  <P>Each node names:</P>
+  <ul>
+    <li>inputs, selectively retrieved context, and expected outputs;</li>
+    <li>tools, permissions, and permitted side effects;</li>
+    <li>dependencies, acceptance checks, and evidence to retain;</li>
+    <li>an owner and the authority required for the next handoff; and</li>
+    <li>retry limits, stop conditions, and recovery or rollback requirements.</li>
+  </ul>
+  <P>
+    The DAG describes dependencies within one work attempt. The feedback loop surrounds that attempt:
+    new evidence can schedule a revised graph or a bounded retry. A loop across attempts does not make
+    the task graph cyclic. Record state durably so interruption or duplicate delivery does not silently
+    repeat a side effect.
+  </P>
+  <P>
+    Give teams authority to revise local work within their boundary. An integration owner resolves shared
+    dependencies without becoming the mandatory reviewer of every local decision. Escalate changes that alter
+    another team's commitments or exceed the task's mandate.
+  </P>
+  <P>The graph—not the model—is the durable unit of automation.</P>
+  <P>
+    Here that means the inspectable work record preserves decisions, dependencies, and outcomes beyond an
+    individual model call. It is an architectural proposal, not a claim about a particular orchestration product.
+  </P>
+  <Asset id="executable-context-card" />
+  <P>
+    Executable context turns relevant knowledge into enforceable checks: a definition becomes a schema,
+    an ownership rule an escalation path, and an observed failure a regression case. Historical records remain
+    evidence to consult; they become operating constraints only through an explicit, owned decision.
+  </P>
+</Section>
+
+<Section index="14" title="10. Engineer the Return Path">
+  <Figure caption="A proposed factory control loop. Observations enter through a contract; work proceeds through explicit authority and verification; consequences return as evidence.">
+    <Asset id="factory-control-loop" />
+  </Figure>
+  <P>
+    Loop engineering connects a completed action to the consequence it was meant to produce. Before executing,
+    name the expected effect, observation window, acceptable tradeoffs, outcome owner, and conditions for stopping
+    or reversing the change.
+  </P>
+  <ol>
+    <li>Record a signal and the competing explanations it opens.</li>
+    <li>Authorize a bounded investigation and instantiate its task graph.</li>
+    <li>Produce a reviewable artifact with evidence and integration ownership.</li>
+    <li>Apply checks and the appropriate release authority.</li>
+    <li>Observe customer and operational consequences during the stated window.</li>
+    <li>Retain the result, revise the hypothesis, and update the relevant evaluation or procedure.</li>
+  </ol>
+  <P>
+    Verification checks the artifact against known requirements. Outcome evaluation asks whether the action
+    produced the intended effect. A passing test can coexist with a worse customer journey; a recovered funnel
+    can conceal higher support cost.
+  </P>
+  <P>
+    Bound retries and escalation, define what happens when evidence never arrives, and make delayed outcomes
+    visible. Close the work as inconclusive when warranted. Repeated generation without a stopping rule is
+    an unfinished process, not a learning loop.
+  </P>
+  <P className="article-outline__flow">
+    Work produces outcomes → outcomes produce evidence → evidence updates context and evaluation →
+    better context can improve the next work.
+  </P>
+</Section>
+
+<Section index="15" title="11. Human Direction Sets the Boundary">
   <P>
     A factory retrieves evidence, generates options, exposes inconsistencies, and simulates reactions. It cannot
     choose the future or whose outcome counts. Evidence narrows the choice; a person makes the accountable wager.
@@ -169,7 +269,7 @@ import { Card, CardContent, Figure, PropositionGraphFigure, secondBrainGraph, To
   <Quote><strong>Systematize the feedback. Do not automate away the judgment.</strong></Quote>
 </Section>
 
-<Section index="13" title="9. Retain Learning, Not Just Outputs">
+<Section index="16" title="12. Retain Learning, Not Just Outputs">
   <P>The factory compounds only when completed work changes the context available to the next decision:</P>
   <P className="article-outline__flow">Evidence → interpretation → choice → action → outcome → revised context.</P>
   <Figure caption="Work becomes reusable when outcomes revise the next decision's context."><Asset id="feedback-loop-figure" /></Figure>
@@ -185,7 +285,7 @@ import { Card, CardContent, Figure, PropositionGraphFigure, secondBrainGraph, To
   <P><ToolLauncher toolId="relationship-graph" href="/relationship-graph" label="Explore the relationship graph" />{" "}or open the <BlogLink href="/relationship-graph">relationship graph editor</BlogLink>.</P>
 </Section>
 
-<Section index="14" title="10. Start with One Broken Handoff">
+<Section index="17" title="13. Start with One Broken Handoff">
   <P>Do not begin with a company-wide AI program. Start where context disappears or judgment is trapped in a review queue:</P>
   <ol>
     <li>Trace customer experience to observed consequence.</li>
@@ -199,7 +299,7 @@ import { Card, CardContent, Figure, PropositionGraphFigure, secondBrainGraph, To
   <P>The goal is more sound judgment, responsible experiments, and consequences returned to memory—not maximum automation.</P>
 </Section>
 
-<Section index="15" title="11. What Actually Compounds">
+<Section index="18" title="14. What Actually Compounds">
   <P>
     Durable advantage is the residue of learning. Proprietary data, domain knowledge, ontology, tools, relationships,
     infrastructure, and network effects become defensible as one customer-value system that improves through use.
@@ -207,20 +307,21 @@ import { Card, CardContent, Figure, PropositionGraphFigure, secondBrainGraph, To
   </P>
 </Section>
 
-<Section index="16" title="12. Ontology Makes It Coherent; Cognition Makes It Learn">
+<Section index="19" title="15. Ontology Makes It Coherent; Cognition Makes It Learn">
   <P>
     Two disciplines complete the model. The <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink>{" "}
     makes ownership, vocabulary, relationships, constraints, and evidence rules checkable. The{" "}
-    <ArticleLink slug="the-cognitive-factory">Cognitive Factory</ArticleLink> connects graph and executable context,
-    evaluation, and feedback so outcomes improve the next work. Ontology stabilizes; cognition acts and revises;
-    humans choose what is worth pursuing.
+    <ArticleLink slug="the-cognitive-factory">Cognitive Factory</ArticleLink> develops the sensemaking capabilities that guide this machinery: meaningful signals, cognitive reach, and
+    discoverable memory of plans, priorities, decisions, and outcomes. Ontology makes those records interpretable;
+    cognition relates them to the present problem; people choose what is worth pursuing.
   </P>
 </Section>
 
 <div className="essay-closing"><blockquote>The companies that win will let teams see the whole line, learn from its consequences, and improve the factory—not merely turn engineers into faster workers.</blockquote></div>
 
-<Section index="17" title="Sources">
+<Section index="20" title="Sources">
   <ul>
+    <li>Sentry, <ExternalLink href="https://docs.sentry.io/product/ai-in-sentry/seer/">Seer documentation</ExternalLink>; PostHog, <ExternalLink href="https://posthog.com/docs/product-analytics/insights/">Insights documentation</ExternalLink>; AWS, <ExternalLink href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-actions.html">CloudWatch alarm actions</ExternalLink>. Individual sensing and investigation capabilities; the workflow composition is proposed here.</li>
     <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. AI as a systems problem amplifying strengths and weaknesses.</li>
     <li>Ikujiro Nonaka, <ExternalLink href="https://doi.org/10.1287/orsc.5.1.14">“A Dynamic Theory of Organizational Knowledge Creation”</ExternalLink> (1994). Continuous knowledge creation as shared capability.</li>
     <li>James G. March, <ExternalLink href="https://doi.org/10.1287/orsc.2.1.71">“Exploration and Exploitation in Organizational Learning”</ExternalLink> (1991). Exploration versus capability refinement.</li>

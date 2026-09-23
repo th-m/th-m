@@ -107,5 +107,6 @@ learning, provenance, versioning, and evaluation into those sections.
 
 ## Handoff
 
-*Cognitive Factory* uses this map to turn operational signals into bounded,
-inspectable decisions and actions.
+*Cognitive Factory* uses this map to interpret signals and connect discoverable
+organizational memory with the present decision. Triggers, agent DAGs, and loop
+engineering belong in *The Knowledge Factory*.

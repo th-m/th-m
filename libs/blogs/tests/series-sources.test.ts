@@ -41,11 +41,14 @@ const consolidationAnchors: Record<string, string[]> = {
     "Once the root goal is supplied, it becomes valuable to explore opportunities",
   ],
   "the-cognitive-factory": [
+    "A cognitive factory connects present signals, remembered experience, and anticipated consequences",
+    "Discoverability is a convention for finding relevant context.",
+    "A past priority is evidence about an earlier decision; it is not automatically a current instruction.",
+  ],
+  "the-knowledge-factory": [
     "A trigger should open a hypothesis, not declare a diagnosis.",
     "The graph—not the model—is the durable unit of automation.",
     "Work produces outcomes → outcomes produce evidence → evidence updates context and evaluation",
-  ],
-  "the-knowledge-factory": [
     "Customer experience → evidence → interpretation → priority → design → implementation",
     "An implicit factory keeps queues hidden and decisions gated",
   ],

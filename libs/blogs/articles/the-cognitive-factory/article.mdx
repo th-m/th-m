@@ -1,217 +1,259 @@
 ---
 title: Cognitive Factory
-description: "Reliable automation needs more than agents: it needs typed observations, bounded authority, inspectable work, evaluated consequences, and a return path that changes the next decision."
+description: "An agentic factory needs a wider capacity to make sense of its world: meaningful signals, historical and current context, and memory it can discover without loading everything."
 publishedAt: 2026-08-22
 updatedAt: 2026-09-23
-tags: [Artificial Intelligence, Knowledge Work, Software Systems]
+tags: [Artificial Intelligence, Organizations, Knowledge Work, Software Systems]
 ---
 # Cognitive Factory
 
+<Section index="01" title="Overview">
+
 <Lede>
-  A product metric crosses a threshold. An agent traces the change to a recent release, edits the code, runs the tests, and deploys the fix. The customer journey recovers before anyone opens a dashboard.
+  Two teams see the same drop in customer activation. One sees a release to
+  reverse. The other also finds a planned experiment, an earlier failed attempt,
+  and a changed product priority. Those records can change what the team should
+  investigate—and whether changing code is useful at all.
 </Lede>
 
-That tempting version hides every important judgment. A metric does not prove
-cause, a diagnosis does not authorize action, a test does not prove a customer
-effect, and a completed run does not teach the next one.
-
-Removing a person from the interface redistributes judgment across the system
-around the model. A cognitive factory makes that system explicit:
+The factory's ability to act depends on the world it can make sense of. A team
+may execute an impeccable workflow while overlooking the reason the work exists.
 
 <Callout>
-  signal → typed observation → hypothesis → bounded decision → agent graph →
-  reviewable action → evaluated consequence → retained learning
+  A cognitive factory connects present signals, remembered experience, and
+  anticipated consequences so people and agents can develop better judgments.
 </Callout>
 
-This loop puts the factory into motion without granting a model unbounded
-authority. It is a proposal, not a demonstrated system.
+<ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink>
+develops triggers, agent DAGs, and the engineering of feedback loops.
+This closing essay examines the capabilities those mechanisms serve:
+how far the factory can see, what it can understand, and which experiences can
+change its next decision.
 
-<Asset id="cognitive-control-loop" />
+</Section>
 
-## 1. Sense: Signals Must Become Typed Observations
+<Section index="02" title="The AI Factory Series">
 
-Suppose PostHog reports a journey drop after a release, Sentry reports more
-errors, and runtime telemetry shows pressure. The signals justify
-investigation, but identify neither cause nor response.
+1. <ArticleLink slug="vision-and-values">Vision and Values</ArticleLink>
+2. <ArticleLink slug="truth-and-inference">Truth and Coherence</ArticleLink>
+3. <ArticleLink slug="understanding-and-bottlenecks">Understanding and Bottlenecks</ArticleLink>
+4. <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink>
+5. <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink>
+6. **Cognitive Factory — you are here**
 
-The factory first translates them into a typed observation that records:
+</Section>
 
-- source, window, provenance, baseline, and confidence;
-- the affected journey, service, release, and owner;
-- corroborating and contradicting evidence; and
-- permitted next steps, expiry conditions, and links to the evidence.
+<Section index="03" title="1. How Far Can the Factory Make Sense?">
 
-Ontology resolves fields such as `release` and `customer journey` to governing
-definitions. The contract makes the claim bounded, traceable, and reviewable,
-not automatically true.
+Michael Levin's cognitive light cone concerns the spatial and temporal reach
+of the goals and events a system can measure, model, and try to affect. His
+framework examines diverse forms of agency; applying it to an organization is
+the adaptation proposed here. It supplies no validated intelligence score for
+an AI factory. [Levin, 2019](https://doi.org/10.3389/fpsyg.2019.02688).
 
-## 2. Hypothesize: A Trigger Opens an Investigation
+Consider a particular customer-onboarding workflow. Can it connect a failed
+request to a customer's interrupted project? Can it retrieve the decision made
+three months ago, distinguish it from today's priority, and anticipate a
+tradeoff that will appear next month? Can the responsible team intervene and
+later determine whether its explanation held?
 
-A trigger should open a hypothesis, not declare a diagnosis. At least three
-explanations remain live:
-
-1. The release introduced a code regression that broke the journey.
-2. The intended change created an unexpected product tradeoff.
-3. The timing is coincidental or another event caused the change.
-
-The record keeps alternatives, evidence, confidence, and the next discriminating
-observation. **Coherence** asks whether an explanation fits the system.
-**Correspondence** asks whether it matches independent evidence.
-**Consequence** follows an authorized action that tests the prediction.
-
-<Asset id="trigger-opens-hypotheses-motif" />
-
-Preserving alternatives makes uncertainty available to the policy deciding
-what action is justified.
-
-## 3. Decide: Judgment Is Bounded; Authority Stays Explicit
-
-Evidence can narrow the field without deciding what the system may do. The
-decision layer chooses among a finite set: investigate, experiment, prepare a
-change, request approval, abstain, or escalate.
-
-Hard constraints belong in policy. Bounded ambiguity can use a typed primitive
-such as Jev; contested goals and novel exceptions remain with people. The system
-still owns thresholds, permissions, escalation, and side effects. A model
-proposes a judgment. The system authorizes an action.
-
-For this incident, evidence may authorize investigation and a proposed patch
-while withholding deployment. A bounded decision authorizes a kind of work,
-not an open-ended agent session.
-
-## 4. Execute: Agent Graphs Make Work Inspectable
-
-Authorized work becomes a directed graph of scoped tasks. Each node names its
-inputs, tools, permissions, outputs, checks, dependencies, side effects, owner,
-and stop conditions. The graph exposes where evidence entered, where a guess
-became a plan, and where an action became possible.
-
-### Graph Context
-
-Graph context links hypotheses, evidence, definitions, owners, systems,
-decisions, and outcomes with provenance. The factory can trace which customer
-evidence motivated a capability, which definition governs it, and which systems
-a change will affect.
-
-Storage is secondary. What matters is tracing evidence and definitions through
-a decision to the outcome that may revise them.
-
-### Executable Context
-
-Executable context turns relationships into constraints: a definition becomes
-a schema, ownership an escalation path, a promise an evaluation, a failure a
-regression case, and a rollback requirement a release gate.
-
-<Asset id="executable-context-card" />
-
-For the incident, nodes reproduce the failure, retrieve context, compare
-hypotheses, prepare a patch, run evaluations, and assemble a pull request.
-Missing evidence triggers retrieval; unresolved hypotheses trigger escalation.
-The graph—not the model—is the durable unit of automation. It preserves where
-judgment entered and which authority permitted the next step.
-
-## 5. Evaluate: Close One Signal-to-Outcome Loop
-
-An inspectable graph may produce a verified artifact. The factory must still
-compare its result with the predicted consequence:
-
-1. Signals become a typed observation and competing hypotheses.
-2. Policy authorizes bounded investigation and a reviewable artifact.
-3. Tests, evaluations, policy checks, and the proper authority govern release.
-4. Product and operational telemetry confirm, narrow, or reject the hypothesis.
-
-Verification asks whether the artifact passed known checks. Evaluation asks
-whether the action produced the intended effect. A passing test can coexist
-with a worse customer journey; a recovered funnel can conceal higher operating
-cost. The consequence gate therefore names the intended effect, observation
-window, acceptable tradeoffs, and authority for interpreting the result.
-
-“Self-driving” should mean a governed cycle, not an alert deploying code
-unattended. No cited source demonstrates this complete autonomous path.
-
-## 6. Learn: Retained Consequences, Not Activity, Compound
-
-<Callout>
-  Work produces outcomes → outcomes produce evidence → evidence updates context
-  and evaluation → better context can improve the next work.
-</Callout>
-
-The word **can** carries the argument. The system must retain the hypothesis,
-evidence, authority, intended effect, actual outcome, correction, and changed
-context or evaluation. Otherwise, more tickets, code, tool calls, or tokens are
-only activity.
-
-The incident might produce a regression case, corrected ownership, a revised
-release gate, or a failed-hypothesis record. The durable asset compares what the
-factory expected with what happened. Reflexion shows that retained feedback can
-improve agent trials, not that memory creates organizational learning.
-
-<Asset id="consequence-returns-to-context-motif" />
-
-Measure time to a verified outcome, rework cost, recurrence of known failures,
-customer and operational effects, and the decisions teams can make safely.
-Lower token cost is not better judgment, and faster generation is not a better
-outcome.
-
-### The Cognitive Light Cone as a Workflow Diagnostic
-
-Michael Levin's cognitive light cone becomes a qualitative diagnostic for one
-configured workflow:
-
-- **Observe:** What evidence can it sense, with what provenance?
-- **Interpret:** Which definitions, relationships, and alternatives can it use?
-- **Affect:** What can it change through bounded, reversible actions?
-- **Learn:** Which outcomes can revise later context or evaluation?
-
-The score describes the workflow, not the intrinsic rank of a model, agent,
-organization, or mind.
+These questions describe a capability profile. An agent that can edit many
+files may have a narrow understanding of the consequences. A system that
+retrieves a million documents may still miss the one decision that governs
+the present case.
 
 <Asset id="light-cone-scorecard" />
 
-The destination is not maximal independent action. It is wider but bounded
-capacity, paired with reversibility, escalation, and accountable authority.
+Use the profile to measure a configured factory against named tasks. Keep
+observable reach, understanding, and authorized influence separate. More access
+does not itself establish competence or grant permission to act.
 
-## 7. Build the Feedback Chain in Dependency Order
+</Section>
 
-A team can begin with one consequential feedback chain:
+<Section index="04" title="2. Choose Signals That Explain Progress">
 
-1. Choose one workflow and name its outcome.
-2. Connect evidence with provenance and ownership.
-3. Define the concepts, permissions, and boundaries.
-4. Normalize observations, hypotheses, and decision paths.
-5. Build evaluation and rollback before authority expands.
-6. Represent work and ownership as a graph.
-7. Return consequences to context and evaluation.
-8. Widen the mandate only when outcomes justify it.
+A factory needs a reason to attend to a signal. FranklinCovey's *The 4 Disciplines
+of Execution* distinguishes lag measures of results from lead measures chosen
+for their expected relationship to those results and the team's ability to
+influence them. That gives us a practical question: which controllable behavior
+do we expect to improve the outcome? [FranklinCovey](https://www.franklincovey.com/blog/5-ways-to-narrow-sales-focus-in-uncertainty/).
 
-Evidence makes signals inspectable; ontology makes them interpretable; policy
-and graphs make action governable; retention changes the next cycle.
+For the onboarding case, use an explicitly hypothetical measurement plan:
 
-The six essays now form one operating system. Vision chooses the direction.
-Truth tests the claims. Understanding places judgment where the work happens.
-The knowledge factory organizes production, and ontology supplies the map. The
-cognitive factory closes the loop.
+| Kind | Example | What the team needs to learn |
+| --- | --- | --- |
+| Lag measure | Share of a defined customer cohort completing its first successful import within seven days. | Did the intended customer result improve? |
+| Candidate lead measure | Share of scheduled customer import trials completed with representative data before release. | Does this controllable practice predict fewer failed first imports? |
+| Diagnostic signal | Validation errors, support reports, and where customers abandon the flow. | Which explanations fit the observed difficulty? |
+| Guardrail | Support effort per onboarding and severe import failures. | Did apparent progress transfer cost or harm elsewhere? |
 
-## The AI Factory Series
+The proposed lead measure must earn its place through evidence. Counting trials
+can reward superficial activity; an early-arriving metric is not automatically
+a useful lead measure. Keep the definition, cohort, baseline, observation
+window, owner, and expected relationship visible. If the practice improves
+while the customer outcome does not, revisit the relationship.
 
-1. <ArticleLink slug="vision-and-values">Vision and Values</ArticleLink>
-2. <ArticleLink slug="truth-and-inference">Truth and Inference</ArticleLink>
-3. <ArticleLink slug="understanding-and-bottlenecks">Understanding and Bottlenecks</ArticleLink>
-4. <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink>
-5. <ArticleLink slug="the-ontology-factory">The Ontology Factory</ArticleLink>
-6. **The Cognitive Factory**
+A scoreboard becomes informative when it connects effort with consequence.
+A threshold used to start work belongs to the factory's execution policy.
+Cognition asks what the observation means, which competing explanations remain,
+and whether the goal or measure needs revision.
 
-## Sources
+</Section>
 
-- Sentry, [“Seer” documentation](https://docs.sentry.io/product/ai-in-sentry/seer/).
-- PostHog, [“Insights” documentation](https://posthog.com/docs/product-analytics/insights).
-- Amazon Web Services, [“Alarm actions” documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-actions.html).
-- TypeSafe AI, [TypeSafe AI skill documentation](https://github.com/typesafe-ai/skills/blob/main/skills/typesafe-ai/SKILL.md).
-- Michael Levin, [“Technological Approach to Mind Everywhere: An Experimentally-Grounded Framework for Understanding Diverse Bodies and Minds”](https://doi.org/10.3389/fnsys.2022.768201) (2022).
-- Shunyu Yao and colleagues, [“ReAct: Synergizing Reasoning and Acting in Language Models”](https://arxiv.org/abs/2210.03629) (2023).
-- Noah Shinn and colleagues, [“Reflexion: Language Agents with Verbal Reinforcement Learning”](https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html) (2023).
-- W3C, [“PROV-O: The PROV Ontology”](https://www.w3.org/TR/prov-o/) (2013).
-- National Institute of Standards and Technology, [*Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile*](https://doi.org/10.6028/NIST.AI.600-1) (2024).
-- DORA, Google, [*2025 State of AI-assisted Software Development Report*](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/).
+<Section index="05" title="3. A Second Brain Holds History and Current State">
 
-Their composition into this loop is this essay's synthesis.
+Tiago Forte's *Building a Second Brain* offers a practice for keeping knowledge
+outside immediate memory so it can support later work. His PARA method organizes
+material around projects, areas of responsibility, resources, and archives.
+Here, that is a starting point for organizational memory, extended with
+ownership, record state, provenance, and relationships.
+[Forte's Second Brain](https://www.buildingasecondbrain.com/) and
+[PARA](https://fortelabs.com/blog/para/).
+
+The factory needs both a history of what happened and a view of what currently
+governs the work:
+
+| Record | Current state | History that remains useful |
+| --- | --- | --- |
+| Project plan | Owner, objective, dependencies, status, and next decision. | Earlier assumptions, changed scope, and reasons for changes. |
+| Experiment | Hypothesis, observation window, status, and interpretation. | Predicted and observed results, including failures and uncertainty. |
+| Architecture decision record (ADR) | Accepted decision, scope, and whether it remains in force. | Alternatives, rationale, consequences, and superseding decisions. |
+| Product and project priorities | Present order, constraints, owner, and effective date. | Which priorities changed, when, and why. |
+
+A past priority is evidence about an earlier decision; it is not automatically
+a current instruction. An experiment that failed in one customer segment does
+not settle a different segment's case. A superseded ADR can explain the code
+without authorizing a new implementation.
+
+State therefore travels with the record. Preserve identities and revision
+history, connect replacements to what they supersede, and give someone
+responsibility for freshness. Conflicting records should expose a question
+for the owner rather than quietly collapse into a confident summary.
+
+</Section>
+
+<Section index="06" title="4. Make Context Discoverable by Convention">
+
+This memory can remain in the systems that maintain it: a project tracker,
+research store, decision log, or document workspace. Copying their entire
+contents into a source repository creates another body of material to keep
+current.
+
+The repository should keep the implementation, contracts, and decisions that
+must be reviewed with the code. An ADR governing a code boundary may belong
+beside that code. Changing roadmaps, raw research, and historical project
+material can remain with their owners elsewhere.
+
+Give people and agents a small, predictable entry point. A repository's
+existing agent instructions or a linked context index can identify:
+
+- the project and domain identifiers used to look up relevant records;
+- the authoritative locations for plans, experiments, ADRs, and priorities;
+- the owner, access method, and fields used to judge a record's state; and
+- when each source should be consulted.
+
+This is a proposed convention, not a new documentation repository. The entry
+point routes discovery; it does not replicate the organization's memory.
+
+At the destination, each record needs a stable identity, type, scope, owner,
+status, effective or updated date, and links to evidence and related records.
+Summaries help choose what to open. Source links let the reader recover the
+reasoning and verify that the summary still applies.
+
+</Section>
+
+<Section index="07" title="5. Retrieve the Context the Decision Needs">
+
+Forte's progressive summarization preserves access to underlying detail while
+making the useful parts easier to find. We can adapt that principle into a
+bounded retrieval practice for people and agents.
+[Progressive Summarization](https://fortelabs.com/blog/progressive-summarization-a-practical-technique-for-designing-discoverable-notes/).
+
+Start with the question and its scope, then navigate from a small index to
+selected records and their evidence:
+
+1. Identify the affected project, domain, decision, and time period.
+2. Inspect record summaries and state to choose relevant sources.
+3. Open the few records that can support or contradict the proposed explanation.
+4. Follow their evidence or supersession links when a consequential detail is missing.
+5. Assemble the relevant excerpts with provenance, dates, uncertainty, and a retrieval budget.
+
+For the activation drop, the first packet might contain the current onboarding
+priority, the release's experiment, one governing ADR, and the measurement
+definition. An earlier experiment enters only if its conditions bear on a
+live hypothesis. The team can expand its inquiry when those records reveal a
+gap.
+
+A retrieval limit needs a visible stopping condition. If missing information
+could change the decision, mark the gap and seek it or escalate; do not treat
+the budget as evidence that the search was complete. If access is unavailable,
+preserve that uncertainty. Retrieved material informs the work within existing
+authority; an archived instruction does not silently acquire new authority.
+
+<Callout>
+  Discoverability is a convention for finding relevant context. It is not a
+  requirement to load the organization's entire memory into every prompt.
+</Callout>
+
+</Section>
+
+<Section index="08" title="6. Experience Must Change the Next Judgment">
+
+Return to the two teams. Finding the experiment may reveal that the activation
+drop was an anticipated tradeoff. Finding its outcome may show that the tradeoff
+failed. Finding a current priority may explain why the same tradeoff is now
+unacceptable. The useful capability is relating those records to the present
+decision.
+
+<Asset id="consequence-returns-to-context-motif" />
+
+Retain the comparison between expectation and result, the explanation it
+changed, and who accepted the revision. Promote durable findings into the
+appropriate definition, test, decision, or operating practice. Keep the fuller
+experimental history linked and discoverable.
+
+That division gives the factory a working memory for today's task and a
+larger organizational memory it can consult. Neither requires every fact to
+be permanently present in the model's context.
+
+</Section>
+
+<Section index="09" title="7. Evaluate the Factory's Cognitive Reach">
+
+Use representative cases with known relevant evidence to test whether the
+configured system can:
+
+- find the current priority and distinguish it from a superseded one;
+- connect a present symptom to an applicable earlier experiment or decision;
+- preserve a credible alternative explanation and identify missing evidence;
+- trace the claims in a recommendation to their sources; and
+- revisit the recommendation when a later outcome contradicts it.
+
+Record retrieval misses, stale-state mistakes, unsupported claims, and review
+effort alongside task success. Compare the same tasks under different context
+and memory arrangements. These are proposed evaluations of this factory's
+sensemaking, not a universal cognition benchmark.
+
+The temporal reach matters: how far back can the system recover applicable
+experience, and how far forward can it formulate consequences that someone
+will actually evaluate? Its reach across teams matters too: can one group's
+learning inform another without erasing the difference between their contexts?
+A larger capability profile is useful when it improves those judgments.
+
+The series ends with an organization that can choose direction, test claims,
+distribute understanding, execute work, maintain shared meaning, and make sense
+of experience. Its second brain gives the next decision a history without
+requiring every decision to carry the whole archive.
+
+</Section>
+
+<Section index="10" title="Sources">
+
+- Michael Levin, [“The Computational Boundary of a ‘Self’: Developmental Bioelectricity Drives Multicellularity and Scale-Free Cognition”](https://doi.org/10.3389/fpsyg.2019.02688) (2019). The organizational capability profile is this article's adaptation.
+- FranklinCovey, [“5 Ways to Narrow Your Sales Focus in Times of Uncertainty”](https://www.franklincovey.com/blog/5-ways-to-narrow-sales-focus-in-uncertainty/). Lead and lag measures; the onboarding measures are illustrative.
+- Tiago Forte, [*Building a Second Brain*](https://www.buildingasecondbrain.com/).
+- Tiago Forte, [“The PARA Method”](https://fortelabs.com/blog/para/). The record conventions proposed here extend a personal knowledge-management practice.
+- Tiago Forte, [“Progressive Summarization: A Practical Technique for Designing Discoverable Notes”](https://fortelabs.com/blog/progressive-summarization-a-practical-technique-for-designing-discoverable-notes/). Selective agent retrieval is an adaptation, not an evaluated result of this source.
+- W3C, [“PROV-O: The PROV Ontology”](https://www.w3.org/TR/prov-o/) (2013). A reference vocabulary for provenance; it does not prescribe this storage design.
+
+</Section>

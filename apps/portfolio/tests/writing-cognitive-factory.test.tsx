@@ -17,7 +17,7 @@ function cognitiveFactoryArticle(): PublishedArticle {
   return {
     slug: "the-cognitive-factory",
     title: "Cognitive Factory",
-    description: "Reliable automation needs typed observations, bounded authority, evaluated consequences, and retained learning.",
+    description: "Sensemaking connects signals, current priorities, historical evidence, and discoverable memory.",
     publishedAt: "2026-08-22",
     tags: ["Artificial Intelligence", "Knowledge Work"],
     articlePath: "posts/the-cognitive-factory/article.mdx",
@@ -52,39 +52,36 @@ describe("Cognitive Factory published page", () => {
     await renderPage();
     expect(screen.getByText("Essay")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Cognitive Factory" })).toBeInTheDocument();
-    expect(screen.getByText(/Reliable automation needs typed observations/)).toBeInTheDocument();
+    expect(screen.getByText(/Sensemaking connects signals/)).toBeInTheDocument();
     expect(screen.getByText("Published August 22, 2026")).toBeInTheDocument();
     expect(screen.queryByText("Essay outline")).not.toBeInTheDocument();
   });
 
-  it("renders the cognition sections without the retired graph explorer", async () => {
+  it("renders sensemaking and selective memory while execution belongs to the factory", async () => {
     await renderPage();
-    expect(screen.getByRole("heading", { name: "1. Sense: Signals Must Become Typed Observations" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "2. Hypothesize: A Trigger Opens an Investigation" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "3. Decide: Judgment Is Bounded; Authority Stays Explicit" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "4. Execute: Agent Graphs Make Work Inspectable" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "5. Evaluate: Close One Signal-to-Outcome Loop" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "6. Learn: Retained Consequences, Not Activity, Compound" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "7. Build the Feedback Chain in Dependency Order" })).toBeInTheDocument();
-    expect(screen.queryByText(/Explore the graph/)).not.toBeInTheDocument();
-    expect(screen.getAllByText(/Sentry/).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/PostHog/).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Jev/).length).toBeGreaterThan(0);
-    expect(screen.getByAltText(/operational sensors feed an event contract/)).toBeInTheDocument();
-    expect(document.querySelector('[data-variant="trigger-opens-hypotheses"]')).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "1. How Far Can the Factory Make Sense?" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "2. Choose Signals That Explain Progress" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "3. A Second Brain Holds History and Current State" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "4. Make Context Discoverable by Convention" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "5. Retrieve the Context the Decision Needs" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "7. Evaluate the Factory's Cognitive Reach" })).toBeInTheDocument();
+    expect(screen.queryByAltText(/operational sensors feed an event contract/)).not.toBeInTheDocument();
+    expect(document.querySelector('[data-variant="trigger-opens-hypotheses"]')).not.toBeInTheDocument();
     expect(document.querySelector('[data-variant="consequence-returns-to-context"]')).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "Capability reach" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "Governance conditions" })).toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: "Bare model call" })).not.toBeInTheDocument();
+    expect(screen.getByRole("rowheader", { name: "Temporal reach" })).toBeInTheDocument();
   });
 
   it("links the series essays through the writing routes", async () => {
     await renderPage();
     const links: Array<[string, string]> = [
       ["Vision and Values", "/writing/vision-and-values"],
-      ["Truth and Inference", "/writing/truth-and-inference"],
+      ["Truth and Coherence", "/writing/truth-and-inference"],
       ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
-      ["The Ontology Factory", "/writing/the-ontology-factory"],
+      ["Ontology Factory", "/writing/the-ontology-factory"],
     ];
     for (const [name, href] of links) {
       const matches = screen.getAllByRole("link", { name });

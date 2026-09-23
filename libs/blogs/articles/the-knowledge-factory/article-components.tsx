@@ -1,5 +1,5 @@
 import { defineArticleComponents } from "@th-m/blogs/mdx";
-import { AiFactoryIcon, type AiFactoryIconKind } from "@th-m/blogs/components";
+import { AiFactoryIcon, AiFactoryMotif, type AiFactoryIconKind } from "@th-m/blogs/components";
 import articleAssets from "./article-assets";
 import { Fragment, type ReactNode } from "react";
 import type { PublishedPost } from "@th-m/blogs/publish";
@@ -598,7 +598,41 @@ function AdversarialDiplomaticFigure() {
 }
 
 export { AdversarialDiplomaticFigure, ArrowMarker, Card, CardContent, EXPLICIT_FACTORY_BOXES, FeedbackLoopFigure, Figure, formatDate, Fragment, GLOSSARY, GlossaryCards, HoverCard, HoverCardContent, HoverCardTrigger, IMPLICIT_FACTORY_BOXES, ImplicitVsExplicitFactory, KnowledgeFactoryStack, Link, LinkPreview, OntologyStrategyFigure, participant, PIPELINE_STEPS, ProductPipeline, PropositionGraphFigure, secondBrainGraph, STACK_LAYERS, ToolLauncher, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, WorkerVsFactoryEngineer };
+const CONTEXT_MAPPINGS: Array<[string, string]> = [
+  ["a definition", "becomes a schema or validation rule"],
+  ["an architectural judgment", "becomes a dependency boundary"],
+  ["a customer promise", "becomes an evaluation"],
+  ["an exception", "becomes an escalation path"],
+  ["an observed failure", "becomes a regression case"],
+  ["a decision", "becomes a traceable link between evidence and outcome"],
+];
+
+function ExecutableContextCard() {
+  return (
+    <Card className="essay-card">
+      <CardContent>
+        <h4>From documents to executable context</h4>
+        <dl className="essay-mapping">
+          {CONTEXT_MAPPINGS.map(([from, to]) => (
+            <Fragment key={from}>
+              <dt>{from}</dt>
+              <dd>{to}</dd>
+            </Fragment>
+          ))}
+        </dl>
+      </CardContent>
+    </Card>
+  );
+}
+
+function TriggerOpensHypothesesMotif() {
+  return <AiFactoryMotif variant="trigger-opens-hypotheses" />;
+}
+
+
 export default defineArticleComponents(articleAssets, () => ({
+  "trigger-opens-hypotheses-motif": TriggerOpensHypothesesMotif,
+  "executable-context-card": ExecutableContextCard,
   "feedback-loop-figure": FeedbackLoopFigure,
   "glossary-cards": GlossaryCards,
   "implicit-vs-explicit-factory": ImplicitVsExplicitFactory,
