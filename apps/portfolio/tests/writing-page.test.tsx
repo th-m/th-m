@@ -67,7 +67,7 @@ describe("ArticleContent MDX rendering", () => {
         <ArticleContent article={article("vision-and-values")} />
       </ToolDrawerProvider>,
     );
-    for (const link of screen.getAllByRole("link", { name: "Truth and Inference" })) {
+    for (const link of screen.getAllByRole("link", { name: "Truth and Coherence" })) {
       expect(link).toHaveAttribute("href", "/writing/truth-and-inference");
     }
     expect(screen.getByRole("link", { name: "AI Consciousness Is Incoherent" })).toHaveAttribute(

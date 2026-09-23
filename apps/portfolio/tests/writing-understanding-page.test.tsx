@@ -167,6 +167,13 @@ describe("Understanding and Bottlenecks published page", () => {
       within(inference).getByText("Illustrative next-token probabilities"),
     ).toBeInTheDocument();
 
+    const ungroundedMotif = screen.getByRole("img", {
+      name: /Fluent inference without understanding/,
+    });
+    expect(ungroundedMotif.querySelector('[data-lane="ungrounded"]')).toBeInTheDocument();
+    expect(ungroundedMotif.querySelector('[data-lane="grounded"]')).not.toBeInTheDocument();
+    expect(ungroundedMotif).toHaveTextContent("WITHOUT UNDERSTANDING");
+
     const loop = screen.getByRole("figure", {
       name: "The understanding loop",
     });
@@ -211,7 +218,7 @@ describe("Understanding and Bottlenecks published page", () => {
       expect(matchingLink).toHaveAttribute("target", "_blank");
     }
     expect(
-      screen.getByRole("link", { name: "Truth and Inference" }),
+      screen.getByRole("link", { name: "Truth and Coherence" }),
     ).toHaveAttribute("href", "/writing/truth-and-inference");
     expect(
       screen.getByRole("link", { name: "The Knowledge Factory" }),

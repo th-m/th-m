@@ -20,14 +20,18 @@
 }
 
 .truth-practice-card__icon {
-  display: block;
+  display: grid;
   width: 72px;
   height: 58px;
   flex: 0 0 72px;
   margin: -3px -2px 0 0;
-  object-fit: contain;
-  object-position: 50% 0;
+  place-items: center;
   opacity: .86;
+}
+
+.truth-practice-card__icon .ai-factory-icon {
+  width: 58px;
+  height: 58px;
 }
 
 @media (prefers-reduced-transparency: reduce) {

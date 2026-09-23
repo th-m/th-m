@@ -1,5 +1,5 @@
 import { defineArticleComponents } from "@th-m/blogs/mdx";
-import { AiFactoryMotif } from "@th-m/blogs/components";
+import { AiFactoryIcon, AiFactoryMotif } from "@th-m/blogs/components";
 import articleAssets from "./article-assets";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
@@ -18,7 +18,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@th-m/ui";
-import { EmbeddingCompositionExplorer } from "@th-m/embedding-space/composition";
 import {
   AcquaintanceMapInstrument,
   SincerityAlignmentInstrument,
@@ -28,6 +27,10 @@ import "./truth-instruments.css";
 
 function TermOfArtMotif() {
   return <AiFactoryMotif variant="refinement-and-discipline-to-term-of-art" />;
+}
+
+function UnderstandingInEmbeddingSpaceMotif() {
+  return <AiFactoryMotif variant="understanding-in-embedding-space" embeddingLane="grounded" />;
 }
 
 /* ------------------------------------------------------------------ */
@@ -84,7 +87,7 @@ const figureFrame: React.CSSProperties = {
 const TRUTH_PRACTICES = [
   {
     label: "Formal truth",
-    icon: { asset: "assets/coherence-closure.svg", name: "coherence-closure" },
+    icon: "coherence",
     formulation: { lens: "Coherence", question: "Does it fit?" },
     validity: "validity relative to definitions, axioms, and inference rules",
     parallel: null,
@@ -93,7 +96,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Empirical truth",
-    icon: { asset: "assets/correspondence-target.svg", name: "correspondence-target" },
+    icon: "correspondence",
     formulation: { lens: "Correspondence", question: "Does it match?" },
     validity: "agreement with an observable state of affairs—the events, objects, properties, or relations the claim describes",
     parallel: null,
@@ -102,7 +105,7 @@ const TRUTH_PRACTICES = [
   },
   {
     label: "Operational truth",
-    icon: { asset: "assets/consequence-cradle.svg", name: "consequence-cradle" },
+    icon: "consequence",
     formulation: { lens: "Consequence", question: "Does it work?" },
     validity: "reliable consequences under stated conditions—the procedure repeatedly produces its intended result within defined tolerances",
     parallel: null,
@@ -249,14 +252,12 @@ function SituatedTruthPracticesFigure() {
 
 function TruthPracticesFigure({
   practices,
-  assetUrl,
   ariaLabel,
   eyebrow,
   title,
   caption,
 }: {
   practices: readonly TruthPractice[];
-  assetUrl: (value: string) => string;
   ariaLabel: string;
   eyebrow: string;
   title: string;
@@ -297,13 +298,12 @@ function TruthPracticesFigure({
                   {practice.label}
                 </p>
                 {practice.icon ? (
-                  <img
+                  <div
                     className="truth-practice-card__icon"
-                    src={assetUrl(practice.icon.asset)}
-                    alt=""
-                    aria-hidden="true"
-                    data-truth-practice-icon={practice.icon.name}
-                  />
+                    data-truth-practice-icon={practice.icon}
+                  >
+                    <AiFactoryIcon kind={practice.icon} />
+                  </div>
                 ) : null}
               </div>
               {practice.formulation ? (
@@ -1746,12 +1746,12 @@ function ConstraintFeedbackFigure() {
   );
 }
 
-export { AcquaintanceMapInstrument, Card, CardContent, CardHeader, CardTitle, ClaimCard, compactAssumption, CONSTRAINT_STACK, ConstraintFeedbackFigure, ConstraintStackFigure, EmbeddingCompositionExplorer, FigureCaption, figureFrame, HASH_SORT_EXAMPLE, HASH_SORT_INFERRED_STRUCTURE, HoverCard, HoverCardContent, HoverCardTrigger, Link, LinkPreview, PredictionFigure, PromptExpansionFigure, RECURRING_TRUTH_PRACTICES, REGISTER_INTERPRETATIONS, RESPONSE_EVIDENCE_LABELS, RESPONSE_METHOD_LABELS, SCENARIOS, SincerityAlignmentInstrument, SITUATED_TRUTH_INSTRUMENTS, SITUATED_TRUTH_PRACTICES, SituatedTruthPracticesFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TrustworthinessBalanceInstrument, TRUTH_PRACTICES, TRUTH_TO_COMPUTATION_STAGES, TruthPracticesFigure, useState };
+export { AcquaintanceMapInstrument, Card, CardContent, CardHeader, CardTitle, ClaimCard, compactAssumption, CONSTRAINT_STACK, ConstraintFeedbackFigure, ConstraintStackFigure, FigureCaption, figureFrame, HASH_SORT_EXAMPLE, HASH_SORT_INFERRED_STRUCTURE, HoverCard, HoverCardContent, HoverCardTrigger, Link, LinkPreview, PredictionFigure, PromptExpansionFigure, RECURRING_TRUTH_PRACTICES, REGISTER_INTERPRETATIONS, RESPONSE_EVIDENCE_LABELS, RESPONSE_METHOD_LABELS, SCENARIOS, SincerityAlignmentInstrument, SITUATED_TRUTH_INSTRUMENTS, SITUATED_TRUTH_PRACTICES, SituatedTruthPracticesFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TrustworthinessBalanceInstrument, TRUTH_PRACTICES, TRUTH_TO_COMPUTATION_STAGES, TruthPracticesFigure, useState };
 export default defineArticleComponents(articleAssets, () => ({
   "constraint-feedback-figure": ConstraintFeedbackFigure,
   "constraint-stack-figure": ConstraintStackFigure,
-  "embedding-composition-explorer": EmbeddingCompositionExplorer,
   "formalized-idea-to-density-motif": TermOfArtMotif,
+  "understanding-in-embedding-space-motif": UnderstandingInEmbeddingSpaceMotif,
   "prediction-figure": PredictionFigure,
   "prompt-expansion-figure": PromptExpansionFigure,
   "situated-truth-practices-figure": SituatedTruthPracticesFigure,

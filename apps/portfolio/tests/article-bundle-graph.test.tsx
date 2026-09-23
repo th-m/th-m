@@ -24,7 +24,7 @@ const post = (slug: string, title: string, description: string): BlogManifest["p
 
 const posts: BlogManifest["posts"] = [
   post("vision-and-values", "Vision and Values", "Why predictive systems need explicit goals."),
-  post("truth-and-inference", "Truth and Inference", "How truth and entropy constrain inference."),
+  post("truth-and-inference", "Truth and Coherence", "How meaningful inputs and testable consequences turn fluent AI output into work we can rely on."),
   post("understanding-and-bottlenecks", "Understanding and Bottlenecks", "Why understanding limits progress."),
   post("the-knowledge-factory", "The Knowledge Factory", "The factory that turns knowledge into work."),
   post("the-ontology-factory", "The Ontology Factory", "The ontology of the factory."),
@@ -64,7 +64,7 @@ describe("ArticleBundleGraph", () => {
       "href",
       "/writing/vision-and-values",
     );
-    expect(screen.getByRole("link", { name: /Truth and Inference/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Truth and Coherence/ })).toHaveAttribute(
       "href",
       "/writing/truth-and-inference",
     );

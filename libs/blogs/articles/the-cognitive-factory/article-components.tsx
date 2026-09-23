@@ -265,7 +265,7 @@ function LightConeScorecard() {
 
 const seriesLinks: Array<[string, string]> = [
   ["Vision and Values", "/writing/vision-and-values"],
-  ["Truth and Inference", "/writing/truth-and-inference"],
+  ["Truth and Coherence", "/writing/truth-and-inference"],
   ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
   ["The Knowledge Factory", "/writing/the-knowledge-factory"],
   ["Ontology Factory", "/writing/the-ontology-factory"],

@@ -2,11 +2,14 @@
 
 ## Source status
 
-This note preserves a user-supplied summary of a presentation attributed to
-Tiago Almeida, described in the summary as a co-author of GPT-4, ChatGPT, and
-RLHF/InstructGPT. The presentation title, recording URL, date, and transcript
-were not supplied. The claims below are therefore attributed to the speaker and
-have not been independently verified.
+This note preserves claims from Diogo Almeida's 2026 AI Engineer World's Fair
+presentation [*What's next after
+RLHF?*](https://ai.engineer/talks/cJ0EOzey--o-whats-next-after-rlhf), whose
+official talk page includes the recording and complete timestamped transcript.
+Almeida is CEO of TypeSafe and a co-author of GPT-4, ChatGPT, and
+RLHF/InstructGPT. The talk predates TypeSafe's September 2026 launch of Jev, so
+its claims describe Almeida's diagnosis and proposed direction rather than
+evidence about the later product.
 
 ## Central argument
 

@@ -70,6 +70,28 @@ const motifContent = {
 } as const;
 
 export type AiFactoryMotifVariant = keyof typeof motifContent;
+export type AiFactoryMotifEmbeddingLane = "comparison" | "grounded" | "ungrounded";
+
+const embeddingLaneContent = {
+  grounded: {
+    index: "02b",
+    eyebrow: "Embedding space / grounded inference",
+    title: "A grounded term can guide useful expansion",
+    description:
+      "A short label used as a grounded term of art guides inference toward expanded text that fits the intended result.",
+    caption:
+      "A term of art packs shared domain distinctions into a short label. When those distinctions are learned or supplied in context, they can guide model representations and inference toward useful expanded output. This is a conceptual path, not a measured gain: embeddings represent input; the model generates text, and value must be checked against the intended result.",
+  },
+  ungrounded: {
+    index: "02b",
+    eyebrow: "Embedding space / understanding bottleneck",
+    title: "Fluent inference without understanding",
+    description:
+      "An ambiguous short label enters embedding space without grounding or shared criteria, producing fluent excess output that may not fit the goal.",
+    caption:
+      "Without shared understanding, a short label can still prompt fluent expansion while leaving meaning and success criteria unresolved. This is a conceptual failure path, not a measured outcome: embeddings represent input; the model generates text. Token marks are illustrative, and value must be checked against the intended result.",
+  },
+} as const;
 
 function IconMorpheme({ refined = false, x = 80, y = 80, scale = 1, showCenter = true }: { refined?: boolean; x?: number; y?: number; scale?: number; showCenter?: boolean }) {
   return <g transform={`translate(${x} ${y}) scale(${scale})`}><circle className={refined ? "ai-factory-icon__morpheme ai-factory-icon__morpheme--refined" : "ai-factory-icon__morpheme"} cx="0" cy="0" r="32" />{showCenter ? <path className="ai-factory-icon__morpheme-center-line ai-factory-icon__text-line" d="M-8 0H8" /> : null}</g>;
@@ -297,7 +319,7 @@ const seriesMapArticles: Array<{
   {
     index: "02",
     stage: "Prediction",
-    title: "Truth and Inference",
+    title: "Truth and Coherence",
     href: "/writing/truth-and-inference",
     sourceIcon: "truth",
     targetIcon: "inference",
@@ -678,9 +700,9 @@ function EmbeddingTokenStrip({ x, y, rows = 1, columns = 8 }: { x: number; y: nu
   );
 }
 
-function EmbeddingContrastLane({ grounded, arrowId }: { grounded: boolean; arrowId: string }) {
+function EmbeddingContrastLane({ grounded, arrowId, offset = grounded ? 0 : 288 }: { grounded: boolean; arrowId: string; offset?: number }) {
   return (
-    <g data-lane={grounded ? "grounded" : "ungrounded"} transform={grounded ? undefined : "translate(0 288)"}>
+    <g data-lane={grounded ? "grounded" : "ungrounded"} transform={offset === 0 ? undefined : `translate(0 ${offset})`}>
       <text className={`ai-factory-motif__embedding-eyebrow${grounded ? " ai-factory-motif__embedding-eyebrow--focal" : ""}`} x="40" y="76">{grounded ? "01 / WITH UNDERSTANDING" : "02 / WITHOUT UNDERSTANDING"}</text>
       <g className="ai-factory-motif__connectors" aria-hidden="true">
         <path data-relationship="label-to-embedding" d="M160 168H232" markerEnd={`url(#${arrowId})`} />
@@ -731,7 +753,10 @@ function EmbeddingContrastLane({ grounded, arrowId }: { grounded: boolean; arrow
   );
 }
 
-function UnderstandingInEmbeddingSpace({ arrowId }: { arrowId: string }) {
+function UnderstandingInEmbeddingSpace({ arrowId, lane }: { arrowId: string; lane: AiFactoryMotifEmbeddingLane }) {
+  const comparison = lane === "comparison";
+  const axisY = comparison ? 600 : 312;
+
   return (
     <>
       <g className="ai-factory-motif__embedding-columns" aria-hidden="true">
@@ -739,14 +764,14 @@ function UnderstandingInEmbeddingSpace({ arrowId }: { arrowId: string }) {
         <text x="370" y="32" textAnchor="middle">REPRESENTATION</text>
         <text x="588" y="32" textAnchor="middle">GENERATION</text>
         <text x="824" y="32" textAnchor="middle">EXPANDED OUTPUT</text>
-        <path d="M40 48H928M40 312H928" />
+        <path d={comparison ? "M40 48H928M40 312H928" : "M40 48H928"} />
       </g>
-      <EmbeddingContrastLane grounded arrowId={arrowId} />
-      <EmbeddingContrastLane grounded={false} arrowId={arrowId} />
+      {lane !== "ungrounded" ? <EmbeddingContrastLane grounded arrowId={arrowId} /> : null}
+      {lane !== "grounded" ? <EmbeddingContrastLane grounded={false} arrowId={arrowId} offset={comparison ? 288 : 0} /> : null}
       <g className="ai-factory-motif__axis" aria-hidden="true">
-        <path d="M40 600H928" />
-        <text x="40" y="624">CONCEPTUAL CONTRAST · TOKEN MARKS ARE NOT COUNTS</text>
-        <text x="928" y="624" textAnchor="end">VALUE ≠ VOLUME</text>
+        <path d={`M40 ${axisY}H928`} />
+        <text x="40" y={axisY + 24}>{comparison ? "CONCEPTUAL CONTRAST · TOKEN MARKS ARE NOT COUNTS" : "CONCEPTUAL PATH · TOKEN MARKS ARE NOT COUNTS"}</text>
+        <text x="928" y={axisY + 24} textAnchor="end">VALUE ≠ VOLUME</text>
       </g>
     </>
   );
@@ -825,21 +850,25 @@ function Axis({ left, middle, right }: { left: string; middle: string; right: st
   );
 }
 
-export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) {
-  const content = motifContent[variant];
-  const titleId = `ai-factory-motif-${variant}-title`;
-  const descriptionId = `ai-factory-motif-${variant}-description`;
-  const arrowId = `ai-factory-motif-${variant}-arrow`;
+export function AiFactoryMotif({ variant, embeddingLane = "comparison" }: { variant: AiFactoryMotifVariant; embeddingLane?: AiFactoryMotifEmbeddingLane }) {
+  const isEmbeddingMotif = variant === "understanding-in-embedding-space";
+  const content = isEmbeddingMotif && embeddingLane !== "comparison"
+    ? embeddingLaneContent[embeddingLane]
+    : motifContent[variant];
+  const instanceSuffix = isEmbeddingMotif ? `${variant}-${embeddingLane}` : variant;
+  const titleId = `ai-factory-motif-${instanceSuffix}-title`;
+  const descriptionId = `ai-factory-motif-${instanceSuffix}-description`;
+  const arrowId = `ai-factory-motif-${instanceSuffix}-arrow`;
 
   return (
-    <figure className="ai-factory-motif" data-variant={variant}>
+    <figure className="ai-factory-motif" data-variant={variant} data-embedding-lane={isEmbeddingMotif ? embeddingLane : undefined}>
       <header className="ai-factory-motif__header">
         <p>{`AI Factory · ${content.index} · ${content.eyebrow}`}</p>
         <h3>{content.title}</h3>
       </header>
       <p className="ai-factory-motif__scroll-cue">Scroll the path →</p>
       <div className="ai-factory-motif__viewport" role="region" tabIndex={0} aria-label="Scrollable AI Factory motif">
-        <svg viewBox={variant === "ontology-of-terms" ? "0 0 720 432" : variant === "experience-but-lacking" ? "0 0 800 432" : variant === "model-priorities-and-goal-fit" ? "0 0 960 616" : variant === "understanding-in-embedding-space" ? "0 0 960 648" : "0 0 720 320"} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
+        <svg viewBox={variant === "ontology-of-terms" ? "0 0 720 432" : variant === "experience-but-lacking" ? "0 0 800 432" : variant === "model-priorities-and-goal-fit" ? "0 0 960 616" : variant === "understanding-in-embedding-space" ? embeddingLane === "comparison" ? "0 0 960 648" : "0 0 960 360" : "0 0 720 320"} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
           <title id={titleId}>{content.title}</title>
           <desc id={descriptionId}>{content.description}</desc>
           <defs>
@@ -851,7 +880,7 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
           {variant === "model-priorities-and-goal-fit" ? <ModelPrioritiesAndGoalFit arrowId={arrowId} /> : null}
           {variant === "vision-to-morpheme" ? <VisionToMorpheme arrowId={arrowId} /> : null}
           {variant === "refinement-and-discipline-to-term-of-art" ? <RefinementAndDisciplineToTermOfArt arrowId={arrowId} /> : null}
-          {variant === "understanding-in-embedding-space" ? <UnderstandingInEmbeddingSpace arrowId={arrowId} /> : null}
+          {variant === "understanding-in-embedding-space" ? <UnderstandingInEmbeddingSpace arrowId={arrowId} lane={embeddingLane} /> : null}
           {variant === "term-of-art-to-implementation" ? <TermOfArtToImplementation arrowId={arrowId} /> : null}
           {variant === "ontology-of-terms" ? <OntologyOfTerms arrowId={arrowId} /> : null}
         </svg>

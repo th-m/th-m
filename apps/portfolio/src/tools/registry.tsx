@@ -39,6 +39,12 @@ const SetAtlasExplorer = lazy(() =>
   })),
 );
 
+const SemanticCompositionExplorer = lazy(() =>
+  import("@th-m/embedding-space/composition").then((module) => ({
+    default: module.EmbeddingCompositionExplorer,
+  })),
+);
+
 /**
  * Registry of auxiliary interactives available in the global tool drawer.
  * The drawer is the designated home for small interactive experiences that
@@ -51,6 +57,15 @@ export const toolRegistry: ToolDefinition[] = [
     eyebrow: "Auxiliary interactive",
     description: "Search the curated GPT-2 token space and inspect nearest neighbors.",
     content: EmbeddingExplorer,
+  },
+  {
+    id: "semantic-composition",
+    label: "Semantic composition",
+    eyebrow: "Developer tool",
+    description: "Combine terms and inspect their projected vector in a three-dimensional teaching model.",
+    content: SemanticCompositionExplorer,
+    fullPageHref: "/embedding-space",
+    fullPageLabel: "Open embedding atlas",
   },
   {
     id: "llm-explorer",

@@ -857,6 +857,12 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   text-transform: uppercase;
 }
 .tool-drawer-content--preview { width: min(560px, 100vw); }
+.tool-drawer-content--preview .embedding-composition__directions { flex-direction: column; }
+.tool-drawer-content--preview .embedding-composition__term-groups {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.tool-drawer-content--preview .embedding-composition__history { justify-content: stretch; }
+.tool-drawer-content--preview .embedding-composition__history button { flex: 1; }
 .tool-drawer-handoff {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
