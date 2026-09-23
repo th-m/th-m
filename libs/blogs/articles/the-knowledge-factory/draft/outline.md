@@ -31,6 +31,26 @@ changes how the next outcome is produced.
 Leaders and builders designing repeatable AI-assisted product and engineering
 work rather than isolated prompts.
 
+## Current Draft Brief
+
+This outline governs the next private `article.md` and `humanized-draft.md`.
+The humanized pass must retain its claims, sources, and ownership boundaries
+while giving the prose a more direct voice. Canonical MDX remains the published
+baseline until the user reviews these candidates.
+
+Carry one hypothetical case through the essay: customers stop completing their
+first data import after a release. Generation can propose a patch quickly;
+the factory must establish the problem, route an investigation, coordinate
+dependent work, verify the change, and observe the customer outcome.
+
+Use the series' latest strategic premise: human insight and vision supply the
+direction; the factory preserves that direction through execution and feedback.
+Do not repeat the engagement or average-output quotations from article one.
+Keep the organization visible: product and support contribute evidence,
+autonomous domain teams own investigations, and integration owners resolve
+shared effects. A central architect approving every task recreates the
+bottleneck described in article three.
+
 ## Scope and Definitions
 
 - **Knowledge factory:** the socio-technical system around model inference that
@@ -65,6 +85,9 @@ Open with the smallest possible series bridge:
 
 Place the compact six-part series map after this bridge. It is navigation, not
 evidence and not one of the article's explanatory figures.
+
+Introduce three recurring visual questions in the preface: what survives
+generation, how work branches and rejoins, and where consequences return.
 
 ```mermaid
 flowchart LR
@@ -115,7 +138,7 @@ diagram here would falsely make inference the center of the factory.
 **Reader move:** From counting generated artifacts to tracing one work item all
 the way to an accepted consequence.
 
-Use one concrete product or engineering change. Follow it through intent,
+Use the first-import case. Follow it through intent,
 triage, context assembly, generation, review, integration, release, and observed
 effect. At every handoff distinguish:
 
@@ -223,12 +246,10 @@ ideas with the article's factory metaphor.
 reusable across teams and how to make evaluation strong enough to authorize
 action.
 
-**Visual continuation:** Return to the token-economics illustration rather than
-introducing a second production diagram. Its intent/evidence, context, model,
-candidate inventory, evaluation, value, and rework stages provide the stable
-icon legend for this loop. The article prose adds retained learning as the step
-that revises context for the next cycle. Sections 7–9 develop the trigger,
-agent DAG, and loop-engineering mechanics within this article.
+**Visual continuation:** Return to the three quantities in the token-economics
+illustration: expansion, preparation time, and retained contribution. Do not
+describe that illustration as a production-line diagram. The return-loop
+motif in section 9 will show how a result changes the next cycle.
 
 ### 5. Factory Engineers Make Context and Judgment Portable
 
@@ -263,14 +284,10 @@ boundaries, not that they guarantee a disproportionate advantage.
 **Transition:** Portable context expands who can generate and decide; portable
 evaluation determines whether that distribution remains trustworthy.
 
-**Proposed illustration — ontology makes context actionable:** Reuse the selected
-shared motif variant `ontology-of-terms`, shown directly after `token-economics`
-at `/ai-factory-motif#motif-04`. Its Actor → Goal → Action path, supported by
-Evidence and bounded by Constraint, demonstrates why reusable context is a
-typed, navigable model rather than a pile of documents. The figure materially
-supports this section's claim while handing deeper ontology mechanics to
-*Ontology Factory*. Pull the shared component when the canonical article is
-revised; do not copy the SVG or add a worker-versus-engineer status hierarchy.
+**Visual:** Explain executable context through one concrete transformation:
+a first-import requirement becomes a representative integration test. Hand
+the deeper ontology illustration to article five; keep this article to three
+explanatory motifs.
 
 ### 6. Evaluation Converts Candidate Inventory into Trusted Action
 
@@ -300,8 +317,8 @@ conceptual definition. In prose, prefer the more precise claim that evaluation
 authorizes an action or retains a result for a stated purpose; it cannot turn a
 false premise into truth.
 
-**Transition:** Acceptance completes one project. Only retention turns that
-project into greater capability for the next one.
+**Transition:** An accepted artifact permits a next action. The factory still
+needs a route from an incoming observation to that action and its consequences.
 
 **Visual:** Use the evaluation-gate branch already present in the main loop. A
 second evaluation diagram would repeat rather than advance the reasoning.
@@ -324,7 +341,9 @@ silently produce repeat interventions.
 supports individual capabilities. Their composition is a proposed design.
 Choosing lead/lag measures and interpreting their meaning belongs in cognition.
 
-**Visual:** Move the shared trigger-opens-hypotheses motif into this section.
+**Visual:** Start the branching-work motif with the observation and competing
+hypotheses. Continue the same figure into the DAG in section 8; use the shared
+trigger motif as a visual reference rather than a fourth standalone figure.
 
 ### 8. Agent DAGs Make Delegation Inspectable
 
@@ -341,8 +360,11 @@ Retain state across interruptions and guard repeated side effects.
 Keep local team authority intact. Integration ownership resolves shared effects
 without putting every local decision through a central director.
 
-**Visual:** Move the executable-context card here. Distinguish knowledge used as
-evidence from an accepted rule encoded as a schema, test, or policy.
+**Visual:** Complete the branching-work motif: context lookup and reproduction
+join at hypothesis review; a selected intervention proceeds to verification
+and authorized integration. The diagram depicts one possible attempt; a
+decision can also end the investigation without a code change. Explain the
+executable-context card's examples in prose.
 
 ### 9. Engineer the Return Path
 
@@ -358,6 +380,11 @@ answer different questions.
 
 **Visual:** Move the existing control-loop SVG here. Treat it as a proposed
 composition; cognition now owns the capabilities and memory behind its inputs.
+
+The return path should survive handoffs and delayed outcomes. Name an outcome
+owner who is still responsible after the implementation task closes. An
+inconclusive result stays inconclusive; it does not quietly become proof of
+success or automatically schedule another patch.
 
 ### 10. The Factory Compounds Learning, Not Output
 
@@ -415,6 +442,17 @@ assets; the return to the opening variables is the argument.
   impact, or customer impact with truth or moral value.
 - Do not claim a quantified productivity gain, universal organizational model,
   or durable moat without evidence beyond the current source set.
+
+## Three Motifs for the Drafts
+
+| Motif | Placement and return | What it teaches |
+| --- | --- | --- |
+| Candidate work and useful yield | Sections 2–3; revisit at the close | Tokens, input effort, and retained contribution measure different things. Use the existing token-economics figure as the reference. |
+| A trigger branches into inspectable work | Sections 7–8 | An observation opens alternatives; independent work rejoins at an explicit decision. Keep the attempt acyclic. |
+| Consequences return to the next attempt | Section 9; revisit at the close | Verification precedes release; later outcomes revise context, checks, or practice. Reuse the moved control-loop figure as the reference. |
+
+Private drafts use brief editorial figure cues and captions. These cues are
+not new production assets or evidence that the depicted workflow is deployed.
 
 ## Research Obligations
 
