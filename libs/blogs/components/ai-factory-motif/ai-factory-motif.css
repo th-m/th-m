@@ -73,7 +73,7 @@
 }
 
 @media (max-width: 640px) {
-  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"]) > .ai-factory-motif__scroll-cue {
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"], [data-variant="trigger-opens-hypotheses"], [data-variant="consequence-returns-to-context"]) > .ai-factory-motif__scroll-cue {
     display: block;
     margin: 0;
     padding: 12px 20px 0;
@@ -81,7 +81,7 @@
     font: var(--ai-factory-type-meta)/1.6 var(--font-mono);
   }
 
-  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"]) .ai-factory-motif__viewport {
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"], [data-variant="trigger-opens-hypotheses"], [data-variant="consequence-returns-to-context"]) .ai-factory-motif__viewport {
     overflow-x: auto;
   }
 
@@ -89,7 +89,7 @@
     min-width: 640px;
   }
 
-  .ai-factory-motif:is([data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"]) .ai-factory-motif__viewport > svg {
+  .ai-factory-motif:is([data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"], [data-variant="trigger-opens-hypotheses"], [data-variant="consequence-returns-to-context"]) .ai-factory-motif__viewport > svg {
     min-width: 800px;
   }
 }
@@ -353,6 +353,47 @@
 
 .ai-factory-motif__connectors .ai-factory-motif__connector--focal {
   stroke: var(--color-primary);
+}
+
+.ai-factory-motif__connectors .ai-factory-motif__connector--inactive {
+  stroke: var(--color-foreground-muted);
+  stroke-dasharray: 4 4;
+}
+
+.ai-factory-motif__cognitive-panel > rect,
+rect.ai-factory-motif__cognitive-panel,
+.ai-factory-motif__hypothesis-card > rect {
+  fill: var(--ai-factory-panel);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__cognitive-panel--focal > rect,
+rect.ai-factory-motif__cognitive-panel--focal {
+  fill: var(--ai-factory-focus);
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__hypothesis-card > rect {
+  fill: var(--ai-factory-inset);
+}
+
+.ai-factory-motif__cognitive-eyebrow {
+  fill: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-meta);
+  letter-spacing: var(--ai-factory-tracking-label);
+}
+
+.ai-factory-motif__cognitive-rule {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__cognitive-deferred,
+.ai-factory-motif__cognitive-muted {
+  opacity: .48;
 }
 
 .ai-factory-motif__experience-eyebrow {

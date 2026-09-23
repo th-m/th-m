@@ -1,360 +1,217 @@
 ---
 title: Cognitive Factory
-description: "The factory's cognition is a governed control system: sensors, typed events, decision graphs, executable context, code generation, verification, and feedback."
+description: "Reliable automation needs more than agents: it needs typed observations, bounded authority, inspectable work, evaluated consequences, and a return path that changes the next decision."
 publishedAt: 2026-08-22
-updatedAt: 2026-09-22
+updatedAt: 2026-09-23
 tags: [Artificial Intelligence, Knowledge Work, Software Systems]
 ---
 # Cognitive Factory
 
-import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, ExecutableContextCard, ExploreGraphButton, Figure, formatDate, Fragment, KNOWLEDGE_FACTORY_GRAPH_ID, knowledgeFactoryGraph, LIGHT_CONE_ROWS, LightConeScorecard, Link, LinkPreview, loadGraphLibrary, participant, PropositionGraphFigure, saveGraphLibrary, seedKnowledgeFactoryGraph, seriesLinks, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, useToolDrawer } from "./article-components"
+<Lede>
+  A product metric crosses a threshold. An agent traces the change to a recent release, edits the code, runs the tests, and deploys the fix. The customer journey recovers before anyone opens a dashboard.
+</Lede>
 
-<Section index="01" title="Overview">
-        <P>
-          Every company is building a factory, and{" "}
-          <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink> described its operating
-          system: an organization that turns evidence and intent into reusable capability. This essay examines how
-          that factory thinks.
-        </P>
-        <P>
-          Cognition is not a model subscription or a collection of agents. It is how the organization represents
-          context, checks it against action, and learns from outcomes. Concretely, the factory's cognition has
-          five parts:
-        </P>
-        <ul>
-          <li>
-            <strong>Operational perception and control</strong> turns signals from product, application, and
-            infrastructure sensors into typed events, bounded decisions, governed agent work, and verified
-            changes.
-          </li>
-          <li>
-            <strong>Graph context exploration</strong> asks relational questions — which evidence motivated this
-            capability, which decisions depend on this assumption — instead of treating context as documents
-            containing matching words.
-          </li>
-          <li>
-            <strong>Executable context</strong> turns institutional knowledge into contracts: a definition becomes
-            a schema, a customer promise becomes an evaluation, an observed failure becomes a regression case.
-          </li>
-          <li>
-            <strong>The compounding loop</strong> returns every outcome to the system as evidence that updates
-            context and evaluation, so capability grows through use.
-          </li>
-          <li>
-            <strong>A diagnostic build order</strong> says what to build first: expose evidence, name distinctions,
-            build evaluation before scaling generation, instrument outcomes, and give teams authority inside the
-            new boundaries.
-          </li>
-        </ul>
-        <P>
-          The diagnostic for how far this cognition reaches is the{" "}
-          <Term definition="how much of the relevant domain a system can observe, interpret, affect, and learn from.">
-            cognitive light cone
-          </Term>{" "}
-          — how much of the relevant domain the system can observe, interpret, affect, and learn from. This
-          essay is where the organization implements the machinery that advances it down the light cone.
-        </P>
-        <P>
-          The factory also needs two human-governed disciplines to keep this cognition purposeful: ontology maps
-          the domain, and strategy chooses direction. Both are developed in their own essays, and this essay
-          closes by connecting them.
-        </P>
-      </Section>
-<Section index="02" title="Relationship to the Series">
-        <P>
-          This is the sixth essay in the sequence.{" "}
-          <ArticleLink slug="the-knowledge-factory"><strong>The Knowledge Factory</strong></ArticleLink>{" "}
-          introduced the operating system: an organization that turns evidence and intent into reusable
-          capability.{" "}
-          <ArticleLink slug="the-ontology-factory"><strong>The Ontology Factory</strong></ArticleLink>{" "}
-          mapped that system's semantic infrastructure. This essay examines how the factory thinks — the
-          cognition that makes the map useful, the learning compound, and the light cone that measures how far
-          that cognition reaches. The strategy discipline that chooses where the factory should act is covered
-          inside{" "}
-          <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink>.
-        </P>
-      </Section>
-<Section index="03" title="Extending Loop and Graph Engineering">
-        <P>
-          This essay extends two established engineering ideas.{" "}
-          <strong>Loop engineering</strong> builds feedback systems in which outcomes return as evidence that
-          updates context and evaluation; <strong>graph engineering</strong> builds traversable relationships
-          among people, concepts, systems, evidence, decisions, and outcomes. The cognitive factory is both of
-          those — and it extends both with ontology and cognition:
-        </P>
-        <ul>
-          <li>
-            <strong>Ontology</strong> makes a loop or a graph checkable rather than plausible: stable terms,
-            boundaries, invariants, and evidence rules that let the machinery be validated instead of admired.
-            Without ontology, the graph degenerates into named edges and the loop into dashboards.
-          </li>
-          <li>
-            <strong>Cognition</strong> is what the machinery is for. The{" "}
-            <Term definition="how much of the relevant domain a system can observe, interpret, affect, and learn from.">
-              cognitive light cone
-            </Term>{" "}
-            measures how much of the relevant domain the system can observe, interpret, affect, and learn from,
-            and every loop and graph in this essay exists to advance it.
-          </li>
-        </ul>
-        <P>
-          The sections that follow are the implementation of that extension: sensors and decision graphs (the
-          control system), graph context and executable context (the graph made semantic), the compounding loop
-          (the loop made systemic), and the scorecard and build order that decide how far the cognition reaches.
-        </P>
-      </Section>
-<Section index="04" title="Cognition Is the Control System">
-        <P>
-          In a working AI factory, cognition is the control system connecting perception, judgment, action, and
-          learning. Sensors observe what is happening. An event contract makes those observations legible. A
-          decision layer chooses a bounded response. An agent graph coordinates the work. Verification and
-          outcome telemetry determine whether the system learned anything.
-        </P>
-        <P>
-          A trigger should open a hypothesis, not declare a diagnosis. Sentry, PostHog, and CloudWatch can report
-          different views of the same system, but none of them independently knows what the organization should
-          do next.
-        </P>
-        <table>
-          <thead>
-            <tr>
-              <th>Signal source</th>
-              <th>What it senses</th>
-              <th>What it cannot decide</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Sentry</td>
-              <td>Errors, traces, regressions, and affected releases</td>
-              <td>Whether the apparent root cause is correct or a patch is safe</td>
-            </tr>
-            <tr>
-              <td>PostHog</td>
-              <td>User behavior, funnels, retention, and experiment outcomes</td>
-              <td>Whether a behavioral change is a defect, a product tradeoff, or noise</td>
-            </tr>
-            <tr>
-              <td>CloudWatch alarms</td>
-              <td>Infrastructure and runtime conditions crossing defined thresholds</td>
-              <td>Whether remediation should change code, configuration, capacity, or nothing</td>
-            </tr>
-          </tbody>
-        </table>
-        <P>
-          The first engineering task is therefore normalization. Every signal should become a typed event with
-          a source, time window, severity, affected service or customer journey, correlated release, evidence
-          links, and confidence. This contract gives downstream automation something more reliable than an alert
-          title and a blob of prose.
-        </P>
-        <Figure caption="Operational signals become governed code changes through an explicit control loop">
-          <Asset id="cognitive-control-loop" />
-        </Figure>
-        <P className="article-outline__flow">
-          Sensors → event contract → decision layer → agent graph
-          <br />
-          Coding agent → verification → release → outcome telemetry
-        </P>
-        <h3>Decision Trees and Agent Graphs</h3>
-        <P>
-          The decision layer is where the factory encodes complex judgment. Exact conditions belong in ordinary
-          rules. Ambiguous but bounded questions can be delegated to a typed decision model such as Jev, which
-          returns a constrained choice or score rather than an open-ended essay. The surrounding software still
-          owns the available choices, thresholds, permissions, and escalation policy. Typed output makes a
-          judgment composable; it does not make the judgment true.
-        </P>
-        <table>
-          <thead>
-            <tr>
-              <th>Node</th>
-              <th>Responsibility</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Rule node</td><td>Apply deterministic policy and hard constraints.</td></tr>
-            <tr><td>Judgment node</td><td>Make a bounded semantic choice or score uncertainty.</td></tr>
-            <tr><td>Retrieval node</td><td>Assemble the evidence, history, and affected context.</td></tr>
-            <tr><td>Agent or tool node</td><td>Perform a scoped investigation or produce an artifact.</td></tr>
-            <tr><td>Verification gate</td><td>Run tests, evaluations, and policy checks.</td></tr>
-            <tr><td>Human authority node</td><td>Approve consequential or ambiguous action.</td></tr>
-            <tr><td>Memory node</td><td>Retain the outcome as evidence for the next decision.</td></tr>
-          </tbody>
-        </table>
-        <P>
-          These nodes form the factory's executive control. They make delegation inspectable: which signal
-          started the work, which branch was taken, which evidence supported it, which actor had authority, and
-          which result changed the next run. The graph—not the model—is the durable unit of automation.
-        </P>
-        <h3>From Trigger to Code</h3>
-        <ol>
-          <li>A sensor emits an observation; correlated signals are grouped into one evidence packet.</li>
-          <li>Rules and bounded judgments classify the event, estimate confidence, and choose act, review, or escalate.</li>
-          <li>The agent graph retrieves ownership, recent changes, runbooks, and relevant customer context.</li>
-          <li>A coding agent diagnoses the evidence and proposes a branch, patch, or pull request.</li>
-          <li>Tests, evaluations, review, and policy gates decide whether the artifact can move forward.</li>
-          <li>Release telemetry measures the result and updates the event contract, evaluations, and decision graph.</li>
-        </ol>
-        <P>
-          A raw alert should never mutate a repository or production system directly. The default output of code
-          generation is a reviewable artifact. Greater autonomy must be granted explicitly by policy and earned
-          through evidence at each gate.
-        </P>
-      </Section>
-<Section index="05" title="1. Graph Context Exploration">
-        <P>
-          Graph context is a signature concept, not a generic knowledge-graph pitch. Most organizational search
-          treats context as documents containing matching words. Graph context exploration asks relational
-          questions:
-        </P>
-        <ul>
-          <li>Which customer evidence motivated this capability?</li>
-          <li>Which definition of <code>conversation</code> applies in this service?</li>
-          <li>What decisions depend on this assumption?</li>
-          <li>Which failures caused this evaluation to exist?</li>
-          <li>Which teams, systems, and metrics will a change affect?</li>
-          <li>Where does the current model conflict with observed behavior?</li>
-        </ul>
-        <Figure caption="A decision connected to its evidence, concepts, systems, evaluations, owners, and outcomes">
-          <PropositionGraphFigure document={knowledgeFactoryGraph} title="Graph context exploration" />
-        </Figure>
-        <P>
-          The figure above is a live proposition graph: pick a claim in the explorer to follow its
-          relationships. You can open the same graph in the right-side tool drawer.
-        </P>
-        <P className="essay-explore-row">
-          <ExploreGraphButton />
-        </P>
-        <P>
-          The graph may be implemented through links, metadata, schemas, code dependencies, event lineage, or a
-          graph database. The product requirement is traversable relationships with{" "}
-          <Term definition="the record of where evidence came from, so it can be weighed and trusted.">
-            provenance
-          </Term>{" "}
-          — not a particular storage engine.
-        </P>
-      </Section>
-<Section index="06" title="2. From Documents to Executable Context">
-        <P>
-          Documents remain important, but the factory needs context that can guide and check action:
-        </P>
-        <Asset id="executable-context-card" />
-        <P>
-          This is how institutional knowledge becomes productive capital rather than a larger pile of prose.
-        </P>
-      </Section>
-<Section index="07" title="3. The Compounding Loop">
-        <P>The factory's return comes from a loop:</P>
-        <P className="article-outline__flow">
-          Work produces outcomes → outcomes produce evidence → evidence updates context and evaluation → better
-          context improves the next work.
-        </P>
-        <Figure caption="Work produces outcomes; retained learning improves the next work">
-          <Asset id="compounding-loop" />
-        </Figure>
-        <P>
-          The loop compounds only when the organization captures corrections. More AI output without retained
-          learning is throughput, not a knowledge factory.
-        </P>
-        <P>
-          Consider an error spike after a release. Sentry identifies the failing trace, CloudWatch shows the
-          resource pressure around it, and PostHog reveals the customer journey that stopped converting. The
-          factory correlates those observations, routes them through its decision graph, and gives a coding agent
-          an evidence packet rather than three disconnected alerts. The resulting pull request is evaluated
-          against the regression, reviewed, and—if approved—released. The next telemetry window then answers
-          whether the change reduced errors and restored the journey. That retained comparison, not merely the
-          generated patch, is the compounding asset.
-        </P>
-      </Section>
-<Section index="08" title="4. The Cognitive Light Cone Scorecard">
-        <P>
-          The cognitive factory is where an organization implements the machinery that advances it down the
-          light cone. This essay makes an <strong>organizational adaptation</strong> of Michael Levin&apos;s{" "}
-          <Term definition="Levin's framework for the spatiotemporal scope and complexity of goals a system can pursue.">
-            cognitive light cone
-          </Term>
-          : it uses the metaphor as a diagnostic for how much of the relevant domain a system can observe,
-          interpret, affect, and learn from. Three systems in increasing reach:
-        </P>
-        <ul>
-          <li>
-            <strong>LLM:</strong> works from supplied context without its own harness. Humans select the
-            evidence, state the goal, and evaluate the response.
-          </li>
-          <li>
-            <strong>Agent:</strong> combines an LLM with tools, memory, and bounded workflows. Humans establish
-            its objective, permissions, evaluation, and escalation boundaries.
-          </li>
-          <li>
-            <strong>Knowledge factory:</strong> connects agents to organizational data, context stores,
-            operational signals, evaluations, and feedback loops. Humans systematize the inputs, govern how
-            evidence is interpreted, and remain accountable for the values and decisions propagated through the
-            system.
-          </li>
-        </ul>
-        <Asset id="light-cone-scorecard" />
-        <P>
-          Expanding a system's cognitive light cone increases what it can coordinate; it does not by itself
-          authorize the governing values it applies.
-        </P>
-      </Section>
-<Section index="09" title="5. What Companies Should Build First">
-        <P>Not everything at once. A diagnostic order:</P>
-        <ol>
-          <li>Identify the decisions or workflows with repeated context loss and review burden.</li>
-          <li>Expose the customer and operational evidence behind them.</li>
-          <li>Name the domain distinctions and invariants required for safe delegation.</li>
-          <li>Build evaluation before scaling generation.</li>
-          <li>Instrument outcomes and connect them back to decisions.</li>
-          <li>Give teams authority inside the new boundaries.</li>
-          <li>
-            Measure whether capability, learning speed, and customer outcomes improve — not only whether token
-            or labor costs fall.
-          </li>
-        </ol>
-      </Section>
-<Section index="10" title="6. The Two Factory Disciplines">
-        <P>
-          The knowledge factory needs two human-governed disciplines.{" "}
-          <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink> asks how humans map the domain
-          so models and teams share the right entities, relationships, constraints, and evidence. The strategy
-          discipline — covered in{" "}
-          <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink> — asks how humans choose
-          direction through narrative, empathy, opportunism, memory, and systematic feedback.
-        </P>
-        <P>Ontology makes the factory coherent. Strategy makes it purposeful.</P>
-      </Section>
-<div className="article-outline__closing">
-        <div className="article-outline__content" style={{ marginTop: 48 }}>
-          <P className="eyebrow">Part of the six-essay series</P>
-          <ol style={{ marginTop: 16 }}>
-            {seriesLinks.map(([label, href]) => (
-              <li key={href}>
-                {href === "/writing/the-cognitive-factory" ? (
-                  <strong>{label}</strong>
-                ) : (
-                  <LinkPreview url={href}>{label}</LinkPreview>
-                )}
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-<Section index="11" title="Sources">
-        <ul>
-          <li>Sentry, <ExternalLink href="https://docs.sentry.io/product/ai-in-sentry/seer">“Seer” documentation</ExternalLink>. Documents a concrete path from application telemetry through root-cause analysis to proposed code changes and pull requests.</li>
-          <li>PostHog, <ExternalLink href="https://posthog.com/docs/product-analytics/insights">“Insights” documentation</ExternalLink>. Describes the behavioral analyses used here as product sensors, including trends, funnels, retention, and user paths.</li>
-          <li>Amazon Web Services, <ExternalLink href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-actions.html">“Alarm actions” documentation</ExternalLink>. Documents CloudWatch alarms as thresholded operational signals that can invoke actions and emit state changes to EventBridge.</li>
-          <li>TypeSafe AI, <ExternalLink href="https://github.com/typesafe-ai/skills/blob/main/skills/typesafe-ai/SKILL.md">“TypeSafe AI” skill documentation</ExternalLink>. Describes Jev as a typed, bounded decision primitive that returns choices and scores for use inside software-controlled workflows.</li>
-          <li>Michael Levin, <ExternalLink href="https://doi.org/10.3389/fnsys.2022.768201">“Technological Approach to Mind Everywhere: An Experimentally-Grounded Framework for Understanding Diverse Bodies and Minds”</ExternalLink> (2022). Introduces the cognitive-light-cone framework adapted as an organizational diagnostic in this essay.</li>
-          <li>Patrick Lewis and colleagues, <ExternalLink href="https://proceedings.neurips.cc/paper/2020/hash/6b493230-Abstract.html">“Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks”</ExternalLink> (2020). Establishes retrieval from explicit non-parametric memory and identifies provenance and knowledge updating as design problems.</li>
-          <li>Shunyu Yao and colleagues, <ExternalLink href="https://arxiv.org/abs/2210.03629">“ReAct: Synergizing Reasoning and Acting in Language Models”</ExternalLink> (2023). Demonstrates an agent pattern that interleaves model reasoning, tool actions, environmental observations, and plan updates.</li>
-          <li>Noah Shinn and colleagues, <ExternalLink href="https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html">“Reflexion: Language Agents with Verbal Reinforcement Learning”</ExternalLink> (2023). Tests the use of retained task feedback in episodic text memory to improve subsequent agent trials.</li>
-          <li>W3C, <ExternalLink href="https://www.w3.org/TR/prov-o/">“PROV-O: The PROV Ontology”</ExternalLink> (2013). Defines a standard model for representing provenance among entities, activities, and agents.</li>
-          <li>National Institute of Standards and Technology, <ExternalLink href="https://doi.org/10.6028/NIST.AI.600-1"><em>Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile</em></ExternalLink> (2024). Supports lifecycle governance, context mapping, measurement, documentation, and human accountability for generative-AI systems.</li>
-          <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. Supports the claim that effective AI adoption depends on the surrounding organizational system and capabilities rather than model access alone.</li>
-        </ul>
-        <P>
-          These vendor sources document the individual mechanisms. The control-loop architecture and the way
-          those mechanisms are composed here are this essay's synthesis.
-        </P>
-      </Section>
+That tempting version hides every important judgment. A metric does not prove
+cause, a diagnosis does not authorize action, a test does not prove a customer
+effect, and a completed run does not teach the next one.
+
+Removing a person from the interface redistributes judgment across the system
+around the model. A cognitive factory makes that system explicit:
+
+<Callout>
+  signal → typed observation → hypothesis → bounded decision → agent graph →
+  reviewable action → evaluated consequence → retained learning
+</Callout>
+
+This loop puts the factory into motion without granting a model unbounded
+authority. It is a proposal, not a demonstrated system.
+
+<Asset id="cognitive-control-loop" />
+
+## 1. Sense: Signals Must Become Typed Observations
+
+Suppose PostHog reports a journey drop after a release, Sentry reports more
+errors, and runtime telemetry shows pressure. The signals justify
+investigation, but identify neither cause nor response.
+
+The factory first translates them into a typed observation that records:
+
+- source, window, provenance, baseline, and confidence;
+- the affected journey, service, release, and owner;
+- corroborating and contradicting evidence; and
+- permitted next steps, expiry conditions, and links to the evidence.
+
+Ontology resolves fields such as `release` and `customer journey` to governing
+definitions. The contract makes the claim bounded, traceable, and reviewable,
+not automatically true.
+
+## 2. Hypothesize: A Trigger Opens an Investigation
+
+A trigger should open a hypothesis, not declare a diagnosis. At least three
+explanations remain live:
+
+1. The release introduced a code regression that broke the journey.
+2. The intended change created an unexpected product tradeoff.
+3. The timing is coincidental or another event caused the change.
+
+The record keeps alternatives, evidence, confidence, and the next discriminating
+observation. **Coherence** asks whether an explanation fits the system.
+**Correspondence** asks whether it matches independent evidence.
+**Consequence** follows an authorized action that tests the prediction.
+
+<Asset id="trigger-opens-hypotheses-motif" />
+
+Preserving alternatives makes uncertainty available to the policy deciding
+what action is justified.
+
+## 3. Decide: Judgment Is Bounded; Authority Stays Explicit
+
+Evidence can narrow the field without deciding what the system may do. The
+decision layer chooses among a finite set: investigate, experiment, prepare a
+change, request approval, abstain, or escalate.
+
+Hard constraints belong in policy. Bounded ambiguity can use a typed primitive
+such as Jev; contested goals and novel exceptions remain with people. The system
+still owns thresholds, permissions, escalation, and side effects. A model
+proposes a judgment. The system authorizes an action.
+
+For this incident, evidence may authorize investigation and a proposed patch
+while withholding deployment. A bounded decision authorizes a kind of work,
+not an open-ended agent session.
+
+## 4. Execute: Agent Graphs Make Work Inspectable
+
+Authorized work becomes a directed graph of scoped tasks. Each node names its
+inputs, tools, permissions, outputs, checks, dependencies, side effects, owner,
+and stop conditions. The graph exposes where evidence entered, where a guess
+became a plan, and where an action became possible.
+
+### Graph Context
+
+Graph context links hypotheses, evidence, definitions, owners, systems,
+decisions, and outcomes with provenance. The factory can trace which customer
+evidence motivated a capability, which definition governs it, and which systems
+a change will affect.
+
+Storage is secondary. What matters is tracing evidence and definitions through
+a decision to the outcome that may revise them.
+
+### Executable Context
+
+Executable context turns relationships into constraints: a definition becomes
+a schema, ownership an escalation path, a promise an evaluation, a failure a
+regression case, and a rollback requirement a release gate.
+
+<Asset id="executable-context-card" />
+
+For the incident, nodes reproduce the failure, retrieve context, compare
+hypotheses, prepare a patch, run evaluations, and assemble a pull request.
+Missing evidence triggers retrieval; unresolved hypotheses trigger escalation.
+The graph—not the model—is the durable unit of automation. It preserves where
+judgment entered and which authority permitted the next step.
+
+## 5. Evaluate: Close One Signal-to-Outcome Loop
+
+An inspectable graph may produce a verified artifact. The factory must still
+compare its result with the predicted consequence:
+
+1. Signals become a typed observation and competing hypotheses.
+2. Policy authorizes bounded investigation and a reviewable artifact.
+3. Tests, evaluations, policy checks, and the proper authority govern release.
+4. Product and operational telemetry confirm, narrow, or reject the hypothesis.
+
+Verification asks whether the artifact passed known checks. Evaluation asks
+whether the action produced the intended effect. A passing test can coexist
+with a worse customer journey; a recovered funnel can conceal higher operating
+cost. The consequence gate therefore names the intended effect, observation
+window, acceptable tradeoffs, and authority for interpreting the result.
+
+“Self-driving” should mean a governed cycle, not an alert deploying code
+unattended. No cited source demonstrates this complete autonomous path.
+
+## 6. Learn: Retained Consequences, Not Activity, Compound
+
+<Callout>
+  Work produces outcomes → outcomes produce evidence → evidence updates context
+  and evaluation → better context can improve the next work.
+</Callout>
+
+The word **can** carries the argument. The system must retain the hypothesis,
+evidence, authority, intended effect, actual outcome, correction, and changed
+context or evaluation. Otherwise, more tickets, code, tool calls, or tokens are
+only activity.
+
+The incident might produce a regression case, corrected ownership, a revised
+release gate, or a failed-hypothesis record. The durable asset compares what the
+factory expected with what happened. Reflexion shows that retained feedback can
+improve agent trials, not that memory creates organizational learning.
+
+<Asset id="consequence-returns-to-context-motif" />
+
+Measure time to a verified outcome, rework cost, recurrence of known failures,
+customer and operational effects, and the decisions teams can make safely.
+Lower token cost is not better judgment, and faster generation is not a better
+outcome.
+
+### The Cognitive Light Cone as a Workflow Diagnostic
+
+Michael Levin's cognitive light cone becomes a qualitative diagnostic for one
+configured workflow:
+
+- **Observe:** What evidence can it sense, with what provenance?
+- **Interpret:** Which definitions, relationships, and alternatives can it use?
+- **Affect:** What can it change through bounded, reversible actions?
+- **Learn:** Which outcomes can revise later context or evaluation?
+
+The score describes the workflow, not the intrinsic rank of a model, agent,
+organization, or mind.
+
+<Asset id="light-cone-scorecard" />
+
+The destination is not maximal independent action. It is wider but bounded
+capacity, paired with reversibility, escalation, and accountable authority.
+
+## 7. Build the Feedback Chain in Dependency Order
+
+A team can begin with one consequential feedback chain:
+
+1. Choose one workflow and name its outcome.
+2. Connect evidence with provenance and ownership.
+3. Define the concepts, permissions, and boundaries.
+4. Normalize observations, hypotheses, and decision paths.
+5. Build evaluation and rollback before authority expands.
+6. Represent work and ownership as a graph.
+7. Return consequences to context and evaluation.
+8. Widen the mandate only when outcomes justify it.
+
+Evidence makes signals inspectable; ontology makes them interpretable; policy
+and graphs make action governable; retention changes the next cycle.
+
+The six essays now form one operating system. Vision chooses the direction.
+Truth tests the claims. Understanding places judgment where the work happens.
+The knowledge factory organizes production, and ontology supplies the map. The
+cognitive factory closes the loop.
+
+## The AI Factory Series
+
+1. <ArticleLink slug="vision-and-values">Vision and Values</ArticleLink>
+2. <ArticleLink slug="truth-and-inference">Truth and Inference</ArticleLink>
+3. <ArticleLink slug="understanding-and-bottlenecks">Understanding and Bottlenecks</ArticleLink>
+4. <ArticleLink slug="the-knowledge-factory">The Knowledge Factory</ArticleLink>
+5. <ArticleLink slug="the-ontology-factory">The Ontology Factory</ArticleLink>
+6. **The Cognitive Factory**
+
+## Sources
+
+- Sentry, [“Seer” documentation](https://docs.sentry.io/product/ai-in-sentry/seer/).
+- PostHog, [“Insights” documentation](https://posthog.com/docs/product-analytics/insights).
+- Amazon Web Services, [“Alarm actions” documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-actions.html).
+- TypeSafe AI, [TypeSafe AI skill documentation](https://github.com/typesafe-ai/skills/blob/main/skills/typesafe-ai/SKILL.md).
+- Michael Levin, [“Technological Approach to Mind Everywhere: An Experimentally-Grounded Framework for Understanding Diverse Bodies and Minds”](https://doi.org/10.3389/fnsys.2022.768201) (2022).
+- Shunyu Yao and colleagues, [“ReAct: Synergizing Reasoning and Acting in Language Models”](https://arxiv.org/abs/2210.03629) (2023).
+- Noah Shinn and colleagues, [“Reflexion: Language Agents with Verbal Reinforcement Learning”](https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html) (2023).
+- W3C, [“PROV-O: The PROV Ontology”](https://www.w3.org/TR/prov-o/) (2013).
+- National Institute of Standards and Technology, [*Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile*](https://doi.org/10.6028/NIST.AI.600-1) (2024).
+- DORA, Google, [*2025 State of AI-assisted Software Development Report*](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/).
+
+Their composition into this loop is this essay's synthesis.

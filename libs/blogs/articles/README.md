@@ -58,7 +58,7 @@ destabilizing URLs.
 | 3 | [understanding-and-bottlenecks](./understanding-and-bottlenecks/) | Turning abundant output into shared models and bounded action | Published canonical MDX with tagged explanatory figures |
 | 4 | [the-knowledge-factory](./the-knowledge-factory/) | Distributed solutioning, factory engineers, and the knowledge-factory stack | Published canonical MDX with tagged factory figures |
 | 5 | [the-ontology-factory](./the-ontology-factory/) | Repository ontology as the factory's semantic infrastructure | Published canonical MDX with registered images and graph composition |
-| 6 | [the-cognitive-factory](./the-cognitive-factory/) | Graph context, executable context, compounding learning, and cognitive light cones | Published canonical MDX with tagged diagnostic assets |
+| 6 | [the-cognitive-factory](./the-cognitive-factory/) | Typed observations, bounded authority, inspectable agent work, evaluated consequences, and retained learning | Published canonical MDX with tagged diagnostic assets |
 
 ### Related Essays
 

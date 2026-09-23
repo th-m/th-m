@@ -89,7 +89,7 @@ export const articleBundleNodes: BundleNode[] = [
     title: "Cognitive Factory",
     kind: "branch",
     order: "06",
-    summary: "Graph context and executable feedback make the factory learn.",
+    summary: "Typed observations, bounded authority, and feedback make the factory learn.",
     x: 610,
     y: 465,
     width: 240,

@@ -52,6 +52,18 @@ const motifs: Array<{
     context: "Treat token transformation, input-preparation time, and verified output value as three separate views. Combining them into one production line hides the question each measure answers.",
     followUp: "ontology-of-terms",
   },
+  {
+    index: "05",
+    variant: "trigger-opens-hypotheses",
+    note: "A trigger opens hypotheses, not a diagnosis.",
+    context: "This study composes the existing trigger, inference, coherence, correspondence, and consequence marks. It deliberately stops before action so uncertainty remains visible.",
+  },
+  {
+    index: "06",
+    variant: "consequence-returns-to-context",
+    note: "Consequence must return before activity becomes learning.",
+    context: "Both lanes use the same context, automation, and consequence marks. The second adds one typed return relationship; that edge is the difference between completed activity and retained learning.",
+  },
 ];
 
 const languageUnits = ["morpheme-diffuse", "text", "token"] as const;
@@ -155,7 +167,7 @@ function AiFactoryMotifPage() {
           <p className="eyebrow">AI Factory / iconography language / review sheet</p>
           <h1>Meaning needs a shape before it can travel.</h1>
           <p className="motif-review__lede">
-            Four chapters, one visual grammar. This page keeps the motif parts together so we can review whether the marks remain coherent as the idea moves from vision to ontology.
+            Six studies, one visual grammar. This page keeps the motif parts together so we can review whether the marks remain coherent as the idea moves from vision through ontology into governed feedback.
           </p>
         </div>
         <nav className="motif-review__nav" aria-label="Motif variants">

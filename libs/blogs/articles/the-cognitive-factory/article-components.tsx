@@ -1,4 +1,5 @@
 import { defineArticleComponents } from "@th-m/blogs/mdx";
+import { AiFactoryMotif } from "@th-m/blogs/components";
 import articleAssets from "./article-assets";
 import { Fragment, type ReactNode } from "react";
 import type { PublishedPost } from "@th-m/blogs/publish";
@@ -10,18 +11,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useToolDrawer,
 } from "@th-m/ui";
 import { Link } from "@tanstack/react-router";
-import {
-  PropositionGraphFigure,
-  loadGraphLibrary,
-  saveGraphLibrary,
-  type GraphDocument,
-  type RelationshipParticipant,
-} from "@th-m/graph-visualization";
-
-const KNOWLEDGE_FACTORY_GRAPH_ID = "knowledge-factory";
 
 function formatDate(value: string): string {
   return new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeZone: "UTC" }).format(
@@ -35,108 +26,6 @@ function Figure({ caption, children }: { caption: string; children: ReactNode })
       {children}
       <figcaption className="essay-figure__caption">{caption}</figcaption>
     </figure>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* The knowledge-factory graph, authored for the graph figure and the  */
-/* relationship-graph drawer tool.                                     */
-/* ------------------------------------------------------------------ */
-
-const participant = (nodeId: string, arrowAtNode = false, arrowAtRelation = false): RelationshipParticipant => ({
-  nodeId,
-  arrowAtNode,
-  arrowAtRelation,
-});
-
-const knowledgeFactoryGraph: GraphDocument = {
-  schemaVersion: 1,
-  id: KNOWLEDGE_FACTORY_GRAPH_ID,
-  name: "Knowledge-factory context",
-  createdAt: "2026-08-22T00:00:00.000Z",
-  updatedAt: "2026-08-22T00:00:00.000Z",
-  themeId: "thom-dark",
-  layoutMode: "editorial",
-  propositions: [
-    { id: "decision", statement: "Ship the new checkout flow", emphasis: true, pinned: false },
-    { id: "evidence", statement: "Support tickets describe checkout drop-off", emphasis: false, pinned: false },
-    { id: "concept", statement: "“Conversation” is a bounded service concept", emphasis: false, pinned: false },
-    { id: "system", statement: "Checkout depends on the payments service", emphasis: false, pinned: false },
-    { id: "evaluation", statement: "Cart-abandonment regression suite", emphasis: false, pinned: false },
-    { id: "owner", statement: "Payments platform team", emphasis: false, pinned: false },
-    { id: "outcome", statement: "Checkout conversion rises 6%", emphasis: true, pinned: false },
-  ],
-  relationships: [
-    {
-      id: "motivated-by",
-      statement: "Motivated by",
-      participants: [participant("evidence"), participant("decision", true)],
-      pinned: false,
-    },
-    {
-      id: "uses-concept",
-      statement: "Uses the definition of",
-      participants: [participant("concept"), participant("decision")],
-      pinned: false,
-    },
-    {
-      id: "depends-on",
-      statement: "Depends on",
-      participants: [participant("system"), participant("decision")],
-      pinned: false,
-    },
-    {
-      id: "checked-by",
-      statement: "Checked by",
-      participants: [participant("evaluation"), participant("decision")],
-      pinned: false,
-    },
-    {
-      id: "owned-by",
-      statement: "Owned by",
-      participants: [participant("owner"), participant("decision")],
-      pinned: false,
-    },
-    {
-      id: "measured-by",
-      statement: "Measured by",
-      participants: [participant("decision"), participant("outcome", true)],
-      pinned: false,
-    },
-  ],
-  poster: {
-    kicker: "Graph context",
-    title: "A decision, connected",
-    footer: "Evidence, concepts, systems, evaluations, owners, outcomes",
-    showLegend: true,
-  },
-};
-
-function seedKnowledgeFactoryGraph(): void {
-  try {
-    const library = loadGraphLibrary();
-    if (!library.documents.some((document) => document.id === KNOWLEDGE_FACTORY_GRAPH_ID)) {
-      library.documents.push(knowledgeFactoryGraph);
-      saveGraphLibrary(library);
-    }
-  } catch {
-    // Storage unavailable (private mode): the drawer still opens without the graph.
-  }
-}
-
-function ExploreGraphButton() {
-  const { openTool } = useToolDrawer();
-  return (
-    <button
-      type="button"
-      className="essay-explore"
-      onClick={() => {
-        seedKnowledgeFactoryGraph();
-        openTool("relationship-graph", { graphId: KNOWLEDGE_FACTORY_GRAPH_ID });
-      }}
-    >
-      Explore the graph <span aria-hidden="true">→</span>
-    </button>
   );
 }
 
@@ -169,6 +58,14 @@ function ExecutableContextCard() {
       </CardContent>
     </Card>
   );
+}
+
+function TriggerOpensHypothesesMotif() {
+  return <AiFactoryMotif variant="trigger-opens-hypotheses" />;
+}
+
+function ConsequenceReturnsToContextMotif() {
+  return <AiFactoryMotif variant="consequence-returns-to-context" />;
 }
 
 function ArrowMarker({ id }: { id: string }) {
@@ -223,14 +120,14 @@ function CompoundingLoop() {
   );
 }
 
-const LIGHT_CONE_ROWS: Array<[string, string, string, string]> = [
-  ["Observability", "Supplied context only", "Tools and memory within its bounds", "Organization-wide signals, context stores, telemetry"],
-  ["Semantic context", "Prompt and retrieved text", "Objective, permissions, escalation boundaries", "Ontologies and graph context with provenance"],
-  ["Evaluation", "Humans judge the response", "Bounded checks humans design", "Deterministic tests, rubrics, simulations, outcome checks"],
-  ["Feedback", "None — the session ends", "Tool outcomes feed back into its workflow", "Outcomes update context, evaluations, and future work"],
-  ["Reversibility", "The prompt can be rewritten", "Bounded actions can be reversed", "Provenance enables tracing and rollback"],
-  ["Authority", "Humans select evidence and state the goal", "Humans set objectives and permissions", "Humans govern meaning, standards, and decisions"],
-  ["Accountability", "Humans remain accountable for use", "Humans remain accountable for boundaries", "Humans remain accountable for propagated values"],
+const LIGHT_CONE_ROWS: Array<[string, string, string, string, "capability" | "governance"]> = [
+  ["Observe", "Supplied evidence only", "Permitted tools and memory", "Customer and operational signals with provenance", "capability"],
+  ["Interpret", "Prompt and retrieved text", "Bounded context and alternatives", "Ontology and graph context with evidence", "capability"],
+  ["Affect", "Output for another actor", "Scoped, reversible actions", "Explicitly authorized systems and workflows", "capability"],
+  ["Learn", "No retained outcome in this baseline", "Task feedback retained within the workflow", "Outcomes revise context and evaluation", "capability"],
+  ["Reversibility", "A person can reject or revise the output", "Actions require recovery paths", "Provenance supports tracing and rollback", "governance"],
+  ["Authority", "A person chooses evidence and purpose", "Policy sets objectives and permissions", "People govern meaning, standards, and decisions", "governance"],
+  ["Accountability", "People remain accountable for use", "People remain accountable for boundaries", "People remain accountable for propagated values", "governance"],
 ];
 
 function LightConeScorecard() {
@@ -240,19 +137,26 @@ function LightConeScorecard() {
       <thead>
         <tr>
           <th scope="col">Dimension</th>
-          <th scope="col">LLM</th>
-          <th scope="col">Agent</th>
-          <th scope="col">Knowledge factory</th>
+          <th scope="col">Bare model call</th>
+          <th scope="col">Bounded agent</th>
+          <th scope="col">Connected workflow</th>
         </tr>
       </thead>
       <tbody>
-        {LIGHT_CONE_ROWS.map(([dimension, llm, agent, factory]) => (
-          <tr key={dimension}>
-            <th scope="row">{dimension}</th>
-            <td>{llm}</td>
-            <td>{agent}</td>
-            <td>{factory}</td>
-          </tr>
+        {LIGHT_CONE_ROWS.map(([dimension, model, agent, workflow], index) => (
+          <Fragment key={dimension}>
+            {index === 0 ? (
+              <tr><th scope="colgroup" colSpan={4}>Capability reach</th></tr>
+            ) : index === 4 ? (
+              <tr><th scope="colgroup" colSpan={4}>Governance conditions</th></tr>
+            ) : null}
+            <tr>
+              <th scope="row">{dimension}</th>
+              <td>{model}</td>
+              <td>{agent}</td>
+              <td>{workflow}</td>
+            </tr>
+          </Fragment>
         ))}
       </tbody>
     </table>
@@ -272,9 +176,10 @@ const seriesLinks: Array<[string, string]> = [
   ["Cognitive Factory", "/writing/the-cognitive-factory"],
 ];
 
-export { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, ExecutableContextCard, ExploreGraphButton, Figure, formatDate, Fragment, KNOWLEDGE_FACTORY_GRAPH_ID, knowledgeFactoryGraph, LIGHT_CONE_ROWS, LightConeScorecard, Link, LinkPreview, loadGraphLibrary, participant, PropositionGraphFigure, saveGraphLibrary, seedKnowledgeFactoryGraph, seriesLinks, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, useToolDrawer };
+export { ArrowMarker, Card, CardContent, CompoundingLoop, ConsequenceReturnsToContextMotif, CONTEXT_MAPPINGS, ExecutableContextCard, Figure, formatDate, Fragment, LIGHT_CONE_ROWS, LightConeScorecard, Link, LinkPreview, seriesLinks, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TriggerOpensHypothesesMotif };
 export default defineArticleComponents(articleAssets, () => ({
-  "compounding-loop": CompoundingLoop,
+  "consequence-returns-to-context-motif": ConsequenceReturnsToContextMotif,
   "executable-context-card": ExecutableContextCard,
   "light-cone-scorecard": LightConeScorecard,
+  "trigger-opens-hypotheses-motif": TriggerOpensHypothesesMotif,
 }));

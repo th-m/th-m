@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import {
   createMemoryHistory,
   createRootRoute,
@@ -8,47 +7,17 @@ import {
   Outlet,
   RouterProvider,
 } from "@tanstack/react-router";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import type { PublishedArticle } from "../src/content/blog-content";
 import { ArticleContent } from "../src/writing/ArticleContent";
 import { ToolDrawerProvider } from "../src/tools/ToolDrawerProvider";
 import { ToolDrawer } from "../src/tools/ToolDrawer";
 
-// The jsdom environment here does not provide a storage global (the graph
-// library's own tests polyfill it the same way); install a minimal one so the
-// page's drawer seeding can persist the knowledge-factory graph.
-beforeEach(() => {
-  const store = new Map<string, string>();
-  Object.defineProperty(globalThis, "localStorage", {
-    configurable: true,
-    value: {
-      getItem: (key: string) => store.get(key) ?? null,
-      setItem: (key: string, value: string) => { store.set(key, value); },
-      removeItem: (key: string) => { store.delete(key); },
-      clear: () => { store.clear(); },
-    },
-  });
-});
-
-// The page embeds a PropositionGraphFigure (ELK worker) and can open the
-// relationship-graph explorer from the drawer; stub the worker-bound pieces so
-// jsdom never constructs a web worker while keeping the storage helpers real.
-vi.mock("@th-m/graph-visualization", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@th-m/graph-visualization")>();
-  return {
-    ...actual,
-    PropositionGraphFigure: () => <div data-testid="proposition-graph-figure" />,
-    RelationshipGraphExplorer: (props: { initialGraphId?: string }) => (
-      <div data-testid="graph-explorer-mock" data-initial-graph-id={props.initialGraphId ?? ""} />
-    ),
-  };
-});
-
 function cognitiveFactoryArticle(): PublishedArticle {
   return {
     slug: "the-cognitive-factory",
     title: "Cognitive Factory",
-    description: "The factory's cognition is a governed control system.",
+    description: "Reliable automation needs typed observations, bounded authority, evaluated consequences, and retained learning.",
     publishedAt: "2026-08-22",
     tags: ["Artificial Intelligence", "Knowledge Work"],
     articlePath: "posts/the-cognitive-factory/article.mdx",
@@ -83,27 +52,29 @@ describe("Cognitive Factory published page", () => {
     await renderPage();
     expect(screen.getByText("Essay")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Cognitive Factory" })).toBeInTheDocument();
-    expect(screen.getByText("The factory's cognition is a governed control system.")).toBeInTheDocument();
+    expect(screen.getByText(/Reliable automation needs typed observations/)).toBeInTheDocument();
     expect(screen.getByText("Published August 22, 2026")).toBeInTheDocument();
     expect(screen.queryByText("Essay outline")).not.toBeInTheDocument();
   });
 
-  it("renders the cognition sections and the graph figure", async () => {
+  it("renders the cognition sections without the retired graph explorer", async () => {
     await renderPage();
-    expect(screen.getByRole("heading", { name: "Extending Loop and Graph Engineering" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Cognition Is the Control System" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Decision Trees and Agent Graphs" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "1. Graph Context Exploration" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "2. From Documents to Executable Context" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "3. The Compounding Loop" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "4. The Cognitive Light Cone Scorecard" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "6. The Two Factory Disciplines" })).toBeInTheDocument();
-    expect(screen.getByTestId("proposition-graph-figure")).toBeInTheDocument();
-    expect(screen.getByText("Sentry")).toBeInTheDocument();
-    expect(screen.getByText("PostHog")).toBeInTheDocument();
-    expect(screen.getByText("CloudWatch alarms")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "1. Sense: Signals Must Become Typed Observations" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "2. Hypothesize: A Trigger Opens an Investigation" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "3. Decide: Judgment Is Bounded; Authority Stays Explicit" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "4. Execute: Agent Graphs Make Work Inspectable" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "5. Evaluate: Close One Signal-to-Outcome Loop" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "6. Learn: Retained Consequences, Not Activity, Compound" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "7. Build the Feedback Chain in Dependency Order" })).toBeInTheDocument();
+    expect(screen.queryByText(/Explore the graph/)).not.toBeInTheDocument();
+    expect(screen.getAllByText(/Sentry/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/PostHog/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Jev/).length).toBeGreaterThan(0);
     expect(screen.getByAltText(/operational sensors feed an event contract/)).toBeInTheDocument();
+    expect(document.querySelector('[data-variant="trigger-opens-hypotheses"]')).toBeInTheDocument();
+    expect(document.querySelector('[data-variant="consequence-returns-to-context"]')).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "Capability reach" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "Governance conditions" })).toBeInTheDocument();
   });
 
   it("links the series essays through the writing routes", async () => {
@@ -113,7 +84,7 @@ describe("Cognitive Factory published page", () => {
       ["Truth and Coherence", "/writing/truth-and-inference"],
       ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
-      ["Ontology Factory", "/writing/the-ontology-factory"],
+      ["The Ontology Factory", "/writing/the-ontology-factory"],
     ];
     for (const [name, href] of links) {
       const matches = screen.getAllByRole("link", { name });
@@ -122,20 +93,4 @@ describe("Cognitive Factory published page", () => {
     }
   });
 
-  it("seeds the knowledge-factory graph and opens it in the relationship-graph drawer", async () => {
-    const user = userEvent.setup();
-    await renderPage();
-
-    await user.click(screen.getByRole("button", { name: /Explore the graph/ }));
-
-    expect(await screen.findByRole("dialog")).toBeInTheDocument();
-    expect(await screen.findByTestId("graph-explorer-mock")).toHaveAttribute(
-      "data-initial-graph-id",
-      "knowledge-factory",
-    );
-
-    const stored = localStorage.getItem("thom:proposition-graph:v1");
-    expect(stored).toBeTruthy();
-    expect(stored).toContain("knowledge-factory");
-  });
 });
