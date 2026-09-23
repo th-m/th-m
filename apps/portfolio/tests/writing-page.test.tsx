@@ -107,7 +107,7 @@ describe("ArticleContent MDX rendering", () => {
     expect(screen.getByRole("heading", { name: "Retain Authority Over the Ends" })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "AI Factory" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Sources" })).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /The Economic Case for Generative AI/ })).not.toHaveLength(0);
+    expect(screen.getAllByRole("link", { name: /The Signal Layer: What to Build When Anything Can Be Built/ })).not.toHaveLength(0);
   });
 
   it("renders the Vision and Values editorial hierarchy with shared MDX components", () => {
@@ -119,8 +119,9 @@ describe("ArticleContent MDX rendering", () => {
 
     expect(screen.getByText("Make this plan optimal. Find all the gaps. Add the necessary validation.").closest("blockquote"))
       .toBeInTheDocument();
-    expect(screen.getByText("Core thesis").closest(".article-claim"))
-      .toHaveClass("article-claim--emphasis");
+    const openingQuote = screen.getByText("“So, the cost of the average just went to zero and so did its value.”");
+    expect(openingQuote.tagName).toBe("STRONG");
+    expect(openingQuote.closest("blockquote")).toBeInTheDocument();
     expect(screen.getByText("Barnum effect")).toHaveClass("thom-tooltip-trigger");
     expect(screen.getByText("Four requirements").closest(".article-claim")).toBeInTheDocument();
     expect(screen.getByText("False evaluative closure", { exact: true }).closest(".article-claim"))

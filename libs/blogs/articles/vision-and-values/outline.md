@@ -61,19 +61,20 @@ purpose.
 
 ## Argument Flow
 
-### 1. When Creation Approaches Zero, Judgment Becomes Scarce
+### 1. The Signal Layer Gives Strategy Its Direction
 
 **Reader starts with:** Generative AI makes more plans, artifacts, and options
 available, so strategic leverage may seem to come from generating more of them.
 
-**Move:** Open with Martin Casado's 2023 a16z talk,
-[*The Economic Case for Generative AI*](https://a16z.com/the-economic-case-for-generative-ai/).
-Use its image-generation comparison to show the sharp fall in the marginal cost
-of producing another candidate output. Treat “zero” as the direction of that
-cost curve, not a claim that inference, evaluation, integration, operation, or
-judgment is free.
+**Move:** Open with the failed nine-hour planning request. Follow it with Lena
+Hall's bold quotation about the cost and value of average work falling to zero,
+linked to 1:25 in *The Signal Layer*. Explain the signal layer as defining what
+is worth building and preserving that meaning through to customers. Connect
+human insight, vision, and judgment to strategic advantage, then return to the
+direction missing from the request. “Zero” describes lost differentiation;
+Hall also acknowledges production and attention costs later in the talk.
 
-Then use the failed nine-hour planning request. The system produced many
+The system produced many
 recommendations and checks because `optimize` did not specify which outcome,
 risk, or sacrifice should govern the work. Introduce the HBR strategic-advice
 study only as evidence that tested recommendations could remain broadly
@@ -83,7 +84,7 @@ fashionable or react to prompt order despite added context.
 scarce input is the judgment that defines what deserves to be created and what
 would count as success.
 
-**Evidence and inference:** Casado supplies an economic illustration, and the
+**Evidence and inference:** Hall supplies the signal-layer argument, and the
 HBR authors report bounded behavior in their tested strategic tensions. The
 claim that judgment becomes the organizational scarcity is this article's
 synthesis. Neither source proves that every AI-assisted strategy fails.
@@ -339,7 +340,7 @@ for the argument and the limit it does not prove.
 
 | Planned claim | Status and locator | Required limit |
 | --- | --- | --- |
-| Generative AI sharply lowers the marginal cost of another candidate output. | Casado's 2023 a16z talk, mapped in [`research/ai-factory-series-sources-audit.md`](research/ai-factory-series-sources-audit.md). | Investor presentation and illustrative estimates; finished work and judgment are not free. |
+| Cheap, reproducible implementation shifts strategic advantage toward a distinctive purpose and its faithful delivery. | Lena Hall's *The Signal Layer*, 1:25–1:29 and 3:21–4:02; [talk and transcript](https://ai.engineer/talks/1KOdiGgMtpY-signal-layer-what-build-when-anything-be). | A strategic argument, not a measured claim of zero production cost or guaranteed human advantage. |
 | Tested strategic advice showed persistent defaults and option-order sensitivity. | Romasanta, Thomas, and Levina's HBR report; detailed in [`research/research-review.md`](research/research-review.md). | Bounded tested models and tensions; not universal strategic incompetence, deception, or causal proof. |
 | Broad or agreeable output can feel personally valid without being well grounded. | Forer, Pataranutaporn et al., Cheng et al., and Ye et al. in [`research/barnum-effect-and-ai-advice.md`](research/barnum-effect-and-ai-advice.md). | Separate Barnum effects, sycophancy, factual error, and deception; preserve study designs and denominators. |
 | A POTS diagnosis can classify a real syndrome without identifying one mechanism. | NIH expert-consensus source mapped in the series source audit. | No medical advice; do not imply that diagnosis is fictitious, useless, or the end of clinical inquiry. |
