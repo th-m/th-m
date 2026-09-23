@@ -78,7 +78,7 @@ describe("Cognitive Factory published page", () => {
     await renderPage();
     const links: Array<[string, string]> = [
       ["Vision and Values", "/writing/vision-and-values"],
-      ["Truth and Coherence", "/writing/truth-and-inference"],
+      ["Truth and Inference", "/writing/truth-and-inference"],
       ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
       ["Ontology Factory", "/writing/the-ontology-factory"],

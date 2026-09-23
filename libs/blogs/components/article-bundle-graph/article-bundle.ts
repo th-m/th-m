@@ -53,10 +53,10 @@ export const articleBundleNodes: BundleNode[] = [
   },
   {
     slug: "truth-and-inference",
-    title: "Truth and Coherence",
+    title: "Truth and Inference",
     kind: "fundamental",
     order: "03",
-    summary: "Reliable inference begins where language carries constraints.",
+    summary: "Philosophies of truth guide practical evaluation of LLM inference.",
     x: 680,
     y: 20,
     width: 250,

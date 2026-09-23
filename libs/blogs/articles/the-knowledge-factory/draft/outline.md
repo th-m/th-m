@@ -8,7 +8,7 @@ Factory* unless the series is intentionally renamed.
 **Series job:** This fourth essay turns the first three essays' commitments into
 an operating model. *Vision and Values* supplies accountable direction,
 *Understanding and Bottlenecks* distributes the capacity to judge, and *Truth
-and Coherence* supplies standards for judging claims. This article asks what system
+and Inference* supplies standards for judging claims. This article asks what system
 those teams need around AI generation. *Ontology Factory* will develop that
 system's semantic infrastructure; *Cognitive Factory* will develop its
 sensemaking, cognitive reach, signals, and discoverable organizational memory.
@@ -93,7 +93,7 @@ generation, how work branches and rejoins, and where consequences return.
 flowchart LR
   V["1. Vision and Values"]
   U["2. Understanding and Bottlenecks"]
-  T["3. Truth and Coherence"]
+  T["3. Truth and Inference"]
   K["4. The Knowledge Factory — YOU ARE HERE"]
   O["5. Ontology Factory"]
   C["6. Cognitive Factory"]
@@ -437,7 +437,7 @@ assets; the return to the opening variables is the argument.
 - Preserve the factory metaphor for systems, queues, capital, evaluation, and
   feedback; do not reduce people to interchangeable inputs.
 - Keep human direction from *Vision and Values*, evidence standards from *Truth
-  and Coherence*, and distributed understanding from *Understanding and
+  and Inference*, and distributed understanding from *Understanding and
   Bottlenecks* as premises rather than reopening those arguments.
 - Keep ontology mechanics—bounded contexts, entity relationships, provenance,
   and semantic conflict resolution—in *Ontology Factory*.

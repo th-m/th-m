@@ -1,4 +1,4 @@
-# Truth and Coherence
+# Truth and Inference
 
 The most dangerous prompt is often the one that already sounds solved.
 
@@ -18,13 +18,13 @@ That distinction drives this essay: **How do we recognize meaningful input and v
 
 My answer is to inspect the entire exchange. Meaningful input makes its evidence, assumptions, constraints, omissions, and uncertainty visible. Valuable output passes three different tests: it fits the model being used, it matches what we can observe, and it survives contact with the consequences of acting on it.
 
-Information theory can explain why one prompt narrows a model's predictions more effectively than another. It cannot tell us whether the prompt is true or the result is worth using. For that, prediction has to return to practice.
+Philosophies of truth give us questions to ask of an answer. Information theory helps explain how context shapes LLM inference and what the model is likely to produce. The practical bridge is to make the outcome we expect explicit, then test whether the result fits its assumptions, matches what we observe, and holds up when someone uses it.
 
 > **Series position — navigation, not an explanatory figure**
 >
 > [Vision and Values](/writing/vision-and-values) →
 > [Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
-> **[Truth and Coherence](/writing/truth-and-inference) — YOU ARE HERE** →
+> **[Truth and Inference](/writing/truth-and-inference) — YOU ARE HERE** →
 > [The Knowledge Factory](/writing/the-knowledge-factory) →
 > [Ontology Factory](/writing/the-ontology-factory) →
 > [Cognitive Factory](/writing/the-cognitive-factory)

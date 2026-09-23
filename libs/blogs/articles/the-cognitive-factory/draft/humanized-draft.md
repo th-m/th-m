@@ -22,7 +22,7 @@ path into a larger memory, and an experience changing a later judgment.
 
 **In this series:** [1. Vision and Values](/writing/vision-and-values) →
 [2. Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
-[3. Truth and Coherence](/writing/truth-and-inference) →
+[3. Truth and Inference](/writing/truth-and-inference) →
 [4. The Knowledge Factory](/writing/the-knowledge-factory) →
 [5. Ontology Factory](/writing/the-ontology-factory) →
 **6. Cognitive Factory — you are here**.

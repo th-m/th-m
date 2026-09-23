@@ -17,7 +17,7 @@ before the later articles address truth tests, distributed understanding,
 factory throughput, reusable ontology, and closed-loop automation. It should not
 duplicate those mechanics:
 
-- *Truth and Coherence* owns how claims and outputs are evaluated.
+- *Truth and Inference* owns how claims and outputs are evaluated.
 - *Understanding and Bottlenecks* owns the distribution of expertise and
   decision capacity.
 - *The Knowledge Factory* owns repeatable context, generation, evaluation, and
@@ -364,7 +364,7 @@ the `truth-and-inference` slug.
 flowchart LR
   V["1. Vision and Values — YOU ARE HERE"]
   U["2. Understanding and Bottlenecks"]
-  T["3. Truth and Coherence"]
+  T["3. Truth and Inference"]
   K["4. The Knowledge Factory"]
   O["5. Ontology Factory"]
   C["6. Cognitive Factory"]

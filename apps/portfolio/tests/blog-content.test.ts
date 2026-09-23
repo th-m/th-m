@@ -54,7 +54,7 @@ describe("article MDX module staging", () => {
 
   it.each([
     { slug: "vision-and-values", title: "Vision and Values" },
-    { slug: "truth-and-inference", title: "Truth and Coherence" },
+    { slug: "truth-and-inference", title: "Truth and Inference" },
     { slug: "understanding-and-bottlenecks", title: "Understanding and Bottlenecks" },
   ])("publishes $title with matching content paths", async ({ slug, title }) => {
     const contentRoot = resolve(projectRoot, "public/_content");

@@ -841,7 +841,7 @@ describe("AiFactoryMotif", () => {
     const articles = [
       ["Vision and Values", "/writing/vision-and-values"],
       ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
-      ["Truth and Coherence", "/writing/truth-and-inference"],
+      ["Truth and Inference", "/writing/truth-and-inference"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
       ["Ontology Factory", "/writing/the-ontology-factory"],
       ["Cognitive Factory", "/writing/the-cognitive-factory"],
@@ -850,7 +850,7 @@ describe("AiFactoryMotif", () => {
     expect(screen.getAllByRole("link").map(link => link.getAttribute("href")))
       .toEqual(articles.map(([, href]) => href));
     expect(screen.getByRole("link", { name: /Understanding and Bottlenecks/ })).toHaveTextContent("02");
-    expect(screen.getByRole("link", { name: /Truth and Coherence/ })).toHaveTextContent("03");
+    expect(screen.getByRole("link", { name: /Truth and Inference/ })).toHaveTextContent("03");
     for (const [name, href] of articles) {
       expect(screen.getByRole("link", { name: new RegExp(name) })).toHaveAttribute("href", href);
       expect(screen.getByRole("heading", { name })).toBeVisible();

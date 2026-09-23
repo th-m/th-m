@@ -1,9 +1,14 @@
-# Truth and Coherence
+# Truth and Inference
 
 ## Role in the Series
 
-**Working title:** Truth and Coherence. Preserve the existing workspace slug and
-canonical article until an explicit publication revision.
+**Title:** Truth and Inference. Preserve the existing workspace slug.
+
+**Framing:** Bridge philosophies of truth and the outcomes we expect from LLM
+inference. Philosophy supplies questions for evaluating claims; information
+theory explains conditional prediction; domain checks and observed consequences
+test whether generated work achieves the intended result. Coherence is one
+criterion within that bridge. Keep the current examples and section structure.
 
 **Central question:** How do we recognize meaningful input and valuable output
 when AI can make weak premises and answers look equally plausible?
@@ -54,7 +59,7 @@ the current position in text as well as visually; arrows indicate reading order.
 flowchart LR
   V["1. Vision and Values"]
   U["2. Understanding and Bottlenecks"]
-  T["3. Truth and Coherence — YOU ARE HERE"]
+  T["3. Truth and Inference — YOU ARE HERE"]
   K["4. The Knowledge Factory"]
   O["5. Ontology Factory"]
   C["6. Cognitive Factory"]

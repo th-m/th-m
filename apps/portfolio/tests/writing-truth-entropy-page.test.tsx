@@ -14,11 +14,11 @@ import { ArticleContent } from "../src/writing/ArticleContent";
 import { ToolDrawerProvider } from "../src/tools/ToolDrawerProvider";
 import { ToolDrawer } from "../src/tools/ToolDrawer";
 
-function truthCoherenceArticle(): PublishedArticle {
+function truthInferenceArticle(): PublishedArticle {
   return {
     slug: "truth-and-inference",
-    title: "Truth and Coherence",
-    description: "How meaningful inputs and testable consequences turn fluent AI output into work we can rely on.",
+    title: "Truth and Inference",
+    description: "How philosophies of truth help us judge what to expect from LLM inference and test its outcomes in practice.",
     publishedAt: "2026-08-22",
     updatedAt: "2026-09-23",
     tags: ["Artificial Intelligence", "Language Models", "Information Theory", "Software Systems"],
@@ -39,7 +39,7 @@ async function renderPage() {
   const writingRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/writing/$slug",
-    component: () => <ArticleContent article={truthCoherenceArticle()} />,
+    component: () => <ArticleContent article={truthInferenceArticle()} />,
   });
   const router = createRouter({
     routeTree: rootRoute.addChildren([writingRoute]),
@@ -49,11 +49,11 @@ async function renderPage() {
   return render(<RouterProvider router={router} />);
 }
 
-describe("Truth and Coherence article", () => {
+describe("Truth and Inference article", () => {
   it("opens with the input problem and the central question", async () => {
     await renderPage();
 
-    expect(screen.getByRole("heading", { level: 1, name: "Truth and Coherence" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Truth and Inference" })).toBeInTheDocument();
     expect(screen.getByText(/The most dangerous prompt is often the one that already sounds solved\./)).toBeInTheDocument();
     expect(screen.getByText(/Our customers keep choosing the wrong columns/i)).toBeInTheDocument();
     expect(screen.getByText(/Customers submit files with unfamiliar headers/i)).toBeInTheDocument();

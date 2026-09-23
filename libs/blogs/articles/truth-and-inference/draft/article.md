@@ -1,4 +1,4 @@
-# Truth and Coherence
+# Truth and Inference
 
 The first article asks who supplies the direction; the second puts learning
 and decisions in bounded teams. This one asks what makes their judgments
@@ -26,17 +26,17 @@ uncertainty visible. Valuable output survives three different tests: it coheres
 within its stated model, corresponds with what we can observe, and produces
 acceptable consequences in relation to an explicit aim.
 
-Information theory helps explain the prediction at the center of that exchange.
-It can show how context makes some continuations more likely than others. It
-cannot, by itself, tell us whether the context is true or the continuation is
-worth acting on. Those judgments require domain checks and contact with the
-results.
+Philosophies of truth give us questions to ask of an answer. Information theory
+helps explain how context shapes LLM inference and what the model is likely to
+produce. The practical bridge is to make the outcome we expect explicit, then
+test whether the result fits its assumptions, matches what we observe, and
+holds up when someone uses it.
 
 > **Series position — navigation, not an explanatory figure**
 >
 > [Vision and Values](/writing/vision-and-values) →
 > [Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
-> **[Truth and Coherence](/writing/truth-and-inference) — YOU ARE HERE** →
+> **[Truth and Inference](/writing/truth-and-inference) — YOU ARE HERE** →
 > [The Knowledge Factory](/writing/the-knowledge-factory) →
 > [Ontology Factory](/writing/the-ontology-factory) →
 > [Cognitive Factory](/writing/the-cognitive-factory)

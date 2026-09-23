@@ -401,3 +401,22 @@ of mistaking fluency for evidence. **Guidelines: A4, A5; B1; C1, C2, C4.**
 This order fixes reasoning before rhythm. It avoids polishing passages that may
 move or disappear and keeps the essay's strongest contribution—the mechanics
 of language, constraint, training, and inference—at the center.
+
+## Title and framing revision — 2026-09-23
+
+Baseline: [af7288a](https://github.com/th-m/th-m/commit/af7288ab159d2e3849a9e14aec1ab67b0a38fd54),
+verified on origin/main before editing.
+
+Restore the author's requested title, *Truth and Inference*, across the
+canonical article, active drafts and outlines, series navigation, and consumer
+fixtures. Clarify the opening's bridge from philosophies of truth through
+conditional prediction to evaluating intended outcomes in practice. Coherence
+remains one criterion alongside correspondence and consequence. Preserve the
+article's section structure, examples, sources, stable route, and third place
+in the series. No new factual claims or research are introduced.
+
+Verification: blogs and portfolio typechecks, tests, and local publication
+passed, including the documentation checks and static route verification.
+Confirmed the restored title and new framing render at 1280 px and 390 px
+without page overflow; inspected both title layouts. Active source references
+no longer use the superseded title. Historical review notes remain intact.

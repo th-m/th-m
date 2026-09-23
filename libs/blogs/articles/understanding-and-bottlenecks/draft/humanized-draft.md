@@ -23,7 +23,7 @@ distribute production. It is to distribute the capacity to understand what the
 work means, act on it, and revise the model when reality pushes back.
 
 > **Series map:** [Vision and Values](/writing/vision-and-values) →
-> **Understanding and Bottlenecks** → [Truth and Coherence](/writing/truth-and-inference) →
+> **Understanding and Bottlenecks** → [Truth and Inference](/writing/truth-and-inference) →
 > [The Knowledge Factory](/writing/the-knowledge-factory) → [The Ontology
 > Factory](/writing/the-ontology-factory) → [The Cognitive
 > Factory](/writing/the-cognitive-factory)
@@ -358,7 +358,7 @@ losing shared direction or hiding the relationships between their decisions.
 > survives contact with the world.
 
 Distributing decisions removes a central bottleneck. But what lets those
-decisions remain trustworthy? [Truth and Coherence](/writing/truth-and-inference)
+decisions remain trustworthy? [Truth and Inference](/writing/truth-and-inference)
 takes up the shared standards teams need to judge their inputs and outputs.
 
 ## Sources

@@ -48,7 +48,7 @@ the current position in text as well as visually; arrows indicate reading order.
 flowchart LR
   V["1. Vision and Values"]
   U["2. Understanding and Bottlenecks — YOU ARE HERE"]
-  T["3. Truth and Coherence"]
+  T["3. Truth and Inference"]
   K["4. The Knowledge Factory"]
   O["5. Ontology Factory"]
   C["6. Cognitive Factory"]
@@ -56,7 +56,7 @@ flowchart LR
   style U stroke-width:4px
 ```
 
-The next article, *Truth and Coherence*, develops shared standards for judging
+The next article, *Truth and Inference*, develops shared standards for judging
 the inputs and outputs these teams rely on. Link the six
 entries to their stable article routes in the eventual article, keeping the
 same order and titles as the other prefaces.
