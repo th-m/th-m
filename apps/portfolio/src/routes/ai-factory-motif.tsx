@@ -126,6 +126,7 @@ function IconSpecCard({ kind, idPrefix = "icon" }: { kind: AiFactoryIconKind; id
   const { semanticRole, iconId, title, subheading, definition, visualGrammar } = aiFactoryIconCatalog[kind];
 
   return <article className="motif-review__part" id={`${idPrefix}-${kind}`}>
+    {idPrefix === "icon" && kind === "slop-fault" ? <span id="icon-slop" aria-hidden="true" /> : null}
     {idPrefix === "icon" && iconId !== kind ? <span id={`icon-${iconId}`} aria-hidden="true" /> : null}
     <div className="motif-review__part-meta"><span title="Semantic role">{semanticRole}</span></div>
     <div className="motif-review__part-icon"><AiFactoryIcon kind={kind} /></div>
