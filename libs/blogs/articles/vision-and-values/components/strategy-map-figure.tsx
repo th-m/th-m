@@ -12,7 +12,6 @@ export function StrategyMapFigure() {
     { id: "subgoal-3", label: "Test net benefit", kind: "subgoal" },
     { id: "customer", label: "Customer goals", kind: "stakeholder" },
     { id: "partner", label: "Partner goals", kind: "stakeholder" },
-    { id: "competitor", label: "Competitor goals", kind: "stakeholder" },
   ] as const;
 
   return (
@@ -36,7 +35,7 @@ export function StrategyMapFigure() {
               {
                 label: nodes[2].label,
                 detail:
-                  "Decision rights constrain the work; customer, partner, and competitor goals shape its context.",
+                  "Decision rights constrain the work; customer and partner goals shape its context.",
                 relation: "remains subject to",
               },
             ]}
@@ -51,7 +50,7 @@ export function StrategyMapFigure() {
           >
             <svg
               className="strategy-map__connections"
-              viewBox="0 0 1000 560"
+              viewBox="0 0 1000 440"
               preserveAspectRatio="none"
               aria-hidden="true"
             >
@@ -70,20 +69,19 @@ export function StrategyMapFigure() {
               </defs>
 
               <g className="strategy-map__connection strategy-map__connection--governance">
-                <path d="M 310 100 V 124 L 400 160" markerEnd="url(#strategy-map-arrow)" />
-                <path d="M 550 100 V 124 L 460 160" markerEnd="url(#strategy-map-arrow)" />
-                <path d="M 430 232 V 294 M 200 294 H 660" />
+                <path d="M 310 100 V 128 L 400 176" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 550 100 V 128 L 460 176" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 430 244 V 286 M 200 286 H 660" />
                 <path
-                  d="M 200 294 V 340 M 430 294 V 340 M 660 294 V 340"
+                  d="M 200 286 V 324 M 430 286 V 324 M 660 286 V 324"
                   markerEnd="url(#strategy-map-arrow)"
                 />
               </g>
 
               <g className="strategy-map__connection strategy-map__connection--relational">
-                <path d="M 225 196 H 310" markerEnd="url(#strategy-map-arrow)" />
-                <path d="M 550 184 L 755 134" markerEnd="url(#strategy-map-arrow)" />
-                <path d="M 550 196 L 755 274" markerEnd="url(#strategy-map-arrow)" />
-                <path d="M 550 208 L 700 310 H 742 V 414 H 755" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 210 210 H 310" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 550 198 L 755 154" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 550 222 L 755 266" markerEnd="url(#strategy-map-arrow)" />
               </g>
             </svg>
 
@@ -103,7 +101,6 @@ export function StrategyMapFigure() {
             <span className="strategy-map__relation strategy-map__relation--constraint">constrains</span>
             <span className="strategy-map__relation strategy-map__relation--customer">aligns with</span>
             <span className="strategy-map__relation strategy-map__relation--partner">coordinates with</span>
-            <span className="strategy-map__relation strategy-map__relation--competitor">anticipates</span>
 
             {nodes.map((node) => (
               <div

@@ -78,3 +78,15 @@ confirmed readable views and no mobile page overflow; keyboard expansion retains
 the complete diagram without widening the page.
 Export playback, pause, restart, complete view, and reduced-motion behavior
 were checked in the browser; reduced motion keeps every edge visible.
+
+## Strategy-map balance revision — 2026-09-23
+
+Baseline: [ee99a3a](https://github.com/th-m/th-m/commit/ee99a3ad9472c09c35b2c81f8d5cb80de6852367),
+already pushed before this follow-up. Removed Competitor goals and its routed
+edge at Thom's request. Customer and partner nodes now sit symmetrically around
+the strategy; the lower goal row and canvas are tighter. Centered field labels
+and gave the authority connector enough space for its label. The compact mobile
+summary now names only customer and partner goals.
+
+Verification: inspected the 919px desktop view and the mobile summary; blogs
+and portfolio publication checks passed, including typechecks and tests.

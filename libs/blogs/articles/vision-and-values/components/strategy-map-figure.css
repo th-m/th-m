@@ -23,15 +23,15 @@
 .strategy-map {
   position: relative;
   min-width: 760px;
-  height: 560px;
+  height: 440px;
   isolation: isolate;
 }
 
 .strategy-map::before {
   content: "";
   position: absolute;
-  top: 54px;
-  bottom: 54px;
+  top: 100px;
+  bottom: 120px;
   left: 72.5%;
   z-index: -2;
   border-left: 1px dashed color-mix(in srgb, var(--color-foreground) 14%, transparent);
@@ -70,6 +70,7 @@
 .strategy-map__field-label {
   position: absolute;
   top: 18px;
+  white-space: nowrap;
   color: var(--color-muted-foreground);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -79,8 +80,8 @@
   text-transform: uppercase;
 }
 
-.strategy-map__field-label--hierarchy { left: 30%; }
-.strategy-map__field-label--stakeholders { left: 76%; }
+.strategy-map__field-label--hierarchy { left: 43%; transform: translateX(-50%); }
+.strategy-map__field-label--stakeholders { left: 84%; transform: translateX(-50%); }
 
 .strategy-map__relation {
   position: absolute;
@@ -97,8 +98,9 @@
 }
 
 .strategy-map__relation--constraint {
-  top: 181px;
-  left: 23.1%;
+  top: 202px;
+  left: 26%;
+  transform: translateX(-50%);
   color: var(--strategy-map-institutional);
 }
 
@@ -106,11 +108,10 @@
   color: var(--color-primary);
 }
 
-.strategy-map__relation--direction { top: 125px; left: 44.2%; }
-.strategy-map__relation--coordination { top: 264px; left: 44.2%; }
-.strategy-map__relation--customer { top: 143px; left: 62%; }
-.strategy-map__relation--partner { top: 224px; left: 60.5%; }
-.strategy-map__relation--competitor { top: 280px; left: 63%; }
+.strategy-map__relation--direction { top: 137px; left: 44.2%; }
+.strategy-map__relation--coordination { top: 260px; left: 44.2%; }
+.strategy-map__relation--customer { top: 164px; left: 61%; }
+.strategy-map__relation--partner { top: 238px; left: 59%; }
 
 .strategy-map__node {
   position: absolute;
@@ -154,7 +155,7 @@
 .strategy-map__node--governing-2 { left: 55%; }
 
 .strategy-map__node--strategy {
-  top: 160px;
+  top: 176px;
   left: 43%;
   width: 24%;
   color: var(--color-primary);
@@ -162,14 +163,14 @@
 }
 
 .strategy-map__node--external {
-  top: 160px;
-  left: 13.5%;
-  width: 18%;
+  top: 176px;
+  left: 12.5%;
+  width: 17%;
   color: var(--strategy-map-institutional);
 }
 
 .strategy-map__node--subgoal {
-  top: 340px;
+  top: 324px;
   width: 16%;
   color: var(--color-foreground);
 }
@@ -184,9 +185,8 @@
   color: var(--strategy-map-relational);
 }
 
-.strategy-map__node--customer { top: 100px; }
-.strategy-map__node--partner { top: 240px; }
-.strategy-map__node--competitor { top: 380px; }
+.strategy-map__node--customer { top: 120px; }
+.strategy-map__node--partner { top: 232px; }
 
 @media (max-width: 760px) {
   .strategy-map__viewport {
