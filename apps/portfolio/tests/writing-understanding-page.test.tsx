@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import {
   createMemoryHistory,
   createRootRoute,
@@ -18,9 +18,9 @@ function understandingArticle(): PublishedArticle {
     slug: "understanding-and-bottlenecks",
     title: "Understanding and Bottlenecks",
     description:
-      "When plausible output becomes abundant, shared understanding limits progress.",
+      "When generation becomes abundant, shared understanding must move from a central gate into bounded team learning loops.",
     publishedAt: "2026-08-22",
-    updatedAt: "2026-08-26",
+    updatedAt: "2026-09-23",
     tags: [
       "Artificial Intelligence",
       "Leadership",
@@ -68,11 +68,11 @@ describe("Understanding and Bottlenecks published page", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "When plausible output becomes abundant, shared understanding limits progress.",
+        "When generation becomes abundant, shared understanding must move from a central gate into bounded team learning loops.",
       ),
     ).toBeInTheDocument();
     expect(screen.getByText(/August 22, 2026/)).toBeInTheDocument();
-    expect(screen.getByText(/August 26, 2026/)).toBeInTheDocument();
+    expect(screen.getByText(/September 23, 2026/)).toBeInTheDocument();
     expect(screen.getByRole("list", { name: "Topics" }).children.length).toBe(
       4,
     );
@@ -80,98 +80,36 @@ describe("Understanding and Bottlenecks published page", () => {
     expect(screen.queryByText(/Editorial status/)).not.toBeInTheDocument();
   });
 
-  it("renders the four movements, recurring tests, and explanatory figures", async () => {
+  it("renders the six movements, recurring tests, and topology figures", async () => {
     await renderPage();
+    for (const name of [
+      "Generation Scales; Understanding Does Not",
+      "The Central Architect Becomes the Queue",
+      "Distribute Complete Learning Loops",
+      "Design Philosophy Makes Local Decisions Compatible",
+      "Make Shared Models Compact—and Reopenable",
+      "Protect the Work That Develops Judgment",
+    ]) {
+      expect(screen.getByRole("heading", { name })).toBeInTheDocument();
+    }
+    expect(screen.getByText("Coherence:")).toBeInTheDocument();
+    expect(screen.getByText("Correspondence:")).toBeInTheDocument();
+    expect(screen.getByText("Consequence:")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", {
-        name: "Two Ways Output Outruns Understanding",
-      }),
+      screen.getByText("investigate → decide → act → evaluate → revise"),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "When Correctness Outruns Meaning" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "When Generation Outruns Evaluation",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "Inference Produces an Answer; Understanding Maintains a Model",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "From Output to Shared Understanding",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "Distillation Preserves What a Decision Needs",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "Five Dimensions Check the Model's Coverage",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "From an Authority Gate to an Evaluative Boundary",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "Evaluative Closure Makes Delegation Responsible",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Test, Act, and Revise" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: "Understanding Is a Skill to Look For—and Develop",
-      }),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Coherence — does it fit?")).toBeInTheDocument();
-    expect(
-      screen.getByText("Correspondence — does it match?"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Consequence — what follows when people act on it?"),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Evaluative closure")).toBeInTheDocument();
+    expect(screen.getByText("A model that can be opened")).toBeInTheDocument();
 
-    const pipeline = screen.getByRole("figure", {
-      name: "Where abundance becomes a bottleneck",
-    });
     expect(
-      within(pipeline).getByText("Candidate proofs can outrun verification"),
+      screen.getByRole("img", {
+        name: /Short input, useful output—or just more tokens/,
+      }),
     ).toBeInTheDocument();
     expect(
-      within(pipeline).getByText(
-        "Published work can outrun collective absorption",
-      ),
+      screen.getByRole("img", {
+        name: /The same teams, a different place for understanding/,
+      }),
     ).toBeInTheDocument();
-
-    const inference = screen.getByLabelText(
-      /Animated neural network: LLM Inference/,
-    );
-    expect(
-      within(inference).getByRole("heading", { name: "LLM Inference" }),
-    ).toBeInTheDocument();
-    expect(
-      within(inference).getByText(/fixed trained weights/i),
-    ).toBeInTheDocument();
-    expect(
-      within(inference).getByText("Illustrative next-token probabilities"),
-    ).toBeInTheDocument();
-
-    const loop = screen.getByRole("figure", {
-      name: "The understanding loop",
-    });
-    expect(within(loop).getByText("Observe")).toBeInTheDocument();
-    expect(within(loop).getByText("Revise")).toBeInTheDocument();
     expect(
       screen.queryByRole("group", { name: "Graph view controls" }),
     ).not.toBeInTheDocument();
@@ -180,41 +118,26 @@ describe("Understanding and Bottlenecks published page", () => {
   it("links the organizing evidence and the next series essay", async () => {
     await renderPage();
     const external = [
-      [
-        "Mathematics in the Age of AI",
-        "https://www.simonsfoundation.org/2026/08/13/fields-medalist-terence-tao-on-artificial-intelligence-and-why-we-do-math/",
-      ],
-      ["essay", "https://arxiv.org/abs/2608.16753"],
-      [
-        "OpenAI unit-distance result",
-        "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
-      ],
-      [
-        "Leiden Declaration on Artificial Intelligence and Mathematics",
-        "https://leidendeclaration.ai/",
-      ],
-      [
-        "mixed-methods study of 442 developers",
-        "https://arxiv.org/abs/2510.07435",
-      ],
-      [
-        "Research on gambling and reward uncertainty",
-        "https://pubmed.ncbi.nlm.nih.gov/31870708/",
-      ],
+      "https://arxiv.org/abs/2608.16753",
+      "https://openai.com/index/model-disproves-discrete-geometry-conjecture/",
+      "https://leidendeclaration.ai/",
+      "https://arxiv.org/abs/2510.07435",
+      "https://pubmed.ncbi.nlm.nih.gov/31870708/",
     ];
-    for (const [name, href] of external) {
+    for (const href of external) {
       const matchingLink = screen
-        .getAllByRole("link", { name })
+        .getAllByRole("link")
         .find((link) => link.getAttribute("href") === href);
 
       expect(matchingLink).toBeDefined();
       expect(matchingLink).toHaveAttribute("target", "_blank");
     }
+    const links = screen.getAllByRole("link");
     expect(
-      screen.getByRole("link", { name: "Truth and Inference" }),
-    ).toHaveAttribute("href", "/writing/truth-and-inference");
+      links.find((link) => link.getAttribute("href") === "/writing/truth-and-inference"),
+    ).toBeDefined();
     expect(
-      screen.getByRole("link", { name: "The Knowledge Factory" }),
-    ).toHaveAttribute("href", "/writing/the-knowledge-factory");
+      links.find((link) => link.getAttribute("href") === "/writing/the-knowledge-factory"),
+    ).toBeDefined();
   });
 });

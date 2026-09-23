@@ -99,6 +99,15 @@ describe("AI Factory motif review", () => {
     expect(refinement).toHaveTextContent("Useful expansion");
     expect(refinement).toHaveTextContent("Excess output");
 
+    const understanding = screen.getByRole("region", {
+      name: "Where understanding lives determines the bottleneck.",
+    });
+    expect(understanding).toHaveAttribute("id", "motif-03B");
+    expect(understanding).toHaveTextContent("The upper topology delegates production");
+    expect(within(understanding).getByRole("img", { name: /The same teams, a different place for understanding/ })).toBeInTheDocument();
+    expect(understanding).toHaveTextContent("One interpretation gate");
+    expect(understanding).toHaveTextContent("Shared intent");
+
     const inventory = screen.getByRole("region", { name: "Every mark has one job." });
     for (const kind of ["self", "others"]) {
       const card = inventory.querySelector(`#icon-${kind}`)!;

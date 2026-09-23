@@ -22,6 +22,14 @@ function TermOfArtImplementationMotif() {
   return <AiFactoryMotif variant="term-of-art-to-implementation" />;
 }
 
+function UnderstandingInEmbeddingSpaceMotif() {
+  return <AiFactoryMotif variant="understanding-in-embedding-space" />;
+}
+
+function CentralQueueToBoundedLoopsMotif() {
+  return <AiFactoryMotif variant="central-queue-to-bounded-loops" />;
+}
+
 const proofPipeline = [
   {
     label: "Generate candidate proofs",
@@ -190,6 +198,8 @@ function UnderstandingLoopFigure() {
 export { Card, CardContent, CardHeader, CardTitle, formatDate, Link, LinkPreview, NeuralInferenceFigure, Note, proofPipeline, ProofPipelineFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, understandingLoop, UnderstandingLoopFigure };
 export default defineArticleComponents(articleAssets, () => ({
   "neural-inference-figure": NeuralInferenceFigure,
+  "understanding-in-embedding-space-motif": UnderstandingInEmbeddingSpaceMotif,
+  "central-queue-to-bounded-loops-motif": CentralQueueToBoundedLoopsMotif,
   "term-of-art-implementation-motif": TermOfArtImplementationMotif,
   "proof-pipeline-figure": ProofPipelineFigure,
   "understanding-loop-figure": UnderstandingLoopFigure,

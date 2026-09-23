@@ -49,6 +49,15 @@ const motifContent = {
     caption:
       "A term of art packs shared domain distinctions into a short label. When those distinctions are learned or supplied in context, they can guide model representations and inference toward useful expanded output. Without shared understanding, fluent expansion may miss the goal. This is a conceptual contrast, not a measured gain: embeddings represent input; the model generates text. Token marks are illustrative, and value must be checked against the intended result.",
   },
+  "central-queue-to-bounded-loops": {
+    index: "03b",
+    eyebrow: "Organizational topology / judgment",
+    title: "The same teams, a different place for understanding",
+    description:
+      "Conceptual comparison: three AI-assisted teams first route discoveries and decisions through one central interpretation gate, then own bounded learning loops connected by shared intent and explicit interfaces.",
+    caption:
+      "The teams are unchanged; the topology changes. The first arrangement distributes production but centralizes interpretation, so discoveries and decisions accumulate at one gate. The second gives each team a bounded loop from understanding through action and revision, while shared intent and explicit interfaces preserve coordination. This is a conceptual operating model, not a measured throughput claim.",
+  },
   "ontology-of-terms": {
     index: "04",
     eyebrow: "Coordination",
@@ -316,7 +325,7 @@ const seriesMapArticles: Array<{
     sourceLabel: "Understanding",
     targetLabel: "Bottlenecks",
     relationship: "REVEALS",
-    summary: "Shared, testable understanding—not plausible output—becomes the bottleneck to coordinated action.",
+    summary: "Bounded teams distribute complete learning loops while shared intent and explicit interfaces preserve coordination.",
   },
   {
     index: "04",
@@ -752,6 +761,112 @@ function UnderstandingInEmbeddingSpace({ arrowId }: { arrowId: string }) {
   );
 }
 
+const topologyTeams = [
+  { id: "A", topY: 112, panelX: 40 },
+  { id: "B", topY: 188, panelX: 360 },
+  { id: "C", topY: 264, panelX: 680 },
+] as const;
+
+function TopologyTeamMarker({ id, x, y }: { id: string; x: number; y: number }) {
+  return (
+    <g className="ai-factory-motif__topology-team-marker">
+      <MotifGlyph kind="others" x={x} y={y} scale={0.26} />
+      <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x={x + 36} y={y + 4}>Team {id}</text>
+    </g>
+  );
+}
+
+function BoundedLearningLoop({ id, panelX, arrowId }: { id: string; panelX: number; arrowId: string }) {
+  const understandingX = panelX + 64;
+  const actionX = panelX + 150;
+  const outcomeX = panelX + 210;
+
+  return (
+    <g className="ai-factory-motif__bounded-team" data-team={id} data-loop="bounded-learning-loop">
+      <rect className="ai-factory-motif__team-boundary" x={panelX} y="444" width="240" height="164" />
+      <TopologyTeamMarker id={id} x={panelX + 32} y={462} />
+      <g className="ai-factory-motif__connectors ai-factory-motif__learning-loop" aria-hidden="true">
+        <path className="ai-factory-motif__connector--focal" data-relationship="understanding-to-action" d={`M${understandingX + 18} 512H${actionX - 9}`} markerEnd={`url(#${arrowId})`} />
+        <path className="ai-factory-motif__connector--focal" data-relationship="action-to-outcome" d={`M${actionX + 34} 512H${outcomeX - 7}`} />
+        <path className="ai-factory-motif__connector--revision" data-relationship="outcome-to-revision" d={`M${outcomeX} 520V538C${outcomeX} 578 ${understandingX + 22} 578 ${understandingX + 8} 526`} markerEnd={`url(#${arrowId})`} />
+      </g>
+      <MotifGlyph kind="understanding" x={understandingX} y={512} scale={0.42} />
+      <g className="ai-factory-motif__learning-action">
+        <MotifGlyph kind="implementation" x={actionX} y={512} scale={0.52} centerX={64} />
+      </g>
+      <g className="ai-factory-motif__learning-outcome" aria-hidden="true">
+        <circle cx={outcomeX} cy="512" r="6" />
+        <circle className="ai-factory-motif__learning-outcome-core" cx={outcomeX} cy="512" r="2" />
+      </g>
+      <text className="ai-factory-motif__detail ai-factory-motif__learning-stage" x={understandingX} y="548" textAnchor="middle">UNDERSTAND</text>
+      <text className="ai-factory-motif__detail ai-factory-motif__learning-stage" x={actionX} y="548" textAnchor="middle">ACT</text>
+      <text className="ai-factory-motif__detail ai-factory-motif__learning-stage" x={outcomeX} y="548" textAnchor="middle">OBSERVE</text>
+      <text className="ai-factory-motif__detail ai-factory-motif__revision-label" x={panelX + 134} y="590" textAnchor="middle">REVISE</text>
+    </g>
+  );
+}
+
+function CentralQueueToBoundedLoops({ arrowId }: { arrowId: string }) {
+  return (
+    <>
+      <g data-topology="centralized-judgment">
+        <text className="ai-factory-motif__embedding-eyebrow" x="40" y="40">01 / PRODUCTION DISTRIBUTED · JUDGMENT CENTRALIZED</text>
+        {topologyTeams.map(team => <g data-team={team.id} key={team.id}><TopologyTeamMarker id={team.id} x={72} y={team.topY} /></g>)}
+        <g className="ai-factory-motif__topology-queue" aria-label="Pending discoveries and decisions">
+          {topologyTeams.map((team, index) => (
+            <g className="ai-factory-motif__queue-item" data-queue-item={team.id} key={team.id}>
+              <rect x="240" y={team.topY - 20} width="168" height="40" />
+              <text className="ai-factory-motif__detail" x="324" y={team.topY + 3} textAnchor="middle">{["discovery", "decision", "exception"][index]}</text>
+            </g>
+          ))}
+        </g>
+        <g className="ai-factory-motif__connectors" aria-hidden="true">
+          {topologyTeams.map(team => <path data-relationship="team-to-central-queue" key={team.id} d={`M132 ${team.topY}H228`} markerEnd={`url(#${arrowId})`} />)}
+          <path data-relationship="queue-to-central-gate" d="M408 112H448V188H476" />
+          <path data-relationship="queue-to-central-gate" d="M408 188H476" />
+          <path data-relationship="queue-to-central-gate" d="M408 264H448V188H476" />
+          <path className="ai-factory-motif__connector--focal" data-relationship="central-gate-to-action" d="M604 188H756" markerEnd={`url(#${arrowId})`} />
+          <ConnectorLabel x={680} y={188} onEdge>APPROVES</ConnectorLabel>
+        </g>
+        <MotifGlyph kind="bottleneck" x={540} y={188} scale={0.72} />
+        <text className="ai-factory-motif__label" x="540" y="266" textAnchor="middle">One interpretation gate</text>
+        <text className="ai-factory-motif__detail" x="540" y="286" textAnchor="middle">absorb · interpret · integrate</text>
+        <MotifGlyph kind="implementation" x={820} y={188} scale={0.5} centerX={automationVisualCenterX} />
+        <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="820" y="266" textAnchor="middle">System change</text>
+        <text className="ai-factory-motif__detail" x="820" y="286" textAnchor="middle">capacity set by one gate</text>
+      </g>
+
+      <g className="ai-factory-motif__embedding-columns" aria-hidden="true">
+        <path d="M40 320H920" />
+      </g>
+
+      <g data-topology="bounded-learning-loops">
+        <text className="ai-factory-motif__embedding-eyebrow ai-factory-motif__embedding-eyebrow--focal" x="40" y="360">02 / COMPLETE LEARNING LOOPS · EXPLICIT INTERFACES</text>
+        <g className="ai-factory-motif__shared-intent">
+          <MotifGlyph kind="goal" x={480} y={398} scale={0.3} />
+          <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="520" y="402">Shared intent</text>
+        </g>
+        <g className="ai-factory-motif__connectors ai-factory-motif__shared-intent-paths" aria-hidden="true">
+          <path className="ai-factory-motif__connector--focal" d="M480 420H160V444M480 420V444M480 420H800V444" />
+        </g>
+        {topologyTeams.map(team => <BoundedLearningLoop key={team.id} id={team.id} panelX={team.panelX} arrowId={arrowId} />)}
+        <g className="ai-factory-motif__connectors" aria-hidden="true">
+          <path data-relationship="cross-team-interface" d="M280 512H360" markerEnd={`url(#${arrowId})`} />
+          <ConnectorLabel x={320} y={512} onEdge>INTERFACE</ConnectorLabel>
+          <path data-relationship="cross-team-interface" d="M600 512H680" markerEnd={`url(#${arrowId})`} />
+          <ConnectorLabel x={640} y={512} onEdge>INTERFACE</ConnectorLabel>
+        </g>
+      </g>
+
+      <g className="ai-factory-motif__axis" aria-hidden="true">
+        <path d="M40 628H920" />
+        <text x="40" y="652">SAME TEAMS · DIFFERENT TOPOLOGY</text>
+        <text x="920" y="652" textAnchor="end">LOCAL JUDGMENT · SYSTEM COORDINATION</text>
+      </g>
+    </>
+  );
+}
+
 function TermOfArtToImplementation({ arrowId }: { arrowId: string }) {
   return (
     <>
@@ -839,7 +954,7 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
       </header>
       <p className="ai-factory-motif__scroll-cue">Scroll the path →</p>
       <div className="ai-factory-motif__viewport" role="region" tabIndex={0} aria-label="Scrollable AI Factory motif">
-        <svg viewBox={variant === "ontology-of-terms" ? "0 0 720 432" : variant === "experience-but-lacking" ? "0 0 800 432" : variant === "model-priorities-and-goal-fit" ? "0 0 960 616" : variant === "understanding-in-embedding-space" ? "0 0 960 648" : "0 0 720 320"} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
+        <svg viewBox={variant === "ontology-of-terms" ? "0 0 720 432" : variant === "experience-but-lacking" ? "0 0 800 432" : variant === "model-priorities-and-goal-fit" ? "0 0 960 616" : variant === "central-queue-to-bounded-loops" ? "0 0 960 664" : variant === "understanding-in-embedding-space" ? "0 0 960 648" : "0 0 720 320"} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
           <title id={titleId}>{content.title}</title>
           <desc id={descriptionId}>{content.description}</desc>
           <defs>
@@ -852,6 +967,7 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
           {variant === "vision-to-morpheme" ? <VisionToMorpheme arrowId={arrowId} /> : null}
           {variant === "refinement-and-discipline-to-term-of-art" ? <RefinementAndDisciplineToTermOfArt arrowId={arrowId} /> : null}
           {variant === "understanding-in-embedding-space" ? <UnderstandingInEmbeddingSpace arrowId={arrowId} /> : null}
+          {variant === "central-queue-to-bounded-loops" ? <CentralQueueToBoundedLoops arrowId={arrowId} /> : null}
           {variant === "term-of-art-to-implementation" ? <TermOfArtToImplementation arrowId={arrowId} /> : null}
           {variant === "ontology-of-terms" ? <OntologyOfTerms arrowId={arrowId} /> : null}
         </svg>

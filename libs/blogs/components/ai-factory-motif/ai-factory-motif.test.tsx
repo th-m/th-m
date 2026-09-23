@@ -11,6 +11,7 @@ describe("AiFactoryMotif", () => {
     "vision-to-morpheme",
     "refinement-and-discipline-to-term-of-art",
     "understanding-in-embedding-space",
+    "central-queue-to-bounded-loops",
     "term-of-art-to-implementation",
     "ontology-of-terms",
   ] as const)("uses the same compact edge-label metrics throughout %s", variant => {
@@ -35,6 +36,7 @@ describe("AiFactoryMotif", () => {
     ["vision-to-morpheme", "Vision becomes an idea", "Vision", "Idea"],
     ["refinement-and-discipline-to-term-of-art", "Refinement and discipline establish a term of art", "Refinement", "Term of art"],
     ["understanding-in-embedding-space", "Short input, useful output—or just more tokens", "Understanding", "Useful expansion"],
+    ["central-queue-to-bounded-loops", "The same teams, a different place for understanding", "One interpretation gate", "System change"],
     ["term-of-art-to-implementation", "Understanding carries a term into implementation", "Term of art", "Implementation"],
     ["ontology-of-terms", "Ontology coordinates terms of art to make them actionable", "Actor", "Constraint"],
   ] as const)("renders the %s chapter with an accessible diagram", (variant, title, firstLabel, secondLabel) => {
@@ -132,6 +134,36 @@ describe("AiFactoryMotif", () => {
     expect(ungrounded.querySelectorAll('[data-stage="output"] .ai-factory-motif__embedding-tokens rect').length).toBeGreaterThan(grounded.querySelectorAll('[data-stage="output"] .ai-factory-motif__embedding-tokens rect').length);
     expect(diagram).toHaveTextContent("VALUE ≠ VOLUME");
     expect(screen.getByText(/This is a conceptual contrast, not a measured gain/)).toHaveTextContent("embeddings represent input; the model generates text");
+  });
+
+  it("contrasts one interpretation gate with bounded team learning loops", () => {
+    render(<AiFactoryMotif variant="central-queue-to-bounded-loops" />);
+
+    const diagram = screen.getByRole("img", { name: /The same teams, a different place for understanding/ });
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 664");
+
+    const centralized = diagram.querySelector('[data-topology="centralized-judgment"]')!;
+    const distributed = diagram.querySelector('[data-topology="bounded-learning-loops"]')!;
+    for (const topology of [centralized, distributed]) {
+      expect(Array.from(topology.querySelectorAll("[data-team]"), team => team.getAttribute("data-team"))).toEqual(["A", "B", "C"]);
+    }
+
+    expect(centralized.querySelectorAll("[data-queue-item]")).toHaveLength(3);
+    expect(centralized.querySelector(".ai-factory-icon--bottleneck")).toBeInTheDocument();
+    expect(centralized).toHaveTextContent("One interpretation gate");
+    expect(centralized.querySelector('[data-relationship="central-gate-to-action"]')).toHaveAttribute("marker-end");
+
+    expect(distributed.querySelectorAll('[data-loop="bounded-learning-loop"]')).toHaveLength(3);
+    expect(distributed.querySelectorAll(".ai-factory-icon--understanding")).toHaveLength(3);
+    expect(distributed.querySelectorAll(".ai-factory-icon--implementation")).toHaveLength(3);
+    expect(distributed.querySelectorAll(".ai-factory-motif__learning-outcome")).toHaveLength(3);
+    expect(distributed.querySelectorAll('[data-relationship="outcome-to-revision"]')).toHaveLength(3);
+    expect(distributed).toHaveTextContent("UNDERSTANDACTOBSERVEREVISE");
+    expect(distributed.querySelectorAll('[data-relationship="cross-team-interface"]')).toHaveLength(2);
+    expect(Array.from(distributed.querySelectorAll(".ai-factory-motif__connector-label text"), label => label.textContent)).toEqual(["INTERFACE", "INTERFACE"]);
+    expect(distributed).toHaveTextContent("Shared intent");
+    expect(diagram).toHaveTextContent("SAME TEAMS · DIFFERENT TOPOLOGY");
+    expect(screen.getByText(/This is a conceptual operating model, not a measured throughput claim/)).toBeInTheDocument();
   });
 
   it("gives the situated flow clear connector lanes without enclosing station boxes", () => {

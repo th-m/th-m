@@ -1,13 +1,4 @@
----
-title: Understanding and Bottlenecks
-description: When generation becomes abundant, shared understanding must move from a central gate into bounded team learning loops.
-publishedAt: 2026-08-22
-updatedAt: 2026-09-23
-tags: [Artificial Intelligence, Leadership, Knowledge Work, Software Systems]
----
 # Understanding and Bottlenecks
-
-<Lede>
 
 A proof can be correct before a field understands why it matters. A pull request
 can pass every test before its author—or its reviewer—can explain what the
@@ -38,9 +29,7 @@ work means, act on it, and revise the model when reality pushes back.
 > Factory](/writing/the-ontology-factory) → [The Cognitive
 > Factory](/writing/the-cognitive-factory)
 
-</Lede>
-
-<Section index="01" title="Generation Scales; Understanding Does Not">
+## 1. Generation Scales; Understanding Does Not
 
 Consider four scenes from AI-assisted work.
 
@@ -138,11 +127,13 @@ explain, predict, act, and revise after contact with the world. More context,
 retrieval, and tools can improve an answer; they do not remove the need to
 interpret what the answer means.
 
-<Asset id="understanding-in-embedding-space-motif" />
+> **Figure: Without understanding / excess output**  
+> Use the existing `understanding-in-embedding-space` motif. The grounded lane
+> shows a shared term guiding useful expansion; the ungrounded lane shows fluent
+> volume missing the goal. The contrast is conceptual, not a measured token
+> efficiency claim.
 
-</Section>
-
-<Section index="02" title="The Central Architect Becomes the Queue">
+## 2. The Central Architect Becomes the Queue
 
 Imagine an experienced architect working with three AI-assisted teams. Each
 team can produce designs, code, and test results quickly. Each team also
@@ -169,9 +160,7 @@ Delegating execution is not enough. If one person must still interpret every
 result and authorize every next step, the work moved but the learning loop did
 not.
 
-</Section>
-
-<Section index="03" title="Distribute Complete Learning Loops">
+## 3. Distribute Complete Learning Loops
 
 The answer is not to remove the architect and hope for alignment. It is to give
 each team responsibility for a bounded outcome, enough context to choose an
@@ -212,9 +201,7 @@ an exception, and who owns that exception.
 An AI may challenge a boundary when new evidence conflicts with its rationale.
 It may not quietly redefine the boundary while completing the task.
 
-</Section>
-
-<Section index="04" title="Design Philosophy Makes Local Decisions Compatible">
+## 4. Design Philosophy Makes Local Decisions Compatible
 
 Complete local loops solve one problem and create another. A decision can be
 reasonable inside one team and still break an agreement that another team
@@ -247,7 +234,12 @@ interfaces protect neighboring assumptions. Feedback shows when either one is
 wrong. Together, they let teams make consequential decisions without sending
 every decision back to a universal approval gate.
 
-<Asset id="central-queue-to-bounded-loops-motif" />
+> **Figure: Where understanding lives**  
+> Use `central-queue-to-bounded-loops`. The upper lane shows the same three
+> teams routing discoveries, decisions, and exceptions through one
+> interpretation gate. The lower lane gives those teams bounded learning loops
+> connected through shared intent and named interfaces. The teams do not
+> change; the topology does.
 
 Making the reasoning visible is what keeps this structure from becoming a set
 of isolated local optimizations. A team should be able to show how it moved
@@ -278,9 +270,7 @@ Once one person develops a useful model, the organization has to make that
 model retrievable and revisable. Otherwise, “distributed understanding” is only
 a collection of private insights.
 
-</Section>
-
-<Section index="05" title="Make Shared Models Compact—and Reopenable">
+## 5. Make Shared Models Compact—and Reopenable
 
 No team can carry every detail of a system in working memory. We compress. We
 name recurring patterns, draw boundaries around them, and use those names to
@@ -313,11 +303,11 @@ the claim, connect it to the model you already use, test that connection against
 a case, and record what would break it. This is a proposed learning practice,
 not a neurological theory.
 
-<Callout title="A model that can be opened">
-A shared concept should reopen into its examples, assumptions, evidence, tests,
-counterexamples, and revision history. The point is to expose what compression
-leaves out, not to claim that the map depicts a literal cognitive mechanism.
-</Callout>
+> **Figure: A model that can be opened**  
+> Begin with one shared concept node, then reveal its examples, assumptions,
+> evidence, tests, counterexamples, and a revision edge. The figure should make
+> the loss inside compression visible without claiming to depict a literal
+> cognitive mechanism.
 
 AI can help build these maps. It can cluster observations, compare explanations,
 surface missing questions, and propose tests. It can also produce a coherent
@@ -329,9 +319,7 @@ limits, and names the next observation that would distinguish among the
 alternatives. The test is not how finished the answer sounds. The test is
 whether another person can examine, challenge, and update it.
 
-</Section>
-
-<Section index="06" title="Protect the Work That Develops Judgment">
+## 6. Protect the Work That Develops Judgment
 
 Reopenable models still demand attention. If a team spends the day generating,
 triaging, and reviewing output, it cannot perform the investigation that keeps
@@ -375,9 +363,7 @@ where understanding becomes reusable organizational capability. The factory
 should be built around complete learning loops, not around a faster route back
 to the same central gate.
 
-</Section>
-
-<Section index="07" title="Sources">
+## Sources
 
 - Terence Tao, [*Mathematics in the Age of
   AI*](https://arxiv.org/abs/2608.16753) (2026). Develops the distinction among
@@ -432,5 +418,3 @@ to the same central gate.
   20–26](https://classics.mit.edu/Caesar/gallic.2.2.html). A primary,
   self-interested account used as a limited analogy for trained local initiative
   and coordination.
-
-</Section>
