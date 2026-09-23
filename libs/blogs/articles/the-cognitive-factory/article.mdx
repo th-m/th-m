@@ -1,7 +1,8 @@
 ---
 title: Cognitive Factory
-description: "The factory's cognition is not a model subscription. It is relational context, executable contracts, and a compounding loop that turns outcomes into capability."
+description: "The factory's cognition is a governed control system: sensors, typed events, decision graphs, executable context, code generation, verification, and feedback."
 publishedAt: 2026-08-22
+updatedAt: 2026-09-22
 tags: [Artificial Intelligence, Knowledge Work, Software Systems]
 ---
 # Cognitive Factory
@@ -18,9 +19,14 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
         <P>
           Cognition is not a model subscription or a collection of agents. It is how the organization represents
           context, checks it against action, and learns from outcomes. Concretely, the factory's cognition has
-          four parts:
+          five parts:
         </P>
         <ul>
+          <li>
+            <strong>Operational perception and control</strong> turns signals from product, application, and
+            infrastructure sensors into typed events, bounded decisions, governed agent work, and verified
+            changes.
+          </li>
           <li>
             <strong>Graph context exploration</strong> asks relational questions — which evidence motivated this
             capability, which decisions depend on this assumption — instead of treating context as documents
@@ -92,12 +98,109 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
           </li>
         </ul>
         <P>
-          The sections that follow are the implementation of that extension: graph context and executable
-          context (the graph made semantic), the compounding loop (the loop made systemic), and the scorecard
-          and build order that decide how far the cognition reaches.
+          The sections that follow are the implementation of that extension: sensors and decision graphs (the
+          control system), graph context and executable context (the graph made semantic), the compounding loop
+          (the loop made systemic), and the scorecard and build order that decide how far the cognition reaches.
         </P>
       </Section>
-<Section index="04" title="1. Graph Context Exploration">
+<Section index="04" title="Cognition Is the Control System">
+        <P>
+          In a working AI factory, cognition is the control system connecting perception, judgment, action, and
+          learning. Sensors observe what is happening. An event contract makes those observations legible. A
+          decision layer chooses a bounded response. An agent graph coordinates the work. Verification and
+          outcome telemetry determine whether the system learned anything.
+        </P>
+        <P>
+          A trigger should open a hypothesis, not declare a diagnosis. Sentry, PostHog, and CloudWatch can report
+          different views of the same system, but none of them independently knows what the organization should
+          do next.
+        </P>
+        <table>
+          <thead>
+            <tr>
+              <th>Signal source</th>
+              <th>What it senses</th>
+              <th>What it cannot decide</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sentry</td>
+              <td>Errors, traces, regressions, and affected releases</td>
+              <td>Whether the apparent root cause is correct or a patch is safe</td>
+            </tr>
+            <tr>
+              <td>PostHog</td>
+              <td>User behavior, funnels, retention, and experiment outcomes</td>
+              <td>Whether a behavioral change is a defect, a product tradeoff, or noise</td>
+            </tr>
+            <tr>
+              <td>CloudWatch alarms</td>
+              <td>Infrastructure and runtime conditions crossing defined thresholds</td>
+              <td>Whether remediation should change code, configuration, capacity, or nothing</td>
+            </tr>
+          </tbody>
+        </table>
+        <P>
+          The first engineering task is therefore normalization. Every signal should become a typed event with
+          a source, time window, severity, affected service or customer journey, correlated release, evidence
+          links, and confidence. This contract gives downstream automation something more reliable than an alert
+          title and a blob of prose.
+        </P>
+        <Figure caption="Operational signals become governed code changes through an explicit control loop">
+          <Asset id="cognitive-control-loop" />
+        </Figure>
+        <P className="article-outline__flow">
+          Sensors → event contract → decision layer → agent graph
+          <br />
+          Coding agent → verification → release → outcome telemetry
+        </P>
+        <h3>Decision Trees and Agent Graphs</h3>
+        <P>
+          The decision layer is where the factory encodes complex judgment. Exact conditions belong in ordinary
+          rules. Ambiguous but bounded questions can be delegated to a typed decision model such as Jev, which
+          returns a constrained choice or score rather than an open-ended essay. The surrounding software still
+          owns the available choices, thresholds, permissions, and escalation policy. Typed output makes a
+          judgment composable; it does not make the judgment true.
+        </P>
+        <table>
+          <thead>
+            <tr>
+              <th>Node</th>
+              <th>Responsibility</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Rule node</td><td>Apply deterministic policy and hard constraints.</td></tr>
+            <tr><td>Judgment node</td><td>Make a bounded semantic choice or score uncertainty.</td></tr>
+            <tr><td>Retrieval node</td><td>Assemble the evidence, history, and affected context.</td></tr>
+            <tr><td>Agent or tool node</td><td>Perform a scoped investigation or produce an artifact.</td></tr>
+            <tr><td>Verification gate</td><td>Run tests, evaluations, and policy checks.</td></tr>
+            <tr><td>Human authority node</td><td>Approve consequential or ambiguous action.</td></tr>
+            <tr><td>Memory node</td><td>Retain the outcome as evidence for the next decision.</td></tr>
+          </tbody>
+        </table>
+        <P>
+          These nodes form the factory's executive control. They make delegation inspectable: which signal
+          started the work, which branch was taken, which evidence supported it, which actor had authority, and
+          which result changed the next run. The graph—not the model—is the durable unit of automation.
+        </P>
+        <h3>From Trigger to Code</h3>
+        <ol>
+          <li>A sensor emits an observation; correlated signals are grouped into one evidence packet.</li>
+          <li>Rules and bounded judgments classify the event, estimate confidence, and choose act, review, or escalate.</li>
+          <li>The agent graph retrieves ownership, recent changes, runbooks, and relevant customer context.</li>
+          <li>A coding agent diagnoses the evidence and proposes a branch, patch, or pull request.</li>
+          <li>Tests, evaluations, review, and policy gates decide whether the artifact can move forward.</li>
+          <li>Release telemetry measures the result and updates the event contract, evaluations, and decision graph.</li>
+        </ol>
+        <P>
+          A raw alert should never mutate a repository or production system directly. The default output of code
+          generation is a reviewable artifact. Greater autonomy must be granted explicitly by policy and earned
+          through evidence at each gate.
+        </P>
+      </Section>
+<Section index="05" title="1. Graph Context Exploration">
         <P>
           Graph context is a signature concept, not a generic knowledge-graph pitch. Most organizational search
           treats context as documents containing matching words. Graph context exploration asks relational
@@ -130,7 +233,7 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
           — not a particular storage engine.
         </P>
       </Section>
-<Section index="05" title="2. From Documents to Executable Context">
+<Section index="06" title="2. From Documents to Executable Context">
         <P>
           Documents remain important, but the factory needs context that can guide and check action:
         </P>
@@ -139,7 +242,7 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
           This is how institutional knowledge becomes productive capital rather than a larger pile of prose.
         </P>
       </Section>
-<Section index="06" title="3. The Compounding Loop">
+<Section index="07" title="3. The Compounding Loop">
         <P>The factory's return comes from a loop:</P>
         <P className="article-outline__flow">
           Work produces outcomes → outcomes produce evidence → evidence updates context and evaluation → better
@@ -152,8 +255,17 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
           The loop compounds only when the organization captures corrections. More AI output without retained
           learning is throughput, not a knowledge factory.
         </P>
+        <P>
+          Consider an error spike after a release. Sentry identifies the failing trace, CloudWatch shows the
+          resource pressure around it, and PostHog reveals the customer journey that stopped converting. The
+          factory correlates those observations, routes them through its decision graph, and gives a coding agent
+          an evidence packet rather than three disconnected alerts. The resulting pull request is evaluated
+          against the regression, reviewed, and—if approved—released. The next telemetry window then answers
+          whether the change reduced errors and restored the journey. That retained comparison, not merely the
+          generated patch, is the compounding asset.
+        </P>
       </Section>
-<Section index="07" title="4. The Cognitive Light Cone Scorecard">
+<Section index="08" title="4. The Cognitive Light Cone Scorecard">
         <P>
           The cognitive factory is where an organization implements the machinery that advances it down the
           light cone. This essay makes an <strong>organizational adaptation</strong> of Michael Levin&apos;s{" "}
@@ -185,7 +297,7 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
           authorize the governing values it applies.
         </P>
       </Section>
-<Section index="08" title="5. What Companies Should Build First">
+<Section index="09" title="5. What Companies Should Build First">
         <P>Not everything at once. A diagnostic order:</P>
         <ol>
           <li>Identify the decisions or workflows with repeated context loss and review burden.</li>
@@ -200,7 +312,7 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
           </li>
         </ol>
       </Section>
-<Section index="09" title="6. The Two Factory Disciplines">
+<Section index="10" title="6. The Two Factory Disciplines">
         <P>
           The knowledge factory needs two human-governed disciplines.{" "}
           <ArticleLink slug="the-ontology-factory">Ontology Factory</ArticleLink> asks how humans map the domain
@@ -227,8 +339,12 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
           </ol>
         </div>
       </div>
-<Section index="10" title="Sources">
+<Section index="11" title="Sources">
         <ul>
+          <li>Sentry, <ExternalLink href="https://docs.sentry.io/product/ai-in-sentry/seer">“Seer” documentation</ExternalLink>. Documents a concrete path from application telemetry through root-cause analysis to proposed code changes and pull requests.</li>
+          <li>PostHog, <ExternalLink href="https://posthog.com/docs/product-analytics/insights">“Insights” documentation</ExternalLink>. Describes the behavioral analyses used here as product sensors, including trends, funnels, retention, and user paths.</li>
+          <li>Amazon Web Services, <ExternalLink href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-actions.html">“Alarm actions” documentation</ExternalLink>. Documents CloudWatch alarms as thresholded operational signals that can invoke actions and emit state changes to EventBridge.</li>
+          <li>TypeSafe AI, <ExternalLink href="https://github.com/typesafe-ai/skills/blob/main/skills/typesafe-ai/SKILL.md">“TypeSafe AI” skill documentation</ExternalLink>. Describes Jev as a typed, bounded decision primitive that returns choices and scores for use inside software-controlled workflows.</li>
           <li>Michael Levin, <ExternalLink href="https://doi.org/10.3389/fnsys.2022.768201">“Technological Approach to Mind Everywhere: An Experimentally-Grounded Framework for Understanding Diverse Bodies and Minds”</ExternalLink> (2022). Introduces the cognitive-light-cone framework adapted as an organizational diagnostic in this essay.</li>
           <li>Patrick Lewis and colleagues, <ExternalLink href="https://proceedings.neurips.cc/paper/2020/hash/6b493230-Abstract.html">“Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks”</ExternalLink> (2020). Establishes retrieval from explicit non-parametric memory and identifies provenance and knowledge updating as design problems.</li>
           <li>Shunyu Yao and colleagues, <ExternalLink href="https://arxiv.org/abs/2210.03629">“ReAct: Synergizing Reasoning and Acting in Language Models”</ExternalLink> (2023). Demonstrates an agent pattern that interleaves model reasoning, tool actions, environmental observations, and plan updates.</li>
@@ -237,4 +353,8 @@ import { ArrowMarker, Card, CardContent, CompoundingLoop, CONTEXT_MAPPINGS, Exec
           <li>National Institute of Standards and Technology, <ExternalLink href="https://doi.org/10.6028/NIST.AI.600-1"><em>Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile</em></ExternalLink> (2024). Supports lifecycle governance, context mapping, measurement, documentation, and human accountability for generative-AI systems.</li>
           <li>DORA, Google, <ExternalLink href="https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/"><em>2025 State of AI-assisted Software Development Report</em></ExternalLink>. Supports the claim that effective AI adoption depends on the surrounding organizational system and capabilities rather than model access alone.</li>
         </ul>
+        <P>
+          These vendor sources document the individual mechanisms. The control-loop architecture and the way
+          those mechanisms are composed here are this essay's synthesis.
+        </P>
       </Section>

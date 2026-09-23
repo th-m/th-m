@@ -70,12 +70,12 @@ describe("ArticleContent MDX rendering", () => {
     for (const link of screen.getAllByRole("link", { name: "Truth and Inference" })) {
       expect(link).toHaveAttribute("href", "/writing/truth-and-inference");
     }
-    expect(screen.getByRole("link", { name: /the hard problem of/ })).toHaveAttribute(
-      "href", "https://en.wikipedia.org/wiki/Hard_problem_of_consciousness",
+    expect(screen.getByRole("link", { name: "AI Consciousness Is Incoherent" })).toHaveAttribute(
+      "href", "/writing/ai-consciousness-is-incoherent",
     );
     const morpheme = screen.getByRole("button", { name: "morpheme" });
     expect(morpheme).toHaveAttribute("aria-haspopup", "dialog");
-    expect(morpheme.closest("p")).toHaveTextContent("minimal unit of meaning in language");
+    expect(morpheme.closest("p")).toHaveTextContent("minimal unit of meaning");
     const figure = screen.getByRole("figure", {
       name: "From Jon's experience to the word pain: language leaves details unstated",
     });
@@ -109,9 +109,10 @@ describe("ArticleContent MDX rendering", () => {
     expect(screen.getByRole("heading", { name: "What a Language Model Carries" })).toBeInTheDocument();
     const llmCompressionDetail = screen.getByRole("button", { name: "An LLM is a compressed statistical model" });
     expect(llmCompressionDetail).toBeInTheDocument();
-    expect(screen.getByText(/A model never experiences anything/)).toHaveTextContent(
-      "The value of its predictions comes from the relationships between words.",
-    );
+    expect(screen.getByText(/I will call the distance between a complete description/)).toHaveTextContent("qualitative gap");
+    expect(screen.getByText(/AI can know everything recorded about your customer/)).toBeInTheDocument();
+    expect(screen.getByText(/Alicia is pronounced/)).toHaveTextContent("ah-LEE-sha");
+    expect(screen.getByRole("heading", { name: "The Causality Ladder Does Not Choose the Goal" })).toBeInTheDocument();
     expect(screen.queryByText(/The model never encounters a cat/)).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Tokens and Cross-entropy Training" })).not.toBeInTheDocument();
     await user.click(llmCompressionDetail);
@@ -123,9 +124,9 @@ describe("ArticleContent MDX rendering", () => {
     await waitFor(() => expect(screen.queryByRole("dialog", { name: "Tokens and Cross-entropy Training" })).not.toBeInTheDocument());
     expect(screen.getByRole("heading", { name: "What Language Leaves Out" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Two compressions" })).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "A model is not conscious" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "AI Consciousness Is Incoherent" })).toHaveAttribute(
       "href",
-      "/writing/consciousness-is-incoherent",
+      "/writing/ai-consciousness-is-incoherent",
     );
     expect(screen.getByRole("heading", { name: "Vision and Goals" })).toBeInTheDocument();
     expect(screen.getByText(/Once the root goal is supplied/)).toHaveTextContent(

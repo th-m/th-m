@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" data-generator="fireworks-tech-graph" data-schema-version="1" data-text-metrics="heuristic-v1" data-style-id="6" data-visual-theme="Claude Official" data-diagram-type="architecture" data-motion-scene="" data-semantic-profile="generic" data-semantic-valid="true" data-quality-profile="showcase" data-max-bends-per-edge="2" data-max-total-bends="8" data-max-route-stretch="1.35" data-max-bridged-crossings="0" data-min-node-gap="40.0" data-min-container-gutter="20.0" data-min-label-clearance="4.0" data-min-segment-length="16.0">
+  <defs>
+    <marker id="arrowA" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#d97757"/>
+    </marker>
+    <marker id="arrowB" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7b8b5c"/>
+    </marker>
+    <marker id="arrowC" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8c6f5a"/>
+    </marker>
+    <marker id="arrowE" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#b45309"/>
+    </marker>
+    <marker id="arrowF" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#9a6fb0"/>
+    </marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7c5c96"/>
+    </marker>
+    <marker id="arrowH" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8f8a80"/>
+    </marker>
+    <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Noto Sans CJK SC', 'Microsoft YaHei', 'Microsoft JhengHei', 'SimHei', sans-serif; }
+    .title { font-size: 24px; font-weight: 700; fill: #141413; }
+    .subtitle { font-size: 13px; font-weight: 500; fill: #8f8a80; }
+    .section { font-size: 13px; font-weight: 700; fill: #8b7355; letter-spacing: 1.4px; }
+    .section-sub { font-size: 12px; font-weight: 500; fill: #75695d; }
+    .node-title { font-weight: 700; fill: #141413; }
+    .node-sub { font-weight: 500; fill: #6b6257; }
+    .node-type { font-size: 11px; font-weight: 700; fill: #75695d; letter-spacing: 0.08em; }
+    .arrow-label { font-size: 12px; font-weight: 600; fill: #6b6257; }
+    .legend { font-size: 12px; font-weight: 500; fill: #6b6257; }
+    .footnote { font-size: 12px; font-weight: 500; fill: #75695d; }
+    .metric-label { font-size: 8.5px; font-weight: 700; fill: #75695d; text-transform: uppercase; }
+    .metric-value { font-size: 9.5px; font-weight: 700; fill: #141413; }
+    </style>
+  </defs>
+  <rect data-graph-role="background" width="1200.0" height="560.0" fill="#f8f6f3"/>
+  <text x="48.0" y="48" text-anchor="start" class="title">The Cognitive Control Loop</text>
+  <text x="48.0" y="72" text-anchor="start" class="subtitle">Sentry, PostHog, and CloudWatch signals become governed code changes</text>
+  <line x1="48" y1="100" x2="1152.0" y2="100" stroke="#ded8cf" stroke-width="1"/>
+  <g id="perception" data-graph-role="container" data-container-id="perception" data-semantic-role="boundary" data-graph-bounds="5,145,345,305">
+  <rect data-graph-role="container" x="5.0" y="145.0" width="340.0" height="160.0" rx="16.0" fill="none" stroke="#ded8cf" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="23.0" y="169.0" class="section">PERCEPTION</text>
+    <rect id="perception-header" data-graph-role="reserved" data-reserved-kind="container-header" x="13" y="151" width="102.02" height="30" fill="none" stroke="none"/>
+  </g>
+  <g id="judgment" data-graph-role="container" data-container-id="judgment" data-semantic-role="boundary" data-graph-bounds="345,145,685,305">
+  <rect data-graph-role="container" x="345.0" y="145.0" width="340.0" height="160.0" rx="16.0" fill="none" stroke="#ded8cf" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="363.0" y="169.0" class="section">JUDGMENT AND CONTROL</text>
+    <rect id="judgment-header" data-graph-role="reserved" data-reserved-kind="container-header" x="353" y="151" width="178.2" height="30" fill="none" stroke="none"/>
+  </g>
+  <g id="action" data-graph-role="container" data-container-id="action" data-semantic-role="boundary" data-graph-bounds="685,145,1195,305">
+  <rect data-graph-role="container" x="685.0" y="145.0" width="510.0" height="160.0" rx="16.0" fill="none" stroke="#ded8cf" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="703.0" y="169.0" class="section">ACTION AND EVALUATION</text>
+    <rect id="action-header" data-graph-role="reserved" data-reserved-kind="container-header" x="693" y="151" width="175.86" height="30" fill="none" stroke="none"/>
+  </g>
+  <path id="learn" data-graph-role="edge" data-edge-id="learn" data-source="release" data-target="sensors" data-edge-kind="flow" data-topic-id="" data-flow="feedback" data-motion-role="learn" data-motion-stage="7" data-motion-order="0" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="2" data-route-stretch="1.175" data-bridges="" d="M 1110,276 L 1110,365 L 90,365 L 90,276" fill="none" stroke="#7c5c96" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowG)"/>
+  <path id="observe" data-graph-role="edge" data-edge-id="observe" data-source="sensors" data-target="event-contract" data-edge-kind="flow" data-topic-id="" data-flow="read" data-motion-role="observe" data-motion-stage="1" data-motion-order="0" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 155,243 L 195,243" fill="none" stroke="#8c6f5a" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowC)"/>
+  <path id="normalize" data-graph-role="edge" data-edge-id="normalize" data-source="event-contract" data-target="decision-layer" data-edge-kind="flow" data-topic-id="" data-flow="data" data-motion-role="normalize" data-motion-stage="2" data-motion-order="0" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 325,243 L 365,243" fill="none" stroke="#b45309" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowE)"/>
+  <path id="decide" data-graph-role="edge" data-edge-id="decide" data-source="decision-layer" data-target="agent-graph" data-edge-kind="flow" data-topic-id="" data-flow="control" data-motion-role="decide" data-motion-stage="3" data-motion-order="0" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 495,243 L 535,243" fill="none" stroke="#d97757" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowA)"/>
+  <path id="delegate" data-graph-role="edge" data-edge-id="delegate" data-source="agent-graph" data-target="coding-agent" data-edge-kind="flow" data-topic-id="" data-flow="control" data-motion-role="delegate" data-motion-stage="4" data-motion-order="0" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 665,243 L 705,243" fill="none" stroke="#d97757" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowA)"/>
+  <path id="verify" data-graph-role="edge" data-edge-id="verify" data-source="coding-agent" data-target="verification" data-edge-kind="flow" data-topic-id="" data-flow="write" data-motion-role="verify" data-motion-stage="5" data-motion-order="0" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 835,243 L 875,243" fill="none" stroke="#7b8b5c" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowB)"/>
+  <path id="promote" data-graph-role="edge" data-edge-id="promote" data-source="verification" data-target="release" data-edge-kind="flow" data-topic-id="" data-flow="feedback" data-motion-role="promote" data-motion-stage="6" data-motion-order="0" data-protocol="" data-via="" data-critical-path-id="" data-critical-hop="" data-critical-hops="" data-critical="false" data-bends="0" data-route-stretch="1.0" data-bridges="" d="M 1005,243 L 1045,243" fill="none" stroke="#7c5c96" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowG)"/>
+  <g id="node-sensors" data-graph-role="node" data-node-id="sensors" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="25,210,155,276">
+  <rect x="25.0" y="210.0" width="130.0" height="66.0" rx="10.0" fill="#e9f1fb" stroke="#8c6f5a" stroke-width="1.8"/>
+  <text data-text-role="title" data-full-text="Sensors" data-text-max-width="106.0" x="90.0" y="243.0" text-anchor="middle" class="node-title" font-size="18">Sensors</text>
+  <text data-text-role="subtitle" data-full-text="error · use · ops" data-text-max-width="106.0" x="90.0" y="265.0" text-anchor="middle" class="node-sub" font-size="10.92">error · use · ops</text>
+  </g>
+  <g id="node-event-contract" data-graph-role="node" data-node-id="event-contract" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="195,210,325,276">
+  <rect x="195.0" y="210.0" width="130.0" height="66.0" rx="10.0" fill="#f7ecda" stroke="#d97757" stroke-width="1.8"/>
+  <text data-text-role="title" data-full-text="Event Contract" data-text-max-width="106.0" x="260.0" y="243.0" text-anchor="middle" class="node-title" font-size="12.42">Event Contract</text>
+  <text data-text-role="subtitle" data-full-text="normalize" data-text-max-width="106.0" x="260.0" y="265.0" text-anchor="middle" class="node-sub" font-size="12">normalize</text>
+  </g>
+  <g id="node-decision-layer" data-graph-role="node" data-node-id="decision-layer" data-semantic-role="double_rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="365,210,495,276">
+  <rect x="365.0" y="210.0" width="130.0" height="66.0" rx="10.0" fill="#c8e4db" stroke="#8c6f5a" stroke-width="2.0"/>
+  <rect x="371.0" y="216.0" width="118.0" height="54.0" rx="7.0" fill="none" stroke="#8c6f5a" stroke-width="1.2" opacity="0.65"/>
+  <text data-text-role="title" data-full-text="Decision Layer" data-text-max-width="98.0" x="430.0" y="243.0" text-anchor="middle" class="node-title" font-size="12.29">Decision Layer</text>
+  <text data-text-role="subtitle" data-full-text="rules · Jev" data-text-max-width="98.0" x="430.0" y="265.0" text-anchor="middle" class="node-sub" font-size="12">rules · Jev</text>
+  </g>
+  <g id="node-agent-graph" data-graph-role="node" data-node-id="agent-graph" data-semantic-role="double_rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="535,210,665,276">
+  <rect x="535.0" y="210.0" width="130.0" height="66.0" rx="10.0" fill="#c8e4db" stroke="#8c6f5a" stroke-width="2.0"/>
+  <rect x="541.0" y="216.0" width="118.0" height="54.0" rx="7.0" fill="none" stroke="#8c6f5a" stroke-width="1.2" opacity="0.65"/>
+  <text data-text-role="title" data-full-text="Agent Graph" data-text-max-width="98.0" x="600.0" y="243.0" text-anchor="middle" class="node-title" font-size="14.73">Agent Graph</text>
+  <text data-text-role="subtitle" data-full-text="route · escalate" data-text-max-width="98.0" x="600.0" y="265.0" text-anchor="middle" class="node-sub" font-size="10.57">route · escalate</text>
+  </g>
+  <g id="node-coding-agent" data-graph-role="node" data-node-id="coding-agent" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="705,210,835,276">
+  <rect x="705.0" y="210.0" width="130.0" height="66.0" rx="10.0" fill="#15120d" stroke="#d6b06a" stroke-width="1.8"/>
+  <text data-text-role="title" data-full-text="Coding Agent" data-text-max-width="106.0" x="770.0" y="243.0" text-anchor="middle" class="node-title" font-size="15.14">Coding Agent</text>
+  <text data-text-role="subtitle" data-full-text="diagnose · patch" data-text-max-width="106.0" x="770.0" y="265.0" text-anchor="middle" class="node-sub" font-size="11.43">diagnose · patch</text>
+  </g>
+  <g id="node-verification" data-graph-role="node" data-node-id="verification" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="875,210,1005,276">
+  <rect x="875.0" y="210.0" width="130.0" height="66.0" rx="10.0" fill="#efe8de" stroke="#d0c3b3" stroke-width="1.8"/>
+  <text data-text-role="title" data-full-text="Verify" data-text-max-width="106.0" x="940.0" y="243.0" text-anchor="middle" class="node-title" font-size="18">Verify</text>
+  <text data-text-role="subtitle" data-full-text="tests · review" data-text-max-width="106.0" x="940.0" y="265.0" text-anchor="middle" class="node-sub" font-size="12">tests · review</text>
+  </g>
+  <g id="node-release" data-graph-role="node" data-node-id="release" data-semantic-role="rect" data-motion-role="" data-motion-stage="" data-motion-order="" data-parent="" data-deployment-id="" data-topic-id="" data-span-id="" data-station-order="" data-status="" data-start-ms="" data-duration-ms="" data-parent-span="" data-graph-bounds="1045,210,1175,276">
+  <rect x="1045.0" y="210.0" width="130.0" height="66.0" rx="10.0" fill="#f7ecda" stroke="#d97757" stroke-width="1.8"/>
+  <text data-text-role="title" data-full-text="PR / Release" data-text-max-width="106.0" x="1110.0" y="243.0" text-anchor="middle" class="node-title" font-size="15.67">PR / Release</text>
+  <text data-text-role="subtitle" data-full-text="approve · deploy" data-text-max-width="106.0" x="1110.0" y="265.0" text-anchor="middle" class="node-sub" font-size="11.43">approve · deploy</text>
+  </g>
+  <g id="learn-label" data-graph-role="label" data-owner="learn" data-graph-bounds="536.72,334,663.28,354">
+  <rect x="536.72" y="334.0" width="126.56" height="20" rx="6" fill="#f8f6f3" opacity="0.96"/>
+  <text x="600.0" y="348.0" text-anchor="middle" class="arrow-label">outcome telemetry</text>
+  </g>
+  <g id="legend" data-graph-role="legend">
+    <rect id="legend-zone" data-graph-role="reserved" data-reserved-kind="legend" x="30" y="431" width="883.68" height="46" rx="10" fill="none" stroke="none"/>
+    <line data-graph-role="decoration" x1="40.0" y1="445.0" x2="70.0" y2="445.0" stroke="#8c6f5a" stroke-width="2.0" marker-end="url(#arrowC)"/>
+    <text data-graph-role="decoration" x="80.0" y="449.0" class="legend">observation</text>
+    <line data-graph-role="decoration" x1="181.44" y1="445.0" x2="211.44" y2="445.0" stroke="#b45309" stroke-width="2.0" marker-end="url(#arrowE)"/>
+    <text data-graph-role="decoration" x="221.44" y="449.0" class="legend">normalization</text>
+    <line data-graph-role="decoration" x1="330.56" y1="445.0" x2="360.56" y2="445.0" stroke="#d97757" stroke-width="2.0" marker-end="url(#arrowA)"/>
+    <text data-graph-role="decoration" x="370.56" y="449.0" class="legend">decision / delegation</text>
+    <line data-graph-role="decoration" x1="526.96" y1="445.0" x2="556.96" y2="445.0" stroke="#7b8b5c" stroke-width="2.0" marker-end="url(#arrowB)"/>
+    <text data-graph-role="decoration" x="566.96" y="449.0" class="legend">generated artifact</text>
+    <line data-graph-role="decoration" x1="714.48" y1="445.0" x2="744.48" y2="445.0" stroke="#7c5c96" stroke-width="2.0" marker-end="url(#arrowG)"/>
+    <text data-graph-role="decoration" x="754.48" y="449.0" class="legend">verification / learning</text>
+  </g>
+  <g id="footer" data-graph-role="reserved" data-graph-bounds="40,518,621,534">
+  <text x="40.0" y="530.0" class="footnote">Cognitive Factory · sensors, decisions, agent graphs, code generation, and feedback</text>
+  </g>
+</svg>

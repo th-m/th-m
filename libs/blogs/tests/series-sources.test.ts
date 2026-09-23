@@ -36,10 +36,13 @@ const consolidationAnchors: Record<string, string[]> = {
     "I see Revelation describing complete organizational capture in the last days.",
   ],
   "vision-and-values": [
-    "The value of its predictions comes from the relationships between words.",
+    "complete coverage of recorded facts is not complete acquaintance with a person.",
+    "The ladder answers increasingly powerful causal questions; it does not add a fourth rung called",
     "Once the root goal is supplied, it becomes valuable to explore opportunities",
   ],
   "the-cognitive-factory": [
+    "A trigger should open a hypothesis, not declare a diagnosis.",
+    "The graph—not the model—is the durable unit of automation.",
     "Work produces outcomes → outcomes produce evidence → evidence updates context and evaluation",
   ],
   "the-knowledge-factory": [

@@ -1,0 +1,312 @@
+{
+  "canvas": {
+    "height": 560.0,
+    "width": 1200.0
+  },
+  "composition": {
+    "limits": {
+      "max_bends_per_edge": 2,
+      "max_bridged_crossings": 0,
+      "max_route_stretch": 1.35,
+      "max_total_bends": 8,
+      "min_container_gutter": 20.0,
+      "min_label_clearance": 4.0,
+      "min_node_gap": 40.0,
+      "min_segment_length": 16.0,
+      "profile": "showcase"
+    },
+    "metrics": {
+      "bridged_crossings": 0,
+      "max_route_stretch": 1.175,
+      "minimum_container_gutter": 20.0,
+      "minimum_node_gap": 40.0,
+      "shortest_segment": 40.0,
+      "total_bends": 2
+    },
+    "ok": true,
+    "profile": "showcase",
+    "score": 100,
+    "violations": []
+  },
+  "edges": [
+    {
+      "bends": 0,
+      "bridges": [],
+      "crossings": [],
+      "id": "observe",
+      "length": 40.0,
+      "route": [
+        [
+          155.0,
+          243.0
+        ],
+        [
+          195.0,
+          243.0
+        ]
+      ],
+      "route_stretch": 1.0,
+      "source": "sensors",
+      "source_port": [
+        155.0,
+        243.0
+      ],
+      "target": "event-contract",
+      "target_port": [
+        195.0,
+        243.0
+      ],
+      "waypoints": []
+    },
+    {
+      "bends": 0,
+      "bridges": [],
+      "crossings": [],
+      "id": "normalize",
+      "length": 40.0,
+      "route": [
+        [
+          325.0,
+          243.0
+        ],
+        [
+          365.0,
+          243.0
+        ]
+      ],
+      "route_stretch": 1.0,
+      "source": "event-contract",
+      "source_port": [
+        325.0,
+        243.0
+      ],
+      "target": "decision-layer",
+      "target_port": [
+        365.0,
+        243.0
+      ],
+      "waypoints": []
+    },
+    {
+      "bends": 0,
+      "bridges": [],
+      "crossings": [],
+      "id": "decide",
+      "length": 40.0,
+      "route": [
+        [
+          495.0,
+          243.0
+        ],
+        [
+          535.0,
+          243.0
+        ]
+      ],
+      "route_stretch": 1.0,
+      "source": "decision-layer",
+      "source_port": [
+        495.0,
+        243.0
+      ],
+      "target": "agent-graph",
+      "target_port": [
+        535.0,
+        243.0
+      ],
+      "waypoints": []
+    },
+    {
+      "bends": 0,
+      "bridges": [],
+      "crossings": [],
+      "id": "delegate",
+      "length": 40.0,
+      "route": [
+        [
+          665.0,
+          243.0
+        ],
+        [
+          705.0,
+          243.0
+        ]
+      ],
+      "route_stretch": 1.0,
+      "source": "agent-graph",
+      "source_port": [
+        665.0,
+        243.0
+      ],
+      "target": "coding-agent",
+      "target_port": [
+        705.0,
+        243.0
+      ],
+      "waypoints": []
+    },
+    {
+      "bends": 0,
+      "bridges": [],
+      "crossings": [],
+      "id": "verify",
+      "length": 40.0,
+      "route": [
+        [
+          835.0,
+          243.0
+        ],
+        [
+          875.0,
+          243.0
+        ]
+      ],
+      "route_stretch": 1.0,
+      "source": "coding-agent",
+      "source_port": [
+        835.0,
+        243.0
+      ],
+      "target": "verification",
+      "target_port": [
+        875.0,
+        243.0
+      ],
+      "waypoints": []
+    },
+    {
+      "bends": 0,
+      "bridges": [],
+      "crossings": [],
+      "id": "promote",
+      "length": 40.0,
+      "route": [
+        [
+          1005.0,
+          243.0
+        ],
+        [
+          1045.0,
+          243.0
+        ]
+      ],
+      "route_stretch": 1.0,
+      "source": "verification",
+      "source_port": [
+        1005.0,
+        243.0
+      ],
+      "target": "release",
+      "target_port": [
+        1045.0,
+        243.0
+      ],
+      "waypoints": []
+    },
+    {
+      "bends": 2,
+      "bridges": [],
+      "crossings": [],
+      "id": "learn",
+      "length": 1198.0,
+      "route": [
+        [
+          1110.0,
+          276.0
+        ],
+        [
+          1110.0,
+          365.0
+        ],
+        [
+          90.0,
+          365.0
+        ],
+        [
+          90.0,
+          276.0
+        ]
+      ],
+      "route_stretch": 1.175,
+      "source": "release",
+      "source_port": [
+        1110.0,
+        276.0
+      ],
+      "target": "sensors",
+      "target_port": [
+        90.0,
+        276.0
+      ],
+      "waypoints": [
+        [
+          1110.0,
+          365.0
+        ],
+        [
+          90.0,
+          365.0
+        ]
+      ]
+    }
+  ],
+  "input_schema": "v1",
+  "issues": [],
+  "mode": "architecture",
+  "ok": true,
+  "palette": {
+    "below_target": [],
+    "minimum_target": 4.5,
+    "ratios": {
+      "section_sub_fill": 4.95,
+      "text_muted": 4.95,
+      "text_primary": 17.09,
+      "text_secondary": 5.55
+    },
+    "scope": "default opaque canvas text tokens; not a full rendered accessibility audit",
+    "unsupported_tokens": []
+  },
+  "placements": {
+    "legend": {
+      "actual": [
+        40.0,
+        445.0
+      ],
+      "bounds": [
+        30.0,
+        431.0,
+        913.68,
+        477.0
+      ],
+      "moved": false,
+      "requested": [
+        40.0,
+        445.0
+      ]
+    }
+  },
+  "schema_version": 1,
+  "semantics": {
+    "details": {},
+    "ok": true,
+    "profile": "generic",
+    "style": 6,
+    "visual_theme": "Claude Official"
+  },
+  "style": {
+    "id": 6,
+    "name": "Claude Official"
+  },
+  "summary": {
+    "bridged_crossings": 0,
+    "edges": 7,
+    "nodes": 7
+  },
+  "text_metrics": "heuristic-v1",
+  "typography": {
+    "complete_text": true,
+    "hint": null,
+    "metrics": "heuristic widths; inspect the actual rendered font",
+    "truncated": []
+  }
+}

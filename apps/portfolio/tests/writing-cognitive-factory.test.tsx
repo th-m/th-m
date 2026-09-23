@@ -48,7 +48,7 @@ function cognitiveFactoryArticle(): PublishedArticle {
   return {
     slug: "the-cognitive-factory",
     title: "Cognitive Factory",
-    description: "The factory's cognition is not a model subscription.",
+    description: "The factory's cognition is a governed control system.",
     publishedAt: "2026-08-22",
     tags: ["Artificial Intelligence", "Knowledge Work"],
     articlePath: "posts/the-cognitive-factory/article.mdx",
@@ -83,7 +83,7 @@ describe("Cognitive Factory published page", () => {
     await renderPage();
     expect(screen.getByText("Essay")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Cognitive Factory" })).toBeInTheDocument();
-    expect(screen.getByText("The factory's cognition is not a model subscription.")).toBeInTheDocument();
+    expect(screen.getByText("The factory's cognition is a governed control system.")).toBeInTheDocument();
     expect(screen.getByText("Published August 22, 2026")).toBeInTheDocument();
     expect(screen.queryByText("Essay outline")).not.toBeInTheDocument();
   });
@@ -91,12 +91,19 @@ describe("Cognitive Factory published page", () => {
   it("renders the cognition sections and the graph figure", async () => {
     await renderPage();
     expect(screen.getByRole("heading", { name: "Extending Loop and Graph Engineering" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Cognition Is the Control System" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Decision Trees and Agent Graphs" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "1. Graph Context Exploration" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "2. From Documents to Executable Context" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "3. The Compounding Loop" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "4. The Cognitive Light Cone Scorecard" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "6. The Two Factory Disciplines" })).toBeInTheDocument();
     expect(screen.getByTestId("proposition-graph-figure")).toBeInTheDocument();
+    expect(screen.getByText("Sentry")).toBeInTheDocument();
+    expect(screen.getByText("PostHog")).toBeInTheDocument();
+    expect(screen.getByText("CloudWatch alarms")).toBeInTheDocument();
+    expect(screen.getAllByText(/Jev/).length).toBeGreaterThan(0);
+    expect(screen.getByAltText(/operational sensors feed an event contract/)).toBeInTheDocument();
   });
 
   it("links the series essays through the writing routes", async () => {

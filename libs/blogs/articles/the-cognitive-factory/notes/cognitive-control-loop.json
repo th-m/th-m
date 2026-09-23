@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "mode": "architecture",
+  "template_type": "architecture",
+  "style": 6,
+  "quality_profile": "showcase",
+  "text_policy": "strict",
+  "width": 1200,
+  "height": 560,
+  "title": "The Cognitive Control Loop",
+  "subtitle": "Sentry, PostHog, and CloudWatch signals become governed code changes",
+  "containers": [
+    { "id": "perception", "x": 5, "y": 145, "width": 340, "height": 160, "label": "Perception" },
+    { "id": "judgment", "x": 345, "y": 145, "width": 340, "height": 160, "label": "Judgment and Control" },
+    { "id": "action", "x": 685, "y": 145, "width": 510, "height": 160, "label": "Action and Evaluation" }
+  ],
+  "nodes": [
+    { "id": "sensors", "kind": "rect", "x": 25, "y": 210, "width": 130, "height": 66, "label": "Sensors", "sublabel": "error · use · ops", "fill": "#e9f1fb", "stroke": "#8c6f5a", "flat": true },
+    { "id": "event-contract", "kind": "rect", "x": 195, "y": 210, "width": 130, "height": 66, "label": "Event Contract", "sublabel": "normalize", "fill": "#f7ecda", "stroke": "#d97757", "flat": true },
+    { "id": "decision-layer", "kind": "double_rect", "x": 365, "y": 210, "width": 130, "height": 66, "label": "Decision Layer", "sublabel": "rules · Jev", "fill": "#c8e4db", "stroke": "#8c6f5a" },
+    { "id": "agent-graph", "kind": "double_rect", "x": 535, "y": 210, "width": 130, "height": 66, "label": "Agent Graph", "sublabel": "route · escalate", "fill": "#c8e4db", "stroke": "#8c6f5a" },
+    { "id": "coding-agent", "kind": "rect", "x": 705, "y": 210, "width": 130, "height": 66, "label": "Coding Agent", "sublabel": "diagnose · patch", "fill": "#15120d", "stroke": "#d6b06a" },
+    { "id": "verification", "kind": "rect", "x": 875, "y": 210, "width": 130, "height": 66, "label": "Verify", "sublabel": "tests · review", "fill": "#efe8de", "stroke": "#d0c3b3", "flat": true },
+    { "id": "release", "kind": "rect", "x": 1045, "y": 210, "width": 130, "height": 66, "label": "PR / Release", "sublabel": "approve · deploy", "fill": "#f7ecda", "stroke": "#d97757", "flat": true }
+  ],
+  "arrows": [
+    { "id": "observe", "source": "sensors", "target": "event-contract", "source_port": "right", "target_port": "left", "flow": "read", "motion_role": "observe", "motion_stage": 1, "motion_order": 0 },
+    { "id": "normalize", "source": "event-contract", "target": "decision-layer", "source_port": "right", "target_port": "left", "flow": "data", "motion_role": "normalize", "motion_stage": 2, "motion_order": 0 },
+    { "id": "decide", "source": "decision-layer", "target": "agent-graph", "source_port": "right", "target_port": "left", "flow": "control", "motion_role": "decide", "motion_stage": 3, "motion_order": 0 },
+    { "id": "delegate", "source": "agent-graph", "target": "coding-agent", "source_port": "right", "target_port": "left", "flow": "control", "motion_role": "delegate", "motion_stage": 4, "motion_order": 0 },
+    { "id": "verify", "source": "coding-agent", "target": "verification", "source_port": "right", "target_port": "left", "flow": "write", "motion_role": "verify", "motion_stage": 5, "motion_order": 0 },
+    { "id": "promote", "source": "verification", "target": "release", "source_port": "right", "target_port": "left", "flow": "feedback", "motion_role": "promote", "motion_stage": 6, "motion_order": 0 },
+    { "id": "learn", "source": "release", "target": "sensors", "source_port": "bottom", "target_port": "bottom", "flow": "feedback", "motion_role": "learn", "motion_stage": 7, "motion_order": 0, "label": "outcome telemetry", "route_points": [[1110, 365], [90, 365]] }
+  ],
+  "legend_orientation": "horizontal",
+  "legend_x": 40,
+  "legend_y": 445,
+  "legend_locked": true,
+  "legend": [
+    { "flow": "read", "label": "observation" },
+    { "flow": "data", "label": "normalization" },
+    { "flow": "control", "label": "decision / delegation" },
+    { "flow": "write", "label": "generated artifact" },
+    { "flow": "feedback", "label": "verification / learning" }
+  ],
+  "footer": "Cognitive Factory · sensors, decisions, agent graphs, code generation, and feedback",
+  "footer_x": 40,
+  "footer_y": 530
+}

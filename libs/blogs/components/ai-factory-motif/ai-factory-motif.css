@@ -1,10 +1,26 @@
+/* AI Factory visual language. SVG sizes are viewBox units; HTML sizes are px.
+   Families and colors inherit the THOM foundation. Keep glyph geometry separate. */
+:where(.ai-factory-visual-language, .ai-factory-motif, .ai-factory-series-map, .ai-factory-icon) {
+  --ai-factory-type-edge: 8px;
+  --ai-factory-type-detail: 8px;
+  --ai-factory-type-meta: 9px;
+  --ai-factory-type-node: 14px;
+  --ai-factory-type-node-compact: 12px;
+  --ai-factory-type-copy: 12px;
+  --ai-factory-type-title: 24px;
+  --ai-factory-tracking-label: 0.08em;
+  --ai-factory-surface: var(--color-surface);
+  --ai-factory-panel: color-mix(in srgb, var(--color-card) 50%, var(--color-surface));
+  --ai-factory-inset: color-mix(in srgb, var(--color-background) 40%, var(--color-surface));
+  --ai-factory-focus: color-mix(in srgb, var(--color-primary) 7%, var(--color-surface));
+  --ai-factory-label-rule: color-mix(in srgb, var(--color-border-strong) 55%, var(--color-border));
+}
+
 .ai-factory-motif {
   margin: 2.25em 0;
   overflow: hidden;
   border-block: 1px solid var(--color-border);
-  background:
-    radial-gradient(circle at 72% 22%, color-mix(in srgb, var(--color-primary) 7%, transparent), transparent 38%),
-    var(--color-surface);
+  background: var(--ai-factory-surface);
 }
 
 .ai-factory-motif__header {
@@ -20,8 +36,8 @@
 .ai-factory-motif__header > p {
   margin: 0;
   color: var(--color-primary);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 9px;
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-meta);
   letter-spacing: 0.13em;
   line-height: 1.6;
   text-transform: uppercase;
@@ -30,7 +46,7 @@
 .ai-factory-motif__header h3 {
   margin: 0;
   color: var(--color-foreground-strong);
-  font-family: "Newsreader Variable", Newsreader, Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(24px, 3.7vw, 36px);
   font-weight: 400;
   letter-spacing: -0.025em;
@@ -44,6 +60,38 @@
 .ai-factory-motif__viewport:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: -3px;
+}
+
+.ai-factory-motif[data-variant="ontology-of-terms"] .ai-factory-motif__header {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.ai-factory-motif[data-variant="ontology-of-terms"] .ai-factory-motif__header h3 {
+  max-width: 32ch;
+  line-height: 1.12;
+}
+
+@media (max-width: 640px) {
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) > .ai-factory-motif__scroll-cue {
+    display: block;
+    margin: 0;
+    padding: 12px 20px 0;
+    color: var(--color-foreground-muted);
+    font: var(--ai-factory-type-meta)/1.6 var(--font-mono);
+  }
+
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) .ai-factory-motif__viewport {
+    overflow-x: auto;
+  }
+
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"]) .ai-factory-motif__viewport > svg {
+    min-width: 640px;
+  }
+
+  .ai-factory-motif:is([data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) .ai-factory-motif__viewport > svg {
+    min-width: 800px;
+  }
 }
 
 .ai-factory-motif svg {
@@ -61,21 +109,21 @@
 .ai-factory-motif__station,
 .ai-factory-motif__practice > rect,
 .ai-factory-motif__ontology-node > rect {
-  fill: color-mix(in srgb, var(--color-card) 94%, transparent);
+  fill: var(--ai-factory-panel);
   stroke: var(--color-border);
   stroke-width: 1;
 }
 
 .ai-factory-motif__station--focal,
 .ai-factory-motif__ontology-node--focal > rect {
-  fill: color-mix(in srgb, var(--color-primary) 7%, var(--color-card));
+  fill: var(--ai-factory-focus);
   stroke: var(--color-primary);
 }
 
 .ai-factory-motif__label {
   fill: var(--color-foreground-strong);
-  font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
-  font-size: 13px;
+  font-family: var(--font-sans);
+  font-size: var(--ai-factory-type-node);
   font-weight: 500;
 }
 
@@ -84,13 +132,44 @@
 .ai-factory-motif__ontology-legend text,
 .ai-factory-motif__connector-label text,
 .ai-factory-motif__vertical-edge-label {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-family: var(--font-mono);
 }
 
 .ai-factory-motif__detail {
   fill: var(--color-foreground-muted);
-  font-size: 8px;
+  font-size: var(--ai-factory-type-detail);
   letter-spacing: 0.025em;
+}
+
+.ai-factory-motif__embedding-columns text,
+.ai-factory-motif__embedding-eyebrow {
+  fill: var(--color-foreground-muted);
+  font: var(--ai-factory-type-meta) var(--font-mono);
+  letter-spacing: var(--ai-factory-tracking-label);
+}
+
+.ai-factory-motif__embedding-eyebrow--focal { fill: var(--color-primary); }
+.ai-factory-motif__embedding-columns path { fill: none; stroke: var(--color-border); stroke-width: 1; }
+.ai-factory-motif__embedding-compact { font-size: var(--ai-factory-type-node-compact); }
+.ai-factory-motif__embedding-unanchored { stroke-dasharray: 4 4; }
+.ai-factory-motif__embedding-missing { opacity: .3; }
+.ai-factory-motif__generated-text path { vector-effect: non-scaling-stroke; }
+
+.ai-factory-motif__priorities-note {
+  fill: var(--color-foreground-muted);
+  font: var(--ai-factory-type-copy) var(--font-sans);
+}
+
+.ai-factory-motif__evidence-note {
+  display: block;
+  margin-top: 12px;
+}
+
+.ai-factory-motif__evidence-note a {
+  color: var(--color-foreground);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-strong);
+  text-underline-offset: 3px;
 }
 
 .ai-factory-motif__connectors path {
@@ -103,20 +182,50 @@
   stroke: var(--color-primary);
 }
 
+.ai-factory-motif__experience-eyebrow {
+  fill: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.ai-factory-motif__connectors .ai-factory-motif__experience-gap {
+  stroke: var(--color-foreground-muted);
+  vector-effect: non-scaling-stroke;
+}
+
+.ai-factory-motif__experience-outcome > rect {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.ai-factory-motif__experience-outcome .ai-factory-motif__label {
+  font-size: var(--ai-factory-type-node-compact);
+}
+
 .ai-factory-motif marker path {
   fill: var(--color-foreground-subtle);
   stroke: none;
 }
 
 .ai-factory-motif__connector-label rect {
-  fill: var(--color-surface);
+  fill: var(--ai-factory-inset);
+}
+
+.ai-factory-motif__connector-label--on-edge rect {
+  stroke: var(--ai-factory-label-rule);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 .ai-factory-motif__connector-label text,
 .ai-factory-motif__vertical-edge-label {
-  fill: var(--color-foreground-subtle);
-  font-size: 8px;
-  letter-spacing: 0.1em;
+  fill: var(--color-foreground-muted);
+  font-size: var(--ai-factory-type-edge);
+  font-weight: 400;
+  letter-spacing: var(--ai-factory-tracking-label);
 }
 
 .ai-factory-motif__vision-glyph,
@@ -218,13 +327,12 @@
 
 .ai-factory-motif__operator-label {
   fill: var(--color-primary);
-  font-family: "Newsreader Variable", Newsreader, Georgia, serif;
+  font-family: var(--font-display);
   font-size: 24px;
 }
 
 .ai-factory-motif__ontology-node .ai-factory-motif__label {
   dominant-baseline: middle;
-  font-size: 12px;
 }
 
 .ai-factory-motif__ontology-node--focal .ai-factory-motif__label {
@@ -241,17 +349,16 @@
 .ai-factory-motif__axis text,
 .ai-factory-motif__ontology-legend text {
   fill: var(--color-foreground-subtle);
-  font-size: 8px;
-  letter-spacing: 0.14em;
+  font-size: var(--ai-factory-type-detail);
+  letter-spacing: var(--ai-factory-tracking-label);
 }
 
 .ai-factory-motif figcaption {
   padding: 16px clamp(20px, 3vw, 28px);
   border-top: 1px solid var(--color-border);
   color: var(--color-foreground-muted);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 9px;
-  letter-spacing: 0.04em;
+  font-family: var(--font-sans);
+  font-size: var(--ai-factory-type-copy);
   line-height: 1.7;
 }
 
@@ -260,21 +367,289 @@
 /* ------------------------------------------------------------------ */
 
 .ai-factory-icon { display: block; width: 100%; height: auto; color: var(--color-foreground-muted); }
+.ai-factory-icon--automation { overflow: visible; }
+.ai-factory-icon__disconnected-ends { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__disconnected-mark { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
 .ai-factory-icon path, .ai-factory-icon rect, .ai-factory-icon circle { vector-effect: non-scaling-stroke; }
 .ai-factory-icon marker path { fill: var(--color-foreground-subtle); stroke: none; }
-.ai-factory-icon__vision-center, .ai-factory-icon__meaning-center, .ai-factory-icon__understanding-center { fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface)); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon marker .ai-factory-icon__arrowhead--outline { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; stroke-linejoin: miter; }
+.ai-factory-icon--automation marker .ai-factory-icon__arrowhead--outline { stroke: var(--color-primary); }
+.ai-factory-icon__vision-center { fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface)); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__value-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; stroke-dasharray: none; stroke-linecap: butt; }
 .ai-factory-icon__vision-edge, .ai-factory-icon__meaning-edge, .ai-factory-icon__understanding-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
-.ai-factory-icon__meaning-center, .ai-factory-icon__meaning-edge { stroke: var(--color-primary); }.ai-factory-icon__meaning-center { fill: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)); }.ai-factory-icon__meaning-boundary { fill: none; stroke: color-mix(in srgb, var(--color-primary) 70%, var(--color-foreground-muted)); stroke-dasharray: 2 4; }
-.ai-factory-icon__morpheme { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 3 5; opacity: .8; }.ai-factory-icon__morpheme--refined { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke-dasharray: none; stroke-width: 1.2; }.ai-factory-icon__center { fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface)); }
-.ai-factory-icon__frame, .ai-factory-icon__station, .ai-factory-icon__implementation-frame, .ai-factory-icon__ontology-frame { fill: color-mix(in srgb, var(--color-card) 94%, transparent); stroke: var(--color-border); stroke-width: 1; }
-.ai-factory-icon__text-line, .ai-factory-icon__implementation-line, .ai-factory-icon__ontology-label { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }.ai-factory-icon__text-highlight { fill: color-mix(in srgb, var(--color-primary) 24%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1; }
-.ai-factory-icon__token-bracket, .ai-factory-icon__token-line { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }.ai-factory-icon__token-cell { fill: color-mix(in srgb, var(--color-primary) 9%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1; }
-.ai-factory-icon--term-of-art .ai-factory-icon__station { stroke: var(--color-primary); }.ai-factory-icon--term-of-art .ai-factory-icon__morpheme { stroke: var(--color-primary); }.ai-factory-icon--term-of-art .ai-factory-icon__center { fill: color-mix(in srgb, var(--color-primary) 24%, var(--color-surface)); }
-.ai-factory-icon__understanding-boundary { fill: color-mix(in srgb, var(--color-primary) 10%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }.ai-factory-icon__understanding-center { fill: color-mix(in srgb, var(--color-primary) 22%, var(--color-surface)); stroke: var(--color-primary); }.ai-factory-icon__understanding-core { fill: var(--color-primary); }
-.ai-factory-icon__implementation-center { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }.ai-factory-icon__implementation-core { fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface)); }.ai-factory-icon__ontology-frame { fill: color-mix(in srgb, var(--color-card) 94%, transparent); }
-.ai-factory-icon__relation-line { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }.ai-factory-icon__relation-label { fill: var(--color-surface); stroke: var(--color-border); }.ai-factory-icon__relation-label-line { fill: none; stroke: var(--color-foreground-subtle); stroke-width: 1; }.ai-factory-icon__operator { fill: var(--color-surface); stroke: var(--color-border-strong); stroke-width: 1; }.ai-factory-icon__operator-mark { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon--goal .ai-factory-icon__vision-center,
+.ai-factory-icon--goal .ai-factory-icon__vision-edge,
+.ai-factory-icon--goal .ai-factory-icon__morpheme { stroke: var(--color-primary); }
+.ai-factory-icon--goal .ai-factory-icon__vision-center { fill: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)); }
+.ai-factory-icon__meaning-edge { stroke: var(--color-primary); }.ai-factory-icon__meaning-boundary { fill: none; stroke: color-mix(in srgb, var(--color-primary) 70%, var(--color-foreground-muted)); stroke-dasharray: 2 4; }
+.ai-factory-icon__meaning-edge--diagonal, .ai-factory-icon__understanding-edge--diagonal { stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__truth-triangle { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; stroke-linejoin: miter; }
+.ai-factory-icon--correspondence .ai-factory-icon__truth-vertex { stroke: var(--color-primary); }
+.ai-factory-icon__truth-triangle--dotted { stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__truth-vertex { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__coherence-spokes,
+.ai-factory-icon__consequence-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__coherence-center { fill: var(--color-primary); }
+.ai-factory-icon__consequence-outcome { fill: var(--color-primary); }
+.ai-factory-icon__inference-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__self-dot { fill: var(--color-primary); stroke: none; }
+.ai-factory-icon__others-dot { fill: var(--color-foreground-muted); stroke: none; }
+.ai-factory-icon__inference-junction { fill: var(--color-foreground-muted); }
+.ai-factory-icon__inference-output { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__morpheme { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 3 5; opacity: .8; }.ai-factory-icon__morpheme--refined { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke-dasharray: none; stroke-width: 1.2; }
+.ai-factory-icon__text-line { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }.ai-factory-icon__text-highlight { fill: color-mix(in srgb, var(--color-foreground-muted) 20%, var(--color-surface)); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__token-segment { fill: color-mix(in srgb, var(--color-foreground-muted) 10%, var(--color-surface)); stroke: none; }
+.ai-factory-icon__token-segment--two { fill: color-mix(in srgb, var(--color-foreground-muted) 30%, var(--color-surface)); }
+.ai-factory-icon__token-segment--four { fill: color-mix(in srgb, var(--color-foreground-muted) 16%, var(--color-surface)); }
+.ai-factory-icon__token-bit { fill: var(--color-foreground-muted); font-family: var(--font-mono); font-size: 10px; font-weight: 400; letter-spacing: .02em; }
+.ai-factory-icon__token-bit--focus { fill: var(--color-foreground-strong); }
+.ai-factory-icon__term-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon--term-of-art .ai-factory-icon__morpheme { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-foreground-muted); }
+.ai-factory-icon__understanding-boundary { fill: color-mix(in srgb, var(--color-primary) 10%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__bottleneck-boundary, .ai-factory-icon__bottleneck-flow, .ai-factory-icon__bottleneck-throat { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__bottleneck-input { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__bottleneck-output { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__implementation-boundary { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__implementation-core { fill: color-mix(in srgb, var(--color-foreground-muted) 28%, var(--color-surface)); }
+.ai-factory-icon__action-vector { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.4; }
+.ai-factory-icon__automation-understanding-edge { fill: none; stroke: var(--color-primary); stroke-width: 1; }
+.ai-factory-icon__automation-understanding-edge--diagonal { stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__automation-understanding-boundary { fill: color-mix(in srgb, var(--color-primary) 10%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__automation-understanding-center { fill: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1; }
+.ai-factory-icon__automation-action { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__automation-node { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__meaning-core { fill: color-mix(in srgb, var(--color-foreground-muted) 30%, var(--color-surface)); stroke: none; }
+.ai-factory-icon__understanding-core { fill: var(--color-primary); stroke: none; }
+.ai-factory-icon__automation-node-core { fill: color-mix(in srgb, var(--color-foreground-muted) 30%, var(--color-surface)); }
+.ai-factory-icon__ontology-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__ontology-edge--connected { stroke: var(--color-primary); }
+.ai-factory-icon__ontology-root { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__ontology-term { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__relation-line { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }.ai-factory-icon__operator { fill: var(--color-surface); stroke: var(--color-border-strong); stroke-width: 1; }.ai-factory-icon__operator-mark { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
+
+/* ------------------------------------------------------------------ */
+/* AI Factory article-series map                                      */
+/* ------------------------------------------------------------------ */
+
+.ai-factory-series-map {
+  container-type: inline-size;
+  margin: 2.25em 0;
+  border-block: 1px solid var(--color-border);
+  background: var(--ai-factory-surface);
+}
+
+.ai-factory-series-map__header {
+  display: grid;
+  grid-template-columns: minmax(160px, .38fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+  padding: clamp(24px, 4vw, 38px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.article-outline__content .ai-factory-series-map__header > p,
+.ai-factory-series-map__header > p {
+  margin: 2px 0 0;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-meta);
+  letter-spacing: .13em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.ai-factory-series-map__header h2 {
+  margin: 0 0 12px;
+  color: var(--color-foreground-strong);
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.6vw, 54px);
+  font-weight: 400;
+  letter-spacing: -.035em;
+  line-height: .96;
+}
+
+.article-outline__content .ai-factory-series-map__header div > p,
+.ai-factory-series-map__header div > p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--color-foreground-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.ai-factory-series-map__viewport {
+  overflow-x: auto;
+  scrollbar-color: color-mix(in srgb, var(--color-primary) 45%, transparent) transparent;
+}
+
+.ai-factory-series-map__viewport:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -3px;
+}
+
+.ai-factory-series-map__track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(352px, 1fr));
+  gap: 24px 12px;
+  min-width: 1148px;
+  margin: 0;
+  padding: clamp(24px, 3vw, 34px);
+  list-style: none;
+}
+
+.ai-factory-series-map__item {
+  position: relative;
+  min-width: 0;
+}
+
+.ai-factory-series-map__item > a {
+  display: flex;
+  min-height: 100%;
+  padding: 16px;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  background: var(--ai-factory-panel);
+  color: inherit;
+  text-decoration: none;
+}
+
+.ai-factory-series-map__item > a:hover,
+.ai-factory-series-map__item > a:focus-visible {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.ai-factory-series-map__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-meta);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.ai-factory-series-map__meta span:last-child {
+  color: var(--color-foreground-subtle);
+}
+
+.ai-factory-series-map__equation {
+  display: block;
+  margin: 16px 0 20px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  background: var(--ai-factory-inset);
+}
+
+.ai-factory-series-map__pair,
+.ai-factory-series-map__flywheel {
+  display: block;
+  width: 100%;
+  height: 192px;
+  overflow: visible;
+}
+
+.ai-factory-series-map__flywheel-paths {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 1.2;
+}
+
+.ai-factory-series-map__flywheel marker path {
+  fill: var(--color-primary);
+}
+
+.ai-factory-series-map__flywheel-relations,
+.ai-factory-series-map__relationship {
+  fill: var(--color-foreground-muted);
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-edge);
+  font-weight: 400;
+  letter-spacing: var(--ai-factory-tracking-label);
+  text-anchor: middle;
+}
+
+.ai-factory-series-map__concept > text,
+.ai-factory-series-map__flywheel-concept > text {
+  fill: var(--color-foreground-strong);
+  font-family: var(--font-sans);
+  font-size: var(--ai-factory-type-node);
+  font-weight: 500;
+  text-anchor: middle;
+}
+
+.ai-factory-series-map__item h3 {
+  margin: 0 0 10px;
+  color: var(--color-foreground-strong);
+  font-family: var(--font-display);
+  font-size: var(--ai-factory-type-title);
+  font-weight: 400;
+  letter-spacing: -.025em;
+  line-height: 1.1;
+}
+
+.article-outline__content .ai-factory-series-map__item p,
+.ai-factory-series-map__item p {
+  margin: 0;
+  color: var(--color-foreground-muted);
+  font-family: var(--font-sans);
+  font-size: var(--ai-factory-type-copy);
+  line-height: 1.6;
+}
+
+.ai-factory-series-map__connector {
+  position: absolute;
+  top: 118px;
+  right: -18px;
+  z-index: 2;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 18px;
+}
+
+.ai-factory-series-map figcaption {
+  padding: 16px clamp(24px, 4vw, 38px);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-foreground-muted);
+  font-family: var(--font-sans);
+  font-size: var(--ai-factory-type-copy);
+  line-height: 1.7;
+}
+
+.article-outline__content .ai-factory-series-map__scroll-cue,
+.ai-factory-series-map__scroll-cue {
+  display: block;
+  margin: 0;
+  padding: 10px 20px 0;
+  color: var(--color-foreground-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-meta);
+  letter-spacing: .12em;
+  line-height: 1.5;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+@container (min-width: 1148px) {
+  .article-outline__content .ai-factory-series-map__scroll-cue,
+  .ai-factory-series-map__scroll-cue {
+    display: none;
+  }
+}
 
 @media (max-width: 640px) {
+  .ai-factory-series-map__header {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
   .ai-factory-motif__header {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -296,7 +671,7 @@
     margin: 0;
     padding: 10px 20px 0;
     color: var(--color-foreground-subtle);
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-family: var(--font-mono);
     font-size: 8px;
     letter-spacing: 0.12em;
     line-height: 1.5;

@@ -2,7 +2,7 @@
 title: Vision and Values
 description: Why human experience, values, and strategy must govern the goals that predictive systems pursue.
 publishedAt: 2026-08-22
-updatedAt: 2026-09-17
+updatedAt: 2026-09-22
 tags: [Artificial Intelligence, Language Models, Strategy, Values]
 ---
 # Vision and Values
@@ -50,35 +50,47 @@ AI is biased. It comes baked with it's own values and strategic preferences. Thi
 
 <Section index="02" title="What a Language Model Carries">
 
-<LlmCompressionDetail>An LLM is a compressed statistical model</LlmCompressionDetail>{" "}that is patterned from human language. It doesn't “think” and it doesn't “reason”,; it operates on patterns. I don't want to undersll this, it is amazing, mind-boggling, and nothing short of a miracle, and why AI researchers like[ Elan Barenholtz say with such profundity](https://www.youtube.com/watch?v=A36OumnSrWY&t=1663s), “the map is the territory … it’s the relations that matter between these symbols.”
+<LlmCompressionDetail>An LLM is a compressed statistical model</LlmCompressionDetail>{" "}patterned from human language. Its value comes from the relationships it has learned among words, concepts, and contexts. Those relationships can support impressive inference, planning, and tool use. They do not, by themselves, establish that the model has lived through what its language describes.
 
-A model never experiences anything. The value of its predictions comes from the relationships between words. So even after these frontier labs stole all the content from the internet, there are still linquistic gaps,  the data is incomplete, historically situated, and as mentioned before it is further constrained training and harnessing.
+I do not want to undersell this capability. It is astonishing that learned relationships among symbols can support so much useful work. But the available language remains incomplete and historically situated, and the model's behavior is further shaped by training objectives, post-training, system instructions, tools, and the surrounding harness.
 
 </Section>
 
 <Section index="03" title="What Language Leaves Out">
 
-Where is the theoretical limit of this language-compression and prediction process? Could a sufficiently capable LLM be a god-like oracle? Statisticallying speaking prompting “What is my purpose?” would have a nonzero chance to return the best possible answer. Even if it did, it could not intend for you to live a purposeful life. [A model is not conscious](/writing/consciousness-is-incoherent). It cannot directly observe a private motivation or judgment, or know that its inference is correct.
+Where is the limit of this language-compression and prediction process? A sufficiently capable system could produce an extraordinary answer to “What is my purpose?” It could describe your history, compare philosophies, identify tensions, and predict which answer you might accept. Even a perfect description, however, would not be the same as occupying your point of view or intending a purposeful life for you.
 
-A more practical way to put it, it has all the information in the world about your customer, but it does not "know" your customer. I like to imagine this "subjective knowing" as the edges between objective facts.
+I will call the distance between a complete description and a lived point of view the **qualitative gap**. Philosophers use <Term definition="The felt, first-person qualities of experience—what pain, relief, color, trust, embarrassment, or delight are like for the subject.">qualia</Term> for the qualities on the experiential side of that gap. Current AI can describe qualia and predict reports about them; we do not have validated evidence that ordinary language models experience them. [AI Consciousness Is Incoherent](/writing/ai-consciousness-is-incoherent) develops that evidentiary boundary in detail.
+
+<Callout label="The qualitative gap">
+
+**AI can know everything recorded about your customer and still never have met your customer.**
+
+**It can know everything documented about your team and still not know whether Alicia is pronounced _ah-LEE-sha_ or _ah-lee-SEE-ah_.**
+
+</Callout>
+
+These examples expose related but different gaps. Alicia's pronunciation is not qualia; it is tacit, relational context that nobody made available to the system. The irritation of being repeatedly misnamed, the trust created when someone remembers, or the relief a customer feels when a painful workflow disappears are qualitative. The common lesson is that complete coverage of recorded facts is not complete acquaintance with a person.
+
+I like to imagine this situated knowing as the edges between objective facts: relationships, history, stakes, and felt consequences that determine what the facts mean to someone.
 
 <Asset id="relational-knowing-figure" />
 
 For this article, let’s define a value statement as an expression of how something matters to someone. These statements are shaped by subjective experience and individual preferences, reflecting personal desires, fears, and sources of meaning. “Jon earns $72,000” describes his salary. “Jon feels underpaid” expresses how he evaluates that salary. The second statement tells us something about what matters to Jon, but not yet what change would help him or what he would sacrifice to get it.
 
-In linquistic studies we use the word  <Asset id="morpheme-glossary" />. It is a minimal unit of meaning in language. The word `pain` contains one morpheme.
+In linguistics, a <Asset id="morpheme-glossary" /> is a minimal unit of meaning. The word `pain` contains one morpheme.
 
 <Asset id="morpheme-to-token-motif" />
 
 <Asset id="language-compression-figure" />
 
-Remember one minute ago where we showed that LLMs are essentially optimized compression tools. It is also useful to recognize that language is itself a compresssion tool.  We encapsulate meaningful ideas into shared terms, i.e. morphemes, Language however, and these morphemes, are not "lossless"
+Language is itself a compression tool. We encapsulate meaningful experience in shared terms and morphemes, but the compression is not lossless.
 
-Language is very "lossy".  When someone says "thats painful" it can only be partially understood and we do that through empathy and shared experience. The inverse is true too, words or morphemes, will have subjective and contextual reference points. For my wife an icebath is "painful" for me I would say it is "excilerating". For her gardening is "relaxing" for me I would say "painful".  The imaginary wordcloud of ideas that correlate to "pain" are going to be unique to each individual. This train of thought is explored more scientifically through the lens of  "[the hard problem of conciousness](https://en.wikipedia.org/wiki/Hard_problem_of_consciousness)" where much greater thinkers than I illustrate what we cannot currently capture or express in our language.
+When someone says “that is painful,” the listener can only partially reconstruct the experience through context, empathy, and shared history. The same term carries different reference points. My wife calls an ice bath painful; I call it exhilarating. She calls gardening relaxing; I call it painful. Each person's network of associations around `pain` is different, and the felt quality is not exhausted by the word.
 
-<Flow>experience → morpheme → recording → training data</Flow>
+<Flow>experience → language → recording → training data</Flow>
 
-Alright before we get too far off in the weeds considering "consciousness" lets point out two meaningful insights:
+Before going further into consciousness, two practical consequences matter here:
 
 - Value statements get distorted in normalization.
 - Value statements become meaningless without intent.
@@ -117,9 +129,7 @@ Jon's “I want something better” does not identify one goal. It can branch in
 
 <Section index="04" title="Vision and Goals">
 
-We are accelerating toward future where everyone can build everything with a simple prompt. From an economic perspective this means the cost and value of the average goes to zero.
-
-Anyone with practical experience in product is probably relieved by that statement. You know the old addage "the customer is always right". Did you know the full qoute is actually, "the customer is always right, but incapable of articulating their needs or describing a product they would actual pay for and use."
+That unresolved intent is where vision begins. As AI makes average artifacts cheaper to produce, generating a plausible solution becomes less scarce. Deciding which change is worth creating—and which human consequence should govern the decision—becomes more valuable.
 
 Imagine our business offers a book-publishing service. We could help Jon turn his teaching materials into a book, earn additional income, and reach more educators. But writing and promoting that book could also consume his evenings. Before calling it a valuable solution, we need to understand which outcomes Jon wants, how he ranks them, and what he is unwilling to sacrifice.
 
@@ -142,7 +152,19 @@ That is a proposed benefit but we haven't established fact. We still need to lea
 
 <Asset id="goal-tree-figure" />
 
-There is a more fundemental reason that AI cannot find valuable goals. Deeper than market economics zeroing out, or compressed averages causing  AI always apply the same strategy. The goals need to reflect value statements
+### The Causality Ladder Does Not Choose the Goal
+
+Judea Pearl's **ladder of causation** distinguishes three increasingly powerful kinds of question:
+
+| Rung | Activity | Question |
+| --- | --- | --- |
+| Association | Seeing | What tends to happen when I observe `X`? |
+| Intervention | Doing | What would happen if I do `X`? |
+| Counterfactual | Imagining | What would have happened if I had acted differently? |
+
+AI can assist at all three rungs when the necessary evidence and causal model are available. An agent can also generate subgoals, choose actions, and run experiments inside a delegated objective. None of that gives it volition to originate the governing goal or authority to decide which future deserves pursuit. The ladder answers increasingly powerful causal questions; it does not add a fourth rung called **purpose**.
+
+An AI system acts because training, instructions, memory, schedules, tools, or users establish an objective and authorize action. Its instrumental autonomy can be substantial, but it still operates inside a larger system that supplies the ends, permissions, and criteria by which its actions count as progress.
 
 The observation—“support tickets increased”—has no inherent strategic meaning. The governing goal determines what the increase represents:
 
@@ -245,7 +267,7 @@ The agent did not fail because it was incapable of producing a plan. It failed b
 
 The strategic-advice study did not test this claim directly. Our hypothesis is that, had the researchers held the factual scenarios constant while explicitly authorizing different value hierarchies, the models would have returned different strategies. A company that ranks workforce continuity above near-term efficiency should not receive the same advice as one that ranks rapid transformation above continuity, even when the market facts are identical.
 
-Therein lies the crux: an AI may infer an operative value hierarchy, but it cannot know that the inferred hierarchy is the one you intended—and it should not be empowered to decide what you ought to value. When values remain unstated, they do not disappear. The model imports latent priorities from its training, post-training, and the language of the prompt.
+Therein lies the crux: an AI may infer an operative value hierarchy, propose interventions, and reason about counterfactuals, but it does not by its own volition choose the governing goal that makes those actions worth pursuing. It cannot know that the inferred hierarchy is the one you intended, and predictive competence does not grant authority to decide what you ought to value. When values remain unstated, they do not disappear. The model imports latent priorities from its training, post-training, and the language of the prompt.
 
 </Section>
 
@@ -264,13 +286,15 @@ The argument above is my synthesis. These sources support its technical backgrou
 7. 3Blue1Brown. [“Reinventing Entropy | Compression is Intelligence Part 1.”](https://www.youtube.com/watch?v=l6DKRf-fAAM) *YouTube.* Explains the mathematical relationship among entropy, compression, and information.
 8. 3Blue1Brown. [“But what is cross-entropy? | Compression is Intelligence Part 2.”](https://www.youtube.com/watch?v=GlYgs6v2YfU) *YouTube.* Explains cross-entropy as a measure of predictive distributions.
 
-### Values and judgment
+### Experience, causality, and judgment
 
-9. John Dewey. [*Theory of Valuation.*](https://archive.org/details/theoryofvaluatio032168mbp) (1939). Develops valuation as inquiry in which ends and means remain answerable to consequences.
+9. David J. Chalmers. [“Facing Up to the Problem of Consciousness.”](https://consc.net/papers/facing.html) *Journal of Consciousness Studies* 2, no. 3 (1995): 200–219. Introduces the hard problem and distinguishes functional explanation from explaining subjective experience.
+10. Judea Pearl. [“What Is Causal Inference?”](https://bayes.cs.ucla.edu/ijcai-july2022-bw.pdf) *IJCAI* (2022). Presents the ladder of causation as association, intervention, and counterfactual reasoning.
+11. John Dewey. [*Theory of Valuation.*](https://archive.org/details/theoryofvaluatio032168mbp) (1939). Develops valuation as inquiry in which ends and means remain answerable to consequences.
 
 ### Strategic-advice example
 
-10. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina. [“Researchers Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in Return.”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return) *Harvard Business Review* (March 16, 2026). Reports the prompt-order and company-context effects summarized in the introduction.
+12. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina. [“Researchers Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in Return.”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return) *Harvard Business Review* (March 16, 2026). Reports the prompt-order and company-context effects summarized in the introduction.
 
 </Section>
 

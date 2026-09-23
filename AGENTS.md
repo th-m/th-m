@@ -75,6 +75,12 @@ change is intentional. Do not describe requested tool restrictions as enforced.
 
 | Task | Procedure |
 | --- | --- |
+| Core-Trinity-first five-agent editorial review and synthesis | [article-editor](.agents/skills/article-editor/SKILL.md) |
+| Topic-comment article critique and information-flow diagram | [article-flow-diagram](.agents/skills/article-flow-diagram/SKILL.md) |
+| Nine-technique sentence, paragraph, and idea clarity audit | [clarity-techniques](.agents/skills/clarity-techniques/SKILL.md) |
+| Messy-draft and cold-reader clarity evaluation | [draft-clarity](.agents/skills/draft-clarity/SKILL.md) |
+| Essay Architecture evaluation and framework-guided revision | [essay-architecture](.agents/skills/essay-architecture/SKILL.md) |
+| Passage-level reader flow, vividness, and signposting | [writing-hacks](.agents/skills/writing-hacks/SKILL.md) |
 | Ontology and README/AGENTS responsibilities | [thm-repo-docs](.agents/skills/thm-repo-docs/SKILL.md) |
 | Named team or explicit delegation | [thm-team](.agents/skills/thm-team/SKILL.md) |
 | Article research, drafting, or local publication | [thm-blog-authoring](.agents/skills/thm-blog-authoring/SKILL.md) |

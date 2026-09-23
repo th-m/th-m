@@ -1,0 +1,60 @@
+# AI Factory icon vocabulary
+
+This visual language distinguishes what a concept means from how its mark is
+drawn. Semantic roles describe a concept's use here, not a universal taxonomy.
+
+## Language
+
+**Semantic role**:
+The role a represented concept plays: concept, evaluation, situated state,
+process, constraint, model entity, relationship, relationship state, operation,
+language representation, model representation, or participant.
+_Avoid_: Visual family, subject area, or drawing complexity as substitute roles.
+
+**Icon ID**:
+A stable name for a reusable visual specimen, independent of its reader-facing
+title.
+_Avoid_: Category, subtitle.
+
+**Title**:
+The human-readable name of the represented concept.
+
+**Subheading**:
+An optional short line beneath the title that refines the icon's intent and
+meaning. It may be a question or a statement, without replacing the definition.
+_Avoid_: Question-only field, decorative tagline, repeated title.
+
+**Definition**:
+What a concept means, independent of its drawing.
+_Avoid_: Colors, coordinates, geometry, or a single illustrated example as a definition.
+
+**Visual grammar**:
+The explanation of how a specimen's marks encode its meaning, including the
+limits of that depiction.
+_Avoid_: Treating every shared color or shape as a universal semantic rule.
+
+### Roles
+
+**Concept**: An idea, significance, reference, or desired condition.
+
+**Evaluation**: A criterion or perspective used to assess a claim, model, or action.
+
+**Situated state**: A working condition or model grounded in context, evidence, and stakes.
+
+**Process**: Reasoning or execution that proceeds from inputs toward results.
+
+**Constraint**: A condition that limits a process's possibilities or capacity.
+
+**Model entity**: A concept or entity represented as part of an explicit model.
+
+**Relationship**: A connection with a specified meaning between modeled entities.
+
+**Relationship state**: Whether or how a connection is established, distinct from its type.
+
+**Operation**: A specified combination or transformation applied to inputs.
+
+**Language representation**: A readable expression or name used to communicate meaning.
+
+**Model representation**: An encoded unit or numerical representation used by a model.
+
+**Participant**: A person or people whose perspective, choices, or outcomes are involved.

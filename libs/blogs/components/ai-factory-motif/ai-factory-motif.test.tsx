@@ -1,15 +1,42 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { AiFactoryMotif } from "./ai-factory-motif";
+import { AiFactoryIcon, AiFactoryMotif, AiFactorySeriesMap } from "./ai-factory-motif";
 
 afterEach(cleanup);
 
 describe("AiFactoryMotif", () => {
   it.each([
-    ["vision-to-morpheme", "Vision becomes a morpheme", "Vision", "Morpheme"],
+    "experience-but-lacking",
+    "model-priorities-and-goal-fit",
+    "vision-to-morpheme",
+    "refinement-and-discipline-to-term-of-art",
+    "understanding-in-embedding-space",
+    "term-of-art-to-implementation",
+    "ontology-of-terms",
+  ] as const)("uses the same compact edge-label metrics throughout %s", variant => {
+    const { container } = render(<AiFactoryMotif variant={variant} />);
+    const labels = container.querySelectorAll(".ai-factory-motif__connector-label");
+    expect(labels.length).toBeGreaterThan(0);
+    for (const label of labels) {
+      const text = label.querySelector("text")!;
+      const frame = label.querySelector("rect")!;
+      const width = Number(frame.getAttribute("width"));
+      expect(frame).toHaveAttribute("height", "16");
+      expect(width % 4).toBe(0);
+      expect(width).toBeGreaterThanOrEqual(text.textContent!.length * 5.6 + 12);
+      expect(Number(frame.getAttribute("x")) + width / 2).toBe(Number(text.getAttribute("x")));
+      expect(label).not.toHaveClass("ai-factory-motif__connector-label--compact");
+    }
+  });
+
+  it.each([
+    ["experience-but-lacking", "Personal meaning is not yet shared value", "Experience", "Shared understanding"],
+    ["model-priorities-and-goal-fit", "Fluent output is not value insight", "Training priorities", "Your actual goal"],
+    ["vision-to-morpheme", "Vision becomes an idea", "Vision", "Idea"],
     ["refinement-and-discipline-to-term-of-art", "Refinement and discipline establish a term of art", "Refinement", "Term of art"],
+    ["understanding-in-embedding-space", "Short input, useful output—or just more tokens", "Understanding", "Useful expansion"],
     ["term-of-art-to-implementation", "Understanding carries a term into implementation", "Term of art", "Implementation"],
-    ["ontology-of-terms", "Ontology coordinates terms of art", "Actor", "Constraint"],
+    ["ontology-of-terms", "Ontology coordinates terms of art to make them actionable", "Actor", "Constraint"],
   ] as const)("renders the %s chapter with an accessible diagram", (variant, title, firstLabel, secondLabel) => {
     render(<AiFactoryMotif variant={variant} />);
 
@@ -22,20 +49,328 @@ describe("AiFactoryMotif", () => {
     expect(screen.getByRole("region", { name: "Scrollable AI Factory motif" })).toHaveAttribute("tabindex", "0");
   });
 
+  it("separates ambiguous inputs, training and harness influences, and unverified goal fit", () => {
+    render(<AiFactoryMotif variant="model-priorities-and-goal-fit" />);
+
+    const diagram = screen.getByRole("img", { name: /Fluent output is not value insight/ });
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 616");
+    expect(Array.from(diagram.querySelectorAll("[data-input-statement]"), statement => statement.getAttribute("data-input-statement"))).toEqual([
+      "Subjective claim", "Incomplete context", "Conflicting requests",
+    ]);
+    expect(diagram.querySelectorAll('[data-relationship="statement-to-model"][marker-end]')).toHaveLength(3);
+    for (const influence of ["training", "harness"]) {
+      expect(diagram.querySelector(`[data-influence-source="${influence}"]`)).toBeInTheDocument();
+      expect(diagram.querySelector(`[data-influence="${influence}"]`)).toHaveAttribute("marker-end");
+    }
+    const model = diagram.querySelector('[data-stage="conditioned-model"]')!;
+    expect(model.querySelector(".ai-factory-icon--embedding")).toBeInTheDocument();
+    expect(model.querySelector(".ai-factory-icon--inference")).toBeInTheDocument();
+    expect(model).toHaveTextContent("REPRESENTATION → GENERATION");
+    expect(model).toHaveTextContent("encodes supplied tokens");
+    expect(model).toHaveTextContent("generates a continuation");
+
+    const output = diagram.querySelector('[data-stage="unverified-response"]')!;
+    expect(output).toHaveTextContent("May mislead");
+    expect(output).toHaveTextContent("or miss the goal");
+    expect(output.querySelector(".ai-factory-icon--value, .ai-factory-icon--goal")).not.toBeInTheDocument();
+    expect(diagram.querySelector(".ai-factory-icon--disconnected")).toBeInTheDocument();
+    expect(diagram.querySelector('[data-relationship="unverified-goal-fit"]')).not.toHaveAttribute("marker-end");
+    expect(diagram.querySelector('[data-stage="user-goal"] .ai-factory-icon--goal')).toBeInTheDocument();
+    expect(diagram).toHaveTextContent("fit not established");
+    expect(diagram).toHaveTextContent("POSSIBLE FAILURE PATH · NOT AN INEVITABLE OUTCOME");
+
+    const caption = diagram.closest("figure")!.querySelector("figcaption")!;
+    expect(caption).toHaveTextContent("Subjective does not mean false.");
+    expect(caption).toHaveTextContent("illustrative, not a measured count or failure rate");
+    expect(caption).toHaveTextContent("Diogo Almeida");
+    expect(caption).toHaveTextContent("not a universal objective of every model");
+    expect(screen.getByRole("link", { name: /his AI Engineer talk/ })).toHaveAttribute("href", "https://ai.engineer/talks/cJ0EOzey--o-jev-ceo-made-chatgpt-building-whats-next");
+    expect(screen.getByRole("link", { name: /preference training can favor agreement/ })).toHaveAttribute("href", "https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models");
+  });
+
+  it("contrasts grounded short input and useful expansion with excess output without understanding", () => {
+    render(<AiFactoryMotif variant="understanding-in-embedding-space" />);
+
+    const diagram = screen.getByRole("img", { name: /Short input, useful output—or just more tokens/ });
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 648");
+    const grounded = diagram.querySelector('[data-lane="grounded"]')!;
+    const ungrounded = diagram.querySelector('[data-lane="ungrounded"]')!;
+    const representation = grounded.querySelector('[data-stage="representation"]')!;
+    for (const kind of ["embedding", "understanding", "operator", "term-of-art"]) {
+      expect(representation.querySelector(`.ai-factory-icon--${kind}`)).toBeInTheDocument();
+    }
+    expect(grounded).toHaveTextContent("Fits the intended result");
+    const outputHeading = grounded.querySelector(".ai-factory-motif__output-heading")!;
+    expect(outputHeading).toHaveTextContent("Useful expansion");
+    expect(outputHeading.querySelector(".ai-factory-icon--value")).toHaveAttribute("transform", "translate(888 123) scale(0.2) translate(-80 -80)");
+    expect(diagram.querySelectorAll(".ai-factory-icon--value")).toHaveLength(1);
+    expect(ungrounded.querySelector(".ai-factory-icon--value")).not.toBeInTheDocument();
+    expect(ungrounded).toHaveTextContent("No grounding");
+    expect(ungrounded).toHaveTextContent("Does not fit the goal");
+    expect(ungrounded).toHaveTextContent("excess tokens · no added value");
+    expect(ungrounded.querySelector(".ai-factory-icon--disconnected")).toBeInTheDocument();
+    expect(ungrounded.querySelector(".ai-factory-icon--term-of-art")).not.toBeInTheDocument();
+    expect(ungrounded).toHaveAttribute("transform", "translate(0 288)");
+
+    for (const lane of [grounded, ungrounded]) {
+      expect(Array.from(lane.querySelectorAll("[data-stage]"), stage => stage.getAttribute("data-stage"))).toEqual(["input", "representation", "inference", "output"]);
+      expect(lane.querySelector('[data-stage="input"] .ai-factory-icon--label')).toBeInTheDocument();
+      expect(lane.querySelector('[data-stage="inference"] .ai-factory-icon--inference')).toBeInTheDocument();
+      const inputTokens = lane.querySelectorAll('[data-stage="input"] .ai-factory-motif__embedding-tokens rect');
+      const outputTokens = lane.querySelectorAll('[data-stage="output"] .ai-factory-motif__embedding-tokens rect');
+      expect(outputTokens.length).toBeGreaterThan(inputTokens.length);
+      expect(lane.querySelectorAll("[data-relationship][marker-end]")).toHaveLength(3);
+      expect(lane.querySelector('[data-relationship="inference-to-output"]')).toHaveAttribute("d", "M632 168H708");
+      const label = lane.querySelector(".ai-factory-motif__connector-label--on-edge")!;
+      expect(label).toHaveTextContent("YIELDS");
+      expect(label.querySelector("text")).toHaveAttribute("y", "168");
+      const frame = label.querySelector("rect")!;
+      expect(Number(frame.getAttribute("x"))).toBeGreaterThan(632);
+      expect(Number(frame.getAttribute("x")) + Number(frame.getAttribute("width"))).toBeLessThan(700);
+    }
+    expect(ungrounded.querySelectorAll('.ai-factory-motif__generated-text path').length).toBeGreaterThan(grounded.querySelectorAll('.ai-factory-motif__generated-text path').length);
+    expect(ungrounded.querySelectorAll('[data-stage="output"] .ai-factory-motif__embedding-tokens rect').length).toBeGreaterThan(grounded.querySelectorAll('[data-stage="output"] .ai-factory-motif__embedding-tokens rect').length);
+    expect(diagram).toHaveTextContent("VALUE ≠ VOLUME");
+    expect(screen.getByText(/This is a conceptual contrast, not a measured gain/)).toHaveTextContent("embeddings represent input; the model generates text");
+  });
+
+  it("gives the situated flow clear connector lanes without enclosing station boxes", () => {
+    render(<AiFactoryMotif variant="term-of-art-to-implementation" />);
+
+    const diagram = screen.getByRole("img", { name: /Understanding carries a term/ });
+    expect(diagram.querySelectorAll(".ai-factory-motif__station")).toHaveLength(0);
+    const paths = diagram.querySelectorAll(".ai-factory-motif__connectors > path");
+    expect(paths[0]).toHaveAttribute("d", "M196 136H296");
+    expect(paths[1]).toHaveAttribute("d", "M424 136H548");
+    expect(diagram.querySelectorAll(".ai-factory-motif__connector-label")).toHaveLength(2);
+    expect(Array.from(diagram.querySelectorAll(".ai-factory-motif__connector-label text"), label => label.textContent)).toEqual(["APPLIED IN", "AFFORDS"]);
+    const labels = diagram.querySelectorAll(".ai-factory-motif__connector-label--on-edge");
+    expect(labels).toHaveLength(2);
+    for (const [index, label] of Array.from(labels).entries()) {
+      const frame = label.querySelector("rect")!;
+      const text = label.querySelector("text")!;
+      const left = Number(frame.getAttribute("x"));
+      const right = left + Number(frame.getAttribute("width"));
+      expect(text).toHaveAttribute("y", "136");
+      expect(text).toHaveAttribute("dominant-baseline", "middle");
+      expect(Number(frame.getAttribute("y")) + Number(frame.getAttribute("height")) / 2).toBe(136);
+      expect(left - [196, 424][index]).toBeGreaterThanOrEqual(12);
+      expect([296, 548][index] - right).toBeGreaterThanOrEqual(16);
+    }
+    expect(Array.from(diagram.querySelectorAll(".ai-factory-motif__axis text"), label => label.getAttribute("x"))).toEqual(["132", "360", "588"]);
+    expect(diagram.closest("figure")).toHaveAttribute("data-variant", "term-of-art-to-implementation");
+  });
+
+  it("distinguishes personal meaning from uncommunicated meaning and unsubstantiated value", () => {
+    render(<AiFactoryMotif variant="experience-but-lacking" />);
+
+    const diagram = screen.getByRole("img", { name: /Personal meaning is not yet shared value/ });
+    for (const kind of ["vision", "meaning", "text", "understanding", "value"]) {
+      expect(diagram.querySelector(`.ai-factory-icon--${kind}`)).toBeInstanceOf(SVGElement);
+    }
+    expect(diagram).not.toHaveTextContent("Meaning is present.");
+    expect(diagram).not.toHaveTextContent("significant to me");
+    expect(diagram).not.toHaveTextContent("lived, felt, personal");
+    expect(diagram).toHaveTextContent("not yet communicated");
+    expect(diagram).toHaveTextContent("not yet substantiated");
+    expect(diagram.querySelectorAll(".ai-factory-motif__experience-gap")).toHaveLength(2);
+    for (const gap of diagram.querySelectorAll(".ai-factory-motif__experience-gap")) {
+      expect(gap).not.toHaveAttribute("marker-end");
+    }
+    expect(diagram.querySelector('[data-gap="communication"]')).toHaveAttribute("d", "M388 124H496");
+    expect(diagram.querySelector('[data-gap="value"]')).toHaveAttribute("d", "M388 284H496");
+    expect(diagram.querySelectorAll(".ai-factory-icon--disconnected")).toHaveLength(2);
+    expect(diagram.querySelector(".ai-factory-motif__experience-break")).not.toBeInTheDocument();
+    expect(screen.getByText(/Unsubstantiated value is not the same as no value/)).toBeInTheDocument();
+  });
+
+  it("leaves missing bridges unlabeled while preserving the disconnect marks and outcome explanations", () => {
+    render(<AiFactoryMotif variant="experience-but-lacking" />);
+
+    const diagram = screen.getByRole("img", { name: /Personal meaning is not yet shared value/ });
+    const labels = diagram.querySelector(".ai-factory-motif__connectors")!.querySelectorAll(".ai-factory-motif__connector-label--on-edge");
+    expect(labels).toHaveLength(0);
+    expect(diagram).not.toHaveTextContent("NOT SHARED");
+    expect(diagram).not.toHaveTextContent("UNPROVEN");
+    expect(diagram).toHaveTextContent("not yet communicated");
+    expect(diagram).toHaveTextContent("not yet substantiated");
+    expect(Array.from(diagram.querySelectorAll(".ai-factory-icon--disconnected"), icon => icon.getAttribute("transform"))).toEqual([
+      "translate(364 124) scale(0.5) translate(-80 -80)",
+      "translate(364 284) scale(0.5) translate(-80 -80)",
+    ]);
+    expect(diagram).not.toHaveTextContent("CARRIES");
+  });
+
+  it("frames leads to on the text-to-understanding edge with room for both icons and the arrowhead", () => {
+    render(<AiFactoryMotif variant="experience-but-lacking" />);
+
+    const diagram = screen.getByRole("img", { name: /Personal meaning is not yet shared value/ });
+    const communication = diagram.querySelector('[data-outcome="communication"]')!;
+    const label = communication.querySelector(".ai-factory-motif__connector-label--on-edge")!;
+    expect(label).toHaveTextContent("LEADS TO");
+    expect(label.querySelector("text")).toHaveAttribute("x", "600");
+    expect(label.querySelector("text")).toHaveAttribute("y", "112");
+    expect(label.querySelector("text")).toHaveAttribute("dominant-baseline", "middle");
+    expect(label.querySelector("rect")).toHaveAttribute("x", "570");
+    expect(label.querySelector("rect")).toHaveAttribute("y", "104");
+    expect(label.querySelector("rect")).toHaveAttribute("width", "60");
+    expect(label.querySelector("rect")).toHaveAttribute("height", "16");
+    expect(communication.querySelector('[data-relationship="text-to-understanding"]')).toHaveAttribute("d", "M556 112H652");
+    expect(communication.querySelector(".ai-factory-icon--text")).toHaveAttribute("transform", "translate(532 112) scale(0.32) translate(-80 -80)");
+    expect(communication.querySelector(".ai-factory-icon--understanding")).toHaveAttribute("transform", "translate(684 112) scale(0.4) translate(-80 -80)");
+    expect(diagram.querySelectorAll(".ai-factory-motif__connector-label--on-edge")).toHaveLength(1);
+  });
+
+  it("shows text leading to shared understanding and value within a relationship", () => {
+    render(<AiFactoryMotif variant="experience-but-lacking" />);
+
+    const diagram = screen.getByRole("img", { name: /Personal meaning is not yet shared value/ });
+    const communication = diagram.querySelector('[data-outcome="communication"]');
+    expect(communication?.querySelector(".ai-factory-icon--text")).toBeInTheDocument();
+    expect(communication?.querySelector(".ai-factory-icon--understanding")).toBeInTheDocument();
+    expect(communication?.querySelector('[data-relationship="text-to-understanding"]')).toHaveAttribute("marker-end");
+    expect(communication).toHaveTextContent("Shared understanding");
+    expect(communication).not.toHaveTextContent("Shared meaning");
+    const communicationLabels = communication!.querySelectorAll(".ai-factory-motif__label");
+    expect(communicationLabels).toHaveLength(1);
+    expect(communicationLabels[0]).toHaveTextContent("Shared understanding");
+    expect(communicationLabels[0]).toHaveAttribute("x", "628");
+    expect(communicationLabels[0]).toHaveAttribute("y", "80");
+    expect(communicationLabels[0]).toHaveAttribute("text-anchor", "middle");
+    const value = diagram.querySelector('[data-outcome="value"]');
+    expect(value?.querySelectorAll(".ai-factory-icon--term-of-art")).toHaveLength(0);
+    expect(value?.querySelector(".ai-factory-icon--self")).toHaveAttribute("transform", "translate(544 284) scale(0.75) translate(-80 -80)");
+    expect(value?.querySelector(".ai-factory-icon--others")).toHaveAttribute("transform", "translate(712 284) scale(0.75) translate(-80 -80)");
+    expect(value?.querySelector(".ai-factory-icon--value")).toHaveAttribute("transform", "translate(628 284) scale(0.4) translate(-80 -80)");
+    expect(value?.querySelector('[data-relationship="value-between-people"]')).toHaveAttribute("d", "M550 284H602M654 284H694");
+    expect(value).toHaveTextContent("Value lies within relationships");
+    expect(value).toHaveTextContent("Self");
+    expect(value).toHaveTextContent("Others");
+  });
+
+  it("reuses the single self dot and three-dot others cluster without term boundaries", () => {
+    render(<><AiFactoryIcon kind="self" /><AiFactoryIcon kind="others" /><AiFactoryMotif variant="experience-but-lacking" /></>);
+
+    const diagram = screen.getByRole("img", { name: /Personal meaning is not yet shared value/ });
+    for (const kind of ["self", "others"] as const) {
+      const standalone = screen.getByRole("img", { name: kind === "self" ? /^Self:/ : /^Others:/ });
+      const composed = diagram.querySelector(`.ai-factory-icon--${kind}`)!;
+      const expected = kind === "self" ? [[80, 80]] : [[64, 80], [88, 66], [88, 94]];
+      for (const icon of [standalone, composed]) {
+        expect(icon.querySelectorAll("circle")).toHaveLength(expected.length);
+        expect(icon.querySelector(".ai-factory-icon__morpheme")).not.toBeInTheDocument();
+        expect(Array.from(icon.querySelectorAll(`.ai-factory-icon__${kind}-dot`), dot => [
+          Number(dot.getAttribute("cx")), Number(dot.getAttribute("cy")),
+        ])).toEqual(expected);
+        for (const dot of icon.querySelectorAll("circle")) expect(dot).toHaveAttribute("r", "8");
+      }
+    }
+  });
+
+  it("uses one disconnected glyph in the inventory and both missing bridges", () => {
+    render(<><AiFactoryIcon kind="disconnected" /><AiFactoryMotif variant="experience-but-lacking" /></>);
+
+    const standalone = screen.getByRole("img", { name: /^Disconnected:/ });
+    const diagram = screen.getByRole("img", { name: /Personal meaning is not yet shared value/ });
+    for (const icon of [standalone, ...diagram.querySelectorAll(".ai-factory-icon--disconnected")]) {
+      expect(icon.querySelector(".ai-factory-icon__disconnected-ends")).toHaveAttribute("d", "M32 80H56M56 68V92M104 68V92M104 80H128");
+      expect(icon.querySelector(".ai-factory-icon__disconnected-mark")).toHaveAttribute("d", "M72 72L88 88M88 72L72 88");
+      expect(icon.querySelector("[marker-end]")).not.toBeInTheDocument();
+    }
+  });
+
+  it("uses the shared automation glyph for the ontology action", () => {
+    render(<AiFactoryMotif variant="ontology-of-terms" />);
+
+    const action = screen.getByText("Action").closest(".ai-factory-motif__ontology-node");
+    expect(action?.querySelector(".ai-factory-icon--automation")).toBeInstanceOf(SVGElement);
+    expect(action?.querySelector(".ai-factory-icon__understanding-boundary")).toHaveAttribute("r", "32");
+    expect(action?.querySelector(".ai-factory-icon__understanding-core")).toHaveAttribute("r", "5");
+    expect(action?.querySelector(".ai-factory-icon__understanding-edge")).not.toBeInTheDocument();
+    expect(action?.querySelector(".ai-factory-icon__automation-action")).toHaveAttribute("d", "M112 80H132");
+    expect(action?.querySelector(".ai-factory-icon__understanding-center")).toBeNull();
+    expect(action?.querySelector(".ai-factory-icon__action-vector")).toHaveAttribute("d", "M156 80H180");
+    expect(action?.querySelector(".ai-factory-icon__arrowhead--outline")).toBeInstanceOf(SVGElement);
+    expect(action?.querySelector(".ai-factory-icon--term-of-art")).toBeNull();
+  });
+
+  it("anchors ontology relationship labels on their edges in padded frames", () => {
+    render(<AiFactoryMotif variant="ontology-of-terms" />);
+
+    const diagram = screen.getByRole("img", { name: /Ontology coordinates terms of art/ });
+    const labels = diagram.querySelectorAll(".ai-factory-motif__connector-label--on-edge");
+    expect(labels).toHaveLength(4);
+    expect(Array.from(labels, label => {
+      const text = label.querySelector("text");
+      return [text?.textContent, text?.getAttribute("x"), text?.getAttribute("y")];
+    })).toEqual([
+      ["PURSUES", "236", "200"],
+      ["DIRECTS", "484", "200"],
+      ["SUPPORTS", "360", "136"],
+      ["BOUNDS", "360", "268"],
+    ]);
+    for (const label of labels) {
+      expect(label.querySelector("rect")).toHaveAttribute("height", "16");
+      expect(Number(label.querySelector("rect")?.getAttribute("width"))).toBeGreaterThanOrEqual(40);
+      expect(label.querySelector("text")).toHaveAttribute("dominant-baseline", "middle");
+    }
+  });
+
+  it("combines vision crosshairs and an abstract boundary for goal in both contexts", () => {
+    render(<><AiFactoryIcon kind="goal" /><AiFactoryMotif variant="ontology-of-terms" /></>);
+
+    const standalone = screen.getByRole("img", { name: /^Goal:/ });
+    const composed = screen.getByText("Goal").closest(".ai-factory-motif__ontology-node")?.querySelector(".ai-factory-icon--goal");
+    expect(composed).toBeInstanceOf(SVGElement);
+    expect(screen.getByText("Goal")).toHaveAttribute("x", "344");
+    expect(screen.getByText("Goal")).toHaveAttribute("y", "236");
+    for (const goal of [standalone, composed!]) {
+      expect(goal.querySelector(".ai-factory-icon__morpheme")).toHaveAttribute("r", "32");
+      expect(goal.querySelector(".ai-factory-icon__vision-center")).toHaveAttribute("r", "12");
+      expect(goal.querySelector(".ai-factory-icon__vision-edge")).toHaveAttribute("d", "M80 36V56M80 104V124M36 80H56M104 80H124");
+      expect(goal.querySelectorAll("circle")).toHaveLength(2);
+    }
+  });
+
+  it("reuses a single self dot with eight detached straight value edges in every context", () => {
+    const { container } = render(<>
+      <AiFactoryIcon kind="value" />
+      <AiFactoryIcon kind="self" />
+      <AiFactoryMotif variant="experience-but-lacking" />
+      <AiFactoryMotif variant="understanding-in-embedding-space" />
+      <AiFactorySeriesMap />
+    </>);
+
+    const self = screen.getByRole("img", { name: /^Self:/ }).querySelector("circle")!;
+    const values = container.querySelectorAll(".ai-factory-icon--value");
+    expect(values).toHaveLength(4);
+    for (const value of values) {
+      expect(value.querySelectorAll("circle")).toHaveLength(1);
+      expect(value.querySelector(".ai-factory-icon__self-dot")?.outerHTML).toBe(self.outerHTML);
+      expect(Array.from(value.querySelectorAll(".ai-factory-icon__value-edge"), edge => edge.getAttribute("d"))).toEqual([
+        "M80 24V52", "M108 80H136", "M80 108V136", "M24 80H52",
+        "M40 40L60 60", "M100 60L120 40", "M100 100L120 120", "M40 120L60 100",
+      ]);
+      expect(value.querySelector(".ai-factory-icon__value-star, .ai-factory-icon__value-axis")).not.toBeInTheDocument();
+    }
+  });
+
   it("uses four cardinal edges and a central circle for vision", () => {
     render(<AiFactoryMotif variant="vision-to-morpheme" />);
 
-    const diagram = screen.getByRole("img", { name: /Vision becomes a morpheme/ });
-    expect(diagram.querySelectorAll(".ai-factory-motif__vision-edge")).toHaveLength(4);
-    expect(diagram.querySelector(".ai-factory-motif__vision-center")).toBeInstanceOf(SVGElement);
-    expect(diagram.querySelector(".ai-factory-motif__vision-boundary")).not.toBeInTheDocument();
-    expect(diagram.querySelector(".ai-factory-motif__morpheme--diffuse .ai-factory-motif__morpheme-core")?.tagName).toBe("circle");
+    const diagram = screen.getByRole("img", { name: /Vision becomes an idea/ });
+    expect(diagram.querySelector(".ai-factory-icon--vision .ai-factory-icon__vision-edge")).toBeInstanceOf(SVGElement);
+    expect(diagram.querySelector(".ai-factory-icon--vision .ai-factory-icon__vision-center")).toBeInstanceOf(SVGElement);
+    expect(diagram.querySelector(".ai-factory-icon--morpheme-diffuse .ai-factory-icon__morpheme")?.tagName).toBe("circle");
   });
 
   it("combines refinement and discipline into a term of art with a solid boundary", () => {
     render(<AiFactoryMotif variant="refinement-and-discipline-to-term-of-art" />);
 
     const diagram = screen.getByRole("img", { name: /Refinement and discipline establish a term of art/ });
+    expect(diagram.querySelector(".ai-factory-icon--morpheme-refined .ai-factory-icon__morpheme--refined")).toBeInstanceOf(SVGElement);
+    expect(diagram.querySelector(".ai-factory-icon--morpheme-diffuse")).not.toBeInTheDocument();
+    expect(diagram).toHaveTextContent("shared meaning");
     expect(diagram).toHaveTextContent("definition · evidence · correction");
     expect(diagram).toHaveTextContent("continuity · clarification");
     expect(diagram).toHaveTextContent("specification");
@@ -44,9 +379,27 @@ describe("AiFactoryMotif", () => {
     expect(diagram.querySelector('[data-practice="refinement"].ai-factory-motif__practice')).toBeInstanceOf(SVGElement);
     expect(diagram.querySelector('[data-practice="discipline"].ai-factory-motif__practice-input')).toHaveAttribute("marker-end");
     expect(diagram.querySelector('[data-practice="refinement"].ai-factory-motif__practice-input')).toHaveAttribute("marker-end");
-    const termOfArt = diagram.querySelector(".ai-factory-motif__morpheme--refined");
-    expect(termOfArt?.querySelector(".ai-factory-motif__morpheme-core")?.tagName).toBe("circle");
-    expect(termOfArt).not.toHaveClass("ai-factory-motif__morpheme--diffuse");
+    const termOfArt = diagram.querySelector(".ai-factory-icon--term-of-art");
+    expect(termOfArt?.querySelector(".ai-factory-icon__morpheme--refined")?.tagName).toBe("circle");
+    expect(termOfArt?.querySelector(".ai-factory-icon__term-edge")).toBeInstanceOf(SVGElement);
+  });
+
+  it("places establishes on its edge while keeping the operator and arrowhead clear", () => {
+    render(<AiFactoryMotif variant="refinement-and-discipline-to-term-of-art" />);
+
+    const diagram = screen.getByRole("img", { name: /Refinement and discipline establish a term of art/ });
+    const label = diagram.querySelector(".ai-factory-motif__connector-label--on-edge")!;
+    expect(label).toHaveTextContent("ESTABLISHES");
+    expect(label.querySelector("text")).toHaveAttribute("x", "432");
+    expect(label.querySelector("text")).toHaveAttribute("y", "152");
+    expect(label.querySelector("text")).toHaveAttribute("dominant-baseline", "middle");
+    const frame = label.querySelector("rect")!;
+    expect(frame).toHaveAttribute("x", "394");
+    expect(frame).toHaveAttribute("y", "144");
+    expect(frame).toHaveAttribute("width", "76");
+    expect(frame).toHaveAttribute("height", "16");
+    expect(diagram.querySelector(".ai-factory-motif__connector--focal")).toHaveAttribute("d", "M384 152H484");
+    expect(diagram.querySelector(".ai-factory-icon--operator")).toHaveAttribute("transform", "translate(360 152) scale(0.72) translate(-80 -80)");
   });
 
   it("shows understanding carrying a term of art into a concrete implementation", () => {
@@ -55,11 +408,298 @@ describe("AiFactoryMotif", () => {
     const diagram = screen.getByRole("img", { name: /Understanding carries a term into implementation/ });
     expect(diagram).toHaveTextContent("context · evidence · stakes");
     expect(diagram).toHaveTextContent("decision · test · artifact");
-    expect(diagram.querySelector(".ai-factory-motif__understanding-glyph")).toBeInstanceOf(SVGElement);
-    expect(diagram.querySelectorAll(".ai-factory-motif__understanding-vision-edge")).toHaveLength(4);
-    expect(diagram.querySelector(".ai-factory-motif__understanding-vision-center")).toBeInstanceOf(SVGElement);
-    expect(diagram.querySelector(".ai-factory-motif__understanding-term-boundary")).toBeInstanceOf(SVGElement);
-    expect(diagram.querySelector(".ai-factory-motif__understanding-term-center")).toBeInstanceOf(SVGElement);
-    expect(diagram.querySelector(".ai-factory-motif__implementation-glyph")).toBeInstanceOf(SVGElement);
+    expect(diagram.querySelector(".ai-factory-icon--understanding .ai-factory-icon__understanding-center")).not.toBeInTheDocument();
+    expect(diagram.querySelector(".ai-factory-icon--understanding .ai-factory-icon__understanding-core")).toHaveAttribute("r", "5");
+    expect(diagram.querySelector(".ai-factory-icon--implementation .ai-factory-icon__action-vector")).toBeInstanceOf(SVGElement);
+  });
+
+  it("shares implementation geometry and self-contained arrows across inventory and diagrams", () => {
+    render(<>
+      <AiFactoryIcon kind="implementation" />
+      <AiFactoryIcon kind="implementation" />
+      <AiFactoryMotif variant="term-of-art-to-implementation" />
+    </>);
+
+    const icons = document.querySelectorAll(".ai-factory-icon--implementation");
+    expect(icons).toHaveLength(3);
+    const markerIds = new Set<string>();
+    for (const icon of icons) {
+      const arrow = icon.querySelector(".ai-factory-icon__action-vector");
+      const marker = icon.querySelector("marker");
+      expect(marker).toBeInstanceOf(SVGElement);
+      expect(arrow).toHaveAttribute("marker-end", `url(#${marker?.id})`);
+      expect(arrow).toHaveAttribute("d", "M76 80H124");
+      expect(marker).toHaveAttribute("refX", "0");
+      expect(marker).toHaveAttribute("markerUnits", "userSpaceOnUse");
+      expect(marker?.querySelector("path")).toHaveClass("ai-factory-icon__arrowhead--outline");
+      expect(icon.querySelector(".ai-factory-icon__implementation-boundary")).toHaveAttribute("r", "12");
+      markerIds.add(marker!.id);
+    }
+    expect(markerIds.size).toBe(3);
+  });
+
+  it("renders a token as contiguous highlighted segments without numbers", () => {
+    render(<AiFactoryIcon kind="token" />);
+
+    const token = screen.getByRole("img", { name: /^Token:/ });
+    expect(token.querySelectorAll(".ai-factory-icon__token-segment")).toHaveLength(4);
+    expect(token.querySelector(".ai-factory-icon__token-boundary")).not.toBeInTheDocument();
+    expect(token.querySelector(".ai-factory-icon__token-register")).not.toBeInTheDocument();
+    expect(token.querySelectorAll(".ai-factory-icon__token-segment--two")).toHaveLength(1);
+    expect(token.querySelectorAll("text")).toHaveLength(0);
+  });
+
+  it("renders embeddings as a centered matrix using the token shades without numbers", () => {
+    render(<AiFactoryIcon kind="embedding" />);
+
+    const embedding = screen.getByRole("img", { name: /^Embedding:/ });
+    const cells = Array.from(embedding.querySelectorAll(".ai-factory-icon__embedding-cell"));
+    expect(cells).toHaveLength(16);
+    expect(new Set(cells.map((cell) => cell.getAttribute("x")))).toEqual(new Set(["33", "57", "81", "105"]));
+    expect(new Set(cells.map((cell) => cell.getAttribute("y")))).toEqual(new Set(["33", "57", "81", "105"]));
+    for (const shade of ["one", "two", "three", "four"]) {
+      expect(embedding.querySelectorAll(`.ai-factory-icon__token-segment--${shade}`)).toHaveLength(4);
+    }
+    expect(cells.every((cell) => cell.getAttribute("width") === "22" && cell.getAttribute("height") === "22")).toBe(true);
+    expect(embedding.querySelectorAll("text")).toHaveLength(0);
+  });
+
+  it.each(["morpheme-diffuse", "morpheme-refined", "term-of-art"] as const)("uses a text stroke instead of a center dot for %s", (kind) => {
+    render(<AiFactoryIcon kind={kind} />);
+
+    const icon = screen.getByRole("img");
+    expect(icon.querySelector(".ai-factory-icon__morpheme-center-line")).toHaveAttribute("d", "M-8 0H8");
+    expect(icon.querySelector(".ai-factory-icon__morpheme-center-line")).toHaveClass("ai-factory-icon__text-line");
+    expect(icon.querySelectorAll("circle")).toHaveLength(1);
+    expect(icon.querySelector(".ai-factory-icon__center")).not.toBeInTheDocument();
+  });
+
+  it("renders text as ordered, composed semantic spans", () => {
+    render(<AiFactoryIcon kind="text" />);
+
+    const text = screen.getByRole("img", { name: /^Text:/ });
+    expect(text.querySelector(".ai-factory-icon__text-line")).toBeInstanceOf(SVGElement);
+    expect(text.querySelector(".ai-factory-icon__text-highlight")).not.toBeInTheDocument();
+    expect(text.querySelector(".ai-factory-icon__frame")).not.toBeInTheDocument();
+  });
+
+  it("distinguishes a label with a central box while sharing the text lines", () => {
+    render(<><AiFactoryIcon kind="text" /><AiFactoryIcon kind="label" /></>);
+
+    const text = screen.getByRole("img", { name: /^Text:/ });
+    const label = screen.getByRole("img", { name: /^Label:/ });
+    expect(label.querySelector(".ai-factory-icon__text-line")?.getAttribute("d")).toBe(
+      text.querySelector(".ai-factory-icon__text-line")?.getAttribute("d"),
+    );
+    expect(label.querySelector(".ai-factory-icon__text-highlight")).toHaveAttribute("width", "48");
+    expect(label.querySelectorAll("rect")).toHaveLength(1);
+  });
+
+  it("builds a term from a refined idea and an ontology from connected terms", () => {
+    render(
+      <>
+        <AiFactoryIcon kind="term-of-art" />
+        <AiFactoryIcon kind="ontology-node" />
+      </>,
+    );
+
+    const term = screen.getByRole("img", { name: /^Term of art:/ });
+    expect(term.querySelector(".ai-factory-icon__morpheme--refined")).toBeInstanceOf(SVGElement);
+    expect(term.querySelector(".ai-factory-icon__term-edge")).toBeInstanceOf(SVGElement);
+
+    const ontologyNode = screen.getByRole("img", { name: /^Ontology node:/ });
+    expect(ontologyNode.querySelectorAll(".ai-factory-icon__ontology-edge")).toHaveLength(2);
+    expect(ontologyNode.querySelector(".ai-factory-icon__ontology-edge--connected")).toHaveAttribute("d", "M80 28V48M112 80H132");
+    expect(ontologyNode.querySelector(".ai-factory-icon__ontology-edge:not(.ai-factory-icon__ontology-edge--connected)")).toHaveAttribute("d", "M28 80H48M80 112V132");
+    expect(ontologyNode.querySelector(".ai-factory-icon__ontology-root")).toBeInstanceOf(SVGElement);
+    expect(ontologyNode.querySelector(".ai-factory-icon__ontology-root-core")?.tagName).toBe("path");
+    expect(ontologyNode.querySelectorAll(".ai-factory-icon__ontology-term")).toHaveLength(2);
+    expect(ontologyNode.querySelectorAll("path.ai-factory-icon__ontology-term-core")).toHaveLength(2);
+    expect(ontologyNode.querySelectorAll(".ai-factory-icon__text-line")).toHaveLength(3);
+    expect(ontologyNode.querySelectorAll("circle")).toHaveLength(3);
+  });
+
+  it("keeps only diagonal rays for meaning while preserving understanding's cardinal edges", () => {
+    render(
+      <>
+        <AiFactoryIcon kind="meaning" />
+        <AiFactoryIcon kind="understanding" />
+      </>,
+    );
+
+    const meaning = screen.getByRole("img", { name: /^Meaning:/ });
+    const understanding = screen.getByRole("img", { name: /^Understanding:/ });
+    expect(meaning.querySelector(".ai-factory-icon__meaning-edge--cardinal")).not.toBeInTheDocument();
+    expect(meaning.querySelectorAll(".ai-factory-icon__meaning-edge")).toHaveLength(1);
+    expect(meaning.querySelector(".ai-factory-icon__meaning-center")).not.toBeInTheDocument();
+    expect(meaning.querySelector(".ai-factory-icon__meaning-core")).toHaveAttribute("r", "5");
+    expect(meaning.querySelector(".ai-factory-icon__meaning-boundary")).toHaveAttribute("r", "32");
+    expect(understanding.querySelector(".ai-factory-icon__understanding-edge--cardinal")).toHaveAttribute("d", "M80 28V48M80 112V132M28 80H48M112 80H132");
+    expect(understanding.querySelector(".ai-factory-icon__understanding-edge--diagonal")?.getAttribute("d")).toBe(
+      meaning.querySelector(".ai-factory-icon__meaning-edge--diagonal")?.getAttribute("d"),
+    );
+    expect(understanding.querySelector(".ai-factory-icon__understanding-center")).not.toBeInTheDocument();
+    expect(understanding.querySelector(".ai-factory-icon__understanding-boundary")).not.toHaveAttribute("stroke-dasharray");
+    expect(understanding.querySelector(".ai-factory-icon__understanding-core")).toHaveAttribute("r", "5");
+  });
+
+  it("shows implementation as a refined idea extending into action", () => {
+    render(<AiFactoryIcon kind="implementation" />);
+
+    const implementation = screen.getByRole("img", { name: /^Implementation:/ });
+    expect(implementation.querySelector(".ai-factory-icon__implementation-boundary")).toBeInstanceOf(SVGElement);
+    expect(implementation.querySelector(".ai-factory-icon__implementation-core")).toBeInstanceOf(SVGElement);
+    expect(implementation.querySelector(".ai-factory-icon__action-vector")).toHaveAttribute("marker-end");
+    expect(implementation.querySelector(".ai-factory-icon__action-target")).not.toBeInTheDocument();
+  });
+
+  it("renders the series-specific truth, inference, bottleneck, and automation marks", () => {
+    render(
+      <>
+        <AiFactoryIcon kind="truth" />
+        <AiFactoryIcon kind="inference" />
+        <AiFactoryIcon kind="bottleneck" />
+        <AiFactoryIcon kind="automation" />
+      </>,
+    );
+
+    const truth = screen.getByRole("img", { name: /^Truth:/ });
+    expect(truth.querySelector(".ai-factory-icon__truth-triangle--dotted")).toBeInstanceOf(SVGElement);
+    expect(truth.querySelectorAll("circle")).toHaveLength(0);
+
+    const inference = screen.getByRole("img", { name: /^Inference:/ });
+    expect(inference.querySelector(".ai-factory-icon__inference-junction")).toBeInstanceOf(SVGElement);
+    expect(inference.querySelectorAll(".ai-factory-icon__inference-output")).toHaveLength(3);
+    expect(inference.querySelector(".ai-factory-icon__inference-path")).not.toHaveAttribute("marker-end");
+
+    const bottleneck = screen.getByRole("img", { name: /^Bottleneck:/ });
+    expect(bottleneck.querySelectorAll(".ai-factory-icon__bottleneck-input")).toHaveLength(3);
+    expect(bottleneck.querySelector(".ai-factory-icon__bottleneck-boundary")).toHaveAttribute("d", "M92 32V56M92 104V128");
+    expect(bottleneck.querySelector(".ai-factory-icon__bottleneck-throat")).toHaveAttribute("d", "M92 68V92M100 68V92");
+    expect(bottleneck.querySelector(".ai-factory-icon__bottleneck-output")).toBeInstanceOf(SVGElement);
+    const automation = screen.getByRole("img", { name: /^Automation:/ });
+    expect(automation.querySelector(".ai-factory-icon__understanding-boundary")).toHaveAttribute("cx", "80");
+    expect(automation.querySelector(".ai-factory-icon__understanding-edge")).not.toBeInTheDocument();
+    expect(automation.querySelector(".ai-factory-icon__automation-action")).toHaveAttribute("d", "M112 80H132");
+    expect(automation.querySelector(".ai-factory-icon__automation-node")).toBeInstanceOf(SVGElement);
+    expect(automation.querySelector(".ai-factory-icon__understanding-core")).toHaveAttribute("r", "5");
+    expect(automation.querySelector(".ai-factory-icon__understanding-center")).not.toBeInTheDocument();
+  });
+
+  it("uses the shared on-edge frame for the typed-relation icon with no label text", () => {
+    render(<AiFactoryIcon kind="typed-relation" />);
+
+    const relation = screen.getByRole("img", { name: /^Typed relation:/ });
+    expect(relation.querySelector(".ai-factory-icon__relation-line")).toHaveAttribute("d", "M24 80H136");
+    expect(relation.querySelector(".ai-factory-icon__relation-line")).toHaveAttribute("marker-end");
+    const label = relation.querySelector(".ai-factory-motif__connector-label--on-edge")!;
+    expect(label.querySelector("rect")).toHaveAttribute("x", "60");
+    expect(label.querySelector("rect")).toHaveAttribute("y", "72");
+    expect(label.querySelector("rect")).toHaveAttribute("width", "40");
+    expect(label.querySelector("rect")).toHaveAttribute("height", "16");
+    expect(label.querySelector("text")).not.toBeInTheDocument();
+    expect(relation.querySelector(".ai-factory-icon__relation-label-line")).not.toBeInTheDocument();
+  });
+
+  it("maps the six essays through the reusable motif language", () => {
+    render(<AiFactorySeriesMap />);
+
+    expect(screen.getByRole("heading", { name: "Six essays describe one operating system." })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Scrollable AI Factory article map" })).toHaveAttribute("tabindex", "0");
+    const articles = [
+      ["Vision and Values", "/writing/vision-and-values"],
+      ["Truth and Inference", "/writing/truth-and-inference"],
+      ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
+      ["The Knowledge Factory", "/writing/the-knowledge-factory"],
+      ["Ontology Factory", "/writing/the-ontology-factory"],
+      ["Cognitive Factory", "/writing/the-cognitive-factory"],
+    ];
+
+    for (const [name, href] of articles) {
+      expect(screen.getByRole("link", { name: new RegExp(name) })).toHaveAttribute("href", href);
+      expect(screen.getByRole("heading", { name })).toBeVisible();
+      expect(screen.getByRole("heading", { name })).not.toHaveClass("ai-factory-series-map__paired-title");
+    }
+  });
+
+  it("labels each series-map icon and uses the Value glyph for Values", () => {
+    const { container } = render(<AiFactorySeriesMap />);
+    const concepts = container.querySelectorAll(".ai-factory-series-map__concept, .ai-factory-series-map__flywheel-concept");
+    expect(Array.from(concepts, (concept) => concept.querySelector("span, text")?.textContent)).toEqual([
+      "Vision", "Values", "Truth", "Inference", "Understanding", "Bottlenecks",
+      "Ontology", "Automation", "Understanding", "Ontology", "Automation", "Understanding",
+    ]);
+    expect(concepts[1]?.querySelector(".ai-factory-icon--value")).toBeInTheDocument();
+    expect(concepts[6]?.querySelector(".ai-factory-icon--ontology-node")).toBeInTheDocument();
+    expect(concepts[8]?.querySelector(".ai-factory-icon--understanding")).toBeInTheDocument();
+    expect(concepts[9]?.querySelector(".ai-factory-icon--ontology-node")).toBeInTheDocument();
+    expect(concepts[10]?.querySelector(".ai-factory-icon--automation")).toBeInTheDocument();
+    expect(container.querySelectorAll(".ai-factory-series-map__paired-title")).toHaveLength(0);
+    const panels = container.querySelectorAll(".ai-factory-series-map__equation > svg");
+    expect(panels).toHaveLength(6);
+    for (const panel of panels) {
+      expect(panel).toHaveAttribute("viewBox", "0 0 320 192");
+      const labels = panel.querySelectorAll(".ai-factory-series-map__concept > text, .ai-factory-series-map__flywheel-concept > text");
+      expect(Array.from(labels, (label) => label.getAttribute("y"))).toEqual(["144", "144"]);
+    }
+    const cards = container.querySelectorAll(".ai-factory-series-map__item");
+    expect(cards[4]?.querySelector(".ai-factory-series-map__relationship")).toHaveTextContent("FORMALIZES");
+    expect(cards[5]?.querySelector(".ai-factory-series-map__relationship")).toHaveTextContent(/^FEEDS$/);
+    expect(container.querySelectorAll(".ai-factory-series-map__connector")).toHaveLength(4);
+    expect(cards[2]?.querySelector(".ai-factory-series-map__connector")).toBeNull();
+    expect(cards[5]?.querySelector(".ai-factory-series-map__connector")).toBeNull();
+  });
+
+  it("centers the cognitive factory automation's full span over its label", () => {
+    render(<AiFactorySeriesMap />);
+
+    const card = screen.getByRole("link", { name: /Cognitive Factory/ });
+    const automation = card.querySelector(".ai-factory-icon--automation")!;
+    expect(automation).toHaveAttribute("transform", "translate(64 92) scale(0.6) translate(-118 -80)");
+    expect(automation.parentElement?.querySelector("text")).toHaveAttribute("x", "64");
+    expect(automation.querySelector(".ai-factory-icon__understanding-boundary")).toHaveAttribute("cx", "80");
+    expect(automation.querySelector(".ai-factory-icon__understanding-boundary")).toHaveAttribute("r", "32");
+    expect(automation.querySelector(".ai-factory-icon__action-vector")).toHaveAttribute("d", "M156 80H180");
+    expect(automation.querySelector("marker")).toHaveAttribute("refX", "0");
+    expect(automation.querySelector("marker path")).toHaveAttribute("d", "M0 0L8 4L0 8Z");
+    expect(card.querySelector(".ai-factory-icon--understanding")).toHaveAttribute("transform", "translate(244 92) scale(0.6) translate(-80 -80)");
+
+    const flywheel = screen.getByRole("img", { name: /Ontology and automation flywheel/ });
+    expect(flywheel.querySelector(".ai-factory-icon--automation")).toHaveAttribute("transform", "translate(244 92) scale(0.6) translate(-80 -80)");
+  });
+
+  it("shows the knowledge factory as an accessible two-way flywheel with instance-safe arrows", () => {
+    render(<><AiFactorySeriesMap /><AiFactorySeriesMap /></>);
+
+    const flywheels = screen.getAllByRole("img", { name: /Ontology and automation flywheel/ });
+    expect(flywheels).toHaveLength(2);
+    const markerIds = flywheels.map((flywheel) => flywheel.querySelector("marker")?.id);
+    expect(new Set(markerIds).size).toBe(2);
+    for (const flywheel of flywheels) {
+      expect(flywheel).toHaveAccessibleDescription(/Learning from automation informs ontology/);
+      expect(flywheel.querySelectorAll(".ai-factory-series-map__flywheel-paths > path")).toHaveLength(2);
+      expect(flywheel).toHaveTextContent("SYSTEMATIZES");
+      expect(flywheel).toHaveTextContent("INFORMS");
+      expect(flywheel.querySelector(".ai-factory-icon--understanding")).not.toBeInTheDocument();
+      const edgeLabels = flywheel.querySelectorAll(".ai-factory-motif__connector-label--on-edge");
+      expect(edgeLabels).toHaveLength(2);
+      for (const [index, label] of Array.from(edgeLabels).entries()) {
+        const frame = label.querySelector("rect")!;
+        const text = label.querySelector("text")!;
+        const y = [46, 134][index];
+        expect(frame).toHaveAttribute("height", "16");
+        expect(Number(frame.getAttribute("width")) % 4).toBe(0);
+        expect(Number(frame.getAttribute("width"))).toBeGreaterThanOrEqual(text.textContent!.length * 5.6 + 12);
+        expect(Number(frame.getAttribute("x")) + Number(frame.getAttribute("width")) / 2).toBe(160);
+        expect(Number(frame.getAttribute("y")) + 8).toBe(y);
+        expect(text).toHaveAttribute("y", String(y));
+        expect(text).toHaveAttribute("dominant-baseline", "middle");
+      }
+      expect(flywheel).not.toHaveTextContent("FLYWHEEL");
+      expect(flywheel).toHaveAccessibleDescription(/so long as they remain grounded in understanding/);
+      expect(flywheel.closest("a")?.querySelector("p")).toHaveTextContent("Ontology and automation can form a flywheel, so long as they remain grounded in understanding.");
+      expect(flywheel.querySelector(".ai-factory-series-map__flywheel-paths")).toHaveAttribute("marker-end", `url(#${flywheel.querySelector("marker")?.id})`);
+      expect(flywheel.closest("a")).toHaveAttribute("href", "/writing/the-knowledge-factory");
+    }
   });
 });

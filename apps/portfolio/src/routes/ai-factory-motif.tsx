@@ -1,4 +1,4 @@
-import { AiFactoryIcon, AiFactoryMotif, type AiFactoryIconKind, type AiFactoryMotifVariant } from "@th-m/blogs/components";
+import { AiFactoryIcon, AiFactoryMotif, AiFactorySeriesMap, aiFactoryIconCatalog, aiFactoryIconKinds, type AiFactoryIconKind, type AiFactoryMotifVariant } from "@th-m/blogs/components";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/ai-factory-motif")({
@@ -18,21 +18,26 @@ const motifs: Array<{
   index: string;
   variant: AiFactoryMotifVariant;
   note: string;
+  context?: string;
+  followUp?: AiFactoryMotifVariant;
 }> = [
   {
     index: "01",
-    variant: "vision-to-morpheme",
-    note: "The origin state: diffuse possibility becomes a first expressed unit.",
+    variant: "experience-but-lacking",
+    note: "Experience, but lacking.",
+    followUp: "model-priorities-and-goal-fit",
   },
   {
     index: "02",
     variant: "refinement-and-discipline-to-term-of-art",
     note: "The stabilizing state: practice gives a boundary enough continuity to be shared.",
+    followUp: "understanding-in-embedding-space",
   },
   {
     index: "03",
     variant: "term-of-art-to-implementation",
-    note: "The situated state: a shared term becomes actionable through context and stakes.",
+    note: "Understanding used to be a prerequisite. Now we can implement without it.",
+    context: "Understanding used to be a practical prerequisite to implementation. AI can now produce an implementation before we understand the problem. When we accept that output without context, judgment, or verification, we get “slop”: output that looks finished without being understood.",
   },
   {
     index: "04",
@@ -41,23 +46,8 @@ const motifs: Array<{
   },
 ];
 
-const languageUnits: Array<{ kind: AiFactoryIconKind; label: string; represents: string }> = [
-  { kind: "morpheme-diffuse", label: "Morpheme", represents: "A context-sensitive unit of meaning before its boundary is stable." },
-  { kind: "text", label: "Text", represents: "A sequence of expressed morphemes arranged in a readable field." },
-  { kind: "token", label: "Token", represents: "A bounded unit presented to a model for processing and output." },
-];
-
-const composableParts: Array<{ kind: AiFactoryIconKind; label: string; represents: string; category: string }> = [
-  { kind: "vision", label: "Vision", represents: "Felt possibility; the direction before language fixes it.", category: "semantic atom" },
-  { kind: "meaning", label: "Meaning", represents: "Directed significance; vision with a path through it.", category: "semantic atom" },
-  { kind: "morpheme-refined", label: "Refined morpheme", represents: "A meaning unit with a boundary that can be shared.", category: "semantic atom" },
-  { kind: "term-of-art", label: "Term of art", represents: "A stable domain boundary that stays consistent in context.", category: "semantic atom" },
-  { kind: "understanding", label: "Understanding", represents: "A situated model that preserves context, evidence, and stakes.", category: "situated state" },
-  { kind: "implementation", label: "Implementation", represents: "A concrete decision, test, or artifact that can be revised.", category: "situated state" },
-  { kind: "ontology-node", label: "Ontology node", represents: "A term placed inside a shared model of concepts and constraints.", category: "coordination" },
-  { kind: "typed-relation", label: "Typed relation", represents: "A labeled connection that says how two terms are related.", category: "coordination" },
-  { kind: "operator", label: "Operator", represents: "A practice that combines or transforms meaning.", category: "coordination" },
-];
+const languageUnits = ["morpheme-diffuse", "text", "token"] as const;
+const legendKinds = ["morpheme-diffuse", "morpheme-refined", "understanding", "typed-relation"] as const satisfies readonly AiFactoryIconKind[];
 
 function IconographyLegend() {
   return (
@@ -65,22 +55,12 @@ function IconographyLegend() {
       <p className="eyebrow">The grammar / reusable marks</p>
       <h2 id="motif-legend-title">A small vocabulary carries the whole language.</h2>
       <div className="motif-review__legend-grid">
-        <div className="motif-review__legend-item">
-          <span className="motif-review__sample motif-review__sample--diffuse" aria-hidden="true" />
-          <div><strong>Diffuse boundary</strong><p>Meaning with possibility still around it.</p></div>
-        </div>
-        <div className="motif-review__legend-item">
-          <span className="motif-review__sample motif-review__sample--refined" aria-hidden="true" />
-          <div><strong>Refined boundary</strong><p>A term stable enough to coordinate.</p></div>
-        </div>
-        <div className="motif-review__legend-item">
-          <span className="motif-review__sample motif-review__sample--focal" aria-hidden="true" />
-          <div><strong>Focal state</strong><p>The current subject or destination.</p></div>
-        </div>
-        <div className="motif-review__legend-item">
-          <span className="motif-review__sample motif-review__sample--connector" aria-hidden="true">→</span>
-          <div><strong>Typed connector</strong><p>The relationship says what changes.</p></div>
-        </div>
+        {legendKinds.map(kind => (
+          <div className="motif-review__legend-item" key={kind}>
+            <AiFactoryIcon kind={kind} />
+            <div><strong>{aiFactoryIconCatalog[kind].title}</strong><p>{aiFactoryIconCatalog[kind].definition}</p></div>
+          </div>
+        ))}
       </div>
     </aside>
   );
@@ -91,14 +71,14 @@ function LanguageUnitSequence() {
     <section className="motif-review__language" aria-labelledby="language-unit-title">
       <div className="motif-review__language-heading">
         <p className="eyebrow">New sequence / language units</p>
-        <h2 id="language-unit-title">Morpheme → text → token.</h2>
+        <h2 id="language-unit-title">Idea → text → token.</h2>
         <p>Keep these separate. They represent different boundaries in the path from meaning to model input, and they should be composable in later illustrations about output efficiency.</p>
       </div>
       <div className="motif-review__language-track">
-        {languageUnits.map(({ kind, label, represents }, index) => (
+        {languageUnits.map((kind, index) => (
           <div className="motif-review__language-item" key={kind}>
             <div className="motif-review__icon-stage"><AiFactoryIcon kind={kind} /></div>
-            <div className="motif-review__icon-copy"><span className="motif-review__icon-index">{String(index + 1).padStart(2, "0")}</span><h3>{label}</h3><p>{represents}</p></div>
+            <div className="motif-review__icon-copy"><span className="motif-review__icon-index">{String(index + 1).padStart(2, "0")}</span><h3>{kind === "morpheme-diffuse" ? "Idea" : aiFactoryIconCatalog[kind].title}</h3><p>{aiFactoryIconCatalog[kind].definition}</p></div>
             {index < languageUnits.length - 1 ? <span className="motif-review__language-arrow" aria-hidden="true">→</span> : null}
           </div>
         ))}
@@ -113,17 +93,21 @@ function ComposableParts() {
       <div className="motif-review__parts-heading">
         <p className="eyebrow">Composable parts / isolated inventory</p>
         <h2 id="composable-parts-title">Every mark has one job.</h2>
-        <p>These are the pieces to combine when a future illustration needs to show a new relationship. The icon is the noun; the connector or operator explains what happens between nouns.</p>
+        <p>Each card separates a concept’s meaning from its depiction. The semantic role classifies the concept, the title names it, an optional subheading refines its intent and meaning, the definition explains it, and the visual grammar note describes the drawing.</p>
       </div>
       <div className="motif-review__parts-grid">
-        {composableParts.map(({ kind, label, represents, category }) => (
-          <article className="motif-review__part" key={kind}>
-            <div className="motif-review__part-meta"><span>{category}</span><span>{kind}</span></div>
+        {aiFactoryIconKinds.map(kind => {
+          const { semanticRole, iconId, title, subheading, definition, visualGrammar } = aiFactoryIconCatalog[kind];
+          return <article className="motif-review__part" id={`icon-${kind}`} key={kind}>
+            {iconId !== kind ? <span id={`icon-${iconId}`} aria-hidden="true" /> : null}
+            <div className="motif-review__part-meta"><span title="Semantic role">{semanticRole}</span></div>
             <div className="motif-review__part-icon"><AiFactoryIcon kind={kind} /></div>
-            <h3>{label}</h3>
-            <p>{represents}</p>
-          </article>
-        ))}
+            <h3>{title}</h3>
+            {subheading ? <p className="motif-review__part-subheading">{subheading}</p> : null}
+            <p className="motif-review__part-definition">{definition}</p>
+            <dl className="motif-review__part-grammar"><dt>Visual grammar</dt><dd>{visualGrammar}</dd></dl>
+          </article>;
+        })}
       </div>
     </section>
   );
@@ -131,32 +115,38 @@ function ComposableParts() {
 
 function AiFactoryMotifPage() {
   return (
-    <div className="motif-review-page">
+    <div className="motif-review-page ai-factory-visual-language">
       <header className="motif-review__hero">
         <div>
           <p className="eyebrow">AI Factory / iconography language / review sheet</p>
           <h1>Meaning needs a shape before it can travel.</h1>
           <p className="motif-review__lede">
-            Four transformations, one visual grammar. This page keeps the motif parts together so we can review whether the marks remain coherent as the idea moves from vision to ontology.
+            Four chapters, one visual grammar. This page keeps the motif parts together so we can review whether the marks remain coherent as the idea moves from vision to ontology.
           </p>
         </div>
         <nav className="motif-review__nav" aria-label="Motif variants">
+          <a href="#series-map">00 / series map</a>
           {motifs.map(({ index, variant }) => <a key={variant} href={`#motif-${index}`}>{index} / {variant.replaceAll("-", " ")}</a>)}
         </nav>
       </header>
 
       <IconographyLegend />
+      <section className="motif-review__series" id="series-map" aria-label="AI Factory article series map">
+        <AiFactorySeriesMap />
+      </section>
       <LanguageUnitSequence />
       <ComposableParts />
 
       <main className="motif-review__gallery">
-        {motifs.map(({ index, variant, note }) => (
+        {motifs.map(({ index, variant, note, context, followUp }) => (
           <section className="motif-review__entry" id={`motif-${index}`} key={variant} aria-labelledby={`motif-${index}-title`}>
             <div className="motif-review__entry-index"><span>{index}</span><span className="motif-review__entry-line" aria-hidden="true" /></div>
             <div>
               <p className="eyebrow">Variant {index} / continuity check</p>
               <h2 id={`motif-${index}-title`}>{note}</h2>
+              {context ? <p className="motif-review__entry-context">{context}</p> : null}
               <AiFactoryMotif variant={variant} />
+              {followUp ? <AiFactoryMotif variant={followUp} /> : null}
             </div>
           </section>
         ))}

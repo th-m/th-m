@@ -18,7 +18,7 @@ export type PortfolioProject = {
 export const resumeRoles: ResumeRole[] = [
   {
     company: "Mango Voice",
-    title: "Software Engineering Manager / Principal Engineer",
+    title: "Software Engineering Manager",
     period: "Oct 2023 — Present",
     location: "Remote · St. George, Utah",
     summary:
