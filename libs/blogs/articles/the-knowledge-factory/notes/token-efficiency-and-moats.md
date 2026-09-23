@@ -1,17 +1,24 @@
 # Token Efficiency and Moats
 
-## Optimize Token In/Token Out for Project Completion
+## Optimize Flow and Useful Outcomes
 
-The knowledge factory should optimize the ratio between the tokens invested in
-describing, coordinating, correcting, and validating work and the tokens that
-contribute to a completed project. The measure is not how much text or code the
-system produces. It is whether the project reaches a verified outcome.
+The 2026-09-23 draft revision develops the token framing into familiar
+engineering questions. Token count measures volume; time to usable input
+measures preparation lead time. Useful yield asks what survives evaluation,
+while deployed changes can be assessed with DORA change fail rate, deployment
+rework rate, and the other delivery indicators.
 
-This reframes token efficiency as an organizational measure. Repeated context,
-ambiguous instructions, discarded implementations, review churn, and avoidable
-rework all consume tokens without advancing completion. Strong ontology,
-reusable context, clear boundaries, and proportional validation should reduce
-that waste across every subsequent project.
+These are related views of flow, failure, and correction, not one ratio to
+maximize. Preparation often precedes DORA's commit-to-production interval.
+Rejected candidate work is not a failed deployment, and a stable deployment
+does not establish customer value. See the
+[DORA mapping note](../research/dora-and-factory-metrics.md).
+
+Repeated context, ambiguous instructions, review queues, and avoidable rework
+remain opportunities for improvement. Agents can automate more of the work
+between checks. The objective remains worthwhile outcomes sooner, with less
+failure and correction, using the continuous-delivery practices already known
+to engineering. Measure whether the whole path actually improves.
 
 ## Moats in the Age of Immediate Implementation
 

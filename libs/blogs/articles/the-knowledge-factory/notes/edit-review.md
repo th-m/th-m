@@ -60,3 +60,24 @@ universal organizational design, or proven moat is claimed.
 
 Review the [humanized draft](../draft/humanized-draft.md) alongside the
 [first draft](../draft/article.md) and [outline](../draft/outline.md).
+
+## DORA Metrics Revision — 2026-09-23
+
+Baseline: [9ea7ce7](https://github.com/th-m/th-m/commit/9ea7ce7d0600940be058f4bc1c8d75733320cbb6),
+verified on origin before editing. Replaced the separate useful-yield scorecard
+with a question-led argument about what the factory should optimize. Updated
+the outline, both private prose versions, the token-efficiency note, and the
+first motif's proposed caption and boundaries.
+
+The section now develops time to usable input as preparation lead time, relates
+useful output to failure and rework, and recognizes the established DORA
+delivery measures. It concludes with familiar continuous-delivery practices
+operating through potentially shorter, more automated cycles. Section 9
+distinguishes fast generation-and-test feedback from slower customer outcomes.
+
+The [research note](../research/dora-and-factory-metrics.md) records primary
+sources and measurement boundaries. Token count is not time, preparation is
+not DORA's commit-to-production interval, and useful yield is not the inverse
+of deployment failure. Those qualifications protect the analogy without
+replacing the main continuity argument. Canonical MDX and live assets remain
+unchanged while the drafts are under review.

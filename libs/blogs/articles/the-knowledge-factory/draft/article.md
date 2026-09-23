@@ -67,29 +67,65 @@ The factory's throughput ends at an evaluated consequence. Counting patches
 at the generation station can conceal a growing review queue or a customer
 problem that remains unresolved.
 
-## 3. Measure useful yield
+## 3. What should the factory optimize?
 
-Token counts can expose repeated context, discarded candidates, and avoidable
-rework. They cannot decide whether a change was worth making.
+The objective is to reach a worthwhile outcome sooner, with less failure and
+avoidable rework. Which indicators tell us whether the factory is improving?
+Begin with the token exchange, then follow its consequences through delivery.
 
-A useful review separates seven questions: how much effort prepared the input;
-how much context was reused; how much relevant candidate work was generated;
-what survived evaluation; how much verification and rework it required; how
-long the whole path took; and what became reusable afterward.
+Input tokens describe how much context enters a model. Their count is a volume,
+not a duration. The more useful flow question is how long it takes to turn a
+recognized need into usable input: finding evidence, clarifying the objective,
+resolving dependencies, and waiting for decisions. Time to token-in is a
+lead-time measure for that preparation stage. Reducing it requires improving
+the work and queues before generation, not merely shortening the prompt.
 
-These questions can point in different directions. A longer prompt might
-reduce review effort. A smaller patch might take longer to produce but resolve
-the problem with fewer dependencies. A cheap generation step might impose
-expensive integration work on another team.
+On the output side, ask what contribution survives evaluation and how much
+correction it requires. This is the useful yield behind token value output.
+Trace accepted work into production as well: how often does a deployment need
+an immediate fix, and how much subsequent delivery is incident-driven rework?
+Counting generated tokens cannot answer either question.
 
-This is a proposed diagnostic, not one validated efficiency ratio. Choose
-definitions and baselines for the actual work. Keep output volume, elapsed
-time, expert effort, and customer effect visible as separate quantities.
+These concerns are familiar from DORA's software delivery metrics:
 
-> **Figure cue — candidate work and useful yield.** Reuse the token-economics
-> motif: token expansion, input preparation time, and retained contribution are
-> separate views. Caption: “More generated material does not establish more
-> useful work. Trace what evaluation retains and what reaching it costs.”
+| Factory question | Established engineering connection |
+| --- | --- |
+| How long does a need wait before the model has usable input? | Lead time through an upstream stage of the value stream. DORA's **change lead time** measures a different interval: commit to production. |
+| How much generated work survives, and how often must deployed work be corrected? | Useful yield exposes candidate waste; **change fail rate** tracks deployments needing immediate intervention. Both direct attention to failure and rework, at different boundaries. |
+
+DORA also measures deployment frequency, failed deployment recovery time, and
+deployment rework rate. Together, these describe the delivery pace, recovery,
+and instability that token counts miss. Apply them to a service over time,
+alongside the customer outcome; they are indicators for improvement rather
+than quotas for generating or deploying more work.
+[DORA metrics](https://dora.dev/guides/dora-metrics/).
+
+The boundaries preserve the usefulness of the comparison. A candidate rejected
+before release is not a failed deployment. A deployment with no incident can
+still deliver little value to the customer. DORA's value-stream guidance
+places software delivery within the larger journey from an idea to an outcome.
+Our preparation time and customer result extend that view rather than rename
+the delivery metrics. [Value-stream mapping](https://dora.dev/guides/value-stream-management/).
+
+The engineering goal has not changed: smaller changes, less waiting, dependable
+checks, quick recovery, and feedback that improves the next cycle. Continuous
+delivery already develops these practices. Agents can automate more of the
+preparation, implementation, and correction between checks, allowing shorter
+development cycles. The benefit depends on the whole path improving; faster
+generation that lengthens review has moved the queue.
+[Continuous delivery](https://dora.dev/capabilities/continuous-delivery/).
+
+For the import workflow, compare preparation time, commit-to-production time,
+failures, and rework with the same service's baseline. Keep successful customer
+imports and support effort beside them. That shows whether the faster cycle
+is delivering the intended benefit.
+
+> **Figure cue — candidate work and useful yield.** Extend the token-economics
+> figure plan with a preparation clock, a separate commit-to-production clock,
+> candidate rejection, and post-deployment correction. Caption: “The familiar
+> engineering questions are flow, failure, and rework. Measure each at its own
+> boundary, then check the customer outcome.” Token volume remains a separate
+> quantity. This is a proposed illustration update, not a changed live asset.
 
 ## 4. Build the system around generation
 
@@ -226,6 +262,11 @@ pending when the observation window is still open; close it as inconclusive
 when evidence cannot settle it. Another generated attempt is useful only if
 there is a reason to expect it to resolve the gap.
 
+Automation can make the inner generation-and-test loop much shorter while the
+customer outcome still takes days to observe. Engineer both clocks. Fast tests
+help the team iterate; the outcome owner keeps those iterations connected to
+the slower evidence about whether the change helped.
+
 > **Figure cue — consequences return to the next attempt.** Reuse the factory
 > control-loop composition, with verification before release and consequence
 > evaluation afterward. Caption: “Work becomes learning when observed results
@@ -254,6 +295,7 @@ next piece is done.
 
 ## Sources
 
+- DORA, [Software delivery performance metrics](https://dora.dev/guides/dora-metrics/), [Value-stream mapping](https://dora.dev/guides/value-stream-management/), and [Continuous delivery](https://dora.dev/capabilities/continuous-delivery/). Metric boundaries, flow across the wider value stream, and established automation and feedback practices. The token mapping is an analogy, not a new DORA metric.
 - DORA, Google, [2025 State of AI-assisted Software Development Report](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/). AI's effects depend on the surrounding organization; this report does not validate the proposed workflow or yield measures.
 - Ikujiro Nonaka, [A Dynamic Theory of Organizational Knowledge Creation](https://doi.org/10.1287/orsc.5.1.14) (1994). Organizational articulation and amplification of knowledge.
 - NIST, [AI Risk Management Framework 1.0](https://doi.org/10.6028/NIST.AI.100-1) (2023). Context, measurement, oversight, and ongoing evaluation.

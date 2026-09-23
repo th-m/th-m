@@ -69,33 +69,64 @@ Keep requirements and procedures distinct. Preserve valid customer data is a
 requirement. Run these import tests is a procedure. The tests help, but someone
 must still recognize a case they never covered.
 
-## 3. Count what survives
+## 3. What are we optimizing?
 
-Suppose an agent produces five plausible patches. The team discards four,
-rewrites part of the fifth, and spends an afternoon verifying it. Counting five
-patches makes this look more productive than counting one. The customer sees
-neither number.
+We want worthwhile changes to reach customers sooner, with less failure and
+less time spent fixing our own work. How do we tell whether the factory is
+getting better at that?
 
-We need a view of useful yield: what survives the checks and contributes to
-the intended result. Keep that alongside the effort required to get there:
+Start before the model runs. How long did it take to gather the evidence,
+explain the need, and get the necessary decisions? A twenty-minute coding task
+can sit behind two days of preparation and waiting. Time to token-in is really
+a lead-time question: how long until the work is ready to proceed? The number
+of input tokens tells us how much we supplied, not how long we waited.
 
-- preparing the input and recovering context;
-- generating and reviewing candidates;
-- correcting and integrating the selected work;
-- waiting for a result that can be evaluated; and
-- retaining something useful for the next project.
+Then follow the output. Suppose an agent produces five patches, we discard
+four, and the fifth needs an afternoon of correction. The useful contribution
+is what survives that work. Once it ships, does it hold up, or do we need a
+hotfix? How much of next week's work is repairing this week's changes?
 
-Token counts can help find waste, such as repeating the same context or
-regenerating work after an avoidable misunderstanding. They cannot tell us
-whether the outcome was worth pursuing. A longer prompt may save an hour of
-review. A smaller patch may require more thought and less coordination.
+If those questions sound familiar, they should. We have arrived back at DORA.
 
-Treat these as questions for the team, not ingredients for one impressive
-score. We need to see the tradeoffs before trying to optimize them.
+DORA's **change lead time** runs from a code commit to production. Our input
+preparation clock starts further upstream, but it asks the same flow question:
+where is the work spending its time? **Change fail rate** counts the share of
+deployments that need immediate intervention. It gives the output-quality
+question a concrete production measure. A rejected draft stays outside that
+denominator; a hotfix after deployment does not.
+[DORA metrics](https://dora.dev/guides/dora-metrics/).
 
-> **Figure cue — candidate work and useful yield.** Use the existing
-> token-economics motif. Caption: “Output volume, preparation time, and retained
-> contribution tell us different things about the same piece of work.”
+Useful yield and change fail rate look at the waste and correction surrounding
+work from different ends. They are analogous concerns, not interchangeable
+ratios. A stable release can still be useless to the customer, so keep the
+intended benefit in view too. DORA's value-stream guidance makes the same
+broader move: start with the desired outcome, then trace the flow that must
+produce it. [Value-stream mapping](https://dora.dev/guides/value-stream-management/).
+
+Deployment frequency tells us how often changes reach production. Failed
+deployment recovery time tells us how quickly we recover when one goes wrong.
+Deployment rework rate makes incident-driven deployments visible. Together
+with lead time and change fail rate, these give us a much better view than a
+count of tokens or agent runs.
+
+The optimization is familiar engineering work: keep changes small, shorten
+queues, automate dependable checks, and make recovery routine. Continuous
+delivery has been developing that discipline for years. Agents let us automate
+more of the work between feedback points, so development cycles can become
+much shorter. The fundamentals survive the change in speed.
+[Continuous delivery](https://dora.dev/capabilities/continuous-delivery/).
+
+For the import problem, look for shorter preparation and delivery times, fewer
+failed changes, and less rework. Compare the same service with its own baseline.
+Keep successful customer imports and support effort beside those indicators.
+If code arrives faster but waits longer for review, or customers need more
+help afterward, we know where the next improvement belongs.
+
+> **Figure cue — candidate work and useful yield.** Extend the token-economics
+> figure plan with separate preparation and commit-to-production clocks. Mark
+> rejected candidates before release and corrective work after it. Caption:
+> “Same engineering questions, faster cycles: where do we wait, what fails,
+> and what reaches the customer?” Keep token count separate from elapsed time.
 
 ## 4. Build something the next task can use
 
@@ -224,6 +255,11 @@ Sometimes the evidence arrives late or remains inconclusive. Keep that state
 visible. There is no need to turn uncertainty into a success label—or into
 another automatic attempt with no new reason to expect a better answer.
 
+The agent may run a generation-and-test cycle in minutes while the customer
+effect takes days to become visible. Both feedback loops matter. Automate the
+fast one where the checks are dependable, and keep an owner for the slower
+question of whether the change actually helped.
+
 > **Figure cue — consequences return to the next attempt.** Reuse the factory
 > control-loop composition. Caption: “Someone must carry the question past
 > release and bring the result back to the next decision.”
@@ -249,6 +285,7 @@ A good factory makes the next worthwhile outcome easier to reach.
 
 ## Sources
 
+- DORA, [Software delivery performance metrics](https://dora.dev/guides/dora-metrics/), [Value-stream mapping](https://dora.dev/guides/value-stream-management/), and [Continuous delivery](https://dora.dev/capabilities/continuous-delivery/). The measurement boundaries and established engineering practices behind the token analogy.
 - DORA, Google, [2025 State of AI-assisted Software Development Report](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/). The organizational amplifier finding supports the systems argument, not a promised productivity gain.
 - Ikujiro Nonaka, [A Dynamic Theory of Organizational Knowledge Creation](https://doi.org/10.1287/orsc.5.1.14) (1994). How organizations articulate and amplify knowledge.
 - NIST, [AI Risk Management Framework 1.0](https://doi.org/10.6028/NIST.AI.100-1) (2023). Assessment, oversight, and consequences in context.

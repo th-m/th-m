@@ -166,54 +166,55 @@ the dimensions that reveal whether the factory improved it.
 **Visual:** Reserve the recurring factory icons for the main loop in section 4.
 Repeating them here would decorate the example before their meanings are fixed.
 
-### 3. Measure Useful Yield Without Inventing One Magic Ratio
+### 3. What Are We Optimizing?
 
-**Reader move:** From one-dimensional token efficiency to a scorecard of visible
-tradeoffs.
+**Reader move:** Ask what improvement means, derive indicators from the token
+exchange, then recognize familiar software-delivery concerns in DORA.
 
-Present seven diagnostic questions:
+Start with the objective: worthwhile outcomes sooner, with less failure and
+avoidable rework. Follow the import example through two questions:
 
-1. **Input effort:** How much work made the task legible?
-2. **Context reuse:** How much of that input already existed as maintained
-   organizational context?
-3. **Generation leverage:** How much relevant candidate work did the model
-   produce?
-4. **Useful yield:** What portion survived the relevant evaluation and
-   contributed to the outcome?
-5. **Verification and rework:** How much expert attention and correction did
-   trust require?
-6. **Time to verified outcome:** How long did the whole path take, including
-   queues and integration?
-7. **Retained learning:** What became easier, safer, or faster for the next
-   project?
+1. **Time to usable input:** How long do evidence gathering, clarification,
+   decisions, and queues delay the task? This is a lead-time measure for the
+   preparation stage. Input-token count is volume, not elapsed time.
+2. **Useful output:** What survives evaluation, and how much correction is
+   required before and after release? The connection to change fail rate is
+   the concern with failure and rework, not numerical identity with value.
 
-Do not collapse these into a fake-precise efficiency score. The scorecard is a
-conversation and instrumentation frame: improving one dimension can worsen
-another, and the appropriate evidence depends on the consequence of the work.
+Reveal the DORA connection after developing those questions. DORA change lead
+time runs from commit to production; preparation sits upstream in the broader
+value stream. Change fail rate measures deployments requiring immediate
+intervention; candidate rejection belongs to a different population. Preserve
+that distinction without letting the definition become the section's thesis.
 
-**Evidence:** NIST AI RMF 1.0 supports examining benefits, costs, context,
-human oversight, measurement, and whether a system achieved its intended
-purpose. It does not validate this seven-part scorecard.
+Briefly complete the delivery picture with deployment frequency, failed
+deployment recovery time, and deployment rework rate. Use the official current
+five-metric guide. Track the same service over time rather than making output
+quotas or ranking unlike teams. Keep customer success and support effort
+beside the delivery measures because a stable release can still provide little
+benefit.
 
-**Inference:** The scorecard is this article's synthesis of the token-efficiency
-note, the factory boundaries, and the series' concern with evidence and retained
-learning. Label it as a proposed diagnostic until field evidence supports
-thresholds or aggregation.
+**Evidence:** DORA's metric guide establishes the delivery definitions. Its
+value-stream guide situates delivery inside the idea-to-outcome journey. Its
+continuous-delivery guidance supports automated testing and deployment, short
+feedback loops, and independently deployable teams.
 
-**Transition:** The scorecard diagnoses the gap; the knowledge-factory loop
-explains what an organization builds to close it.
+**Conclusion:** This is familiar engineering optimization: smaller batches,
+less waiting, reliable checks, recovery, and learning. Agents automate more of
+the work between feedback points and can shorten development cycles. They do
+not guarantee that review, integration, or customer observation becomes faster.
 
-**Proposed illustrations — token economics:** Use the shared AI Factory motif
-variant `token-economics`, reviewable at
-`/ai-factory-motif#motif-04`. It uses three small graphs rather than one combined
-production line: **R_TOKEN = N_OUTPUT / N_INPUT** for the token expansion ratio,
-with output shown as a larger set of token icons; **T_INPUT** for
-the elapsed time from a recognized need to model-ready input, and **V_OUTPUT**
-for the contribution retained after evaluation. Keeping them separate makes the
-argument that token volume, preparation time, and verified value are related but
-not interchangeable. Pull the implementation
-from `libs/blogs/components/ai-factory-motif/ai-factory-motif.tsx` when the
-canonical article is revised; do not recreate it as article-local geometry.
+**Transition:** Having recognized what to improve, build the surrounding
+factory that can improve it. Preserve context reuse and retained learning in
+sections 4–5 and the close rather than introducing a separate seven-part KPI
+framework here.
+
+**Proposed illustration — token economics:** Extend the existing motif plan
+with two explicitly bounded clocks: recognized need to usable input, and
+commit to production. Distinguish rejected candidates before release from
+changes requiring intervention afterward. Keep token expansion separate from
+time and value. The existing shared motif is a reference; this is a proposed
+revision for later illustration, not a change to the live asset.
 
 ### 4. The Factory Surrounds the Model
 
@@ -386,6 +387,11 @@ owner who is still responsible after the implementation task closes. An
 inconclusive result stays inconclusive; it does not quietly become proof of
 success or automatically schedule another patch.
 
+Return to section 3's conclusion: automation can shorten the inner
+generation-and-test loop while customer effects still need a longer observation
+window. Engineer both clocks and retain an outcome owner after the fast cycle
+finishes.
+
 ### 10. The Factory Compounds Learning, Not Output
 
 **Reader move:** From improving one delivery cycle to understanding the
@@ -447,7 +453,7 @@ assets; the return to the opening variables is the argument.
 
 | Motif | Placement and return | What it teaches |
 | --- | --- | --- |
-| Candidate work and useful yield | Sections 2–3; revisit at the close | Tokens, input effort, and retained contribution measure different things. Use the existing token-economics figure as the reference. |
+| Candidate work and useful yield | Sections 2–3; revisit at the close | Preparation and delivery lead times, candidate waste, and deployment failure connect to familiar engineering metrics. Keep token volume and customer value distinct. Extend the token-economics figure plan. |
 | A trigger branches into inspectable work | Sections 7–8 | An observation opens alternatives; independent work rejoins at an explicit decision. Keep the attempt acyclic. |
 | Consequences return to the next attempt | Section 9; revisit at the close | Verification precedes release; later outcomes revise context, checks, or practice. Reuse the moved control-loop figure as the reference. |
 
@@ -459,10 +465,12 @@ not new production assets or evidence that the depicted workflow is deployed.
 - Source the token-in/token-out description if the canonical prose makes it a
   technical claim; otherwise label it as a deliberately simplified boundary
   schematic.
-- Keep every scorecard dimension separate until actual use supplies comparable
-  definitions, baselines, and thresholds.
-- Use DORA only for its reported amplifier finding, not as proof of this
-  proposed factory architecture or of a specific productivity effect.
+- Keep stage boundaries, denominators, service scope, and baselines explicit.
+  Do not equate token count with time, useful yield with one minus change fail
+  rate, or stable delivery with customer value.
+- Use DORA's metric, value-stream, and continuous-delivery guidance for the
+  engineering comparison, and its 2025 report for the amplifier finding.
+  Neither establishes this factory architecture or guaranteed AI cycle-time gains.
 - Use NIST AI RMF for lifecycle governance, context, measurement, human
   oversight, feedback, and purpose checks; do not present its voluntary risk
   framework as a throughput methodology.
@@ -480,6 +488,13 @@ evaluation authorizes action; and retained learning turns one verified outcome
 into greater capacity for the next.
 
 ## Sources and Locators
+
+- DORA, [Software delivery performance metrics](https://dora.dev/guides/dora-metrics/),
+  “Throughput and instability,” “Common pitfalls,” and “Next steps”;
+  [Value-stream mapping](https://dora.dev/guides/value-stream-management/),
+  “Defining your outcomes”; [Continuous delivery](https://dora.dev/capabilities/continuous-delivery/),
+  “Implementing continuous delivery.” See the
+  [mapping note](../research/dora-and-factory-metrics.md) for exact boundaries.
 
 - Sentry, [Seer](https://docs.sentry.io/product/ai-in-sentry/seer/); PostHog,
   [Insights](https://posthog.com/docs/product-analytics/insights/); AWS,
