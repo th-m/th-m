@@ -3,7 +3,7 @@ export const aiFactoryIconKinds = [
   "truth", "coherence", "correspondence", "consequence", "vision", "meaning", "goal", "value",
   "morpheme-diffuse", "morpheme-refined", "term-of-art", "understanding", "inference", "bottleneck",
   "implementation", "automation", "ontology-node", "typed-relation", "disconnected", "operator",
-  "text", "label", "token", "embedding", "self", "others",
+  "text", "label", "token", "embedding", "self", "others", "trigger",
 ] as const;
 
 export type AiFactoryIconKind = typeof aiFactoryIconKinds[number];
@@ -155,6 +155,11 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
     semanticRole: "participant", iconId: "others", title: "Others",
     definition: "People beyond the individual perspective who participate in or are affected by the relationship.",
     visualGrammar: "Three equally sized solid gray dots form a compact cluster. Three denotes plurality, not an exact headcount or a difference in worth.",
+  },
+  trigger: {
+    semanticRole: "concept", iconId: "trigger", title: "Trigger",
+    definition: "An event or condition that initiates an action or process.",
+    visualGrammar: "Two small, open right-pointing chevrons use fine gold strokes to mark initiation, not speed or repeated execution.",
   },
 };
 

@@ -28,7 +28,11 @@ const posts: BlogManifest["posts"] = [
   post("understanding-and-bottlenecks", "Understanding and Bottlenecks", "Why understanding limits progress."),
   post("the-knowledge-factory", "The Knowledge Factory", "The factory that turns knowledge into work."),
   post("the-ontology-factory", "The Ontology Factory", "The ontology of the factory."),
-  post("the-cognitive-factory", "Cognitive Factory", "The cognition of the factory."),
+  post(
+    "the-cognitive-factory",
+    "Cognitive Factory",
+    "Reliable automation needs typed observations, bounded authority, and a return path.",
+  ),
 ];
 
 async function renderGraph() {

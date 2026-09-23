@@ -7,10 +7,10 @@ afterEach(cleanup);
 
 describe("AI Factory icon field contract", () => {
   it("covers every existing glyph once with unique public IDs and complete, separate notes", () => {
-    expect(aiFactoryIconKinds).toHaveLength(26);
-    expect(new Set(aiFactoryIconKinds).size).toBe(26);
+    expect(aiFactoryIconKinds).toHaveLength(27);
+    expect(new Set(aiFactoryIconKinds).size).toBe(27);
     expect(Object.keys(aiFactoryIconCatalog)).toEqual([...aiFactoryIconKinds]);
-    expect(new Set(Object.values(aiFactoryIconCatalog).map(icon => icon.iconId)).size).toBe(26);
+    expect(new Set(Object.values(aiFactoryIconCatalog).map(icon => icon.iconId)).size).toBe(27);
     for (const icon of Object.values(aiFactoryIconCatalog)) {
       expect(icon.iconId).toMatch(/^[a-z]+(?:-[a-z]+)*$/);
       for (const field of [icon.semanticRole, icon.title, icon.definition, icon.visualGrammar]) {
@@ -32,6 +32,7 @@ describe("AI Factory icon field contract", () => {
     expect(aiFactoryIconCatalog["typed-relation"].semanticRole).toBe("relationship");
     expect(aiFactoryIconCatalog.disconnected.semanticRole).toBe("relationship state");
     expect(aiFactoryIconCatalog.operator.semanticRole).toBe("operation");
+    expect(aiFactoryIconCatalog.trigger.semanticRole).toBe("concept");
     for (const kind of ["term-of-art", "text", "label"] as const) {
       expect(aiFactoryIconCatalog[kind].semanticRole).toBe("language representation");
     }

@@ -67,9 +67,39 @@ const motifContent = {
     caption:
       "Knowing the term is not yet understanding. Understanding preserves its distinctions in a situated model, predicts what should follow, and makes a concrete implementation possible to test and revise.",
   },
+  "trigger-opens-hypotheses": {
+    index: "05",
+    eyebrow: "Hypothesis / bounded uncertainty",
+    title: "A trigger opens hypotheses, not a diagnosis",
+    description:
+      "One typed observation opens several candidate explanations. Inference preserves the alternatives while coherence and correspondence test them; consequence remains a later test after an authorized action.",
+    caption:
+      "One observation can support several explanations. Coherence asks whether each candidate fits the known system; correspondence asks whether it matches independent evidence. Consequence belongs after an authorized action, not at the initial trigger. The candidates and checks are illustrative, not a diagnosis or confidence score.",
+  },
+  "consequence-returns-to-context": {
+    index: "06",
+    eyebrow: "Feedback / retained learning",
+    title: "The return edge turns an outcome into learning",
+    description:
+      "One path runs from context and evaluation through automation to an observed consequence. If the consequence changes nothing, the run ends as activity. If a governed revision returns to context or evaluation, it changes the next cycle and becomes learning.",
+    caption:
+      "Both cases complete the same forward path. The dotted edge stops at an observed outcome. The gold edge carries a specific, governed revision—such as a test, rule, threshold, or definition—back into the next cycle. Retention alone is not proof that the next result will improve.",
+  },
 } as const;
 
 export type AiFactoryMotifVariant = keyof typeof motifContent;
+
+const motifViewBoxes: Record<AiFactoryMotifVariant, string> = {
+  "experience-but-lacking": "0 0 800 432",
+  "model-priorities-and-goal-fit": "0 0 960 616",
+  "vision-to-morpheme": "0 0 720 320",
+  "refinement-and-discipline-to-term-of-art": "0 0 720 320",
+  "understanding-in-embedding-space": "0 0 960 648",
+  "term-of-art-to-implementation": "0 0 720 320",
+  "ontology-of-terms": "0 0 720 432",
+  "trigger-opens-hypotheses": "0 0 960 520",
+  "consequence-returns-to-context": "0 0 960 420",
+};
 
 function IconMorpheme({ refined = false, x = 80, y = 80, scale = 1, showCenter = true }: { refined?: boolean; x?: number; y?: number; scale?: number; showCenter?: boolean }) {
   return <g transform={`translate(${x} ${y}) scale(${scale})`}><circle className={refined ? "ai-factory-icon__morpheme ai-factory-icon__morpheme--refined" : "ai-factory-icon__morpheme"} cx="0" cy="0" r="32" />{showCenter ? <path className="ai-factory-icon__morpheme-center-line ai-factory-icon__text-line" d="M-8 0H8" /> : null}</g>;
@@ -153,6 +183,7 @@ function AiFactoryIconGlyph({ kind }: { kind: AiFactoryIconKind }) {
       {kind === "vision" ? <VisionGlyph /> : null}
       {kind === "value" ? <ValueGlyph /> : null}
       {kind === "self" ? <SelfGlyph /> : null}
+      {kind === "trigger" ? <path className="ai-factory-icon__trigger-active" d="M60 64L76 80L60 96M84 64L100 80L84 96" /> : null}
       {kind === "others" ? <>
         <circle className="ai-factory-icon__others-dot" cx="64" cy="80" r="8" />
         <circle className="ai-factory-icon__others-dot" cx="88" cy="66" r="8" />
@@ -353,7 +384,7 @@ const seriesMapArticles: Array<{
     sourceLabel: "Automation",
     targetLabel: "Understanding",
     relationship: "FEEDS",
-    summary: "Sensors and decision graphs turn operational evidence into governed action and feedback.",
+    summary: "Typed observations, bounded decisions, and evaluated consequences turn activity into retained learning.",
   },
 ];
 
@@ -814,6 +845,128 @@ function OntologyOfTerms({ arrowId }: { arrowId: string }) {
   );
 }
 
+const hypothesisCandidates = [
+  { id: "regression", label: "Code regression", detail: "release changed behavior", y: 116 },
+  { id: "tradeoff", label: "Expected tradeoff", detail: "goal changed the journey", y: 242 },
+  { id: "noise", label: "Coincidental noise", detail: "timing without cause", y: 368 },
+] as const;
+
+function TriggerOpensHypotheses({ arrowId }: { arrowId: string }) {
+  return (
+    <>
+      <g className="ai-factory-motif__cognitive-panel" data-stage="typed-observation">
+        <rect x="40" y="72" width="192" height="340" />
+        <text className="ai-factory-motif__cognitive-eyebrow" x="60" y="100">TRIGGER / OBSERVED</text>
+        <MotifGlyph kind="trigger" x={136} y={224} scale={0.82} />
+        <text className="ai-factory-motif__label" x="136" y="306" textAnchor="middle">Typed observation</text>
+        <text className="ai-factory-motif__detail" x="136" y="328" textAnchor="middle">funnel changed after release</text>
+        <text className="ai-factory-motif__detail" x="136" y="348" textAnchor="middle">source · window · provenance</text>
+      </g>
+
+      <g data-stage="inference">
+        <MotifGlyph kind="inference" x={340} y={242} scale={0.7} />
+        <text className="ai-factory-motif__label" x="340" y="330" textAnchor="middle">Inference</text>
+        <text className="ai-factory-motif__detail" x="340" y="350" textAnchor="middle">preserves alternatives</text>
+      </g>
+
+      <g className="ai-factory-motif__connectors" aria-hidden="true">
+        <path className="ai-factory-motif__connector--focal" data-relationship="observation-opens-inference" d="M232 242H292" markerEnd={`url(#${arrowId})`} />
+        <ConnectorLabel x={260} y={242} onEdge>OPENS</ConnectorLabel>
+        <path data-relationship="inference-to-regression" d="M396 216C438 216 450 116 492 116" markerEnd={`url(#${arrowId})`} />
+        <path data-relationship="inference-to-tradeoff" d="M396 242H492" markerEnd={`url(#${arrowId})`} />
+        <path data-relationship="inference-to-noise" d="M396 268C438 268 450 368 492 368" markerEnd={`url(#${arrowId})`} />
+        <path d="M720 242H748" markerEnd={`url(#${arrowId})`} />
+      </g>
+
+      <g data-stage="candidate-hypotheses">
+        {hypothesisCandidates.map(candidate => (
+          <g className="ai-factory-motif__hypothesis-card" data-hypothesis={candidate.id} key={candidate.id}>
+            <rect x="500" y={candidate.y - 44} width="220" height="88" />
+            <MotifGlyph kind="morpheme-diffuse" x={540} y={candidate.y} scale={0.3} />
+            <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="580" y={candidate.y - 4}>{candidate.label}</text>
+            <text className="ai-factory-motif__detail" x="580" y={candidate.y + 18}>{candidate.detail}</text>
+          </g>
+        ))}
+      </g>
+
+      <g className="ai-factory-motif__cognitive-panel ai-factory-motif__cognitive-panel--focal" data-stage="truth-practice-gates">
+        <rect x="756" y="72" width="164" height="340" />
+        <text className="ai-factory-motif__cognitive-eyebrow" x="776" y="100">CHECK EACH CANDIDATE</text>
+        <MotifGlyph kind="coherence" x={800} y={164} scale={0.4} />
+        <MotifGlyph kind="correspondence" x={876} y={164} scale={0.4} />
+        <text className="ai-factory-motif__detail" x="800" y="208" textAnchor="middle">fits?</text>
+        <text className="ai-factory-motif__detail" x="876" y="208" textAnchor="middle">matches?</text>
+        <path className="ai-factory-motif__cognitive-rule" d="M776 232H900" />
+        <g className="ai-factory-motif__cognitive-deferred">
+          <MotifGlyph kind="consequence" x={838} y={296} scale={0.42} />
+          <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="838" y="342" textAnchor="middle">Consequence</text>
+          <text className="ai-factory-motif__detail" x="838" y="362" textAnchor="middle">after authorized action</text>
+        </g>
+        <text className="ai-factory-motif__cognitive-eyebrow" x="838" y="392" textAnchor="middle">NOT AT THE TRIGGER</text>
+      </g>
+
+      <g className="ai-factory-motif__axis" aria-hidden="true">
+        <path d="M40 464H920" />
+        <text x="40" y="488">ONE OBSERVATION</text>
+        <text x="480" y="488" textAnchor="middle">MULTIPLE LIVE EXPLANATIONS</text>
+        <text x="920" y="488" textAnchor="end">NO ACTION AUTHORIZED YET</text>
+      </g>
+    </>
+  );
+}
+
+function ConsequenceReturnsToContext({ arrowId }: { arrowId: string }) {
+  return (
+    <>
+      <rect className="ai-factory-motif__cognitive-panel" x="40" y="48" width="880" height="324" />
+      <text className="ai-factory-motif__cognitive-eyebrow" x="64" y="78">ONE FORWARD PATH</text>
+      <text className="ai-factory-motif__detail" x="896" y="78" textAnchor="end">the difference is what happens after the outcome</text>
+
+      <g data-stage="context">
+        <MotifGlyph kind="ontology-node" x={156} y={158} scale={0.48} />
+        <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="156" y="218" textAnchor="middle">Context + evaluation</text>
+      </g>
+      <g data-stage="automation">
+        <MotifGlyph kind="automation" x={456} y={158} scale={0.44} centerX={automationVisualCenterX} />
+        <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="456" y="218" textAnchor="middle">Automation</text>
+      </g>
+      <g data-stage="consequence">
+        <MotifGlyph kind="consequence" x={730} y={158} scale={0.46} />
+        <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="730" y="218" textAnchor="middle">Observed outcome</text>
+      </g>
+
+      <g className="ai-factory-motif__connectors" aria-hidden="true">
+        <path data-relationship="context-to-automation" d="M202 158H402" markerEnd={`url(#${arrowId})`} />
+        <ConnectorLabel x={302} y={158} onEdge>GUIDES</ConnectorLabel>
+        <path data-relationship="automation-to-consequence" d="M506 158H684" markerEnd={`url(#${arrowId})`} />
+        <ConnectorLabel x={594} y={158} onEdge>PRODUCES</ConnectorLabel>
+
+        <path className="ai-factory-motif__connector--inactive" data-relationship="consequence-to-end" d="M776 158H868" />
+        <path className="ai-factory-motif__connector--inactive" d="M868 146V170" />
+
+        <path className="ai-factory-motif__connector--focal" data-relationship="consequence-to-context" d="M752 158V172Q752 180 760 180H896Q904 180 904 188V336Q904 344 896 344H64Q56 344 56 336V166Q56 158 64 158H124" markerEnd={`url(#${arrowId})`} />
+        <ConnectorLabel x={480} y={328}>REVISES THE NEXT CYCLE</ConnectorLabel>
+      </g>
+
+      <g data-outcome="activity">
+        <text className="ai-factory-motif__cognitive-eyebrow" x="868" y="250" textAnchor="end">ACTIVITY ONLY</text>
+        <text className="ai-factory-motif__detail" x="868" y="270" textAnchor="end">observed, then forgotten</text>
+      </g>
+      <g data-outcome="learning">
+        <text className="ai-factory-motif__cognitive-eyebrow" x="64" y="302">LEARNING</text>
+        <text className="ai-factory-motif__detail" x="64" y="322">a test, rule, threshold, or definition changes</text>
+      </g>
+
+      <g className="ai-factory-motif__axis" aria-hidden="true">
+        <path d="M40 392H920" />
+        <text x="40" y="412">OUTCOME OBSERVED</text>
+        <text x="480" y="412" textAnchor="middle">SPECIFIC REVISION RETAINED</text>
+        <text x="920" y="412" textAnchor="end">NEXT CYCLE CHANGED</text>
+      </g>
+    </>
+  );
+}
+
 function Axis({ left, middle, right }: { left: string; middle: string; right: string }) {
   return (
     <g className="ai-factory-motif__axis" aria-hidden="true">
@@ -839,7 +992,7 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
       </header>
       <p className="ai-factory-motif__scroll-cue">Scroll the path →</p>
       <div className="ai-factory-motif__viewport" role="region" tabIndex={0} aria-label="Scrollable AI Factory motif">
-        <svg viewBox={variant === "ontology-of-terms" ? "0 0 720 432" : variant === "experience-but-lacking" ? "0 0 800 432" : variant === "model-priorities-and-goal-fit" ? "0 0 960 616" : variant === "understanding-in-embedding-space" ? "0 0 960 648" : "0 0 720 320"} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
+        <svg viewBox={motifViewBoxes[variant]} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
           <title id={titleId}>{content.title}</title>
           <desc id={descriptionId}>{content.description}</desc>
           <defs>
@@ -854,6 +1007,8 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
           {variant === "understanding-in-embedding-space" ? <UnderstandingInEmbeddingSpace arrowId={arrowId} /> : null}
           {variant === "term-of-art-to-implementation" ? <TermOfArtToImplementation arrowId={arrowId} /> : null}
           {variant === "ontology-of-terms" ? <OntologyOfTerms arrowId={arrowId} /> : null}
+          {variant === "trigger-opens-hypotheses" ? <TriggerOpensHypotheses arrowId={arrowId} /> : null}
+          {variant === "consequence-returns-to-context" ? <ConsequenceReturnsToContext arrowId={arrowId} /> : null}
         </svg>
       </div>
       <figcaption>

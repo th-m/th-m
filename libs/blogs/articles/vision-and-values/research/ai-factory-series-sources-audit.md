@@ -21,41 +21,66 @@ Current publication surfaces:
 
 ## Vision and Values
 
-Rename `References` to `Sources` in both public surfaces and reduce the list
-from nine entries to these eight. The Stanford Encyclopedia survey is useful
+Rename `References` to `Sources` in both public surfaces and use these eleven
+entries. The Stanford Encyclopedia survey is useful
 background, but it is the easiest item to remove when favoring primary work.
 
-1. Common Crawl, [“Common Crawl maintains a free, open repository of web crawl
+1. Martin Casado, [*The Economic Case for Generative
+   AI*](https://a16z.com/the-economic-case-for-generative-ai/) (a16z AI
+   Revolution keynote, 2023), especially “The economics of Generative AI” at
+   6:23 — supports the opening claim that generative AI can drive the marginal
+   cost of producing another candidate output toward zero. The 4–5-order-of-
+   magnitude comparisons are illustrative estimates from an investor
+   presentation; they do not include evaluation, integration, operation, or the
+   cost of determining what should be created.
+2. NIH Expert Consensus Meeting authors, [“Postural orthostatic tachycardia
+   syndrome (POTS): State of the science and clinical care from a 2019 National
+   Institutes of Health Expert Consensus Meeting — Part
+   1”](https://pmc.ncbi.nlm.nih.gov/articles/PMC8455420/) (2021) — supports the
+   POTS example's diagnostic criteria, characteristic orthostatic symptoms, and
+   description of POTS as a heterogeneous multisystem syndrome. Use it to keep
+   classification distinct from a single causal mechanism; do not imply that a
+   POTS diagnosis is fictitious, useless, or sufficient without excluding other
+   explanations.
+3. Common Crawl, [“Common Crawl maintains a free, open repository of web crawl
    data”](https://commoncrawl.org/) — supports only the description of Common
    Crawl as a public web corpus, not a claim that any particular model used it.
-2. Philip Gage, [“A New Algorithm for Data
+4. Philip Gage, [“A New Algorithm for Data
    Compression”](https://www.derczynski.com/papers/archive/BPE_Gage.pdf)
    (1994) — introduces byte-pair encoding as a lossless compression method.
-3. Rico Sennrich, Barry Haddow, and Alexandra Birch, [“Neural Machine
+5. Rico Sennrich, Barry Haddow, and Alexandra Birch, [“Neural Machine
    Translation of Rare Words with Subword
    Units”](https://aclanthology.org/P16-1162/) (ACL 2016) — supports the
    adaptation of BPE to subword tokenization.
-4. David E. Rumelhart, Geoffrey E. Hinton, and Ronald J. Williams, [“Learning
+6. David E. Rumelhart, Geoffrey E. Hinton, and Ronald J. Williams, [“Learning
    Representations by Back-Propagating
    Errors”](https://doi.org/10.1038/323533a0) (1986) — supports the training
    description as an influential demonstration of backpropagation in multilayer
    networks. Do not say the paper invented or first established the method.
-5. Ashish Vaswani et al., [“Attention Is All You
+7. Ashish Vaswani et al., [“Attention Is All You
    Need”](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html)
    (NeurIPS 2017) — supports the Transformer attention and feed-forward account.
-6. Claude E. Shannon, [“Prediction and Entropy of Printed
+8. Claude E. Shannon, [“Prediction and Entropy of Printed
    English”](https://doi.org/10.1002/j.1538-7305.1951.tb01366.x) (1951) —
    supports the historical next-character-prediction and linguistic-redundancy
    lineage.
-7. John Dewey, [*Theory of
+9. John Dewey, [*Theory of
    Valuation*](https://archive.org/details/theoryofvaluatio032168mbp) (1939) —
    supports the consequences-sensitive, revisable account of valuation.
-8. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina, [“Researchers
-   Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in
-   Return”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return)
-   (2026) — supports the exact order, context, and wording effects in the
-   opening. This is the study authors' HBR report; label the percentages as
-   reported findings rather than as independently replicated evidence.
+10. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina, [“Researchers
+    Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in
+    Return”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return)
+    (2026) — supports the exact order, context, and wording effects in the
+    opening. This is the study authors' HBR report; label the percentages as
+    reported findings rather than as independently replicated evidence.
+11. Diogo Almeida, [*What's next after
+    RLHF?*](https://ai.engineer/talks/cJ0EOzey--o-whats-next-after-rlhf) (AI
+    Engineer World's Fair, 2026), especially 5:57–8:22 — primary support for
+    Almeida's distinction between preference-optimized assistance and
+    calibrated automation, including his “optimizing for engagement” line at
+    7:56. Present it as the TypeSafe CEO's argument about RLHF incentives, not a
+    demonstrated universal objective or evidence for Jev, which launched after
+    the recording.
 
 ## Truth and Inference
 

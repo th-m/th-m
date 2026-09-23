@@ -13,6 +13,8 @@ describe("AiFactoryMotif", () => {
     "understanding-in-embedding-space",
     "term-of-art-to-implementation",
     "ontology-of-terms",
+    "trigger-opens-hypotheses",
+    "consequence-returns-to-context",
   ] as const)("uses the same compact edge-label metrics throughout %s", variant => {
     const { container } = render(<AiFactoryMotif variant={variant} />);
     const labels = container.querySelectorAll(".ai-factory-motif__connector-label");
@@ -37,6 +39,8 @@ describe("AiFactoryMotif", () => {
     ["understanding-in-embedding-space", "Short input, useful output—or just more tokens", "Understanding", "Useful expansion"],
     ["term-of-art-to-implementation", "Understanding carries a term into implementation", "Term of art", "Implementation"],
     ["ontology-of-terms", "Ontology coordinates terms of art to make them actionable", "Actor", "Constraint"],
+    ["trigger-opens-hypotheses", "A trigger opens hypotheses, not a diagnosis", "Typed observation", "Code regression"],
+    ["consequence-returns-to-context", "The return edge turns an outcome into learning", "ACTIVITY ONLY", "LEARNING"],
   ] as const)("renders the %s chapter with an accessible diagram", (variant, title, firstLabel, secondLabel) => {
     render(<AiFactoryMotif variant={variant} />);
 
@@ -47,6 +51,48 @@ describe("AiFactoryMotif", () => {
     expect(diagram.querySelector("title")).toHaveTextContent(title);
     expect(diagram.querySelector("desc")).not.toBeEmptyDOMElement();
     expect(screen.getByRole("region", { name: "Scrollable AI Factory motif" })).toHaveAttribute("tabindex", "0");
+  });
+
+  it("keeps competing hypotheses visible and defers consequence until after action", () => {
+    render(<AiFactoryMotif variant="trigger-opens-hypotheses" />);
+
+    const diagram = screen.getByRole("img", { name: /A trigger opens hypotheses, not a diagnosis/ });
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 520");
+    expect(Array.from(diagram.querySelectorAll("[data-hypothesis]"), hypothesis => hypothesis.getAttribute("data-hypothesis"))).toEqual([
+      "regression", "tradeoff", "noise",
+    ]);
+    expect(diagram.querySelector('[data-stage="inference"] .ai-factory-icon--inference')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="typed-observation"] .ai-factory-icon--trigger')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="typed-observation"] .ai-factory-icon--ontology-node')).not.toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="truth-practice-gates"] .ai-factory-icon--coherence')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="truth-practice-gates"] .ai-factory-icon--correspondence')).toBeInTheDocument();
+    const consequence = diagram.querySelector('[data-stage="truth-practice-gates"] .ai-factory-icon--consequence')!;
+    expect(consequence.closest(".ai-factory-motif__cognitive-deferred")).toBeInTheDocument();
+    expect(diagram).toHaveTextContent("NOT AT THE TRIGGER");
+    expect(diagram).toHaveTextContent("NO ACTION AUTHORIZED YET");
+    expect(diagram.querySelectorAll('[data-relationship^="inference-to-"][marker-end]')).toHaveLength(3);
+  });
+
+  it("shows one forward path and makes the return edge the distinction between activity and learning", () => {
+    render(<AiFactoryMotif variant="consequence-returns-to-context" />);
+
+    const diagram = screen.getByRole("img", { name: /The return edge turns an outcome into learning/ });
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 420");
+    expect(diagram.querySelectorAll('.ai-factory-icon--ontology-node')).toHaveLength(1);
+    expect(diagram.querySelectorAll('.ai-factory-icon--automation')).toHaveLength(1);
+    expect(diagram.querySelectorAll('.ai-factory-icon--consequence')).toHaveLength(1);
+    expect(diagram.querySelector('[data-relationship="consequence-to-end"]')).toHaveClass("ai-factory-motif__connector--inactive");
+    expect(diagram.querySelector('[data-outcome="activity"]')).toHaveTextContent("observed, then forgotten");
+    const returnEdge = diagram.querySelector('[data-relationship="consequence-to-context"]')!;
+    expect(returnEdge).toHaveAttribute("marker-end");
+    expect(returnEdge).toHaveAttribute("d", "M752 158V172Q752 180 760 180H896Q904 180 904 188V336Q904 344 896 344H64Q56 344 56 336V166Q56 158 64 158H124");
+    expect(diagram.querySelector('[data-outcome="learning"]')).toHaveTextContent("a test, rule, threshold, or definition changes");
+    const returnLabel = Array.from(diagram.querySelectorAll(".ai-factory-motif__connector-label"))
+      .find(label => label.textContent === "REVISES THE NEXT CYCLE")!;
+    expect(returnLabel).not.toHaveClass("ai-factory-motif__connector-label--on-edge");
+    expect(returnLabel.querySelector("rect")).toHaveAttribute("y", "316");
+    expect(returnLabel.querySelector("text")).toHaveAttribute("y", "328");
+    expect(diagram).toHaveTextContent("NEXT CYCLE CHANGED");
   });
 
   it("separates ambiguous inputs, training and harness influences, and unverified goal fit", () => {
@@ -620,6 +666,9 @@ describe("AiFactoryMotif", () => {
       expect(screen.getByRole("heading", { name })).toBeVisible();
       expect(screen.getByRole("heading", { name })).not.toHaveClass("ai-factory-series-map__paired-title");
     }
+    expect(screen.getByRole("link", { name: /Cognitive Factory/ })).toHaveTextContent(
+      "Typed observations, bounded decisions, and evaluated consequences turn activity into retained learning.",
+    );
   });
 
   it("labels each series-map icon and uses the Value glyph for Values", () => {

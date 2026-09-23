@@ -119,5 +119,8 @@ describe("The Knowledge Factory published page", () => {
     for (const [name, href] of links) {
       expect(screen.getByRole("link", { name })).toHaveAttribute("href", href);
     }
+    expect(
+      screen.getByText(/connects typed observations, bounded authority, inspectable agent work/),
+    ).toBeInTheDocument();
   });
 });
