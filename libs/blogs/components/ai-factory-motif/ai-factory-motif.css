@@ -73,7 +73,7 @@
 }
 
 @media (max-width: 640px) {
-  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) > .ai-factory-motif__scroll-cue {
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="path-declares-ownership"], [data-variant="layers-guide-implementation"], [data-variant="contracts-govern-action"]) > .ai-factory-motif__scroll-cue {
     display: block;
     margin: 0;
     padding: 12px 20px 0;
@@ -81,7 +81,7 @@
     font: var(--ai-factory-type-meta)/1.6 var(--font-mono);
   }
 
-  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) .ai-factory-motif__viewport {
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="path-declares-ownership"], [data-variant="layers-guide-implementation"], [data-variant="contracts-govern-action"]) .ai-factory-motif__viewport {
     overflow-x: auto;
   }
 
@@ -91,6 +91,10 @@
 
   .ai-factory-motif:is([data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) .ai-factory-motif__viewport > svg {
     min-width: 800px;
+  }
+
+  .ai-factory-motif:is([data-variant="path-declares-ownership"], [data-variant="layers-guide-implementation"], [data-variant="contracts-govern-action"]) .ai-factory-motif__viewport > svg {
+    min-width: 820px;
   }
 }
 
@@ -138,6 +142,113 @@
 .ai-factory-motif__detail {
   fill: var(--color-foreground-muted);
   font-size: var(--ai-factory-type-detail);
+  letter-spacing: 0.025em;
+}
+
+.ai-factory-motif__path-role {
+  fill: var(--color-primary);
+  font: var(--ai-factory-type-edge) var(--font-mono);
+  letter-spacing: var(--ai-factory-tracking-label);
+}
+
+.ai-factory-motif__path-value {
+  fill: var(--color-foreground-strong);
+  font: 500 var(--ai-factory-type-node) var(--font-mono);
+}
+
+.ai-factory-motif__path-slash {
+  fill: var(--color-border-strong);
+  font: 20px var(--font-mono);
+}
+
+.ai-factory-motif__path-boundary {
+  fill: color-mix(in srgb, var(--color-background) 28%, transparent);
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.ai-factory-motif__path-layer {
+  fill: color-mix(in srgb, var(--color-primary) 5%, var(--ai-factory-panel));
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__path-domain,
+.ai-factory-motif__path-details {
+  fill: var(--ai-factory-panel);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__path-terms rect {
+  fill: color-mix(in srgb, var(--color-primary) 5%, var(--ai-factory-inset));
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__path-terms text,
+.ai-factory-motif__path-detail-key,
+.ai-factory-motif__path-detail-value {
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-detail);
+  letter-spacing: .04em;
+}
+
+.ai-factory-motif__path-terms text,
+.ai-factory-motif__path-detail-key {
+  fill: var(--color-foreground-muted);
+}
+
+.ai-factory-motif__path-detail-value {
+  fill: var(--color-foreground-strong);
+}
+
+.ai-factory-motif__path-target-ring,
+.ai-factory-motif__path-target-ticks {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__path-target-core {
+  fill: var(--color-primary);
+}
+
+.ai-factory-motif__layer-contract-headings text {
+  fill: var(--color-foreground-muted);
+  font: var(--ai-factory-type-edge) var(--font-mono);
+  letter-spacing: var(--ai-factory-tracking-label);
+}
+
+.ai-factory-motif__layer-contract-row {
+  fill: var(--ai-factory-panel);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__layer-contract-divider {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__layer-contract-name,
+.ai-factory-motif__layer-contract-value,
+.ai-factory-motif__layer-contract-auto {
+  fill: var(--color-foreground-strong);
+  font-family: var(--font-sans);
+  font-size: var(--ai-factory-type-node-compact);
+  font-weight: 500;
+}
+
+.ai-factory-motif__layer-contract-auto {
+  fill: var(--color-primary);
+}
+
+.ai-factory-motif__contract-question {
+  fill: var(--color-primary);
+  font: var(--ai-factory-type-detail) var(--font-mono);
   letter-spacing: 0.025em;
 }
 

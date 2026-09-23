@@ -19,19 +19,19 @@ const motifs: Array<{
   variant: AiFactoryMotifVariant;
   note: string;
   context?: string;
-  followUp?: AiFactoryMotifVariant;
+  followUps?: readonly AiFactoryMotifVariant[];
 }> = [
   {
     index: "01",
     variant: "experience-but-lacking",
     note: "Experience, but lacking.",
-    followUp: "model-priorities-and-goal-fit",
+    followUps: ["model-priorities-and-goal-fit"],
   },
   {
     index: "02",
     variant: "refinement-and-discipline-to-term-of-art",
     note: "The stabilizing state: practice gives a boundary enough continuity to be shared.",
-    followUp: "understanding-in-embedding-space",
+    followUps: ["understanding-in-embedding-space"],
   },
   {
     index: "03",
@@ -43,6 +43,13 @@ const motifs: Array<{
     index: "04",
     variant: "ontology-of-terms",
     note: "The coordinating state: repeated terms become a typed, navigable model.",
+  },
+  {
+    index: "05",
+    variant: "path-declares-ownership",
+    note: "The repository makes its ontology visible.",
+    context: "Three illustrations for Ontology Factory: a path forms semantic identity, its layer selects executable construction rules, and local contracts dynamically compose task-relevant context within an agent's budget before governing evaluable action.",
+    followUps: ["layers-guide-implementation", "contracts-govern-action"],
   },
 ];
 
@@ -138,7 +145,7 @@ function AiFactoryMotifPage() {
       <ComposableParts />
 
       <main className="motif-review__gallery">
-        {motifs.map(({ index, variant, note, context, followUp }) => (
+        {motifs.map(({ index, variant, note, context, followUps }) => (
           <section className="motif-review__entry" id={`motif-${index}`} key={variant} aria-labelledby={`motif-${index}-title`}>
             <div className="motif-review__entry-index"><span>{index}</span><span className="motif-review__entry-line" aria-hidden="true" /></div>
             <div>
@@ -146,7 +153,7 @@ function AiFactoryMotifPage() {
               <h2 id={`motif-${index}-title`}>{note}</h2>
               {context ? <p className="motif-review__entry-context">{context}</p> : null}
               <AiFactoryMotif variant={variant} />
-              {followUp ? <AiFactoryMotif variant={followUp} /> : null}
+              {followUps?.map(followUp => <AiFactoryMotif key={followUp} variant={followUp} />)}
             </div>
           </section>
         ))}

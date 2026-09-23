@@ -54,8 +54,32 @@ same order and titles as the other prefaces.
 
 ### 1. The Landscape Shifts Beneath Expertise
 
-Open with the insecurity of an expert watching work that once required years of
-practice become easier to produce. Explore this reader experience without
+Open cold with four quick cuts. Give each one or two sentences before explaining
+the shared mechanism:
+
+1. **Mathematical breakthroughs that almost no one has absorbed.** AI-assisted
+   systems can generate or verify results faster than the mathematical community
+   can explain, evaluate, teach, and incorporate them. Use Tao's “proof
+   indigestion” and the unit-distance result; do not literally claim that no one
+   understands a result whose proof has received expert review.
+2. **Developer burnout beside record output.** A 442-developer study associates
+   GenAI adoption with higher job demands and burnout even as organizations
+   celebrate faster production. Do not say burnout is at a historic record
+   without a comparable longitudinal measure.
+3. **Meat proxies playing the AI slot machine.** A developer pulls the lever,
+   skims the tokens, retries, and supplies the judgment the system lacks. Aim the
+   deliberately abrasive phrase at a work design that reduces people to
+   generators and filters, not at the people trapped inside it. Keep the
+   slot-machine comparison structural rather than clinical.
+4. **Your PR reviewer will not understand the PR better than you didn't.** A
+   generated change moves the interpretation problem downstream. A reviewer
+   without the author's context, tests, and causal model cannot manufacture
+   understanding from a larger diff; review redistributes the bottleneck rather
+   than resolving it.
+
+Land the barrage in one sentence: generation scaled; understanding, evaluation,
+and absorption did not. Then acknowledge the insecurity of experts watching
+work that once required years of practice become easier to produce without
 treating it as a universal diagnosis or proof that expertise has lost value.
 
 - Separate faster implementation from understanding, evaluation, and integration.
@@ -147,6 +171,9 @@ direction and visible relationships between their work.
 
 - Preserve association and self-report limits of the 442-developer and
   319-worker studies in the [workload research](../research/ai-generation-cognitive-load-and-burnout.md).
+- Use the GitLab accountability survey only as evidence that respondents report
+  review and validation becoming a downstream bottleneck; an industry-sponsored
+  perception survey does not prove that every generated PR is harder to review.
 - Support the central-review bottleneck and decentralized-team argument with
   organizational research or cases; the proposed mechanism does not establish
   that every organization should use the same structure.

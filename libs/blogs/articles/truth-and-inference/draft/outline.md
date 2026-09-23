@@ -5,7 +5,7 @@
 **Working title:** Truth and Coherence. Preserve the existing workspace slug and
 canonical article until an explicit publication revision.
 
-**Question:** How do we recognize good input and good output?
+**Question:** How do we recognize meaningful input and valuable output?
 
 **Thesis:** Philosophy of truth gives us a map for examining claims; information
 theory makes prediction, uncertainty, and the contribution of context concrete.
@@ -67,13 +67,19 @@ question. Trace how the inputs shape what can count as a good answer.
 
 ### 2. Philosophy of Truth Provides a Map
 
-Use coherence and correspondence as the main organizing distinction:
+Use coherence, correspondence, and consequence as three organizing tests:
 
 - **Coherence:** Do claims fit together within the stated model and rules?
 - **Correspondence:** Do they fit observations beyond that representation?
+- **Consequence:** What happens when people act on the claim? Does it produce
+  the intended result, for whom, under which conditions, and at what cost?
 
-Use pragmatic inquiry to ask how claims hold up in use. Distinguish usefulness,
-commercial success, and truth; none automatically establishes the others.
+Consequence is the pragmatic test and may be the most important one for action.
+It also requires the most explicit human judgment: evidence can reveal what
+happened, but people must decide which effects matter, whose experience counts,
+which tradeoffs are acceptable, and whether the result is worth repeating.
+Keep pragmatic success, commercial success, and truth distinct; none
+automatically establishes the others.
 
 Formal, empirical, operational, and relational cases illustrate the map. Keep
 the philosophical distinctions visible without building four competing essays.
@@ -140,7 +146,8 @@ claims → act within the evidence → observe → revise shared context.
   follow its primary links and preserve its evidence limitations.
 - Source philosophical accounts on their own terms. Information theory
   illustrates prediction; it does not settle philosophical theories of truth.
-- Keep coherence, correctness, meaning, and usefulness distinct.
+- Keep coherence, correspondence, consequence, meaning, and usefulness
+  distinct even when they support one another.
 - Verify the worked information-theory example and label the commercial case
   as illustrative unless actual costs and outcomes can be sourced.
 - Preserve the warning that domain fluency is task-specific.
@@ -153,7 +160,7 @@ and observations. Develop it through three illustrations.
 
 | Illustration and placement | What it shows | Intended takeaway |
 | --- | --- | --- |
-| **A consistent map, a missing crossing**, after section 2 | Internally compatible routes alongside an observation that contradicts a claimed crossing. | Internal coherence and correspondence ask different questions. |
+| **A consistent map, a missing crossing**, after section 2 | Internally compatible routes, an observation that contradicts a claimed crossing, and the consequences for a traveler who acts on the map. | Coherence asks whether the map fits itself, correspondence whether it fits the terrain, and consequence what happens when someone relies on it. |
 | **Context changes the predicted route**, in section 3 | Candidate continuations before and after supplying a domain definition, with an external observation shown separately. | Context shapes prediction; confidence alone does not validate the supplied premise. |
 | **A route that survives use**, in section 5 | The import-mapping case from input definitions through candidate mappings, tests, domain review, customer results, and revised context. | Commercial value depends on evaluated outcomes and the cost of producing them. |
 

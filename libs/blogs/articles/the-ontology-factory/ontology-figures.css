@@ -1,0 +1,142 @@
+.ontology-map {
+  margin: 2em 0;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.ontology-map__header {
+  display: grid;
+  grid-template-columns: minmax(180px, .7fr) minmax(0, 1.8fr);
+  gap: 24px;
+  align-items: baseline;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.article-outline__content .ontology-map__header p,
+.article-outline__content .ontology-map__header h4 {
+  margin: 0;
+}
+
+.article-outline__content .ontology-map__header p {
+  color: var(--color-primary);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.article-outline__content .ontology-map__header h4 {
+  color: var(--color-foreground-strong);
+  font-family: "Newsreader Variable", Georgia, serif;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 430;
+  letter-spacing: -.02em;
+  line-height: 1.05;
+}
+
+.ontology-map__spine {
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ontology-map__spine span {
+  padding: 11px 14px;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-foreground-strong);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.ontology-map__spine b {
+  color: var(--color-primary);
+  font-weight: 400;
+}
+
+.ontology-map__relations {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ontology-map__relations section {
+  min-width: 0;
+  padding: 22px 24px;
+  border-right: 1px solid var(--color-border);
+}
+
+.ontology-map__relations section:last-child {
+  border-right: 0;
+}
+
+.article-outline__content .ontology-map__relations p {
+  margin: 0 0 12px;
+  color: var(--color-primary);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.article-outline__content .ontology-map__relations ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--color-foreground-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.article-outline__content .ontology-map__relations li {
+  margin: .35em 0;
+}
+
+.ontology-map figcaption {
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-foreground-muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: .08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .ontology-map__header,
+  .ontology-map__relations {
+    grid-template-columns: 1fr;
+  }
+
+  .ontology-map__header {
+    gap: 10px;
+  }
+
+  .ontology-map__spine {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+
+  .ontology-map__spine span {
+    text-align: center;
+  }
+
+  .ontology-map__spine b {
+    text-align: center;
+    transform: rotate(90deg);
+  }
+
+  .ontology-map__relations section {
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .ontology-map__relations section:last-child {
+    border-bottom: 0;
+  }
+}

@@ -67,6 +67,33 @@ const motifContent = {
     caption:
       "Knowing the term is not yet understanding. Understanding preserves its distinctions in a situated model, predicts what should follow, and makes a concrete implementation possible to test and revise.",
   },
+  "path-declares-ownership": {
+    index: "05a",
+    eyebrow: "Repository ontology / identity",
+    title: "A path maps and identifies an owned library",
+    description:
+      "A repository path composes a library boundary, architectural layer, domain vocabulary, and implementation details into one semantic identity, then points people and agents to the accountable change destination.",
+    caption:
+      "The path supplies the stable coordinates: library boundary, Edge layer, Audio domain, and a player-state responsibility. The leaf contract completes the map: Zustand is the technology, the player store is the tool, and Playback is the consuming feature. Together these coordinates identify the public owner and show where a change should begin.",
+  },
+  "layers-guide-implementation": {
+    index: "05b",
+    eyebrow: "Repository ontology / construction",
+    title: "Layers make construction rules executable",
+    description:
+      "Three repository layers select both what should be built and how it should be verified or instrumented. Edge maps to product integration, integration tests, and PostHog and Sentry wrappers; Schema maps to typed database contracts and generated TypeScript interfaces; Engine maps to deterministic domain logic and unit tests. Skills and tool calls apply each contract automatically.",
+    caption:
+      "A layer is not only a position in the dependency stack. It selects a build contract: what belongs there, which proof is required, and which tooling is applied. Edge work receives product-facing integration, integration tests, and PostHog and Sentry wrappers. Schema work turns database structure into generated TypeScript interfaces. Engine work pairs deterministic domain logic with unit tests. Skills and tool calls apply these contracts automatically while ownership remains explicit.",
+  },
+  "contracts-govern-action": {
+    index: "05c",
+    eyebrow: "Repository ontology / operation",
+    title: "Contracts compose context for bounded action",
+    description:
+      "For each task, the README, AGENTS file, and applicable skill remain distinct sources. Their relevant constraints are dynamically composed into context that fits the agent's available budget, governs action, and can be evaluated.",
+    caption:
+      "Context is assembled for the task, not copied as a static document bundle. Scope, operating rules, and procedure remain distinct; the relevant parts are selected to fit the agent's context budget. That context bounds action, keeps authority explicit, and preserves outcome evidence that can revise the map.",
+  },
 } as const;
 
 export type AiFactoryMotifVariant = keyof typeof motifContent;
@@ -814,6 +841,232 @@ function OntologyOfTerms({ arrowId }: { arrowId: string }) {
   );
 }
 
+function PathDeclaresOwnership({ arrowId }: { arrowId: string }) {
+  const segments = [
+    { role: "BOUNDARY", value: "libs", x: 40, width: 104 },
+    { role: "LAYER", value: "edge", x: 156, width: 104 },
+    { role: "DOMAIN", value: "audio", x: 272, width: 104 },
+    { role: "DETAIL", value: "state-zustand-player", x: 388, width: 372 },
+  ] as const;
+
+  return (
+    <>
+      <text className="ai-factory-motif__embedding-eyebrow" x="40" y="28">PATH IDENTIFIER · FOUR COORDINATES</text>
+      <g data-stage="repository-path">
+        {segments.map(({ role, value, x, width }, index) => (
+          <g data-path-segment={role.toLowerCase().replaceAll(" ", "-")} key={role}>
+            <rect className="ai-factory-motif__station" x={x} y="40" width={width} height="72" />
+            <text className="ai-factory-motif__path-role" x={x + 12} y="64">{role}</text>
+            <text className="ai-factory-motif__path-value" x={x + 12} y="92">{value}</text>
+            {index < segments.length - 1 ? <text className="ai-factory-motif__path-slash" x={x + width + 4} y="88">/</text> : null}
+          </g>
+        ))}
+      </g>
+
+      <g data-stage="composed-identity">
+        <rect className="ai-factory-motif__path-boundary" x="40" y="136" width="720" height="256" />
+        <text className="ai-factory-motif__path-role" x="56" y="160">BOUNDARY · REUSABLE LIBRARY</text>
+
+        <g data-coordinate="layer">
+          <rect className="ai-factory-motif__path-layer" x="64" y="176" width="672" height="48" />
+          <text className="ai-factory-motif__path-role" x="80" y="196">LAYER · EDGE</text>
+          <text className="ai-factory-motif__detail" x="80" y="216">cross-cutting product-facing position in the dependency stack</text>
+        </g>
+
+        <g data-coordinate="domain">
+          <rect className="ai-factory-motif__path-domain" x="64" y="240" width="408" height="120" />
+          <text className="ai-factory-motif__path-role" x="80" y="264">DOMAIN · AUDIO</text>
+          <text className="ai-factory-motif__label" x="80" y="292">Terms of art shape the user experience</text>
+          <g className="ai-factory-motif__path-terms">
+            <rect x="80" y="312" width="88" height="28" />
+            <rect x="180" y="312" width="88" height="28" />
+            <rect x="280" y="312" width="104" height="28" />
+            <text x="124" y="330" textAnchor="middle">PLAYER</text>
+            <text x="224" y="330" textAnchor="middle">SOURCE</text>
+            <text x="332" y="330" textAnchor="middle">CHROME</text>
+          </g>
+        </g>
+
+        <g data-coordinate="implementation-details">
+          <rect className="ai-factory-motif__path-details" x="488" y="240" width="248" height="120" />
+          <text className="ai-factory-motif__path-role" x="504" y="264">LEAF + OWNER CONTRACT</text>
+          <text className="ai-factory-motif__path-detail-key" x="504" y="292">TECH · HOW</text>
+          <text className="ai-factory-motif__path-detail-value" x="584" y="292">Zustand</text>
+          <text className="ai-factory-motif__path-detail-key" x="504" y="316">TOOL · WHAT</text>
+          <text className="ai-factory-motif__path-detail-value" x="584" y="316">player store</text>
+          <text className="ai-factory-motif__path-detail-key" x="504" y="340">FEATURE · WHY</text>
+          <text className="ai-factory-motif__path-detail-value" x="584" y="340">playback</text>
+        </g>
+      </g>
+
+      <g className="ai-factory-motif__connectors" aria-hidden="true">
+        <path className="ai-factory-motif__connector--focal" d="M760 264H812" markerEnd={`url(#${arrowId})`} />
+        <ConnectorLabel x={784} y={264} onEdge>IDENTIFIES</ConnectorLabel>
+      </g>
+
+      <g data-stage="change-destination">
+        <circle className="ai-factory-motif__path-target-ring" cx="848" cy="264" r="28" />
+        <circle className="ai-factory-motif__path-target-core" cx="848" cy="264" r="5" />
+        <path className="ai-factory-motif__path-target-ticks" d="M848 224V236M848 292V304M808 264H820M876 264H888" />
+        <text className="ai-factory-motif__label" x="848" y="328" textAnchor="middle">Owned library</text>
+        <text className="ai-factory-motif__detail" x="848" y="348" textAnchor="middle">change destination</text>
+        <text className="ai-factory-motif__detail" x="848" y="368" textAnchor="middle">public API + contract</text>
+      </g>
+
+      <g className="ai-factory-motif__axis" aria-hidden="true">
+        <path d="M40 440H920" />
+        <text x="40" y="464">FILESYSTEM ADDRESS</text>
+        <text x="480" y="464" textAnchor="middle">COMPOSED SEMANTIC MAP</text>
+        <text x="920" y="464" textAnchor="end">IDENTITY · DESTINATION</text>
+      </g>
+    </>
+  );
+}
+
+function LayersGuideImplementation() {
+  const layers = [
+    {
+      index: "01",
+      layer: "Edge",
+      position: "product-facing",
+      artifact: "Integration boundary",
+      artifactDetail: "public API + adapter",
+      method: "Integration test",
+      methodDetail: "PostHog + Sentry wrappers",
+    },
+    {
+      index: "02",
+      layer: "Schema",
+      position: "data authority",
+      artifact: "Typed DB contract",
+      artifactDetail: "canonical schema + types",
+      method: "Generated TS interface",
+      methodDetail: "derived from the database",
+    },
+    {
+      index: "03",
+      layer: "Engine",
+      position: "deterministic logic",
+      artifact: "Domain engine",
+      artifactDetail: "rules + transformations",
+      method: "Unit tests",
+      methodDetail: "fast behavioral proof",
+    },
+  ] as const;
+
+  return (
+    <>
+      <text className="ai-factory-motif__embedding-eyebrow" x="40" y="36">LAYER CONTRACTS · SELECTED EXAMPLES</text>
+      <g className="ai-factory-motif__layer-contract-headings" aria-hidden="true">
+        <text x="56" y="68">LAYER SIGNAL</text>
+        <text x="208" y="68">WHAT GETS BUILT</text>
+        <text x="480" y="68">HOW IT IS BUILT + PROVED</text>
+        <text x="784" y="68">AUTOMATIC APPLICATION</text>
+      </g>
+
+      <g data-stage="layer-contracts">
+        {layers.map(({ index, layer, position, artifact, artifactDetail, method, methodDetail }, rowIndex) => {
+          const y = 80 + rowIndex * 112;
+          return (
+            <g data-layer-contract={layer.toLowerCase()} key={layer}>
+              <rect className="ai-factory-motif__layer-contract-row" x="40" y={y} width="880" height="96" />
+              <path className="ai-factory-motif__layer-contract-divider" d={`M184 ${y}V${y + 96}M456 ${y}V${y + 96}M760 ${y}V${y + 96}`} />
+
+              <text className="ai-factory-motif__path-role" x="56" y={y + 24}>{`LAYER ${index}`}</text>
+              <text className="ai-factory-motif__layer-contract-name" x="56" y={y + 52}>{layer}</text>
+              <text className="ai-factory-motif__detail" x="56" y={y + 76}>{position}</text>
+
+              <text className="ai-factory-motif__path-role" x="208" y={y + 24}>WHAT</text>
+              <text className="ai-factory-motif__layer-contract-value" x="208" y={y + 52}>{artifact}</text>
+              <text className="ai-factory-motif__detail" x="208" y={y + 76}>{artifactDetail}</text>
+
+              <text className="ai-factory-motif__path-role" x="480" y={y + 24}>HOW</text>
+              <text className="ai-factory-motif__layer-contract-value" x="480" y={y + 52}>{method}</text>
+              <text className="ai-factory-motif__detail" x="480" y={y + 76}>{methodDetail}</text>
+
+              <g data-automation="skill-tool-calls">
+                <text className="ai-factory-motif__layer-contract-auto" x="840" y={y + 44} textAnchor="middle">Skill + tool calls</text>
+                <text className="ai-factory-motif__detail" x="840" y={y + 68} textAnchor="middle">apply the contract</text>
+              </g>
+            </g>
+          );
+        })}
+      </g>
+
+      <g className="ai-factory-motif__axis" aria-hidden="true">
+        <path d="M40 432H920" />
+        <text x="40" y="456">SEMANTIC POSITION</text>
+        <text x="480" y="456" textAnchor="middle">WHAT + HOW</text>
+        <text x="920" y="456" textAnchor="end">EXECUTABLE BY DEFAULT</text>
+      </g>
+    </>
+  );
+}
+
+function ContractsGovernAction({ arrowId }: { arrowId: string }) {
+  const contracts = [
+    { artifact: "README", question: "What is this scope?", detail: "purpose · boundaries · ontology", kind: "text", x: 40 },
+    { artifact: "AGENTS", question: "How may work proceed?", detail: "workflow · verification · invariants", kind: "text", x: 328 },
+    { artifact: "Skill", question: "Which procedure applies?", detail: "specialized · reusable · situated", kind: "text", x: 616 },
+  ] as const satisfies ReadonlyArray<{ artifact: string; question: string; detail: string; kind: AiFactoryIconKind; x: number }>;
+
+  return (
+    <>
+      <text className="ai-factory-motif__embedding-eyebrow" x="40" y="36">THREE CONTRACTS · THREE DISTINCT JOBS</text>
+      {contracts.map(({ artifact, question, detail, kind, x }) => (
+        <g data-contract={artifact.toLowerCase()} key={artifact}>
+          <rect className="ai-factory-motif__station" x={x} y="56" width="264" height="152" />
+          <MotifGlyph kind={kind} x={x + 48} y={112} scale={0.4} />
+          <text className="ai-factory-motif__label" x={x + 88} y="96">{artifact}</text>
+          <text className="ai-factory-motif__contract-question" x={x + 88} y="120">{question}</text>
+          <text className="ai-factory-motif__detail" x={x + 20} y="176">{detail}</text>
+        </g>
+      ))}
+
+      <g className="ai-factory-motif__connectors" aria-hidden="true">
+        <path d="M164 228H748" />
+        <path d="M172 208V228" />
+        <path d="M460 208V228" />
+        <path d="M748 208V228" />
+        <path d="M164 228V244" />
+        <path className="ai-factory-motif__connector--focal" d="M288 292H432" markerEnd={`url(#${arrowId})`} />
+        <ConnectorLabel x={360} y={292} onEdge>GOVERNS</ConnectorLabel>
+        <path d="M536 292H752" markerEnd={`url(#${arrowId})`} />
+        <ConnectorLabel x={644} y={292} onEdge>EVALUATED BY</ConnectorLabel>
+      </g>
+
+      <g data-stage="dynamic-context">
+        <rect className="ai-factory-motif__station ai-factory-motif__station--focal" x="40" y="244" width="248" height="164" />
+        <g data-stage="contract-composition">
+          <MotifGlyph kind="operator" x={88} y={292} scale={0.32} />
+        </g>
+        <MotifGlyph kind="token" x={164} y={292} scale={0.5} centerX={76} />
+        <text className="ai-factory-motif__label" x="164" y="346" textAnchor="middle">Dynamic context</text>
+        <text className="ai-factory-motif__detail" x="164" y="368" textAnchor="middle">selected for the task</text>
+        <text className="ai-factory-motif__detail" x="164" y="386" textAnchor="middle">fits the agent's context budget</text>
+        <text className="ai-factory-motif__detail" x="164" y="402" textAnchor="middle">scope + rules + procedure</text>
+      </g>
+      <g data-stage="agent-action">
+        <MotifGlyph kind="automation" x={488} y={292} scale={0.48} centerX={automationVisualCenterX} />
+        <text className="ai-factory-motif__label" x="488" y="370" textAnchor="middle">Agent action</text>
+        <text className="ai-factory-motif__detail" x="488" y="390" textAnchor="middle">authority remains explicit</text>
+      </g>
+      <g data-stage="evaluated-outcome">
+        <MotifGlyph kind="consequence" x={816} y={292} scale={0.48} />
+        <text className="ai-factory-motif__label" x="816" y="370" textAnchor="middle">Observed outcome</text>
+        <text className="ai-factory-motif__detail" x="816" y="390" textAnchor="middle">evidence can revise the map</text>
+      </g>
+
+      <g className="ai-factory-motif__axis" aria-hidden="true">
+        <path d="M40 440H920" />
+        <text x="40" y="464">CONTRACT SOURCES</text>
+        <text x="488" y="464" textAnchor="middle">DYNAMIC CONTEXT · BUDGETED</text>
+        <text x="920" y="464" textAnchor="end">ACTION · EVIDENCE</text>
+      </g>
+    </>
+  );
+}
+
 function Axis({ left, middle, right }: { left: string; middle: string; right: string }) {
   return (
     <g className="ai-factory-motif__axis" aria-hidden="true">
@@ -839,7 +1092,7 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
       </header>
       <p className="ai-factory-motif__scroll-cue">Scroll the path →</p>
       <div className="ai-factory-motif__viewport" role="region" tabIndex={0} aria-label="Scrollable AI Factory motif">
-        <svg viewBox={variant === "ontology-of-terms" ? "0 0 720 432" : variant === "experience-but-lacking" ? "0 0 800 432" : variant === "model-priorities-and-goal-fit" ? "0 0 960 616" : variant === "understanding-in-embedding-space" ? "0 0 960 648" : "0 0 720 320"} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
+        <svg viewBox={variant === "ontology-of-terms" ? "0 0 720 432" : variant === "experience-but-lacking" ? "0 0 800 432" : variant === "model-priorities-and-goal-fit" ? "0 0 960 616" : variant === "understanding-in-embedding-space" ? "0 0 960 648" : variant === "path-declares-ownership" || variant === "layers-guide-implementation" || variant === "contracts-govern-action" ? "0 0 960 488" : "0 0 720 320"} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
           <title id={titleId}>{content.title}</title>
           <desc id={descriptionId}>{content.description}</desc>
           <defs>
@@ -854,6 +1107,9 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
           {variant === "understanding-in-embedding-space" ? <UnderstandingInEmbeddingSpace arrowId={arrowId} /> : null}
           {variant === "term-of-art-to-implementation" ? <TermOfArtToImplementation arrowId={arrowId} /> : null}
           {variant === "ontology-of-terms" ? <OntologyOfTerms arrowId={arrowId} /> : null}
+          {variant === "path-declares-ownership" ? <PathDeclaresOwnership arrowId={arrowId} /> : null}
+          {variant === "layers-guide-implementation" ? <LayersGuideImplementation /> : null}
+          {variant === "contracts-govern-action" ? <ContractsGovernAction arrowId={arrowId} /> : null}
         </svg>
       </div>
       <figcaption>

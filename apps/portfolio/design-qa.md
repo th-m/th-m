@@ -1,3 +1,57 @@
+# AI Factory Ontology Illustrations — Design QA
+
+final result: passed
+
+## Scope
+
+This pass adds two candidate Ontology Factory illustrations to `/ai-factory-motif`: one reads a repository path as semantic ownership, and the other shows README, AGENTS, and Skill as distinct text sources that dynamically compose task context within an agent's budget before governing evaluable action. Both reuse the established AI Factory glyph vocabulary; no new icon was introduced.
+
+## Source visual truth
+
+- Source visual: the task's attached browser-comment captures at `1447 × 1089 px`, including the annotated Skill card and the full contract-flow figure.
+- Comparison target: the live page's existing series map, isolated icon inventory, typography, connector grammar, and restrained brass/graphite palette.
+- The new illustrations are original candidates, so fidelity means continuity with that visual system rather than pixel reproduction of a supplied composition.
+
+## Implementation evidence
+
+- Live implementation: `http://localhost:5175/ai-factory-motif#motif-05`.
+- Desktop capture: Codex in-app browser focused capture at `1448 × 1089` CSS px, device pixel ratio `1`; the revised figure measured approximately `1218 × 789` CSS px.
+- Mobile captures: Codex in-app browser viewport captures at `390 × 844` CSS px, device pixel ratio `1`; document width remained `375` CSS px with no page-level horizontal overflow. The figure retained the established internal horizontal-scroll treatment, and its `820` CSS-pixel diagram track exposed contract, context, action, and outcome stages without clipping.
+- State: dark AI Factory review route, section `#motif-05`, static illustrations fully loaded.
+- Console: no warnings or errors in either desktop or mobile state.
+- Primary interactions: verified the section anchor, both horizontally scrollable figures, accessible figure titles/descriptions, and the surrounding page navigation.
+
+## Findings
+
+No actionable P0, P1, or P2 differences remain.
+
+- Fonts and typography: Newsreader display headings and IBM Plex Mono labels preserve the review sheet's hierarchy, optical weight, tracking, and case conventions. Titles wrap cleanly on mobile.
+- Spacing and layout rhythm: both figures use the existing plate, header, ruled caption, and connector rhythm. Desktop panels fill the shared content width; mobile panels remain readable through the page's established horizontal-scroll pattern without causing document overflow.
+- Colors and visual tokens: all strokes, labels, nodes, surfaces, and accents reuse existing motif tokens. No competing color or elevation system was added.
+- Image quality and asset fidelity: the illustrations are repo-native vector/DOM compositions built from the existing `text`, `operator`, `ontology-node`, `implementation`, `automation`, and `consequence` glyphs, so lines remain sharp at both inspected breakpoints.
+- Copy and content: path segments distinguish owner type, layer, capability, and responsibility. The revised contract figure distinguishes source documents from their dynamically composed context, states that selection fits the agent's context budget, and keeps action authority and outcome evidence explicit.
+- Accessibility: both figures expose descriptive titles and summaries, and the contract questions remain present as readable text.
+
+## Full-view and focused comparison evidence
+
+- Full-view: the desktop full-page capture placed the established series map and icon inventory in the same artifact as the new section, confirming consistent typography, color, panel framing, and connector language.
+- Focused: the annotated source and final desktop capture were compared at the same page, theme, and near-identical viewport. Mobile captures checked both ends of the internal scroller: the common text glyph on Skill remained visible, and the context/action/evidence sequence remained readable without page-level overflow.
+
+## Comparison history
+
+1. Initial implementation introduced both illustrations with the existing motif primitives and section structure.
+2. User annotation identified two P2 semantic-flow issues: Skill used an operator glyph instead of the common text-source glyph, and the lower sequence jumped from composed constraints to action without naming dynamic context or its budget.
+3. Revision replaced the Skill icon with the text glyph and rebuilt the lower sequence as contract sources → composition → dynamic context → agent action → observed outcome. The dynamic-context boundary names task selection and the agent's context budget.
+4. First post-fix desktop capture found one P2 typography overflow: the budget phrase extended beyond its highlighted context boundary.
+5. Final desktop capture split that phrase across two centered lines. Browser geometry confirmed all four context labels remain inside the focal boundary; no console warning or error was present.
+6. Mobile review at `390 × 844` confirmed clean title wrapping, no page-level overflow, and intentional internal scrolling across the complete flow. No actionable P0/P1/P2 issue remains.
+
+## Follow-up polish
+
+- P3: after editorial review, one candidate can be promoted into the Ontology Factory article and its explanatory copy tightened in article context.
+
+---
+
 # Recurring Truth Instrument Glyphs — Design QA
 
 final result: passed
