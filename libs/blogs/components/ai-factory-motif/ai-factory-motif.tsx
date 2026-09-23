@@ -54,9 +54,9 @@ const motifContent = {
     eyebrow: "Organizational topology / judgment",
     title: "The same teams, a different place for understanding",
     description:
-      "Conceptual comparison: three AI-assisted teams first route discoveries and decisions through one central interpretation gate, then own bounded learning loops connected by shared intent and explicit interfaces.",
+      "Conceptual comparison: three AI-assisted teams first route discoveries and decisions through one central interpretation gate, then own bounded learning flywheels between understanding and implementation, connected by shared intent and explicit interfaces.",
     caption:
-      "The teams are unchanged; the topology changes. The first arrangement distributes production but centralizes interpretation, so discoveries and decisions accumulate at one gate. The second gives each team a bounded loop from understanding through action and revision, while shared intent and explicit interfaces preserve coordination. This is a conceptual operating model, not a measured throughput claim.",
+      "The teams are unchanged; the topology changes. The first arrangement distributes production but centralizes interpretation, so discoveries and decisions accumulate at one gate. The second gives each team a bounded flywheel from understanding into implementation and back through feedback, while shared intent and explicit interfaces preserve coordination. This is a conceptual operating model, not a measured throughput claim.",
   },
   "ontology-of-terms": {
     index: "04",
@@ -777,31 +777,23 @@ function TopologyTeamMarker({ id, x, y }: { id: string; x: number; y: number }) 
 }
 
 function BoundedLearningLoop({ id, panelX, arrowId }: { id: string; panelX: number; arrowId: string }) {
-  const understandingX = panelX + 64;
-  const actionX = panelX + 150;
-  const outcomeX = panelX + 210;
+  const understandingX = panelX + 76;
+  const implementationX = panelX + 166;
 
   return (
-    <g className="ai-factory-motif__bounded-team" data-team={id} data-loop="bounded-learning-loop">
+    <g className="ai-factory-motif__bounded-team" data-team={id} data-loop="bounded-learning-loop" data-flywheel="understanding-implementation">
       <rect className="ai-factory-motif__team-boundary" x={panelX} y="444" width="240" height="164" />
       <TopologyTeamMarker id={id} x={panelX + 32} y={462} />
       <g className="ai-factory-motif__connectors ai-factory-motif__learning-loop" aria-hidden="true">
-        <path className="ai-factory-motif__connector--focal" data-relationship="understanding-to-action" d={`M${understandingX + 18} 512H${actionX - 9}`} markerEnd={`url(#${arrowId})`} />
-        <path className="ai-factory-motif__connector--focal" data-relationship="action-to-outcome" d={`M${actionX + 34} 512H${outcomeX - 7}`} />
-        <path className="ai-factory-motif__connector--revision" data-relationship="outcome-to-revision" d={`M${outcomeX} 520V538C${outcomeX} 578 ${understandingX + 22} 578 ${understandingX + 8} 526`} markerEnd={`url(#${arrowId})`} />
+        <path className="ai-factory-motif__connector--focal" data-relationship="understanding-to-implementation" d={`M${understandingX + 18} 518C${understandingX + 34} 484 ${implementationX - 34} 484 ${implementationX - 8} 518`} markerEnd={`url(#${arrowId})`} />
+        <path className="ai-factory-motif__connector--feedback" data-relationship="implementation-to-understanding" d={`M${implementationX - 8} 534C${implementationX - 34} 568 ${understandingX + 34} 568 ${understandingX + 18} 534`} markerEnd={`url(#${arrowId})`} />
       </g>
-      <MotifGlyph kind="understanding" x={understandingX} y={512} scale={0.42} />
-      <g className="ai-factory-motif__learning-action">
-        <MotifGlyph kind="implementation" x={actionX} y={512} scale={0.52} centerX={64} />
+      <MotifGlyph kind="understanding" x={understandingX} y={526} scale={0.42} />
+      <g className="ai-factory-motif__learning-action" data-relationship="implementation-output">
+        <MotifGlyph kind="implementation" x={implementationX} y={526} scale={0.42} centerX={64} />
       </g>
-      <g className="ai-factory-motif__learning-outcome" aria-hidden="true">
-        <circle cx={outcomeX} cy="512" r="6" />
-        <circle className="ai-factory-motif__learning-outcome-core" cx={outcomeX} cy="512" r="2" />
-      </g>
-      <text className="ai-factory-motif__detail ai-factory-motif__learning-stage" x={understandingX} y="548" textAnchor="middle">UNDERSTAND</text>
-      <text className="ai-factory-motif__detail ai-factory-motif__learning-stage" x={actionX} y="548" textAnchor="middle">ACT</text>
-      <text className="ai-factory-motif__detail ai-factory-motif__learning-stage" x={outcomeX} y="548" textAnchor="middle">OBSERVE</text>
-      <text className="ai-factory-motif__detail ai-factory-motif__revision-label" x={panelX + 134} y="590" textAnchor="middle">REVISE</text>
+      <text className="ai-factory-motif__detail ai-factory-motif__learning-stage" x={understandingX} y="594" textAnchor="middle">UNDERSTANDING</text>
+      <text className="ai-factory-motif__detail ai-factory-motif__learning-stage" x={implementationX + 10} y="594" textAnchor="middle">IMPLEMENTATION</text>
     </g>
   );
 }

@@ -180,7 +180,7 @@
   vector-effect: non-scaling-stroke;
 }
 
-.ai-factory-motif__learning-loop .ai-factory-motif__connector--revision {
+.ai-factory-motif__learning-loop .ai-factory-motif__connector--feedback {
   stroke: var(--color-foreground-muted);
   stroke-width: 1.2;
 }
@@ -198,31 +198,16 @@
 .ai-factory-motif__learning-action .ai-factory-icon__action-vector {
   stroke: var(--color-primary);
   stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
 }
 
 .ai-factory-motif__learning-action marker .ai-factory-icon__arrowhead--outline {
   stroke: var(--color-primary);
 }
 
-.ai-factory-motif__learning-outcome circle:first-child {
-  fill: var(--ai-factory-panel);
-  stroke: var(--color-foreground);
-  stroke-width: 1.2;
-}
-
-.ai-factory-motif__learning-outcome-core {
-  fill: var(--color-foreground);
-}
-
 .ai-factory-motif__learning-stage {
-  font-size: 8px;
-  letter-spacing: 0.06em;
-}
-
-.ai-factory-motif__revision-label {
-  fill: var(--color-primary);
-  font-size: 8px;
-  letter-spacing: var(--ai-factory-tracking-label);
+  font-size: 7.5px;
+  letter-spacing: 0.04em;
 }
 
 .ai-factory-motif__shared-intent .ai-factory-motif__label {

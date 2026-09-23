@@ -55,10 +55,22 @@ article routes; preserve the existing truth-and-inference slug.
 
 ## Outline
 
-### 1. You Will Lose on Strategy if You Defer to AI
+### 1. When Creation Approaches Zero, Judgment Becomes Scarce
 
-Open with the failed nine-hour planning example: plausible recommendations
-accumulate while the team contributes too little judgment about what matters.
+Open with Martin Casado's 2023 a16z talk
+[*The Economic Case for Generative AI*](https://a16z.com/the-economic-case-for-generative-ai/).
+He compares three economic shifts: the microchip drove the marginal cost of
+computation toward zero, the internet did the same for distribution, and
+generative AI promises to do the same for creation. Use his image-generation
+comparison to make the change in production cost concrete. Treat zero as the
+direction of the marginal-cost curve, not a claim that inference, evaluation,
+integration, or operation is literally free.
+
+Then ask what becomes scarce when plausible output becomes abundant. The answer
+is not another plan; it is judgment about which problem matters, which future is
+worth pursuing, and which sacrifices are acceptable. Follow with the failed
+nine-hour planning example: recommendations accumulate cheaply while the team
+contributes too little of that judgment.
 
 - Use strategy research to establish the work of choosing a strategy: diagnosis,
   distinctive commitments, tradeoffs, and coordinated action.
@@ -75,14 +87,26 @@ insightful. The recipient may supply specificity the answer has never earned.
 - Compare one generic recommendation across two situations requiring different
   choices; identify the missing distinction.
 - Separate perceived specificity, sycophancy, factual error, and deception.
-- Domain fluency can make advice persuasive before its strategic relevance is
-  established. Develop its productive use in *Truth and Coherence*.
+- Use a composite medical example to show how domain fluency can make a label
+  sound like an explanation. A woman seeks help for dizziness, fatigue, and
+  lightheadedness when standing. Orthostatic testing supports a diagnosis of
+  postural orthostatic tachycardia syndrome (POTS). The name identifies a real,
+  measurable syndrome and can guide management, but it does not by itself tell
+  her why she developed it, identify one underlying mechanism, or supply a cure.
+  If the clinician presents the acronym as the answer to *why*, technical
+  classification has performed the role of explanation without providing one.
+  Do not imply that POTS is fictitious or that diagnosis is clinically useless;
+  the target is the substitution of a category for the causal account the
+  patient thought she was receiving.
+- Connect the example back to strategy: domain fluency can make advice
+  persuasive before its strategic relevance is established. Develop the
+  productive use of domain knowledge in *Truth and Coherence*.
 
 ### 3. Language Carries Only Part of What We Mean
 
-Words such as “quality,” “growth,” and “trust” can conceal different priorities,
-experiences, and acceptable sacrifices. Connect linguistic gaps to subjective
-meaning: what does an outcome mean to those who want it and those who bear costs?
+Words such as “better” can conceal different priorities, experiences, and
+acceptable sacrifices. Connect linguistic gaps to subjective meaning: what does
+an outcome mean to those who want it and those who bear costs?
 
 - Make tacit priorities visible through examples, counterexamples, and actual
   tradeoffs. Use “maximize engagement” as a compact case.
@@ -101,6 +125,17 @@ for whom, and under which conditions?
   desirable and which costs are acceptable.
 - Training, system instructions, and product incentives also shape model advice.
   Examine inherited defaults when they conflict with local goals.
+- Introduce Diogo Almeida's critique of RLHF as one concrete incentive claim:
+
+  > “the end game for all RLHF models is optimizing for engagement.”
+
+  Almeida, CEO of TypeSafe, contrasts that objective with the calibrated task
+  completion required for dependable automation in his 2026 talk
+  [*What's next after RLHF?*](https://ai.engineer/talks/cJ0EOzey--o-whats-next-after-rlhf)
+  at 7:56. Treat this as his argument about preference optimization, not a
+  demonstrated universal objective shared by every model or deployment. The
+  talk predates TypeSafe's launch of Jev and does not establish Jev's later
+  product claims.
 
 ### 5. Make Strategic Intent Usable Throughout the Organization
 
@@ -135,12 +170,21 @@ and revising them when consequences disagree.
 - Start with the [strategy review](research/research-review.md) and
   [series source audit](research/ai-factory-series-sources-audit.md); verify the
   underlying sources before claiming measured competitive consequences.
+- Use Casado's economic argument to establish a sharp fall in the marginal cost
+  of producing another candidate output, not that finished work or strategic
+  judgment has no cost. His comparisons are illustrative estimates from an
+  investor presentation rather than a controlled economic study.
+- Ground the POTS example in consensus diagnostic criteria and the syndrome's
+  heterogeneous mechanisms. Keep diagnosis, causal explanation, prognosis, and
+  cure distinct; do not turn the communication critique into medical advice.
 - Preserve distinctions and limits in the
   [Barnum research](research/barnum-effect-and-ai-advice.md).
 - Source the causal ladder. A plausible causal story does not establish that an
   intervention works or which effects an organization should value.
-- Verify any TypeSafe/Jev attribution before retaining it. Do not present
-  engagement as every model's literal objective.
+- Attribute the engagement claim narrowly to Almeida's talk and distinguish
+  optimizing a human-preference signal from a product literally measuring
+  engagement. The recording predates Jev's launch and presents a proposed
+  automation direction, not evidence for the later product's reliability.
 - Keep governing versus instrumental decisions and the possibility that a
   coherent value hierarchy can still be wrong.
 

@@ -80,7 +80,7 @@ describe("Understanding and Bottlenecks published page", () => {
     expect(screen.queryByText(/Editorial status/)).not.toBeInTheDocument();
   });
 
-  it("renders the six movements, recurring tests, and topology figures", async () => {
+  it("renders the six movements, recurring tests, and bounded-loop topology", async () => {
     await renderPage();
     for (const name of [
       "Generation Scales; Understanding Does Not",
@@ -101,10 +101,10 @@ describe("Understanding and Bottlenecks published page", () => {
     expect(screen.getByText("A model that can be opened")).toBeInTheDocument();
 
     expect(
-      screen.getByRole("img", {
+      screen.queryByRole("img", {
         name: /Short input, useful output—or just more tokens/,
       }),
-    ).toBeInTheDocument();
+    ).not.toBeInTheDocument();
     expect(
       screen.getByRole("img", {
         name: /The same teams, a different place for understanding/,

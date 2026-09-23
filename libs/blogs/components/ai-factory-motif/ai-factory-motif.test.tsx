@@ -154,11 +154,21 @@ describe("AiFactoryMotif", () => {
     expect(centralized.querySelector('[data-relationship="central-gate-to-action"]')).toHaveAttribute("marker-end");
 
     expect(distributed.querySelectorAll('[data-loop="bounded-learning-loop"]')).toHaveLength(3);
+    expect(distributed.querySelectorAll('[data-flywheel="understanding-implementation"]')).toHaveLength(3);
     expect(distributed.querySelectorAll(".ai-factory-icon--understanding")).toHaveLength(3);
     expect(distributed.querySelectorAll(".ai-factory-icon--implementation")).toHaveLength(3);
-    expect(distributed.querySelectorAll(".ai-factory-motif__learning-outcome")).toHaveLength(3);
-    expect(distributed.querySelectorAll('[data-relationship="outcome-to-revision"]')).toHaveLength(3);
-    expect(distributed).toHaveTextContent("UNDERSTANDACTOBSERVEREVISE");
+    expect(distributed.querySelectorAll('[data-relationship="understanding-to-implementation"]')).toHaveLength(3);
+    expect(distributed.querySelectorAll('[data-relationship="implementation-to-understanding"]')).toHaveLength(3);
+    expect(distributed.querySelectorAll('[data-relationship="implementation-output"]')).toHaveLength(3);
+    expect(distributed.querySelector(".ai-factory-motif__learning-outcome")).not.toBeInTheDocument();
+    for (const loop of distributed.querySelectorAll('[data-loop="bounded-learning-loop"]')) {
+      expect(loop).toHaveTextContent("UNDERSTANDINGIMPLEMENTATION");
+      expect(loop).not.toHaveTextContent("FEEDBACK");
+      expect(loop.querySelectorAll(".ai-factory-motif__learning-loop > [data-relationship][marker-end]")).toHaveLength(2);
+      const implementationOutput = loop.querySelector('[data-relationship="implementation-output"]')!;
+      expect(implementationOutput.querySelector(".ai-factory-icon__action-vector")).toHaveAttribute("marker-end");
+      expect(implementationOutput.closest(".ai-factory-motif__learning-loop")).toBeNull();
+    }
     expect(distributed.querySelectorAll('[data-relationship="cross-team-interface"]')).toHaveLength(2);
     expect(Array.from(distributed.querySelectorAll(".ai-factory-motif__connector-label text"), label => label.textContent)).toEqual(["INTERFACE", "INTERFACE"]);
     expect(distributed).toHaveTextContent("Shared intent");
