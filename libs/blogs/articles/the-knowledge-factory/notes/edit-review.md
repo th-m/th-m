@@ -38,3 +38,25 @@ service or repository-wide context-loading behavior is implemented.
 - Both changed articles were checked at 1280 px and 390 px: no page overflow or broken images. The cognition article now uses the existing section layout so its prose and tables inherit the series typography.
 - The relocated SVG retains its existing wide composition; its small labels require zoom on a phone. The adjacent prose carries the complete loop sequence.
 - This pass prepares local artifacts and saves the branch; it does not deploy production.
+
+## Private Draft and Humanized Pass — 2026-09-23
+
+Updated the active outline first, then wrote a complete private draft. The
+first-draft baseline is [6a18a92](https://github.com/th-m/th-m/commit/6a18a92df168c7f5cebcd86cf64ffab9ce1dc4cf),
+verified on origin before the humanized pass. The earlier private humanized
+candidate remains recoverable in Git history.
+
+The new humanized draft uses the same hypothetical import problem but puts
+people, queues, and decisions at the front of paragraphs. It preserves the
+distinction between artifacts and outcomes, per-attempt DAGs and repeated
+workflows, local authority and integration ownership, and verification and
+outcome evaluation. Three figure cues carry the motif plan; no production
+figures or canonical MDX changed in this pass.
+
+The source roles and uncertainty remain the same as the first draft. DORA's
+abstract and NIST AI RMF were checked again. Nonaka supports organizational
+knowledge creation, not the particular architecture. No productivity figure,
+universal organizational design, or proven moat is claimed.
+
+Review the [humanized draft](../draft/humanized-draft.md) alongside the
+[first draft](../draft/article.md) and [outline](../draft/outline.md).

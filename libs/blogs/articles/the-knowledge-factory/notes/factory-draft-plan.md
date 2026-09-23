@@ -37,3 +37,11 @@ and *Cognitive Factory*. Canonical articles and runtime assets stay as published
 - `../../the-cognitive-factory/draft/outline.md`
 - `../../the-cognitive-factory/draft/article.md`
 - `../../the-cognitive-factory/draft/humanized-draft.md`
+
+## Status
+
+Both outlines and complete first drafts were saved and pushed in `6a18a92`.
+Both humanized drafts are complete, with the same argument and source limits,
+five links to the other series entries, and three labeled figure cues each.
+Local links, series navigation, motif counts, Sources placement, and private
+file boundaries were checked. The user's review is the next editorial step.
