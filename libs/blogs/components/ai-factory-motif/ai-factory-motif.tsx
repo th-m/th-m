@@ -1606,7 +1606,7 @@ function ContractsGovernAction({ arrowId }: { arrowId: string }) {
   );
 }
 
-+function Axis({ left, middle, right }: { left: string; middle: string; right: string }) {
+function Axis({ left, middle, right }: { left: string; middle: string; right: string }) {
   return (
     <g className="ai-factory-motif__axis" aria-hidden="true">
       <path d="M40 276H680" />

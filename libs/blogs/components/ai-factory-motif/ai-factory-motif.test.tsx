@@ -161,7 +161,7 @@ describe("AiFactoryMotif", () => {
     expect(diagram).toHaveTextContent("EXECUTABLE BY DEFAULT");
   });
 
-+  it("separates ambiguous inputs, training and harness influences, and unverified goal fit", () => {
+  it("separates ambiguous inputs, training and harness influences, and unverified goal fit", () => {
     render(<AiFactoryMotif variant="model-priorities-and-goal-fit" />);
 
     const diagram = screen.getByRole("img", { name: /Fluent output is not value insight/ });
