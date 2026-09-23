@@ -255,6 +255,25 @@
   line-height: 1.7;
 }
 
+/* ------------------------------------------------------------------ */
+/* Isolated composable icon primitives                                 */
+/* ------------------------------------------------------------------ */
+
+.ai-factory-icon { display: block; width: 100%; height: auto; color: var(--color-foreground-muted); }
+.ai-factory-icon path, .ai-factory-icon rect, .ai-factory-icon circle { vector-effect: non-scaling-stroke; }
+.ai-factory-icon marker path { fill: var(--color-foreground-subtle); stroke: none; }
+.ai-factory-icon__vision-center, .ai-factory-icon__meaning-center, .ai-factory-icon__understanding-center { fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface)); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__vision-edge, .ai-factory-icon__meaning-edge, .ai-factory-icon__understanding-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__meaning-center, .ai-factory-icon__meaning-edge { stroke: var(--color-primary); }.ai-factory-icon__meaning-center { fill: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)); }.ai-factory-icon__meaning-boundary { fill: none; stroke: color-mix(in srgb, var(--color-primary) 70%, var(--color-foreground-muted)); stroke-dasharray: 2 4; }
+.ai-factory-icon__morpheme { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 3 5; opacity: .8; }.ai-factory-icon__morpheme--refined { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke-dasharray: none; stroke-width: 1.2; }.ai-factory-icon__center { fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface)); }
+.ai-factory-icon__frame, .ai-factory-icon__station, .ai-factory-icon__implementation-frame, .ai-factory-icon__ontology-frame { fill: color-mix(in srgb, var(--color-card) 94%, transparent); stroke: var(--color-border); stroke-width: 1; }
+.ai-factory-icon__text-line, .ai-factory-icon__implementation-line, .ai-factory-icon__ontology-label { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }.ai-factory-icon__text-highlight { fill: color-mix(in srgb, var(--color-primary) 24%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1; }
+.ai-factory-icon__token-bracket, .ai-factory-icon__token-line { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }.ai-factory-icon__token-cell { fill: color-mix(in srgb, var(--color-primary) 9%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1; }
+.ai-factory-icon--term-of-art .ai-factory-icon__station { stroke: var(--color-primary); }.ai-factory-icon--term-of-art .ai-factory-icon__morpheme { stroke: var(--color-primary); }.ai-factory-icon--term-of-art .ai-factory-icon__center { fill: color-mix(in srgb, var(--color-primary) 24%, var(--color-surface)); }
+.ai-factory-icon__understanding-boundary { fill: color-mix(in srgb, var(--color-primary) 10%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }.ai-factory-icon__understanding-center { fill: color-mix(in srgb, var(--color-primary) 22%, var(--color-surface)); stroke: var(--color-primary); }.ai-factory-icon__understanding-core { fill: var(--color-primary); }
+.ai-factory-icon__implementation-center { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }.ai-factory-icon__implementation-core { fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface)); }.ai-factory-icon__ontology-frame { fill: color-mix(in srgb, var(--color-card) 94%, transparent); }
+.ai-factory-icon__relation-line { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }.ai-factory-icon__relation-label { fill: var(--color-surface); stroke: var(--color-border); }.ai-factory-icon__relation-label-line { fill: none; stroke: var(--color-foreground-subtle); stroke-width: 1; }.ai-factory-icon__operator { fill: var(--color-surface); stroke: var(--color-border-strong); stroke-width: 1; }.ai-factory-icon__operator-mark { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
+
 @media (max-width: 640px) {
   .ai-factory-motif__header {
     grid-template-columns: 1fr;

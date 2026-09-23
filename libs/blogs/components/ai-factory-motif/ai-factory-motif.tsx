@@ -41,6 +41,69 @@ const motifContent = {
 
 export type AiFactoryMotifVariant = keyof typeof motifContent;
 
+export type AiFactoryIconKind =
+  | "vision"
+  | "meaning"
+  | "morpheme-diffuse"
+  | "morpheme-refined"
+  | "text"
+  | "token"
+  | "term-of-art"
+  | "understanding"
+  | "implementation"
+  | "ontology-node"
+  | "typed-relation"
+  | "operator";
+
+const iconLabels: Record<AiFactoryIconKind, string> = {
+  vision: "Vision: felt possibility",
+  meaning: "Meaning: directed significance",
+  "morpheme-diffuse": "Morpheme: context-sensitive meaning with a diffuse boundary",
+  "morpheme-refined": "Morpheme: context-sensitive meaning with a refined boundary",
+  text: "Text: a sequence of expressed morphemes",
+  token: "Token: a bounded unit presented to a model",
+  "term-of-art": "Term of art: a stable domain boundary",
+  understanding: "Understanding: a situated model with context and stakes",
+  implementation: "Implementation: a concrete decision, test, or artifact",
+  "ontology-node": "Ontology node: a term placed in a shared model",
+  "typed-relation": "Typed relation: a labeled connection between terms",
+  operator: "Operator: practices combine or transform meaning",
+};
+
+function IconMorpheme({ refined = false, x = 80, y = 80, scale = 1 }: { refined?: boolean; x?: number; y?: number; scale?: number }) {
+  return <g transform={`translate(${x} ${y}) scale(${scale})`}><circle className={refined ? "ai-factory-icon__morpheme ai-factory-icon__morpheme--refined" : "ai-factory-icon__morpheme"} cx="0" cy="0" r="32" /><circle className="ai-factory-icon__center" cx="0" cy="0" r="5" /></g>;
+}
+
+/**
+ * The isolated primitives used by the AI Factory motif. These stay deliberately
+ * small and composable: a page, figure, graph, or workflow can reuse the same
+ * semantic marks without importing one of the composed chapter diagrams.
+ */
+export function AiFactoryIcon({ kind, label = iconLabels[kind] }: { kind: AiFactoryIconKind; label?: string }) {
+  const markerId = `ai-factory-icon-arrow-${kind}`;
+  return (
+    <svg className={`ai-factory-icon ai-factory-icon--${kind}`} viewBox="0 0 160 160" role="img" aria-label={label}>
+      <defs>
+        <marker id={markerId} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0 0L8 4L0 8Z" />
+        </marker>
+      </defs>
+      {kind === "vision" ? <><circle className="ai-factory-icon__vision-center" cx="80" cy="80" r="12" /><path className="ai-factory-icon__vision-edge" d="M80 36V56M80 104V124M36 80H56M104 80H124" /></> : null}
+      {kind === "meaning" ? <><circle className="ai-factory-icon__meaning-center" cx="80" cy="80" r="12" /><circle className="ai-factory-icon__meaning-boundary" cx="80" cy="80" r="32" /><path className="ai-factory-icon__meaning-edge" d="M80 28V48M80 112V132M28 80H48M112 80H132M43 43L58 58M102 102L117 117M117 43L102 58M58 102L43 117" /></> : null}
+      {kind === "morpheme-diffuse" ? <IconMorpheme /> : null}
+      {kind === "morpheme-refined" ? <IconMorpheme refined /> : null}
+      {kind === "text" ? <><rect className="ai-factory-icon__frame" x="34" y="24" width="92" height="112" /><path className="ai-factory-icon__text-line" d="M50 52H110M50 72H98M50 92H110M50 112H82" /><rect className="ai-factory-icon__text-highlight" x="50" y="68" width="48" height="8" /></> : null}
+      {kind === "token" ? <><path className="ai-factory-icon__token-bracket" d="M52 38H38V52M108 38H122V52M38 108V122H52M122 108V122H108" /><rect className="ai-factory-icon__token-cell" x="58" y="58" width="44" height="44" /><path className="ai-factory-icon__token-line" d="M68 72H92M68 82H92M68 92H84" /></> : null}
+      {kind === "term-of-art" ? <><rect className="ai-factory-icon__station" x="24" y="24" width="112" height="112" /><IconMorpheme refined /></> : null}
+      {kind === "understanding" ? <><path className="ai-factory-icon__understanding-edge" d="M80 30V48M80 112V130M30 80H48M112 80H130" /><circle className="ai-factory-icon__understanding-boundary" cx="80" cy="80" r="32" /><circle className="ai-factory-icon__understanding-center" cx="80" cy="80" r="12" /><circle className="ai-factory-icon__understanding-core" cx="80" cy="80" r="4" /></> : null}
+      {kind === "implementation" ? <><rect className="ai-factory-icon__implementation-frame" x="34" y="38" width="92" height="84" /><circle className="ai-factory-icon__implementation-center" cx="62" cy="80" r="16" /><circle className="ai-factory-icon__implementation-core" cx="62" cy="80" r="4" /><path className="ai-factory-icon__implementation-line" d="M90 64H110M90 80H110M90 96H110" /></> : null}
+      {kind === "ontology-node" ? <><rect className="ai-factory-icon__ontology-frame" x="20" y="48" width="120" height="64" /><IconMorpheme refined x={56} y={80} scale={0.42} /><path className="ai-factory-icon__ontology-label" d="M94 70H124M94 82H116M94 94H124" /></> : null}
+      {kind === "typed-relation" ? <><path className="ai-factory-icon__relation-line" d="M24 88H136" markerEnd={`url(#${markerId})`} /><rect className="ai-factory-icon__relation-label" x="54" y="60" width="52" height="20" /><path className="ai-factory-icon__relation-label-line" d="M64 70H96" /></> : null}
+      {kind === "operator" ? <><circle className="ai-factory-icon__operator" cx="80" cy="80" r="22" /><path className="ai-factory-icon__operator-mark" d="M68 80H92M80 68V92" /></> : null}
+    </svg>
+  );
+}
+
 function ConnectorLabel({ x, y, children }: { x: number; y: number; children: string }) {
   const width = Math.max(56, children.length * 6.4);
 

@@ -1524,3 +1524,53 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   .laws-page { padding-top: 112px; }
   .tool-drawer-handoff { grid-template-columns: 1fr; gap: 8px; }
 }
+
+/* ------------------------------------------------------------------ */
+/* AI Factory iconography review                                       */
+/* ------------------------------------------------------------------ */
+
+.motif-review-page { width: var(--page); margin: 0 auto; padding: 150px clamp(0px, 2vw, 32px) 100px; }
+.motif-review__hero { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 60px; align-items: end; padding-bottom: 72px; border-bottom: 1px solid var(--line); }
+.motif-review__hero h1 { max-width: 900px; margin: 18px 0 24px; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(60px, 10vw, 148px); font-weight: 400; line-height: .82; letter-spacing: -.06em; }
+.motif-review__lede { max-width: 720px; margin: 0; color: var(--brand-muted); font-size: clamp(18px, 2vw, 24px); line-height: 1.55; }
+.motif-review__nav { display: grid; gap: 10px; padding-bottom: 5px; }
+.motif-review__nav a { display: flex; justify-content: space-between; gap: 20px; padding: 9px 0; border-bottom: 1px solid var(--line); color: var(--brand-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.motif-review__nav a::after { content: "↘"; color: var(--brand-gold); }.motif-review__nav a:hover, .motif-review__nav a:focus-visible { color: var(--brand-gold); padding-left: 8px; }
+.motif-review__legend { display: grid; grid-template-columns: minmax(180px, .6fr) 1fr; gap: 34px; padding: 68px 0; border-bottom: 1px solid var(--line); }
+.motif-review__legend h2 { max-width: 480px; margin: 14px 0 0; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(36px, 5vw, 64px); font-weight: 410; line-height: .9; letter-spacing: -.04em; }
+.motif-review__legend-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.motif-review__legend-item { display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: center; min-height: 110px; padding: 16px; border: 1px solid var(--line); background: var(--brand-surface); }
+.motif-review__legend-item strong { display: block; margin-bottom: 7px; font-family: "Newsreader Variable", Georgia, serif; font-size: 22px; font-weight: 420; }.motif-review__legend-item p { margin: 0; color: var(--brand-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; line-height: 1.5; }
+.motif-review__sample { position: relative; width: 42px; height: 42px; display: block; border: 1px solid var(--brand-muted); border-radius: 50%; }.motif-review__sample::after { content: ""; position: absolute; inset: 17px; border-radius: 50%; background: var(--brand-muted); }
+.motif-review__sample--diffuse { border-style: dashed; opacity: .8; }.motif-review__sample--refined { background: color-mix(in srgb, var(--brand-muted) 8%, transparent); }.motif-review__sample--focal { border-color: var(--brand-gold); background: color-mix(in srgb, var(--brand-gold) 8%, transparent); }.motif-review__sample--focal::after { background: var(--brand-gold); }
+.motif-review__sample--connector { width: 48px; height: auto; border: 0; border-radius: 0; color: var(--brand-gold); font-size: 28px; line-height: 42px; text-align: center; }.motif-review__sample--connector::after { display: none; }
+.motif-review__gallery { padding-top: 10px; }
+.motif-review__entry { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 34px; padding: clamp(72px, 9vw, 128px) 0; border-bottom: 1px solid var(--line); }
+.motif-review__entry-index { display: flex; gap: 12px; align-items: flex-start; color: var(--brand-gold); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .1em; }.motif-review__entry-line { width: 24px; height: 1px; margin-top: 6px; background: var(--brand-construction); }
+.motif-review__entry h2 { max-width: 760px; margin: 14px 0 34px; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(38px, 5vw, 68px); font-weight: 410; line-height: .9; letter-spacing: -.04em; }
+.motif-review__entry .ai-factory-motif { margin: 0; }
+.motif-review__language { display: grid; grid-template-columns: minmax(220px, .55fr) 1fr; gap: 34px; padding: 78px 0; border-bottom: 1px solid var(--line); }
+.motif-review__language-heading h2, .motif-review__parts-heading h2 { max-width: 520px; margin: 14px 0 18px; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(40px, 5vw, 70px); font-weight: 410; line-height: .9; letter-spacing: -.04em; }
+.motif-review__language-heading p:last-child, .motif-review__parts-heading p:last-child { max-width: 540px; margin: 0; color: var(--brand-muted); line-height: 1.65; }
+.motif-review__language-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; align-items: stretch; }
+.motif-review__language-item { position: relative; min-width: 0; padding: 12px; border: 1px solid var(--line); background: var(--brand-surface); }
+.motif-review__icon-stage { display: grid; place-items: center; min-height: 150px; padding: 18px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--brand-background) 72%, transparent); }
+.motif-review__icon-copy { padding: 16px 4px 4px; }.motif-review__icon-index, .motif-review__part-meta { color: var(--brand-gold); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }.motif-review__icon-copy h3 { margin: 10px 0 8px; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(25px, 3vw, 38px); font-weight: 420; line-height: .95; }.motif-review__icon-copy p { margin: 0; color: var(--brand-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; line-height: 1.55; }
+.motif-review__language-arrow { position: absolute; top: 50%; right: -18px; z-index: 1; color: var(--brand-gold); font-size: 22px; transform: translateY(-50%); }
+.motif-review__parts { padding: 78px 0 22px; border-bottom: 1px solid var(--line); }.motif-review__parts-heading { display: grid; grid-template-columns: minmax(220px, .55fr) 1fr; gap: 34px; }.motif-review__parts-heading .eyebrow { grid-column: 1; }.motif-review__parts-heading h2, .motif-review__parts-heading p:last-child { grid-column: 2; }.motif-review__parts-heading h2 { grid-row: 1 / span 2; }.motif-review__parts-heading p:last-child { grid-row: 3; }
+.motif-review__parts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 48px; }.motif-review__part { min-width: 0; padding: 16px; border: 1px solid var(--line); background: var(--brand-surface); }.motif-review__part-meta { display: flex; justify-content: space-between; gap: 10px; min-height: 28px; }.motif-review__part-meta span:last-child { overflow: hidden; color: var(--brand-muted); text-overflow: ellipsis; white-space: nowrap; }.motif-review__part-icon { display: grid; place-items: center; width: 100%; min-height: 170px; margin: 14px 0 18px; padding: 22px; border-block: 1px solid var(--line); background: color-mix(in srgb, var(--brand-background) 72%, transparent); }.motif-review__part-icon .ai-factory-icon { width: min(100%, 150px); }.motif-review__part h3 { margin: 0 0 8px; font-family: "Newsreader Variable", Georgia, serif; font-size: 28px; font-weight: 420; line-height: .95; }.motif-review__part p { margin: 0; color: var(--brand-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; line-height: 1.55; }
+.motif-review__footer { display: grid; grid-template-columns: 90px 1fr auto; gap: 34px; align-items: start; padding: 70px 0 20px; }.motif-review__footer h2 { max-width: 600px; margin: 0 0 14px; font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(34px, 5vw, 62px); font-weight: 410; line-height: .92; letter-spacing: -.04em; }.motif-review__footer p:not(.eyebrow) { max-width: 620px; margin: 0; color: var(--brand-muted); line-height: 1.7; }.motif-review__footer a { color: var(--brand-gold); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+
+@media (max-width: 680px) {
+  .motif-review-page { padding-top: 112px; }
+  .motif-review__hero, .motif-review__legend, .motif-review__language { grid-template-columns: 1fr; gap: 42px; }
+  .motif-review__hero h1 { font-size: clamp(60px, 18vw, 110px); }
+  .motif-review__legend { padding: 56px 0; }
+  .motif-review__legend-grid { grid-template-columns: 1fr; }
+  .motif-review__language { padding: 56px 0; }.motif-review__language-track { grid-template-columns: 1fr; }.motif-review__language-arrow { top: auto; right: 50%; bottom: -22px; transform: translateX(50%) rotate(90deg); }
+  .motif-review__parts { padding: 56px 0 12px; }.motif-review__parts-heading { display: block; }.motif-review__parts-heading h2 { margin-bottom: 18px; }.motif-review__parts-grid { grid-template-columns: 1fr; margin-top: 36px; }
+  .motif-review__entry { grid-template-columns: 1fr; gap: 18px; padding: 76px 0; }
+  .motif-review__entry-index { order: -1; }
+  .motif-review__entry h2 { font-size: clamp(38px, 12vw, 66px); }
+  .motif-review__footer { grid-template-columns: 1fr; gap: 18px; }
+}

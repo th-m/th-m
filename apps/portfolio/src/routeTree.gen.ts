@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiFactoryMotifRouteImport } from './routes/ai-factory-motif'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as EmbeddingSpaceRouteImport } from './routes/embedding-space'
@@ -25,6 +26,11 @@ import { Route as WritingSlugRouteImport } from './routes/writing.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiFactoryMotifRoute = AiFactoryMotifRouteImport.update({
+  id: '/ai-factory-motif',
+  path: '/ai-factory-motif',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BrandRoute = BrandRouteImport.update({
@@ -85,6 +91,7 @@ const WritingSlugRoute = WritingSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-factory-motif': typeof AiFactoryMotifRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-factory-motif': typeof AiFactoryMotifRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
@@ -114,6 +122,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-factory-motif': typeof AiFactoryMotifRoute
   '/brand': typeof BrandRoute
   '/design-system': typeof DesignSystemRoute
   '/embedding-space': typeof EmbeddingSpaceRoute
@@ -130,6 +139,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-factory-motif'
     | '/brand'
     | '/design-system'
     | '/embedding-space'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-factory-motif'
     | '/brand'
     | '/design-system'
     | '/embedding-space'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai-factory-motif'
     | '/brand'
     | '/design-system'
     | '/embedding-space'
@@ -173,6 +185,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiFactoryMotifRoute: typeof AiFactoryMotifRoute
   BrandRoute: typeof BrandRoute
   DesignSystemRoute: typeof DesignSystemRoute
   EmbeddingSpaceRoute: typeof EmbeddingSpaceRoute
@@ -193,6 +206,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-factory-motif': {
+      id: '/ai-factory-motif'
+      path: '/ai-factory-motif'
+      fullPath: '/ai-factory-motif'
+      preLoaderRoute: typeof AiFactoryMotifRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/brand': {
@@ -277,6 +297,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiFactoryMotifRoute: AiFactoryMotifRoute,
   BrandRoute: BrandRoute,
   DesignSystemRoute: DesignSystemRoute,
   EmbeddingSpaceRoute: EmbeddingSpaceRoute,
@@ -292,12 +313,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
