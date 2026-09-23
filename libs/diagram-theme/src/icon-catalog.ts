@@ -65,8 +65,8 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   },
   opportunity: {
     semanticRole: "concept", iconId: "opportunity", title: "Opportunity",
-    definition: "A need, opening, or possibility worth exploring in pursuit of a goal.",
-    visualGrammar: "A neutral stem branches upward toward three open possibility circles, with the central circle highlighted in gold. The branches illustrate alternatives, not a fixed count or a proven opportunity.",
+    definition: "A path toward meaning or value: a possibility worth exploring in pursuit of a goal.",
+    visualGrammar: "A neutral input rises through the same two curved paths as Experiment, ending in equally sized outlined circles: gold on the left and information blue on the right. Gold marks meaning or value; the branches depict possibilities, not guaranteed outcomes.",
   },
   solution: {
     semanticRole: "concept", iconId: "solution", title: "Solution",
@@ -75,7 +75,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   },
   experiment: {
     semanticRole: "evaluation", iconId: "experiment", title: "Experiment",
-    definition: "A bounded test of an assumption that produces observations to inform a decision.",
+    definition: "A path toward information: a bounded test of an assumption that produces observations to inform a decision.",
     visualGrammar: "A neutral input rises from below and divides into two curved paths toward equally sized outlined triangles: gray on the left and information blue on the right. The highlight distinguishes observations without implying success or a required two-arm trial.",
   },
   value: {

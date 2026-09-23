@@ -27,7 +27,7 @@
 .ai-factory-icon__opportunity-branches,
 .ai-factory-icon__solution-path,
 .ai-factory-icon__experiment-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
-.ai-factory-icon__opportunity-possibility { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__opportunity-possibility { fill: none; stroke: var(--color-info); stroke-width: 1.2; }
 .ai-factory-icon__opportunity-possibility--focus { stroke: var(--color-primary); }
 .ai-factory-icon__solution-endpoint { fill: var(--color-foreground-muted); stroke: none; }
 .ai-factory-icon__solution-intervention { fill: none; stroke: var(--color-primary); stroke-width: 1.2; stroke-linejoin: miter; }
