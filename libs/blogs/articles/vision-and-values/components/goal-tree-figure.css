@@ -61,8 +61,18 @@
 
 .goal-hierarchy__tier-label {
   position: absolute;
-  left: 14px;
-  width: 70px;
+  left: 10px;
+  width: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  transform: translateY(-50%);
+}
+
+.goal-hierarchy__tier-label,
+.goal-hierarchy__summary-label {
   color: var(--color-muted-foreground);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -72,10 +82,17 @@
   text-transform: uppercase;
 }
 
-.goal-hierarchy__tier-label--goal { top: 70px; }
-.goal-hierarchy__tier-label--opportunities { top: 218px; }
-.goal-hierarchy__tier-label--solutions { top: 368px; }
-.goal-hierarchy__tier-label--experiments { top: 518px; }
+.goal-hierarchy__tier-label--goal { top: 76px; }
+.goal-hierarchy__tier-label--opportunities { top: 224px; }
+.goal-hierarchy__tier-label--solutions { top: 374px; }
+.goal-hierarchy__tier-label--experiments { top: 524px; }
+
+.goal-hierarchy__summary-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
 
 .goal-hierarchy__node {
   position: absolute;
@@ -94,8 +111,9 @@
 
 .goal-hierarchy__icon {
   display: block;
-  width: 32px;
-  height: 32px;
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
 }
 
 .goal-hierarchy__node > strong {

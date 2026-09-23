@@ -167,3 +167,18 @@ and graph relationships are unchanged.
 Verification: owner typechecks and tests, blogs/portfolio publication, and both
 diagram export engines. Visual review covers the selected glyph geometry,
 160px/48px/32px exports, the desktop tree, and mobile summary/full-view behavior.
+
+## One icon per hierarchy stage — 2026-09-23
+
+Baseline: [0288e88](https://github.com/th-m/th-m/commit/0288e88acb0bd7b61dd26cadcb33f68e8bd7a806),
+verified on the remote branch before editing.
+
+Move the icons out of every square node and into the left stage labels, once
+per stage. Double the icon frame from 32px to 64px. Keep desktop nodes text-only;
+the mobile reading path likewise pairs each enlarged icon with its stage heading
+outside the card. One stage list owns both presentations and the existing
+relationships and example labels remain unchanged.
+
+Verified four stage icons and zero node icons in each presentation, no mobile
+page overflow, and the full-view toggle. Blogs and portfolio checks/publication
+and repository documentation checks passed.

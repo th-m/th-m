@@ -1,4 +1,4 @@
-import { ResponsiveDiagram, DiagramSummary } from "@th-m/blogs/components";
+import { ResponsiveDiagram } from "@th-m/blogs/components";
 import { AiFactoryIcon } from "@th-m/diagram-theme/icons";
 import "./goal-tree-figure.css";
 
@@ -16,28 +16,37 @@ export function GoalTreeFigure() {
     { id: "e2", label: "Pilot a chapter", tier: "experiment" },
     { id: "e3", label: "Measure net income", tier: "experiment" },
   ] as const;
+  const stages = [
+    { label: "Goal", kind: "goal", example: "goal", relation: "" },
+    { label: "Opportunities", kind: "opportunity", example: "o1", relation: "opens an opportunity" },
+    { label: "Solutions", kind: "solution", example: "s1", relation: "suggests a solution" },
+    { label: "Experiments", kind: "experiment", example: "e1", relation: "is tested by" },
+  ] as const;
 
   return (
     <figure id="goal-hierarchy" className="article-figure goal-hierarchy-figure">
       <ResponsiveDiagram
         label="From goal to experiment"
         summary={
-          <DiagramSummary
-            label="From goal to experiment"
-            steps={["goal", "o1", "s1", "e1"].map((id, i) => {
-              const node = nodes.find((n) => n.id === id)!;
-              return {
-                label: node.label,
-                detail:
-                  node.tier === "goal"
-                    ? "Protect Jon’s evenings while earning from existing expertise."
-                    : undefined,
-                relation: ["", "opens an opportunity", "suggests a solution", "is tested by"][i],
-                focal: i === 0,
-                icon: node.tier,
-              };
-            })}
-          />
+          <div className="diagram-summary" role="group" aria-label="From goal to experiment — simplified view">
+            <ol className="diagram-summary__steps">
+              {stages.map((stage, i) => (
+                <li key={stage.kind}>
+                  {i > 0 && <div className="diagram-summary__relation"><span aria-hidden="true">↓ </span>{stage.relation}</div>}
+                  <div className="goal-hierarchy__summary-label">
+                    <span className="goal-hierarchy__icon" aria-hidden="true"><AiFactoryIcon kind={stage.kind} /></span>
+                    <span>{stage.label}</span>
+                  </div>
+                  <div className={`diagram-summary__node${i === 0 ? " diagram-node--focal" : ""}`}>
+                    <div>
+                      <strong>{nodes.find((node) => node.id === stage.example)!.label}</strong>
+                      {i === 0 && <p>Protect Jon’s evenings while earning from existing expertise.</p>}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
         }
       >
         <div className="goal-hierarchy__viewport" tabIndex={0}>
@@ -84,12 +93,13 @@ export function GoalTreeFigure() {
               />
             </svg>
 
-            {(["Goal", "Opportunities", "Solutions", "Experiments"] as const).map((tier) => (
+            {stages.map((stage) => (
               <span
-                key={tier}
-                className={`goal-hierarchy__tier-label goal-hierarchy__tier-label--${tier.toLowerCase()}`}
+                key={stage.kind}
+                className={`goal-hierarchy__tier-label goal-hierarchy__tier-label--${stage.label.toLowerCase()}`}
               >
-                {tier}
+                <span className="goal-hierarchy__icon" aria-hidden="true"><AiFactoryIcon kind={stage.kind} /></span>
+                <span>{stage.label}</span>
               </span>
             ))}
 
@@ -98,9 +108,6 @@ export function GoalTreeFigure() {
                 key={node.id}
                 className={`goal-hierarchy__node goal-hierarchy__node--${node.tier} goal-hierarchy__node--${node.id}`}
               >
-                <span className="goal-hierarchy__icon" aria-hidden="true">
-                  <AiFactoryIcon kind={node.tier} />
-                </span>
                 <strong>{node.label}</strong>
               </div>
             ))}
