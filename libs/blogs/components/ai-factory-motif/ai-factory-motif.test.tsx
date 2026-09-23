@@ -395,8 +395,8 @@ describe("AiFactoryMotif", () => {
     for (const gap of diagram.querySelectorAll(".ai-factory-motif__experience-gap")) {
       expect(gap).not.toHaveAttribute("marker-end");
     }
-    expect(diagram.querySelector('[data-gap="communication"]')).toHaveAttribute("d", "M388 124H496");
-    expect(diagram.querySelector('[data-gap="value"]')).toHaveAttribute("d", "M388 284H496");
+    expect(diagram.querySelector('[data-gap="communication"]')).toHaveAttribute("d", "M340 124H394M442 124H496");
+    expect(diagram.querySelector('[data-gap="value"]')).toHaveAttribute("d", "M340 284H394M442 284H496");
     expect(diagram.querySelectorAll(".ai-factory-icon--disconnected")).toHaveLength(2);
     expect(diagram.querySelector(".ai-factory-motif__experience-break")).not.toBeInTheDocument();
     expect(screen.getByText(/Unsubstantiated value is not the same as no value/)).toBeInTheDocument();
@@ -413,8 +413,8 @@ describe("AiFactoryMotif", () => {
     expect(diagram).toHaveTextContent("not yet communicated");
     expect(diagram).toHaveTextContent("not yet substantiated");
     expect(Array.from(diagram.querySelectorAll(".ai-factory-icon--disconnected"), icon => icon.getAttribute("transform"))).toEqual([
-      "translate(364 124) scale(0.5) translate(-80 -80)",
-      "translate(364 284) scale(0.5) translate(-80 -80)",
+      "translate(418 124) scale(0.5) translate(-80 -80)",
+      "translate(418 284) scale(0.5) translate(-80 -80)",
     ]);
     expect(diagram).not.toHaveTextContent("CARRIES");
   });
@@ -460,7 +460,7 @@ describe("AiFactoryMotif", () => {
     expect(value?.querySelector(".ai-factory-icon--self")).toHaveAttribute("transform", "translate(544 284) scale(0.75) translate(-80 -80)");
     expect(value?.querySelector(".ai-factory-icon--others")).toHaveAttribute("transform", "translate(712 284) scale(0.75) translate(-80 -80)");
     expect(value?.querySelector(".ai-factory-icon--value")).toHaveAttribute("transform", "translate(628 284) scale(0.4) translate(-80 -80)");
-    expect(value?.querySelector('[data-relationship="value-between-people"]')).toHaveAttribute("d", "M550 284H602M654 284H694");
+    expect(value?.querySelector('[data-relationship="value-between-people"]')).toHaveAttribute("d", "M558 284H598M658 284H686");
     expect(value).toHaveTextContent("Value lies within relationships");
     expect(value).toHaveTextContent("Self");
     expect(value).toHaveTextContent("Others");

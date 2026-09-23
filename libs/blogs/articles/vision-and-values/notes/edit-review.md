@@ -90,3 +90,12 @@ summary now names only customer and partner goals.
 
 Verification: inspected the 919px desktop view and the mobile summary; blogs
 and portfolio publication checks passed, including typechecks and tests.
+
+## Experience motif spacing revision — 2026-09-23
+
+Baseline: [cea4a87](https://github.com/th-m/th-m/commit/cea4a87b5e4a69a6c524d77a9d16f902f2a192fd),
+already pushed before this follow-up. Centered both disconnect glyphs at x=418,
+the midpoint between panel edges x=340 and x=496. Equal line segments now meet
+the glyph ends. In the value panel, shortened the relationship lines to leave
+eight SVG units clear of Self and Others, with similar clearance around Value.
+Updated the existing scene assertions and checked the rendered motif.

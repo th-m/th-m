@@ -459,11 +459,11 @@ function ExperienceButLacking({ arrowId }: { arrowId: string }) {
       <text className="ai-factory-motif__experience-eyebrow" x="64" y="84">PERSONAL EXPERIENCE</text>
       <g className="ai-factory-motif__connectors" aria-hidden="true">
         <path className="ai-factory-motif__connector--focal" d="M172 184H216" markerEnd={`url(#${arrowId})`} />
-        <path className="ai-factory-motif__experience-gap" data-gap="communication" d="M388 124H496" />
-        <path className="ai-factory-motif__experience-gap" data-gap="value" d="M388 284H496" />
+        <path className="ai-factory-motif__experience-gap" data-gap="communication" d="M340 124H394M442 124H496" />
+        <path className="ai-factory-motif__experience-gap" data-gap="value" d="M340 284H394M442 284H496" />
       </g>
-      <MotifGlyph kind="disconnected" x={364} y={124} scale={0.5} />
-      <MotifGlyph kind="disconnected" x={364} y={284} scale={0.5} />
+      <MotifGlyph kind="disconnected" x={418} y={124} scale={0.5} />
+      <MotifGlyph kind="disconnected" x={418} y={284} scale={0.5} />
       <rect className="ai-factory-motif__station" x="62" y="160" width="110" height="48" />
       <MotifGlyph kind="meaning" x={260} y={184} scale={0.75} />
       <text className="ai-factory-motif__label" x="117" y="189" textAnchor="middle">Experience</text>
@@ -483,7 +483,7 @@ function ExperienceButLacking({ arrowId }: { arrowId: string }) {
         <rect x="496" y="216" width="264" height="136" />
         <text className="ai-factory-motif__label" x="628" y="240" textAnchor="middle">Value lies within relationships</text>
         <g className="ai-factory-motif__connectors" aria-hidden="true">
-          <path className="ai-factory-motif__connector--focal" data-relationship="value-between-people" d="M550 284H602M654 284H694" />
+          <path className="ai-factory-motif__connector--focal" data-relationship="value-between-people" d="M558 284H598M658 284H686" />
         </g>
         <MotifGlyph kind="self" x={544} y={284} scale={0.75} />
         <MotifGlyph kind="value" x={628} y={284} scale={0.4} />
