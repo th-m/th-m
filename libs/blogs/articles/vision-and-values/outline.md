@@ -92,12 +92,15 @@ synthesis. Neither source proves that every AI-assisted strategy fails.
 the governing tradeoff, the next question is why such advice can still feel
 specific enough to trust.
 
-### 2. Fluency Can Impersonate Strategic Fit
+### 2. Fluency Can Feel Like Understanding
 
 **Reader starts with:** A polished response may seem tailored because it uses
 the right vocabulary and presents a coherent recommendation.
 
-**Move:** Explain the Barnum effect as an analogy for perceived specificity,
+**Move:** Lead with Almeida's bold engagement quote and linked attribution as a
+ChatGPT and InstructGPT coauthor. Follow with his diagnosis that these assistants
+are designed to make users feel good, emphasizing that this account comes from
+one of the people who built ChatGPT. Then explain the Barnum effect as an analogy for perceived specificity,
 not as a finding from the strategic-advice study. Compare the same generic
 recommendation in two situations that require different choices. Name the
 missing discriminators: stakeholders, constraints, non-goals, acceptable
@@ -218,9 +221,8 @@ governance work.
 
 **Move:** Show how training data, post-training, system instructions,
 organizational policy, user context, tools, and evaluation combine into an
-operative hierarchy. Attribute Diogo Almeida's “optimizing for engagement” line
-narrowly as his critique of preference optimization, not a demonstrated
-universal objective or evidence about a later product.
+operative hierarchy. Build on section 2's attributed critique of preference
+optimization by explaining who chooses the reward proxy and evaluators.
 
 Carry Jon through the section. The publishing service can celebrate books
 released and revenue generated while Jon earns little after fees and loses the

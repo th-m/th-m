@@ -1,5 +1,23 @@
 # RLHF, Assistance, and Automation
 
+## Editorial revision: 2026-09-23
+
+Baseline: [94afc8b](https://github.com/th-m/th-m/commit/94afc8b6f16456d59527d7616522061b6a4bc995),
+verified on origin before editing. Moved the engagement quotation to the opening
+of “Fluency Can Feel Like Understanding,” made it bold, and attributed it to
+Almeida as a ChatGPT and InstructGPT coauthor. Removed the duplicate quotation
+later in the essay and aligned the active outline.
+
+Checked the [talk transcript at 7:38–7:56](https://ai.engineer/talks/cJ0EOzey--o-jev-ceo-made-chatgpt-building-whats-next):
+the ellipsis omits the spoken filler “uh.” The [InstructGPT paper](https://arxiv.org/abs/2203.02155)
+independently lists Almeida as a coauthor. “Designed to make you feel good” is
+the article's paraphrase of his diagnosis, explicitly introduced as his point;
+it is not a second direct quotation or a universal empirical result.
+
+Verification: blogs and portfolio publication targets passed, including their
+typechecks and tests. Browser checks at 1280 px and 390 px confirmed the opening
+quotation renders in a `strong` element with no page overflow.
+
 ## Source status
 
 This note preserves claims from Diogo Almeida's 2026 AI Engineer World's Fair
