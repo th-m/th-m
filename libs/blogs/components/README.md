@@ -26,6 +26,10 @@ asset resolution; `ui` owns reusable interface primitives.
 - `document-popover.tsx`: click/touch/keyboard-accessible, scrollable reference
   content with a persistent close button. Supply a title, inline trigger, and
   rendered content; the original article remains visible.
+- `diagram.tsx` and `diagram.css`: ResponsiveDiagram supplies an authored compact
+  view below 720px and a keyboard-accessible full-detail toggle. DiagramSummary
+  composes labeled steps using the canonical diagram-theme icons. Keep complete
+  semantics in the article and derive both views from the same scene data.
 - `article-bundle-graph/`: the responsive six-essay AI Factory dependency graph
   shared by the home page and canonical article composition.
 - `neural-training-figure/`: reusable training walkthrough, styles, and tests.

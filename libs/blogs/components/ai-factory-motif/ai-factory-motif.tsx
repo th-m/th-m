@@ -1,6 +1,10 @@
 import "./ai-factory-motif.css";
 import { useId } from "react";
-import { aiFactoryIconLabel, type AiFactoryIconKind } from "./icon-catalog";
+import { type AiFactoryIconKind } from "./icon-catalog";
+import { AiFactoryIcon, AiFactoryIconGlyph, ConnectorLabel } from "@th-m/diagram-theme/icons";
+import { ResponsiveDiagram, DiagramSummary } from "../diagram";
+import { BlogLink } from "../links";
+export { AiFactoryIcon } from "@th-m/diagram-theme/icons";
 export type { AiFactoryIconKind } from "./icon-catalog";
 
 const motifContent = {
@@ -11,7 +15,7 @@ const motifContent = {
     description:
       "Personal experience carries meaning. Text can lead to shared understanding, and value is situated in the relationship between self and others, but communication and value for others have not yet been established.",
     caption:
-      "The experience is meaningful to me. Text can carry that meaning toward shared understanding; value is realized in relationships with others. The outward bridge is still lacking: the meaning has not been communicated, and its value has not been demonstrated. Unsubstantiated value is not the same as no value.",
+      "Personal meaning can travel through text, but shared understanding and value for others still need to be established. Unsubstantiated value is not the same as no value.",
   },
   "model-priorities-and-goal-fit": {
     index: "01b",
@@ -20,7 +24,7 @@ const motifContent = {
     description:
       "A possible failure path: subjective, incomplete, and conflicting statements enter a model as token embeddings; training shapes learned priorities and the runtime harness steers generation, but the resulting fluent response may mislead or miss the user's unverified goal.",
     caption:
-      "Subjective does not mean false. The risk is treating incomplete or conflicting statements as sufficient grounding. Input tokens are encoded as embeddings; the model generates the response. Training shapes learned behavior, while the harness supplies runtime instructions, tools, and constraints. These influences are not a guaranteed understanding of what matters to the user. Models can clarify or challenge a premise; this figure shows the failure path when missing evidence, context, and success criteria go unresolved. The statements are illustrative, not a measured count or failure rate.",
+      "Subjective does not mean false. Training and runtime instructions shape behavior, but do not establish goal fit. This is a possible failure path, not an inevitable outcome or a measured failure rate.",
   },
   "vision-to-morpheme": {
     index: "01",
@@ -172,282 +176,6 @@ const motifViewBoxes: Record<AiFactoryMotifVariant, string> = {
   "layers-guide-implementation": "0 0 960 488",
   "contracts-govern-action": "0 0 960 488",
 };
-
-function IconMorpheme({ refined = false, x = 80, y = 80, scale = 1, showCenter = true }: { refined?: boolean; x?: number; y?: number; scale?: number; showCenter?: boolean }) {
-  return <g transform={`translate(${x} ${y}) scale(${scale})`}><circle className={refined ? "ai-factory-icon__morpheme ai-factory-icon__morpheme--refined" : "ai-factory-icon__morpheme"} cx="0" cy="0" r="32" />{showCenter ? <path className="ai-factory-icon__morpheme-center-line ai-factory-icon__text-line" d="M-8 0H8" /> : null}</g>;
-}
-
-function VisionGlyph() {
-  return <><circle className="ai-factory-icon__vision-center" cx="80" cy="80" r="12" /><path className="ai-factory-icon__vision-edge" d="M80 36V56M80 104V124M36 80H56M104 80H124" /></>;
-}
-
-function SelfGlyph() {
-  return <circle className="ai-factory-icon__self-dot" cx="80" cy="80" r="8" />;
-}
-
-function ValueGlyph() {
-  return <>
-    <SelfGlyph />
-    <path className="ai-factory-icon__value-edge" d="M80 24V52" />
-    <path className="ai-factory-icon__value-edge" d="M108 80H136" />
-    <path className="ai-factory-icon__value-edge" d="M80 108V136" />
-    <path className="ai-factory-icon__value-edge" d="M24 80H52" />
-    <path className="ai-factory-icon__value-edge" d="M40 40L60 60" />
-    <path className="ai-factory-icon__value-edge" d="M100 60L120 40" />
-    <path className="ai-factory-icon__value-edge" d="M100 100L120 120" />
-    <path className="ai-factory-icon__value-edge" d="M40 120L60 100" />
-  </>;
-}
-
-/**
- * The isolated primitives used by the AI Factory motif. These stay deliberately
- * small and composable: a page, figure, graph, or workflow can reuse the same
- * semantic marks without importing one of the composed chapter diagrams.
- */
-function TruthPracticeGlyph({ kind }: { kind: "truth" | "coherence" | "correspondence" | "consequence" }) {
-  // A 96-unit side keeps the truth family equilateral and identically sized.
-  const height = 96 * Math.sqrt(3) / 2;
-  const left = 80 - height / 2;
-  const right = 80 + height / 2;
-  const center = left + height / 3;
-  const rotation = kind === "truth" || kind === "coherence" ? -90 : kind === "correspondence" ? 90 : 0;
-
-  return (
-    <g transform={`rotate(${rotation} 80 80)`}>
-      <path className={`ai-factory-icon__truth-triangle${kind === "truth" ? " ai-factory-icon__truth-triangle--dotted" : ""}`} d={`M${left} 32L${right} 80L${left} 128Z`} />
-      {kind === "coherence" ? <>
-        <path className="ai-factory-icon__coherence-spokes" d={`M${center} 80L${left} 32M${center} 80H${right}M${center} 80L${left} 128`} />
-        <circle className="ai-factory-icon__coherence-center" cx={center} cy="80" r="6" />
-      </> : kind === "correspondence" ? <>
-        <circle className="ai-factory-icon__truth-vertex" cx={left} cy="32" r="7" />
-        <circle className="ai-factory-icon__truth-vertex" cx={left} cy="128" r="7" />
-        <circle className="ai-factory-icon__truth-vertex" cx={right} cy="80" r="7" />
-      </> : kind === "consequence" ? <>
-        <path className="ai-factory-icon__consequence-path" d={`M${left} 80H${right}`} />
-        <circle className="ai-factory-icon__consequence-outcome" cx={right} cy="80" r="7" />
-      </> : null}
-    </g>
-  );
-}
-
-function UnderstandingGlyph({ showEdges = true }: { showEdges?: boolean }) {
-  return <>
-    {showEdges ? <>
-      <path className="ai-factory-icon__understanding-edge ai-factory-icon__understanding-edge--cardinal" d="M80 28V48M80 112V132M28 80H48M112 80H132" />
-      <path className="ai-factory-icon__understanding-edge ai-factory-icon__understanding-edge--diagonal" d="M43 43L58 58M102 102L117 117M117 43L102 58M58 102L43 117" />
-    </> : null}
-    <circle className="ai-factory-icon__understanding-boundary" cx="80" cy="80" r="32" />
-    <circle className="ai-factory-icon__understanding-core" cx="80" cy="80" r="5" />
-  </>;
-}
-
-function SlopGlyph({ kind }: { kind: "slop-fault" | "slop-drift" | "slop-decay" }) {
-  if (kind === "slop-drift") {
-    return <>
-      <path className="ai-factory-icon__slop-line" d="M32 72H80" />
-      <path className="ai-factory-icon__slop-fault" d="M80 88H128" />
-    </>;
-  }
-
-  if (kind === "slop-decay") {
-    return <>
-      <path className="ai-factory-icon__slop-line" d="M32 80H76" />
-      <path className="ai-factory-icon__slop-fault" d="M84 80H104M112 80H124M132 80H136" />
-    </>;
-  }
-
-  return <>
-    <path className="ai-factory-icon__slop-line" d="M32 80H68M92 80H128" />
-    <path className="ai-factory-icon__slop-fault" d="M68 80L76 68L84 92L92 80" />
-  </>;
-}
-
-function AiFactoryIconGlyph({ kind }: { kind: AiFactoryIconKind }) {
-  const instanceId = useId();
-  const markerId = `ai-factory-icon-arrow-${instanceId.replace(/:/g, "")}`;
-  const outlineArrow = kind === "implementation" || kind === "automation";
-  return (
-    <>
-      <defs>
-        <marker id={markerId} markerWidth="8" markerHeight="8" refX={outlineArrow ? 0 : 7} refY="4" orient="auto" markerUnits={outlineArrow ? "userSpaceOnUse" : "strokeWidth"} overflow="visible">
-          <path className={outlineArrow ? "ai-factory-icon__arrowhead--outline" : undefined} d="M0 0L8 4L0 8Z" />
-        </marker>
-      </defs>
-      {kind === "vision" ? <VisionGlyph /> : null}
-      {kind === "value" ? <ValueGlyph /> : null}
-      {kind === "self" ? <SelfGlyph /> : null}
-      {kind === "trigger" ? <path className="ai-factory-icon__trigger-active" d="M60 64L76 80L60 96M84 64L100 80L84 96" /> : null}
-      {kind === "contact" ? <>
-        <path className="ai-factory-icon__trigger-line" d="M32 80H74M86 60V100" />
-        <path className="ai-factory-icon__trigger-active" d="M86 80H128" />
-        <circle className="ai-factory-icon__self-dot" cx="80" cy="80" r="6" />
-      </> : null}
-      {kind === "threshold" ? <>
-        <path className="ai-factory-icon__trigger-boundary" d="M80 44V116" />
-        <path className="ai-factory-icon__trigger-line" d="M32 96H80" />
-        <path className="ai-factory-icon__trigger-active" d="M80 96V64H128" />
-      </> : null}
-      {kind === "others" ? <>
-        <circle className="ai-factory-icon__others-dot" cx="64" cy="80" r="8" />
-        <circle className="ai-factory-icon__others-dot" cx="88" cy="66" r="8" />
-        <circle className="ai-factory-icon__others-dot" cx="88" cy="94" r="8" />
-      </> : null}
-      {kind === "agents" ? [[64, 80], [88, 66], [88, 94]].map(([x, y]) => (
-        <polygon
-          key={`${x}-${y}`}
-          className="ai-factory-icon__agent"
-          transform={`translate(${x} ${y})`}
-          points="0,-9 8.56,-2.78 5.29,7.28 -5.29,7.28 -8.56,-2.78"
-        />
-      )) : null}
-      {kind === "knowledge-factory" ? <>
-        <path className="ai-factory-icon__knowledge-factory-edge" d="M29 48H44M29 80H44M29 112H44M116 64H131M116 96H131M44 48L68 74M44 80H68M44 112L68 86M92 80L116 64M92 80L116 96" />
-        <rect className="ai-factory-icon__knowledge-factory-boundary" x="44" y="32" width="72" height="96" />
-        <circle className="ai-factory-icon__knowledge-factory-input" cx="24" cy="48" r="5" />
-        <circle className="ai-factory-icon__knowledge-factory-input" cx="24" cy="80" r="5" />
-        <circle className="ai-factory-icon__knowledge-factory-input" cx="24" cy="112" r="5" />
-        <path className="ai-factory-icon__knowledge-factory-decision" d="M80 68L92 80L80 92L68 80Z" />
-        <circle className="ai-factory-icon__knowledge-factory-output" cx="136" cy="64" r="5" />
-        <circle className="ai-factory-icon__knowledge-factory-output" cx="136" cy="96" r="5" />
-      </> : null}
-      {kind === "factory-worker" ? <>
-        <path className="ai-factory-icon__factory-worker-rail" d="M24 80H36M52 80H64M104 80H136" />
-        <circle className="ai-factory-icon__factory-worker-participant" cx="44" cy="80" r="8" />
-        <rect className="ai-factory-icon__factory-worker-station" x="64" y="56" width="40" height="48" />
-        <path className="ai-factory-icon__factory-worker-step" d="M76 80H92" />
-      </> : null}
-      {kind === "factory-engineer" ? <>
-        <path className="ai-factory-icon__factory-engineer-rail" d="M40 88H120" />
-        <path className="ai-factory-icon__factory-engineer-loop" d="M32 68V116H128V68" />
-        <path className="ai-factory-icon__factory-engineer-link" d="M80 48V68" />
-        <circle className="ai-factory-icon__factory-engineer-participant" cx="80" cy="40" r="8" />
-        <rect className="ai-factory-icon__factory-engineer-station" x="32" y="80" width="16" height="16" />
-        <rect className="ai-factory-icon__factory-engineer-station ai-factory-icon__factory-engineer-station--focal" x="72" y="80" width="16" height="16" />
-        <rect className="ai-factory-icon__factory-engineer-station" x="112" y="80" width="16" height="16" />
-      </> : null}
-      {kind === "shared-capital" ? <>
-        <rect className="ai-factory-icon__shared-capital-layer ai-factory-icon__shared-capital-layer--top" x="48" y="40" width="64" height="24" />
-        <rect className="ai-factory-icon__shared-capital-layer" x="40" y="68" width="72" height="24" />
-        <rect className="ai-factory-icon__shared-capital-layer" x="32" y="96" width="80" height="24" />
-        <path className="ai-factory-icon__shared-capital-return" d="M120 108H136V52H120" markerEnd={`url(#${markerId})`} />
-      </> : null}
-      {kind === "solutioning" ? <>
-        <path className="ai-factory-icon__solutioning-loop" d="M52 44H112V112H44V56" markerEnd={`url(#${markerId})`} />
-        <circle className="ai-factory-icon__solutioning-stage" cx="52" cy="44" r="6" />
-        <circle className="ai-factory-icon__solutioning-stage" cx="112" cy="44" r="6" />
-        <circle className="ai-factory-icon__solutioning-stage" cx="112" cy="112" r="6" />
-        <circle className="ai-factory-icon__solutioning-stage" cx="44" cy="112" r="6" />
-        <path className="ai-factory-icon__solutioning-intervention" d="M78 68L92 82L78 96L64 82Z" />
-      </> : null}
-      {kind === "graph-context" ? <>
-        <path className="ai-factory-icon__graph-context-edge" d="M38 48L80 80L122 44M38 48L36 116M80 80L124 116M122 44L124 116" />
-        <path className="ai-factory-icon__graph-context-provenance" d="M36 116L80 80L122 44" />
-        <circle className="ai-factory-icon__graph-context-node" cx="38" cy="48" r="7" />
-        <circle className="ai-factory-icon__graph-context-node ai-factory-icon__graph-context-node--reference" cx="122" cy="44" r="7" />
-        <rect className="ai-factory-icon__graph-context-node ai-factory-icon__graph-context-node--center" x="72" y="72" width="16" height="16" />
-        <rect className="ai-factory-icon__graph-context-node ai-factory-icon__graph-context-node--source" x="29" y="109" width="14" height="14" />
-        <circle className="ai-factory-icon__graph-context-node" cx="124" cy="116" r="7" />
-      </> : null}
-      {kind === "goal" ? <><IconMorpheme showCenter={false} /><VisionGlyph /></> : null}
-      {kind === "meaning" ? <><circle className="ai-factory-icon__meaning-core" cx="80" cy="80" r="5" /><circle className="ai-factory-icon__meaning-boundary" cx="80" cy="80" r="32" /><path className="ai-factory-icon__meaning-edge ai-factory-icon__meaning-edge--diagonal" d="M43 43L58 58M102 102L117 117M117 43L102 58M58 102L43 117" /></> : null}
-      {kind === "inference" ? <>
-        <path className="ai-factory-icon__inference-path" d="M36 80H72M72 44V116M72 44H128M72 80H128M72 116H128" />
-        <circle className="ai-factory-icon__inference-junction" cx="28" cy="80" r="8" />
-        <circle className="ai-factory-icon__inference-output" cx="136" cy="44" r="8" />
-        <circle className="ai-factory-icon__inference-output" cx="136" cy="80" r="8" />
-        <circle className="ai-factory-icon__inference-output" cx="136" cy="116" r="8" />
-      </> : null}
-      {kind === "truth" || kind === "coherence" || kind === "correspondence" || kind === "consequence" ? <TruthPracticeGlyph kind={kind} /> : null}
-      {kind === "morpheme-diffuse" ? <IconMorpheme /> : null}
-      {kind === "morpheme-refined" ? <IconMorpheme refined /> : null}
-      {kind === "text" || kind === "label" ? <>
-        <path className="ai-factory-icon__text-line" d="M24 52H60M68 52H104M112 52H136M24 80H48M56 80H104M112 80H136M24 108H72M80 108H116M124 108H136" />
-        {kind === "label" ? <rect className="ai-factory-icon__text-highlight" x="56" y="72" width="48" height="16" /> : null}
-      </> : null}
-      {kind === "token" ? (
-        <g className="ai-factory-icon__token-sequence">
-          <rect className="ai-factory-icon__token-segment ai-factory-icon__token-segment--one" x="24" y="64" width="24" height="32" />
-          <rect className="ai-factory-icon__token-segment ai-factory-icon__token-segment--two" x="48" y="64" width="32" height="32" />
-          <rect className="ai-factory-icon__token-segment ai-factory-icon__token-segment--three" x="80" y="64" width="20" height="32" />
-          <rect className="ai-factory-icon__token-segment ai-factory-icon__token-segment--four" x="100" y="64" width="28" height="32" />
-        </g>
-      ) : null}
-      {kind === "embedding" ? (
-        <g className="ai-factory-icon__embedding-matrix">
-          {[
-            ["one", "two", "three", "four"],
-            ["four", "one", "two", "three"],
-            ["two", "three", "four", "one"],
-            ["three", "four", "one", "two"],
-          ].flatMap((row, rowIndex) => row.map((shade, columnIndex) => (
-            <rect
-              key={`${rowIndex}-${columnIndex}`}
-              className={`ai-factory-icon__embedding-cell ai-factory-icon__token-segment ai-factory-icon__token-segment--${shade}`}
-              x={33 + columnIndex * 24}
-              y={33 + rowIndex * 24}
-              width="22"
-              height="22"
-            />
-          )))}
-        </g>
-      ) : null}
-      {kind === "slop-fault" || kind === "slop-drift" || kind === "slop-decay" ? <SlopGlyph kind={kind} /> : null}
-      {kind === "term-of-art" ? <>
-        <path className="ai-factory-icon__term-edge" d="M80 28V48M80 112V132M28 80H48M112 80H132" />
-        <IconMorpheme refined />
-      </> : null}
-      {kind === "understanding" ? <UnderstandingGlyph /> : null}
-      {kind === "bottleneck" ? <>
-        <path className="ai-factory-icon__bottleneck-flow" d="M36 44H92M36 80H128M36 116H92" />
-        <path className="ai-factory-icon__bottleneck-boundary" d="M92 32V56M92 104V128" />
-        <path className="ai-factory-icon__bottleneck-throat" d="M92 68V92M100 68V92" />
-        <circle className="ai-factory-icon__bottleneck-input" cx="28" cy="44" r="8" />
-        <circle className="ai-factory-icon__bottleneck-input" cx="28" cy="80" r="8" />
-        <circle className="ai-factory-icon__bottleneck-input" cx="28" cy="116" r="8" />
-        <circle className="ai-factory-icon__bottleneck-output" cx="136" cy="80" r="8" />
-      </> : null}
-      {kind === "implementation" ? <>
-        <circle className="ai-factory-icon__implementation-boundary" cx="64" cy="80" r="12" />
-        <circle className="ai-factory-icon__implementation-core" cx="64" cy="80" r="4" />
-        <path className="ai-factory-icon__action-vector" d="M76 80H124" markerEnd={`url(#${markerId})`} />
-      </> : null}
-      {kind === "automation" ? <>
-        <UnderstandingGlyph showEdges={false} />
-        <path className="ai-factory-icon__automation-action" d="M112 80H132" />
-        <circle className="ai-factory-icon__automation-node" cx="144" cy="80" r="12" />
-        <circle className="ai-factory-icon__automation-node-core" cx="144" cy="80" r="2" />
-        <path className="ai-factory-icon__action-vector" d="M156 80H180" markerEnd={`url(#${markerId})`} />
-      </> : null}
-      {kind === "ontology-node" ? <>
-        <path className="ai-factory-icon__ontology-edge" d="M28 80H48M80 112V132" />
-        <path className="ai-factory-icon__ontology-edge ai-factory-icon__ontology-edge--connected" d="M80 28V48M112 80H132" />
-        <circle className="ai-factory-icon__ontology-root" cx="80" cy="80" r="32" />
-        <path className="ai-factory-icon__ontology-root-core ai-factory-icon__text-line" d="M72 80H88" />
-        <circle className="ai-factory-icon__ontology-term" cx="80" cy="16" r="12" />
-        <circle className="ai-factory-icon__ontology-term" cx="144" cy="80" r="12" />
-        <path className="ai-factory-icon__ontology-term-core ai-factory-icon__text-line" d="M77 16H83" />
-        <path className="ai-factory-icon__ontology-term-core ai-factory-icon__text-line" d="M141 80H147" />
-      </> : null}
-      {kind === "typed-relation" ? <>
-        <path className="ai-factory-icon__relation-line" d="M24 80H136" markerEnd={`url(#${markerId})`} />
-        <ConnectorLabel x={80} y={80} onEdge />
-      </> : null}
-      {kind === "disconnected" ? <>
-        <path className="ai-factory-icon__disconnected-ends" d="M32 80H56M56 68V92M104 68V92M104 80H128" />
-        <path className="ai-factory-icon__disconnected-mark" d="M72 72L88 88M88 72L72 88" />
-      </> : null}
-      {kind === "operator" ? <><circle className="ai-factory-icon__operator" cx="80" cy="80" r="22" /><path className="ai-factory-icon__operator-mark" d="M68 80H92M80 68V92" /></> : null}
-    </>
-  );
-}
-
-export function AiFactoryIcon({ kind, label = aiFactoryIconLabel(kind) }: { kind: AiFactoryIconKind; label?: string }) {
-  return (
-    <svg className={`ai-factory-icon ai-factory-icon--${kind}`} viewBox="0 0 160 160" role="img" aria-label={label}>
-      <AiFactoryIconGlyph kind={kind} />
-    </svg>
-  );
-}
 
 function MotifGlyph({ kind, x, y, scale = 1, centerX = 80 }: { kind: AiFactoryIconKind; x: number; y: number; scale?: number; centerX?: number }) {
   return (
@@ -683,7 +411,7 @@ export function AiFactorySeriesMap() {
         <ol className="ai-factory-series-map__track">
           {seriesMapArticles.map((article, articleIndex) => (
             <li className="ai-factory-series-map__item" key={article.href}>
-              <a href={article.href}>
+              <BlogLink href={article.href}>
                 <div className="ai-factory-series-map__meta">
                   <span>{article.index}</span>
                   <span>{article.stage}</span>
@@ -691,7 +419,7 @@ export function AiFactorySeriesMap() {
                 <SeriesMapGraphic article={article} accessible={article.flywheel} />
                 <h3>{article.title}</h3>
                 <p>{article.summary}</p>
-              </a>
+              </BlogLink>
               {articleIndex % 3 !== 2 ? (
                 <span className="ai-factory-series-map__connector" aria-hidden="true">→</span>
               ) : null}
@@ -704,22 +432,6 @@ export function AiFactorySeriesMap() {
         human-governed intent established at the beginning of the series.
       </figcaption>
     </figure>
-  );
-}
-
-function ConnectorLabel({ x, y, children = "", onEdge = false }: { x: number; y: number; children?: string; onEdge?: boolean }) {
-  // 8-unit IBM Plex Mono + tracking, 6-unit side padding, snapped to a 4-unit grid.
-  // Keep in sync with --ai-factory-type-edge and --ai-factory-tracking-label.
-  const width = Math.max(40, Math.ceil((children.length * 5.6 + 12) / 4) * 4);
-  const height = 16;
-
-  return (
-    <g className={`ai-factory-motif__connector-label${onEdge ? " ai-factory-motif__connector-label--on-edge" : ""}`} aria-hidden="true">
-      <rect x={x - width / 2} y={y - (onEdge ? height / 2 : 12)} width={width} height={height} />
-      {children ? <text x={x} y={y} textAnchor="middle" dominantBaseline={onEdge ? "middle" : undefined}>
-        {children}
-      </text> : null}
-    </g>
   );
 }
 
@@ -746,15 +458,15 @@ function ExperienceButLacking({ arrowId }: { arrowId: string }) {
       <rect className="ai-factory-motif__station" x="40" y="56" width="300" height="296" />
       <text className="ai-factory-motif__experience-eyebrow" x="64" y="84">PERSONAL EXPERIENCE</text>
       <g className="ai-factory-motif__connectors" aria-hidden="true">
-        <path className="ai-factory-motif__connector--focal" d="M156 184H216" markerEnd={`url(#${arrowId})`} />
+        <path className="ai-factory-motif__connector--focal" d="M172 184H216" markerEnd={`url(#${arrowId})`} />
         <path className="ai-factory-motif__experience-gap" data-gap="communication" d="M388 124H496" />
         <path className="ai-factory-motif__experience-gap" data-gap="value" d="M388 284H496" />
       </g>
       <MotifGlyph kind="disconnected" x={364} y={124} scale={0.5} />
       <MotifGlyph kind="disconnected" x={364} y={284} scale={0.5} />
-      <MotifGlyph kind="vision" x={116} y={184} scale={0.75} />
+      <rect className="ai-factory-motif__station" x="62" y="160" width="110" height="48" />
       <MotifGlyph kind="meaning" x={260} y={184} scale={0.75} />
-      <text className="ai-factory-motif__label" x="116" y="252" textAnchor="middle">Experience</text>
+      <text className="ai-factory-motif__label" x="117" y="189" textAnchor="middle">Experience</text>
       <text className="ai-factory-motif__label" x="260" y="252" textAnchor="middle">Meaning</text>
       <g className="ai-factory-motif__experience-outcome" data-outcome="communication">
         <rect x="496" y="56" width="264" height="136" />
@@ -1627,14 +1339,64 @@ export function AiFactoryMotif({ variant, embeddingLane = "comparison" }: { vari
   const descriptionId = `ai-factory-motif-${instanceSuffix}-description`;
   const arrowId = `ai-factory-motif-${instanceSuffix}-arrow`;
 
-  return (
-    <figure className="ai-factory-motif" data-variant={variant} data-embedding-lane={isEmbeddingMotif ? embeddingLane : undefined}>
-      <header className="ai-factory-motif__header">
-        <p>{`AI Factory · ${content.index} · ${content.eyebrow}`}</p>
-        <h3>{content.title}</h3>
-      </header>
-      <p className="ai-factory-motif__scroll-cue">Scroll the path →</p>
-      {variant === "token-economics" ? <TokenEconomics arrowId={arrowId} titleId={titleId} /> : <div className="ai-factory-motif__viewport" role="region" tabIndex={0} aria-label="Scrollable AI Factory motif">
+  const mobileSummary =
+    variant === "model-priorities-and-goal-fit" ? (
+      <DiagramSummary
+        label={content.title}
+        steps={[
+          {
+            label: "Input statements",
+            detail: "Subjective claims, incomplete context, or conflicting requests",
+            icon: "text",
+          },
+          {
+            label: "AI system",
+            detail: "Training shapes learned behavior; instructions, tools, and policy steer the run.",
+            icon: "inference",
+            relation: "condition generation",
+          },
+          {
+            label: "Fluent response",
+            detail: "May mislead or miss the goal",
+            icon: "text",
+            relation: "produces",
+          },
+          {
+            label: "Your actual goal",
+            detail: "Fit not established",
+            icon: "goal",
+            relation: "connection unverified",
+            disconnected: true,
+            focal: true,
+          },
+        ]}
+        note="Possible failure path, not a measured rate. More statements cannot replace missing evidence or shared success criteria."
+      />
+    ) : variant === "experience-but-lacking" ? (
+      <DiagramSummary
+        label={content.title}
+        steps={[
+          { label: "Personal experience", detail: "Meaningful to the person who lives it" },
+          { label: "Meaning", icon: "meaning", relation: "carries" },
+          {
+            label: "Shared understanding",
+            detail: "Text can communicate it, but this bridge is not yet established.",
+            icon: "understanding",
+            relation: "must be communicated",
+            disconnected: true,
+          },
+          {
+            label: "Value for others",
+            detail: "Realized in relationships; not yet demonstrated.",
+            icon: "value",
+            relation: "must be substantiated",
+            disconnected: true,
+            focal: true,
+          },
+        ]}
+      />
+    ) : null;
+  const diagram = (variant === "token-economics" ? <TokenEconomics arrowId={arrowId} titleId={titleId} /> : <div className="ai-factory-motif__viewport" role="region" tabIndex={0} aria-label="Scrollable AI Factory motif">
         <svg viewBox={variant === "understanding-in-embedding-space" && embeddingLane !== "comparison" ? "0 0 960 360" : motifViewBoxes[variant]} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
           <title id={titleId}>{content.title}</title>
           <desc id={descriptionId}>{content.description}</desc>
@@ -1657,13 +1419,21 @@ export function AiFactoryMotif({ variant, embeddingLane = "comparison" }: { vari
           {variant === "layers-guide-implementation" ? <LayersGuideImplementation /> : null}
           {variant === "contracts-govern-action" ? <ContractsGovernAction arrowId={arrowId} /> : null}
         </svg>
-      </div>}
+      </div>);
+  return (
+    <figure className="ai-factory-motif" data-variant={variant} data-embedding-lane={isEmbeddingMotif ? embeddingLane : undefined}>
+      <header className="ai-factory-motif__header">
+        <p>{`AI Factory · ${content.index} · ${content.eyebrow}`}</p>
+        <h3>{content.title}</h3>
+      </header>
+      {!mobileSummary && <p className="ai-factory-motif__scroll-cue">Scroll the path →</p>}
+      {mobileSummary ? <ResponsiveDiagram label={content.title} summary={mobileSummary}>{diagram}</ResponsiveDiagram> : diagram}
       <figcaption>
         {content.caption}
-        {variant === "model-priorities-and-goal-fit" ? <span className="ai-factory-motif__evidence-note">
-          Diogo Almeida, TypeSafe founder and GPT-4 coauthor, argues that “the end game for all … RLHF models is optimizing for engagement” in <a href="https://ai.engineer/talks/cJ0EOzey--o-jev-ceo-made-chatgpt-building-whats-next">his AI Engineer talk (7:38–7:56)</a>. This is his interpretation of preference-training incentives, not a universal objective of every model. The narrower risk is documented: <a href="https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models">preference training can favor agreement over truth</a>, and <a href="https://openai.com/index/sycophancy-in-gpt-4o/">OpenAI’s April 2025 account</a> links excessive reliance on short-term feedback to overly agreeable responses.
-        </span> : null}
       </figcaption>
+        {variant === "model-priorities-and-goal-fit" ? <details className="ai-factory-motif__evidence-note"><summary>Evidence and limits</summary><p>Subjective does not mean false. The risk is treating incomplete or conflicting statements as sufficient grounding. Input tokens are encoded as embeddings; the model generates the response. Training shapes learned behavior, while the harness supplies runtime instructions, tools, and constraints. These influences are not a guaranteed understanding of what matters to the user. Models can clarify or challenge a premise; this figure shows the failure path when missing evidence, context, and success criteria go unresolved. The statements are illustrative, not a measured count or failure rate.</p><p>
+          Diogo Almeida, TypeSafe founder and GPT-4 coauthor, argues that “the end game for all … RLHF models is optimizing for engagement” in <BlogLink href="https://ai.engineer/talks/cJ0EOzey--o-jev-ceo-made-chatgpt-building-whats-next">his AI Engineer talk (7:38–7:56)</BlogLink>. This is his interpretation of preference-training incentives, not a universal objective of every model. The narrower risk is documented: <BlogLink href="https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models">preference training can favor agreement over truth</BlogLink>, and <BlogLink href="https://openai.com/index/sycophancy-in-gpt-4o/">OpenAI’s April 2025 account</BlogLink> links excessive reliance on short-term feedback to overly agreeable responses.
+        </p></details> : null}
     </figure>
   );
 }

@@ -1,3 +1,4 @@
+@import "@th-m/diagram-theme/styles.css";
 .value-ladder {
   --value-ladder-line: color-mix(in srgb, var(--color-primary) 65%, transparent);
 }
@@ -29,8 +30,8 @@
 
 .value-ladder__label {
   color: var(--color-foreground-muted);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: .08em;
   line-height: 1.4;
@@ -41,13 +42,13 @@
 .value-ladder__intent > strong,
 .value-ladder__goal-text {
   color: var(--color-foreground-strong);
-  font-family: "Newsreader Variable", Georgia, serif;
+  font-family: var(--font-sans);
   line-height: 1.25;
 }
 
-.value-ladder__statement > strong { font-size: 24px; font-weight: 560; }
-.value-ladder__intent > strong { font-size: 22px; font-weight: 560; }
-.value-ladder__goal-text { font-size: 17px; }
+.value-ladder__statement > strong { font-size: 18px; font-weight: 500; }
+.value-ladder__intent > strong { font-size: 16px; font-weight: 560; }
+.value-ladder__goal-text { font-size: 14px; }
 
 .value-ladder .value-ladder__branches {
   position: relative;

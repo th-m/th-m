@@ -2,6 +2,7 @@ import { mkdir, mkdtemp, readFile, rename, rm } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { chromium } from "playwright";
 import { createDiagramTheme, type DiagramThemeOverrides } from "@th-m/diagram-theme";
+import { diagramIconFragments } from "@th-m/diagram-theme/export-icons";
 import type { DiagramMotionMode } from "@th-m/diagram-theme/browser";
 import { workspacePath } from "./paths";
 import { assertUpstreams, upstreamRoot, upstreams } from "./upstreams";
@@ -57,7 +58,9 @@ export async function generate(workspace: string, options: GenerateOptions): Pro
       if (report.typography?.truncated?.length > 0) throw new Error("Fireworks reported truncated text; repair the source before exporting");
       svg = await readFile(`${base}.source.svg`, "utf8");
     }
-    const fontCss = await fonts();
+    const iconCss = (await readFile(Bun.resolveSync("@th-m/diagram-theme/icons.css", import.meta.dir), "utf8")).replace(/^@import.*$/gm, "");
+    const fontCss = await fonts() + "\n" + iconCss;
+    const icons = diagramIconFragments();
     browser = await chromium.launch({ headless: true });
     const page = await browser.newPage({ viewport: { width: 1200, height: 900 }, deviceScaleFactor: 2 });
     // No source code or external requests execute while parsing imported SVG/HTML.
@@ -67,9 +70,9 @@ export async function generate(workspace: string, options: GenerateOptions): Pro
     const adapter = await Bun.build({ entrypoints: [adapterPath], target: "browser", format: "esm" });
     if (!adapter.success) throw new Error(adapter.logs.join("\n"));
     await page.evaluate(async script => { const module = await import(URL.createObjectURL(new Blob([script], { type: "text/javascript" }))); (window as unknown as { adapt: unknown }).adapt = module.themeSvg; }, await adapter.outputs[0]!.text());
-    const themed = await page.evaluate(({ svg, engine, theme, fontCss }) => {
-      return (window as unknown as { adapt: (source: string, engine: string, theme: unknown, fontCss: string) => string }).adapt(svg, engine, theme, fontCss);
-    }, { svg, engine: options.engine, theme, fontCss });
+    const themed = await page.evaluate(({ svg, engine, theme, fontCss, icons }) => {
+      return (window as unknown as { adapt: (source: string, engine: string, theme: unknown, fontCss: string, icons: Record<string, string>) => string }).adapt(svg, engine, theme, fontCss, icons);
+    }, { svg, engine: options.engine, theme, fontCss, icons });
     await Bun.write(`${base}.svg`, themed);
     const runtime = await bundle(resolve(import.meta.dir, "viewer.ts"));
     const c = theme.colors;

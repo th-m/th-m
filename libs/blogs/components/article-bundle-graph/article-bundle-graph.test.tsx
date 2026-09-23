@@ -63,3 +63,9 @@ describe("ArticleBundleGraph", () => {
     expect(container).toBeEmptyDOMElement();
   });
 });
+
+it("marks the current essay and offers an explicit next essay", () => {
+  render(<ArticleBundleGraph className="home-graph--article" currentSlug="vision-and-values" nextSlug="understanding-and-bottlenecks" />);
+  expect(screen.getByRole("link", { name: /Vision and Values/ })).toHaveAttribute("aria-current", "page");
+  expect(screen.getByRole("link", { name: /^Next: Understanding/ })).toHaveAttribute("href", "/writing/understanding-and-bottlenecks");
+});

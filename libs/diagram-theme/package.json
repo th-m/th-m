@@ -5,20 +5,29 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./browser": "./src/browser.ts"
+    "./browser": "./src/browser.ts",
+    "./icons": "./src/icons.tsx",
+    "./icon-catalog": "./src/icon-catalog.ts",
+    "./styles.css": "./src/styles.css",
+    "./export-icons": "./src/export-icons.tsx",
+    "./icons.css": "./src/icons.css"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --pretty false",
     "test": "vitest run"
   },
   "dependencies": {
-    "@th-m/design-theme": "workspace:*"
+    "@th-m/design-theme": "workspace:*",
+    "react": "latest",
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@types/bun": "1.3.14",
     "jsdom": "latest",
     "typescript": "6.0.2",
-    "vitest": "4.1.11"
+    "vitest": "4.1.11",
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
   },
   "nx": {
     "name": "diagram-theme",

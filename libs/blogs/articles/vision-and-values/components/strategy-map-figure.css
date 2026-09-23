@@ -1,7 +1,8 @@
+@import "@th-m/diagram-theme/styles.css";
 .strategy-map-figure {
   --strategy-map-line: color-mix(in srgb, var(--color-primary) 66%, transparent);
-  --strategy-map-relational: #8f7ac8;
-  --strategy-map-institutional: #c48663;
+  --strategy-map-relational: var(--color-foreground-muted);
+  --strategy-map-institutional: var(--color-foreground-muted);
 }
 
 .strategy-map__viewport {
@@ -70,8 +71,8 @@
   position: absolute;
   top: 18px;
   color: var(--color-muted-foreground);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.13em;
   line-height: 1;
@@ -87,8 +88,8 @@
   padding: 3px 6px;
   background: var(--color-background);
   color: var(--strategy-map-relational);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.04em;
   line-height: 1;
@@ -115,20 +116,20 @@
   position: absolute;
   display: grid;
   align-content: center;
-  gap: 7px;
+  gap: 5px;
   min-height: 68px;
-  padding: 11px 14px;
+  padding: 10px;
   transform: translateX(-50%);
   border: 1px solid currentColor;
   background: color-mix(in srgb, var(--color-background) 92%, currentColor 8%);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-background) 72%, transparent);
+  box-shadow: none;
   text-align: left;
 }
 
 .strategy-map__node > span {
   color: currentColor;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   letter-spacing: 0.13em;
   line-height: 1;
   text-transform: uppercase;
@@ -136,8 +137,8 @@
 
 .strategy-map__node > strong {
   color: var(--color-foreground);
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 16px;
+  font-family: var(--font-sans);
+  font-size: var(--diagram-type-node);
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.15;

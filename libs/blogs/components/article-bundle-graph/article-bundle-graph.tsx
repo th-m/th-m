@@ -21,6 +21,8 @@ export interface ArticleBundlePost {
 export interface ArticleBundleGraphProps {
   posts?: readonly ArticleBundlePost[];
   className?: string;
+  currentSlug?: string;
+  nextSlug?: string;
 }
 
 const KIND_LABEL: Record<BundleNodeKind, string> = {
@@ -100,7 +102,7 @@ function EdgeLayer({ className, markerId, nodes, viewBox }: EdgeLayerProps) {
  * the opening article. Supplying posts filters it to the published manifest;
  * omitting posts renders the canonical six-essay sequence.
  */
-export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps) {
+export function ArticleBundleGraph({ posts, className, currentSlug, nextSlug }: ArticleBundleGraphProps) {
   const titleId = React.useId();
   const instanceId = React.useId().replace(/:/g, "");
   const bySlug = new Map(posts?.map((post) => [post.slug, post]));
@@ -120,6 +122,7 @@ export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps
         </p>
       </header>
 
+      {nextSlug && <p className="home-graph__next"><BlogLink href={`/writing/${nextSlug}`}>Next: {nodes.find(node => node.slug === nextSlug)?.title ?? nextSlug} →</BlogLink></p>}
       <div className="home-graph__viewport">
         <div className="home-graph__frame">
           <EdgeLayer
@@ -158,6 +161,7 @@ export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps
                 <BlogLink
                   href={`/writing/${node.slug}`}
                   className="home-graph__node-link"
+                  aria-current={node.slug === currentSlug ? "page" : undefined}
                   aria-label={`${title}. ${description}`}
                 >
                   <span className="home-graph__node-meta">
@@ -167,7 +171,7 @@ export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps
                   <span className="home-graph__node-title">{title}</span>
                   <span className="home-graph__node-desc" aria-hidden="true">{node.summary}</span>
                   <span className="home-graph__node-cta" aria-hidden="true">
-                    <span className="home-graph__node-cta-label">Read essay</span>
+                    <span className="home-graph__node-cta-label">{node.slug === currentSlug ? "You are here" : "Read essay"}</span>
                     <span>↗</span>
                   </span>
                 </BlogLink>

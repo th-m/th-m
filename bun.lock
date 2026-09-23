@@ -25,6 +25,7 @@
         "@tanstack/react-start": "1.168.46",
         "@th-m/blogs": "workspace:*",
         "@th-m/design-theme": "workspace:*",
+        "@th-m/diagram-theme": "workspace:*",
         "@th-m/embedding-space": "workspace:*",
         "@th-m/graph-visualization": "workspace:*",
         "@th-m/laws": "workspace:*",
@@ -127,6 +128,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@mdx-js/mdx": "latest",
+        "@th-m/diagram-theme": "workspace:*",
         "@th-m/embedding-space": "workspace:*",
         "@th-m/neural-net-visualization": "workspace:*",
         "@th-m/ui": "workspace:*",
@@ -160,9 +162,13 @@
       "version": "1.0.0",
       "dependencies": {
         "@th-m/design-theme": "workspace:*",
+        "react": "latest",
+        "react-dom": "latest",
       },
       "devDependencies": {
         "@types/bun": "1.3.14",
+        "@types/react": "latest",
+        "@types/react-dom": "latest",
         "jsdom": "latest",
         "typescript": "6.0.2",
         "vitest": "4.1.11",

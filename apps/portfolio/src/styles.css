@@ -772,7 +772,7 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 
 /* Solutions, Meaning & Value page: custom figures and interactions. */
 .article-outline__content .article-figure { margin: 2.2em 0; }
-.article-figure figcaption { margin-top: 12px; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-foreground-muted); line-height: 1.6; }
+/* Shared figure captions are owned by @th-m/blogs/components/diagram.css. */
 
 .article-tool-trigger {
   display: inline-flex;

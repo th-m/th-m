@@ -48,8 +48,8 @@ describe("AiFactoryMotif", () => {
 
     expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
     const diagram = screen.getByRole("img", { name: new RegExp(title) });
-    expect(diagram).toContainElement(screen.getByText(firstLabel));
-    expect(diagram).toContainElement(screen.getByText(secondLabel));
+    expect(diagram).toContainElement(within(diagram).getByText(firstLabel));
+    expect(diagram).toContainElement(within(diagram).getByText(secondLabel));
     expect(diagram.querySelector("title")).toHaveTextContent(title);
     expect(diagram.querySelector("desc")).not.toBeEmptyDOMElement();
     expect(screen.getByRole("region", { name: "Scrollable AI Factory motif" })).toHaveAttribute("tabindex", "0");
@@ -193,9 +193,12 @@ describe("AiFactoryMotif", () => {
 
     const caption = diagram.closest("figure")!.querySelector("figcaption")!;
     expect(caption).toHaveTextContent("Subjective does not mean false.");
-    expect(caption).toHaveTextContent("illustrative, not a measured count or failure rate");
-    expect(caption).toHaveTextContent("Diogo Almeida");
-    expect(caption).toHaveTextContent("not a universal objective of every model");
+    expect(caption).toHaveTextContent("not an inevitable outcome or a measured failure rate");
+    const evidence = diagram.closest("figure")!.querySelector("details")!;
+    expect(evidence).not.toHaveAttribute("open");
+    expect(evidence).toHaveTextContent("illustrative, not a measured count or failure rate");
+    expect(evidence).toHaveTextContent("Diogo Almeida");
+    expect(evidence).toHaveTextContent("not a universal objective of every model");
     expect(screen.getByRole("link", { name: /his AI Engineer talk/ })).toHaveAttribute("href", "https://ai.engineer/talks/cJ0EOzey--o-jev-ceo-made-chatgpt-building-whats-next");
     expect(screen.getByRole("link", { name: /preference training can favor agreement/ })).toHaveAttribute("href", "https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models");
   });
@@ -378,9 +381,11 @@ describe("AiFactoryMotif", () => {
     render(<AiFactoryMotif variant="experience-but-lacking" />);
 
     const diagram = screen.getByRole("img", { name: /Personal meaning is not yet shared value/ });
-    for (const kind of ["vision", "meaning", "text", "understanding", "value"]) {
+    for (const kind of ["meaning", "text", "understanding", "value"]) {
       expect(diagram.querySelector(`.ai-factory-icon--${kind}`)).toBeInstanceOf(SVGElement);
     }
+    expect(diagram.querySelector(".ai-factory-icon--vision")).not.toBeInTheDocument();
+    expect(diagram).toHaveTextContent("Experience");
     expect(diagram).not.toHaveTextContent("Meaning is present.");
     expect(diagram).not.toHaveTextContent("significant to me");
     expect(diagram).not.toHaveTextContent("lived, felt, personal");
@@ -556,7 +561,7 @@ describe("AiFactoryMotif", () => {
 
     const self = screen.getByRole("img", { name: /^Self:/ }).querySelector("circle")!;
     const values = container.querySelectorAll(".ai-factory-icon--value");
-    expect(values).toHaveLength(4);
+    expect(values).toHaveLength(5);
     for (const value of values) {
       expect(value.querySelectorAll("circle")).toHaveLength(1);
       expect(value.querySelector(".ai-factory-icon__self-dot")?.outerHTML).toBe(self.outerHTML);

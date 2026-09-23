@@ -45,3 +45,36 @@ Verification: blogs and portfolio typechecks, tests, and local publication
 passed, as did the documentation checks. Confirmed all six links in the new
 order on the home and writing pages at 1280 px and 390 px, with no page overflow.
 Inspected the rendered graph at both sizes; numbering and labels agree.
+
+## Diagram and article design revision — 2026-09-23
+
+Baseline: [2ecf840](https://github.com/th-m/th-m/commit/2ecf8400c4ba4a618b13141cd418395a648b0af8),
+verified on origin/main before editing.
+
+The design review found competing diagram palettes and type roles, the Vision
+glyph standing in for Experience, numbered placeholder goals, wide mobile
+canvases, repeated takeaways, and an unclear feedback return path. This pass
+applies the accepted changes while preserving the argument and its sources.
+
+| Owner | Revision |
+| --- | --- |
+| diagram-theme | Canonical icon catalog and geometry shared by React and SVG exports; common reading roles and inert fragment validation. |
+| blogs | Five compact mobile views with optional complete diagrams; concrete publishing examples; readable captions, explicit gaps and return edge; current/next series navigation. |
+| portfolio | Published-module dependency, caption ownership, and shared writing conventions. |
+| diagrams | Export canonical glyphs through named slots using the same CSS as live icons. |
+
+Proximity groups captions with their figures. Similarity comes from Inter concept
+labels, mono metadata, fine rules, square surfaces, and restrained gold emphasis.
+Continuity is explicit in the governing loop; missing relationships remain
+disconnected in the compact motifs. Prose uses a 72ch maximum measure and ordinary
+emphasis for evaluative words. Extended model evidence remains available in an
+Evidence and limits disclosure, with essential caveats still visible.
+
+Verification: all four owners' typechecks and tests passed. Blogs and portfolio
+local publication passed, including ten prerendered article routes. Diagram
+Design and Fireworks generation passed, with a separate canonical-icon export
+smoke test; inspected their PNGs. Browser checks at 1280px, 390px, and 320px
+confirmed readable views and no mobile page overflow; keyboard expansion retains
+the complete diagram without widening the page.
+Export playback, pause, restart, complete view, and reduced-motion behavior
+were checked in the browser; reduced motion keeps every edge visible.

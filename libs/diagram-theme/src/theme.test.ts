@@ -76,3 +76,25 @@ describe("semantic playback", () => {
     playback.destroy();
   });
 });
+
+import { diagramIconFragments } from "./export-icons";
+describe("shared icon export", () => {
+  it("uses the canonical geometry and gives repeated glyphs unique local markers", () => {
+    const input = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><title>Shared icons</title><g data-thom-icon="implementation"/><g data-thom-icon="implementation" transform="translate(180 0)"/></svg>';
+    const svg = new DOMParser().parseFromString(themeSvg(input, "diagram-design", createDiagramTheme(), "", diagramIconFragments()), "image/svg+xml");
+    const ids = Array.from(svg.querySelectorAll("[id]")).map(el => el.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(svg.querySelectorAll(".ai-factory-icon__implementation-boundary")).toHaveLength(2);
+    for (const edge of Array.from(svg.querySelectorAll("[marker-end]"))) {
+      const id = edge.getAttribute("marker-end")!.slice(5, -1);
+      expect(ids).toContain(id);
+    }
+  });
+  it("rejects unknown icon references", () => {
+    expect(() => themeSvg('<svg xmlns="http://www.w3.org/2000/svg"><g data-thom-icon="invented"/></svg>', "diagram-design", createDiagramTheme(), "", diagramIconFragments())).toThrow("Unknown THOM diagram icon");
+  });
+});
+
+it("rejects executable content supplied through an icon fragment", () => {
+  expect(() => themeSvg('<svg xmlns="http://www.w3.org/2000/svg"><g data-thom-icon="unsafe"/></svg>', "diagram-design", createDiagramTheme(), "", { unsafe: '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>' })).toThrow("Unsupported SVG element");
+});

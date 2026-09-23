@@ -1,0 +1,103 @@
+@import "@th-m/diagram-theme/icons.css";
+@import "@th-m/diagram-theme/styles.css";
+.responsive-diagram__summary,
+.responsive-diagram__toggle,
+.responsive-diagram__cue {
+  display: none;
+}
+.responsive-diagram__detail {
+  min-width: 0;
+}
+.diagram-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.article-outline__content .article-figure {
+  margin: 2em 0;
+}
+.article-figure figcaption,
+.ai-factory-motif figcaption {
+  margin: 12px 0 0;
+  color: var(--color-foreground-muted);
+  font: var(--diagram-type-copy)/1.6 var(--font-sans);
+  letter-spacing: normal;
+  text-transform: none;
+}
+.diagram-summary {
+  padding: 20px;
+}
+.diagram-summary .diagram-summary__steps {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.diagram-summary .diagram-summary__steps > li {
+  margin: 0;
+}
+.diagram-summary__node {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+}
+.diagram-summary__node strong {
+  font: 500 var(--diagram-type-node)/1.45 var(--font-sans);
+}
+.article-outline__content .diagram-summary__node p,
+.diagram-summary__node p,
+.article-outline__content .diagram-summary__note,
+.diagram-summary__note {
+  margin: 6px 0 0;
+  font: var(--diagram-type-copy)/1.6 var(--font-sans);
+  color: var(--color-foreground-muted);
+}
+.diagram-summary__icon {
+  flex: 0 0 40px;
+}
+.diagram-summary__relation {
+  padding: 8px 14px;
+  color: var(--color-foreground-muted);
+  font: 11px/1.5 var(--font-mono);
+}
+.diagram-summary__note {
+  padding-top: 10px;
+}
+@media (max-width: 720px) {
+  .responsive-diagram__summary {
+    display: block;
+  }
+  .responsive-diagram__toggle {
+    display: block;
+    margin: 0 20px 20px;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    font: 12px/1.5 var(--font-sans);
+    text-align: left;
+    cursor: pointer;
+  }
+  .responsive-diagram__toggle:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+  .responsive-diagram[data-expanded="false"] > .responsive-diagram__detail {
+    display: none;
+  }
+  .article-outline__content .responsive-diagram__cue,
+  .responsive-diagram__cue {
+    display: block;
+    margin: 0;
+    padding: 12px 20px;
+    font: 11px/1.6 var(--font-sans);
+    color: var(--color-foreground-muted);
+  }
+}

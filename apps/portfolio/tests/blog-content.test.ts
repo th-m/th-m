@@ -86,6 +86,7 @@ describe("article MDX module staging", () => {
     expect((await readdir(resolve(generatedPage, "components"))).sort()).toEqual([
       "goal-tree-figure.css",
       "goal-tree-figure.tsx",
+      "governing-loop-figure.css",
       "governing-loop-figure.tsx",
       "language-compression-figure.css",
       "language-compression-figure.tsx",

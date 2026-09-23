@@ -4,7 +4,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const safeTags = new Set("svg g defs title desc metadata style rect circle ellipse path line polyline polygon text tspan marker pattern linearGradient radialGradient stop clipPath mask filter feGaussianBlur feDropShadow feOffset feMerge feMergeNode feColorMatrix feBlend feComposite feFlood".split(" "));
 
 /** Parse without executing source HTML, scripts, event handlers, or remote resources. */
-export function themeSvg(source: string, engine: "fireworks" | "diagram-design", theme: DiagramTheme, fontCss = ""): string {
+export function themeSvg(source: string, engine: "fireworks" | "diagram-design", theme: DiagramTheme, fontCss = "", icons: Record<string, string> = {}): string {
   if (/<!doctype html|<html[\s>]/i.test(source)) {
     const html = new DOMParser().parseFromString(source, "text/html");
     const candidates = html.querySelectorAll("svg");
@@ -28,6 +28,22 @@ export function themeSvg(source: string, engine: "fireworks" | "diagram-design",
   const parsed = new DOMParser().parseFromString(source, "image/svg+xml");
   const root = parsed.documentElement;
   if (root.localName !== "svg" || parsed.querySelector("parsererror") || /<!DOCTYPE|<!ENTITY/i.test(source)) throw new Error("Expected a self-contained SVG");
+  for (const [index, slot] of Array.from(root.querySelectorAll("[data-thom-icon]")).entries()) {
+    const kind = slot.getAttribute("data-thom-icon")!;
+    if (slot.localName !== "g" || !Object.hasOwn(icons, kind)) throw new Error(`Unknown THOM diagram icon: ${kind}`);
+    const fragment = new DOMParser().parseFromString(icons[kind]!, "image/svg+xml");
+    if (fragment.documentElement.localName !== "svg" || fragment.querySelector("parsererror") || /<!DOCTYPE|<!ENTITY/i.test(icons[kind]!)) throw new Error("Expected an inert SVG icon fragment");
+    // Unique marker IDs even when the same concept appears several times.
+    for (const node of Array.from(fragment.querySelectorAll("[id]"))) {
+      const old = node.id;
+      const next = `thom-icon-${index}-${old}`;
+      node.id = next;
+      for (const ref of Array.from(fragment.querySelectorAll("*"))) for (const attr of Array.from(ref.attributes)) {
+        if (attr.value === `url(#${old})`) ref.setAttribute(attr.name, `url(#${next})`);
+      }
+    }
+    slot.replaceChildren(...Array.from(fragment.documentElement.children).map(node => parsed.importNode(node, true)));
+  }
   for (const el of [root, ...Array.from(root.querySelectorAll("*"))]) {
     if (!safeTags.has(el.localName) || el.namespaceURI !== SVG_NS) throw new Error(`Unsupported SVG element: ${el.localName}`);
     for (const attr of Array.from(el.attributes)) {

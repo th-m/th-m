@@ -1,3 +1,4 @@
+@import "@th-m/diagram-theme/styles.css";
 .relational-knowing-figure__viewport {
   overflow-x: auto;
   border: 1px solid var(--color-border);
@@ -17,7 +18,7 @@
 .relational-knowing-figure__footer-label,
 .relational-knowing-figure__kind,
 .relational-knowing-figure__edge-label {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-family: var(--font-mono);
   text-transform: uppercase;
 }
 
@@ -29,8 +30,8 @@
 
 .relational-knowing-figure__edge-line {
   fill: none;
-  stroke: var(--color-primary);
-  stroke-width: 2;
+  stroke: var(--color-border-strong);
+  stroke-width: 1.2;
   vector-effect: non-scaling-stroke;
 }
 
@@ -68,8 +69,8 @@
 .relational-knowing-figure__value,
 .relational-knowing-figure__person-name {
   fill: var(--color-foreground-strong);
-  font-family: "Newsreader Variable", Georgia, serif;
-  font-size: 24px;
+  font-family: var(--font-sans);
+  font-size: 19px;
   font-weight: 560;
 }
 
@@ -79,9 +80,9 @@
 }
 
 .relational-knowing-figure__edge-label {
-  fill: var(--color-primary);
+  fill: var(--color-foreground-muted);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: .06em;
   paint-order: stroke;
   stroke: var(--color-background);
@@ -102,3 +103,7 @@
     min-width: 720px;
   }
 }
+
+.relational-summary { list-style: none; padding: 0 !important; margin: 16px 0 !important; display: grid; gap: 10px; }
+.relational-summary li { display: grid; gap: 4px; border-left: 1px solid var(--color-border-strong); padding: 10px 14px; margin: 0 !important; font: 14px/1.5 var(--font-sans); background: var(--color-surface); }
+.relational-summary span { color: var(--color-foreground-muted); }

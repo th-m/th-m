@@ -105,3 +105,20 @@
   .home-graph__node-cta { margin-top: auto; font-size: 9px; }
   .home-graph__node-cta-label { display: none; }
 }
+/* The article variant keeps related reading subordinate to the conclusion. */
+.article-outline__content .home-graph--article { padding: 28px 0; }
+.home-graph--article .home-graph__header { padding-bottom: 12px; }
+.home-graph--article .home-graph__header h2 { font-size: 32px; line-height: 1.1; letter-spacing: -.025em; }
+.article-outline__content .home-graph--article .home-graph__lede { margin-top: 12px; font: 14px/1.6 var(--font-sans); }
+.home-graph__node-link[aria-current="page"] { outline: 1px solid var(--color-primary); outline-offset: -1px; }
+.article-outline__content .home-graph__next { font: 15px/1.6 var(--font-sans); margin: 12px 0 24px; }
+@media (max-width: 720px) {
+  .home-graph--article .home-graph__frame { display: grid; gap: 12px; aspect-ratio: auto; }
+  .home-graph--article .home-graph__edges { display: none; }
+  .home-graph--article .home-graph__node { position: static; width: auto !important; height: auto !important; }
+  .home-graph--article .home-graph__node-link { padding: 16px; }
+  .home-graph--article .home-graph__node-title { font-size: 20px; }
+  .home-graph--article .home-graph__node-kind, .home-graph--article .home-graph__node-order { font-size: 10px; }
+  .home-graph--article .home-graph__node-desc, .home-graph--article .home-graph__node-cta-label { display: block; }
+  .home-graph--article .home-graph__node-desc { font-size: 13px; }
+}

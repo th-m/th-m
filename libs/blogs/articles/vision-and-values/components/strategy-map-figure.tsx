@@ -1,14 +1,15 @@
+import { ResponsiveDiagram, DiagramSummary } from "@th-m/blogs/components";
 import "./strategy-map-figure.css";
 
 export function StrategyMapFigure() {
   const nodes = [
-    { id: "governing-1", label: "Governing goal 1", kind: "governing" },
-    { id: "governing-2", label: "Governing goal 2", kind: "governing" },
+    { id: "governing-1", label: "Earn from expertise", kind: "governing" },
+    { id: "governing-2", label: "Protect evenings", kind: "governing" },
     { id: "institution", label: "Institutional authority", kind: "external" },
-    { id: "strategy", label: "Strategy", kind: "strategy" },
-    { id: "subgoal-1", label: "Subgoal 1", kind: "subgoal" },
-    { id: "subgoal-2", label: "Subgoal 2", kind: "subgoal" },
-    { id: "subgoal-3", label: "Subgoal 3", kind: "subgoal" },
+    { id: "strategy", label: "Publish teaching materials", kind: "strategy" },
+    { id: "subgoal-1", label: "Reuse lessons", kind: "subgoal" },
+    { id: "subgoal-2", label: "Bound the workload", kind: "subgoal" },
+    { id: "subgoal-3", label: "Test net benefit", kind: "subgoal" },
     { id: "customer", label: "Customer goals", kind: "stakeholder" },
     { id: "partner", label: "Partner goals", kind: "stakeholder" },
     { id: "competitor", label: "Competitor goals", kind: "stakeholder" },
@@ -16,85 +17,119 @@ export function StrategyMapFigure() {
 
   return (
     <figure id="strategy-map" className="article-figure strategy-map-figure">
-      <div className="strategy-map__viewport" tabIndex={0}>
-        <div
-          className="strategy-map"
-          role="img"
-          aria-label="Two governing goals direct a strategy, which coordinates three subgoals while institutional authority constrains it and stakeholder goals influence it"
-        >
-          <svg
-            className="strategy-map__connections"
-            viewBox="0 0 1000 560"
-            preserveAspectRatio="none"
-            aria-hidden="true"
+      <ResponsiveDiagram
+        label="Governing a strategy"
+        summary={
+          <DiagramSummary
+            label="Governing a strategy"
+            steps={[
+              { label: nodes[0].label, detail: nodes[1].label, icon: "goal", focal: true },
+              { label: nodes[3].label, relation: "directs" },
+              {
+                label: "Coordinated commitments",
+                detail: nodes
+                  .filter((n) => n.kind === "subgoal")
+                  .map((n) => n.label)
+                  .join(" · "),
+                relation: "coordinates",
+              },
+              {
+                label: nodes[2].label,
+                detail:
+                  "Decision rights constrain the work; customer, partner, and competitor goals shape its context.",
+                relation: "remains subject to",
+              },
+            ]}
+          />
+        }
+      >
+        <div className="strategy-map__viewport" tabIndex={0}>
+          <div
+            className="strategy-map"
+            role="img"
+            aria-label="Two governing goals direct a strategy, which coordinates three subgoals while institutional authority constrains it and stakeholder goals influence it"
           >
-            <defs>
-              <marker
-                id="strategy-map-arrow"
-                viewBox="0 0 8 8"
-                refX="7"
-                refY="4"
-                markerWidth="7"
-                markerHeight="7"
-                orient="auto"
-              >
-                <path d="M 0 0 L 8 4 L 0 8 z" />
-              </marker>
-            </defs>
-
-            <g className="strategy-map__connection strategy-map__connection--governance">
-              <path d="M 310 100 V 124 L 400 160" markerEnd="url(#strategy-map-arrow)" />
-              <path d="M 550 100 V 124 L 460 160" markerEnd="url(#strategy-map-arrow)" />
-              <path d="M 430 232 V 294 M 200 294 H 660" />
-              <path d="M 200 294 V 340 M 430 294 V 340 M 660 294 V 340" markerEnd="url(#strategy-map-arrow)" />
-            </g>
-
-            <g className="strategy-map__connection strategy-map__connection--relational">
-              <path d="M 225 196 H 310" markerEnd="url(#strategy-map-arrow)" />
-              <path d="M 550 184 L 755 134" markerEnd="url(#strategy-map-arrow)" />
-              <path d="M 550 196 L 755 274" markerEnd="url(#strategy-map-arrow)" />
-              <path d="M 550 208 L 700 310 H 742 V 414 H 755" markerEnd="url(#strategy-map-arrow)" />
-            </g>
-          </svg>
-
-          <span className="strategy-map__field-label strategy-map__field-label--hierarchy">Internal hierarchy</span>
-          <span className="strategy-map__field-label strategy-map__field-label--stakeholders">Stakeholder field</span>
-
-          <span className="strategy-map__relation strategy-map__relation--governance strategy-map__relation--direction">
-            direct
-          </span>
-          <span className="strategy-map__relation strategy-map__relation--governance strategy-map__relation--coordination">
-            coordinates
-          </span>
-          <span className="strategy-map__relation strategy-map__relation--constraint">constrains</span>
-          <span className="strategy-map__relation strategy-map__relation--customer">aligns with</span>
-          <span className="strategy-map__relation strategy-map__relation--partner">coordinates with</span>
-          <span className="strategy-map__relation strategy-map__relation--competitor">anticipates</span>
-
-          {nodes.map((node) => (
-            <div
-              key={node.id}
-              className={`strategy-map__node strategy-map__node--${node.kind} strategy-map__node--${node.id}`}
+            <svg
+              className="strategy-map__connections"
+              viewBox="0 0 1000 560"
+              preserveAspectRatio="none"
+              aria-hidden="true"
             >
-              <span>
-                {node.kind === "stakeholder"
-                  ? "External goal"
-                  : node.kind === "external"
-                    ? "Constraint"
-                    : node.kind === "governing"
-                      ? "Root goal"
-                      : node.kind === "subgoal"
-                        ? "Goal"
-                        : node.kind}
-              </span>
-              <strong>{node.label}</strong>
-            </div>
-          ))}
+              <defs>
+                <marker
+                  id="strategy-map-arrow"
+                  viewBox="0 0 8 8"
+                  refX="7"
+                  refY="4"
+                  markerWidth="7"
+                  markerHeight="7"
+                  orient="auto"
+                >
+                  <path d="M 0 0 L 8 4 L 0 8 z" />
+                </marker>
+              </defs>
+
+              <g className="strategy-map__connection strategy-map__connection--governance">
+                <path d="M 310 100 V 124 L 400 160" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 550 100 V 124 L 460 160" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 430 232 V 294 M 200 294 H 660" />
+                <path
+                  d="M 200 294 V 340 M 430 294 V 340 M 660 294 V 340"
+                  markerEnd="url(#strategy-map-arrow)"
+                />
+              </g>
+
+              <g className="strategy-map__connection strategy-map__connection--relational">
+                <path d="M 225 196 H 310" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 550 184 L 755 134" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 550 196 L 755 274" markerEnd="url(#strategy-map-arrow)" />
+                <path d="M 550 208 L 700 310 H 742 V 414 H 755" markerEnd="url(#strategy-map-arrow)" />
+              </g>
+            </svg>
+
+            <span className="strategy-map__field-label strategy-map__field-label--hierarchy">
+              Internal hierarchy
+            </span>
+            <span className="strategy-map__field-label strategy-map__field-label--stakeholders">
+              Stakeholder field
+            </span>
+
+            <span className="strategy-map__relation strategy-map__relation--governance strategy-map__relation--direction">
+              direct
+            </span>
+            <span className="strategy-map__relation strategy-map__relation--governance strategy-map__relation--coordination">
+              coordinates
+            </span>
+            <span className="strategy-map__relation strategy-map__relation--constraint">constrains</span>
+            <span className="strategy-map__relation strategy-map__relation--customer">aligns with</span>
+            <span className="strategy-map__relation strategy-map__relation--partner">coordinates with</span>
+            <span className="strategy-map__relation strategy-map__relation--competitor">anticipates</span>
+
+            {nodes.map((node) => (
+              <div
+                key={node.id}
+                className={`strategy-map__node strategy-map__node--${node.kind} strategy-map__node--${node.id}`}
+              >
+                <span>
+                  {node.kind === "stakeholder"
+                    ? "External goal"
+                    : node.kind === "external"
+                      ? "Constraint"
+                      : node.kind === "governing"
+                        ? "Root goal"
+                        : node.kind === "subgoal"
+                          ? "Goal"
+                          : node.kind}
+                </span>
+                <strong>{node.label}</strong>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </ResponsiveDiagram>
       <figcaption id="strategy-map-caption">
-        Strategy negotiates two governing goals, coordinates subgoals, and responds to goals and
-        constraints held by other people and institutions.
+        Governing goals direct the strategy; authority constrains it. Dashed, labeled connections show
+        stakeholder influences. A plausible route still needs authorization and worthwhile consequences.
       </figcaption>
     </figure>
   );

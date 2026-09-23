@@ -1,0 +1,55 @@
+.governing-loop-figure .article-loop {
+  position: relative;
+  padding: 0 28px 0 0;
+}
+.governing-loop-figure .article-loop__chain {
+  display: grid;
+  gap: 8px;
+}
+.governing-loop-figure .article-loop__node {
+  padding: 14px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  font: 14px/1.5 var(--font-sans);
+  text-align: center;
+}
+.governing-loop-figure .article-loop__node:first-child {
+  border-color: var(--color-primary);
+  background: var(--diagram-focal-surface);
+}
+.governing-loop-figure .article-loop__arrow {
+  color: var(--color-foreground-muted);
+  text-align: center;
+}
+.governing-loop-figure .article-loop__back {
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  right: 0;
+  width: 24px;
+  border: 1.5px solid var(--color-primary);
+  border-left: 0;
+  padding: 0;
+}
+.governing-loop-figure .article-loop__back::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -4px;
+  width: 7px;
+  height: 7px;
+  border-left: 1.5px solid var(--color-primary);
+  border-bottom: 1.5px solid var(--color-primary);
+  transform: rotate(45deg);
+}
+.governing-loop-figure .article-loop__back span {
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  padding: 8px 0;
+  writing-mode: vertical-rl;
+  background: var(--color-background);
+  font: 10px/1.5 var(--font-mono);
+  color: var(--color-foreground-muted);
+  transform: translateY(-50%);
+}

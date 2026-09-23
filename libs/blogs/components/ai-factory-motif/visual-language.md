@@ -1,13 +1,15 @@
 # AI Factory visual language
 
 This is the implemented presentation baseline for the shared motif diagrams,
-series map, and portfolio icon review sheet. `blogs` owns the components and
-tokens in `ai-factory-motif.css`; `portfolio` owns the review-page composition.
+series map, and portfolio icon review sheet. `diagram-theme` owns the canonical
+catalog, glyph geometry, icon CSS, and common reading roles; `blogs` owns motif
+composition in `ai-factory-motif.css`; `portfolio` owns the review-page composition.
 The foundation remains `@th-m/design-theme`, not a second brand palette.
 
 ## Icon-card contract
 
-`icon-catalog.ts` is the canonical registry for every inventory specimen:
+`@th-m/diagram-theme/icon-catalog` is the canonical registry for every specimen.
+The local `icon-catalog.ts` re-exports it for existing consumers:
 
 | Field | Placement and purpose |
 | --- | --- |
@@ -46,15 +48,23 @@ sequence or matrix. Those depiction limits belong in visual grammar.
 | --- | --- | --- | --- |
 | Edge / relationship | IBM Plex Mono | 8 SVG units | Regular, uppercase, 0.08em tracking, muted ivory |
 | Diagram detail / axis | IBM Plex Mono | 8 SVG units | Supporting information |
-| Metadata | IBM Plex Mono | 9px | Uppercase; gold only for the figure identity or index |
+| Metadata | IBM Plex Mono | 10px | Uppercase; gold only for the figure identity or index |
 | Concept | Inter | 14 SVG units | Medium, strong ivory |
 | Compact outcome concept | Inter | 12 SVG units | Only within the smaller outcome panels |
-| Description / caption | Inter | 12px | Regular, muted ivory, generous leading |
+| Description / caption | Inter | 14px | Regular, muted ivory, generous leading |
 | Article / inventory title | Newsreader | 24px | Regular; larger editorial headings remain fluid |
 
-SVG units scale uniformly with the viewBox. Mobile diagrams keep their readable
-width and scroll within a keyboard-focusable region instead of shrinking all
-labels to fit the screen. HTML descriptions do not shrink with the diagrams.
+SVG units scale uniformly with the viewBox. Wide article figures use the shared
+`ResponsiveDiagram`: an authored compact reading path below 720px, with the
+complete scene behind “View full diagram.” The full scene retains a readable
+width inside a keyboard-focusable scrolling region. Compact views retain the
+main relationship and caveats; they do not pretend to show every branch.
+Captions state the takeaway in sentence case. Longer evidence belongs in a
+separate disclosure, with essential limitations still visible.
+
+Use the same catalog meaning in every context. Experience has a labeled node;
+it must not reuse the Vision glyph. Exported diagrams insert canonical glyphs
+through `data-thom-icon` slots; never redraw a lookalike in the scene.
 
 ## Surfaces and color
 

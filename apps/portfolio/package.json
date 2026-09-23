@@ -35,6 +35,7 @@
     "@tanstack/react-start": "1.168.46",
     "@th-m/blogs": "workspace:*",
     "@th-m/design-theme": "workspace:*",
+    "@th-m/diagram-theme": "workspace:*",
     "@th-m/embedding-space": "workspace:*",
     "@th-m/graph-visualization": "workspace:*",
     "@th-m/laws": "workspace:*",

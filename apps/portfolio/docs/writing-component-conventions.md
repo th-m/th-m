@@ -99,6 +99,22 @@ Every animated asset must collapse to a static labeled frame under reduced
 motion. It may offer optional step controls as long as it stays understandable
 without interaction.
 
+### Diagram reading modes
+
+Use `ResponsiveDiagram` and `DiagramSummary` from `@th-m/blogs/components` for
+wide figures. Below 720px, show a short labeled reading path with the essential
+caveat and a full-diagram toggle. Derive both presentations from the same scene
+data. The complete diagram keeps a readable width and keyboard scrolling.
+Simple vertical trees and loops may reflow directly without a second view.
+
+Use `@th-m/diagram-theme` glyphs and role tokens: Inter for node names and
+sentence-case captions (14px), IBM Plex Mono for short metadata (10px), and
+Newsreader for editorial headings and prose. Reserve code styling for code.
+Preserve catalog semantics; Experience is a plain labeled node, not Vision.
+Keep square surfaces, fine neutral rules, and a restrained gold focal path.
+Put extended evidence in a disclosure while retaining qualifications needed to
+read the figure accurately in its visible caption.
+
 ### Escalation ladder
 
 Inline need → **tooltip**; a destination worth previewing → **link preview**;

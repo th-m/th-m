@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@mdx-js/mdx": "latest",
+    "@th-m/diagram-theme": "workspace:*",
     "@th-m/embedding-space": "workspace:*",
     "@th-m/neural-net-visualization": "workspace:*",
     "@th-m/ui": "workspace:*",

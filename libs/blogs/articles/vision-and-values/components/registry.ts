@@ -25,7 +25,7 @@ function ModelPrioritiesAndGoalFitMotif() {
 }
 
 function ArticleBundleGraphFigure() {
-  return createElement(ArticleBundleGraph, { className: "home-graph--article" });
+  return createElement(ArticleBundleGraph, { className: "home-graph--article", currentSlug: "vision-and-values", nextSlug: "understanding-and-bottlenecks" });
 }
 
 export default defineArticleComponents(articleAssets, () => ({

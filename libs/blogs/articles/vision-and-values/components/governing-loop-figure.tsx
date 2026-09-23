@@ -1,3 +1,4 @@
+import "./governing-loop-figure.css";
 import { Fragment } from "react";
 
 const governingLoop = [
@@ -10,7 +11,7 @@ const governingLoop = [
 
 export function GoverningLoopFigure() {
   return (
-    <figure className="article-figure">
+    <figure className="article-figure governing-loop-figure thom-diagram">
       <div
         className="article-loop"
         aria-label="Governing values reproduce themselves through metrics, decisions, consequences, and filtered data"
@@ -27,7 +28,6 @@ export function GoverningLoopFigure() {
         </div>
         <div className="article-loop__back" aria-hidden="true">
           <span>appears to confirm</span>
-          <span>↩</span>
         </div>
       </div>
       <figcaption>

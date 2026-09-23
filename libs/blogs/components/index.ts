@@ -20,3 +20,5 @@ export type {
 } from "./ai-factory-motif/ai-factory-motif";
 export { aiFactoryIconCatalog, aiFactoryIconKinds, aiFactoryIconLabel } from "./ai-factory-motif/icon-catalog";
 export type { AiFactoryIconSpec, AiFactorySemanticRole } from "./ai-factory-motif/icon-catalog";
+export { ResponsiveDiagram, DiagramSummary } from "./diagram";
+export type { DiagramStep } from "./diagram";

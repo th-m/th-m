@@ -1,0 +1,30 @@
+/* Shared reading roles for icons, live figures, and exported diagrams. */
+:root {
+  --ai-factory-type-edge: 8px;
+  --ai-factory-tracking-label: 0.08em;
+  --ai-factory-inset: var(--color-background);
+  --ai-factory-label-rule: var(--color-border);
+  --diagram-type-node: 14px;
+  --diagram-type-copy: 14px;
+  --diagram-type-meta: 10px;
+  --diagram-type-edge: 10px;
+  --diagram-stroke: 1.2;
+  --diagram-surface: var(--color-surface);
+  --diagram-rule: var(--color-border-strong);
+  --diagram-focus: var(--color-primary);
+  --diagram-focal-surface: color-mix(in srgb, var(--color-primary) 7%, var(--color-surface));
+}
+.thom-diagram {
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+.thom-diagram :is(.diagram-node, .diagram-summary__node) {
+  border: 1px solid var(--diagram-rule);
+  background: var(--diagram-surface);
+  border-radius: 0;
+  box-shadow: none;
+}
+.thom-diagram .diagram-node--focal {
+  border-color: var(--diagram-focus);
+  background: var(--diagram-focal-surface);
+}
