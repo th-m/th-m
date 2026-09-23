@@ -235,9 +235,9 @@ describe("Truth and Inference language visualization", () => {
     fireEvent.change(roleTerms, { target: { value: "boy" } });
     fireEvent.change(screen.getByRole("combobox", { name: "Composition term 2" }), { target: { value: "royal" } });
     expect(screen.getByLabelText("Combined embedding result")).toHaveTextContent(/boy\s*\+\s*royal\s*=\s*prince/);
-    expect(screen.getByRole("link", { name: /training walkthrough in Vision and Values/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Building an LLM" })).toHaveAttribute(
       "href",
-      "/writing/vision-and-values",
+      "/writing/building-an-llm",
     );
     expect(screen.queryByRole("button", { name: /Inspect a learned token embedding space/i })).not.toBeInTheDocument();
   });

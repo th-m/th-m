@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { articleBundleNodes } from "@th-m/blogs/components";
 import type { BlogManifest } from "@th-m/blogs/publish";
 import { loadBlogManifest, organizeBlogPosts } from "../content/blog-content";
-import { articleBundleNodes } from "../content/article-bundle";
 import { PublicationDate } from "../writing/PublicationDate";
 
 export const Route = createFileRoute("/writing/")({

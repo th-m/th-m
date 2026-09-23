@@ -73,15 +73,16 @@ describe("article MDX module staging", () => {
 
   it("stages article modules while resolving shared figures through package exports", async () => {
     const generatedPage = resolve(projectRoot, "src/generated/blog-pages", slug);
-    await expect(readFile(resolve(generatedPage, "article.mdx"), "utf8")).resolves.toContain(
-      'from "./article-components"',
-    );
+    const generatedArticle = await readFile(resolve(generatedPage, "article.mdx"), "utf8");
+    expect(generatedArticle).toContain('<Asset id="model-priorities-and-goal-fit" />');
+    expect(generatedArticle).toContain('<Asset id="experience-but-lacking" />');
     await expect(readFile(resolve(generatedPage, "article-components.tsx"), "utf8")).resolves.toContain(
       'export { default } from "./components/registry"',
     );
-    await expect(readFile(resolve(generatedPage, "components/registry.ts"), "utf8")).resolves.toContain(
-      'from "@th-m/blogs/components/neural-training-figure"',
-    );
+    const generatedRegistry = await readFile(resolve(generatedPage, "components/registry.ts"), "utf8");
+    expect(generatedRegistry).toContain("AiFactoryMotif, ArticleBundleGraph");
+    expect(generatedRegistry).toContain('variant: "model-priorities-and-goal-fit"');
+    expect(generatedRegistry).toContain('variant: "experience-but-lacking"');
     expect((await readdir(resolve(generatedPage, "components"))).sort()).toEqual([
       "goal-tree-figure.css",
       "goal-tree-figure.tsx",
