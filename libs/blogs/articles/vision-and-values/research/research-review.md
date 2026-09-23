@@ -175,3 +175,25 @@ The author supplied these as accessible explainers:
 - [Harvard Just Caught AI Lying to Every Executive in America](https://www.youtube.com/watch?v=pd1Km6bT104)
 
 Their titles are effective hooks, not publication-ready findings. The outline uses the corresponding primary research to preserve the insight while avoiding claims the studies do not make.
+
+## Conversational revision source check — 2026-09-23
+
+- Rechecked [Hall's talk and transcript](https://ai.engineer/talks/1KOdiGgMtpY-signal-layer-what-build-when-anything-be),
+  retaining the existing opening quotation and attribution. The author's 2028
+  aside expresses his view of current execution reliability, not Hall's forecast.
+- [Levina's NYU Stern research summary](https://www.stern.nyu.edu/experience-stern/faculty-research/research-highlights/researchers-asked-llms-strategic-advice-they-got-trendslop-return)
+  independently makes the researchers' qualitative finding accessible. The
+  revised article uses that finding and removes detailed option-order claims
+  that the currently accessible HBR preview does not verify.
+- Rechecked [Almeida's transcript](https://ai.engineer/talks/cJ0EOzey--o-whats-next-after-rlhf)
+  at 7:38–8:22. The prose attributes the assistance/automation criticism to him;
+  it does not claim every deployed model optimizes a literal engagement metric.
+- The [CHI 2026 author publication page](https://www.microsoft.com/en-us/research/publication/personal-validation-effect-in-llms-positive-ai-responses-bias-perceptions-of-validity-reliability-personalization-and-usefulness-of-fictitious-predictions/)
+  identifies **Eunhae Lee**, correcting the old source entry's Yoonho Lee.
+  The revised prose uses the study design and directional perception result,
+  without equating favorable ratings with accuracy or generalizing to all use.
+- The six-hour duration and discarded worktree come from the author's latest
+  account and supersede the older nine-hour anecdote. No causal diagnosis of the
+  software failure is established. The economic claim concerns differentiation,
+  not unlimited supply, vanished demand, or literally free production. The
+  values claim distinguishes human experience from operative priorities.

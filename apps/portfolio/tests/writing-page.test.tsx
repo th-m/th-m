@@ -117,11 +117,12 @@ describe("ArticleContent MDX rendering", () => {
       </ToolDrawerProvider>,
     );
 
-    expect(screen.getByText("Make this plan optimal. Find all the gaps. Add the necessary validation.").closest("blockquote"))
+    expect(screen.getByText("Optimize this plan and fill any gaps.").closest("blockquote"))
       .toBeInTheDocument();
     const openingQuote = screen.getByText("“So, the cost of the average just went to zero and so did its value.”");
     expect(openingQuote.tagName).toBe("STRONG");
     expect(openingQuote.closest("blockquote")).toBeInTheDocument();
+    expect(screen.getAllByRole("blockquote")[0]).toContainElement(openingQuote);
     expect(screen.getByText("Barnum effect")).toHaveClass("thom-tooltip-trigger");
     expect(screen.getByText("Four requirements").closest(".article-claim")).toBeInTheDocument();
     expect(screen.getByText("False evaluative closure", { exact: true }).closest(".article-claim"))

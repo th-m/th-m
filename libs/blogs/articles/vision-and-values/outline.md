@@ -35,6 +35,21 @@ leaders responsible for the direction of multiple teams.
 
 ## Controlling Distinctions
 
+**Voice and opening, revised 2026-09-23:** Use the author's conversational,
+self-deprecating draft as the tone guide. Lead with Hall's quotation, then the
+2028 aside and the six-hour goal-mode failure: exhausted credits, unfinished
+task, discarded worktree. Keep the SaaS/moon joke and the economics-under-our-
+sandals image. Clean up spelling while preserving the voice. The anecdote is
+the author's account; 2028 is an impression, not a forecast.
+
+Fill the missing bridges without expanding the article's scope: abundant output
+does not confer differentiation; model priorities do not automatically match
+the author's values; strategy requires choices; approval can diverge from
+automation; perceived personal meaning does not establish value. Preserve the
+later argument about situated meaning, authority, causal reasoning, correction,
+and autonomous teams. Avoid treating abundant supply as disappearing demand,
+or absence of demonstrated lived values as absence of operative priorities.
+
 Use these terms consistently so the article does not move between different
 meanings of “values”:
 
@@ -66,19 +81,19 @@ purpose.
 **Reader starts with:** Generative AI makes more plans, artifacts, and options
 available, so strategic leverage may seem to come from generating more of them.
 
-**Move:** Open with the failed nine-hour planning request. Follow it with Lena
-Hall's bold quotation about the cost and value of average work falling to zero,
-linked to 1:25 in *The Signal Layer*. Explain the signal layer as defining what
-is worth building and preserving that meaning through to customers. Connect
-human insight, vision, and judgment to strategic advantage, then return to the
-direction missing from the request. “Zero” describes lost differentiation;
-Hall also acknowledges production and attention costs later in the talk.
+**Move:** Open with Hall's bold quotation, linked to 1:25 in *The Signal Layer*.
+Follow with the author's 2028 aside and corrected six-hour failure story.
+Use “Optimize this plan and fill any gaps” as the request. Separate cheap
+generation from useful completed work, and common access from differentiation.
+Introduce inherited model priorities before returning to the missing human
+insight, vision, and judgment. Explain the signal layer as defining what is worth
+building and preserving its meaning through to customers.
 
-The system produced many
-recommendations and checks because `optimize` did not specify which outcome,
-risk, or sacrifice should govern the work. Introduce the HBR strategic-advice
-study only as evidence that tested recommendations could remain broadly
-fashionable or react to prompt order despite added context.
+Begin the first section with the strategy study, using Levina's accessible
+NYU Stern summary for its bounded finding of recurring fashionable advice across
+contexts. Then explain why a strategy requires commitments and tradeoffs before
+a plan can coordinate useful action. Do not turn one failed run into proof of a
+universal model limitation or a measured explanation of the failure.
 
 **Reader leaves with:** Abundant creation moves the bottleneck upstream. The
 scarce input is the judgment that defines what deserves to be created and what
@@ -101,11 +116,18 @@ the right vocabulary and presents a coherent recommendation.
 **Move:** Lead with Almeida's bold engagement quote and linked attribution as a
 ChatGPT and InstructGPT coauthor. Follow with his diagnosis that these assistants
 are designed to make users feel good, emphasizing that this account comes from
-one of the people who built ChatGPT. Then explain the Barnum effect as an analogy for perceived specificity,
+one of the people who built ChatGPT. Explain his distinction between satisfying
+a human and reliably completing a task; attribute his criticism rather than
+asserting one universal objective for all AI. Then explain the Barnum effect as an analogy for perceived specificity,
 not as a finding from the strategic-advice study. Compare the same generic
 recommendation in two situations that require different choices. Name the
 missing discriminators: stakeholders, constraints, non-goals, acceptable
 sacrifices, and evidence that would reverse the choice.
+
+Use the CHI 2026 fictitious-prediction study to distinguish feeling understood
+from independently established validity. Keep its 238-participant design and
+perception outcome visible. This is not evidence that every agreeable answer
+is false or that perceived meaning has no possible value.
 
 Retain the POTS composite as a short optional analogy: a clinically useful
 diagnostic category can identify a measurable syndrome without by itself
@@ -284,7 +306,7 @@ or hypothesis.
 corrigibility matter, but still needs to resolve what “human governance” asks
 people to do.
 
-**Move:** Return to the nine-hour plan. Do not assert a proven cause for that
+**Move:** Return to the six-hour run and discarded worktree. Do not assert a proven cause for that
 one failure. State the defensible lesson: `optimize` left the governing
 tradeoffs open, and the output could not establish which interpretation
 deserved authority.

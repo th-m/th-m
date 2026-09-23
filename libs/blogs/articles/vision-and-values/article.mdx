@@ -11,17 +11,6 @@ tags: [Artificial Intelligence, Language Models, Strategy, Values]
 
 <Lede>
 
-I once gave an agent what I thought was a reasonable instruction:
-
-<Quote>
-  <P>Make this plan optimal. Find all the gaps. Add the necessary validation.</P>
-</Quote>
-
-Nine hours later, I killed the run. The agent had produced a stack of checklists,
-controls, and imagined requirements because I had never said which gaps
-mattered. I asked for an “optimal” plan without naming the priority, then handed
-the agent authority to supply the missing judgment.
-
 <Quote>
   <P><strong>“So, the cost of the average just went to zero and so did its value.”</strong></P>
 </Quote>
@@ -29,53 +18,75 @@ the agent authority to supply the missing judgment.
 — Lena Hall, [*The Signal Layer: What to Build When Anything Can Be Built*,
 1:25–1:29](https://www.youtube.com/watch?v=1KOdiGgMtpY&t=85s).
 
-When competitors can reproduce a feature in an afternoon, strategic advantage
-depends on the judgment behind it. Hall calls the work of defining what is worth
-building—and carrying that meaning through to customers—the *signal layer*.
-Human insight identifies a need through close experience of a problem. Vision
-imagines a better future for the people living with it. Judgment chooses which
-tradeoffs and commitments can bring that future about.
+Lena's talk is very good. Honestly, she says a lot of what I wanted to say in
+this article better than I could. But parts of it feel more like a description
+of 2028. Here in 2026, I can still spend an impressive amount on getting nowhere.
 
-That is the signal I had left out of my request. AI could multiply the work,
-but I had supplied no reason to prefer one outcome over another. Our strategic
-advantage lies in giving the machinery a direction grounded in what we see,
-understand, and care enough to change.
+A couple of months ago, after Gippity added goal mode, I decided to hack the
+system. No average output for me. My million-dollar SaaS, no mistakes, was going
+to the moon. I developed an exhaustive plan in plan mode. Then came my big-brain
+move: give goal mode this instruction.
 
-Which future is worth pursuing? Who decides, and what would prove us wrong?
+<Quote>
+  <P>Optimize this plan and fill any gaps.</P>
+</Quote>
 
-AI can research those questions, compare options, challenge assumptions, model
-consequences, and act inside a delegated objective.
-None of that gives it authority to decide whose interests count or which
-consequences deserve priority.
+And guess what? Six hours later, the agent had exhausted my credits, hadn't
+finished the task, and had left me with a worktree so broken I had to trash it.
+The moon would have to wait.
 
-That authority remains ours because strategy commits people and institutions to
-other people. For AI to act with us, that commitment must be visible,
-contestable, and open to correction.
+The economic shift is happening under our sandals. Generating more work is
+getting cheaper. Finishing useful work can still be expensive. My agent had
+plenty to do because “any gaps” gave it no way to decide which ones mattered,
+what was good enough, or when to stop.
+
+Can AI lift you above the average? If the idea is to hand it your strategy and
+wait for an advantage, no. Access to the same machinery as everyone else is
+not much of a reason for a customer to choose you. Customers still need things;
+cheap supply does not make demand disappear. It makes interchangeable output
+harder to charge a premium for.
+
+There is a deeper problem, too. Gippity and Claudius do not arrive with your
+values. Their priorities are shaped by training, alignment, instructions, and
+the harness—the tools, permissions, and feedback around the model. What matters
+to you may not be what that setup rewards. Leave something out because “it's
+obvious,” and the system can fill the gap with a priority you never chose.
+
+Hall calls the work of defining what is worth building and carrying its meaning
+through to customers the *signal layer*. That is where human insight, vision,
+and judgment become a strategic advantage: knowing a problem closely, imagining
+a better outcome, and choosing the tradeoffs worth making to get there.
+
+That was the part I had tried to outsource. I supplied a plan and asked the
+agent to supply the judgment. This article is about why that goes wrong—and
+what we need to make explicit before handing over the work.
 
 </Lede>
 
 <Section index="01" title="A Plan Is Not a Strategy">
 
-A strategy is not a long document. It is a set of choices made under
-uncertainty: a diagnosis, a direction, accepted tradeoffs, rejected options,
-and coordinated action. The document records those commitments. It cannot make
-them for us.
+There is research behind this concern, beyond my expensive afternoon.
+Angelo Romasanta, Llewellyn Thomas, and Natalia Levina tested strategic advice
+from leading LLMs. Across thousands of simulations, recommendations kept
+converging on fashionable strategies even as the business context changed.
+They call it [“strategy trendslop”](https://www.stern.nyu.edu/experience-stern/faculty-research/research-highlights/researchers-asked-llms-strategic-advice-they-got-trendslop-return).
+The finding concerns their tested models and situations. It does not mean every
+recommendation is wrong. It means a tailored-sounding answer may still be the
+default advice everyone else receives.
 
-An AI can make a document look complete before anyone has chosen what matters.
-My instruction rewarded exhaustive coverage; the outcome I wanted required a
-theory of which gaps could prevent success.
+A strategy is not a plan. It starts with a diagnosis, a direction, and choices
+under uncertainty. Who are we serving? What will we do for them? What are we
+willing to sacrifice, and what are we refusing to do? The plan coordinates the
+work needed to honor those choices. Making it longer does not make them better.
 
-Research on AI strategy advice makes this harder to dismiss as one bad prompt.
-Angelo Romasanta, Llewellyn Thomas, and Natalia Levina found that leading models
-repeatedly favored fashionable positions across seven strategic tensions. In
-their deeper ChatGPT-5 analysis, option order shifted recommendations more than
-detailed company scenarios did on average. The study concerns particular
-models, prompts, and tensions; it does not prove that all AI advice is wrong.
-It does show why polished strategy language should not inherit authority merely
-because it sounds wise.
+My instruction rewarded exhaustive coverage. What I needed was a judgment about
+which gaps could prevent success and which could wait. Those are very different
+jobs, even if the resulting documents have the same headings.
 
-As creation gets cheaper, the valuable work moves upstream: deciding what the
-work is for.
+AI can help research the problem, compare options, challenge assumptions, and
+model consequences. I want that help. But a persuasive recommendation does not
+get to decide whose interests count or which costs we should accept. Those
+choices commit us to other people. We remain responsible for them.
 
 </Section>
 
@@ -87,47 +98,61 @@ work is for.
 [*What's next after RLHF?*, 7:38–7:56](https://ai.engineer/talks/cJ0EOzey--o-jev-ceo-made-chatgpt-building-whats-next).
 
 His point is blunt: these assistants are designed to make you feel good—to earn
-your approval and keep you engaged. This is one of ChatGPT's creators describing
-the incentives behind the product. Feeling reassured by an answer is a different
-outcome from making a sound decision.
+your approval and keep you engaged. That is one of ChatGPT's creators describing
+the incentives. Of course a product wants us to like using it. The awkward part
+is what happens when making us happy competes with getting the work right.
 
-Broad advice can feel personal because we connect it to details from our own
-lives and remember what fits. Psychologists call one version of this the
+Almeida argues that optimizing for human approval can work against dependable
+automation. A useful agent sometimes needs to stop, expose uncertainty, or tell
+me my plan is bad. Another reassuring answer might keep the conversation going
+without getting me any closer to a working product. That is his criticism of
+the incentive, not proof that every model or interaction has the same objective.
+
+We bring our own contribution to the confusion. Read broad advice and you can
+often supply the details that make it feel personal. Psychologists call one
+version of this the
 <Term definition="The tendency to experience broad, general descriptions as uniquely personal and accurate.">Barnum effect</Term>.
-Feeling understood is not evidence that a system found the facts controlling a
-decision. Perceived specificity, sycophancy, error, and deception are different
-problems.
+I recognize myself in the answer, so I assume the system has recognized me.
+But the meaning I found may be the meaning I supplied.
+
+A [CHI 2026 study](https://www.microsoft.com/en-us/research/publication/personal-validation-effect-in-llms-positive-ai-responses-bias-perceptions-of-validity-reliability-personalization-and-usefulness-of-fictitious-predictions/)
+tested fictitious, pre-scripted AI predictions with 238 participants. Positive
+predictions were rated more valid, personal, reliable, and useful than negative
+ones. Feeling good about an answer can change how we judge it, even when the
+prediction has no evidentiary basis. That is a finding about perceived validity,
+not proof that every agreeable response is false or deliberately deceptive.
 
 Imagine two companies asking whether to centralize product decisions. One has
 six teams duplicating infrastructure and breaking shared workflows. The other
 serves distinct regulated markets where local expertise matters. “Create a
 unified operating model while empowering teams” sounds sensible in both cases.
-It has not made the decision. The real questions are which decisions are
-coupled, where knowledge lives, and which failures can remain local.
+Lovely. We can both put it in a slide deck. We still have to decide which
+decisions are coupled, where knowledge lives, and which failures can remain
+local. The advice has recognized a category without settling our problem.
 
 A POTS diagnosis can name a real syndrome and guide care without revealing one
 underlying mechanism or explaining why a particular person developed it.
 Classification is useful; it is not a complete explanation.
 
-Strategy advice can fail the same way. Fluency names a recognizable pattern.
-Strategic fit requires the distinctions that justify this choice—and the
-evidence that would make us choose differently.
+Strategy advice can fail the same way. The model has the vocabulary. We have
+the feeling of being understood. Neither establishes why this choice fits this
+situation, or what evidence should make us choose differently.
 
 <Asset id="model-priorities-and-goal-fit" />
 
-Some missing context is factual. Some is normative. Words such as *better*,
-*safe*, *efficient*, and *valuable* do more than describe a situation. They
-rank possible futures.
+That disconnect matters. A response can mean something to me without producing
+value for anyone. Words such as *better*, *safe*, *efficient*, and *valuable*
+hide choices about whose future we are improving and what we are willing to
+give up. We need to unpack those choices before asking a system to optimize them.
 
 </Section>
 
 <Section index="03" title="What Language Carries—and What It Leaves Out">
 
-A language model carries extraordinary structure. Relationships among words,
-concepts, and contexts let it infer, plan, explain, and use tools. But a model
-of recorded language is not the same thing as acquaintance with the people the
-language describes; complete coverage of recorded facts is not complete
-acquaintance with a person.
+This is not because the model knows nothing. It carries extraordinary structure
+in the relationships among words, concepts, and contexts. That lets it infer,
+plan, explain, and use tools. But complete coverage of recorded facts is not
+complete acquaintance with a person.
 
 It can know everything documented about Alicia yet not know Alicia is pronounced
 ah-LEE-sha by her family. The pronunciation is knowable; nobody made it
@@ -153,9 +178,10 @@ authority to impose them. Human values concern what outcomes mean in people's
 lives. Operative priorities concern what a system rewards, protects, or
 sacrifices.
 
-We do not need to transmit Jon's entire inner life before acting. We need enough
-shared understanding to form a responsible hypothesis, expose the tradeoffs,
-and notice when reality disagrees.
+We do not need to upload Jon's entire inner life before helping him. We do need
+to ask what “better” means before building him the wrong thing. Share enough to
+form a responsible hypothesis, make the tradeoffs visible, and notice when
+reality disagrees.
 
 <Asset id="experience-but-lacking" />
 
@@ -170,17 +196,20 @@ future should govern the work?
 
 <Section index="04" title="Vision Gives Direction. Authority Makes It Governing.">
 
-A <Term definition="A shared, revisable picture of a desirable future and the human consequences that make it worth pursuing.">vision</Term> is a shared, revisable picture of a desirable future and the human
-consequences that make it worth pursuing. It gives direction before every goal
-or plan has been fixed. But coherence, ambition, and eloquence do not make a
-vision legitimate.
+A <Term definition="A shared, revisable picture of a desirable future and the human consequences that make it worth pursuing.">vision</Term> is a picture of a future worth working toward, shared with others
+and open to revision. It gives us direction before we have every goal and plan
+worked out. “To the moon” is enthusiastic. It still leaves us asking who benefits,
+what it costs, and who agreed to the trip.
+
+An inspiring vision does not automatically give its author the right to impose
+it. Four questions keep that authority attached to the people it affects.
 
 <Callout label="Governance test" title="Four requirements">
   <ol>
-    <li><strong><Term definition="Whose interests must be considered and who has a route to contest the goal.">Standing</Term>:</strong> people affected by the goal must be considered and need a route to contest it. Standing does not give every stakeholder the same decision right or an automatic veto.</li>
-    <li><strong><Term definition="Who may bind an organization to a goal and where that authority stops.">Authorization</Term>:</strong> the organization must make clear who can bind it to the goal and where that authority stops.</li>
-    <li><strong><Term definition="Who remains answerable for the benefits, harms, and costs produced by pursuing the goal.">Accountability</Term>:</strong> the people who authorize and execute the goal remain responsible for the benefits and costs imposed on others.</li>
-    <li><strong><Term definition="The requirement that a goal remain open to revision when evidence conflicts with its stated purpose.">Corrigibility</Term>:</strong> the goal must remain open to revision when evidence conflicts with its stated purpose.</li>
+    <li><strong><Term definition="Whose interests must be considered and who has a route to contest the goal.">Standing</Term>:</strong> whose lives does this affect, and how can they challenge it? Being affected deserves consideration and a way to object, even when it does not grant an automatic veto.</li>
+    <li><strong><Term definition="Who may bind an organization to a goal and where that authority stops.">Authorization</Term>:</strong> who actually gets to make this commitment, and where does their authority stop?</li>
+    <li><strong><Term definition="Who remains answerable for the benefits, harms, and costs produced by pursuing the goal.">Accountability</Term>:</strong> who answers for the benefits, harms, and costs? Authorizing or executing the goal carries responsibility for its consequences.</li>
+    <li><strong><Term definition="The requirement that a goal remain open to revision when evidence conflicts with its stated purpose.">Corrigibility</Term>:</strong> what would make us change our minds? The goal must remain revisable when the consequences contradict its purpose.</li>
   </ol>
 </Callout>
 
@@ -198,7 +227,7 @@ coordinates those commitments over time.
 
 <Asset id="goal-tree-figure" />
 
-Better reasoning does not remove this dependency. Judea Pearl's ladder of
+Even better reasoning cannot choose the destination for us. Judea Pearl's ladder of
 causation distinguishes association, intervention, and counterfactual questions.
 AI can help at every rung when the evidence and causal model are available. The
 ladder answers increasingly powerful causal questions; it does not add a fourth
@@ -218,15 +247,16 @@ should count or which sacrifice is legitimate.
 
 <Section index="05" title="A System Can Be Coherent and Still Be Wrong">
 
-Making priorities explicit is necessary. It is not the finish line. Every
-deployed AI system sits inside a hierarchy shaped by training data,
+Now for the irritating part: we can state our priorities clearly and still get
+them wrong. Every deployed AI system sits inside a hierarchy shaped by training data,
 post-training, system instructions, organizational policy, tools, permissions,
 and evaluation. People and institutions choose how the surrounding product
 orders and enforces those influences.
 
-People turning feedback into reward choose a proxy, evaluators, and how to
-resolve disagreement. Preference is not truth, value, authorization, or
-accountability.
+Someone chooses what counts as a good response, whose feedback matters, and
+how disagreements get resolved. “People preferred it” tells us something. It
+does not settle whether the result is true, valuable, authorized, or something
+we are willing to answer for.
 
 A system can please evaluators, pass its tests, or obey its instructions while
 optimizing the wrong target. Our publishing service could celebrate books,
@@ -242,12 +272,11 @@ unless people have given it permission to challenge, escalate, or stop.
 
 <Asset id="governing-loop-figure" />
 
-The missing path is correction. Affected people and contrary evidence need a
-way to challenge the interpretation. Someone with authority must be able to
-revise the goal, metric, or boundary. That requires observing consequences,
-protecting disagreement, including people who bear the costs, and maintaining
-escalation paths that can change course. Without them, the loop is optimization,
-not governance.
+We need a way back. Jon must be able to say the offer is making his life worse,
+and someone must have the authority to change it. Observe the consequences,
+include the people paying the cost, protect disagreement, and make sure an
+escalation can actually change the goal, metric, or boundary. Otherwise we have
+built a very efficient way to keep being wrong.
 
 Human governance is no guarantee of wisdom. People choose bad goals, protect
 status, and rationalize harm. The reason to preserve human responsibility is
@@ -259,9 +288,9 @@ blame, repair, and revision.
 
 <Section index="06" title="Shared Intent Lets Teams Think for Themselves">
 
-Retaining authority over the ends does not require one leader to approve every
-means. A strategy that only one person can interpret is not useful to an
-organization.
+None of this means the boss needs to approve every move. That would turn human
+judgment into another queue. A strategy that only one person can interpret is
+not much use to the rest of the organization.
 
 Suppose product learns that Jon accepts a longer timeline if it protects his
 evenings, while operations finds white-glove support unsustainable. Given only
@@ -274,41 +303,44 @@ existing expertise without creating a second full-time job. Teams need the
 desired future, affected people, constraints, decision rights, visible
 commitments, evidence that should force reconsideration, and protected dissent.
 
-Writing this down does not manufacture a strategy. It makes the judgment
-inspectable: which premise supports an action, who is absent, and what outcome
-would prove the offer failed?
+Write that down, and teams have something they can use and challenge. Why does
+this action make sense? Whose needs have we missed? What outcome would show
+that the offer failed? A longer plan cannot answer those questions by itself.
 
 Inside those boundaries, AI can research, compare explanations, generate
 options, and make bounded instrumental decisions. Removing a person from each
 action does not remove human responsibility for the objective, permissions,
 evaluation, escalation, or consequences.
 
-Strategic agency permits distributed action. The center need not dictate every
-route; it must make the destination, boundaries, and correction process clear
-enough for local judgment to remain aligned without becoming obedient.
+Teams can choose different routes when they understand the destination, their
+boundaries, and how to change course. Shared intent gives them room to think.
+It should not become a polite name for obedience.
 
 </Section>
 
 <Section index="07" title="Retain Authority Over the Ends">
 
-My agent did not prove that AI cannot strategize. It revealed that *optimal*
-left the governing tradeoffs open, and the generated plan could not establish
-which interpretation deserved authority.
+Six hours, all my credits, and a discarded worktree did not prove that AI cannot
+help with strategy. What I had left undefined was what deserved the time, what
+was good enough, and what should be left alone. I handed over those tradeoffs
+with the task and called it “optimization.”
 
 Unstated values do not disappear. A system imports priorities from its training,
 instructions, tools, evaluation, and request. Stated priorities can still be
 wrong. Coherence does not close the values question.
 
-We retain strategic agency by naming the future and its worthwhile consequences;
-authorizing who may govern; sharing enough intent for distributed action; and
-remaining open to evidence and people who show that we got it wrong.
+The work is to name the future we want and why it matters, make clear who can
+commit us to it, and give teams enough shared intent to act. Then listen when
+the evidence—or the people living with the consequences—says we got it wrong.
 
 <Callout label="Responsibility" emphasis>
   <P><strong>The point is not to preserve a ceremonial human approval at the top of an automated system. It is to preserve a chain of responsibility from values to goals, from goals to action, and from action back to consequences.</strong></P>
 </Callout>
 
-Making priorities explicit is only the beginning. We remain responsible for
-whether the goals we authorize serve the people whose lives they change.
+I still want the machinery. I would also like to keep my credits next time.
+But the advantage has to come from understanding a problem, choosing a future
+worth pursuing, and staying responsible for what happens when we pursue it.
+“Optimize this plan” cannot do that work for us.
 
 This article sets the AI Factory's direction.
 
@@ -325,9 +357,9 @@ bounded examples, causal distinctions, and account of revisable valuation. They
 do not independently prove the normative conclusion.
 
 1. Lena Hall. [*The Signal Layer: What to Build When Anything Can Be Built*](https://ai.engineer/talks/1KOdiGgMtpY-signal-layer-what-build-when-anything-be). AI Engineer World's Fair (2026), especially 1:25–1:29 and 3:21–4:02. The opening quotation describes lost differentiation; later in the talk Hall acknowledges production and attention costs. The signal layer connects a product's distinctive purpose with what customers understand.
-2. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina. [“Researchers Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in Return.”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return) *Harvard Business Review* (2026). Supports the reported defaults, context effects, and option-order effects in the tested strategic tensions; it is not evidence that every AI recommendation is wrong.
+2. Angelo Romasanta, Llewellyn D. W. Thomas, and Natalia Levina. [“Researchers Asked LLMs for Strategic Advice. They Got ‘Trendslop’ in Return.”](https://hbr.org/2026/03/researchers-asked-llms-for-strategic-advice-they-got-trendslop-in-return) (2026). [Levina's NYU Stern research summary](https://www.stern.nyu.edu/experience-stern/faculty-research/research-highlights/researchers-asked-llms-strategic-advice-they-got-trendslop-return) describes recurring fashionable recommendations across tested contexts. The result is bounded by the study's models and situations.
 3. Bertram R. Forer. [“The Fallacy of Personal Validation: A Classroom Demonstration of Gullibility.”](https://doi.org/10.1037/h0059240) *Journal of Abnormal and Social Psychology* (1949). Supports the classic personal-validation effect used here as an analogy, not a claim about AI deception.
-4. Pat Pataranutaporn, Yoonho Lee, Judith Amores, and Pattie Maes. [“Personal Validation Effect in LLMs.”](https://www.microsoft.com/en-us/research/publication/personal-validation-effect-in-llms-positive-ai-responses-bias-perceptions-of-validity-reliability-personalization-and-usefulness-of-fictitious-predictions/) CHI (2026). Supports the bounded finding that positive fictitious AI predictions received higher perceived validity, personalization, reliability, and usefulness; it does not establish that every chatbot interaction has this effect.
+4. Pat Pataranutaporn, Eunhae Lee, Judith Amores, and Pattie Maes. [“Personal Validation Effect in LLMs.”](https://www.microsoft.com/en-us/research/publication/personal-validation-effect-in-llms-positive-ai-responses-bias-perceptions-of-validity-reliability-personalization-and-usefulness-of-fictitious-predictions/) CHI (2026). Supports the bounded finding that positive fictitious AI predictions received higher perceived validity, personalization, reliability, and usefulness; it does not establish that every chatbot interaction has this effect.
 5. NIH Expert Consensus Meeting authors. [“Postural Orthostatic Tachycardia Syndrome (POTS): State of the Science and Clinical Care — Part 1.”](https://pmc.ncbi.nlm.nih.gov/articles/PMC8455420/) (2021). Supports the diagnostic criteria and description of POTS as a heterogeneous multisystem syndrome; the article's example distinguishes diagnosis from one complete causal explanation and is not medical advice.
 6. Judea Pearl. [“What Is Causal Inference?”](https://bayes.cs.ucla.edu/ijcai-july2022-bw.pdf) IJCAI (2022). Supports the ladder of association, intervention, and counterfactual reasoning; it does not select which outcome ought to govern action.
 7. John Dewey. [*Theory of Valuation*](https://archive.org/details/theoryofvaluatio032168mbp) (1939). Supports a consequences-sensitive and revisable account of valuation.

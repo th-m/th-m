@@ -114,3 +114,34 @@ Verification: diagram-theme and diagrams typechecks/tests passed; both export
 engines generated successfully. Inspected the 160px, 48px, and 32px icon export,
 the live inventory, and desktop/mobile article figures. Blogs and portfolio
 publication passed with their required tests and typechecks.
+
+## Author-voice revision — 2026-09-23
+
+Baseline: [8144353](https://github.com/th-m/th-m/commit/8144353edaa0e8027b5f4b4cddd0073a833b3e71),
+verified on origin/codex/vision-values-diagram-language before editing.
+
+Adopt the author's supplied opening, sequence, and conversational humor:
+quotation → 2028 aside → six-hour failure → differentiation and inherited
+priorities → strategy research → strategy versus plan → engagement and
+reliable automation → personal validation → existing disconnect illustration.
+The latest first-person account replaces the earlier nine-hour version.
+Carry the voice through the later sections without removing the article's
+controlling distinctions, Jon and Alicia examples, causal ladder, four authority
+requirements, false evaluative closure, correction loop, or autonomous-team
+argument. Keep all existing figures and the series handoff.
+
+Calibrate the economic claim around interchangeable output rather than claiming
+that supply eliminates demand. Explain model priorities without asserting a
+settled metaphysical conclusion about souls. Attribute the engagement critique
+to Almeida and keep the strategy and personal-validation findings within their
+scope. Source verification and the corrected CHI coauthor appear in the research
+review. Canonical MDX owns this revision; the active outline records it, while
+older prose candidates remain separate drafts.
+
+Verification: blogs and portfolio publication passed with their typechecks and
+tests (167 blog tests and 124 portfolio tests), documentation checks, and ten
+static article routes. Confirmed that the complete existing asset sequence is
+unchanged. Inspected the opening and engagement passage at 1280 px and 390 px;
+the quote leads, the corrected anecdote renders, both disconnect motifs remain
+available, and there is no page overflow. Restarted the local preview to serve
+the rebuilt article rather than its previously loaded server bundle.
