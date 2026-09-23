@@ -194,11 +194,16 @@ export function AiFactoryIconGlyph({ kind }: { kind: AiFactoryIconKind }) {
       {kind === "goal" ? <><IconMorpheme showCenter={false} /><VisionGlyph /></> : null}
       {kind === "meaning" ? <><circle className="ai-factory-icon__meaning-core" cx="80" cy="80" r="5" /><circle className="ai-factory-icon__meaning-boundary" cx="80" cy="80" r="32" /><path className="ai-factory-icon__meaning-edge ai-factory-icon__meaning-edge--diagonal" d="M43 43L58 58M102 102L117 117M117 43L102 58M58 102L43 117" /></> : null}
       {kind === "inference" ? <>
-        <path className="ai-factory-icon__inference-path" d="M36 80H72M72 44V116M72 44H128M72 80H128M72 116H128" />
+        <path className="ai-factory-icon__inference-path" d="M44 80H58M58 50V110M58 50H80M58 110H80" />
         <circle className="ai-factory-icon__inference-junction" cx="28" cy="80" r="8" />
-        <circle className="ai-factory-icon__inference-output" cx="136" cy="44" r="8" />
-        <circle className="ai-factory-icon__inference-output" cx="136" cy="80" r="8" />
-        <circle className="ai-factory-icon__inference-output" cx="136" cy="116" r="8" />
+        <circle className="ai-factory-icon__inference-candidate" cx="92" cy="50" r="9" />
+        <circle className="ai-factory-icon__inference-candidate" cx="92" cy="110" r="9" />
+        {[38, 62, 98, 122].map((y, index) => (
+          <g key={y} className="ai-factory-icon__inference-output">
+            <path d={`M110 ${y}H120`} />
+            <path className={index === 0 ? "ai-factory-icon__inference-continuation--focus" : undefined} d={`M128 ${y}H148`} />
+          </g>
+        ))}
       </> : null}
       {kind === "truth" || kind === "coherence" || kind === "correspondence" || kind === "consequence" ? <TruthPracticeGlyph kind={kind} /> : null}
       {kind === "morpheme-diffuse" ? <IconMorpheme /> : null}
@@ -291,4 +296,3 @@ export function AiFactoryIcon({ kind, label = aiFactoryIconLabel(kind) }: { kind
     </svg>
   );
 }
-

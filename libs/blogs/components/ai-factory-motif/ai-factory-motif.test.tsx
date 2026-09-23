@@ -806,7 +806,9 @@ describe("AiFactoryMotif", () => {
 
     const inference = screen.getByRole("img", { name: /^Inference:/ });
     expect(inference.querySelector(".ai-factory-icon__inference-junction")).toBeInstanceOf(SVGElement);
-    expect(inference.querySelectorAll(".ai-factory-icon__inference-output")).toHaveLength(3);
+    expect(inference.querySelectorAll(".ai-factory-icon__inference-candidate")).toHaveLength(2);
+    expect(inference.querySelectorAll(".ai-factory-icon__inference-output")).toHaveLength(4);
+    expect(inference.querySelectorAll(".ai-factory-icon__inference-continuation--focus")).toHaveLength(1);
     expect(inference.querySelector(".ai-factory-icon__inference-path")).not.toHaveAttribute("marker-end");
 
     const bottleneck = screen.getByRole("img", { name: /^Bottleneck:/ });

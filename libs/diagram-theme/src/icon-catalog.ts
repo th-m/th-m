@@ -91,7 +91,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   inference: {
     semanticRole: "process", iconId: "inference", title: "Inference",
     definition: "Drawing conclusions or predictions from premises, evidence, or learned patterns.",
-    visualGrammar: "One gray input branches to three outlined outputs: an example of possible conclusions, not a required input or output count.",
+    visualGrammar: "One filled input branches to two outlined candidates and four text-like continuations. A gold segment emphasizes one possibility, not a verified conclusion. The counts illustrate expansion, not a required sampling procedure.",
   },
   bottleneck: {
     semanticRole: "constraint", iconId: "bottleneck", title: "Bottleneck",

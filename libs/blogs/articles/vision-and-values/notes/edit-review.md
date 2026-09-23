@@ -99,3 +99,18 @@ the midpoint between panel edges x=340 and x=496. Equal line segments now meet
 the glyph ends. In the value panel, shortened the relationship lines to leave
 eight SVG units clear of Self and Others, with similar clearance around Value.
 Updated the existing scene assertions and checked the rendered motif.
+
+## Inference icon selection — 2026-09-23
+
+Baseline: [e12853a](https://github.com/th-m/th-m/commit/e12853a22d3ca2bd96bb5449fca4c69fc9b5edcb),
+already pushed before this follow-up. Thom selected the Multiplicative outputs
+concept: one filled input, two open candidates, and four segmented continuations
+with one gold terminal segment. Implemented it in diagram-theme's canonical
+glyph and CSS so all article scenes, inventory specimens, and exports agree.
+Updated the catalog to distinguish illustrative expansion from a prescribed
+sampling procedure or a verified conclusion.
+
+Verification: diagram-theme and diagrams typechecks/tests passed; both export
+engines generated successfully. Inspected the 160px, 48px, and 32px icon export,
+the live inventory, and desktop/mobile article figures. Blogs and portfolio
+publication passed with their required tests and typechecks.

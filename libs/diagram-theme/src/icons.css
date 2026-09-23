@@ -32,7 +32,9 @@
 .ai-factory-icon__others-dot { fill: var(--color-foreground-muted); stroke: none; }
 .ai-factory-icon__agent { fill: var(--color-foreground-muted); stroke: none; }
 .ai-factory-icon__inference-junction { fill: var(--color-foreground-muted); }
-.ai-factory-icon__inference-output { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__inference-candidate { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__inference-output { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__inference-continuation--focus { stroke: var(--color-primary); }
 .ai-factory-icon__morpheme { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 3 5; opacity: .8; }.ai-factory-icon__morpheme--refined { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke-dasharray: none; stroke-width: 1.2; }
 .ai-factory-icon__text-line { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }.ai-factory-icon__text-highlight { fill: color-mix(in srgb, var(--color-foreground-muted) 20%, var(--color-surface)); stroke: var(--color-foreground-muted); stroke-width: 1; }
 .ai-factory-icon__token-segment { fill: color-mix(in srgb, var(--color-foreground-muted) 10%, var(--color-surface)); stroke: none; }
