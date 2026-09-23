@@ -130,7 +130,7 @@ const motifContent = {
     caption:
       "Context is assembled for the task, not copied as a static document bundle. Scope, operating rules, and procedure remain distinct; the relevant parts are selected to fit the agent's context budget. That context bounds action, keeps authority explicit, and preserves outcome evidence that can revise the map.",
   },
-+} as const;
+} as const;
 
 export type AiFactoryMotifVariant = keyof typeof motifContent;
 export type AiFactoryMotifEmbeddingLane = "comparison" | "grounded" | "ungrounded";
