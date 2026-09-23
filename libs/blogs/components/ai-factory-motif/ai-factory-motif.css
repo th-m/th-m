@@ -561,7 +561,6 @@
   fill: var(--color-primary);
 }
 
-.ai-factory-series-map__flywheel-relations,
 .ai-factory-series-map__relationship {
   fill: var(--color-foreground-muted);
   font-family: var(--font-mono);

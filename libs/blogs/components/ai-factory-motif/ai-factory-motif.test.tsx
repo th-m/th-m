@@ -678,23 +678,10 @@ describe("AiFactoryMotif", () => {
     for (const flywheel of flywheels) {
       expect(flywheel).toHaveAccessibleDescription(/Learning from automation informs ontology/);
       expect(flywheel.querySelectorAll(".ai-factory-series-map__flywheel-paths > path")).toHaveLength(2);
-      expect(flywheel).toHaveTextContent("SYSTEMATIZES");
-      expect(flywheel).toHaveTextContent("INFORMS");
+      expect(flywheel).not.toHaveTextContent("SYSTEMATIZES");
+      expect(flywheel).not.toHaveTextContent("INFORMS");
       expect(flywheel.querySelector(".ai-factory-icon--understanding")).not.toBeInTheDocument();
-      const edgeLabels = flywheel.querySelectorAll(".ai-factory-motif__connector-label--on-edge");
-      expect(edgeLabels).toHaveLength(2);
-      for (const [index, label] of Array.from(edgeLabels).entries()) {
-        const frame = label.querySelector("rect")!;
-        const text = label.querySelector("text")!;
-        const y = [46, 134][index];
-        expect(frame).toHaveAttribute("height", "16");
-        expect(Number(frame.getAttribute("width")) % 4).toBe(0);
-        expect(Number(frame.getAttribute("width"))).toBeGreaterThanOrEqual(text.textContent!.length * 5.6 + 12);
-        expect(Number(frame.getAttribute("x")) + Number(frame.getAttribute("width")) / 2).toBe(160);
-        expect(Number(frame.getAttribute("y")) + 8).toBe(y);
-        expect(text).toHaveAttribute("y", String(y));
-        expect(text).toHaveAttribute("dominant-baseline", "middle");
-      }
+      expect(flywheel.querySelectorAll(".ai-factory-motif__connector-label")).toHaveLength(0);
       expect(flywheel).not.toHaveTextContent("FLYWHEEL");
       expect(flywheel).toHaveAccessibleDescription(/so long as they remain grounded in understanding/);
       expect(flywheel.closest("a")?.querySelector("p")).toHaveTextContent("Ontology and automation can form a flywheel, so long as they remain grounded in understanding.");

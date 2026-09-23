@@ -374,10 +374,6 @@ function KnowledgeFlywheel() {
           <path d="M108 72A64 64 0 0 1 212 72" />
           <path d="M212 108A64 64 0 0 1 108 108" />
         </g>
-        <g className="ai-factory-series-map__flywheel-relations">
-          <ConnectorLabel x={160} y={46} onEdge>SYSTEMATIZES</ConnectorLabel>
-          <ConnectorLabel x={160} y={134} onEdge>INFORMS</ConnectorLabel>
-        </g>
         <g className="ai-factory-series-map__flywheel-concept">
           <MotifGlyph kind="ontology-node" x={64} y={92} scale={0.6} />
           <text x="64" y="144">Ontology</text>
