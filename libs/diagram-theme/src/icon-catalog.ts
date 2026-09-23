@@ -66,7 +66,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   opportunity: {
     semanticRole: "concept", iconId: "opportunity", title: "Opportunity",
     definition: "A path toward meaning or value: a possibility worth exploring in pursuit of a goal.",
-    visualGrammar: "A neutral input rises through the same two curved paths as Experiment, ending in equally sized outlined circles: gold on the left and information blue on the right. Gold marks meaning or value; the branches depict possibilities, not guaranteed outcomes.",
+    visualGrammar: "A neutral input rises through the same two curved paths as Experiment, ending in equally sized outlined circles: gray on the left and gold on the right. Gold marks meaning or value; the branches depict possibilities, not guaranteed outcomes.",
   },
   solution: {
     semanticRole: "concept", iconId: "solution", title: "Solution",

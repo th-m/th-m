@@ -194,8 +194,8 @@ export function AiFactoryIconGlyph({ kind }: { kind: AiFactoryIconKind }) {
       {kind === "goal" ? <><IconMorpheme showCenter={false} /><VisionGlyph /></> : null}
       {kind === "opportunity" ? <>
         <path className="ai-factory-icon__opportunity-branches" d="M80 136V112C80 86 44 84 44 56M80 112C80 86 116 84 116 56" />
-        <circle className="ai-factory-icon__opportunity-possibility ai-factory-icon__opportunity-possibility--focus" cx="44" cy="34" r="16" />
-        <circle className="ai-factory-icon__opportunity-possibility" cx="116" cy="34" r="16" />
+        <circle className="ai-factory-icon__opportunity-possibility" cx="44" cy="34" r="16" />
+        <circle className="ai-factory-icon__opportunity-possibility ai-factory-icon__opportunity-possibility--focus" cx="116" cy="34" r="16" />
       </> : null}
       {kind === "solution" ? <>
         <path className="ai-factory-icon__solution-path" d="M30 80H58M102 80H130" />
