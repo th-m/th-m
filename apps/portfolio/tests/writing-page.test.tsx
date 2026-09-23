@@ -76,12 +76,10 @@ describe("ArticleContent MDX rendering", () => {
     const morpheme = screen.getByRole("button", { name: "morpheme" });
     expect(morpheme).toHaveAttribute("aria-haspopup", "dialog");
     expect(morpheme.closest("p")).toHaveTextContent("minimal unit of meaning");
-    const figure = screen.getByRole("figure", {
-      name: "From Jon's experience to the word pain: language leaves details unstated",
-    });
-    expect(morpheme.compareDocumentPosition(figure) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const compressionParagraph = screen.getByText(/Language is itself a compression tool/);
+    expect(morpheme.compareDocumentPosition(compressionParagraph) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     const populationFigure = screen.getByRole("img", { name: /Illustrative company of 100 people/ });
-    expect(figure.compareDocumentPosition(populationFigure) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(compressionParagraph.compareDocumentPosition(populationFigure) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     fireEvent.click(morpheme);
     const glossary = await screen.findByRole("document", {
       name: "Grams and Language Units: A Cross-Domain Glossary",

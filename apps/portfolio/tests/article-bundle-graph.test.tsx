@@ -45,8 +45,13 @@ async function renderGraph() {
     path: "/writing/$slug",
     component: () => null,
   });
+  const iconographyRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/ai-factory-motif",
+    component: () => null,
+  });
   const router = createRouter({
-    routeTree: rootRoute.addChildren([indexRoute, writingRoute]),
+    routeTree: rootRoute.addChildren([indexRoute, writingRoute, iconographyRoute]),
     history: createMemoryHistory({ initialEntries: ["/"] }),
   });
   await router.load();
@@ -58,7 +63,7 @@ describe("ArticleBundleGraph", () => {
     await renderGraph();
     expect(screen.getByRole("heading", { name: "AI Factory" })).toBeInTheDocument();
     expect(screen.getByText(/Three foundations converge into the Knowledge Factory/)).toBeInTheDocument();
-    expect(screen.getAllByRole("link")).toHaveLength(6);
+    expect(screen.getAllByRole("link")).toHaveLength(7);
     expect(screen.getAllByText("Read essay")).toHaveLength(6);
     expect(screen.getByRole("link", { name: /Vision and Values/ })).toHaveAttribute(
       "href",
@@ -83,6 +88,16 @@ describe("ArticleBundleGraph", () => {
     expect(screen.getByRole("link", { name: /Cognitive Factory/ })).toHaveAttribute(
       "href",
       "/writing/the-cognitive-factory",
+    );
+  });
+
+  it("reuses the six AI Factory graphics and links to their iconography reference", async () => {
+    const { container } = await renderGraph();
+    expect(container.querySelectorAll(".home-graph__node-graphic")).toHaveLength(6);
+    expect(container.querySelectorAll(".home-graph__node-graphic .ai-factory-icon")).toHaveLength(12);
+    expect(screen.getByRole("link", { name: /Iconography reference/ })).toHaveAttribute(
+      "href",
+      "/ai-factory-motif",
     );
   });
 

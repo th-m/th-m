@@ -7,10 +7,10 @@ afterEach(cleanup);
 
 describe("AI Factory icon field contract", () => {
   it("covers every existing glyph once with unique public IDs and complete, separate notes", () => {
-    expect(aiFactoryIconKinds).toHaveLength(26);
-    expect(new Set(aiFactoryIconKinds).size).toBe(26);
+    expect(aiFactoryIconKinds).toHaveLength(33);
+    expect(new Set(aiFactoryIconKinds).size).toBe(33);
     expect(Object.keys(aiFactoryIconCatalog)).toEqual([...aiFactoryIconKinds]);
-    expect(new Set(Object.values(aiFactoryIconCatalog).map(icon => icon.iconId)).size).toBe(26);
+    expect(new Set(Object.values(aiFactoryIconCatalog).map(icon => icon.iconId)).size).toBe(33);
     for (const icon of Object.values(aiFactoryIconCatalog)) {
       expect(icon.iconId).toMatch(/^[a-z]+(?:-[a-z]+)*$/);
       for (const field of [icon.semanticRole, icon.title, icon.definition, icon.visualGrammar]) {
@@ -19,7 +19,7 @@ describe("AI Factory icon field contract", () => {
       expect(icon.definition).not.toBe(icon.visualGrammar);
     }
     expect(aiFactoryIconKinds.filter(kind => aiFactoryIconCatalog[kind].subheading)).toEqual([
-      "coherence", "correspondence", "consequence", "value",
+      "coherence", "correspondence", "consequence", "value", "slop-fault", "slop-drift", "slop-decay",
     ]);
   });
 
@@ -37,6 +37,10 @@ describe("AI Factory icon field contract", () => {
     }
     for (const kind of ["token", "embedding"] as const) {
       expect(aiFactoryIconCatalog[kind].semanticRole).toBe("model representation");
+    }
+    for (const kind of ["slop-fault", "slop-drift", "slop-decay"] as const) {
+      expect(aiFactoryIconCatalog[kind].semanticRole).toBe("model output");
+      expect(aiFactoryIconCatalog[kind].subheading).toBe("Slop · Bad AI output");
     }
   });
 

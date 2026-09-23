@@ -24,7 +24,7 @@ describe("AI Factory motif review", () => {
     expect(within(sequence).getByRole("img", { name: /^Abstract idea:/ })).toBeInTheDocument();
 
     const inventory = screen.getByRole("region", { name: "Every mark has one job." });
-    expect(within(inventory).getAllByRole("article")).toHaveLength(26);
+    expect(within(inventory).getAllByRole("article")).toHaveLength(33);
     for (const kind of aiFactoryIconKinds) {
       const spec = aiFactoryIconCatalog[kind];
       const card = inventory.querySelector(`#icon-${kind}`) as HTMLElement;
@@ -107,5 +107,12 @@ describe("AI Factory motif review", () => {
     }
     expect(inventory.querySelector("#icon-self .motif-review__part-definition")).toHaveTextContent("The individual whose perspective anchors the relationship.");
     expect(inventory.querySelector("#icon-others .motif-review__part-definition")).toHaveTextContent("People beyond the individual perspective");
+    for (const [kind, title] of [["slop-fault", "Fault"], ["slop-drift", "Drift"], ["slop-decay", "Decay"]]) {
+      const card = inventory.querySelector(`#icon-${kind}`) as HTMLElement;
+      expect(within(card).getByRole("heading", { name: title })).toBeInTheDocument();
+      expect(card).toHaveTextContent("Slop · Bad AI output");
+      expect(within(card).getAllByRole("img")).toHaveLength(1);
+    }
+    expect(inventory.querySelector("#icon-slop-fault #icon-slop")).toBeInTheDocument();
   });
 });

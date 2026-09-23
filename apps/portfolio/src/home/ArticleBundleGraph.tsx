@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "@tanstack/react-router";
+import { AiFactorySeriesGraphic } from "@th-m/blogs/components";
 import { CardSpotlight } from "@th-m/ui";
 import type { BlogManifest } from "@th-m/blogs/publish";
 import {
@@ -159,6 +160,11 @@ export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps
                     <span className="home-graph__node-kind">{KIND_LABEL[node.kind]}</span>
                     <span className="home-graph__node-order">{node.order}</span>
                   </span>
+                  <AiFactorySeriesGraphic
+                    slug={node.slug}
+                    compact
+                    className="home-graph__node-graphic"
+                  />
                   <span className="home-graph__node-title">{post.title}</span>
                   <span className="home-graph__node-desc" aria-hidden="true">{node.summary}</span>
                   <span className="home-graph__node-cta" aria-hidden="true">
@@ -171,6 +177,9 @@ export function ArticleBundleGraph({ posts, className }: ArticleBundleGraphProps
           })}
         </div>
       </div>
+      <Link className="home-graph__reference-link" to="/ai-factory-motif">
+        Iconography reference <span aria-hidden="true">↗</span>
+      </Link>
     </section>
   );
 }

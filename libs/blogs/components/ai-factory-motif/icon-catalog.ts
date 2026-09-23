@@ -3,7 +3,7 @@ export const aiFactoryIconKinds = [
   "truth", "coherence", "correspondence", "consequence", "vision", "meaning", "goal", "value",
   "morpheme-diffuse", "morpheme-refined", "term-of-art", "understanding", "inference", "bottleneck",
   "implementation", "automation", "ontology-node", "typed-relation", "disconnected", "operator",
-  "text", "label", "token", "embedding", "self", "others",
+  "text", "label", "token", "embedding", "slop-fault", "slop-drift", "slop-decay", "self", "others", "agents", "contact", "threshold", "trigger",
 ] as const;
 
 export type AiFactoryIconKind = typeof aiFactoryIconKinds[number];
@@ -12,7 +12,7 @@ export type AiFactoryIconKind = typeof aiFactoryIconKinds[number];
 export type AiFactorySemanticRole =
   | "concept" | "evaluation" | "situated state" | "process" | "constraint"
   | "model entity" | "relationship" | "relationship state" | "operation"
-  | "language representation" | "model representation" | "participant";
+  | "language representation" | "model representation" | "model output" | "participant";
 
 export interface AiFactoryIconSpec {
   readonly semanticRole: AiFactorySemanticRole;
@@ -146,6 +146,21 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
     definition: "A numerical vector representing an item in a model's learned space.",
     visualGrammar: "A shaded matrix is shorthand for numerical dimensions across representations, not a literal view of one vector or its dimensionality.",
   },
+  "slop-fault": {
+    semanticRole: "model output", iconId: "slop-fault", title: "Fault", subheading: "Slop · Bad AI output",
+    definition: "AI-generated output whose apparent completeness conceals an error or unsupported claim.",
+    visualGrammar: "A clean output line is interrupted by one compact red fault. The jagged contour makes the defect visible through shape as well as color.",
+  },
+  "slop-drift": {
+    semanticRole: "model output", iconId: "slop-drift", title: "Drift", subheading: "Slop · Bad AI output",
+    definition: "AI-generated output that loses alignment with the intended question, context, or goal.",
+    visualGrammar: "Two horizontal strokes fall out of alignment. The displaced red continuation marks departure from the intended course.",
+  },
+  "slop-decay": {
+    semanticRole: "model output", iconId: "slop-decay", title: "Decay", subheading: "Slop · Bad AI output",
+    definition: "AI-generated output that loses coherence or usefulness as it continues.",
+    visualGrammar: "A solid output line breaks into progressively smaller red fragments, depicting a loss of coherence.",
+  },
   self: {
     semanticRole: "participant", iconId: "self", title: "Self",
     definition: "The individual whose perspective anchors the relationship.",
@@ -155,6 +170,26 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
     semanticRole: "participant", iconId: "others", title: "Others",
     definition: "People beyond the individual perspective who participate in or are affected by the relationship.",
     visualGrammar: "Three equally sized solid gray dots form a compact cluster. Three denotes plurality, not an exact headcount or a difference in worth.",
+  },
+  agents: {
+    semanticRole: "participant", iconId: "agents", title: "Agents",
+    definition: "AI systems that pursue goals by choosing and carrying out actions within assigned boundaries.",
+    visualGrammar: "Three equally sized solid gray pentagons share the arrangement of Others. The angular shape distinguishes AI agents from people; three denotes plurality, not an exact count.",
+  },
+  contact: {
+    semanticRole: "concept", iconId: "contact", title: "Contact",
+    definition: "An event reaches an activation point.",
+    visualGrammar: "A muted incoming line meets a gold dot at a short vertical boundary. A gold continuation marks the resulting activation.",
+  },
+  threshold: {
+    semanticRole: "constraint", iconId: "threshold", title: "Threshold",
+    definition: "A boundary beyond which a condition becomes active.",
+    visualGrammar: "A muted line reaches a dotted vertical boundary, then steps upward into a gold active state.",
+  },
+  trigger: {
+    semanticRole: "concept", iconId: "trigger", title: "Trigger",
+    definition: "An event or condition that initiates an action or process.",
+    visualGrammar: "Two small, open right-pointing chevrons use fine gold strokes to mark initiation, not speed or repeated execution.",
   },
 };
 

@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { AiFactoryIcon, AiFactoryMotif, AiFactorySeriesMap } from "./ai-factory-motif";
+import { AiFactoryIcon, AiFactoryMotif, AiFactorySeriesGraphic, AiFactorySeriesMap } from "./ai-factory-motif";
 
 afterEach(cleanup);
 
@@ -464,6 +464,25 @@ describe("AiFactoryMotif", () => {
     expect(embedding.querySelectorAll("text")).toHaveLength(0);
   });
 
+  it("renders three spare slop variants from two paths each", () => {
+    render(<>
+      <AiFactoryIcon kind="slop-fault" label="Fault" />
+      <AiFactoryIcon kind="slop-drift" label="Drift" />
+      <AiFactoryIcon kind="slop-decay" label="Decay" />
+    </>);
+
+    const expectedPaths = {
+      Fault: ["M32 80H68M92 80H128", "M68 80L76 68L84 92L92 80"],
+      Drift: ["M32 72H80", "M80 88H128"],
+      Decay: ["M32 80H76", "M84 80H104M112 80H124M132 80H136"],
+    } as const;
+    for (const [label, paths] of Object.entries(expectedPaths)) {
+      const slop = screen.getByRole("img", { name: label });
+      expect(Array.from(slop.querySelectorAll(":scope > path"), path => path.getAttribute("d"))).toEqual(paths);
+      expect(slop.querySelectorAll("rect, circle")).toHaveLength(0);
+    }
+  });
+
   it.each(["morpheme-diffuse", "morpheme-refined", "term-of-art"] as const)("uses a text stroke instead of a center dot for %s", (kind) => {
     render(<AiFactoryIcon kind={kind} />);
 
@@ -620,6 +639,19 @@ describe("AiFactoryMotif", () => {
       expect(screen.getByRole("heading", { name })).toBeVisible();
       expect(screen.getByRole("heading", { name })).not.toHaveClass("ai-factory-series-map__paired-title");
     }
+  });
+
+  it("exposes a compact decorative series graphic for article cards", () => {
+    const { container } = render(
+      <AiFactorySeriesGraphic slug="vision-and-values" compact className="test-graphic" />,
+    );
+
+    const graphic = container.querySelector(".test-graphic");
+    expect(graphic).toHaveAttribute("aria-hidden", "true");
+    expect(graphic).toHaveClass("ai-factory-series-map__equation--compact");
+    expect(graphic?.querySelector("svg")).toHaveAttribute("viewBox", "0 28 320 136");
+    expect(graphic?.querySelector(".ai-factory-icon--vision")).toBeInTheDocument();
+    expect(graphic?.querySelector(".ai-factory-icon--value")).toBeInTheDocument();
   });
 
   it("labels each series-map icon and uses the Value glyph for Values", () => {

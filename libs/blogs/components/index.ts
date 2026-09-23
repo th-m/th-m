@@ -3,7 +3,17 @@ export { ArticleLink, BlogLink, BlogLinkProvider, ExternalLink } from "./links";
 export type { BlogLinkProps, BlogLinkRenderer } from "./links";
 export { DocumentPopover } from "./document-popover";
 export { AudioPlayer } from "./audio-player";
-export { AiFactoryIcon, AiFactoryMotif, AiFactorySeriesMap } from "./ai-factory-motif/ai-factory-motif";
-export type { AiFactoryIconKind, AiFactoryMotifVariant } from "./ai-factory-motif/ai-factory-motif";
+export {
+  AiFactoryIcon,
+  AiFactoryMotif,
+  AiFactorySeriesGraphic,
+  AiFactorySeriesMap,
+  aiFactorySeriesSlugs,
+} from "./ai-factory-motif/ai-factory-motif";
+export type {
+  AiFactoryIconKind,
+  AiFactoryMotifVariant,
+  AiFactorySeriesSlug,
+} from "./ai-factory-motif/ai-factory-motif";
 export { aiFactoryIconCatalog, aiFactoryIconKinds, aiFactoryIconLabel } from "./ai-factory-motif/icon-catalog";
 export type { AiFactoryIconSpec, AiFactorySemanticRole } from "./ai-factory-motif/icon-catalog";

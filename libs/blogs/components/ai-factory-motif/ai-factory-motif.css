@@ -393,7 +393,11 @@
 .ai-factory-icon__consequence-outcome { fill: var(--color-primary); }
 .ai-factory-icon__inference-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__self-dot { fill: var(--color-primary); stroke: none; }
+.ai-factory-icon__trigger-line, .ai-factory-icon__trigger-boundary { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__trigger-boundary { stroke-dasharray: 2 4; }
+.ai-factory-icon__trigger-active { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
 .ai-factory-icon__others-dot { fill: var(--color-foreground-muted); stroke: none; }
+.ai-factory-icon__agent { fill: var(--color-foreground-muted); stroke: none; }
 .ai-factory-icon__inference-junction { fill: var(--color-foreground-muted); }
 .ai-factory-icon__inference-output { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__morpheme { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 3 5; opacity: .8; }.ai-factory-icon__morpheme--refined { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke-dasharray: none; stroke-width: 1.2; }
@@ -403,6 +407,8 @@
 .ai-factory-icon__token-segment--four { fill: color-mix(in srgb, var(--color-foreground-muted) 16%, var(--color-surface)); }
 .ai-factory-icon__token-bit { fill: var(--color-foreground-muted); font-family: var(--font-mono); font-size: 10px; font-weight: 400; letter-spacing: .02em; }
 .ai-factory-icon__token-bit--focus { fill: var(--color-foreground-strong); }
+.ai-factory-icon__slop-line { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__slop-fault { fill: none; stroke: var(--color-error); stroke-width: 1.4; stroke-linejoin: miter; }
 .ai-factory-icon__term-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
 .ai-factory-icon--term-of-art .ai-factory-icon__morpheme { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-foreground-muted); }
 .ai-factory-icon__understanding-boundary { fill: color-mix(in srgb, var(--color-primary) 10%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }

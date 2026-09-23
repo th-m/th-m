@@ -1245,7 +1245,7 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   position: relative;
   width: 100%;
   min-width: 0;
-  aspect-ratio: 960 / 600;
+  aspect-ratio: 960 / 900;
 }
 .home-graph__edges {
   position: absolute;
@@ -1311,6 +1311,15 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   color: var(--color-foreground-strong);
   transition: color .25s ease;
 }
+.home-graph__node-graphic.ai-factory-series-map__equation {
+  margin: 1px 0 2px;
+  background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+}
+.home-graph__node-graphic .ai-factory-series-map__pair,
+.home-graph__node-graphic .ai-factory-series-map__flywheel {
+  width: 100%;
+  height: auto;
+}
 .home-graph__node-desc {
   margin-top: auto;
   color: var(--brand-muted);
@@ -1336,10 +1345,29 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 .home-graph__node--hub .home-graph__node-title {
   font-size: clamp(15px, 1.9vw, 24px);
 }
+.home-graph__reference-link {
+  display: flex;
+  width: fit-content;
+  margin: clamp(24px, 3vw, 40px) 0 0 auto;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--color-border-strong);
+  color: var(--brand-gold);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .16em;
+  line-height: 2.4;
+  text-transform: uppercase;
+}
+.home-graph__reference-link:hover,
+.home-graph__reference-link:focus-visible {
+  border-color: var(--brand-gold);
+  color: var(--color-foreground-strong);
+}
 
 @media (max-width: 680px) {
   .home-graph { padding-left: 0; padding-right: 0; }
-  .home-graph__frame { aspect-ratio: 360 / 560; }
+  .home-graph__frame { aspect-ratio: 360 / 790; }
   .home-graph__edges--desktop { display: none; }
   .home-graph__edges--mobile { display: block; }
   .home-graph__node {
@@ -1354,8 +1382,13 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   .home-graph__node-title { font-size: clamp(10px, 3.2vw, 13px); line-height: 1.08; }
   .home-graph__node--hub .home-graph__node-title { font-size: clamp(14px, 4.3vw, 18px); }
   .home-graph__node-desc { display: none; }
+  .home-graph__node-graphic.ai-factory-series-map__equation { margin-block: 0; }
+  .home-graph__node-graphic .ai-factory-series-map__concept > text,
+  .home-graph__node-graphic .ai-factory-series-map__flywheel-concept > text { font-size: 8px; }
+  .home-graph__node-graphic .ai-factory-series-map__relationship { font-size: 5px; letter-spacing: .04em; }
   .home-graph__node-cta { margin-top: auto; font-size: 9px; }
   .home-graph__node-cta-label { display: none; }
+  .home-graph__reference-link { margin-right: 12px; }
 }
 
 /* ------------------------------------------------------------------ */

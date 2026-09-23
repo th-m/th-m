@@ -99,9 +99,12 @@ function ComposableParts() {
         {aiFactoryIconKinds.map(kind => {
           const { semanticRole, iconId, title, subheading, definition, visualGrammar } = aiFactoryIconCatalog[kind];
           return <article className="motif-review__part" id={`icon-${kind}`} key={kind}>
+            {kind === "slop-fault" ? <span id="icon-slop" aria-hidden="true" /> : null}
             {iconId !== kind ? <span id={`icon-${iconId}`} aria-hidden="true" /> : null}
             <div className="motif-review__part-meta"><span title="Semantic role">{semanticRole}</span></div>
-            <div className="motif-review__part-icon"><AiFactoryIcon kind={kind} /></div>
+            <div className="motif-review__part-icon">
+              <AiFactoryIcon kind={kind} />
+            </div>
             <h3>{title}</h3>
             {subheading ? <p className="motif-review__part-subheading">{subheading}</p> : null}
             <p className="motif-review__part-definition">{definition}</p>
