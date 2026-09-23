@@ -97,7 +97,71 @@ describe("AiFactoryMotif", () => {
     expect(diagram).toHaveTextContent("NEXT CYCLE CHANGED");
   });
 
-  it("separates ambiguous inputs, training and harness influences, and unverified goal fit", () => {
+  it("composes repository path coordinates into a semantic map and change destination", () => {
+    render(<AiFactoryMotif variant="path-declares-ownership" />);
+
+    const diagram = screen.getByRole("img", { name: /A path maps and identifies an owned library/ });
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 488");
+    expect(Array.from(diagram.querySelectorAll("[data-path-segment]"), segment => segment.getAttribute("data-path-segment"))).toEqual([
+      "boundary", "layer", "domain", "detail",
+    ]);
+    expect(diagram).toHaveTextContent("libs");
+    expect(diagram).toHaveTextContent("edge");
+    expect(diagram).toHaveTextContent("audio");
+    expect(diagram).toHaveTextContent("state-zustand-player");
+    expect(diagram.querySelector(".ai-factory-motif__path-boundary")).toBeInTheDocument();
+    expect(diagram.querySelector('[data-coordinate="layer"]')).toHaveTextContent("cross-cutting");
+    expect(diagram.querySelector('[data-coordinate="domain"]')).toHaveTextContent("Terms of art");
+    expect(diagram.querySelector('[data-coordinate="implementation-details"]')).toHaveTextContent("Zustand");
+    expect(diagram.querySelector('[data-coordinate="implementation-details"]')).toHaveTextContent("player store");
+    expect(diagram.querySelector('[data-coordinate="implementation-details"]')).toHaveTextContent("playback");
+    expect(diagram.querySelector('[data-stage="change-destination"] .ai-factory-motif__path-target-ring')).toBeInTheDocument();
+    expect(diagram).toHaveTextContent("IDENTIFIES");
+  });
+
+  it("dynamically composes distinct repository contracts into budgeted agent context", () => {
+    render(<AiFactoryMotif variant="contracts-govern-action" />);
+
+    const diagram = screen.getByRole("img", { name: /Contracts compose context for bounded action/ });
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 488");
+    expect(Array.from(diagram.querySelectorAll("[data-contract]"), contract => contract.getAttribute("data-contract"))).toEqual([
+      "readme", "agents", "skill",
+    ]);
+    expect(diagram.querySelectorAll('[data-contract] .ai-factory-icon--text')).toHaveLength(3);
+    expect(diagram.querySelector('[data-contract="skill"] .ai-factory-icon--text')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="contract-composition"] .ai-factory-icon--operator')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="dynamic-context"] .ai-factory-icon--token')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="agent-action"] .ai-factory-icon--automation')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="evaluated-outcome"] .ai-factory-icon--consequence')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-stage="dynamic-context"] > rect')).toHaveAttribute("x", "40");
+    expect(diagram.querySelector('[data-stage="dynamic-context"] > rect')).toHaveAttribute("width", "248");
+    expect(diagram.querySelector('[data-stage="agent-action"] .ai-factory-icon--automation')).toHaveAttribute("transform", expect.stringContaining("translate(488 292)"));
+    expect(diagram.querySelector('[data-stage="evaluated-outcome"] .ai-factory-icon--consequence')).toHaveAttribute("transform", expect.stringContaining("translate(816 292)"));
+    expect(diagram).toHaveTextContent("fits the agent's");
+    expect(diagram).toHaveTextContent("context budget");
+    expect(diagram).toHaveTextContent("GOVERNS");
+    expect(diagram).toHaveTextContent("EVALUATED BY");
+  });
+
+  it("maps layer semantics to build, verification, instrumentation, and automatic application", () => {
+    render(<AiFactoryMotif variant="layers-guide-implementation" />);
+
+    const diagram = screen.getByRole("img", { name: /Layers make construction rules executable/ });
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 488");
+    expect(Array.from(diagram.querySelectorAll("[data-layer-contract]"), layer => layer.getAttribute("data-layer-contract"))).toEqual([
+      "edge", "schema", "engine",
+    ]);
+    expect(diagram.querySelector('[data-layer-contract="edge"]')).toHaveTextContent("Integration test");
+    expect(diagram.querySelector('[data-layer-contract="edge"]')).toHaveTextContent("PostHog + Sentry wrappers");
+    expect(diagram.querySelector('[data-layer-contract="schema"]')).toHaveTextContent("Generated TS interface");
+    expect(diagram.querySelector('[data-layer-contract="schema"]')).toHaveTextContent("derived from the database");
+    expect(diagram.querySelector('[data-layer-contract="engine"]')).toHaveTextContent("Unit tests");
+    expect(diagram.querySelectorAll('[data-automation="skill-tool-calls"]')).toHaveLength(3);
+    expect(diagram).toHaveTextContent("Skill + tool calls");
+    expect(diagram).toHaveTextContent("EXECUTABLE BY DEFAULT");
+  });
+
++  it("separates ambiguous inputs, training and harness influences, and unverified goal fit", () => {
     render(<AiFactoryMotif variant="model-priorities-and-goal-fit" />);
 
     const diagram = screen.getByRole("img", { name: /Fluent output is not value insight/ });

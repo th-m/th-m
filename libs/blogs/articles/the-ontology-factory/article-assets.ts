@@ -1,8 +1,8 @@
 import { defineArticleAssets } from "@th-m/blogs/mdx";
 
 export default defineArticleAssets({
-  "layer-strata": { kind: "image", source: "assets/layer-strata.svg", alt: "The four layers", tags: ["article-figure", "ontology"] },
-  "ontology-terms-motif": { kind: "figure", label: "Ontology of Terms of Art Motif", tags: ["article-figure", "ai-factory-series", "mdx-component", "ontology"] },
-  "ontology-layer-graph": { kind: "figure", label: "Factory layer dependencies", tags: ["article-figure", "ontology"] },
-  "revision-loop": { kind: "image", source: "assets/revision-loop.svg", alt: "The revision loop", tags: ["article-figure", "ontology"] },
+  "context-composition-motif": { kind: "figure", label: "Contracts compose context for bounded action", tags: ["article-figure", "ai-factory-series", "mdx-component", "ontology"] },
+  "layer-guidance-motif": { kind: "figure", label: "Layers make construction rules executable", tags: ["article-figure", "ai-factory-series", "automation", "mdx-component", "ontology"] },
+  "path-ownership-motif": { kind: "figure", label: "A path is a claim about ownership", tags: ["article-figure", "ai-factory-series", "mdx-component", "ontology"] },
+  "soundsculpt-ontology-map": { kind: "figure", label: "SoundSculpt creative object relationships", tags: ["article-figure", "mdx-component", "ontology", "soundsculpt"] },
 });

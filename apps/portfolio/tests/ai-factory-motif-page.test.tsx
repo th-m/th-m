@@ -150,5 +150,22 @@ describe("AI Factory motif review", () => {
       expect(within(card).getAllByRole("img")).toHaveLength(1);
     }
     expect(inventory.querySelector("#icon-slop-fault #icon-slop")).toBeInTheDocument();
+
+    const ontologyIllustrations = screen.getByRole("region", { name: "The repository makes its ontology visible." });
+    expect(Array.from(ontologyIllustrations.querySelectorAll("figure"), figure => figure.getAttribute("data-variant"))).toEqual([
+      "path-declares-ownership",
+      "layers-guide-implementation",
+      "contracts-govern-action",
+    ]);
+    expect(ontologyIllustrations).toHaveTextContent("state-zustand-player");
+    expect(ontologyIllustrations).toHaveTextContent("Generated TS interface");
+    expect(ontologyIllustrations).toHaveTextContent("PostHog + Sentry wrappers");
+    expect(ontologyIllustrations).toHaveTextContent("Unit tests");
+    expect(ontologyIllustrations).toHaveTextContent("What is this scope?");
+    expect(ontologyIllustrations).toHaveTextContent("How may work proceed?");
+    expect(ontologyIllustrations).toHaveTextContent("Which procedure applies?");
+    expect(ontologyIllustrations).toHaveTextContent("Dynamic context");
+    expect(ontologyIllustrations).toHaveTextContent("fits the agent's");
+    expect(ontologyIllustrations).toHaveTextContent("context budget");
   });
 });
