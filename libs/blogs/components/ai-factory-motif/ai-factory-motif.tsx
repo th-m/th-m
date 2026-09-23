@@ -49,6 +49,15 @@ const motifContent = {
     caption:
       "A term of art packs shared domain distinctions into a short label. When those distinctions are learned or supplied in context, they can guide model representations and inference toward useful expanded output. Without shared understanding, fluent expansion may miss the goal. This is a conceptual contrast, not a measured gain: embeddings represent input; the model generates text. Token marks are illustrative, and value must be checked against the intended result.",
   },
+  "token-economics": {
+    index: "04a",
+    eyebrow: "Economics / useful yield",
+    title: "Three measures, three graphs",
+    description:
+      "Three separate graphs show token input becoming token output, the elapsed time required to prepare model-ready input, and the verified value retained after evaluation.",
+    caption:
+      "Read the graphs independently. Token volume describes the model boundary. T_INPUT measures preparation time. V_OUTPUT measures the accepted contribution after evaluation. None of the three implies either of the others; this is a proposed diagnostic, not a measured equation.",
+  },
   "ontology-of-terms": {
     index: "04",
     eyebrow: "Coordination",
@@ -157,6 +166,54 @@ function AiFactoryIconGlyph({ kind }: { kind: AiFactoryIconKind }) {
         <circle className="ai-factory-icon__others-dot" cx="64" cy="80" r="8" />
         <circle className="ai-factory-icon__others-dot" cx="88" cy="66" r="8" />
         <circle className="ai-factory-icon__others-dot" cx="88" cy="94" r="8" />
+      </> : null}
+      {kind === "knowledge-factory" ? <>
+        <path className="ai-factory-icon__knowledge-factory-edge" d="M29 48H44M29 80H44M29 112H44M116 64H131M116 96H131M44 48L68 74M44 80H68M44 112L68 86M92 80L116 64M92 80L116 96" />
+        <rect className="ai-factory-icon__knowledge-factory-boundary" x="44" y="32" width="72" height="96" />
+        <circle className="ai-factory-icon__knowledge-factory-input" cx="24" cy="48" r="5" />
+        <circle className="ai-factory-icon__knowledge-factory-input" cx="24" cy="80" r="5" />
+        <circle className="ai-factory-icon__knowledge-factory-input" cx="24" cy="112" r="5" />
+        <path className="ai-factory-icon__knowledge-factory-decision" d="M80 68L92 80L80 92L68 80Z" />
+        <circle className="ai-factory-icon__knowledge-factory-output" cx="136" cy="64" r="5" />
+        <circle className="ai-factory-icon__knowledge-factory-output" cx="136" cy="96" r="5" />
+      </> : null}
+      {kind === "factory-worker" ? <>
+        <path className="ai-factory-icon__factory-worker-rail" d="M24 80H36M52 80H64M104 80H136" />
+        <circle className="ai-factory-icon__factory-worker-participant" cx="44" cy="80" r="8" />
+        <rect className="ai-factory-icon__factory-worker-station" x="64" y="56" width="40" height="48" />
+        <path className="ai-factory-icon__factory-worker-step" d="M76 80H92" />
+      </> : null}
+      {kind === "factory-engineer" ? <>
+        <path className="ai-factory-icon__factory-engineer-rail" d="M40 88H120" />
+        <path className="ai-factory-icon__factory-engineer-loop" d="M32 68V116H128V68" />
+        <path className="ai-factory-icon__factory-engineer-link" d="M80 48V68" />
+        <circle className="ai-factory-icon__factory-engineer-participant" cx="80" cy="40" r="8" />
+        <rect className="ai-factory-icon__factory-engineer-station" x="32" y="80" width="16" height="16" />
+        <rect className="ai-factory-icon__factory-engineer-station ai-factory-icon__factory-engineer-station--focal" x="72" y="80" width="16" height="16" />
+        <rect className="ai-factory-icon__factory-engineer-station" x="112" y="80" width="16" height="16" />
+      </> : null}
+      {kind === "shared-capital" ? <>
+        <rect className="ai-factory-icon__shared-capital-layer ai-factory-icon__shared-capital-layer--top" x="48" y="40" width="64" height="24" />
+        <rect className="ai-factory-icon__shared-capital-layer" x="40" y="68" width="72" height="24" />
+        <rect className="ai-factory-icon__shared-capital-layer" x="32" y="96" width="80" height="24" />
+        <path className="ai-factory-icon__shared-capital-return" d="M120 108H136V52H120" markerEnd={`url(#${markerId})`} />
+      </> : null}
+      {kind === "solutioning" ? <>
+        <path className="ai-factory-icon__solutioning-loop" d="M52 44H112V112H44V56" markerEnd={`url(#${markerId})`} />
+        <circle className="ai-factory-icon__solutioning-stage" cx="52" cy="44" r="6" />
+        <circle className="ai-factory-icon__solutioning-stage" cx="112" cy="44" r="6" />
+        <circle className="ai-factory-icon__solutioning-stage" cx="112" cy="112" r="6" />
+        <circle className="ai-factory-icon__solutioning-stage" cx="44" cy="112" r="6" />
+        <path className="ai-factory-icon__solutioning-intervention" d="M78 68L92 82L78 96L64 82Z" />
+      </> : null}
+      {kind === "graph-context" ? <>
+        <path className="ai-factory-icon__graph-context-edge" d="M38 48L80 80L122 44M38 48L36 116M80 80L124 116M122 44L124 116" />
+        <path className="ai-factory-icon__graph-context-provenance" d="M36 116L80 80L122 44" />
+        <circle className="ai-factory-icon__graph-context-node" cx="38" cy="48" r="7" />
+        <circle className="ai-factory-icon__graph-context-node ai-factory-icon__graph-context-node--reference" cx="122" cy="44" r="7" />
+        <rect className="ai-factory-icon__graph-context-node ai-factory-icon__graph-context-node--center" x="72" y="72" width="16" height="16" />
+        <rect className="ai-factory-icon__graph-context-node ai-factory-icon__graph-context-node--source" x="29" y="109" width="14" height="14" />
+        <circle className="ai-factory-icon__graph-context-node" cx="124" cy="116" r="7" />
       </> : null}
       {kind === "goal" ? <><IconMorpheme showCenter={false} /><VisionGlyph /></> : null}
       {kind === "meaning" ? <><circle className="ai-factory-icon__meaning-core" cx="80" cy="80" r="5" /><circle className="ai-factory-icon__meaning-boundary" cx="80" cy="80" r="32" /><path className="ai-factory-icon__meaning-edge ai-factory-icon__meaning-edge--diagonal" d="M43 43L58 58M102 102L117 117M117 43L102 58M58 102L43 117" /></> : null}
@@ -752,6 +809,88 @@ function UnderstandingInEmbeddingSpace({ arrowId }: { arrowId: string }) {
   );
 }
 
+function TokenEconomics({ arrowId, titleId }: { arrowId: string; titleId: string }) {
+  return (
+    <div className="ai-factory-motif__economics-grid">
+      <section className="ai-factory-motif__economics-graph" data-variable="token-volume">
+        <p><span>01</span> Token expansion ratio</p>
+        <svg viewBox="0 0 320 176" role="img" aria-labelledby={`${titleId}-tokens-title`} aria-describedby={`${titleId}-tokens-description`}>
+          <title id={`${titleId}-tokens-title`}>Token output is larger than token input</title>
+          <desc id={`${titleId}-tokens-description`}>A small input token set becomes a larger output token set. The token expansion ratio is output tokens divided by input tokens; the icon counts are illustrative.</desc>
+          <defs>
+            <marker id={`${arrowId}-tokens`} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0L8 4L0 8Z" />
+            </marker>
+          </defs>
+          <g data-stage="input-tokens"><EmbeddingTokenStrip x={32} y={48} columns={3} /></g>
+          <g className="ai-factory-motif__connectors" aria-hidden="true">
+            <path className="ai-factory-motif__connector--focal" d="M96 52H172" markerEnd={`url(#${arrowId}-tokens)`} />
+          </g>
+          <text className="ai-factory-motif__economics-variable" x="58" y="78" textAnchor="middle">N_INPUT</text>
+          <g data-stage="output-tokens"><EmbeddingTokenStrip x={190} y={36} rows={3} columns={5} /></g>
+          <text className="ai-factory-motif__economics-variable" x="226" y="88" textAnchor="middle">N_OUTPUT</text>
+          <g className="ai-factory-motif__economics-ratio" aria-label="R token equals N output divided by N input">
+            <text x="72" y="132">R_TOKEN</text>
+            <text x="130" y="132">=</text>
+            <text x="214" y="118" textAnchor="middle">N_OUTPUT</text>
+            <path d="M168 127H260" />
+            <text x="214" y="146" textAnchor="middle">N_INPUT</text>
+          </g>
+          <text className="ai-factory-motif__detail" x="286" y="136" textAnchor="end">output &gt; input</text>
+        </svg>
+      </section>
+
+      <section className="ai-factory-motif__economics-graph" data-variable="time-to-token-in">
+        <p><span>02</span> Time for token input</p>
+        <svg viewBox="0 0 320 176" role="img" aria-labelledby={`${titleId}-time-title`} aria-describedby={`${titleId}-time-description`}>
+          <title id={`${titleId}-time-title`}>Time required to prepare token input</title>
+          <desc id={`${titleId}-time-description`}>A stopwatch and ticked timeline show T input as elapsed time from recognizing a need to having model-ready input.</desc>
+          <g className="ai-factory-motif__economics-timer" aria-hidden="true">
+            <path className="ai-factory-motif__economics-timer-button" d="M153 18H167M160 18V24" />
+            <circle cx="160" cy="48" r="22" />
+            <path className="ai-factory-motif__economics-timer-hand" d="M160 48V34M160 48L171 54" />
+            <circle className="ai-factory-motif__economics-timer-center" cx="160" cy="48" r="2.5" />
+          </g>
+          <text className="ai-factory-motif__economics-variable" x="160" y="82" textAnchor="middle">T_INPUT</text>
+          <g className="ai-factory-motif__economics-timeline" aria-hidden="true">
+            <path className="ai-factory-motif__economics-timeline-line" d="M48 102H272" />
+            <path className="ai-factory-motif__economics-timeline-ticks" d="M48 94V110M104 98V106M160 94V110M216 98V106M272 94V110" />
+          </g>
+          <circle className="ai-factory-motif__economics-point" cx="48" cy="102" r="5" />
+          <circle className="ai-factory-motif__economics-point ai-factory-motif__economics-point--focal" cx="272" cy="102" r="5" />
+          <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="48" y="134" textAnchor="start">Need recognized</text>
+          <text className="ai-factory-motif__label ai-factory-motif__embedding-compact" x="272" y="134" textAnchor="end">Model-ready input</text>
+          <text className="ai-factory-motif__detail" x="160" y="160" textAnchor="middle">framing · evidence · constraints</text>
+        </svg>
+      </section>
+
+      <section className="ai-factory-motif__economics-graph" data-variable="verified-value-out">
+        <p><span>03</span> Verified value output</p>
+        <svg viewBox="0 0 320 176" role="img" aria-labelledby={`${titleId}-value-title`} aria-describedby={`${titleId}-value-description`}>
+          <title id={`${titleId}-value-title`}>Output tokens become verified value after evaluation</title>
+          <desc id={`${titleId}-value-description`}>Candidate output tokens pass through evaluation before an accepted contribution counts as verified value.</desc>
+          <defs>
+            <marker id={`${arrowId}-value`} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0L8 4L0 8Z" />
+            </marker>
+          </defs>
+          <g data-stage="candidate-output"><EmbeddingTokenStrip x={28} y={68} columns={4} /></g>
+          <g className="ai-factory-motif__connectors" aria-hidden="true">
+            <path d="M106 72H136" markerEnd={`url(#${arrowId}-value)`} />
+            <path className="ai-factory-motif__connector--focal" d="M184 72H226" markerEnd={`url(#${arrowId}-value)`} />
+          </g>
+          <rect className="ai-factory-motif__economics-gate" x="136" y="54" width="48" height="36" />
+          <text className="ai-factory-motif__economics-model-label" x="160" y="75" textAnchor="middle">CHECK</text>
+          <g data-stage="verified-value"><MotifGlyph kind="value" x={258} y={72} scale={0.44} /></g>
+          <text className="ai-factory-motif__detail" x="58" y="122" textAnchor="middle">candidate output</text>
+          <text className="ai-factory-motif__economics-variable" x="258" y="122" textAnchor="middle">V_OUTPUT</text>
+          <text className="ai-factory-motif__detail" x="160" y="150" textAnchor="middle">accepted contribution</text>
+        </svg>
+      </section>
+    </div>
+  );
+}
+
 function TermOfArtToImplementation({ arrowId }: { arrowId: string }) {
   return (
     <>
@@ -838,7 +977,7 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
         <h3>{content.title}</h3>
       </header>
       <p className="ai-factory-motif__scroll-cue">Scroll the path →</p>
-      <div className="ai-factory-motif__viewport" role="region" tabIndex={0} aria-label="Scrollable AI Factory motif">
+      {variant === "token-economics" ? <TokenEconomics arrowId={arrowId} titleId={titleId} /> : <div className="ai-factory-motif__viewport" role="region" tabIndex={0} aria-label="Scrollable AI Factory motif">
         <svg viewBox={variant === "ontology-of-terms" ? "0 0 720 432" : variant === "experience-but-lacking" ? "0 0 800 432" : variant === "model-priorities-and-goal-fit" ? "0 0 960 616" : variant === "understanding-in-embedding-space" ? "0 0 960 648" : "0 0 720 320"} role="img" aria-labelledby={`${titleId} ${descriptionId}`} preserveAspectRatio="xMidYMid meet">
           <title id={titleId}>{content.title}</title>
           <desc id={descriptionId}>{content.description}</desc>
@@ -855,7 +994,7 @@ export function AiFactoryMotif({ variant }: { variant: AiFactoryMotifVariant }) 
           {variant === "term-of-art-to-implementation" ? <TermOfArtToImplementation arrowId={arrowId} /> : null}
           {variant === "ontology-of-terms" ? <OntologyOfTerms arrowId={arrowId} /> : null}
         </svg>
-      </div>
+      </div>}
       <figcaption>
         {content.caption}
         {variant === "model-priorities-and-goal-fit" ? <span className="ai-factory-motif__evidence-note">

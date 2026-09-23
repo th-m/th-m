@@ -24,7 +24,7 @@ describe("AI Factory motif review", () => {
     expect(within(sequence).getByRole("img", { name: /^Abstract idea:/ })).toBeInTheDocument();
 
     const inventory = screen.getByRole("region", { name: "Every mark has one job." });
-    expect(within(inventory).getAllByRole("article")).toHaveLength(26);
+    expect(within(inventory).getAllByRole("article")).toHaveLength(aiFactoryIconKinds.length);
     for (const kind of aiFactoryIconKinds) {
       const spec = aiFactoryIconCatalog[kind];
       const card = inventory.querySelector(`#icon-${kind}`) as HTMLElement;
@@ -50,6 +50,18 @@ describe("AI Factory motif review", () => {
       expect(card.querySelector(`#icon-${kind.replace("morpheme", "idea")}`)).toBeInTheDocument();
     }
     expect(document.body).not.toHaveTextContent(/morpheme/i);
+
+    const knowledgeFactoryTerms = screen.getByRole("region", { name: "Six terms, six distinct marks." });
+    const knowledgeFactoryKinds = ["knowledge-factory", "factory-worker", "factory-engineer", "shared-capital", "solutioning", "graph-context"] as const;
+    expect(within(knowledgeFactoryTerms).getAllByRole("article")).toHaveLength(knowledgeFactoryKinds.length);
+    for (const kind of knowledgeFactoryKinds) {
+      const spec = aiFactoryIconCatalog[kind];
+      const card = knowledgeFactoryTerms.querySelector(`#knowledge-term-${kind}`) as HTMLElement;
+      expect(within(card).getByRole("heading", { name: spec.title })).toBeInTheDocument();
+      expect(within(card).getByRole("img")).toHaveAccessibleName(aiFactoryIconLabel(kind));
+      expect(card.querySelector(".motif-review__part-definition")).toHaveTextContent(spec.definition);
+      expect(card.querySelector(".motif-review__part-grammar dd")).toHaveTextContent(spec.visualGrammar);
+    }
   });
 
   it("explains the risk of implementation bypassing understanding beside the situated diagram", async () => {
@@ -98,6 +110,21 @@ describe("AI Factory motif review", () => {
     expect(refinement).toHaveTextContent("Embedding space");
     expect(refinement).toHaveTextContent("Useful expansion");
     expect(refinement).toHaveTextContent("Excess output");
+
+    const production = screen.getByRole("region", {
+      name: "The production question: how much time goes in, and how much verified value comes out?",
+    });
+    expect(production).toHaveAttribute("id", "motif-04");
+    expect(Array.from(production.querySelectorAll("figure"), figure => figure.getAttribute("data-variant"))).toEqual([
+      "token-economics",
+      "ontology-of-terms",
+    ]);
+    expect(within(production).getByRole("img", { name: "Token output is larger than token input" })).toBeInTheDocument();
+    expect(within(production).getByRole("img", { name: "Time required to prepare token input" })).toBeInTheDocument();
+    expect(within(production).getByRole("img", { name: "Output tokens become verified value after evaluation" })).toBeInTheDocument();
+    expect(production).toHaveTextContent("T_INPUT");
+    expect(production).toHaveTextContent("V_OUTPUT");
+    expect(within(production).getByRole("img", { name: /Ontology coordinates terms of art/ })).toBeInTheDocument();
 
     const inventory = screen.getByRole("region", { name: "Every mark has one job." });
     for (const kind of ["self", "others"]) {

@@ -79,6 +79,20 @@ person toward or away from either pole.
 - This supports the article's spectrum rather than a uniformly positive or
   negative account of AI assistance.
 
+### Review and validation become downstream work
+
+- GitLab, [*2026 AI Accountability
+  Report*](https://about.gitlab.com/resources/ai-accountability-survey-2026/),
+  reports a Harris Poll survey of 1,528 developers and technology buyers across
+  six countries.
+- Eighty-five percent of respondents agreed that AI shifted the bottleneck from
+  writing code to reviewing and validating it; 79% agreed that individual
+  productivity improved faster than the overall delivery process.
+- Use this source to support the organizational observation that generation can
+  move work downstream. It is an industry-sponsored perception survey, not a
+  direct measurement of review quality or proof that an individual reviewer
+  understands a generated pull request less well.
+
 ### Reward uncertainty in gambling
 
 - Martin Zack, Ross St. George, and Luke Clark,

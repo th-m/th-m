@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { AiFactoryIcon, AiFactoryMotif, AiFactorySeriesMap } from "./ai-factory-motif";
 
@@ -132,6 +132,40 @@ describe("AiFactoryMotif", () => {
     expect(ungrounded.querySelectorAll('[data-stage="output"] .ai-factory-motif__embedding-tokens rect').length).toBeGreaterThan(grounded.querySelectorAll('[data-stage="output"] .ai-factory-motif__embedding-tokens rect').length);
     expect(diagram).toHaveTextContent("VALUE ≠ VOLUME");
     expect(screen.getByText(/This is a conceptual contrast, not a measured gain/)).toHaveTextContent("embeddings represent input; the model generates text");
+  });
+
+  it("renders token volume, input time, and verified value as three separate graphs", () => {
+    render(<AiFactoryMotif variant="token-economics" />);
+
+    const figure = document.querySelector('[data-variant="token-economics"]')!;
+    const graphs = within(figure as HTMLElement).getAllByRole("img");
+    expect(graphs).toHaveLength(3);
+    expect(graphs.map(graph => graph.getAttribute("viewBox"))).toEqual(["0 0 320 176", "0 0 320 176", "0 0 320 176"]);
+    expect(graphs[0]).toHaveAccessibleName("Token output is larger than token input");
+    expect(graphs[1]).toHaveAccessibleName("Time required to prepare token input");
+    expect(graphs[2]).toHaveAccessibleName("Output tokens become verified value after evaluation");
+
+    const tokenVolume = figure.querySelector('[data-variable="token-volume"]')!;
+    const timeToInput = figure.querySelector('[data-variable="time-to-token-in"]')!;
+    const verifiedValue = figure.querySelector('[data-variable="verified-value-out"]')!;
+    expect(tokenVolume).toHaveTextContent("N_INPUT");
+    expect(tokenVolume).toHaveTextContent("N_OUTPUT");
+    expect(tokenVolume).toHaveTextContent("R_TOKEN");
+    expect(timeToInput).toHaveTextContent("T_INPUT");
+    expect(verifiedValue).toHaveTextContent("V_OUTPUT");
+    expect(tokenVolume.querySelector('[data-stage="input-tokens"]')).toBeInTheDocument();
+    expect(tokenVolume.querySelector('[data-stage="output-tokens"]')).toBeInTheDocument();
+    expect(tokenVolume.querySelectorAll('[data-stage="output-tokens"] rect').length).toBeGreaterThan(
+      tokenVolume.querySelectorAll('[data-stage="input-tokens"] rect').length,
+    );
+    expect(tokenVolume.querySelector(".ai-factory-motif__economics-ratio")).toHaveTextContent("R_TOKEN");
+    expect(timeToInput.querySelector(".ai-factory-motif__economics-timer")).toBeInTheDocument();
+    expect(timeToInput.querySelector(".ai-factory-motif__economics-timeline-ticks")).toHaveAttribute(
+      "d",
+      "M48 94V110M104 98V106M160 94V110M216 98V106M272 94V110",
+    );
+    expect(verifiedValue.querySelector('[data-stage="verified-value"] .ai-factory-icon--value')).toBeInTheDocument();
+    expect(screen.getByText(/None of the three implies either of the others/)).toBeInTheDocument();
   });
 
   it("gives the situated flow clear connector lanes without enclosing station boxes", () => {

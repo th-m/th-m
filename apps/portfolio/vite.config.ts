@@ -32,6 +32,7 @@ function publishedPages() {
 
   return [
     { path: "/", prerender: { enabled: true, outputPath: "/index.html" } },
+    { path: "/ai-factory-motif", prerender: { enabled: true, outputPath: "/ai-factory-motif/index.html" } },
     { path: "/brand", prerender: { enabled: true, outputPath: "/brand/index.html" } },
     { path: "/design-system", prerender: { enabled: true, outputPath: "/design-system/index.html" } },
     { path: "/embedding-space", prerender: { enabled: true, outputPath: "/embedding-space/index.html" } },

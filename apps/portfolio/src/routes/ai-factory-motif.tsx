@@ -41,13 +41,23 @@ const motifs: Array<{
   },
   {
     index: "04",
-    variant: "ontology-of-terms",
-    note: "The coordinating state: repeated terms become a typed, navigable model.",
+    variant: "token-economics",
+    note: "The production question: how much time goes in, and how much verified value comes out?",
+    context: "Treat token transformation, input-preparation time, and verified output value as three separate views. Combining them into one production line hides the question each measure answers.",
+    followUp: "ontology-of-terms",
   },
 ];
 
 const languageUnits = ["morpheme-diffuse", "text", "token"] as const;
 const legendKinds = ["morpheme-diffuse", "morpheme-refined", "understanding", "typed-relation"] as const satisfies readonly AiFactoryIconKind[];
+const knowledgeFactoryTermKinds = [
+  "knowledge-factory",
+  "factory-worker",
+  "factory-engineer",
+  "shared-capital",
+  "solutioning",
+  "graph-context",
+] as const satisfies readonly AiFactoryIconKind[];
 
 function IconographyLegend() {
   return (
@@ -87,6 +97,35 @@ function LanguageUnitSequence() {
   );
 }
 
+function IconSpecCard({ kind, idPrefix = "icon" }: { kind: AiFactoryIconKind; idPrefix?: string }) {
+  const { semanticRole, iconId, title, subheading, definition, visualGrammar } = aiFactoryIconCatalog[kind];
+
+  return <article className="motif-review__part" id={`${idPrefix}-${kind}`}>
+    {idPrefix === "icon" && iconId !== kind ? <span id={`icon-${iconId}`} aria-hidden="true" /> : null}
+    <div className="motif-review__part-meta"><span title="Semantic role">{semanticRole}</span></div>
+    <div className="motif-review__part-icon"><AiFactoryIcon kind={kind} /></div>
+    <h3>{title}</h3>
+    {subheading ? <p className="motif-review__part-subheading">{subheading}</p> : null}
+    <p className="motif-review__part-definition">{definition}</p>
+    <dl className="motif-review__part-grammar"><dt>Visual grammar</dt><dd>{visualGrammar}</dd></dl>
+  </article>;
+}
+
+function KnowledgeFactoryTerms() {
+  return (
+    <section className="motif-review__terms" id="knowledge-factory-terms" aria-labelledby="knowledge-factory-terms-title">
+      <div className="motif-review__terms-heading">
+        <p className="eyebrow">Knowledge Factory / working icon set</p>
+        <h2 id="knowledge-factory-terms-title">Six terms, six distinct marks.</h2>
+        <p>These icons are isolated here for refinement. Each card keeps the article definition beside the visual grammar so changes to the mark stay accountable to its meaning.</p>
+      </div>
+      <div className="motif-review__terms-grid">
+        {knowledgeFactoryTermKinds.map(kind => <IconSpecCard kind={kind} idPrefix="knowledge-term" key={kind} />)}
+      </div>
+    </section>
+  );
+}
+
 function ComposableParts() {
   return (
     <section className="motif-review__parts" aria-labelledby="composable-parts-title">
@@ -96,18 +135,7 @@ function ComposableParts() {
         <p>Each card separates a concept’s meaning from its depiction. The semantic role classifies the concept, the title names it, an optional subheading refines its intent and meaning, the definition explains it, and the visual grammar note describes the drawing.</p>
       </div>
       <div className="motif-review__parts-grid">
-        {aiFactoryIconKinds.map(kind => {
-          const { semanticRole, iconId, title, subheading, definition, visualGrammar } = aiFactoryIconCatalog[kind];
-          return <article className="motif-review__part" id={`icon-${kind}`} key={kind}>
-            {iconId !== kind ? <span id={`icon-${iconId}`} aria-hidden="true" /> : null}
-            <div className="motif-review__part-meta"><span title="Semantic role">{semanticRole}</span></div>
-            <div className="motif-review__part-icon"><AiFactoryIcon kind={kind} /></div>
-            <h3>{title}</h3>
-            {subheading ? <p className="motif-review__part-subheading">{subheading}</p> : null}
-            <p className="motif-review__part-definition">{definition}</p>
-            <dl className="motif-review__part-grammar"><dt>Visual grammar</dt><dd>{visualGrammar}</dd></dl>
-          </article>;
-        })}
+        {aiFactoryIconKinds.map(kind => <IconSpecCard kind={kind} key={kind} />)}
       </div>
     </section>
   );
@@ -126,6 +154,7 @@ function AiFactoryMotifPage() {
         </div>
         <nav className="motif-review__nav" aria-label="Motif variants">
           <a href="#series-map">00 / series map</a>
+          <a href="#knowledge-factory-terms">Glossary / six terms</a>
           {motifs.map(({ index, variant }) => <a key={variant} href={`#motif-${index}`}>{index} / {variant.replaceAll("-", " ")}</a>)}
         </nav>
       </header>
@@ -135,6 +164,7 @@ function AiFactoryMotifPage() {
         <AiFactorySeriesMap />
       </section>
       <LanguageUnitSequence />
+      <KnowledgeFactoryTerms />
       <ComposableParts />
 
       <main className="motif-review__gallery">
