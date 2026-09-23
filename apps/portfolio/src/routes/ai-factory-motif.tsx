@@ -40,6 +40,12 @@ const motifs: Array<{
     context: "Understanding used to be a practical prerequisite to implementation. AI can now produce an implementation before we understand the problem. When we accept that output without context, judgment, or verification, we get “slop”: output that looks finished without being understood.",
   },
   {
+    index: "03B",
+    variant: "central-queue-to-bounded-loops",
+    note: "Where understanding lives determines the bottleneck.",
+    context: "The teams and their AI capability stay the same. The upper topology delegates production but sends interpretation and approval through one gate. The lower topology gives each team a bounded learning loop, then coordinates cross-team effects through shared intent and explicit interfaces.",
+  },
+  {
     index: "04",
     variant: "ontology-of-terms",
     note: "The coordinating state: repeated terms become a typed, navigable model.",

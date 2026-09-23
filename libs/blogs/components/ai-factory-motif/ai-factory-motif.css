@@ -73,7 +73,7 @@
 }
 
 @media (max-width: 640px) {
-  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) > .ai-factory-motif__scroll-cue {
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"]) > .ai-factory-motif__scroll-cue {
     display: block;
     margin: 0;
     padding: 12px 20px 0;
@@ -81,7 +81,7 @@
     font: var(--ai-factory-type-meta)/1.6 var(--font-mono);
   }
 
-  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) .ai-factory-motif__viewport {
+  .ai-factory-motif:is([data-variant="term-of-art-to-implementation"], [data-variant="ontology-of-terms"], [data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"]) .ai-factory-motif__viewport {
     overflow-x: auto;
   }
 
@@ -89,7 +89,7 @@
     min-width: 640px;
   }
 
-  .ai-factory-motif:is([data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"]) .ai-factory-motif__viewport > svg {
+  .ai-factory-motif:is([data-variant="understanding-in-embedding-space"], [data-variant="model-priorities-and-goal-fit"], [data-variant="central-queue-to-bounded-loops"]) .ai-factory-motif__viewport > svg {
     min-width: 800px;
   }
 }
@@ -154,6 +154,65 @@
 .ai-factory-motif__embedding-unanchored { stroke-dasharray: 4 4; }
 .ai-factory-motif__embedding-missing { opacity: .3; }
 .ai-factory-motif__generated-text path { vector-effect: non-scaling-stroke; }
+
+.ai-factory-motif__topology-team-marker .ai-factory-motif__label {
+  font-size: var(--ai-factory-type-node-compact);
+}
+
+.ai-factory-motif__queue-item rect,
+.ai-factory-motif__team-boundary {
+  fill: var(--ai-factory-panel);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__queue-item rect {
+  stroke-dasharray: 3 3;
+}
+
+.ai-factory-motif__team-boundary {
+  stroke: var(--color-border-strong);
+  stroke-dasharray: 4 4;
+}
+
+.ai-factory-motif__learning-loop path,
+.ai-factory-motif__shared-intent-paths path {
+  vector-effect: non-scaling-stroke;
+}
+
+.ai-factory-motif__learning-loop .ai-factory-motif__connector--feedback {
+  stroke: var(--color-foreground-muted);
+  stroke-width: 1.2;
+}
+
+.ai-factory-motif__learning-action .ai-factory-icon__implementation-boundary {
+  fill: color-mix(in srgb, var(--color-foreground) 10%, transparent);
+  stroke: var(--color-foreground);
+  stroke-width: 1.4;
+}
+
+.ai-factory-motif__learning-action .ai-factory-icon__implementation-core {
+  fill: var(--color-foreground);
+}
+
+.ai-factory-motif__learning-action .ai-factory-icon__action-vector {
+  stroke: var(--color-primary);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.ai-factory-motif__learning-action marker .ai-factory-icon__arrowhead--outline {
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__learning-stage {
+  font-size: 7.5px;
+  letter-spacing: 0.04em;
+}
+
+.ai-factory-motif__shared-intent .ai-factory-motif__label {
+  fill: var(--color-primary);
+}
 
 .ai-factory-motif__priorities-note {
   fill: var(--color-foreground-muted);

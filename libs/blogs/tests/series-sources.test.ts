@@ -57,7 +57,9 @@ const consolidationAnchors: Record<string, string[]> = {
     "The semantic-composition developer tool lets you combine up to four terms",
   ],
   "understanding-and-bottlenecks": [
-    "Inference Produces an Answer; Understanding Maintains a Model",
+    "Generation Scales; Understanding Does Not",
+    "The Central Architect Becomes the Queue",
+    "Distribute Complete Learning Loops",
   ],
 };
 

@@ -56,7 +56,7 @@ export const articleBundleNodes: BundleNode[] = [
     title: "Understanding and Bottlenecks",
     kind: "fundamental",
     order: "03",
-    summary: "Shared understanding—not output—is the limiting resource.",
+    summary: "Complete learning loops move understanding into bounded teams.",
     x: 680,
     y: 20,
     width: 250,
