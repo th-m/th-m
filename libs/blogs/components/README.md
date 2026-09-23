@@ -26,6 +26,8 @@ asset resolution; `ui` owns reusable interface primitives.
 - `document-popover.tsx`: click/touch/keyboard-accessible, scrollable reference
   content with a persistent close button. Supply a title, inline trigger, and
   rendered content; the original article remains visible.
+- `article-bundle-graph/`: the responsive six-essay AI Factory dependency graph
+  shared by the home page and canonical article composition.
 - `neural-training-figure/`: reusable training walkthrough, styles, and tests.
 
 Canonical MDX receives the shared vocabulary from its renderer; it does not

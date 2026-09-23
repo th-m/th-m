@@ -3,6 +3,9 @@ export { ArticleLink, BlogLink, BlogLinkProvider, ExternalLink } from "./links";
 export type { BlogLinkProps, BlogLinkRenderer } from "./links";
 export { DocumentPopover } from "./document-popover";
 export { AudioPlayer } from "./audio-player";
+export { ArticleBundleGraph } from "./article-bundle-graph/article-bundle-graph";
+export type { ArticleBundleGraphProps, ArticleBundlePost } from "./article-bundle-graph/article-bundle-graph";
+export { articleBundleNodes } from "./article-bundle-graph/article-bundle";
 export {
   AiFactoryIcon,
   AiFactoryMotif,

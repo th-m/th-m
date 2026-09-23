@@ -1,3 +1,5 @@
+@import "./article-bundle-graph/article-bundle-graph.css";
+
 .article-outline__lede { margin: 34px 0 0; max-width: 780px; }
 .article-outline__lede > p { margin: 0 0 1.15em; color: var(--color-foreground); font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(17px, 1.7vw, 19px); line-height: 1.7; }
 .article-outline__section { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); padding: clamp(40px, 5vw, 64px) 0; border-bottom: 1px solid var(--color-border); }
@@ -12,8 +14,8 @@
 .article-outline__content li { margin: .5em 0; }
 .article-outline__content strong { color: var(--color-foreground-strong); font-weight: 560; }
 .article-outline__content a { color: var(--color-primary); text-decoration: underline; text-underline-offset: .18em; }
-.article-outline__content blockquote { margin: 1.5em 0; padding: 16px 22px; border-left: 2px solid var(--color-primary); background: var(--color-surface); color: var(--color-foreground-muted); font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(17px, 1.8vw, 20px); line-height: 1.55; }
-.article-outline__content blockquote p { margin: 0; color: inherit; }
+.article-outline__content blockquote, .article-outline__lede blockquote { margin: 1.5em 0; padding: 16px 22px; border-left: 2px solid var(--color-primary); background: var(--color-surface); color: var(--color-foreground-muted); font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(17px, 1.8vw, 20px); line-height: 1.55; }
+.article-outline__content blockquote p, .article-outline__lede blockquote p { margin: 0; color: inherit; }
 .article-outline__content table { width: 100%; border-collapse: collapse; font-family: "Inter Variable", sans-serif; font-size: 13px; }
 .article-outline__content th, .article-outline__content td { padding: 10px 12px; border: 1px solid var(--color-border); text-align: left; vertical-align: top; }
 .article-outline__content th { color: var(--color-foreground-strong); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
@@ -28,7 +30,7 @@
 .article-outline__content li p { margin: .5em 0; color: var(--color-foreground-muted); font-size: 15px; line-height: 1.7; }
 .article-claim .thom-card__content { font-family: "Newsreader Variable", Georgia, serif; font-size: clamp(17px, 1.8vw, 20px); line-height: 1.55; }
 
-.article-outline__content blockquote.article-quote--plain { border-left: 0; }
+.article-outline__content blockquote.article-quote--plain, .article-outline__lede blockquote.article-quote--plain { border-left: 0; }
 .article-claim--emphasis { border-left: 3px solid var(--color-primary); }
 .article-table-scroll { max-width: 100%; margin-bottom: 1.25em; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .article-outline__content table:focus-visible,

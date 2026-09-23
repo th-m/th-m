@@ -1,5 +1,5 @@
 import { defineArticleComponents } from "@th-m/blogs/mdx";
-import { AiFactoryMotif } from "@th-m/blogs/components";
+import { AiFactoryMotif, ArticleBundleGraph } from "@th-m/blogs/components";
 import { NeuralTrainingFigure } from "@th-m/blogs/components/neural-training-figure";
 import { createElement } from "react";
 import articleAssets from "../article-assets";
@@ -16,12 +16,27 @@ function VisionToMorphemeMotif() {
   return createElement(AiFactoryMotif, { variant: "vision-to-morpheme" });
 }
 
+function ExperienceButLackingMotif() {
+  return createElement(AiFactoryMotif, { variant: "experience-but-lacking" });
+}
+
+function ModelPrioritiesAndGoalFitMotif() {
+  return createElement(AiFactoryMotif, { variant: "model-priorities-and-goal-fit" });
+}
+
+function ArticleBundleGraphFigure() {
+  return createElement(ArticleBundleGraph, { className: "home-graph--article" });
+}
+
 export default defineArticleComponents(articleAssets, () => ({
+  "article-bundle-graph": ArticleBundleGraphFigure,
+  "experience-but-lacking": ExperienceButLackingMotif,
   "goal-tree-figure": GoalTreeFigure,
   "governing-loop-figure": GoverningLoopFigure,
   "language-compression-figure": LanguageCompressionFigure,
   "morpheme-to-token-motif": VisionToMorphemeMotif,
   "morpheme-glossary": MorphemeGlossary,
+  "model-priorities-and-goal-fit": ModelPrioritiesAndGoalFitMotif,
   "neural-training-figure": NeuralTrainingFigure,
   "population-mean-figure": PopulationMeanFigure,
   "relational-knowing-figure": RelationalKnowingFigure,

@@ -1,8 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { ArticleBundleGraph, BlogLinkProvider } from "@th-m/blogs/components";
 import { AnimatedThomLogo } from "@th-m/thom-brand";
 import { loadBlogManifest } from "../content/blog-content";
-import { ArticleBundleGraph } from "../home/ArticleBundleGraph";
 import { LawsBento } from "../home/LawsBento";
+import { renderArticleLink } from "../writing/ArticleMdx";
 
 export const Route = createFileRoute("/")({
   loader: loadBlogManifest,
@@ -35,7 +36,9 @@ function HomePage() {
         <Link className="home-mark__link" to="/writing">Explore the writing <span aria-hidden="true">→</span></Link>
       </section>
 
-      <ArticleBundleGraph posts={manifest.posts} />
+      <BlogLinkProvider renderLink={renderArticleLink}>
+        <ArticleBundleGraph posts={manifest.posts} />
+      </BlogLinkProvider>
 
       <LawsBento />
     </div>
