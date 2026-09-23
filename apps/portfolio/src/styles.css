@@ -755,7 +755,11 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 
 .essay-glossary { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 0 0 1.25em; }
 .essay-glossary__item { margin: 0; }
+.essay-glossary__heading { display: flex; align-items: center; gap: 14px; margin: 0 0 12px; }
+.essay-glossary__icon { display: block; flex: 0 0 44px; width: 44px; }
+.essay-glossary__icon .ai-factory-icon { width: 44px; height: 44px; }
 .essay-glossary h4 { margin: 0 0 8px; font-family: "Newsreader Variable", Georgia, serif; font-size: 18px; font-weight: 430; line-height: 1.15; color: var(--color-foreground-strong); }
+.essay-glossary__heading h4 { margin: 0; }
 .essay-glossary p { margin: 0; font-size: 12px; line-height: 1.6; }
 
 .essay-explore-row { margin: 0 0 1.25em; }
@@ -1418,6 +1422,14 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 .motif-review__icon-stage { display: grid; place-items: center; min-height: 150px; padding: 18px; border-bottom: 1px solid var(--line); background: var(--ai-factory-inset); }
 .motif-review__icon-copy { padding: 16px 4px 4px; }.motif-review__icon-index, .motif-review__part-meta { color: var(--brand-gold); font-family: var(--font-mono); font-size: var(--ai-factory-type-meta); letter-spacing: .1em; text-transform: uppercase; }.motif-review__icon-copy h3 { margin: 10px 0 8px; font-family: var(--font-display); font-size: clamp(25px, 3vw, 38px); font-weight: 420; line-height: .95; }.motif-review__icon-copy p { margin: 0; color: var(--brand-muted); font-family: var(--font-sans); font-size: var(--ai-factory-type-copy); line-height: 1.55; }
 .motif-review__language-arrow { position: absolute; top: 50%; right: -18px; z-index: 1; color: var(--brand-gold); font-size: 22px; transform: translateY(-50%); }
+.motif-review__terms { padding: 78px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 96px; }
+.motif-review__terms-heading { display: grid; grid-template-columns: minmax(220px, .55fr) 1fr; gap: 34px; margin-bottom: 48px; }
+.motif-review__terms-heading .eyebrow { grid-column: 1; }
+.motif-review__terms-heading h2 { grid-column: 2; grid-row: 1 / span 2; max-width: 620px; margin: 14px 0 18px; font-family: var(--font-display); font-size: clamp(40px, 5vw, 70px); font-weight: 410; line-height: .9; letter-spacing: -.04em; }
+.motif-review__terms-heading p:last-child { grid-column: 2; grid-row: 3; max-width: 620px; margin: 0; color: var(--brand-muted); line-height: 1.65; }
+.motif-review__terms-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.motif-review__terms-grid .motif-review__part-icon { min-height: 220px; }
+.motif-review__terms-grid .motif-review__part-icon .ai-factory-icon { width: min(100%, 180px); }
 .motif-review__parts { padding: 78px 0 22px; border-bottom: 1px solid var(--line); }.motif-review__parts-heading { display: grid; grid-template-columns: minmax(220px, .55fr) 1fr; gap: 34px; }.motif-review__parts-heading .eyebrow { grid-column: 1; }.motif-review__parts-heading h2, .motif-review__parts-heading p:last-child { grid-column: 2; }.motif-review__parts-heading h2 { grid-row: 1 / span 2; }.motif-review__parts-heading p:last-child { grid-row: 3; }
 .motif-review__parts-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 48px; }.motif-review__part { min-width: 0; padding: 16px; border: 1px solid var(--line); background: var(--ai-factory-panel); }.motif-review__part-meta { min-height: 28px; }.motif-review__part-icon { display: grid; place-items: center; width: 100%; min-height: 170px; margin: 14px 0 18px; padding: 22px; border-block: 1px solid var(--line); background: var(--ai-factory-inset); }.motif-review__part-icon .ai-factory-icon { width: min(100%, 150px); }.motif-review__part h3 { margin: 0 0 8px; font-family: var(--font-display); font-size: var(--ai-factory-type-title); font-weight: 400; line-height: 1.1; }.motif-review__part p { margin: 0; color: var(--brand-muted); font-family: var(--font-sans); font-size: var(--ai-factory-type-copy); line-height: 1.55; }
 .motif-review__part .motif-review__part-subheading { margin: 0 0 10px; color: var(--brand-gold); font-size: 12px; }
@@ -1427,6 +1439,7 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
 .motif-review__footer { display: grid; grid-template-columns: 90px 1fr auto; gap: 34px; align-items: start; padding: 70px 0 20px; }.motif-review__footer h2 { max-width: 600px; margin: 0 0 14px; font-family: var(--font-display); font-size: clamp(34px, 5vw, 62px); font-weight: 410; line-height: .92; letter-spacing: -.04em; }.motif-review__footer p:not(.eyebrow) { max-width: 620px; margin: 0; color: var(--brand-muted); line-height: 1.7; }.motif-review__footer a { color: var(--brand-gold); font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
 
 @media (min-width: 681px) and (max-width: 1100px) {
+  .motif-review__terms-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .motif-review__parts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
@@ -1438,6 +1451,7 @@ h2, h3 { font-family: "Newsreader Variable", Georgia, serif; font-weight: 350; }
   .motif-review__legend-grid { grid-column: 1; grid-template-columns: 1fr; }
   .motif-review__series { padding: 56px 0; }
   .motif-review__language { padding: 56px 0; }.motif-review__language-track { grid-template-columns: 1fr; }.motif-review__language-arrow { top: auto; right: 50%; bottom: -22px; transform: translateX(50%) rotate(90deg); }
+  .motif-review__terms { padding: 56px 0; }.motif-review__terms-heading { display: block; margin-bottom: 36px; }.motif-review__terms-heading h2 { margin-bottom: 18px; }.motif-review__terms-grid { grid-template-columns: 1fr; }
   .motif-review__parts { padding: 56px 0 12px; }.motif-review__parts-heading { display: block; }.motif-review__parts-heading h2 { margin-bottom: 18px; }.motif-review__parts-grid { grid-template-columns: 1fr; margin-top: 36px; }
   .motif-review__entry { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 76px 0; }
   .motif-review__entry-index { order: -1; }

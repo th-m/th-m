@@ -1,4 +1,5 @@
 import { defineArticleComponents } from "@th-m/blogs/mdx";
+import { AiFactoryIcon, type AiFactoryIconKind } from "@th-m/blogs/components";
 import articleAssets from "./article-assets";
 import { Fragment, type ReactNode } from "react";
 import type { PublishedPost } from "@th-m/blogs/publish";
@@ -73,16 +74,73 @@ const PIPELINE_STEPS = [
 
 function ProductPipeline() {
   return (
-    <ol className="essay-flow" aria-label="The path of one product change">
-      {PIPELINE_STEPS.map((step, index) => (
-        <li key={step}>
-          {step}
-          {index < PIPELINE_STEPS.length - 1 ? (
-            <span className="essay-flow__arrow" aria-hidden="true">→</span>
-          ) : null}
-        </li>
+    <svg
+      className="essay-figure__svg"
+      viewBox="0 0 960 340"
+      role="img"
+      aria-label={`A product change moves through ${PIPELINE_STEPS.join(", ")}, with observed consequences feeding learning back into framing`}
+    >
+      <ArrowMarker id="kf-pipeline-arrow" />
+      <title>One product change is already a factory</title>
+
+      <text x="24" y="38" className="essay-fig-title">One change / one factory</text>
+      <text x="24" y="62" className="essay-fig-sub">
+        Each handoff transforms reality into action — and action back into learning.
+      </text>
+
+      {/* Main production path. Connectors render first so nodes remain legible. */}
+      <path d="M 194 166 H 224" className="essay-fig-line" markerEnd="url(#kf-pipeline-arrow)" />
+      <path d="M 494 166 H 524" className="essay-fig-line" markerEnd="url(#kf-pipeline-arrow)" />
+      <path d="M 774 166 H 804" className="essay-fig-line" markerEnd="url(#kf-pipeline-arrow)" />
+      <path
+        d="M 870 236 V 278 Q 870 288 860 288 H 369 Q 354 288 354 273 V 236"
+        className="essay-fig-loop"
+        markerEnd="url(#kf-pipeline-arrow)"
+      />
+
+      {/* 01 — Experience */}
+      <rect x="24" y="94" width="170" height="142" className="essay-fig-panel" />
+      <text x="42" y="120" className="essay-fig-number">01 / Experience</text>
+      <text x="42" y="162" className="essay-fig-label">Customer</text>
+      <text x="42" y="181" className="essay-fig-label">experience</text>
+      <text x="42" y="216" className="essay-fig-note">RAW SIGNAL</text>
+
+      {/* 02 — Framing is the focal transformation. */}
+      <rect x="224" y="94" width="270" height="142" className="essay-fig-panel essay-fig-panel--accent" />
+      <text x="242" y="120" className="essay-fig-number">02 / Framing</text>
+      <path d="M 314 168 H 326" className="essay-fig-line" markerEnd="url(#kf-pipeline-arrow)" />
+      <path d="M 406 168 H 418" className="essay-fig-line" markerEnd="url(#kf-pipeline-arrow)" />
+      <rect x="242" y="144" width="72" height="48" className="essay-fig-box" />
+      <text x="278" y="172" textAnchor="middle" className="essay-fig-label--muted">Evidence</text>
+      <rect x="326" y="144" width="80" height="48" className="essay-fig-box" />
+      <text x="366" y="172" textAnchor="middle" className="essay-fig-detail">Interpretation</text>
+      <rect x="418" y="144" width="58" height="48" className="essay-fig-box" />
+      <text x="447" y="172" textAnchor="middle" className="essay-fig-detail">Priority</text>
+      <text x="242" y="216" className="essay-fig-note">SIGNAL BECOMES A DECISION</text>
+
+      {/* 03 — Production */}
+      <rect x="524" y="94" width="250" height="142" className="essay-fig-panel" />
+      <text x="542" y="120" className="essay-fig-number">03 / Production</text>
+      <path d="M 550 142 V 213" className="essay-fig-line" />
+      {[150, 170, 190, 210].map((y) => (
+        <circle key={y} cx="550" cy={y} r="3" className="essay-fig-arrow" />
       ))}
-    </ol>
+      <text x="566" y="154" className="essay-fig-label--muted">Design</text>
+      <text x="566" y="174" className="essay-fig-label--muted">Implementation</text>
+      <text x="566" y="194" className="essay-fig-label--muted">Verification</text>
+      <text x="566" y="214" className="essay-fig-label--muted">Release</text>
+
+      {/* 04 — Consequence */}
+      <rect x="804" y="94" width="132" height="142" className="essay-fig-panel" />
+      <text x="822" y="120" className="essay-fig-number">04 / Result</text>
+      <text x="822" y="162" className="essay-fig-label">Observed</text>
+      <text x="822" y="181" className="essay-fig-label">consequence</text>
+      <text x="822" y="216" className="essay-fig-note">THE WORLD ANSWERS</text>
+
+      <text x="612" y="314" textAnchor="middle" className="essay-fig-note">
+        LEARNING RETAINED — OR LOST
+      </text>
+    </svg>
   );
 }
 
@@ -265,22 +323,27 @@ function KnowledgeFactoryStack() {
   );
 }
 
-const GLOSSARY: Array<[string, string]> = [
-  ["Knowledge factory", "the socio-technical system that transforms evidence, expertise, and intent into decisions and product outcomes."],
-  ["Factory worker", "any participant executing a bounded step designed by the larger system — a role, not a judgment about talent or status."],
-  ["Factory engineer", "a participant who improves the reusable machinery, context, standards, and feedback loops through which many work items pass."],
-  ["Shared capital", "reusable organizational assets — ontologies, context graphs, tools, evaluations, workflows, infrastructure, and accumulated learning — that increase future capability."],
-  ["Solutioning", "framing, generating, testing, and revising interventions in response to a meaningful problem."],
-  ["Graph context", "navigable relationships among people, concepts, systems, evidence, decisions, dependencies, and outcomes, with provenance."],
+const GLOSSARY: Array<[string, string, AiFactoryIconKind]> = [
+  ["Knowledge factory", "the socio-technical system that transforms evidence, expertise, and intent into decisions and product outcomes.", "knowledge-factory"],
+  ["Factory worker", "any participant executing a bounded step designed by the larger system — a role, not a judgment about talent or status.", "factory-worker"],
+  ["Factory engineer", "a participant who improves the reusable machinery, context, standards, and feedback loops through which many work items pass.", "factory-engineer"],
+  ["Shared capital", "reusable organizational assets — ontologies, context graphs, tools, evaluations, workflows, infrastructure, and accumulated learning — that increase future capability.", "shared-capital"],
+  ["Solutioning", "framing, generating, testing, and revising interventions in response to a meaningful problem.", "solutioning"],
+  ["Graph context", "navigable relationships among people, concepts, systems, evidence, decisions, dependencies, and outcomes, with provenance.", "graph-context"],
 ];
 
 function GlossaryCards() {
   return (
     <div className="essay-glossary">
-      {GLOSSARY.map(([term, definition]) => (
+      {GLOSSARY.map(([term, definition, icon]) => (
         <Card key={term} className="essay-glossary__item">
           <CardContent>
-            <h4>{term}</h4>
+            <div className="essay-glossary__heading">
+              <span className="essay-glossary__icon" aria-hidden="true">
+                <AiFactoryIcon kind={icon} />
+              </span>
+              <h4>{term}</h4>
+            </div>
             <p>{definition}</p>
           </CardContent>
         </Card>

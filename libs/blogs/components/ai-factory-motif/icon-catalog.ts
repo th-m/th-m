@@ -4,6 +4,8 @@ export const aiFactoryIconKinds = [
   "morpheme-diffuse", "morpheme-refined", "term-of-art", "understanding", "inference", "bottleneck",
   "implementation", "automation", "ontology-node", "typed-relation", "disconnected", "operator",
   "text", "label", "token", "embedding", "slop-fault", "slop-drift", "slop-decay", "self", "others", "agents", "contact", "threshold", "trigger",
+  "knowledge-factory", "factory-worker",
+  "factory-engineer", "shared-capital", "solutioning", "graph-context",
 ] as const;
 
 export type AiFactoryIconKind = typeof aiFactoryIconKinds[number];
@@ -12,7 +14,7 @@ export type AiFactoryIconKind = typeof aiFactoryIconKinds[number];
 export type AiFactorySemanticRole =
   | "concept" | "evaluation" | "situated state" | "process" | "constraint"
   | "model entity" | "relationship" | "relationship state" | "operation"
-  | "language representation" | "model representation" | "model output" | "participant";
+  | "language representation" | "model representation" | "model output" | "participant" | "system" | "resource";
 
 export interface AiFactoryIconSpec {
   readonly semanticRole: AiFactorySemanticRole;
@@ -190,6 +192,36 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
     semanticRole: "concept", iconId: "trigger", title: "Trigger",
     definition: "An event or condition that initiates an action or process.",
     visualGrammar: "Two small, open right-pointing chevrons use fine gold strokes to mark initiation, not speed or repeated execution.",
+  },
+  "knowledge-factory": {
+    semanticRole: "system", iconId: "knowledge-factory", title: "Knowledge factory",
+    definition: "The socio-technical system that transforms evidence, expertise, and intent into decisions and product outcomes.",
+    visualGrammar: "Three source points enter one bounded transformation system, converge on a gold decision diamond, and leave as two outcome points. Counts illustrate plurality rather than fixed inputs or outputs.",
+  },
+  "factory-worker": {
+    semanticRole: "participant", iconId: "factory-worker", title: "Factory worker",
+    definition: "A participant executing a bounded step designed by the larger system; the term describes a role, not talent or status.",
+    visualGrammar: "One gold participant point sits on a production rail immediately before one outlined work station, emphasizing execution within a bounded step.",
+  },
+  "factory-engineer": {
+    semanticRole: "participant", iconId: "factory-engineer", title: "Factory engineer",
+    definition: "A participant who improves the reusable machinery, context, standards, and feedback loops through which many work items pass.",
+    visualGrammar: "One gold participant connects to a bracket surrounding three linked stations, marking responsibility for the whole production loop rather than one station.",
+  },
+  "shared-capital": {
+    semanticRole: "resource", iconId: "shared-capital", title: "Shared capital",
+    definition: "Reusable organizational assets that accumulate learning and increase future capability.",
+    visualGrammar: "Three offset asset layers form a persistent stack while a gold return path carries the lower layer back toward the top to signal reuse.",
+  },
+  solutioning: {
+    semanticRole: "process", iconId: "solutioning", title: "Solutioning",
+    definition: "Framing, generating, testing, and revising interventions in response to a meaningful problem.",
+    visualGrammar: "Four corner states form a directed revision loop around a gold intervention diamond; the four points name the process here rather than imposing universal phases.",
+  },
+  "graph-context": {
+    semanticRole: "model representation", iconId: "graph-context", title: "Graph context",
+    definition: "Navigable relationships among people, concepts, systems, evidence, decisions, dependencies, and outcomes, with provenance.",
+    visualGrammar: "Five heterogeneous nodes form a navigable network, with one gold route running from a square provenance source through the central node to a referenced node.",
   },
 };
 

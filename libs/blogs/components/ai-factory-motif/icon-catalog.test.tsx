@@ -7,10 +7,10 @@ afterEach(cleanup);
 
 describe("AI Factory icon field contract", () => {
   it("covers every existing glyph once with unique public IDs and complete, separate notes", () => {
-    expect(aiFactoryIconKinds).toHaveLength(33);
-    expect(new Set(aiFactoryIconKinds).size).toBe(33);
+    expect(aiFactoryIconKinds).toHaveLength(39);
+    expect(new Set(aiFactoryIconKinds).size).toBe(39);
     expect(Object.keys(aiFactoryIconCatalog)).toEqual([...aiFactoryIconKinds]);
-    expect(new Set(Object.values(aiFactoryIconCatalog).map(icon => icon.iconId)).size).toBe(33);
+    expect(new Set(Object.values(aiFactoryIconCatalog).map(icon => icon.iconId)).size).toBe(39);
     for (const icon of Object.values(aiFactoryIconCatalog)) {
       expect(icon.iconId).toMatch(/^[a-z]+(?:-[a-z]+)*$/);
       for (const field of [icon.semanticRole, icon.title, icon.definition, icon.visualGrammar]) {
@@ -41,6 +41,30 @@ describe("AI Factory icon field contract", () => {
     for (const kind of ["slop-fault", "slop-drift", "slop-decay"] as const) {
       expect(aiFactoryIconCatalog[kind].semanticRole).toBe("model output");
       expect(aiFactoryIconCatalog[kind].subheading).toBe("Slop · Bad AI output");
+    }
+    expect(aiFactoryIconCatalog["knowledge-factory"].semanticRole).toBe("system");
+    expect(aiFactoryIconCatalog["shared-capital"].semanticRole).toBe("resource");
+    expect(aiFactoryIconCatalog.solutioning.semanticRole).toBe("process");
+    expect(aiFactoryIconCatalog["graph-context"].semanticRole).toBe("model representation");
+    for (const kind of ["factory-worker", "factory-engineer"] as const) {
+      expect(aiFactoryIconCatalog[kind].semanticRole).toBe("participant");
+    }
+  });
+
+  it("renders dedicated geometry for the knowledge-factory vocabulary", () => {
+    const expectedGlyphs = {
+      "knowledge-factory": ".ai-factory-icon__knowledge-factory-boundary",
+      "factory-worker": ".ai-factory-icon__factory-worker-station",
+      "factory-engineer": ".ai-factory-icon__factory-engineer-loop",
+      "shared-capital": ".ai-factory-icon__shared-capital-layer",
+      solutioning: ".ai-factory-icon__solutioning-loop",
+      "graph-context": ".ai-factory-icon__graph-context-edge",
+    } as const;
+
+    for (const [kind, selector] of Object.entries(expectedGlyphs)) {
+      const { container, unmount } = render(<AiFactoryIcon kind={kind as keyof typeof expectedGlyphs} />);
+      expect(container.querySelector(selector)).not.toBeNull();
+      unmount();
     }
   });
 

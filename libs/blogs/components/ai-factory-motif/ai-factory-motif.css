@@ -214,6 +214,120 @@
   fill: var(--color-primary);
 }
 
+.ai-factory-motif__economics-variable {
+  fill: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-meta);
+  letter-spacing: var(--ai-factory-tracking-label);
+}
+
+.ai-factory-motif__economics-ratio text {
+  fill: var(--color-foreground);
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-meta);
+  letter-spacing: var(--ai-factory-tracking-label);
+}
+
+.ai-factory-motif__economics-ratio > text:first-child {
+  fill: var(--color-primary);
+}
+
+.ai-factory-motif__economics-ratio path {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__economics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--color-border);
+}
+
+.ai-factory-motif__economics-graph {
+  min-width: 0;
+  padding: 20px;
+  background: var(--ai-factory-inset);
+}
+
+.ai-factory-motif__economics-graph > p {
+  margin: 0 0 8px;
+  color: var(--color-foreground);
+  font: 500 var(--ai-factory-type-node-compact)/1.4 var(--font-sans);
+}
+
+.ai-factory-motif__economics-graph > p span {
+  margin-right: 8px;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: var(--ai-factory-type-meta);
+  letter-spacing: var(--ai-factory-tracking-label);
+}
+
+.ai-factory-motif__economics-graph svg {
+  aspect-ratio: 320 / 176;
+}
+
+.ai-factory-motif__economics-model,
+.ai-factory-motif__economics-gate {
+  fill: var(--ai-factory-panel);
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+}
+
+.ai-factory-motif__economics-model-label {
+  fill: var(--color-foreground-muted);
+  font: var(--ai-factory-type-edge) var(--font-mono);
+  letter-spacing: var(--ai-factory-tracking-label);
+}
+
+.ai-factory-motif__economics-point {
+  fill: var(--color-foreground-muted);
+}
+
+.ai-factory-motif__economics-point--focal {
+  fill: var(--color-primary);
+}
+
+.ai-factory-motif__economics-timer circle,
+.ai-factory-motif__economics-timer path,
+.ai-factory-motif__economics-timeline path {
+  fill: none;
+  stroke: var(--color-foreground-muted);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.ai-factory-motif__economics-timer .ai-factory-motif__economics-timer-hand,
+.ai-factory-motif__economics-timeline .ai-factory-motif__economics-timeline-line {
+  stroke: var(--color-primary);
+}
+
+.ai-factory-motif__economics-timer .ai-factory-motif__economics-timer-center {
+  fill: var(--color-primary);
+  stroke: none;
+}
+
+.ai-factory-motif__economics-timeline .ai-factory-motif__economics-timeline-ticks {
+  stroke: var(--color-border-strong);
+}
+
+@media (max-width: 860px) {
+  .ai-factory-motif__economics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-factory-motif__economics-graph {
+    padding: 18px 20px;
+  }
+
+  .ai-factory-motif__economics-graph svg {
+    max-width: 520px;
+    margin-inline: auto;
+  }
+}
+
 .ai-factory-motif__priorities-note {
   fill: var(--color-foreground-muted);
   font: var(--ai-factory-type-copy) var(--font-sans);
@@ -491,6 +605,30 @@
 .ai-factory-icon__ontology-root { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }
 .ai-factory-icon__ontology-term { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-foreground-muted); stroke-width: 1; }
 .ai-factory-icon__relation-line { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }.ai-factory-icon__operator { fill: var(--color-surface); stroke: var(--color-border-strong); stroke-width: 1; }.ai-factory-icon__operator-mark { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__knowledge-factory-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__knowledge-factory-boundary { fill: color-mix(in srgb, var(--color-foreground-muted) 5%, transparent); stroke: var(--color-border-strong); stroke-width: 1; }
+.ai-factory-icon__knowledge-factory-input { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__knowledge-factory-decision { fill: color-mix(in srgb, var(--color-primary) 16%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__knowledge-factory-output { fill: var(--color-primary); stroke: none; }
+.ai-factory-icon__factory-worker-rail, .ai-factory-icon__factory-worker-step { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__factory-worker-participant { fill: var(--color-primary); stroke: none; }
+.ai-factory-icon__factory-worker-station { fill: color-mix(in srgb, var(--color-foreground-muted) 6%, transparent); stroke: var(--color-border-strong); stroke-width: 1.2; }
+.ai-factory-icon__factory-engineer-rail { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__factory-engineer-loop, .ai-factory-icon__factory-engineer-link { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__factory-engineer-participant { fill: var(--color-primary); stroke: none; }
+.ai-factory-icon__factory-engineer-station { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__factory-engineer-station--focal { fill: color-mix(in srgb, var(--color-primary) 16%, var(--color-surface)); stroke: var(--color-primary); }
+.ai-factory-icon__shared-capital-layer { fill: color-mix(in srgb, var(--color-foreground-muted) 5%, transparent); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__shared-capital-layer--top { fill: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface)); stroke: var(--color-primary); }
+.ai-factory-icon__shared-capital-return { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__solutioning-loop { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
+.ai-factory-icon__solutioning-stage { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__solutioning-intervention { fill: color-mix(in srgb, var(--color-primary) 16%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__graph-context-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__graph-context-provenance { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__graph-context-node { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1; }
+.ai-factory-icon__graph-context-node--center, .ai-factory-icon__graph-context-node--source { fill: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface)); stroke: var(--color-primary); }
+.ai-factory-icon__graph-context-node--reference { fill: var(--color-primary); stroke: none; }
 
 /* ------------------------------------------------------------------ */
 /* AI Factory article-series map                                      */
@@ -741,6 +879,16 @@
     line-height: 1.5;
     text-align: right;
     text-transform: uppercase;
+  }
+
+  .article-outline__content .ai-factory-motif[data-variant="token-economics"] > .ai-factory-motif__scroll-cue,
+  .ai-factory-motif[data-variant="token-economics"] > .ai-factory-motif__scroll-cue {
+    display: none;
+  }
+
+  .ai-factory-motif[data-variant="token-economics"] .ai-factory-motif__economics-graph svg {
+    width: 100%;
+    max-width: 520px;
   }
 }
 
