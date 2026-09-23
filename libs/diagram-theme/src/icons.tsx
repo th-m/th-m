@@ -205,9 +205,9 @@ export function AiFactoryIconGlyph({ kind }: { kind: AiFactoryIconKind }) {
         <circle className="ai-factory-icon__solution-endpoint" cx="140" cy="80" r="5" />
       </> : null}
       {kind === "experiment" ? <>
-        <path className="ai-factory-icon__experiment-path" d="M80 136V112C80 86 44 84 44 56M80 112C80 86 116 84 116 58" />
-        <circle className="ai-factory-icon__experiment-observation" cx="44" cy="42" r="10" />
-        <circle className="ai-factory-icon__experiment-observation" cx="116" cy="36" r="18" />
+        <path className="ai-factory-icon__experiment-path" d="M80 136V112C80 86 44 84 44 56M80 112C80 86 116 84 116 56" />
+        <path className="ai-factory-icon__experiment-observation" d="M44 22L60 50H28Z" />
+        <path className="ai-factory-icon__experiment-observation ai-factory-icon__experiment-observation--highlight" d="M116 22L132 50H100Z" />
       </> : null}
       {kind === "meaning" ? <><circle className="ai-factory-icon__meaning-core" cx="80" cy="80" r="5" /><circle className="ai-factory-icon__meaning-boundary" cx="80" cy="80" r="32" /><path className="ai-factory-icon__meaning-edge ai-factory-icon__meaning-edge--diagonal" d="M43 43L58 58M102 102L117 117M117 43L102 58M58 102L43 117" /></> : null}
       {kind === "inference" ? <>

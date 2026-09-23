@@ -76,7 +76,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   experiment: {
     semanticRole: "evaluation", iconId: "experiment", title: "Experiment",
     definition: "A bounded test of an assumption that produces observations to inform a decision.",
-    visualGrammar: "A neutral input rises from below and divides into two curved paths toward blue outlined observation circles. Their different sizes suggest contrasting observations, not quantitative results or a required two-arm trial.",
+    visualGrammar: "A neutral input rises from below and divides into two curved paths toward equally sized outlined triangles: gray on the left and information blue on the right. The highlight distinguishes observations without implying success or a required two-arm trial.",
   },
   value: {
     semanticRole: "concept", iconId: "value", title: "Value", subheading: "Does it matter?",
