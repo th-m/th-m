@@ -23,8 +23,8 @@ Information theory can explain why one prompt narrows a model's predictions more
 > **Series position — navigation, not an explanatory figure**
 >
 > [Vision and Values](/writing/vision-and-values) →
-> **[Truth and Coherence](/writing/truth-and-inference) — YOU ARE HERE** →
 > [Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
+> **[Truth and Coherence](/writing/truth-and-inference) — YOU ARE HERE** →
 > [The Knowledge Factory](/writing/the-knowledge-factory) →
 > [Ontology Factory](/writing/the-ontology-factory) →
 > [Cognitive Factory](/writing/the-cognitive-factory)
@@ -65,7 +65,7 @@ The philosophical coherence theory of truth is more demanding—and more contest
 
 The tests do not always arrive in that order. Observation can expose a contradiction in the model. A bad consequence can reveal a missing observation. A formal inconsistency can stop an action before anyone reaches the river. The point is not a rigid sequence. It is refusing to let success under one test silently stand in for all three.
 
-Other truth practices still matter. Acquaintance asks whether an account remains faithful to lived experience. Sincerity asks whether expression aligns with inward belief. Trustworthiness asks whether a person, system, or claim has earned reliance. Those questions are especially important when values, testimony, and relationships are at stake, and they belong more fully to the preceding essay, *Vision and Values*. This article stays with coherence, correspondence, and consequence because they recur so clearly in technical and product work.
+Other truth practices still matter. Acquaintance asks whether an account remains faithful to lived experience. Sincerity asks whether expression aligns with inward belief. Trustworthiness asks whether a person, system, or claim has earned reliance. Those questions are especially important when values, testimony, and relationships are at stake, and they belong more fully to the opening essay, *Vision and Values*. This article stays with coherence, correspondence, and consequence because they recur so clearly in technical and product work.
 
 Repeated practice also changes the language we use. A community refines an idea through definition, evidence, and correction. It gives that idea discipline through continuity, clarification, and specification. Eventually, a loose expression can become a term of art: a stable label for distinctions practitioners repeatedly need.
 
@@ -230,7 +230,9 @@ AI can assist at every step. It can surface hidden premises, retrieve sources, g
 
 Meaningful input makes the grounds of prediction inspectable. Valuable output survives coherence, correspondence, and consequence in relation to an explicit aim. A model is fluent where language has learned to carry the constraints. Our work is to follow that fluency back through consequence to correspondence: does it fit, does it work, and does it match the world we mean to change?
 
-The next article asks who can develop and exercise that judgment when output arrives faster than a central figure can evaluate it.
+The next article, [The Knowledge Factory](/writing/the-knowledge-factory), builds
+a repeatable system around these teams and their standards of judgment: how
+does intent become a verified outcome?
 
 ## Research Notes Before Canonical Revision
 

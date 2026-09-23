@@ -54,8 +54,8 @@ destabilizing URLs.
 | Order | Workspace | Subject | Status |
 | --- | --- | --- | --- |
 | 1 | [vision-and-values](./vision-and-values/) | AI problem fit, functional cognition, goals, agency, and theories of value | Published canonical MDX with tagged figures and an interactive training asset |
-| 2 | [truth-and-inference](./truth-and-inference/) | Truth practices, predictive language, code constraints, and domain fluency | Published canonical MDX with tagged static assets, figures, and interactives |
-| 3 | [understanding-and-bottlenecks](./understanding-and-bottlenecks/) | Turning abundant output into shared models and bounded action | Published canonical MDX with tagged explanatory figures |
+| 2 | [understanding-and-bottlenecks](./understanding-and-bottlenecks/) | Turning abundant output into shared models and bounded action | Published canonical MDX with tagged explanatory figures |
+| 3 | [truth-and-inference](./truth-and-inference/) | Truth practices, predictive language, code constraints, and domain fluency | Published canonical MDX with tagged static assets, figures, and interactives |
 | 4 | [the-knowledge-factory](./the-knowledge-factory/) | Distributed solutioning, factory engineers, and the knowledge-factory stack | Published canonical MDX with tagged factory figures |
 | 5 | [the-ontology-factory](./the-ontology-factory/) | Repository ontology as the factory's semantic infrastructure | Published canonical MDX with registered images and graph composition |
 | 6 | [the-cognitive-factory](./the-cognitive-factory/) | Typed observations, bounded authority, inspectable agent work, evaluated consequences, and retained learning | Published canonical MDX with tagged diagnostic assets |

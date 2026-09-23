@@ -28,3 +28,20 @@ Blogs and portfolio publication targets passed, including their typechecks and
 tests. Inspected the rendered opening at 1280 px and 390 px; the bold quotation,
 attribution, and bridge render without page overflow. The removed thesis is no
 longer present. Production deployment is outside this editing pass.
+
+## Series order revision — 2026-09-23
+
+Baseline: [039f0a4](https://github.com/th-m/th-m/commit/039f0a4173cd60005cb979856182500c4afa0cbb),
+verified on origin/main before editing.
+
+Move Understanding and Bottlenecks to second and Truth and Coherence to third.
+The sequence now establishes direction, distributes learning and decisions,
+then supplies shared standards of judgment before building the factory.
+Update shared navigation, the article inventory, active outlines and draft
+maps, and canonical handoffs. Preserve stable routes and historical notes.
+The factory drafts remain private candidates awaiting review.
+
+Verification: blogs and portfolio typechecks, tests, and local publication
+passed, as did the documentation checks. Confirmed all six links in the new
+order on the home and writing pages at 1280 px and 390 px, with no page overflow.
+Inspected the rendered graph at both sizes; numbering and labels agree.

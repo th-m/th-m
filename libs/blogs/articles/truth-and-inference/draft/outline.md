@@ -23,10 +23,10 @@ locally and make their warrants, assumptions, and results inspectable across
 the organization.
 
 This is the series' epistemic bridge. *Vision and Values* owns the choice of
-direction, human stakes, and normative authority. This article owns the tests
-that distinguish plausible language from warranted claims and useful outcomes.
-*Understanding and Bottlenecks* then owns who develops and exercises that
-judgment at organizational speed. Do not absorb the later articles' factory
+direction, human stakes, and normative authority. *Understanding and Bottlenecks*
+establishes why bounded teams need complete learning loops. This third article
+owns the shared tests that let those teams distinguish plausible language from
+warranted claims and useful outcomes. Do not absorb the later articles' factory
 metrics, ontology infrastructure, or governed automation loops here.
 
 ## Audience
@@ -38,8 +38,9 @@ products, services, and decisions.
 
 Draft preface:
 
-> The first article asks who supplies the direction. This one asks how we judge
-> the information used to pursue it. Picture a map laid over the terrain it
+> The first article asks who supplies the direction; the second puts learning
+> and decisions in bounded teams. This one asks what makes their judgments
+> trustworthy. Picture a map laid over the terrain it
 > claims to describe: its markings may agree with one another while missing
 > something consequential on the ground. Philosophy of truth gives us ways to
 > examine that relationship. Information theory explains how context shapes
@@ -52,17 +53,17 @@ the current position in text as well as visually; arrows indicate reading order.
 ```mermaid
 flowchart LR
   V["1. Vision and Values"]
-  T["2. Truth and Coherence — YOU ARE HERE"]
-  U["3. Understanding and Bottlenecks"]
+  U["2. Understanding and Bottlenecks"]
+  T["3. Truth and Coherence — YOU ARE HERE"]
   K["4. The Knowledge Factory"]
   O["5. Ontology Factory"]
   C["6. Cognitive Factory"]
-  V --> T --> U --> K --> O --> C
+  V --> U --> T --> K --> O --> C
   style T stroke-width:4px
 ```
 
-The next article asks how people and teams develop and distribute the capacity
-to make these judgments. Link the six entries to their stable article routes
+The next article builds a repeatable factory around these teams and their
+standards of judgment. Link the six entries to their stable article routes
 in the eventual article; the current workspace keeps truth-and-inference.
 
 ## Argument Destination and Path
@@ -80,7 +81,7 @@ and observed outcomes determine whether the result deserves reliance.
 | **3. Information theory makes prediction concrete** | A term of art becomes compressed context rather than a magic token: when its distinctions are learned or supplied, it can narrow likely continuations; when they are absent, the same fluency can miss the goal. Confidence remains conditional probability, not independent confirmation. | Once prediction is separated from validation, the reader needs to see the domain mechanisms that can reject a plausible continuation. | Shannon entropy, surprisal, conditional prediction, and cross-entropy need primary or standard technical sources. Variant 02b and the toy prompt are conceptual comparisons, not measured model results; embeddings represent input, while the model generates text. | Open with Variant 02b, **Short input, useful output—or just more tokens**. Its grounded and ungrounded lanes replace the planned standalone route-distribution graph. Keep any probabilities in the worked example small and technical rather than creating another top-level illustration. |
 | **4. Domain practices supply ways to detect error** | Abstract truth tests become concrete rejectors: definitions, proofs, measurements, types, tests, runtime behavior, expert review, and customer evidence establish different kinds of warrant. | Passing local checks can establish bounded correctness without establishing value. The reader must follow a checked output into use, effects, and cost. | Code can illustrate executable checks. The broader claim that a model's learned domain fluency reflects those checks remains task-specific and requires evidence; do not generalize from code to every domain. | Reuse the three test icons beside the relevant checks if needed, but add no standalone graph. A second constraint stack would duplicate the classification rather than advance it. |
 | **5. Turn domain fluency into commercial value** | Value moves from impressive output to an evaluated outcome: accepted mappings, correction effort, saved work, and total delivery cost. | A single evaluated case reveals the organizational requirement: teams need repeatable standards and visible warrants rather than a central reviewer's intuition. | The import-mapping case remains explicitly illustrative unless a sourced case supplies real costs and results. It demonstrates a possible value mechanism, not measured ROI. | The route-that-survives-use graph earns its place by connecting the same input and prediction icons to tests, human review, customer outcomes, cost, and revision. It visualizes why generation alone is not value. |
-| **6. Build organizational standards for knowing** | Evaluation becomes a distributed practice: teams can expose premises, apply local checks, observe consequences, and revise shared context without hiding uncertainty. | The answer is complete, and the remaining question is organizational capacity: who can develop and exercise this judgment without becoming a bottleneck? That is the handoff to *Understanding and Bottlenecks*. | Present the organizational practices as the article's prescriptive inference from the preceding mechanism, not as a proven universal operating model. | Close in prose with the reusable practice. Repeated icons may label the steps, but another loop diagram would repeat the section rather than add reasoning. |
+| **6. Build organizational standards for knowing** | Evaluation becomes a distributed practice: teams can expose premises, apply local checks, observe consequences, and revise shared context without hiding uncertainty. | The teams now have shared standards of judgment. How do they turn those standards into repeatable execution and verified outcomes? That is the handoff to *The Knowledge Factory*. | Present the organizational practices as the article's prescriptive inference from the preceding mechanism, not as a proven universal operating model. | Close in prose with the reusable practice. Repeated icons may label the steps, but another loop diagram would repeat the section rather than add reasoning. |
 
 ## Outline
 
@@ -253,5 +254,5 @@ map is navigation, outside these explanatory figures.
 
 ## Handoff
 
-*Understanding and Bottlenecks* asks how to develop expertise and distribute
-judgment when teams produce work faster than central figures can evaluate it.
+*The Knowledge Factory* asks how teams turn these standards of judgment into
+repeatable execution, verified outcomes, and reusable learning.

@@ -20,8 +20,8 @@ an investigation branching into dependent tasks, and consequences returning to
 the next attempt.
 
 **The AI Factory series:** [1. Vision and Values](/writing/vision-and-values) →
-[2. Truth and Coherence](/writing/truth-and-inference) →
-[3. Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
+[2. Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
+[3. Truth and Coherence](/writing/truth-and-inference) →
 **4. The Knowledge Factory — you are here** →
 [5. Ontology Factory](/writing/the-ontology-factory) →
 [6. Cognitive Factory](/writing/the-cognitive-factory).

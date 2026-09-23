@@ -7,10 +7,9 @@ has decided whether it answers the right question.
 
 AI did not create these gaps. It made them easier to reach.
 
-The first two essays in this series dealt with direction and judgment: what we
-want, and how we decide whether a claim holds up. The next question is
-organizational. When generation outruns evaluation, where does understanding
-live?
+[Vision and Values](/writing/vision-and-values) asked who chooses the direction.
+The next question is organizational. When generation outruns evaluation, where
+does understanding live?
 
 The tempting answer is to place it in one experienced person: the architect,
 staff engineer, research lead, or executive who can see the whole. That answer
@@ -23,8 +22,8 @@ explicit interfaces, decision rights, and evidence. The goal is not simply to
 distribute production. It is to distribute the capacity to understand what the
 work means, act on it, and revise the model when reality pushes back.
 
-> **Series map:** [Vision and Values](/writing/vision-and-values) → [Truth and
-> Inference](/writing/truth-and-inference) → **Understanding and Bottlenecks** →
+> **Series map:** [Vision and Values](/writing/vision-and-values) →
+> **Understanding and Bottlenecks** → [Truth and Coherence](/writing/truth-and-inference) →
 > [The Knowledge Factory](/writing/the-knowledge-factory) → [The Ontology
 > Factory](/writing/the-ontology-factory) → [The Cognitive
 > Factory](/writing/the-cognitive-factory)
@@ -358,10 +357,9 @@ losing shared direction or hiding the relationships between their decisions.
 > understanding to know what deserves to be solved—and whether an answer
 > survives contact with the world.
 
-That shared, retrievable learning is the bridge to *The Knowledge Factory*,
-where understanding becomes reusable organizational capability. The factory
-should be built around complete learning loops, not around a faster route back
-to the same central gate.
+Distributing decisions removes a central bottleneck. But what lets those
+decisions remain trustworthy? [Truth and Coherence](/writing/truth-and-inference)
+takes up the shared standards teams need to judge their inputs and outputs.
 
 ## Sources
 

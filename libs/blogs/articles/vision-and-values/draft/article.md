@@ -437,9 +437,9 @@ serve the people whose lives they change.
 
 **[ILLUSTRATION: ai-factory-series-map/current=vision-and-values]**
 
-This article establishes the direction of the AI Factory. *Truth and
-Coherence* asks the next question: once people have authorized the destination,
-how should they judge the premises, predictions, and outputs used to pursue it?
+This article establishes the direction of the AI Factory. *Understanding and Bottlenecks* takes the next question: once people have
+authorized the direction, how should they organize work when generation outruns
+their capacity to evaluate and understand it?
 
 ## Sources
 

@@ -1,7 +1,8 @@
 # Truth and Coherence
 
-The first article in this series asks who supplies the direction. This one asks
-how we judge the information used to pursue it.
+The first article asks who supplies the direction; the second puts learning
+and decisions in bounded teams. This one asks what makes their judgments
+trustworthy.
 
 Picture a map laid over the terrain it claims to describe. Every road can join
 cleanly to the next. The legend can be consistent. The route can look complete.
@@ -34,8 +35,8 @@ results.
 > **Series position — navigation, not an explanatory figure**
 >
 > [Vision and Values](/writing/vision-and-values) →
-> **[Truth and Coherence](/writing/truth-and-inference) — YOU ARE HERE** →
 > [Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
+> **[Truth and Coherence](/writing/truth-and-inference) — YOU ARE HERE** →
 > [The Knowledge Factory](/writing/the-knowledge-factory) →
 > [Ontology Factory](/writing/the-ontology-factory) →
 > [Cognitive Factory](/writing/the-cognitive-factory)
@@ -465,8 +466,9 @@ aim. That is how fluency becomes dependable work: not because the model sounds
 like it knows, but because the organization can show what the answer fits, what
 it matches, what happened when someone relied on it, and what changed afterward.
 
-The next article asks who can develop and exercise that judgment when output
-arrives faster than a central figure can evaluate it.
+The next article, [The Knowledge Factory](/writing/the-knowledge-factory), builds
+a repeatable system around these teams and their standards of judgment: how
+does intent become a verified outcome?
 
 ## Research Notes Before Canonical Revision
 

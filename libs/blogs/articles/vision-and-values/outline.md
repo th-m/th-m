@@ -363,15 +363,15 @@ the `truth-and-inference` slug.
 ```mermaid
 flowchart LR
   V["1. Vision and Values — YOU ARE HERE"]
-  T["2. Truth and Coherence"]
-  U["3. Understanding and Bottlenecks"]
+  U["2. Understanding and Bottlenecks"]
+  T["3. Truth and Coherence"]
   K["4. The Knowledge Factory"]
   O["5. Ontology Factory"]
   C["6. Cognitive Factory"]
-  V --> T --> U --> K --> O --> C
+  V --> U --> T --> K --> O --> C
   style V stroke-width:4px
 ```
 
-*Truth and Coherence* takes the next question: once people have authorized the
-direction, how should they judge the premises, predictions, and outputs used to
-pursue it?
+*Understanding and Bottlenecks* takes the next question: once people have
+authorized the direction, how should they organize work when generation outruns
+their capacity to evaluate and understand it?

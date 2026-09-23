@@ -462,8 +462,8 @@ const automationVisualCenterX = (48 + 188) / 2;
 
 export const aiFactorySeriesSlugs = [
   "vision-and-values",
-  "truth-and-inference",
   "understanding-and-bottlenecks",
+  "truth-and-inference",
   "the-knowledge-factory",
   "the-ontology-factory",
   "the-cognitive-factory",
@@ -501,21 +501,8 @@ const seriesMapArticles: AiFactorySeriesArticle[] = [
     summary: "Human experience and values choose the goals, authority, and corrections that guide AI.",
   },
   {
-    slug: "truth-and-inference",
-    index: "02",
-    stage: "Prediction",
-    title: "Truth and Coherence",
-    href: "/writing/truth-and-inference",
-    sourceIcon: "truth",
-    targetIcon: "inference",
-    sourceLabel: "Truth",
-    targetLabel: "Inference",
-    relationship: "CONSTRAINS",
-    summary: "Language patterns become conditional predictions whose value depends on truth-bearing constraint.",
-  },
-  {
     slug: "understanding-and-bottlenecks",
-    index: "03",
+    index: "02",
     stage: "Understanding",
     title: "Understanding and Bottlenecks",
     href: "/writing/understanding-and-bottlenecks",
@@ -525,6 +512,19 @@ const seriesMapArticles: AiFactorySeriesArticle[] = [
     targetLabel: "Bottlenecks",
     relationship: "REVEALS",
     summary: "Bounded teams distribute complete learning loops while shared intent and explicit interfaces preserve coordination.",
+  },
+  {
+    slug: "truth-and-inference",
+    index: "03",
+    stage: "Prediction",
+    title: "Truth and Coherence",
+    href: "/writing/truth-and-inference",
+    sourceIcon: "truth",
+    targetIcon: "inference",
+    sourceLabel: "Truth",
+    targetLabel: "Inference",
+    relationship: "CONSTRAINS",
+    summary: "Language patterns become conditional predictions whose value depends on truth-bearing constraint.",
   },
   {
     slug: "the-knowledge-factory",
@@ -673,7 +673,7 @@ export function AiFactorySeriesMap() {
         <div>
           <h2 id={titleId}>Six essays describe one operating system.</h2>
           <p id={descriptionId}>
-            The series moves from human direction, through prediction and understanding, into the factories that
+            The series moves from human direction, through understanding and evaluation, into the factories that
             produce, coordinate, and learn.
           </p>
         </div>

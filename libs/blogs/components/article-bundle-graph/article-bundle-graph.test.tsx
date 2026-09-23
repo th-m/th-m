@@ -12,8 +12,8 @@ const post = (slug: string, title: string, description: string): ArticleBundlePo
 
 const posts: ArticleBundlePost[] = [
   post("vision-and-values", "Vision and Values", "Why predictive systems need explicit goals."),
-  post("truth-and-inference", "Truth and Inference", "How truth and entropy constrain inference."),
   post("understanding-and-bottlenecks", "Understanding and Bottlenecks", "Why understanding limits progress."),
+  post("truth-and-inference", "Truth and Coherence", "How truth and entropy constrain inference."),
   post("the-knowledge-factory", "The Knowledge Factory", "The factory that turns knowledge into work."),
   post("the-ontology-factory", "The Ontology Factory", "The ontology of the factory."),
   post("the-cognitive-factory", "Cognitive Factory", "The cognition of the factory."),
@@ -24,6 +24,10 @@ describe("ArticleBundleGraph", () => {
     render(<ArticleBundleGraph />);
     expect(screen.getByRole("heading", { name: "AI Factory" })).toBeInTheDocument();
     expect(screen.getAllByRole("link")).toHaveLength(6);
+    expect(screen.getAllByRole("link").map(link => link.getAttribute("href")))
+      .toEqual(posts.map(post => `/writing/${post.slug}`));
+    expect(screen.getByRole("link", { name: /Understanding and Bottlenecks/ })).toHaveTextContent("02");
+    expect(screen.getByRole("link", { name: /Truth and Coherence/ })).toHaveTextContent("03");
     expect(screen.getByRole("link", { name: /Vision and Values/ })).toHaveAttribute(
       "href",
       "/writing/vision-and-values",
@@ -32,9 +36,9 @@ describe("ArticleBundleGraph", () => {
 
   it("uses published post metadata when supplied", () => {
     render(<ArticleBundleGraph posts={posts} />);
-    expect(screen.getByRole("link", { name: /Truth and Inference/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Truth and Coherence/ })).toHaveAttribute(
       "aria-label",
-      "Truth and Inference. How truth and entropy constrain inference.",
+      "Truth and Coherence. How truth and entropy constrain inference.",
     );
   });
 

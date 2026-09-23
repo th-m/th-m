@@ -22,8 +22,8 @@ returning to a later decision. The question is how to make that memory useful
 without putting the entire archive into every task.
 
 **The AI Factory series:** [1. Vision and Values](/writing/vision-and-values) →
-[2. Truth and Coherence](/writing/truth-and-inference) →
-[3. Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
+[2. Understanding and Bottlenecks](/writing/understanding-and-bottlenecks) →
+[3. Truth and Coherence](/writing/truth-and-inference) →
 [4. The Knowledge Factory](/writing/the-knowledge-factory) →
 [5. Ontology Factory](/writing/the-ontology-factory) →
 **6. Cognitive Factory — you are here**.

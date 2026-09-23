@@ -840,13 +840,17 @@ describe("AiFactoryMotif", () => {
     expect(screen.getByRole("region", { name: "Scrollable AI Factory article map" })).toHaveAttribute("tabindex", "0");
     const articles = [
       ["Vision and Values", "/writing/vision-and-values"],
-      ["Truth and Coherence", "/writing/truth-and-inference"],
       ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
+      ["Truth and Coherence", "/writing/truth-and-inference"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
       ["Ontology Factory", "/writing/the-ontology-factory"],
       ["Cognitive Factory", "/writing/the-cognitive-factory"],
     ];
 
+    expect(screen.getAllByRole("link").map(link => link.getAttribute("href")))
+      .toEqual(articles.map(([, href]) => href));
+    expect(screen.getByRole("link", { name: /Understanding and Bottlenecks/ })).toHaveTextContent("02");
+    expect(screen.getByRole("link", { name: /Truth and Coherence/ })).toHaveTextContent("03");
     for (const [name, href] of articles) {
       expect(screen.getByRole("link", { name: new RegExp(name) })).toHaveAttribute("href", href);
       expect(screen.getByRole("heading", { name })).toBeVisible();
@@ -874,7 +878,7 @@ describe("AiFactoryMotif", () => {
     const { container } = render(<AiFactorySeriesMap />);
     const concepts = container.querySelectorAll(".ai-factory-series-map__concept, .ai-factory-series-map__flywheel-concept");
     expect(Array.from(concepts, (concept) => concept.querySelector("span, text")?.textContent)).toEqual([
-      "Vision", "Values", "Truth", "Inference", "Understanding", "Bottlenecks",
+      "Vision", "Values", "Understanding", "Bottlenecks", "Truth", "Inference",
       "Ontology", "Automation", "Understanding", "Ontology", "Automation", "Understanding",
     ]);
     expect(concepts[1]?.querySelector(".ai-factory-icon--value")).toBeInTheDocument();

@@ -6,9 +6,9 @@
 Factory* unless the series is intentionally renamed.
 
 **Series job:** This fourth essay turns the first three essays' commitments into
-an operating model. *Vision and Values* supplies accountable direction, *Truth
-and Coherence* supplies standards for judging claims, and *Understanding and
-Bottlenecks* distributes the capacity to judge. This article asks what system
+an operating model. *Vision and Values* supplies accountable direction,
+*Understanding and Bottlenecks* distributes the capacity to judge, and *Truth
+and Coherence* supplies standards for judging claims. This article asks what system
 those teams need around AI generation. *Ontology Factory* will develop that
 system's semantic infrastructure; *Cognitive Factory* will develop its
 sensemaking, cognitive reach, signals, and discoverable organizational memory.
@@ -49,7 +49,7 @@ Do not repeat the engagement or average-output quotations from article one.
 Keep the organization visible: product and support contribute evidence,
 autonomous domain teams own investigations, and integration owners resolve
 shared effects. A central architect approving every task recreates the
-bottleneck described in article three.
+bottleneck described in article two.
 
 ## Scope and Definitions
 
@@ -92,12 +92,12 @@ generation, how work branches and rejoins, and where consequences return.
 ```mermaid
 flowchart LR
   V["1. Vision and Values"]
-  T["2. Truth and Coherence"]
-  U["3. Understanding and Bottlenecks"]
+  U["2. Understanding and Bottlenecks"]
+  T["3. Truth and Coherence"]
   K["4. The Knowledge Factory — YOU ARE HERE"]
   O["5. Ontology Factory"]
   C["6. Cognitive Factory"]
-  V --> T --> U --> K --> O --> C
+  V --> U --> T --> K --> O --> C
   style K stroke-width:4px
 ```
 
@@ -274,7 +274,7 @@ locally when they share intent, definitions, acceptance criteria, decision
 rights, and an integration owner. Parallel generation without those conditions
 can multiply review and coordination load.
 
-**Evidence:** The preceding essay establishes the need to distribute complete
+**Evidence:** *Understanding and Bottlenecks* establishes the need to distribute complete
 learning loops. The current DORA source supports the general systems premise;
 it does not prove that every organization should adopt this division of work.
 

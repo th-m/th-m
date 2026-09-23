@@ -10,10 +10,10 @@ central authority into bounded teams, then give those teams shared intent,
 explicit interfaces, decision rights, and protected time to build and revise
 their judgment.
 
-**This article's job:** *Vision and Values* establishes who chooses direction,
-and *Truth and Coherence* establishes how claims are tested. This third article
-shows where the capacity to interpret those claims and act on them must live: in
-teams close enough to evidence and consequences to learn. It ends with the
+**This article's job:** *Vision and Values* establishes who chooses direction.
+This second article shows where the capacity to interpret evidence and act
+on it must live: in teams close enough to evidence and consequences to learn.
+It ends with the
 organizational requirements for responsible local judgment.
 
 **Boundaries with the rest of the series:** Do not turn this article into the
@@ -33,8 +33,8 @@ ability to generate work is outpacing their ability to evaluate and absorb it.
 
 Draft preface:
 
-> The previous articles establish shared direction and ways to judge
-> information. Now the question becomes organizational: where can understanding
+> The first article establishes who chooses the direction.
+> Now the question becomes organizational: where can understanding
 > develop quickly enough to guide action? Imagine every local observation and
 > decision traveling through one command point. As work accelerates, that point
 > becomes a queue. This article argues that teams need bounded authority to
@@ -47,16 +47,17 @@ the current position in text as well as visually; arrows indicate reading order.
 ```mermaid
 flowchart LR
   V["1. Vision and Values"]
-  T["2. Truth and Coherence"]
-  U["3. Understanding and Bottlenecks — YOU ARE HERE"]
+  U["2. Understanding and Bottlenecks — YOU ARE HERE"]
+  T["3. Truth and Coherence"]
   K["4. The Knowledge Factory"]
   O["5. Ontology Factory"]
   C["6. Cognitive Factory"]
-  V --> T --> U --> K --> O --> C
+  V --> U --> T --> K --> O --> C
   style U stroke-width:4px
 ```
 
-The next article develops the working system around these teams. Link the six
+The next article, *Truth and Coherence*, develops shared standards for judging
+the inputs and outputs these teams rely on. Link the six
 entries to their stable article routes in the eventual article, keeping the
 same order and titles as the other prefaces.
 
