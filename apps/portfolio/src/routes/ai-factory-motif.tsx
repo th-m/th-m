@@ -65,7 +65,7 @@ const motifs: Array<{
     context: "Both lanes use the same context, automation, and consequence marks. The second adds one typed return relationship; that edge is the difference between completed activity and retained learning.",
   },
   {
-    index: "05",
+    index: "07",
     variant: "path-declares-ownership",
     note: "The repository makes its ontology visible.",
     context: "Three illustrations for Ontology Factory: a path forms semantic identity, its layer selects executable construction rules, and local contracts dynamically compose task-relevant context within an agent's budget before governing evaluable action.",
