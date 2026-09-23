@@ -9,10 +9,19 @@ afterEach(() => { vi.unstubAllGlobals(); document.body.innerHTML = ""; });
 
 describe("diagram theme adaptation", () => {
   it("derives roles from the foundation and allows independent overrides", () => {
-    const theme = createDiagramTheme({ colors: { accent: "#abcdef" } });
+    const theme = createDiagramTheme({ colors: { accent: "#abcdef", info: "#123456" } });
     expect(theme.colors.paper).toBe(thomDesignTokens.color.background);
     expect(theme.colors.accent).toBe("#abcdef");
+    expect(theme.colors.info).toBe("#123456");
+    expect(createDiagramTheme().colors.info).toBe(thomDesignTokens.color.semantic.info.default);
     expect(createDiagramTheme().colors.accent).toBe(thomDesignTokens.color.primary.default);
+  });
+  it.each(["diagram-design", "fireworks"] as const)("exports information labels and edges independently of emphasis in %s", engine => {
+    const input = '<svg xmlns="http://www.w3.org/2000/svg"><path data-thom-role="info" data-thom-attribute="stroke" d="M0 0H100" fill="none"/><text data-thom-role="info">Evidence</text></svg>';
+    const result = new DOMParser().parseFromString(themeSvg(input, engine, createDiagramTheme({ colors: { info: "#123456" } })), "image/svg+xml");
+    expect(result.querySelector("path")?.getAttribute("stroke")).toBe("#123456");
+    expect(result.querySelector("text")?.getAttribute("fill")).toBe("#123456");
+    expect(result.querySelector("style")?.textContent).toContain("--color-info:#123456");
   });
   it("preserves topology, geometry, and labels while recoloring", () => {
     const theme = createDiagramTheme({ colors: { accent: "#abcdef" } });

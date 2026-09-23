@@ -17,13 +17,13 @@
 .ai-factory-icon__meaning-edge { stroke: var(--color-primary); }.ai-factory-icon__meaning-boundary { fill: none; stroke: color-mix(in srgb, var(--color-primary) 70%, var(--color-foreground-muted)); stroke-dasharray: 2 4; }
 .ai-factory-icon__meaning-edge--diagonal, .ai-factory-icon__understanding-edge--diagonal { stroke-dasharray: 1 4; stroke-linecap: round; }
 .ai-factory-icon__truth-triangle { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; stroke-linejoin: miter; }
-.ai-factory-icon--correspondence .ai-factory-icon__truth-vertex { stroke: var(--color-primary); }
-.ai-factory-icon__truth-triangle--dotted { stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon--correspondence .ai-factory-icon__truth-vertex { stroke: var(--color-info); }
+.ai-factory-icon__truth-triangle--dotted { stroke: var(--color-info); stroke-dasharray: 1 4; stroke-linecap: round; }
 .ai-factory-icon__truth-vertex { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__coherence-spokes,
 .ai-factory-icon__consequence-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 1 4; stroke-linecap: round; }
-.ai-factory-icon__coherence-center { fill: var(--color-primary); }
-.ai-factory-icon__consequence-outcome { fill: var(--color-primary); }
+.ai-factory-icon__coherence-center { fill: var(--color-info); }
+.ai-factory-icon__consequence-outcome { fill: var(--color-info); }
 .ai-factory-icon__inference-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__self-dot { fill: var(--color-primary); stroke: none; }
 .ai-factory-icon__trigger-line, .ai-factory-icon__trigger-boundary { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
@@ -87,10 +87,10 @@
 .ai-factory-icon__solutioning-stage { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1; }
 .ai-factory-icon__solutioning-intervention { fill: color-mix(in srgb, var(--color-primary) 16%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1.2; }
 .ai-factory-icon__graph-context-edge { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
-.ai-factory-icon__graph-context-provenance { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
+.ai-factory-icon__graph-context-provenance { fill: none; stroke: var(--color-info); stroke-width: 1.2; }
 .ai-factory-icon__graph-context-node { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1; }
-.ai-factory-icon__graph-context-node--center, .ai-factory-icon__graph-context-node--source { fill: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface)); stroke: var(--color-primary); }
-.ai-factory-icon__graph-context-node--reference { fill: var(--color-primary); stroke: none; }
+.ai-factory-icon__graph-context-node--center, .ai-factory-icon__graph-context-node--source { fill: color-mix(in srgb, var(--color-info) 12%, var(--color-surface)); stroke: var(--color-info); }
+.ai-factory-icon__graph-context-node--reference { fill: var(--color-info); stroke: none; }
 
 
 .ai-factory-motif__connector-label text,

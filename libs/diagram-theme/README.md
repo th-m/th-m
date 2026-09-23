@@ -29,6 +29,14 @@ reduced-motion states show the entire diagram.
 the diagrams tool supplies this map and embeds the icon CSS automatically.
 Fragments receive the same inert-content validation as source SVG.
 
+Information blue highlights the truth/evaluation family and evidence provenance;
+it does not certify a claim. Gold marks purpose, agency, and selected paths.
+Red marks faults or contradictions; missing connections retain their gold cross.
+Neutral geometry carries structure. Shapes and labels preserve these meanings
+without color. Live icons use `--color-info`; exported diagrams use the same
+foundation value through the `info` theme role, including
+`data-thom-role="info"` on evidence labels or edges.
+
 The animation adapter is THOM-owned. It draws on Fireworks' construction and
 settled-flow pattern; it does not reproduce or claim validation against the
 upstream scene-specific GIF presets. See the tool's

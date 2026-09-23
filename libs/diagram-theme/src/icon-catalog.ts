@@ -31,22 +31,22 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   truth: {
     semanticRole: "concept", iconId: "truth", title: "Truth",
     definition: "What is the case, against which a claim or inference can be checked.",
-    visualGrammar: "A dotted triangle marks the reference for the three related evaluation glyphs; dots do not mean that truth itself is uncertain.",
+    visualGrammar: "A dotted blue triangle marks the reference for the three related evaluation glyphs; dots do not mean that truth itself is uncertain. Blue identifies the information and evaluation family, not a verified claim.",
   },
   coherence: {
     semanticRole: "evaluation", iconId: "coherence", title: "Coherence", subheading: "Does it fit?",
     definition: "Consistency among the claims and relationships within a system.",
-    visualGrammar: "A solid triangle connects its three corners to one gold center through dotted internal paths.",
+    visualGrammar: "A solid triangle connects its three corners to one blue center through dotted internal paths.",
   },
   correspondence: {
     semanticRole: "evaluation", iconId: "correspondence", title: "Correspondence", subheading: "Does it match?",
     definition: "Agreement between a claim or model and the reality or evidence it refers to.",
-    visualGrammar: "An inverted triangle links three gold-outlined reference points with gray edges.",
+    visualGrammar: "An inverted triangle links three blue-outlined reference points with gray edges.",
   },
   consequence: {
     semanticRole: "evaluation", iconId: "consequence", title: "Consequence", subheading: "Does it work?",
     definition: "The outcome of an action, considered here as a test of whether it achieves its purpose.",
-    visualGrammar: "A right-facing triangle and dotted internal path converge on a gold outcome point.",
+    visualGrammar: "A right-facing triangle and dotted internal path converge on a blue outcome point.",
   },
   vision: {
     semanticRole: "concept", iconId: "vision", title: "Vision",
@@ -221,7 +221,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   "graph-context": {
     semanticRole: "model representation", iconId: "graph-context", title: "Graph context",
     definition: "Navigable relationships among people, concepts, systems, evidence, decisions, dependencies, and outcomes, with provenance.",
-    visualGrammar: "Five heterogeneous nodes form a navigable network, with one gold route running from a square provenance source through the central node to a referenced node.",
+    visualGrammar: "Five heterogeneous nodes form a navigable network, with one blue route running from a square provenance source through the central node to a referenced node. Blue identifies the evidence reference, not its verification status.",
   },
 };
 
