@@ -54,7 +54,7 @@ const consolidationAnchors: Record<string, string[]> = {
   ],
   "truth-and-inference": [
     "Two theological parallels help situate these non-propositional practices",
-    "The interactive semantic-composition explorer follows here",
+    "The semantic-composition developer tool lets you combine up to four terms",
   ],
   "understanding-and-bottlenecks": [
     "Inference Produces an Answer; Understanding Maintains a Model",

@@ -134,6 +134,33 @@ describe("AiFactoryMotif", () => {
     expect(screen.getByText(/This is a conceptual contrast, not a measured gain/)).toHaveTextContent("embeddings represent input; the model generates text");
   });
 
+  it("can present the grounded and ungrounded lanes as separate article figures", () => {
+    const { rerender } = render(
+      <AiFactoryMotif variant="understanding-in-embedding-space" embeddingLane="grounded" />,
+    );
+
+    let figure = screen.getByRole("figure");
+    let diagram = screen.getByRole("img", { name: /A grounded term can guide useful expansion/ });
+    expect(figure).toHaveAttribute("data-embedding-lane", "grounded");
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 360");
+    expect(diagram.querySelector('[data-lane="grounded"]')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-lane="ungrounded"]')).not.toBeInTheDocument();
+    expect(diagram).not.toHaveTextContent("WITHOUT UNDERSTANDING");
+
+    rerender(
+      <AiFactoryMotif variant="understanding-in-embedding-space" embeddingLane="ungrounded" />,
+    );
+
+    figure = screen.getByRole("figure");
+    diagram = screen.getByRole("img", { name: /Fluent inference without understanding/ });
+    expect(figure).toHaveAttribute("data-embedding-lane", "ungrounded");
+    expect(diagram).toHaveAttribute("viewBox", "0 0 960 360");
+    expect(diagram.querySelector('[data-lane="grounded"]')).not.toBeInTheDocument();
+    expect(diagram.querySelector('[data-lane="ungrounded"]')).toBeInTheDocument();
+    expect(diagram.querySelector('[data-lane="ungrounded"]')).not.toHaveAttribute("transform");
+    expect(diagram).not.toHaveTextContent("WITH UNDERSTANDING");
+  });
+
   it("gives the situated flow clear connector lanes without enclosing station boxes", () => {
     render(<AiFactoryMotif variant="term-of-art-to-implementation" />);
 
@@ -627,7 +654,7 @@ describe("AiFactoryMotif", () => {
     expect(screen.getByRole("region", { name: "Scrollable AI Factory article map" })).toHaveAttribute("tabindex", "0");
     const articles = [
       ["Vision and Values", "/writing/vision-and-values"],
-      ["Truth and Inference", "/writing/truth-and-inference"],
+      ["Truth and Coherence", "/writing/truth-and-inference"],
       ["Understanding and Bottlenecks", "/writing/understanding-and-bottlenecks"],
       ["The Knowledge Factory", "/writing/the-knowledge-factory"],
       ["Ontology Factory", "/writing/the-ontology-factory"],

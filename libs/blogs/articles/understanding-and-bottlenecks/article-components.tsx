@@ -22,6 +22,10 @@ function TermOfArtImplementationMotif() {
   return <AiFactoryMotif variant="term-of-art-to-implementation" />;
 }
 
+function InferenceWithoutUnderstandingMotif() {
+  return <AiFactoryMotif variant="understanding-in-embedding-space" embeddingLane="ungrounded" />;
+}
+
 const proofPipeline = [
   {
     label: "Generate candidate proofs",
@@ -190,6 +194,7 @@ function UnderstandingLoopFigure() {
 export { Card, CardContent, CardHeader, CardTitle, formatDate, Link, LinkPreview, NeuralInferenceFigure, Note, proofPipeline, ProofPipelineFigure, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, understandingLoop, UnderstandingLoopFigure };
 export default defineArticleComponents(articleAssets, () => ({
   "neural-inference-figure": NeuralInferenceFigure,
+  "inference-without-understanding-motif": InferenceWithoutUnderstandingMotif,
   "term-of-art-implementation-motif": TermOfArtImplementationMotif,
   "proof-pipeline-figure": ProofPipelineFigure,
   "understanding-loop-figure": UnderstandingLoopFigure,

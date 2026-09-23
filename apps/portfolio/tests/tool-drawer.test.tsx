@@ -96,6 +96,24 @@ describe("global tool drawer", () => {
     expect(await screen.findByRole("button", { name: /king/i })).toBeInTheDocument();
   });
 
+  it("opens the semantic composition developer tool", async () => {
+    const user = userEvent.setup();
+    render(<DrawerHarness />);
+
+    await user.click(screen.getByRole("button", { name: "Open tool drawer" }));
+    await screen.findByRole("dialog");
+    await user.click(screen.getByRole("button", { name: "Semantic composition" }));
+
+    expect(await screen.findByRole("heading", { name: "Semantic composition" })).toBeInTheDocument();
+    expect(await screen.findByRole("figure", {
+      name: "Interactive three-dimensional semantic composition teaching model",
+    })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Open embedding atlas/ })).toHaveAttribute(
+      "href",
+      "/embedding-space",
+    );
+  });
+
   it("switches to the relationship graph tool and renders its explorer", async () => {
     const user = userEvent.setup();
     render(<DrawerHarness />);

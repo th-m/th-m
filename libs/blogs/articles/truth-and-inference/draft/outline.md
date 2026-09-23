@@ -5,16 +5,29 @@
 **Working title:** Truth and Coherence. Preserve the existing workspace slug and
 canonical article until an explicit publication revision.
 
-**Question:** How do we recognize meaningful input and valuable output?
+**Central question:** How do we recognize meaningful input and valuable output
+when AI can make weak premises and answers look equally plausible?
 
-**Thesis:** Philosophy of truth gives us a map for examining claims; information
-theory makes prediction, uncertainty, and the contribution of context concrete.
-Useful AI work requires examining supplied premises as carefully as generated
-answers. Organizations need shared evidence standards and local evaluation to
+**Central answer:** Meaningful input makes its premises, evidence, constraints,
+omissions, and uncertainty inspectable, while valuable output survives
+coherence, correspondence, and consequence tests against domain checks and
+observed outcomes in relation to an explicit aim.
+
+**Mechanism and stakes:** Information theory makes prediction, uncertainty, and
+the contribution of context concrete; it does not establish truth or value.
+Organizations therefore need shared evidence standards and local evaluation to
 turn domain fluency into dependable, economically useful work.
 
-**Organizational question:** How can teams evaluate knowledge independently and
-make their reasoning inspectable across the organization?
+**Organizational consequence:** Teams must be able to evaluate knowledge
+locally and make their warrants, assumptions, and results inspectable across
+the organization.
+
+This is the series' epistemic bridge. *Vision and Values* owns the choice of
+direction, human stakes, and normative authority. This article owns the tests
+that distinguish plausible language from warranted claims and useful outcomes.
+*Understanding and Bottlenecks* then owns who develops and exercises that
+judgment at organizational speed. Do not absorb the later articles' factory
+metrics, ontology infrastructure, or governed automation loops here.
 
 ## Audience
 
@@ -52,6 +65,23 @@ The next article asks how people and teams develop and distribute the capacity
 to make these judgments. Link the six entries to their stable article routes
 in the eventual article; the current workspace keeps truth-and-inference.
 
+## Argument Destination and Path
+
+The reader should arrive able to evaluate an AI exchange as one inspectable
+chain rather than two isolated texts: supplied premise → predicted answer →
+domain checks → action → observed consequence. The three truth tests organize
+that chain. Information theory explains the prediction step; domain practices
+and observed outcomes determine whether the result deserves reliance.
+
+| Movement | Change in the reader's understanding | Transition that earns the next section | Evidence and inference boundary | Visual work |
+| --- | --- | --- | --- | --- |
+| **1. Examine both sides of the exchange** | The prompt stops looking like neutral context and becomes a set of claims that can constrain or misdirect the answer. Fluency can preserve an error as easily as a valid premise. | If neither the input nor the output can grade itself, the reader needs independent questions for examining both. | The paired commercial requests are a composite demonstration, not evidence about model behavior in general. | No separate graph. The side-by-side requests provide the concrete contrast; adding a motif here would only restate it. |
+| **2. Philosophy of truth provides a map** | One vague judgment of “correctness” separates into coherence within a representation, correspondence with observations, and consequences in use. Repeated use of those tests can also stabilize a shared term without making it universally true. | The three tests say what to ask. Variant 02 then gives the next section a concrete object to explain: a term of art whose definitions and corrections have acquired continuity inside a domain. | Source the philosophical accounts independently. Treat consequence as a pragmatic test of use, not proof that whatever succeeds is true or good; people still judge which effects matter. Refinement and discipline are practices that may use several truth tests, not two additional theories of truth. | Keep the map-and-terrain graph for the three tests. End the section with shared motif Variant 02, **Refinement and discipline establish a term of art**, so the argument visibly moves from evaluating claims to stabilizing domain language. |
+| **3. Information theory makes prediction concrete** | A term of art becomes compressed context rather than a magic token: when its distinctions are learned or supplied, it can narrow likely continuations; when they are absent, the same fluency can miss the goal. Confidence remains conditional probability, not independent confirmation. | Once prediction is separated from validation, the reader needs to see the domain mechanisms that can reject a plausible continuation. | Shannon entropy, surprisal, conditional prediction, and cross-entropy need primary or standard technical sources. Variant 02b and the toy prompt are conceptual comparisons, not measured model results; embeddings represent input, while the model generates text. | Open with Variant 02b, **Short input, useful output—or just more tokens**. Its grounded and ungrounded lanes replace the planned standalone route-distribution graph. Keep any probabilities in the worked example small and technical rather than creating another top-level illustration. |
+| **4. Domain practices supply ways to detect error** | Abstract truth tests become concrete rejectors: definitions, proofs, measurements, types, tests, runtime behavior, expert review, and customer evidence establish different kinds of warrant. | Passing local checks can establish bounded correctness without establishing value. The reader must follow a checked output into use, effects, and cost. | Code can illustrate executable checks. The broader claim that a model's learned domain fluency reflects those checks remains task-specific and requires evidence; do not generalize from code to every domain. | Reuse the three test icons beside the relevant checks if needed, but add no standalone graph. A second constraint stack would duplicate the classification rather than advance it. |
+| **5. Turn domain fluency into commercial value** | Value moves from impressive output to an evaluated outcome: accepted mappings, correction effort, saved work, and total delivery cost. | A single evaluated case reveals the organizational requirement: teams need repeatable standards and visible warrants rather than a central reviewer's intuition. | The import-mapping case remains explicitly illustrative unless a sourced case supplies real costs and results. It demonstrates a possible value mechanism, not measured ROI. | The route-that-survives-use graph earns its place by connecting the same input and prediction icons to tests, human review, customer outcomes, cost, and revision. It visualizes why generation alone is not value. |
+| **6. Build organizational standards for knowing** | Evaluation becomes a distributed practice: teams can expose premises, apply local checks, observe consequences, and revise shared context without hiding uncertainty. | The answer is complete, and the remaining question is organizational capacity: who can develop and exercise this judgment without becoming a bottleneck? That is the handoff to *Understanding and Bottlenecks*. | Present the organizational practices as the article's prescriptive inference from the preceding mechanism, not as a proven universal operating model. | Close in prose with the reusable practice. Repeated icons may label the steps, but another loop diagram would repeat the section rather than add reasoning. |
+
 ## Outline
 
 ### 1. Examine Both Sides of the Exchange
@@ -84,7 +114,22 @@ automatically establishes the others.
 Formal, empirical, operational, and relational cases illustrate the map. Keep
 the philosophical distinctions visible without building four competing essays.
 
+End by showing how repeated practice can stabilize domain language. Refinement
+contributes definition, evidence, and correction; discipline contributes
+continuity, clarification, and specification. Together they can establish a
+term of art with a stable boundary inside a domain. Do not map refinement or
+discipline one-to-one onto a truth test: each may draw on coherence,
+correspondence, and consequence. Place shared motif Variant 02 here so the
+section hands Section 3 a concrete term whose predictive role can be explained.
+
 ### 3. Information Theory Makes Prediction Concrete
+
+Open from the selected motif's follow-up contrast. A short label can address a
+shared set of domain distinctions, but the label does not contain those
+distinctions or guarantee a useful result. Variant 02b compares a term used with
+shared understanding against an ambiguous label whose fluent expansion misses
+the goal. Use that contrast to motivate the mechanism rather than to claim a
+measured gain.
 
 Explain how context changes a distribution over possible continuations:
 
@@ -142,8 +187,16 @@ claims → act within the evidence → observe → revise shared context.
 
 ## Supporting Material and Research Obligations
 
-- Use the [existing review](../research/research-review.md) as a source map;
-  follow its primary links and preserve its evidence limitations.
+| Planned move | Current locator | Status and limit |
+| --- | --- | --- |
+| Separate truth tests | [Pre-MDX source list](../notes/pre-mdx-markdown.md#sources) and the [existing research review](../research/research-review.md) | The correspondence and pragmatic accounts provide starting locators. Add a dedicated source for coherence before publication. The review predates this outline and does not substantiate its new information-theory, code-constraint, or domain-fluency sections. |
+| Explain conditional prediction | Shannon's 1948 and 1951 papers, Bengio et al. (2003), and Vaswani et al. (2017), all linked in the [pre-MDX source list](../notes/pre-mdx-markdown.md#sources) | These support entropy, language prediction, learned representations, and transformer mechanics. Verify the exact worked example separately; do not present toy probabilities as measurements. |
+| Show domain rejection mechanisms | The Lean 4 documentation, TypeScript Handbook, *Introduction to Algorithms*, and Evans's *Domain-Driven Design Reference* in the [pre-MDX source list](../notes/pre-mdx-markdown.md#sources) | These support particular checks and domain-language practices. They do not establish that learned model fluency reliably inherits those checks. |
+| Contrast locally closed code work with open strategy or product judgment | [Evaluative closure note](../notes/evaluative-closure-code-and-strategy.md) | This is an article argument and example inventory, not independent empirical evidence. Keep claims bounded to well-specified tasks. |
+| Connect evaluation to commercial value and organizational practice | This outline's import-mapping composite and the closing synthesis | No measured case currently supports ROI or a universal organization design. Keep the case illustrative and the organizational standard explicitly prescriptive unless research supplies stronger evidence. |
+
+- Use the [existing review](../research/research-review.md) only as a source map
+  for its stated topics; follow its primary links and preserve its limitations.
 - Source philosophical accounts on their own terms. Information theory
   illustrates prediction; it does not settle philosophical theories of truth.
 - Keep coherence, correspondence, consequence, meaning, and usefulness
@@ -154,21 +207,49 @@ claims → act within the evidence → observe → revise shared context.
 
 ## Figure Plan
 
-**Recurring motif: a map tested against its terrain.** Carry forward the
-landscape from *Vision and Values*, now focusing on representations, predictions,
-and observations. Develop it through three illustrations.
+Use two visual languages deliberately. The selected shared AI Factory motif
+provides continuity across the series and explains how practice stabilizes a
+term that can guide inference. The article-local map tested against terrain
+then distinguishes representation, observation, action, and consequence. Do
+not redraw the selected shared motif in Mermaid.
+
+### Selected Shared Motif: Variant 02
+
+Treat the browser-selected `section#motif-02` as one two-part bridge across
+sections 2 and 3. Keep the panels adjacent even if the Section 3 heading falls
+between them. Review-sheet locator: **02 / Variant 02 / Continuity check — The
+stabilizing state: practice gives a boundary enough continuity to be shared.**
+
+| Variant and placement | Required labels | Argumentative job and limit |
+| --- | --- | --- |
+| **02 — `refinement-and-discipline-to-term-of-art`**, at the end of section 2 | Eyebrow: **REFINEMENT + DISCIPLINE**. Title: **Refinement and discipline establish a term of art**. Stations: **Idea — shared meaning** and **Term of art — consistent within a domain**. Inputs: **Discipline — continuity · clarification · specification** and **Refinement — definition · evidence · correction**. Relationship: **ESTABLISHES**. Axis: **MEANING POTENTIAL / REFINEMENT + DISCIPLINE / STABLE TERM**. | Shows the stabilizing state between a meaningful idea and a reusable domain expression. It does not show that a stable term corresponds to reality or produces a good consequence; the surrounding prose must retain those tests. |
+| **02b — `understanding-in-embedding-space`**, at the opening of section 3 | Eyebrow: **EMBEDDING SPACE / INFERENCE VALUE**. Title: **Short input, useful output—or just more tokens**. Columns: **SHORT INPUT / REPRESENTATION / GENERATION / EXPANDED OUTPUT**. Grounded lane: **WITH UNDERSTANDING**, **Short label — shared term of art**, **Embedding space**, **Understanding**, **Term of art**, **shared domain distinctions**, **Inference — guided by meaning**, **YIELDS**, **Useful expansion**, **Fits the intended result**, **more text · useful tokens**. Ungrounded lane: **WITHOUT UNDERSTANDING**, **Short label — unshared or ambiguous**, **No grounding**, **Loose meaning**, **context and criteria absent**, **Inference — fluent, not grounded**, **YIELDS**, **Excess output**, **Does not fit the goal**, **excess tokens · no added value**. Footer: **CONCEPTUAL CONTRAST · TOKEN MARKS ARE NOT COUNTS** and **VALUE ≠ VOLUME**. | Turns the stable term into the problem Section 3 explains: how short context can narrow prediction without independently establishing truth or value. Preserve the component caption's caveat that embeddings represent input, the model generates text, and value must be checked against the intended result. |
+
+### Article-Local Map and Terrain Figures
+
+Carry forward the landscape from *Vision and Values*, now focusing on
+representations, observations, actions, and consequences. Develop it through
+two article-local illustrations.
+
+Use a stable visual grammar across those illustrations: an input card for the
+supplied premise, branching routes for predicted continuations, a terrain marker
+for external observation, a traveler for action, and a consequence marker for
+the resulting effect or cost. Reuse an icon only when it still denotes the same
+part of the argument. Sections 1, 4, and 6 deliberately receive no standalone
+graph because their examples, checks, and closing practice already carry the
+reasoning in prose.
 
 | Illustration and placement | What it shows | Intended takeaway |
 | --- | --- | --- |
 | **A consistent map, a missing crossing**, after section 2 | Internally compatible routes, an observation that contradicts a claimed crossing, and the consequences for a traveler who acts on the map. | Coherence asks whether the map fits itself, correspondence whether it fits the terrain, and consequence what happens when someone relies on it. |
-| **Context changes the predicted route**, in section 3 | Candidate continuations before and after supplying a domain definition, with an external observation shown separately. | Context shapes prediction; confidence alone does not validate the supplied premise. |
 | **A route that survives use**, in section 5 | The import-mapping case from input definitions through candidate mappings, tests, domain review, customer results, and revised context. | Commercial value depends on evaluated outcomes and the cost of producing them. |
 
-Use Mermaid for the conceptual comparisons and flows. Label any toy probabilities
-as illustrative, avoid invented measurements, and distinguish rejection from
-revision in the feedback paths. Repeat the input/model/observation symbols and
-use captions to connect the metaphor to the actual domain. The compact series
-map is navigation, outside these three explanatory figures.
+Use Mermaid for the two article-local comparisons and flows. Keep any toy
+probabilities in the section 3 worked example explicitly illustrative, avoid
+invented measurements, and distinguish rejection from revision in feedback
+paths. Repeat the input/model/observation symbols only within the map-and-terrain
+figures; the shared motif keeps its existing icon grammar. The compact series
+map is navigation, outside these explanatory figures.
 
 ## Handoff
 
