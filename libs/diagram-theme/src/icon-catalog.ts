@@ -1,6 +1,6 @@
 /** Stable renderer keys, in inventory order. Legacy morpheme keys keep existing links working. */
 export const aiFactoryIconKinds = [
-  "truth", "coherence", "correspondence", "consequence", "vision", "meaning", "goal", "value",
+  "truth", "coherence", "correspondence", "consequence", "vision", "meaning", "goal", "opportunity", "solution", "experiment", "value",
   "morpheme-diffuse", "morpheme-refined", "term-of-art", "understanding", "inference", "bottleneck",
   "implementation", "automation", "ontology-node", "typed-relation", "disconnected", "operator",
   "text", "label", "token", "embedding", "slop-fault", "slop-drift", "slop-decay", "self", "others", "agents", "contact", "threshold", "trigger",
@@ -62,6 +62,21 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
     semanticRole: "concept", iconId: "goal", title: "Goal",
     definition: "A desired outcome that directs action and provides a reference for judging progress.",
     visualGrammar: "Gold crosshairs and a central circle sit within a larger dotted boundary, identifying a target.",
+  },
+  opportunity: {
+    semanticRole: "concept", iconId: "opportunity", title: "Opportunity",
+    definition: "A need, opening, or possibility worth exploring in pursuit of a goal.",
+    visualGrammar: "A neutral stem branches upward toward three open possibility circles, with the central circle highlighted in gold. The branches illustrate alternatives, not a fixed count or a proven opportunity.",
+  },
+  solution: {
+    semanticRole: "concept", iconId: "solution", title: "Solution",
+    definition: "A proposed intervention intended to address an opportunity and advance a goal.",
+    visualGrammar: "A gold outlined diamond sits between two neutral endpoint dots and short horizontal paths. Air gaps separate the intervention from the paths; the mark does not imply verified success.",
+  },
+  experiment: {
+    semanticRole: "evaluation", iconId: "experiment", title: "Experiment",
+    definition: "A bounded test of an assumption that produces observations to inform a decision.",
+    visualGrammar: "A neutral input rises from below and divides into two curved paths toward blue outlined observation circles. Their different sizes suggest contrasting observations, not quantitative results or a required two-arm trial.",
   },
   value: {
     semanticRole: "concept", iconId: "value", title: "Value", subheading: "Does it matter?",

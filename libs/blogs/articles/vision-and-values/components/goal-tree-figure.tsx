@@ -1,4 +1,5 @@
 import { ResponsiveDiagram, DiagramSummary } from "@th-m/blogs/components";
+import { AiFactoryIcon } from "@th-m/diagram-theme/icons";
 import "./goal-tree-figure.css";
 
 export function GoalTreeFigure() {
@@ -33,7 +34,7 @@ export function GoalTreeFigure() {
                     : undefined,
                 relation: ["", "opens an opportunity", "suggests a solution", "is tested by"][i],
                 focal: i === 0,
-                icon: i === 0 ? ("goal" as const) : undefined,
+                icon: node.tier,
               };
             })}
           />
@@ -47,7 +48,7 @@ export function GoalTreeFigure() {
           >
             <svg
               className="goal-hierarchy__connections"
-              viewBox="0 0 1000 560"
+              viewBox="0 0 1000 600"
               preserveAspectRatio="none"
               aria-hidden="true"
             >
@@ -64,21 +65,21 @@ export function GoalTreeFigure() {
                   <path d="M 0 0 L 8 4 L 0 8 z" />
                 </marker>
               </defs>
-              <path d="M 590 100 V 136 M 335 136 H 840" />
+              <path d="M 590 120 V 150 M 335 150 H 840" />
               <path
-                d="M 335 136 V 166 M 590 136 V 166 M 840 136 V 166"
+                d="M 335 150 V 180 M 590 150 V 180 M 840 150 V 180"
                 markerEnd="url(#goal-hierarchy-arrow)"
               />
 
-              <path d="M 335 234 V 286 M 250 286 H 420" />
+              <path d="M 335 268 V 298 M 250 298 H 420" />
               <path
-                d="M 250 286 V 316 M 420 286 V 316 M 590 234 V 316 M 840 234 V 316"
+                d="M 250 298 V 330 M 420 298 V 330 M 590 268 V 330 M 840 268 V 330"
                 markerEnd="url(#goal-hierarchy-arrow)"
               />
 
-              <path d="M 250 384 V 436 M 180 436 H 340" />
+              <path d="M 250 418 V 448 M 200 448 H 360" />
               <path
-                d="M 180 436 V 466 M 340 436 V 466 M 840 384 V 466"
+                d="M 200 448 V 480 M 360 448 V 480 M 840 418 V 480"
                 markerEnd="url(#goal-hierarchy-arrow)"
               />
             </svg>
@@ -97,7 +98,9 @@ export function GoalTreeFigure() {
                 key={node.id}
                 className={`goal-hierarchy__node goal-hierarchy__node--${node.tier} goal-hierarchy__node--${node.id}`}
               >
-                <span>{node.tier === "goal" ? "Root" : node.tier}</span>
+                <span className="goal-hierarchy__icon" aria-hidden="true">
+                  <AiFactoryIcon kind={node.tier} />
+                </span>
                 <strong>{node.label}</strong>
               </div>
             ))}

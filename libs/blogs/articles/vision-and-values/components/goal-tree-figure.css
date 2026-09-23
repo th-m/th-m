@@ -1,4 +1,4 @@
-@import "@th-m/diagram-theme/styles.css";
+@import "@th-m/diagram-theme/icons.css";
 .goal-hierarchy-figure {
   --goal-hierarchy-line: color-mix(in srgb, var(--color-primary) 62%, transparent);
   --goal-hierarchy-opportunity: var(--color-foreground-muted);
@@ -24,7 +24,7 @@
 .goal-hierarchy {
   position: relative;
   min-width: 720px;
-  height: 560px;
+  height: 600px;
   isolation: isolate;
 }
 
@@ -72,17 +72,17 @@
   text-transform: uppercase;
 }
 
-.goal-hierarchy__tier-label--goal { top: 57px; }
-.goal-hierarchy__tier-label--opportunities { top: 191px; }
-.goal-hierarchy__tier-label--solutions { top: 341px; }
-.goal-hierarchy__tier-label--experiments { top: 491px; }
+.goal-hierarchy__tier-label--goal { top: 70px; }
+.goal-hierarchy__tier-label--opportunities { top: 218px; }
+.goal-hierarchy__tier-label--solutions { top: 368px; }
+.goal-hierarchy__tier-label--experiments { top: 518px; }
 
 .goal-hierarchy__node {
   position: absolute;
   display: grid;
   align-content: center;
-  gap: 5px;
-  min-height: 68px;
+  gap: 4px;
+  height: 88px;
   padding: 10px;
   transform: translateX(-50%);
   border: 1px solid currentColor;
@@ -92,13 +92,10 @@
   text-align: left;
 }
 
-.goal-hierarchy__node > span {
-  color: currentColor;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.13em;
-  line-height: 1;
-  text-transform: uppercase;
+.goal-hierarchy__icon {
+  display: block;
+  width: 32px;
+  height: 32px;
 }
 
 .goal-hierarchy__node > strong {
@@ -118,19 +115,19 @@
 }
 
 .goal-hierarchy__node--opportunity {
-  top: 166px;
+  top: 180px;
   width: 20%;
   color: var(--goal-hierarchy-opportunity);
 }
 
 .goal-hierarchy__node--solution {
-  top: 316px;
+  top: 330px;
   width: 15%;
   color: var(--goal-hierarchy-solution);
 }
 
 .goal-hierarchy__node--experiment {
-  top: 466px;
+  top: 480px;
   width: 14%;
   color: var(--goal-hierarchy-experiment);
 }
@@ -142,8 +139,8 @@
 .goal-hierarchy__node--s2 { left: 42%; }
 .goal-hierarchy__node--s3 { left: 59%; }
 .goal-hierarchy__node--s4 { left: 84%; }
-.goal-hierarchy__node--e1 { left: 18%; }
-.goal-hierarchy__node--e2 { left: 34%; }
+.goal-hierarchy__node--e1 { left: 20%; }
+.goal-hierarchy__node--e2 { left: 36%; }
 .goal-hierarchy__node--e3 { left: 84%; }
 
 @media (max-width: 760px) {

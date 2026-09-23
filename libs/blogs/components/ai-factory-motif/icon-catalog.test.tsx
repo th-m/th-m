@@ -7,10 +7,10 @@ afterEach(cleanup);
 
 describe("AI Factory icon field contract", () => {
   it("covers every existing glyph once with unique public IDs and complete, separate notes", () => {
-    expect(aiFactoryIconKinds).toHaveLength(39);
-    expect(new Set(aiFactoryIconKinds).size).toBe(39);
+    expect(aiFactoryIconKinds).toHaveLength(42);
+    expect(new Set(aiFactoryIconKinds).size).toBe(42);
     expect(Object.keys(aiFactoryIconCatalog)).toEqual([...aiFactoryIconKinds]);
-    expect(new Set(Object.values(aiFactoryIconCatalog).map(icon => icon.iconId)).size).toBe(39);
+    expect(new Set(Object.values(aiFactoryIconCatalog).map(icon => icon.iconId)).size).toBe(42);
     for (const icon of Object.values(aiFactoryIconCatalog)) {
       expect(icon.iconId).toMatch(/^[a-z]+(?:-[a-z]+)*$/);
       for (const field of [icon.semanticRole, icon.title, icon.definition, icon.visualGrammar]) {

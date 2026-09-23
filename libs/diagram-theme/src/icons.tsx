@@ -192,6 +192,23 @@ export function AiFactoryIconGlyph({ kind }: { kind: AiFactoryIconKind }) {
         <circle className="ai-factory-icon__graph-context-node" cx="124" cy="116" r="7" />
       </> : null}
       {kind === "goal" ? <><IconMorpheme showCenter={false} /><VisionGlyph /></> : null}
+      {kind === "opportunity" ? <>
+        <path className="ai-factory-icon__opportunity-branches" d="M80 136V42M80 104L36 72V60M80 104L124 72V60" />
+        <circle className="ai-factory-icon__opportunity-possibility" cx="36" cy="48" r="9" />
+        <circle className="ai-factory-icon__opportunity-possibility ai-factory-icon__opportunity-possibility--focus" cx="80" cy="30" r="10" />
+        <circle className="ai-factory-icon__opportunity-possibility" cx="124" cy="48" r="9" />
+      </> : null}
+      {kind === "solution" ? <>
+        <path className="ai-factory-icon__solution-path" d="M30 80H58M102 80H130" />
+        <circle className="ai-factory-icon__solution-endpoint" cx="20" cy="80" r="5" />
+        <path className="ai-factory-icon__solution-intervention" d="M80 62L98 80L80 98L62 80Z" />
+        <circle className="ai-factory-icon__solution-endpoint" cx="140" cy="80" r="5" />
+      </> : null}
+      {kind === "experiment" ? <>
+        <path className="ai-factory-icon__experiment-path" d="M80 136V112C80 86 44 84 44 56M80 112C80 86 116 84 116 58" />
+        <circle className="ai-factory-icon__experiment-observation" cx="44" cy="42" r="10" />
+        <circle className="ai-factory-icon__experiment-observation" cx="116" cy="36" r="18" />
+      </> : null}
       {kind === "meaning" ? <><circle className="ai-factory-icon__meaning-core" cx="80" cy="80" r="5" /><circle className="ai-factory-icon__meaning-boundary" cx="80" cy="80" r="32" /><path className="ai-factory-icon__meaning-edge ai-factory-icon__meaning-edge--diagonal" d="M43 43L58 58M102 102L117 117M117 43L102 58M58 102L43 117" /></> : null}
       {kind === "inference" ? <>
         <path className="ai-factory-icon__inference-path" d="M44 80H58M58 50V110M58 50H80M58 110H80" />

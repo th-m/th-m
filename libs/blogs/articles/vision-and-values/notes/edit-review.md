@@ -145,3 +145,25 @@ unchanged. Inspected the opening and engagement passage at 1280 px and 390 px;
 the quote leads, the corrected anecdote renders, both disconnect motifs remain
 available, and there is no page overflow. Restarted the local preview to serve
 the rebuilt article rather than its previously loaded server bundle.
+
+## Goal hierarchy icon selection — 2026-09-23
+
+Baseline: [13d4ccc](https://github.com/th-m/th-m/commit/13d4ccc5fef7f4806482f93386815cb73158cb9a),
+verified on the remote working branch before editing.
+
+Thom selected the mixed icon family: the existing Goal target; Opportunity's
+three upward branches with one gold possibility; Solution's gold intervention
+diamond between neutral endpoints; and Experiment's two blue observations,
+rotated to flow upward. Added the three new concepts to diagram-theme's catalog
+and canonical glyphs so inventory, live figures, and exports agree. Blue denotes
+observations rather than a successful test; counts and circle sizes are illustrative.
+
+Each hierarchy card uses its stage icon above the title, replacing redundant
+node-type text while retaining the row labels. Increased row clearance for the
+icons and moved the first two experiment cards clear of the row label. The
+compact mobile path uses the same four glyphs. Existing prose, goal choices,
+and graph relationships are unchanged.
+
+Verification: owner typechecks and tests, blogs/portfolio publication, and both
+diagram export engines. Visual review covers the selected glyph geometry,
+160px/48px/32px exports, the desktop tree, and mobile summary/full-view behavior.
