@@ -50,7 +50,7 @@ const motifs: Array<{
     variant: "token-economics",
     note: "The production question: how much time goes in, and how much verified value comes out?",
     context: "Treat token transformation, input-preparation time, and verified output value as three separate views. Combining them into one production line hides the question each measure answers.",
-    followUp: "ontology-of-terms",
+    followUps: ["ontology-of-terms"],
   },
   {
     index: "05",
