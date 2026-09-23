@@ -1,288 +1,131 @@
 # Cognitive Factory
 
-## Editorial Status
-
-This workspace was renamed from *The Factory — Strategy* when the series was
-restructured: the strategy content moved into *The Knowledge Factory*, and this
-article became the factory's cognition — graph context, executable context,
-the compounding loop, the cognitive light cone scorecard, and a diagnostic
-build order. The outline below is the retired strategy outline, retained as
-source material. It evolves the former “Moats in the AI Era” outline into the
-second factory deep dive; the useful moat material remains as a consequence of
-strong strategy and compounding feedback rather than the article's organizing
-subject.
-
-## Overview
-
-Strategy is a human art. It chooses a direction before the evidence can fully
-determine the answer. It creates a narrative about the world, develops deep
-empathy for a customer, competes for scarce opportunities, coordinates allies,
-and accepts tradeoffs for which people remain accountable.
-
-AI can accelerate research, generate options, simulate reactions, and expose
-inconsistencies. It cannot independently decide which future an organization
-should attempt to create or whose outcome should count. A knowledge factory
-therefore needs a strategy discipline that keeps human judgment central while
-making its evidence and feedback substantially more systematic.
-
-The central tool is an organizational **second brain**: not a warehouse of
-notes, but a living memory linking narratives, assumptions, customer evidence,
-decisions, experiments, relationships, and outcomes. Its purpose is to make
-strategy more learnable without pretending to automate the art.
-
-## Working Subtitle
-
-**Systematize the feedback. Do not automate away the judgment.**
-
-## Core Thesis
-
-The factory's ontology describes the world it can recognize. Strategy chooses
-where in that world to act, which change to pursue, how to earn the cooperation
-required, and which risks to accept.
-
-Organizations can improve and accelerate strategy by building feedback systems
-that preserve customer empathy, adversarial awareness, diplomatic relationships,
-decision provenance, and learning over time. These systems should make human
-strategists better informed and more corrigible—not replace them with a stream
-of plausible recommendations.
-
-## Relationship to the Series
-
-This is the sixth essay and the strategic companion to **The Factory —
-Ontology**:
-
-- Ontology asks: **What exists here, how does it relate, and what can we know?**
-- Strategy asks: **What future should we pursue, with whom, against what
-  resistance, and at what cost?**
-
-Together they supply semantic coherence and purposeful direction to **The
-Knowledge Factory**.
-
-## Intended Reader
+## Role in the Series
 
-Founders, executives, product and engineering leaders, strategists, and senior
-individual contributors responsible for choosing direction under uncertainty.
-
-## Key Terms
-
-- **Strategy:** a coherent set of choices about a desired future, the obstacles
-  and opportunities between here and there, and the coordinated actions used to
-  change the situation.
-- **Narrative:** a causal interpretation connecting present conditions, actors,
-  stakes, possible change, and a believable path forward.
-- **Adversarial opportunism:** recognizing competition, incentives, conflict,
-  timing, and ways other actors may resist or exploit a move.
-- **Diplomatic opportunism:** creating value through trust, coalition,
-  negotiation, distribution, partnership, and aligned incentives.
-- **Second brain:** a maintained organizational memory that connects strategic
-  beliefs and decisions to evidence, owners, experiments, and outcomes.
+**Question:** How does the factory sense, decide, act, and learn without turning
+automation into ungoverned autonomy?
 
-## Editorial Guardrails
+**Thesis:** A cognitive factory is a closed control loop. It converts typed
+signals into hypotheses, bounded decisions, inspectable agent work, evaluated
+outcomes, and retained learning. Automation becomes trustworthy when every
+transition has evidence, authority, and a path to revision.
 
-- Do not equate strategy with a plan, backlog, goal, prediction, or generated
-  market analysis.
-- Do not romanticize human strategists. They are vulnerable to narrative bias,
-  status, incentives, selective memory, and confirmation.
-- “Adversarial” does not mean reckless aggression. It means taking competing
-  interests, countermoves, and power seriously.
-- “Diplomatic” does not mean avoiding conflict. It means understanding that many
-  opportunities require cooperation, legitimacy, and durable relationships.
-- Do not call a document repository a second brain unless it supports retrieval,
-  relationships, revision, and feedback.
-- Preserve uncertainty and minority views instead of rewriting strategic history
-  after an outcome is known.
+## Audience
 
-## Section Notes
+Teams connecting product analytics, operational telemetry, issue systems, and
+agents into automated or semi-automated workflows.
 
-### 1. Strategy Begins Where the Answer Stops Being Deducible
+## Outline
 
-Open with a well-instrumented company facing several plausible directions. It
-has market data, customer interviews, competitive analysis, prototypes, and AI-
-generated recommendations. None of them can deductively choose the future.
+### 1. Cognition Is a Process, Not a Chat Window
 
-Strategy begins when evidence constrains but does not determine action. Someone
-must interpret the situation, imagine a change, choose a wager, and accept
-responsibility for the consequences.
+Use one loop for the whole article:
 
-### 2. Narrative Is a Causal Tool
+> signal → trigger → hypothesis → decision → agent DAG → action → evaluation → memory
 
-A strategy needs a narrative because coordinated action depends on an account
-of:
+The system is cognitive only if consequences can change what it does next. A
+one-way generation pipeline is automation without learning.
 
-- what is changing;
-- why the current situation persists;
-- who experiences the problem and why it matters;
-- which actors can enable or resist change;
-- what intervention could alter the system; and
-- why this organization can credibly pursue it.
+### 2. Signals Become Typed Events
 
-The narrative is not branding varnish. It is a causal model expressed in a form
-people can remember, challenge, and use to coordinate.
+Sensors may include PostHog behavior, Sentry errors, CloudWatch metrics, support
+conversations, repository changes, and Linear work state.
 
-AI can generate many narratives. Human strategists must test which one explains
-the evidence, preserves inconvenient details, and motivates an ethically and
-economically viable direction.
+Raw events are not decisions. Normalize them into typed observations with:
 
-### 3. Deep Customer Empathy Defines the Stakes
+- source, time, and provenance;
+- affected entity and bounded context;
+- severity, confidence, and corroborating signals;
+- owner and permitted next actions; and
+- expiry or conditions for re-evaluation.
 
-Strategy must remain close to customers because a market category or metric
-cannot fully specify value. Deep empathy means understanding the customer's
-workflow, identity, incentives, fears, compromises, relationships, and cost of
-change.
+### 3. A Trigger Opens a Hypothesis
 
-It also means understanding non-consumption, exclusion, and the people who bear
-costs without becoming the buyer.
+A threshold or pattern should create an investigable claim, not declare a
+diagnosis. The factory asks what else would have to be true and which evidence
+would discriminate among explanations.
 
-Systematize this contact through longitudinal research, support and sales loops,
-field observation, customer councils, win/loss review, and post-release follow-
-up. The purpose is not to outsource the decision to customers; it is to keep the
-strategic narrative accountable to lived conditions.
-
-### 4. Adversarial Opportunism
+This prevents a PostHog drop, error spike, or backlog change from directly
+authorizing a code change.
 
-Every strategic move changes another actor's options. Examine:
-
-- competitors and substitutes;
-- suppliers, platforms, and regulators;
-- internal incentives and political constraints;
-- likely countermoves;
-- scarce timing windows;
-- asymmetries the organization can exploit; and
-- ways success could attract imitation or dependency.
+### 4. Decisions Must Be Bounded and Typed
 
-AI can enumerate games and scenarios, but adversarial judgment depends on local
-knowledge, credibility, risk tolerance, and an understanding of what other
-people actually value.
-
-### 5. Diplomatic Opportunism
-
-Many advantages are earned through relationships rather than defeated rivals:
-
-- partnerships and distribution;
-- standards and ecosystems;
-- customer trust;
-- community legitimacy;
-- internal coalitions;
-- negotiated access and permissions; and
-- incentives that let several parties benefit from the same move.
-
-Diplomatic strategy asks not only “How do we win?” but “What arrangement makes
-others willing to help this future exist?”
-
-### 6. Systematize the Feedback System
-
-Strategy improves when the factory records the loop rather than only the final
-plan:
-
-> Evidence → interpretation → assumption → choice → action → response → outcome
-> → revised interpretation.
-
-For each consequential choice, retain:
-
-- the narrative and expected causal mechanism;
-- supporting and contradictory evidence;
-- assumptions and confidence;
-- alternatives considered and rejected;
-- owners and decision rights;
-- leading indicators and disconfirming signals;
-- observed customer, competitor, partner, and system responses; and
-- the revision made after learning.
-
-This turns strategy from periodic theater into an ongoing learning discipline.
-
-### 7. The Organizational Second Brain
-
-Define the second brain by capability rather than software category. It should
-let a strategist ask:
-
-- Why did we believe this market was changing?
-- Which customer observations support that belief?
-- Which decisions depend on it?
-- What did we predict competitors would do?
-- Which partnerships or relationships are material?
-- What evidence would cause us to stop?
-- Where did an earlier strategy fail, and what did we learn?
-
-The system should connect notes, research, domain concepts, people, decisions,
-experiments, metrics, and outcomes through graph context. Search retrieves
-documents; a second brain reconstructs the reasoning and relationships needed
-for a decision.
-
-### 8. AI as Strategic Staff, Not Sovereign
-
-Use AI to:
-
-- synthesize evidence with provenance;
-- generate competing interpretations;
-- red-team assumptions and narratives;
-- model scenarios and countermoves;
-- identify missing stakeholders;
-- compare a current choice with prior decisions;
-- monitor signals tied to explicit hypotheses; and
-- prepare decision reviews.
-
-Do not ask AI for “the strategy” and mistake a coherent genre performance for
-an independent choice. Require alternatives, uncertainty, source separation,
-and explicit tests of the prompt's preferred framing.
-
-### 9. Defensibility Is the Residue of a Learning System
-
-Carry forward the strongest material from the moats outline. Durable advantage
-can emerge from:
-
-- scarce domain knowledge;
-- proprietary or permissioned data;
-- ontology and proprietary logic;
-- rights and privileged access;
-- brand, relationships, distribution, and trust;
-- infrastructure and capital;
-- network effects; and
-- feedback loops that improve the system through use.
-
-These are not a checklist of possessions. They become moats when strategy links
-them into a system that repeatedly creates customer value and becomes difficult
-to reproduce.
-
-### 10. Strategic Cadence for the Factory
-
-Offer a practical rhythm:
-
-1. Maintain a small set of explicit strategic hypotheses.
-2. Link work and evidence to those hypotheses.
-3. Review leading signals without erasing qualitative customer evidence.
-4. Run adversarial and diplomatic reviews before major commitments.
-5. Record predictions and stop conditions before outcomes are known.
-6. Revisit the narrative when evidence changes.
-7. Promote validated learning into ontology, evaluation, workflow, or resource
-   allocation.
-
-The cadence accelerates learning while leaving final choices with accountable
-humans.
-
-## Visual Notes
-
-1. **Ontology and strategy:** ontology maps the possible world; strategy draws a
-   path through it; outcomes revise both.
-2. **Strategic feedback loop:** evidence → narrative → choice → response →
-   learning.
-3. **Second-brain context graph:** hypothesis linked to customers, evidence,
-   decisions, actors, experiments, metrics, and outcomes.
-4. **Adversarial and diplomatic opportunity:** competition and coalition as two
-   complementary views of the same landscape.
-
-## Research Queue
-
-- Strategy as choice under uncertainty and as a coherent system of activities.
-- Sensemaking, narrative, and organizational decision-making.
-- Adversarial reasoning, game theory, negotiation, coalition, and ecosystem
-  strategy.
-- Customer empathy and longitudinal discovery practices.
-- Decision journals, forecasting, after-action review, and organizational
-  memory.
-- Evidence on AI-supported strategic work, sycophancy, order effects, and
-  scenario generation.
-
-## Candidate Closing Line
-
-> The factory can remember more, simulate more, and learn faster. Strategy still
-> begins when a person decides which future is worth making real.
+Use Jev as the example of a decision primitive: return an explicit choice and
+scores within a bounded set, then let software-controlled policy decide whether
+to proceed, request review, or abstain.
+
+Keep the distinction between model judgment and system authority. The model can
+rank or classify; permissions, thresholds, escalation, and side effects remain
+owned by the surrounding system.
+
+### 5. Agent DAGs Make Execution Inspectable
+
+Represent work as a directed acyclic graph of scoped tasks rather than one
+unbounded agent run.
+
+Each node should name:
+
+- inputs and expected outputs;
+- tools and permissions;
+- acceptance checks;
+- dependencies and integration owner;
+- retry, rollback, and stop conditions; and
+- evidence retained for the final decision.
+
+The DAG exposes where judgment enters and prevents parallel work from hiding an
+unowned integration step.
+
+### 6. The PostHog-to-Linear Learning Loop
+
+Use one end-to-end case rather than a catalog:
+
+1. PostHog detects a meaningful change in a customer journey.
+2. The event opens a hypothesis with supporting and contradicting evidence.
+3. A bounded decision determines whether to investigate, experiment, or abstain.
+4. Linear records owned work and its relation to the hypothesis.
+5. An agent DAG researches, implements, tests, and prepares the change.
+6. Product and operational signals evaluate the release.
+7. The result updates the hypothesis, ontology, evaluation, or procedure.
+
+“Self-driving” should mean this governed loop, not unattended code deployment.
+
+### 7. Compound Learning, Not Just Activity
+
+The factory should remember why a trigger mattered, what decision was made,
+which evidence supported it, what changed, and whether the expected consequence
+occurred.
+
+Measure improvement in capability, learning speed, customer outcomes, and
+reduced rework—not ticket count, agent activity, or output tokens alone.
+
+Humans retain responsibility for goals, authority boundaries, contested
+tradeoffs, and exceptions whose consequences exceed the automation's mandate.
+
+## Keep from the Existing Material
+
+- Operational perception and control.
+- “A trigger should open a hypothesis, not declare a diagnosis.”
+- Jev as a typed, bounded decision primitive.
+- Agent DAGs and explicit control points.
+- PostHog, Linear, and runtime telemetry as one closed example.
+- The compounding loop and cognitive light-cone idea, compressed into the final
+  evaluation and governance section.
+
+Retire the old strategy outline. Vision and strategic authority belong in
+*Vision and Values*; this article owns the mechanics of sensing, deciding,
+executing, and learning.
+
+## Research Obligations
+
+- Verify Jev's current documented interface and avoid implying unproven
+  reliability.
+- Cite PostHog and Linear capabilities from their documentation; label the
+  end-to-end self-driving loop as a proposed architecture unless implemented.
+- Distinguish DAG orchestration from model reasoning and from organizational
+  decision rights.
+
+## Series Close
+
+Vision chooses the direction. Truth checks the claims. Understanding sets the
+boundary for action. The knowledge factory optimizes the work. Ontology supplies
+the map. The cognitive factory closes the loop.
