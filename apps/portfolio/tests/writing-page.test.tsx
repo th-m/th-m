@@ -117,7 +117,7 @@ describe("ArticleContent MDX rendering", () => {
       </ToolDrawerProvider>,
     );
 
-    expect(screen.getByText("Optimize this plan and fill any gaps.").closest("blockquote"))
+    expect(screen.getByText("Optimize this plan and fill all gaps.").closest("blockquote"))
       .toBeInTheDocument();
     const openingQuote = screen.getByText("“So, the cost of the average just went to zero and so did its value.”");
     expect(openingQuote.tagName).toBe("STRONG");
