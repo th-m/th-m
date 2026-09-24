@@ -1,10 +1,11 @@
 @import "./styles.css";
+.ai-factory-visual-language, .ai-factory-icon { --ai-factory-stroke-open: 1 4; }
 .ai-factory-icon { display: block; width: 100%; height: auto; color: var(--color-foreground-muted); }
 .ai-factory-icon--automation { overflow: visible; }
 .ai-factory-icon__disconnected-ends { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
 .ai-factory-icon__disconnected-mark { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
 .ai-factory-icon path, .ai-factory-icon rect, .ai-factory-icon circle { vector-effect: non-scaling-stroke; }
-.ai-factory-icon marker path { fill: var(--color-foreground-subtle); stroke: none; }
+.ai-factory-icon marker path { fill: var(--color-foreground-subtle); stroke: none; stroke-dasharray: none; }
 .ai-factory-icon marker .ai-factory-icon__arrowhead--outline { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; stroke-linejoin: miter; }
 .ai-factory-icon--automation marker .ai-factory-icon__arrowhead--outline { stroke: var(--color-primary); }
 .ai-factory-icon__vision-center { fill: color-mix(in srgb, var(--color-foreground-muted) 18%, var(--color-surface)); stroke: var(--color-foreground-muted); stroke-width: 1; }
@@ -14,14 +15,13 @@
 .ai-factory-icon--goal .ai-factory-icon__vision-edge,
 .ai-factory-icon--goal .ai-factory-icon__morpheme { stroke: var(--color-primary); }
 .ai-factory-icon--goal .ai-factory-icon__vision-center { fill: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)); }
-.ai-factory-icon__meaning-edge { stroke: var(--color-primary); }.ai-factory-icon__meaning-boundary { fill: none; stroke: color-mix(in srgb, var(--color-primary) 70%, var(--color-foreground-muted)); stroke-dasharray: 2 4; }
-.ai-factory-icon__meaning-edge--diagonal, .ai-factory-icon__understanding-edge--diagonal { stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__meaning-edge { stroke: var(--color-primary); }.ai-factory-icon__meaning-boundary { fill: none; stroke: color-mix(in srgb, var(--color-primary) 70%, var(--color-foreground-muted)); }
 .ai-factory-icon__truth-triangle { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; stroke-linejoin: miter; }
 .ai-factory-icon--correspondence .ai-factory-icon__truth-vertex { stroke: var(--color-info); }
-.ai-factory-icon__truth-triangle--dotted { stroke: var(--color-info); stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__truth-triangle--dotted { stroke: var(--color-foreground-muted); }
 .ai-factory-icon__truth-vertex { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__coherence-spokes,
-.ai-factory-icon__consequence-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__consequence-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }
 .ai-factory-icon__coherence-center { fill: var(--color-info); }
 .ai-factory-icon__consequence-outcome { fill: var(--color-info); }
 .ai-factory-icon__opportunity-branches,
@@ -36,7 +36,6 @@
 .ai-factory-icon__inference-path { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__self-dot { fill: var(--color-primary); stroke: none; }
 .ai-factory-icon__trigger-line, .ai-factory-icon__trigger-boundary { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
-.ai-factory-icon__trigger-boundary { stroke-dasharray: 2 4; }
 .ai-factory-icon__trigger-active { fill: none; stroke: var(--color-primary); stroke-width: 1.2; }
 .ai-factory-icon__others-dot { fill: var(--color-foreground-muted); stroke: none; }
 .ai-factory-icon__agent { fill: var(--color-foreground-muted); stroke: none; }
@@ -44,7 +43,7 @@
 .ai-factory-icon__inference-candidate { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__inference-output { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__inference-continuation--focus { stroke: var(--color-primary); }
-.ai-factory-icon__morpheme { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; stroke-dasharray: 3 5; opacity: .8; }.ai-factory-icon__morpheme--refined { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke-dasharray: none; stroke-width: 1.2; }
+.ai-factory-icon__morpheme { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; opacity: .8; }.ai-factory-icon__morpheme--refined { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke-width: 1.2; }
 .ai-factory-icon__text-line { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1; }.ai-factory-icon__text-highlight { fill: color-mix(in srgb, var(--color-foreground-muted) 20%, var(--color-surface)); stroke: var(--color-foreground-muted); stroke-width: 1; }
 .ai-factory-icon__token-segment { fill: color-mix(in srgb, var(--color-foreground-muted) 10%, var(--color-surface)); stroke: none; }
 .ai-factory-icon__token-segment--two { fill: color-mix(in srgb, var(--color-foreground-muted) 30%, var(--color-surface)); }
@@ -58,12 +57,11 @@
 .ai-factory-icon__understanding-boundary { fill: color-mix(in srgb, var(--color-primary) 10%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }
 .ai-factory-icon__bottleneck-boundary, .ai-factory-icon__bottleneck-flow, .ai-factory-icon__bottleneck-throat { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__bottleneck-input { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
-.ai-factory-icon__bottleneck-output { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; stroke-dasharray: 1 4; stroke-linecap: round; }
+.ai-factory-icon__bottleneck-output { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__implementation-boundary { fill: color-mix(in srgb, var(--color-foreground-muted) 8%, transparent); stroke: var(--color-foreground-muted); stroke-width: 1.2; }
 .ai-factory-icon__implementation-core { fill: color-mix(in srgb, var(--color-foreground-muted) 28%, var(--color-surface)); }
 .ai-factory-icon__action-vector { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.4; }
 .ai-factory-icon__automation-understanding-edge { fill: none; stroke: var(--color-primary); stroke-width: 1; }
-.ai-factory-icon__automation-understanding-edge--diagonal { stroke-dasharray: 1 4; stroke-linecap: round; }
 .ai-factory-icon__automation-understanding-boundary { fill: color-mix(in srgb, var(--color-primary) 10%, transparent); stroke: var(--color-primary); stroke-width: 1.2; }
 .ai-factory-icon__automation-understanding-center { fill: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)); stroke: var(--color-primary); stroke-width: 1; }
 .ai-factory-icon__automation-action { fill: none; stroke: var(--color-foreground-muted); stroke-width: 1.2; }
@@ -100,6 +98,42 @@
 .ai-factory-icon__graph-context-node { fill: var(--color-surface); stroke: var(--color-foreground-muted); stroke-width: 1; }
 .ai-factory-icon__graph-context-node--center, .ai-factory-icon__graph-context-node--source { fill: color-mix(in srgb, var(--color-info) 12%, var(--color-surface)); stroke: var(--color-info); }
 .ai-factory-icon__graph-context-node--reference { fill: var(--color-info); stroke: none; }
+
+/* Open boundaries and paths of exploration, transition, or return share one rhythm.
+ * Keep the modifier on the path: arrowheads and text spans remain solid. */
+.ai-factory-icon__morpheme:not(.ai-factory-icon__morpheme--refined),
+.ai-factory-icon__meaning-boundary,
+.ai-factory-icon__meaning-edge--diagonal,
+.ai-factory-icon__understanding-edge--diagonal,
+.ai-factory-icon__automation-understanding-edge--diagonal,
+.ai-factory-icon__truth-triangle--dotted,
+.ai-factory-icon__consequence-path,
+.ai-factory-icon__opportunity-branches,
+.ai-factory-icon__experiment-path,
+.ai-factory-icon__inference-path,
+.ai-factory-icon__bottleneck-flow,
+.ai-factory-icon--implementation .ai-factory-icon__action-vector,
+.ai-factory-icon--contact .ai-factory-icon__trigger-line,
+.ai-factory-icon--contact .ai-factory-icon__trigger-active,
+.ai-factory-icon--threshold .ai-factory-icon__trigger-line,
+.ai-factory-icon--threshold .ai-factory-icon__trigger-active,
+.ai-factory-icon__shared-capital-return,
+.ai-factory-icon__solutioning-loop {
+  stroke-dasharray: var(--ai-factory-stroke-open);
+  stroke-linecap: round;
+}
+
+/* Defined structure remains continuous, including automated execution. */
+.ai-factory-icon__coherence-spokes,
+.ai-factory-icon__trigger-boundary,
+.ai-factory-icon__bottleneck-output,
+.ai-factory-icon__morpheme--refined,
+.ai-factory-icon--automation .ai-factory-icon__action-vector,
+.ai-factory-icon__automation-action {
+  stroke-dasharray: none;
+}
+.ai-factory-icon--automation .ai-factory-icon__action-vector { stroke: var(--color-primary); }
+.ai-factory-icon--shared-capital marker path { fill: var(--color-primary); }
 
 
 .ai-factory-motif__connector-label text,

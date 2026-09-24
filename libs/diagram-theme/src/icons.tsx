@@ -212,8 +212,8 @@ export function AiFactoryIconGlyph({ kind }: { kind: AiFactoryIconKind }) {
       {kind === "inference" ? <>
         <path className="ai-factory-icon__inference-path" d="M44 80H58M58 50V110M58 50H80M58 110H80" />
         <circle className="ai-factory-icon__inference-junction" cx="28" cy="80" r="8" />
-        <circle className="ai-factory-icon__inference-candidate" cx="92" cy="50" r="9" />
-        <circle className="ai-factory-icon__inference-candidate" cx="92" cy="110" r="9" />
+        <path className="ai-factory-icon__inference-candidate" d="M92 39L101.5 55.5H82.5Z" />
+        <path className="ai-factory-icon__inference-candidate" d="M92 99L101.5 115.5H82.5Z" />
         {[38, 62, 98, 122].map((y, index) => (
           <g key={y} className="ai-factory-icon__inference-output">
             <path d={`M110 ${y}H120`} />

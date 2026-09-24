@@ -1,4 +1,4 @@
-/** Stable renderer keys, in inventory order. Legacy morpheme keys keep existing links working. */
+/** Stable renderer keys, in inventory order. Legacy truth and morpheme keys keep existing links working. */
 export const aiFactoryIconKinds = [
   "truth", "coherence", "correspondence", "consequence", "vision", "meaning", "goal", "opportunity", "solution", "experiment", "value",
   "morpheme-diffuse", "morpheme-refined", "term-of-art", "understanding", "inference", "bottleneck",
@@ -29,14 +29,14 @@ export interface AiFactoryIconSpec {
 /** One source for inventory language and standalone icon accessibility. Geometry lives separately. */
 export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryIconSpec>> = {
   truth: {
-    semanticRole: "concept", iconId: "truth", title: "Truth",
-    definition: "What is the case, against which a claim or inference can be checked.",
-    visualGrammar: "A dotted blue triangle marks the reference for the three related evaluation glyphs; dots do not mean that truth itself is uncertain. Blue identifies the information and evaluation family, not a verified claim.",
+    semanticRole: "concept", iconId: "truthy", title: "Truthy",
+    definition: "The shared interface for Coherence, Correspondence, and Consequence: three ways of evaluating truth.",
+    visualGrammar: "A gray dotted triangle provides an open form for the three truth-evaluation glyphs. Its dotted boundary expresses flexibility; the neutral color leaves the specific evaluation to each related icon. It does not assert that a claim is true.",
   },
   coherence: {
     semanticRole: "evaluation", iconId: "coherence", title: "Coherence", subheading: "Does it fit?",
     definition: "Consistency among the claims and relationships within a system.",
-    visualGrammar: "A solid triangle connects its three corners to one blue center through dotted internal paths.",
+    visualGrammar: "A solid triangle connects its three corners to one blue center through solid internal paths. The continuous structure expresses parts holding together; blue identifies evaluation, not verified truth.",
   },
   correspondence: {
     semanticRole: "evaluation", iconId: "correspondence", title: "Correspondence", subheading: "Does it match?",
@@ -46,7 +46,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   consequence: {
     semanticRole: "evaluation", iconId: "consequence", title: "Consequence", subheading: "Does it work?",
     definition: "The outcome of an action, considered here as a test of whether it achieves its purpose.",
-    visualGrammar: "A right-facing triangle and dotted internal path converge on a blue outcome point.",
+    visualGrammar: "A solid right-facing triangle holds a dotted path toward a blue outcome point. The dotted path expresses transition; the triangle's orientation supplies direction, and blue identifies the informational outcome.",
   },
   vision: {
     semanticRole: "concept", iconId: "vision", title: "Vision",
@@ -56,27 +56,27 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   meaning: {
     semanticRole: "concept", iconId: "meaning", title: "Meaning",
     definition: "The significance an expression, experience, or action has in context.",
-    visualGrammar: "A gray center sits inside a dotted gold boundary with four dotted diagonal extensions.",
+    visualGrammar: "A gray instance sits inside a dotted gold boundary with four dotted diagonal extensions. The open boundary lets significance develop with context; gold marks meaning rather than certainty.",
   },
   goal: {
     semanticRole: "concept", iconId: "goal", title: "Goal",
     definition: "A desired outcome that directs action and provides a reference for judging progress.",
-    visualGrammar: "Gold crosshairs and a central circle sit within a larger dotted boundary, identifying a target.",
+    visualGrammar: "Solid gold crosshairs and a central circle give direction within a larger dotted boundary. The dotted boundary incentivizes movement toward the desired outcome; it does not imply an imprecise goal.",
   },
   opportunity: {
     semanticRole: "concept", iconId: "opportunity", title: "Opportunity",
     definition: "A path toward meaning or value: a possibility worth exploring in pursuit of a goal.",
-    visualGrammar: "A neutral input rises through the same two curved paths as Experiment, ending in equally sized outlined circles: gray on the left and gold on the right. Gold marks meaning or value; the branches depict possibilities, not guaranteed outcomes.",
+    visualGrammar: "A neutral input rises through two dotted curved paths, ending in equally sized solid-outline circles: gray on the left and gold on the right. Dots express exploration toward meaning or value; gold highlights significance without guaranteeing an outcome.",
   },
   solution: {
     semanticRole: "concept", iconId: "solution", title: "Solution",
     definition: "A proposed intervention intended to address an opportunity and advance a goal.",
-    visualGrammar: "A gold outlined diamond sits between two neutral endpoint dots and short horizontal paths. Air gaps separate the intervention from the paths; the mark does not imply verified success.",
+    visualGrammar: "A solid gold diamond outline sits between two neutral instance dots and short solid paths. The defined intervention has a place in the process; air gaps preserve its identity, and solidity does not imply verified success.",
   },
   experiment: {
     semanticRole: "evaluation", iconId: "experiment", title: "Experiment",
     definition: "A path toward information: a bounded test of an assumption that produces observations to inform a decision.",
-    visualGrammar: "A neutral input rises from below and divides into two curved paths toward equally sized outlined triangles: gray on the left and information blue on the right. The highlight distinguishes observations without implying success or a required two-arm trial.",
+    visualGrammar: "A neutral input rises through two dotted curved paths toward equally sized solid-outline triangles: gray on the left and information blue on the right. Dots express testing toward information; blue distinguishes observations without implying success or a required two-arm trial.",
   },
   value: {
     semanticRole: "concept", iconId: "value", title: "Value", subheading: "Does it matter?",
@@ -101,27 +101,27 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   understanding: {
     semanticRole: "situated state", iconId: "understanding", title: "Understanding",
     definition: "A situated working model that relates meaning to context, evidence, and stakes.",
-    visualGrammar: "A gold boundary and center combine with solid cardinal and dotted diagonal extensions to mark situated context.",
+    visualGrammar: "A solid gold boundary and center form a cohesive working understanding. Solid cardinal extensions express defined connections; dotted diagonal extensions keep it open to further context and revision.",
   },
   inference: {
     semanticRole: "process", iconId: "inference", title: "Inference",
     definition: "Drawing conclusions or predictions from premises, evidence, or learned patterns.",
-    visualGrammar: "One filled input branches to two outlined candidates and four text-like continuations. A gold segment emphasizes one possibility, not a verified conclusion. The counts illustrate expansion, not a required sampling procedure.",
+    visualGrammar: "One filled input branches along dotted paths to two equal outlined informational triangles and four solid text-like continuations. Dots express predictive expansion; a gold text segment selects one possibility without verifying it. The counts illustrate multiplication, not a required sampling procedure.",
   },
   bottleneck: {
     semanticRole: "constraint", iconId: "bottleneck", title: "Bottleneck",
     definition: "A limiting condition whose capacity restricts the flow or progress of a larger process.",
-    visualGrammar: "Three input paths meet a narrow gate; only the middle path reaches a dotted output circle.",
+    visualGrammar: "Three dotted input paths move toward a solid narrow gate; only the middle path reaches a solid-outline output instance. The gate defines the restriction while the dotted paths express movement through it.",
   },
   implementation: {
     semanticRole: "process", iconId: "implementation", title: "Implementation",
     definition: "Putting a plan, specification, or decision into concrete action or an artifact.",
-    visualGrammar: "A small bounded node extends into a directed line with an outlined arrowhead.",
+    visualGrammar: "A solid bounded source extends into a dotted path with a solid outlined arrowhead. Dots express the transition from intention into action or an artifact; the arrow supplies direction.",
   },
   automation: {
     semanticRole: "process", iconId: "automation", title: "Automation",
     definition: "Execution of a defined process by a system with reduced need for repeated human intervention.",
-    visualGrammar: "A gold source connects to a smaller gray execution node and gold outlined arrow. Its understanding-derived form expresses the preferred grounding, not a property of all automation.",
+    visualGrammar: "A gold source connects through solid paths to a smaller gray execution node and a gold outlined arrow. Solidity expresses an established mechanism even while work moves through it. The understanding-derived source expresses preferred grounding, not a property of all automation.",
   },
   "ontology-node": {
     semanticRole: "model entity", iconId: "ontology-node", title: "Ontology node",
@@ -131,7 +131,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   "typed-relation": {
     semanticRole: "relationship", iconId: "typed-relation", title: "Typed relation",
     definition: "A named connection that specifies how modeled concepts or entities are related.",
-    visualGrammar: "A framed label interrupts a directed edge. The empty specimen reserves space for the relationship name.",
+    visualGrammar: "A solid framed label interrupts a solid directed edge: a defined, named relationship. The empty specimen reserves space for its verb; the arrow supplies direction.",
   },
   disconnected: {
     semanticRole: "relationship state", iconId: "disconnected", title: "Disconnected",
@@ -146,7 +146,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   text: {
     semanticRole: "language representation", iconId: "text", title: "Text",
     definition: "Ordered written language that expresses meaning in a readable form.",
-    visualGrammar: "Three rows of separated horizontal strokes stand for ordered spans of writing, not exact words or tokens.",
+    visualGrammar: "Three rows of short solid strokes stand for ordered spans of writing. Spaces separate expressions; they do not turn text into a dotted movement path, and the counts are not exact words or tokens.",
   },
   label: {
     semanticRole: "language representation", iconId: "label", title: "Label",
@@ -176,7 +176,7 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   "slop-decay": {
     semanticRole: "model output", iconId: "slop-decay", title: "Decay", subheading: "Slop · Bad AI output",
     definition: "AI-generated output that loses coherence or usefulness as it continues.",
-    visualGrammar: "A solid output line breaks into progressively smaller red fragments, depicting a loss of coherence.",
+    visualGrammar: "A solid output line breaks into progressively smaller red fragments, depicting a loss of coherence. Irregular fragmentation and red distinguish damage from the regular dots used for openness or movement.",
   },
   self: {
     semanticRole: "participant", iconId: "self", title: "Self",
@@ -196,12 +196,12 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   contact: {
     semanticRole: "concept", iconId: "contact", title: "Contact",
     definition: "An event reaches an activation point.",
-    visualGrammar: "A muted incoming line meets a gold dot at a short vertical boundary. A gold continuation marks the resulting activation.",
+    visualGrammar: "A dotted muted incoming path reaches a gold event dot at a solid contact boundary. A dotted gold continuation expresses the resulting activation; the boundary stays defined while the event moves through it.",
   },
   threshold: {
     semanticRole: "constraint", iconId: "threshold", title: "Threshold",
     definition: "A boundary beyond which a condition becomes active.",
-    visualGrammar: "A muted line reaches a dotted vertical boundary, then steps upward into a gold active state.",
+    visualGrammar: "A dotted muted path reaches a solid vertical threshold, then steps upward along a dotted gold path into an active state. The threshold is defined; the paths express the transition across it.",
   },
   trigger: {
     semanticRole: "concept", iconId: "trigger", title: "Trigger",
@@ -211,27 +211,27 @@ export const aiFactoryIconCatalog: Readonly<Record<AiFactoryIconKind, AiFactoryI
   "knowledge-factory": {
     semanticRole: "system", iconId: "knowledge-factory", title: "Knowledge factory",
     definition: "The socio-technical system that transforms evidence, expertise, and intent into decisions and product outcomes.",
-    visualGrammar: "Three source points enter one bounded transformation system, converge on a gold decision diamond, and leave as two outcome points. Counts illustrate plurality rather than fixed inputs or outputs.",
+    visualGrammar: "Solid connections link three source instances through a solid system boundary and gold intervention diamond to two output instances. The lines describe established machinery; counts illustrate plurality rather than fixed inputs or outputs.",
   },
   "factory-worker": {
     semanticRole: "participant", iconId: "factory-worker", title: "Factory worker",
     definition: "A participant executing a bounded step designed by the larger system; the term describes a role, not talent or status.",
-    visualGrammar: "One gold participant point sits on a production rail immediately before one outlined work station, emphasizing execution within a bounded step.",
+    visualGrammar: "One gold participant dot sits on a solid production rail before a solid outlined work station. The continuous structure defines the participant's established place in a bounded process.",
   },
   "factory-engineer": {
     semanticRole: "participant", iconId: "factory-engineer", title: "Factory engineer",
     definition: "A participant who improves the reusable machinery, context, standards, and feedback loops through which many work items pass.",
-    visualGrammar: "One gold participant connects to a bracket surrounding three linked stations, marking responsibility for the whole production loop rather than one station.",
+    visualGrammar: "One gold participant connects through solid lines to a solid bracket surrounding three linked stations. The bracket marks established responsibility for the whole system rather than a moving feedback path.",
   },
   "shared-capital": {
     semanticRole: "resource", iconId: "shared-capital", title: "Shared capital",
     definition: "Reusable organizational assets that accumulate learning and increase future capability.",
-    visualGrammar: "Three offset asset layers form a persistent stack while a gold return path carries the lower layer back toward the top to signal reuse.",
+    visualGrammar: "Three solid offset asset layers form a persistent stack while a dotted gold return path carries the lower layer back toward the top. The layers express retained resources; the dotted arrow expresses reuse in motion.",
   },
   solutioning: {
     semanticRole: "process", iconId: "solutioning", title: "Solutioning",
     definition: "Framing, generating, testing, and revising interventions in response to a meaningful problem.",
-    visualGrammar: "Four corner states form a directed revision loop around a gold intervention diamond; the four points name the process here rather than imposing universal phases.",
+    visualGrammar: "Four solid-outline states form a dotted directed revision loop around a solid gold intervention diamond. Dots express iteration toward a solution; the four instances do not impose universal phases.",
   },
   "graph-context": {
     semanticRole: "model representation", iconId: "graph-context", title: "Graph context",

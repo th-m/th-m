@@ -1,5 +1,6 @@
 import { AiFactoryIcon, AiFactoryMotif, AiFactorySeriesMap, aiFactoryIconCatalog, aiFactoryIconKinds, type AiFactoryIconKind, type AiFactoryMotifVariant } from "@th-m/blogs/components";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { PrimitiveGuide } from "../motif-review/primitive-guide";
 
 export const Route = createFileRoute("/ai-factory-motif")({
   head: () => ({
@@ -74,7 +75,6 @@ const motifs: Array<{
 ];
 
 const languageUnits = ["morpheme-diffuse", "text", "token"] as const;
-const legendKinds = ["morpheme-diffuse", "morpheme-refined", "understanding", "typed-relation"] as const satisfies readonly AiFactoryIconKind[];
 const knowledgeFactoryTermKinds = [
   "knowledge-factory",
   "factory-worker",
@@ -83,23 +83,6 @@ const knowledgeFactoryTermKinds = [
   "solutioning",
   "graph-context",
 ] as const satisfies readonly AiFactoryIconKind[];
-
-function IconographyLegend() {
-  return (
-    <aside className="motif-review__legend" aria-labelledby="motif-legend-title">
-      <p className="eyebrow">The grammar / reusable marks</p>
-      <h2 id="motif-legend-title">A small vocabulary carries the whole language.</h2>
-      <div className="motif-review__legend-grid">
-        {legendKinds.map(kind => (
-          <div className="motif-review__legend-item" key={kind}>
-            <AiFactoryIcon kind={kind} />
-            <div><strong>{aiFactoryIconCatalog[kind].title}</strong><p>{aiFactoryIconCatalog[kind].definition}</p></div>
-          </div>
-        ))}
-      </div>
-    </aside>
-  );
-}
 
 function LanguageUnitSequence() {
   return (
@@ -179,13 +162,14 @@ function AiFactoryMotifPage() {
           </p>
         </div>
         <nav className="motif-review__nav" aria-label="Motif variants">
+          <a href="#primitives">Grammar / primitives</a>
           <a href="#series-map">00 / series map</a>
           <a href="#knowledge-factory-terms">Glossary / six terms</a>
           {motifs.map(({ index, variant }) => <a key={variant} href={`#motif-${index}`}>{index} / {variant.replaceAll("-", " ")}</a>)}
         </nav>
       </header>
 
-      <IconographyLegend />
+      <PrimitiveGuide />
       <section className="motif-review__series" id="series-map" aria-label="AI Factory article series map">
         <AiFactorySeriesMap />
       </section>

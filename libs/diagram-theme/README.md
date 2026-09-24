@@ -29,13 +29,35 @@ reduced-motion states show the entire diagram.
 the diagrams tool supplies this map and embeds the icon CSS automatically.
 Fragments receive the same inert-content validation as source SVG.
 
-Information blue highlights the truth/evaluation family and evidence provenance;
-it does not certify a claim. Gold marks purpose, agency, and selected paths.
+Information blue highlights specific truth evaluations and evidence provenance;
+it does not certify a claim. Truthy is their neutral gray, dotted interface; its
+legacy renderer key remains `truth`. Gold marks purpose, agency, and selected paths.
 Red marks faults or contradictions; missing connections retain their gold cross.
 Neutral geometry carries structure. Shapes and labels preserve these meanings
 without color. Live icons use `--color-info`; exported diagrams use the same
 foundation value through the `info` theme role, including
 `data-thom-role="info"` on evidence labels or edges.
+
+The primitive grammar is shared by the live inventory, article glyphs, and SVG
+exports. A small filled dot denotes a participant or instance; larger outlined
+circles denote meaning or concepts, triangles information or evaluation,
+diamonds interventions, pentagons artificial agents, and frames bounded systems
+or artifacts. Text uses grouped solid strokes; blocks denote encoded units.
+Colors assign roles without changing those shapes' identities. Equal alternatives
+have equal visual weight; size identifies instance, endpoint, or field rather
+than worth or certainty. Edges leave air around marks except at defined ports.
+
+Solid strokes express defined identities, wholeness, and established connections.
+Dotted strokes express openness, flexibility, possibility, or movement toward
+something. An arrow adds direction; a label identifies the action. Goal keeps
+its dotted boundary because it motivates movement. Opportunity, Experiment,
+Inference, and Implementation use dotted paths; Automation's established
+connections remain solid. Coherence's connections, Threshold's boundary, and
+Bottleneck's output remain solid; movement through a gate is dotted. Return and
+revision paths are dotted while system wiring and ownership brackets stay solid.
+Regular dots do not mean damage: faults use red and irregular breaks or displacement.
+The canonical dotted rhythm lives in `icons.css` as `--ai-factory-stroke-open`;
+composition previews must not override a shared icon's stroke semantics.
 
 The animation adapter is THOM-owned. It draws on Fireworks' construction and
 settled-flow pattern; it does not reproduce or claim validation against the

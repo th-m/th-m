@@ -800,7 +800,7 @@ describe("AiFactoryMotif", () => {
       </>,
     );
 
-    const truth = screen.getByRole("img", { name: /^Truth:/ });
+    const truth = screen.getByRole("img", { name: /^Truthy:/ });
     expect(truth.querySelector(".ai-factory-icon__truth-triangle--dotted")).toBeInstanceOf(SVGElement);
     expect(truth.querySelectorAll("circle")).toHaveLength(0);
 
